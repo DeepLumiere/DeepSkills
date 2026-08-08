@@ -1,8 +1,19 @@
-# Skill: Comprehensive Notes Generator
+---
+name: notes_maker
+description: Generate complete, detailed, and faithful study notes from course material.
+---
+
+# Skill: Comprehensive Chapter Notes Generator
 
 ## Purpose
 
-Generate **complete, detailed, and faithful study notes** from all provided course material for the requested chapters. The primary goal is **coverage and completeness**. Do not aggressively summarize. The generated notes should contain essentially all academically relevant information present in the source material while reorganizing it into a clear, structured, study-friendly format. The notes must be understandable without requiring the student to repeatedly refer back to the original slides.
+Generate **complete, detailed, and faithful study notes** from all provided course material for the requested chapters.
+
+The primary goal is **coverage and completeness**. Do not aggressively summarize. The generated notes should contain essentially all academically relevant information present in the source material while reorganizing it into a clear, structured, study-friendly format.
+
+The notes must be understandable without requiring the student to repeatedly refer back to the original slides.
+
+**Quality bar:** the output must match the density, structure, and polish of a textbook-style reference document — numbered dictionary-style glossaries, fully specified tables (registers, pins, signals, comparisons), embedded figures with written analysis, inline worked micro-examples next to the concept they illustrate, and a `[Source: File, Slide/Page N]` tag after essentially every subsection. See Sections 33–38 for the specific formatting conventions that produce this quality bar.
 
 ---
 
@@ -52,7 +63,9 @@ For each chapter:
 Chapter X — <Chapter Title>
 ```
 
-Maintain the original chapter numbering and terminology whenever possible. If the source material does not clearly specify a chapter number/title, infer it cautiously from the document structure and clearly mark any inference.
+Maintain the original chapter numbering and terminology whenever possible.
+
+If the source material does not clearly specify a chapter number/title, infer it cautiously from the document structure and clearly mark any inference.
 
 ---
 
@@ -70,7 +83,13 @@ Do not invent:
 * Algorithms
 * Conclusions
 
-If something is unclear or unreadable in the source, explicitly write: > [Unclear in source] rather than guessing. If a formula is partially readable, preserve the readable portion and flag the missing part.
+If something is unclear or unreadable in the source, explicitly write:
+
+> [Unclear in source]
+
+rather than guessing.
+
+If a formula is partially readable, preserve the readable portion and flag the missing part.
 
 ---
 
@@ -92,7 +111,9 @@ Include the precise definition when available.
 Explain what it means conceptually.
 
 **Example:**
-Give the source example if one exists. Do not replace a formal definition with only an intuitive explanation.
+Give the source example if one exists.
+
+Do not replace a formal definition with only an intuitive explanation.
 
 ---
 
@@ -266,7 +287,7 @@ flowchart TD
     B --> C[Feature Extraction]
     C --> D[Model]
     D --> E[Prediction]
-```\
+```
 ```
 
 Use Mermaid `flowchart` for pipelines/processes, `classDiagram` or `erDiagram` for structural relationships, and `graph` for general node-edge relationships. Only fall back to a plain-text arrow sketch (as in older drafts of this skill) if neither image extraction nor Mermaid can represent the figure.
@@ -511,7 +532,7 @@ The goal is **zero information loss**, not unnecessary duplication.
 
 # 20. Chapter Structure
 
-Each chapter should follow this general structure:
+Precede the first chapter with the document header/front matter block described in Section 33. Each chapter should then follow this general structure:
 
 ```markdown
 # Chapter X — Title
@@ -657,20 +678,19 @@ Do not invent facts to create questions.
 
 # 24. Source Traceability
 
-Whenever possible, preserve where information came from.
+Preserve where information came from, and do this **consistently across every subsection**, not only for formulas and figures.
 
-Use lightweight references such as:
+Use a single consistent tag format throughout the document:
 
 ```text
-[Slide 12]
-[Figure 4]
-[Table 2]
-[Page 18]
+[Source: <File Name>, Slide N]
+[Source: <File Name>, Slides N–M]
+[Source: <File Name>, Page N]
 ```
 
-This is especially important for formulas, diagrams, definitions, and numerical examples.
+Place the tag on its own line immediately after the subsection it supports (a definition list, a feature list, a table, a figure's written analysis, a procedure) — see Section 34 for the full convention. This is especially important for formulas, diagrams, definitions, and numerical examples.
 
-If exact source locations are unavailable, do not fabricate them.
+If exact source locations are unavailable, do not fabricate them — omit the tag rather than guessing a slide number.
 
 ---
 
@@ -712,6 +732,14 @@ Check:
 * [ ] Examples included
 * [ ] Limitations included
 * [ ] Applications included
+
+### Formatting & Traceability
+
+* [ ] Document header/front matter present at the top (Section 33)
+* [ ] `[Source: File, Slide/Page N]` tag present after essentially every subsection, not only formulas/figures (Sections 24, 34)
+* [ ] Quick-reference glossary used for minor terminology; full `### Definition:` blocks used for major concepts, not the reverse (Section 35)
+* [ ] Figures numbered `Figure <chapter>.<n>` consistently (Section 36)
+* [ ] Heading hierarchy (`#`/`##`/`###`/`####`) consistent and `---` rules separate every subsection (Section 38)
 
 ### Final Review
 
@@ -845,396 +873,74 @@ Course material often arrives split across files by function rather than by chap
 
 ---
 
-# 33. Automated File Discovery & Directory-Based Input
+# 33. Document Header / Front Matter
 
-The skill now supports a **minimal-input mode** where the user provides only:
-1. A **chapter name** (e.g., "Introduction to Microprocessors", "Data Link Layer")
-2. A **directory path** (e.g., `/sources/computer_networks/`)
+Every notes document begins with a short metadata block before the first chapter, so the document is self-identifying and the reader can see at a glance what went into it:
 
-Claude will:
+```markdown
+# Complete <Subject> Notes: <Course/Topic Title>
 
-1. **Scan the directory** for all files that might be relevant to that chapter:
-   - Lecture slides: `*.pdf`, `*.pptx` (detect by filename matching chapter name or number)
-   - Problem sets: files with keywords like "numerical", "problems", "exercises"
-   - Tutorial sheets: files with keywords like "tutorial", "exercise", "solution"
-   - Question banks: files with keywords like "question", "bank", "exam", "test"
+> **Course Code:** <code, if known>
+> **Course Title:** <title, if known>
+> **Primary Source:** <primary source description, per Section 31>
+> **Files Integrated:** `file1.pdf`, `file2.pptx`, `file3.docx`
 
-2. **Auto-categorize files** into roles (lecture slide / problem set / tutorial / question bank) based on:
-   - Filename patterns (e.g., if filename contains "problem" or "numerical", categorize as problem set)
-   - Content sniffing (first page of PDFs often shows document type)
-   - Metadata if available (PDF title, subject)
-
-3. **Build the file-to-chapter mapping** (Section 30) automatically and display it for user confirmation before proceeding.
-
-4. **Fetch and process all files** without requiring the user to list them individually.
-
-### Supported Directory Structure
-
-The directory should contain:
-```
-/sources/computer_networks/
-├── Ch1_Introduction.pdf              [auto-detected as Chapter 1 lecture]
-├── Chapter1-Intro.pdf                [auto-detected as Chapter 1 lecture]
-├── CN_Numericals_DataComm.pdf        [auto-detected as Ch1 problem set]
-├── cn_tutorial.pdf                   [auto-detected as tutorial]
-├── Computer_Networks_QuestionBank.pdf [auto-detected as question bank]
-├── Ch3_DataLinkLayer.pdf             [auto-detected as Chapter 3 lecture]
-├── Chapter3-DLL.pdf                  [auto-detected as Chapter 3 lecture]
-├── CN_Numericals_DLL.pdf             [auto-detected as Ch3 problem set]
-└── ... (other chapters)
+---
 ```
 
-If the directory structure is less organized, the user provides explicit hints:
-```
-chapter_name = "Data Link Layer"
-source_dir = "/sources/networks/"
-chapter_aliases = ["DLL", "Data Link", "Ch3"]  # optional: help file matching
-```
-
-Claude uses these aliases to match files more accurately.
-
-### Output Structure
-
-For each chapter, Claude creates:
-```
-/outputs/
-├── Chapter_1_Introduction.md         [merged chapter notes]
-├── Chapter_3_DataLinkLayer.md        [merged chapter notes]
-├── images/
-│   ├── ch1_fig1_osismodel.png
-│   ├── ch1_fig2_bandwidth.png
-│   ├── ch3_fig1_frame_format.png
-│   └── ... (all chapter figures)
-└── helpers/
-    ├── extract_images.py             [utility: extract images from PDFs]
-    ├── parse_numericals.py           [utility: parse & structure numerical problems]
-    ├── merge_chapters.py             [utility: merge multiple sources into one chapter]
-    ├── validate_markdown.py           [utility: check output for formatting errors]
-    └── README.md                      [instructions for running helpers]
-```
+* Omit any field that genuinely cannot be determined (e.g. no course code was given) rather than inventing one.
+* List every source file that was actually mapped to a chapter in "Files Integrated," matching the mapping built in Section 30.
+* This header appears once at the top of the whole document, not once per chapter.
 
 ---
 
-# 34. Cost-Reduction Strategy via Python Helpers
+# 34. Inline Source-Citation Convention
 
-To minimize Claude API token usage (and cost), implement a **multi-stage pipeline** where:
+To make Section 24's traceability rule concrete and consistent:
 
-1. **Stage 1 (Off-platform, Python):** Extract structured data from PDFs (images, tables, text blocks, formulas) using lightweight Python libraries (PyPDF2, pdfplumber, PIL). Save as intermediate JSON/YAML files.
-
-2. **Stage 2 (Claude, single pass):** Claude reads the structured intermediate files and generates Markdown notes, rather than reading raw PDFs directly (which consumes many tokens on parsing).
-
-3. **Stage 3 (Off-platform, Python):** Validate, merge, and finalize the Markdown and images.
-
-### Python Helper Scripts (Included in Output)
-
-Each chapter generation automatically outputs a `helpers/` folder with the following utilities:
-
-#### Helper 1: `extract_images.py`
-
-**Purpose:** Extract all images from PDFs and PPTX files in the source directory, organize by chapter.
-
-**Usage:**
-```bash
-python helpers/extract_images.py \
-  --source-dir /sources/computer_networks/ \
-  --output-dir ./images/ \
-  --chapter "Data Link Layer"
-```
-
-**Output:**
-- Extracted images saved to `./images/` with filenames like `ch3_fig1_frame.png`, `ch3_table2_comparison.png`
-- A manifest file `./images/manifest.json` mapping each image to its source file, slide/page number, and caption (if detected)
-
-**Benefits:**
-- Reduces token cost: Claude does not need to parse image-extraction logic; images are pre-extracted
-- Outputs a manifest that Claude can reference by filename/chapter/caption, rather than re-reading full PDF to find an image
-
-#### Helper 2: `parse_numericals.py`
-
-**Purpose:** Scan problem-set PDFs and extract structured numerical problems into JSON, with fields for problem statement, given values, required answer, and hints.
-
-**Usage:**
-```bash
-python helpers/parse_numericals.py \
-  --problem-file CN_Numericals_DataLink.pdf \
-  --output numericals_ch3.json \
-  --chapter 3
-```
-
-**Output:**
-- JSON file `numericals_ch3.json` with structure:
-  ```json
-  {
-    "chapter": 3,
-    "problems": [
-      {
-        "id": 1,
-        "statement": "A frame is transmitted over a 1 Mbps link...",
-        "given": {"bandwidth": "1 Mbps", "frame_size": "1024 bits"},
-        "required": "transmission_time",
-        "source": "CN_Numericals_DLL.pdf, Page 3",
-        "hints": ["Use T = Frame_Size / Bandwidth"]
-      },
-      ...
-    ]
-  }
-  ```
-
-**Benefits:**
-- Claude can now read one compact JSON instead of parsing the entire PDF
-- Structured format makes it easy for Claude to iterate over problems without re-reading
-- Hints field lets Claude quickly identify relevant formulas
-
-#### Helper 3: `extract_tutorial_questions.py`
-
-**Purpose:** Extract and structure all questions from tutorial and question-bank PDFs.
-
-**Usage:**
-```bash
-python helpers/extract_tutorial_questions.py \
-  --tutorial-file cn_tutorial.pdf \
-  --output questions_ch3.json \
-  --chapter 3 \
-  --question-types "short-answer,long-answer,derivation,numerical"
-```
-
-**Output:**
-- JSON file `questions_ch3.json`:
-  ```json
-  {
-    "chapter": 3,
-    "questions": [
-      {
-        "id": 1,
-        "type": "short-answer",
-        "question": "Define a frame.",
-        "source": "cn_tutorial.pdf, Page 5"
-      },
-      {
-        "id": 2,
-        "type": "derivation",
-        "question": "Derive the formula for Shannon's Capacity.",
-        "source": "cn_tutorial.pdf, Page 12"
-      },
-      ...
-    ]
-  }
-  ```
-
-**Benefits:**
-- Pre-structured questions reduce parsing burden on Claude
-- Source references make it easy to verify against originals
-- Type tags help Claude organize questions by category in Section 20
-
-#### Helper 4: `merge_chapters.py`
-
-**Purpose:** After Claude generates individual chapter Markdown files, merge them and fix cross-references.
-
-**Usage:**
-```bash
-python helpers/merge_chapters.py \
-  --chapters Chapter_1.md Chapter_3.md \
-  --output Complete_Notes.md
-```
-
-**Output:**
-- `Complete_Notes.md` with both chapters merged
-- Updated cross-references (e.g., "see Section 2.3" becomes "see Chapter 1, Section 2.3")
-- Table of contents auto-generated
-
-**Benefits:**
-- Offloads post-processing from Claude to a simple Python script
-- Ensures consistency across chapters
-
-#### Helper 5: `validate_markdown.py`
-
-**Purpose:** Check the generated Markdown for common errors and compliance with the skill standard.
-
-**Usage:**
-```bash
-python helpers/validate_markdown.py \
-  --file Chapter_1.md \
-  --check-latex \
-  --check-images \
-  --check-structure
-```
-
-**Checks:**
-- LaTeX: Ensure all math uses `$...$` / `$$...$$`, not bare parentheses or `\[...\]`
-- Images: Verify all embedded images exist at referenced paths
-- Structure: Verify all 20 sections present (or log which are missing as expected)
-- Completeness: Count definitions, formulas, examples, and flag if unusually low
-- Formatting: Check for markdown syntax errors (unmatched backticks, malformed tables, etc.)
-
-**Output:**
-- Report: `validation_report.txt` listing all issues and warnings
-- Exit code 0 if passing, 1 if errors found
-
-**Benefits:**
-- Catches formatting errors before human review
-- Ensures LaTeX rendering compatibility across platforms (GitHub, Obsidian, Notion, VS Code)
-
-#### Helper 6: `cost_estimator.py`
-
-**Purpose:** Estimate Claude API cost before running the full generation.
-
-**Usage:**
-```bash
-python helpers/cost_estimator.py \
-  --source-dir /sources/computer_networks/ \
-  --chapters "1,3" \
-  --model "claude-opus-4.8" \
-  --verbose
-```
-
-**Output:**
-- Estimated token count for each chapter
-- Estimated cost at current Claude pricing
-- Recommendations (e.g., "Compress this file to save tokens")
-
-**Benefits:**
-- User can decide whether to proceed before incurring cost
-- Helps identify which files contribute most to token usage
+* After **every** major subsection — a terminology list, a feature list, a table, a figure's written analysis, a procedure, an interrupt/register/pin table, a comparison table — add a single `[Source: File, Slide/Page N]` line (or an N–M range) directly beneath it, separated from the next subsection by the `---` rule described in Section 38.
+* When one subsection draws on more than one file or one slide range, list them comma-separated on the same tag line: `[Source: 8085 PPT, Slides 26–34]`.
+* Do not repeat the tag after every single bullet inside a list — one tag per subsection is correct; only split it if different bullets in the same list come from genuinely different files.
+* Formula blocks, Figure blocks, and Definition blocks keep their own tag as already specified in Sections 5, 8, and 4 respectively — Section 34 extends the same habit to every other kind of subsection (plain lists, tables, procedures) so citation density is uniform across the whole document, not concentrated only in formulas and figures.
 
 ---
 
-# 35. Unified Workflow: User Input → File Discovery → Python Prep → Claude Notes Generation
+# 35. Two-Tier Terminology Presentation
 
-The complete workflow is:
+Real course material mixes core vocabulary (dozens of short terms that just need a clear one- or two-line explanation) with a smaller set of load-bearing concepts that deserve the full Section 4 `### Definition:` treatment. Present both tiers rather than forcing everything into one format:
 
-```
-User Input:
-  - chapter_name: "Data Link Layer"
-  - source_dir: "/sources/computer_networks/"
-  - (optional) chapter_aliases: ["DLL", "Ch3"]
-  ↓
-Stage 1: File Discovery (Python/bash)
-  - Scan source_dir for PDFs, PPTX, docs
-  - Match to chapter_name using aliases
-  - Categorize as lecture/problem-set/tutorial/question-bank
-  - Output: file_manifest.json (Section 30 mapping)
-  - User reviews mapping; approves or adjusts
-  ↓
-Stage 2: Data Extraction (Python helpers)
-  - extract_images.py → ./images/ + manifest.json
-  - parse_numericals.py → numericals_ch3.json
-  - extract_tutorial_questions.py → questions_ch3.json
-  - Outputs: Structured intermediate files (JSON/YAML)
-  ↓
-Stage 3: Cost Estimation (Optional)
-  - cost_estimator.py reads intermediate files
-  - Outputs: token count + cost estimate
-  - User confirms before proceeding
-  ↓
-Stage 4: Claude Note Generation (Single API call)
-  - Claude reads:
-    * file_manifest.json (what to process)
-    * numericals_ch3.json (all numerical problems, structured)
-    * questions_ch3.json (all tutorial/exam questions, structured)
-    * images/manifest.json (where extracted images are)
-    * Lecture slide PDFs only if needed for unique content not in structured files
-  - Claude generates: Chapter_3_DataLinkLayer.md
-  - Cost: Significantly lower than reading raw PDFs (structured JSON is compact)
-  ↓
-Stage 5: Validation & Finalization (Python)
-  - validate_markdown.py checks output
-  - merge_chapters.py combines chapters if needed
-  - Outputs: Final_Complete_Notes.md ready for study
-```
-
-### Benefits of This Approach
-
-1. **Lower cost:** Python helpers extract and structure data once; Claude reads structured JSON, not raw PDFs.
-2. **Faster:** Structured data is much smaller than raw PDFs; Claude processes faster.
-3. **Reusable:** Once extracted, intermediate files can be regenerated/modified without re-scanning PDFs.
-4. **Parallel-friendly:** Multiple Python scripts can run in parallel before Claude generation.
-5. **Reproducible:** File manifests and intermediate JSON make it easy to audit what was processed.
-6. **Extensible:** Adding new chapters only requires running Python helpers on new files; Claude generation script is unchanged.
+* **Quick-reference glossary:** for a chapter's foundational vocabulary, use a numbered list titled something like `### Core Terminology Dictionary`, one item per term, bolded term name followed by a concise but complete explanation (including sub-bullets for related variants, e.g. Data Bus / Address Bus / Control Bus under "Bus System"). This is not a place to compress — each entry should still be a full sentence or two, not a fragment.
+* **Full definition blocks:** the chapter's central concepts (the ones an exam question would ask the student to define and explain) still get the full `### Definition: <Term>` template from Section 4 (Meaning / Formal definition / Intuition / Example), placed where the concept is first properly introduced.
+* A term can appear in the quick glossary early in the chapter and later receive its own full Definition block once the material develops it further — that is not duplication, it is appropriate depth progression; note the connection per Section 14 if useful.
+* Never use the quick-glossary format as a substitute for a full Definition block on a term the source clearly treats as a major concept (multiple slides, a dedicated diagram, exam emphasis) — that is under-explaining a concept the Anti-Summarization Rule (Section 26) forbids compressing.
 
 ---
 
-# 36. New Output Specification: Markdown + Images + Helpers
+# 36. Figure and Table Numbering Convention
 
-When generating notes for a chapter, the output is not just Markdown. It is:
-
-```
-outputs/
-├── Chapter_1_Introduction.md
-├── Chapter_3_DataLinkLayer.md
-├── images/
-│   ├── ch1_fig1_osismodel.png
-│   ├── ch1_fig2_bandwidth.png
-│   ├── ch3_fig1_frame_structure.png
-│   ├── ch3_fig2_slidingwindow.png
-│   ├── ch3_table1_comparison.png
-│   └── manifest.json
-└── helpers/
-    ├── extract_images.py
-    ├── parse_numericals.py
-    ├── extract_tutorial_questions.py
-    ├── merge_chapters.py
-    ├── validate_markdown.py
-    ├── cost_estimator.py
-    ├── requirements.txt           [pip dependencies for helpers]
-    └── README.md                  [instructions for running helpers]
-```
-
-### helpers/requirements.txt
-
-Lists Python dependencies for the helper scripts:
-
-```
-PyPDF2>=3.0
-pdfplumber>=0.10.0
-Pillow>=10.0
-pyyaml>=6.0
-```
-
-### helpers/README.md
-
-Instructions for running each helper, with examples.
+* Number figures per chapter as `Figure <chapter>.<n>` (e.g. `Figure 2.1`, `Figure 2.2`, `Figure 3.1`) in the order they appear, and use that number in both the heading and the image caption/alt text: `### Figure 2.1: 8085 Internal Architecture Block Diagram` with `![Figure 2.1: 8085 Internal Architecture Block Diagram](images/...)`.
+* When two or more closely related figures are presented together (e.g. a high-level block diagram immediately followed by a detailed version of the same architecture), it is acceptable to embed both images consecutively and follow them with one shared `#### Written Analysis of ...` section covering all components across both figures, rather than forcing two separate rigid Figure blocks — as long as every component from every figure is still individually explained per Section 8.2. Use judgment: default to one Figure block per image; combine only when the figures are genuinely two views of the same thing.
+* Number tables loosely the same way in the surrounding prose/heading when a chapter has several distinct tables worth distinguishing (e.g. "Comprehensive Pin Function Table," "Machine Status Signal Decoding Truth Table") — a descriptive table title is sufficient; a rigid `Table X.Y` numbering scheme is optional unless the source itself numbers its tables.
 
 ---
 
-# 37. User-Facing Invocation: Minimal Input, Maximal Output
+# 37. Inline Worked Micro-Examples
 
-The user's entire interaction is:
+Not every worked calculation belongs in the end-of-chapter Worked Numerical Problems section (Section 16). When the source illustrates a concept with a short calculation right where the concept is introduced (e.g. computing one interrupt's vector address while explaining the interrupt table, or working out one flag's value while explaining the flag register), reproduce that calculation **inline, immediately under the concept it illustrates**, using the same rigor as Section 16 (given values, formula, substitution, result) but without necessarily repeating the full eight-part template — a compact `#### Worked Example` or `#### Worked Calculation Example` subheading with the steps and a `$$ \begin{aligned} ... \end{aligned} $$` block is sufficient.
 
-```python
-# Example Python script or CLI command
-from chapter_generator import generate_chapter
+* This is additive, not a replacement: multi-step standalone numerical problems (especially ones from a dedicated problem-set file, per Section 32) still get the full Section 16 treatment in the chapter's Worked Numerical Problems section.
+* Inline micro-examples still need a source tag per Section 34 unless they are a clearly-labelled additional explanation per Section 18.
 
-generate_chapter(
-    chapter_name="Data Link Layer",
-    source_dir="/path/to/computer_networks/sources/",
-    output_dir="./output/",
-    chapter_aliases=["DLL", "Ch3"],       # optional
-    auto_approve_mapping=False,            # show mapping for review
-    extract_images=True,
-    estimate_cost=True
-)
-```
+---
 
-Or via CLI:
+# 38. Visual and Structural Formatting Consistency
 
-```bash
-python generate_chapter.py \
-  --chapter "Data Link Layer" \
-  --source-dir /sources/computer_networks/ \
-  --output-dir ./output/ \
-  --aliases DLL,Ch3 \
-  --estimate-cost
-```
+To keep long documents easy to scan and consistently formatted:
 
-**Behind the scenes:**
-
-1. Auto-discover files in source_dir
-2. Show the generated file-to-chapter mapping for approval
-3. Run Python helpers (extract_images, parse_numericals, etc.)
-4. Estimate cost
-5. Generate Markdown via Claude (single, efficient pass)
-6. Validate output
-7. Save everything to output_dir with images/ and helpers/ subdirs
+* Use a strict heading hierarchy: `#` for the chapter title, `##` for numbered top-level chapter sections (per Section 20's template), `###` for named subsections (a specific figure, a specific table, a definition), and `####` for finer subdivisions inside a subsection (e.g. "Written Analysis of Components" inside a figure section, or a worked example inside a concept explanation). Do not skip levels.
+* Separate every subsection — every table, list, figure block, definition, formula, and worked example — from the next with a horizontal rule (`---`) on its own line, matching the density already implied by Sections 4–17. This is what keeps a dense, citation-heavy document visually navigable rather than a wall of text.
+* Bold key terms, register/signal/pin names, and named quantities on first mention within a subsection (e.g. **Accumulator (Register A)**, $\overline{\text{RD}}$) so a student scanning the page can find them quickly.
+* Keep table alignment markers consistent within a document (e.g. `:---` for left-aligned text columns, `:---:` for centered short codes/bit values) rather than mixing styles arbitrarily.
 
 ---
 
@@ -1252,3 +958,5 @@ When making decisions, follow this priority:
 8. **Only then optimize readability/conciseness**
 
 If there is a conflict between brevity and completeness, **choose completeness**.
+
+If there is a conflict between generic clean formatting and the specific density/citation/numbering conventions in Sections 33–38, **follow Sections 33–38** — they define what "textbook-style reconstruction" (Section 28) concretely looks like.

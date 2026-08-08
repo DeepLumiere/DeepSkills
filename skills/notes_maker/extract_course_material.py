@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Extract text, images, rendered pages, and OCR into a chapter manifest."""
+"""Extract text, images, rendered pages, and OCR into a standardized chapter manifest."""
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import shutil
@@ -13,8 +14,8 @@ import tempfile
 import zipfile
 from pathlib import Path
 
-
-SUPPORTED = {".pdf", ".pptx", ".ppt", ".png", ".jpg", ".jpeg", ".tif", ".tiff"}
+SUPPORTED = {".pdf", ".pptx", ".ppt", ".docx", ".doc", ".png", ".jpg", ".jpeg", ".tif", ".tiff"}
+SEEN_HASHES: set[str] = set()
 
 
 def safe_name(path: Path) -> str:
@@ -26,6 +27,17 @@ def run(command: list[str]) -> str:
     if completed.returncode:
         raise RuntimeError(completed.stderr.strip() or "command failed")
     return completed.stdout
+
+
+def save_unique_bytes(data: bytes, output_path: Path) -> Path | None:
+    """Save byte data only if it is not a duplicate image (e.g. background/logos)."""
+    digest = hashlib.sha256(data).hexdigest()
+    if digest in SEEN_HASHES:
+        return None
+    SEEN_HASHES.add(digest)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_bytes(data)
+    return output_path
 
 
 def pdf_text(pdf: Path, pdftotext: str | None) -> list[str]:
@@ -56,12 +68,10 @@ def render_pdf(pdf: Path, target: Path, pdftoppm: str, dpi: int) -> list[Path]:
 
 
 def extract_pdf_images(pdf: Path, target: Path) -> list[Path]:
-    """Extract original embedded PDF images when PyMuPDF is installed."""
     try:
         import fitz  # type: ignore
     except ImportError:
         return []
-    target.mkdir(parents=True, exist_ok=True)
     result: list[Path] = []
     document = fitz.open(pdf)
     for page_index, page in enumerate(document):
@@ -69,15 +79,14 @@ def extract_pdf_images(pdf: Path, target: Path) -> list[Path]:
             xref = image[0]
             data = document.extract_image(xref)
             extension = data.get("ext", "png")
-            output = target / f"{safe_name(pdf)}-page-{page_index + 1}-image-{image_index}.{extension}"
-            output.write_bytes(data["image"])
-            result.append(output)
+            out_path = target / f"{safe_name(pdf)}-p{page_index + 1}-img{image_index}.{extension}"
+            saved = save_unique_bytes(data["image"], out_path)
+            if saved:
+                result.append(saved)
     return result
 
 
 def pptx_text_and_images(pptx: Path, target: Path) -> tuple[list[str], list[Path]]:
-    """Extract slide text from XML and original media files without PowerPoint."""
-    target.mkdir(parents=True, exist_ok=True)
     texts: list[str] = []
     images: list[Path] = []
     with zipfile.ZipFile(pptx) as archive:
@@ -87,12 +96,37 @@ def pptx_text_and_images(pptx: Path, target: Path) -> tuple[list[str], list[Path
         )
         for slide in slides:
             xml = archive.read(slide).decode("utf-8", errors="ignore")
-            texts.append(" ".join(re.findall(r"<a:t>(.*?)</a:t>", xml)))
+            slide_text = " ".join(re.findall(r"<a:t>(.*?)</a:t>", xml))
+            texts.append(re.sub(r"\s+", " ", slide_text).strip())
+
         for name in archive.namelist():
             if name.startswith("ppt/media/") and not name.endswith("/"):
-                output = target / f"{safe_name(pptx)}-{Path(name).name}"
-                output.write_bytes(archive.read(name))
-                images.append(output)
+                out_path = target / f"{safe_name(pptx)}-{Path(name).name}"
+                saved = save_unique_bytes(archive.read(name), out_path)
+                if saved:
+                    images.append(saved)
+    return texts, images
+
+
+def docx_text_and_images(docx: Path, target: Path) -> tuple[list[str], list[Path]]:
+    """Extract text and images directly from Word .docx files."""
+    texts: list[str] = []
+    images: list[Path] = []
+    with zipfile.ZipFile(docx) as archive:
+        if "word/document.xml" in archive.namelist():
+            xml = archive.read("word/document.xml").decode("utf-8", errors="ignore")
+            paragraphs = re.findall(r"<w:p\b[^>]*>(.*?)</w:p>", xml, re.DOTALL)
+            for p in paragraphs:
+                p_text = "".join(re.findall(r"<w:t\b[^>]*>(.*?)</w:t>", p))
+                if p_text.strip():
+                    texts.append(p_text.strip())
+
+        for name in archive.namelist():
+            if name.startswith("word/media/") and not name.endswith("/"):
+                out_path = target / f"{safe_name(docx)}-{Path(name).name}"
+                saved = save_unique_bytes(archive.read(name), out_path)
+                if saved:
+                    images.append(saved)
     return texts, images
 
 
@@ -114,18 +148,18 @@ def role_for(path: Path) -> str:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source-dir", required=True, type=Path, help="Directory containing PDFs, slides, and images")
-    parser.add_argument("--output-dir", required=True, type=Path, help="Directory for images, text, and manifest JSON")
-    parser.add_argument("--chapter", required=True, help="Chapter title or number recorded in the manifest")
-    parser.add_argument("--aliases", nargs="*", default=[], help="Optional chapter filename/topic aliases")
-    parser.add_argument("--include", nargs="*", default=[], help="Optional exact source filenames; omit to scan all supported files")
-    parser.add_argument("--pdftoppm", default=shutil.which("pdftoppm"), help="Path to pdftoppm for PDF page rendering")
-    parser.add_argument("--pdftotext", default=shutil.which("pdftotext"), help="Path to pdftotext; pypdf is fallback")
-    parser.add_argument("--tesseract", help="Path to tesseract.exe; required with --ocr")
-    parser.add_argument("--ocr", action="store_true", help="OCR rendered pages and extracted images")
-    parser.add_argument("--language", default="eng", help="Tesseract language code")
-    parser.add_argument("--dpi", type=int, default=180, help="PDF render resolution for OCR and review")
-    parser.add_argument("--no-render", action="store_true", help="Do not render PDF pages; not recommended for visual material")
+    parser.add_argument("--source-dir", required=True, type=Path)
+    parser.add_argument("--output-dir", required=True, type=Path)
+    parser.add_argument("--chapter", required=True)
+    parser.add_argument("--aliases", nargs="*", default=[])
+    parser.add_argument("--include", nargs="*", default=[])
+    parser.add_argument("--pdftoppm", default=shutil.which("pdftoppm"))
+    parser.add_argument("--pdftotext", default=shutil.which("pdftotext"))
+    parser.add_argument("--tesseract", help="Path to tesseract binary")
+    parser.add_argument("--ocr", action="store_true")
+    parser.add_argument("--language", default="eng")
+    parser.add_argument("--dpi", type=int, default=180)
+    parser.add_argument("--no-render", action="store_true")
     return parser.parse_args()
 
 
@@ -155,32 +189,37 @@ def main() -> int:
         record: dict[str, object] = {"file": str(source), "role": role_for(source), "units": [], "images": []}
         unit_text: list[str] = []
         images: list[Path] = []
-        if source.suffix.lower() == ".pdf":
+        ext = source.suffix.lower()
+
+        if ext == ".pdf":
             unit_text = pdf_text(source, args.pdftotext)
-            if not args.no_render:
-                if not args.pdftoppm:
-                    raise RuntimeError("pdftoppm is required unless --no-render is used")
+            if not args.no_render and args.pdftoppm:
                 images.extend(render_pdf(source, image_dir / "rendered", args.pdftoppm, args.dpi))
             images.extend(extract_pdf_images(source, image_dir / "embedded"))
-        elif source.suffix.lower() == ".pptx":
+        elif ext == ".pptx":
             unit_text, extracted = pptx_text_and_images(source, image_dir / "embedded")
+            images.extend(extracted)
+        elif ext == ".docx":
+            unit_text, extracted = docx_text_and_images(source, image_dir / "embedded")
             images.extend(extracted)
         else:
             images.append(source)
 
         for index, text in enumerate(unit_text, start=1):
-            record["units"].append({"number": index, "text": text, "source_ref": f"{source.name}, page/slide {index}"})
+            record["units"].append({"number": index, "text": text, "source_ref": f"{source.name}, section/slide {index}"})
+
         for image in images:
-            image_record: dict[str, str] = {"path": str(image)}
+            image_record: dict[str, str] = {"path": str(image.relative_to(args.output_dir))}
             if args.ocr:
                 image_record["ocr_text"] = ocr(image, args.tesseract, args.language)
             record["images"].append(image_record)
+
         (text_dir / f"{safe_name(source)}.json").write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding="utf-8")
         manifest["sources"].append(record)
 
     output = args.output_dir / "chapter_manifest.json"
     output.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(output)
+    print(f"Manifest created successfully at: {output}")
     return 0
 
 
