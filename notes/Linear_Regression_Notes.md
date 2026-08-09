@@ -137,10 +137,18 @@ $$\frac{\partial}{\partial \theta_0} J(\theta_0, \theta_1) = \frac{1}{m} \sum_{i
 $$\frac{\partial}{\partial \theta_1} J(\theta_0, \theta_1) = \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x^{(i)}$$
 
 #### Full Gradient Descent Algorithm:
-$$\text{Repeat until convergence \{} \quad \theta_0 := \theta_0 - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})$$
 
-$$\theta_1 := \theta_1 - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x^{(i)} \quad \}$$
+Repeat until convergence:
 
+$$
+\theta_0 := \theta_0 - \alpha \frac{1}{m} 
+\sum_{i=1}^{m}(h_\theta(x^{(i)}) - y^{(i)})
+$$
+
+$$
+\theta_1 := \theta_1 - \alpha \frac{1}{m}
+\sum_{i=1}^{m}(h_\theta(x^{(i)}) - y^{(i)})x^{(i)}
+$$
 ![Partial Derivatives Derivation](images/linear_reg_slide_14.png)
 ![Full Batch Gradient Descent Algorithm](images/linear_reg_slide_15.png)
 
