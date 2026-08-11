@@ -11,6 +11,9 @@ docs_dir: 'notes'
 
 theme:
   name: material
+  # Set the top-left site logo and browser favicon to your repo social preview
+  logo: https://opengraph.githubassets.com/1/DeepLumiere/DeepSkills
+  favicon: https://opengraph.githubassets.com/1/DeepLumiere/DeepSkills
   font:
     text: Plus Jakarta Sans
     code: JetBrains Mono
