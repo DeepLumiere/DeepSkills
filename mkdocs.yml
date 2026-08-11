@@ -1,0 +1,5 @@
+site_name: DeepSkills Notes
+theme:
+  name: material
+
+docs_dir: 'notes' # Points directly to your notes directory
