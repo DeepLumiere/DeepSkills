@@ -1,9 +1,16 @@
 # Chapter 1 — Unit-I: Elementary Algorithmic
 
-> **Course Code:** 3CS501CC24 / 2CS503  
-> **Course Title:** Design & Analysis of Algorithms (DAA)  
-> **Primary Source:** Faculty Lecture Material (LMS)  
-> **Files Integrated:** `DAA_Unit 0_Introduction.pptx` (Slides 1–24), `DAA_Unit1.pptx` (Slides 1–56)  
+> **Course Code:** 3CS501CC24 / 2CS503
+> **Course Title:** Design & Analysis of Algorithms (DAA)
+> **Primary Source:** Faculty Lecture Material (LMS)
+> **Files Integrated:** `DAA_Unit 0_Introduction.pptx` (Slides 1–24), `DAA_Unit1.pptx` (Slides 1–56)
+
+---
+
+## Source map
+
+- `DAA_Unit 0_Introduction.pptx` (Slides 1–24) — primary faculty lecture material.
+- `DAA_Unit1.pptx` (Slides 1–56) — primary faculty lecture material.
 
 ---
 
@@ -65,19 +72,19 @@ To qualify as a valid algorithm, a computational procedure must satisfy six fund
 
 ### Definition: Random Access Machine (RAM) Model
 
-**Meaning:**  
+**Meaning:**
 The RAM model provides a standard, platform-independent theoretical model of computation to analyze algorithms without running them on physical hardware.
 
-**Formal Definition:**  
+**Formal Definition:**
 In the single-processor RAM model:
 * Instructions are executed strictly sequentially (no parallelism).
 * Standard arithmetic operations ($+, -, \times, \div, \lfloor \cdot \rfloor, \lceil \cdot \rceil$), data movement ($\text{load}, \text{store}, \text{copy}$), and control operations ($\text{branch}, \text{procedure call}$) each consume $c = \mathcal{O}(1)$ unit time.
 * Memory is unbounded, and accessing any memory address takes $\mathcal{O}(1)$ time.
 
-**Intuition:**  
+**Intuition:**
 By counting the number of primitive steps executed on a RAM machine, algorithm analysis becomes independent of processor clock speed, compiler optimization, or programming language.
 
-**Example:**  
+**Example:**
 Executing `sum = sum + A[i]` consists of array indexing, addition, and assignment, each taking constant RAM steps, resulting in $\mathcal{O}(1)$ total time for that single line.
 
 [Source: DAA_Unit 0_Introduction.pptx, Slide 19]
@@ -111,9 +118,9 @@ Even though Computer A is $1,000$ times faster in raw hardware speed, Merge Sort
 ### 4.2 Space Complexity vs. Time Complexity
 
 * **Space Complexity:** Total memory required by an algorithm during execution.
-  $$
+$$
   S(P) = c + S_p(n)
-  $$
+$$
   where $c$ is fixed memory (code space, simple variables) and $S_p(n)$ is dynamic memory (instance-dependent arrays, recursion stack).
 * **Significance:** Storage hardware is cheap and abundant; computational time is a scarce resource. Therefore, **Time Complexity** is universally prioritized over Space Complexity in algorithm performance evaluation.
 
@@ -192,7 +199,7 @@ Asymptotic notation provides a mathematical language for describing the growth r
 
 #### Definition: Big-$\mathcal{O}$ Notation
 
-**Formal Definition:**  
+**Formal Definition:**
 For a given function $g(n)$, $\mathcal{O}(g(n))$ is the set of functions:
 $$
 \mathcal{O}(g(n)) = \{ f(n) : \text{there exist positive constants } c > 0 \text{ and } n_0 > 0 \text{ such that } 0 \le f(n) \le c \cdot g(n) \text{ for all } n \ge n_0 \}
@@ -212,16 +219,16 @@ flowchart LR
     end
 ```
 
-**Intuition:**  
+**Intuition:**
 $\mathcal{O}(g(n))$ bounds the worst-case running time from above. The running time of the algorithm will never exceed $c \cdot g(n)$ for large inputs.
 
 #### Worked Example: Proving $2n + 6 = \mathcal{O}(n)$
 * **Given:** $f(n) = 2n + 6$, $g(n) = n$.
 * **Requirement:** Find constants $c > 0, n_0 > 0$ such that $2n + 6 \le c \cdot n$ for $n \ge n_0$.
 * **Derivation:**
-  $$
+$$
   2n + 6 \le 2n + 6n = 8n \quad (\text{for all } n \ge 1)
-  $$
+$$
 * **Conclusion:** Selecting $c = 8$ and $n_0 = 1$ satisfies $0 \le 2n+6 \le 8n$ for all $n \ge 1$. Hence, $2n+6 = \mathcal{O}(n)$.
 
 [Source: DAA_Unit1.pptx, Slides 28–31]
@@ -232,7 +239,7 @@ $\mathcal{O}(g(n))$ bounds the worst-case running time from above. The running t
 
 #### Definition: Big-$\Omega$ Notation
 
-**Formal Definition:**  
+**Formal Definition:**
 For a given function $g(n)$, $\Omega(g(n))$ is the set of functions:
 $$
 \Omega(g(n)) = \{ f(n) : \text{there exist positive constants } c > 0 \text{ and } n_0 > 0 \text{ such that } 0 \le c \cdot g(n) \le f(n) \text{ for all } n \ge n_0 \}
@@ -244,7 +251,7 @@ f(n) = \Omega(g(n)) \implies f(n) \ge c \cdot g(n) \quad \forall n \ge n_0
 \end{aligned}
 $$
 
-**Intuition:**  
+**Intuition:**
 $\Omega(g(n))$ provides an absolute lower bound on running time. The algorithm takes *at least* $c \cdot g(n)$ time for all large inputs.
 
 #### Worked Example: Proving $3n^2 + 2n + 4 = \Omega(n^2)$
@@ -252,9 +259,9 @@ $\Omega(g(n))$ provides an absolute lower bound on running time. The algorithm t
 * **Requirement:** Find $c > 0, n_0 > 0$ such that $c \cdot n^2 \le 3n^2 + 2n + 4$.
 * **Derivation:**
   For $n \ge 1$, $2n + 4 \ge 0$, so:
-  $$
+$$
   3n^2 \le 3n^2 + 2n + 4
-  $$
+$$
 * **Conclusion:** Selecting $c = 3$ and $n_0 = 1$ satisfies $3n^2 \le f(n)$ for all $n \ge 1$. Hence, $3n^2+2n+4 = \Omega(n^2)$.
 
 [Source: DAA_Unit1.pptx, Slides 33–34, 53]
@@ -265,7 +272,7 @@ $\Omega(g(n))$ provides an absolute lower bound on running time. The algorithm t
 
 #### Definition: Big-$\Theta$ Notation
 
-**Formal Definition:**  
+**Formal Definition:**
 For a given function $g(n)$, $\Theta(g(n))$ is the set of functions:
 $$
 \Theta(g(n)) = \{ f(n) : \text{there exist positive constants } c_1 > 0, c_2 > 0, n_0 > 0 \text{ such that } 0 \le c_1 \cdot g(n) \le f(n) \le c_2 \cdot g(n) \text{ for all } n \ge n_0 \}
@@ -282,9 +289,9 @@ $$
 * **Requirement:** Find $c_1, c_2 > 0$ and $n_0 > 0$ such that $c_1 n \le 3n + 2 \le c_2 n$ for all $n \ge n_0$.
 * **Derivation:**
   For $n \ge 1$:
-  $$
+$$
   2n \le 3n + 2 \le 5n
-  $$
+$$
 * **Conclusion:** Choosing $c_1 = 2$, $c_2 = 5$, and $n_0 = 1$ proves $3n+2 = \Theta(n)$.
 
 [Source: DAA_Unit1.pptx, Slides 35–36, 55]
@@ -348,13 +355,13 @@ For two positive functions $f(n)$ and $g(n)$, evaluate $L = \lim_{n \to \infty} 
 
 #### Worked Problem: Prove $\sqrt{n}$ grows faster than $\log n$
 * Let $f(n) = \sqrt{n}$ and $g(n) = \log_e n$. Compute $L$:
-  $$
+$$
   L = \lim_{n \to \infty} \frac{\log n}{\sqrt{n}}
-  $$
+$$
   Applying L'Hôpital's Rule ($\frac{\infty}{\infty}$ form):
-  $$
+$$
   L = \lim_{n \to \infty} \frac{\frac{d}{dn}(\log n)}{\frac{d}{dn}(n^{1/2})} = \lim_{n \to \infty} \frac{\frac{1}{n}}{\frac{1}{2\sqrt{n}}} = \lim_{n \to \infty} \frac{2\sqrt{n}}{n} = \lim_{n \to \infty} \frac{2}{\sqrt{n}} = 0
-  $$
+$$
 * **Result:** Since the limit is $0$, $\log n = o(\sqrt{n})$, which proves that $\sqrt{n}$ grows strictly faster than $\log n$.
 
 [Source: DAA_Unit1.pptx, Slides 46, 48]
@@ -433,12 +440,12 @@ $$
 ## 12. Exam-Oriented Review & Worked Problems (Unit-I)
 
 ### Worked Numerical Problem 1.1
-**Problem:** Find the tight bound $\Theta$ for $f(n) = 2n^3 + 4n + 5$.  
-**Given:** $f(n) = 2n^3 + 4n + 5$, $g(n) = n^3$.  
-**Required:** Find $c_1, c_2, n_0 > 0$ such that $c_1 n^3 \le 2n^3 + 4n + 5 \le c_2 n^3$.  
-**Solution Steps:**  
-1. For lower bound: $2n^3 \le 2n^3 + 4n + 5$ for all $n \ge 1 \implies c_1 = 2$.  
-2. For upper bound ($n \ge 1$): $2n^3 + 4n + 5 \le 2n^3 + 4n^3 + 5n^3 = 11n^3 \implies c_2 = 11$.  
+**Problem:** Find the tight bound $\Theta$ for $f(n) = 2n^3 + 4n + 5$.
+**Given:** $f(n) = 2n^3 + 4n + 5$, $g(n) = n^3$.
+**Required:** Find $c_1, c_2, n_0 > 0$ such that $c_1 n^3 \le 2n^3 + 4n + 5 \le c_2 n^3$.
+**Solution Steps:**
+1. For lower bound: $2n^3 \le 2n^3 + 4n + 5$ for all $n \ge 1 \implies c_1 = 2$.
+2. For upper bound ($n \ge 1$): $2n^3 + 4n + 5 \le 2n^3 + 4n^3 + 5n^3 = 11n^3 \implies c_2 = 11$.
 **Final Answer:** $f(n) = \Theta(n^3)$ for $c_1 = 2, c_2 = 11, n_0 = 1$.
 
 [Source: DAA_Unit1.pptx, Slide 54]
@@ -446,20 +453,20 @@ $$
 ---
 
 ### Worked Numerical Problem 1.2
-**Problem:** Prove or disprove whether $2^{n+1} = \mathcal{O}(2^n)$ and whether $2^{2n} = \mathcal{O}(2^n)$.  
-**Solution Steps:**  
-1. **Part (i) $2^{n+1}$:**  
-   $$
+**Problem:** Prove or disprove whether $2^{n+1} = \mathcal{O}(2^n)$ and whether $2^{2n} = \mathcal{O}(2^n)$.
+**Solution Steps:**
+1. **Part (i) $2^{n+1}$:**
+$$
    2^{n+1} = 2^1 \cdot 2^n = 2 \cdot 2^n
-   $$  
-   Choosing $c = 2$ and $n_0 = 1$ satisfies $2^{n+1} \le c \cdot 2^n$.  
+$$
+   Choosing $c = 2$ and $n_0 = 1$ satisfies $2^{n+1} \le c \cdot 2^n$.
    **Result:** True, $2^{n+1} = \mathcal{O}(2^n)$.
-2. **Part (ii) $2^{2n}$:**  
-   $$
+2. **Part (ii) $2^{2n}$:**
+$$
    2^{2n} = (2^2)^n = 4^n
-   $$  
-   Assume $\exists c, n_0$ such that $4^n \le c \cdot 2^n$. Dividing by $2^n$ yields $2^n \le c$.  
-   As $n \to \infty$, $2^n$ grows without bound, so no constant $c$ can bound it.  
+$$
+   Assume $\exists c, n_0$ such that $4^n \le c \cdot 2^n$. Dividing by $2^n$ yields $2^n \le c$.
+   As $n \to \infty$, $2^n$ grows without bound, so no constant $c$ can bound it.
    **Result:** False, $2^{2n} \neq \mathcal{O}(2^n)$.
 
 [Source: DAA_Unit1.pptx, Slide 45]
