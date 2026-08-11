@@ -1,0 +1,56 @@
+/* Custom Palette Overrides */
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: #0f172a;
+  --md-default-bg-color--page: #0f172a;
+  --md-default-bg-color--card: #1e293b;
+  --md-default-fg-color: #f8fafc;
+  --md-default-fg-color--muted: #94a3b8;
+  --md-primary-fg-color: #0d9488;
+  --md-primary-fg-color--dark: #0f766e;
+  --md-accent-fg-color: #06b6d4;
+  --md-code-bg-color: #1e293b;
+}
+
+[data-md-color-scheme="default"] {
+  --md-default-bg-color: #f8fafc;
+  --md-default-bg-color--page: #ffffff;
+  --md-default-fg-color: #0f172a;
+  --md-primary-fg-color: #0d9488;
+  --md-accent-fg-color: #0284c7;
+  --md-code-bg-color: #f1f5f9;
+}
+
+/* Rounded Cards & Elements */
+.md-typeset pre,
+.md-typeset code,
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 10px;
+}
+
+/* Subtle Glowing Header & Navbar Border */
+.md-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Sidebar Refinements */
+.md-nav__title {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: var(--md-accent-fg-color);
+}
+
+.md-nav__link--active {
+  font-weight: 600;
+  color: var(--md-accent-fg-color) !important;
+}
+
+/* Code Block Beautification */
+.md-typeset div.highlight {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
