@@ -10,6 +10,16 @@
 
 # Chapter 1 — Introduction to Microprocessors & Assembly Language
 
+## Source map
+
+- `3CS526CC23 Introduction.pdf` — primary faculty lecture material.
+- `8085 PPT.pdf` — primary faculty lecture material.
+- `3CS526CC23 8086 Architecture part 1.pdf` — primary faculty lecture material.
+- `3CS526CC23 8086 Architecture.pdf` — primary faculty lecture material.
+- `8086_instruction_set_Basic.pdf` — primary reference document.
+
+---
+
 ## 1. Chapter Overview
 This chapter establishes the core architectural foundations of microprocessors, fundamental computing terminology, the historical evolution of Intel microprocessors, assembly language design principles, assembly development toolchains, and practical laboratory applications as specified in the university curriculum.
 
@@ -1209,12 +1219,12 @@ Where:
 
 1. **If $\text{CS} = 24A0\text{H}$ and $\text{IP} = 1082\text{H}$, determine the physical memory address.**  
    *Solution:*
-   $$\text{Physical Address} = 24A00\text{H} + 1082\text{H} = 25A82\text{H}$$
+$$\text{Physical Address} = 24A00\text{H} + 1082\text{H} = 25A82\text{H}$$
 
 2. **Find the effective address ($EA$) and physical address for `MOV AX, [BX+SI+0100H]` given $\text{DS} = 3000\text{H}$, $\text{BX} = 0200\text{H}$, $\text{SI} = 0050\text{H}$.**  
    *Solution:*
-   $$EA = 0200\text{H} + 0050\text{H} + 0100\text{H} = 0350\text{H}$$
-   $$\text{Physical Address} = 30000\text{H} + 0350\text{H} = 30350\text{H}$$
+$$EA = 0200\text{H} + 0050\text{H} + 0100\text{H} = 0350\text{H}$$
+$$\text{Physical Address} = 30000\text{H} + 0350\text{H} = 30350\text{H}$$
 
 ---
 

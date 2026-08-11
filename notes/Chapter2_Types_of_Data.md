@@ -5,6 +5,12 @@
 
 # Chapter 2 — Types of Data
 
+## Source map
+
+- `2.Types of Data.pdf` — primary course presentation file.
+
+---
+
 ## 1. Chapter Overview
 This chapter explores the fundamental classifications of data used in data analysis and visualization. It covers the broad categorizations of data into qualitative and quantitative types, discrete and continuous structures, structured vs unstructured data, and the four main levels of measurement (nominal, ordinal, interval, ratio). Understanding these types is critical for choosing the appropriate statistical tests, machine learning models, and visualization techniques.
 [Source: 2.Types of Data.pdf, Slide 2]
@@ -175,19 +181,19 @@ Data can be measured at four levels of complexity, formulated by psychologist St
 ### Mathematical Operations by Scale
 For a variable $X$:
 - **Nominal:** Equality check. 
-  $$ X_1 = X_2 \text{ or } X_1 \neq X_2 $$
+$$ X_1 = X_2 \text{ or } X_1 \neq X_2 $$
   - **Where:** $X_1, X_2$ are category labels.
   - **Meaning:** Indicates if two elements belong to the same category.
 - **Ordinal:** Comparisons (Greater/Less than).
-  $$ X_1 > X_2, \quad X_1 < X_2 $$
+$$ X_1 > X_2, \quad X_1 < X_2 $$
   - **Where:** $X_1, X_2$ are rank values.
   - **Meaning:** Represents ranking without absolute difference.
 - **Interval:** Addition and Subtraction.
-  $$ X_1 - X_2 = \Delta X $$
+$$ X_1 - X_2 = \Delta X $$
   - **Where:** $X_1, X_2$ are values on the interval scale, and $\Delta X$ is the meaningful difference.
   - **Meaning:** The distance between points is exact and quantifiable.
 - **Ratio:** Multiplication and Division.
-  $$ \frac{X_1}{X_2} = r $$
+$$ \frac{X_1}{X_2} = r $$
   - **Where:** $X_1, X_2$ are values on the ratio scale ($X_2 \neq 0$), and $r$ is the meaningful ratio.
   - **Meaning:** Proportions can be derived due to an absolute zero.
 
@@ -295,16 +301,16 @@ graph TD
 ---
 ## Formula Sheet
 - **Nominal Equality:** 
-  $$X_1 = X_2$$ 
+$$X_1 = X_2$$
   (Tests category matching)
 - **Ordinal Comparison:** 
-  $$X_1 > X_2$$ 
+$$X_1 > X_2$$
   (Tests ranking)
 - **Interval Difference:** 
-  $$\Delta X = X_1 - X_2$$ 
+$$\Delta X = X_1 - X_2$$
   (Quantifies exact distance)
 - **Ratio Value:** 
-  $$r = \frac{X_1}{X_2}$$ 
+$$r = \frac{X_1}{X_2}$$
   (Establishes proportional magnitude)
 
 ---
