@@ -1,4 +1,4 @@
-# Chapter 1 — Unit-I: Elementary Algorithmic
+# DAA Class Test Notes UNIT-1 and 2
 
 > **Course Code:** 3CS501CC24 / 2CS503
 > **Course Title:** Design & Analysis of Algorithms (DAA)
