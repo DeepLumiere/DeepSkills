@@ -1,9 +1,16 @@
 # Chapter 1 — Unit-I: Elementary Algorithmic
 
-> **Course Code:** 3CS501CC24 / 2CS503  
-> **Course Title:** Design & Analysis of Algorithms (DAA)  
-> **Primary Source:** Faculty Lecture Material (LMS)  
-> **Files Integrated:** `DAA_Unit 0_Introduction.pptx` (Slides 1–24), `DAA_Unit1.pptx` (Slides 1–56)  
+> **Course Code:** 3CS501CC24 / 2CS503
+> **Course Title:** Design & Analysis of Algorithms (DAA)
+> **Primary Source:** Faculty Lecture Material (LMS)
+> **Files Integrated:** `DAA_Unit 0_Introduction.pptx` (Slides 1–24), `DAA_Unit1.pptx` (Slides 1–56)
+
+---
+
+## Source map
+
+- `DAA_Unit 0_Introduction.pptx` (Slides 1–24) — primary faculty lecture material.
+- `DAA_Unit1.pptx` (Slides 1–56) — primary faculty lecture material.
 
 ---
 
@@ -65,19 +72,19 @@ To qualify as a valid algorithm, a computational procedure must satisfy six fund
 
 ### Definition: Random Access Machine (RAM) Model
 
-**Meaning:**  
+**Meaning:**
 The RAM model provides a standard, platform-independent theoretical model of computation to analyze algorithms without running them on physical hardware.
 
-**Formal Definition:**  
+**Formal Definition:**
 In the single-processor RAM model:
 * Instructions are executed strictly sequentially (no parallelism).
 * Standard arithmetic operations ($+, -, \times, \div, \lfloor \cdot \rfloor, \lceil \cdot \rceil$), data movement ($\text{load}, \text{store}, \text{copy}$), and control operations ($\text{branch}, \text{procedure call}$) each consume $c = \mathcal{O}(1)$ unit time.
 * Memory is unbounded, and accessing any memory address takes $\mathcal{O}(1)$ time.
 
-**Intuition:**  
+**Intuition:**
 By counting the number of primitive steps executed on a RAM machine, algorithm analysis becomes independent of processor clock speed, compiler optimization, or programming language.
 
-**Example:**  
+**Example:**
 Executing `sum = sum + A[i]` consists of array indexing, addition, and assignment, each taking constant RAM steps, resulting in $\mathcal{O}(1)$ total time for that single line.
 
 [Source: DAA_Unit 0_Introduction.pptx, Slide 19]
@@ -111,9 +118,9 @@ Even though Computer A is $1,000$ times faster in raw hardware speed, Merge Sort
 ### 4.2 Space Complexity vs. Time Complexity
 
 * **Space Complexity:** Total memory required by an algorithm during execution.
-  $$
+$$
   S(P) = c + S_p(n)
-  $$
+$$
   where $c$ is fixed memory (code space, simple variables) and $S_p(n)$ is dynamic memory (instance-dependent arrays, recursion stack).
 * **Significance:** Storage hardware is cheap and abundant; computational time is a scarce resource. Therefore, **Time Complexity** is universally prioritized over Space Complexity in algorithm performance evaluation.
 
@@ -192,7 +199,7 @@ Asymptotic notation provides a mathematical language for describing the growth r
 
 #### Definition: Big-$\mathcal{O}$ Notation
 
-**Formal Definition:**  
+**Formal Definition:**
 For a given function $g(n)$, $\mathcal{O}(g(n))$ is the set of functions:
 $$
 \mathcal{O}(g(n)) = \{ f(n) : \text{there exist positive constants } c > 0 \text{ and } n_0 > 0 \text{ such that } 0 \le f(n) \le c \cdot g(n) \text{ for all } n \ge n_0 \}
@@ -212,16 +219,16 @@ flowchart LR
     end
 ```
 
-**Intuition:**  
+**Intuition:**
 $\mathcal{O}(g(n))$ bounds the worst-case running time from above. The running time of the algorithm will never exceed $c \cdot g(n)$ for large inputs.
 
 #### Worked Example: Proving $2n + 6 = \mathcal{O}(n)$
 * **Given:** $f(n) = 2n + 6$, $g(n) = n$.
 * **Requirement:** Find constants $c > 0, n_0 > 0$ such that $2n + 6 \le c \cdot n$ for $n \ge n_0$.
 * **Derivation:**
-  $$
+$$
   2n + 6 \le 2n + 6n = 8n \quad (\text{for all } n \ge 1)
-  $$
+$$
 * **Conclusion:** Selecting $c = 8$ and $n_0 = 1$ satisfies $0 \le 2n+6 \le 8n$ for all $n \ge 1$. Hence, $2n+6 = \mathcal{O}(n)$.
 
 [Source: DAA_Unit1.pptx, Slides 28–31]
@@ -232,7 +239,7 @@ $\mathcal{O}(g(n))$ bounds the worst-case running time from above. The running t
 
 #### Definition: Big-$\Omega$ Notation
 
-**Formal Definition:**  
+**Formal Definition:**
 For a given function $g(n)$, $\Omega(g(n))$ is the set of functions:
 $$
 \Omega(g(n)) = \{ f(n) : \text{there exist positive constants } c > 0 \text{ and } n_0 > 0 \text{ such that } 0 \le c \cdot g(n) \le f(n) \text{ for all } n \ge n_0 \}
@@ -244,7 +251,7 @@ f(n) = \Omega(g(n)) \implies f(n) \ge c \cdot g(n) \quad \forall n \ge n_0
 \end{aligned}
 $$
 
-**Intuition:**  
+**Intuition:**
 $\Omega(g(n))$ provides an absolute lower bound on running time. The algorithm takes *at least* $c \cdot g(n)$ time for all large inputs.
 
 #### Worked Example: Proving $3n^2 + 2n + 4 = \Omega(n^2)$
@@ -252,9 +259,9 @@ $\Omega(g(n))$ provides an absolute lower bound on running time. The algorithm t
 * **Requirement:** Find $c > 0, n_0 > 0$ such that $c \cdot n^2 \le 3n^2 + 2n + 4$.
 * **Derivation:**
   For $n \ge 1$, $2n + 4 \ge 0$, so:
-  $$
+$$
   3n^2 \le 3n^2 + 2n + 4
-  $$
+$$
 * **Conclusion:** Selecting $c = 3$ and $n_0 = 1$ satisfies $3n^2 \le f(n)$ for all $n \ge 1$. Hence, $3n^2+2n+4 = \Omega(n^2)$.
 
 [Source: DAA_Unit1.pptx, Slides 33–34, 53]
@@ -265,7 +272,7 @@ $\Omega(g(n))$ provides an absolute lower bound on running time. The algorithm t
 
 #### Definition: Big-$\Theta$ Notation
 
-**Formal Definition:**  
+**Formal Definition:**
 For a given function $g(n)$, $\Theta(g(n))$ is the set of functions:
 $$
 \Theta(g(n)) = \{ f(n) : \text{there exist positive constants } c_1 > 0, c_2 > 0, n_0 > 0 \text{ such that } 0 \le c_1 \cdot g(n) \le f(n) \le c_2 \cdot g(n) \text{ for all } n \ge n_0 \}
@@ -282,9 +289,9 @@ $$
 * **Requirement:** Find $c_1, c_2 > 0$ and $n_0 > 0$ such that $c_1 n \le 3n + 2 \le c_2 n$ for all $n \ge n_0$.
 * **Derivation:**
   For $n \ge 1$:
-  $$
+$$
   2n \le 3n + 2 \le 5n
-  $$
+$$
 * **Conclusion:** Choosing $c_1 = 2$, $c_2 = 5$, and $n_0 = 1$ proves $3n+2 = \Theta(n)$.
 
 [Source: DAA_Unit1.pptx, Slides 35–36, 55]
@@ -348,13 +355,13 @@ For two positive functions $f(n)$ and $g(n)$, evaluate $L = \lim_{n \to \infty} 
 
 #### Worked Problem: Prove $\sqrt{n}$ grows faster than $\log n$
 * Let $f(n) = \sqrt{n}$ and $g(n) = \log_e n$. Compute $L$:
-  $$
+$$
   L = \lim_{n \to \infty} \frac{\log n}{\sqrt{n}}
-  $$
+$$
   Applying L'Hôpital's Rule ($\frac{\infty}{\infty}$ form):
-  $$
+$$
   L = \lim_{n \to \infty} \frac{\frac{d}{dn}(\log n)}{\frac{d}{dn}(n^{1/2})} = \lim_{n \to \infty} \frac{\frac{1}{n}}{\frac{1}{2\sqrt{n}}} = \lim_{n \to \infty} \frac{2\sqrt{n}}{n} = \lim_{n \to \infty} \frac{2}{\sqrt{n}} = 0
-  $$
+$$
 * **Result:** Since the limit is $0$, $\log n = o(\sqrt{n})$, which proves that $\sqrt{n}$ grows strictly faster than $\log n$.
 
 [Source: DAA_Unit1.pptx, Slides 46, 48]
@@ -433,12 +440,12 @@ $$
 ## 12. Exam-Oriented Review & Worked Problems (Unit-I)
 
 ### Worked Numerical Problem 1.1
-**Problem:** Find the tight bound $\Theta$ for $f(n) = 2n^3 + 4n + 5$.  
-**Given:** $f(n) = 2n^3 + 4n + 5$, $g(n) = n^3$.  
-**Required:** Find $c_1, c_2, n_0 > 0$ such that $c_1 n^3 \le 2n^3 + 4n + 5 \le c_2 n^3$.  
-**Solution Steps:**  
-1. For lower bound: $2n^3 \le 2n^3 + 4n + 5$ for all $n \ge 1 \implies c_1 = 2$.  
-2. For upper bound ($n \ge 1$): $2n^3 + 4n + 5 \le 2n^3 + 4n^3 + 5n^3 = 11n^3 \implies c_2 = 11$.  
+**Problem:** Find the tight bound $\Theta$ for $f(n) = 2n^3 + 4n + 5$.
+**Given:** $f(n) = 2n^3 + 4n + 5$, $g(n) = n^3$.
+**Required:** Find $c_1, c_2, n_0 > 0$ such that $c_1 n^3 \le 2n^3 + 4n + 5 \le c_2 n^3$.
+**Solution Steps:**
+1. For lower bound: $2n^3 \le 2n^3 + 4n + 5$ for all $n \ge 1 \implies c_1 = 2$.
+2. For upper bound ($n \ge 1$): $2n^3 + 4n + 5 \le 2n^3 + 4n^3 + 5n^3 = 11n^3 \implies c_2 = 11$.
 **Final Answer:** $f(n) = \Theta(n^3)$ for $c_1 = 2, c_2 = 11, n_0 = 1$.
 
 [Source: DAA_Unit1.pptx, Slide 54]
@@ -446,20 +453,20 @@ $$
 ---
 
 ### Worked Numerical Problem 1.2
-**Problem:** Prove or disprove whether $2^{n+1} = \mathcal{O}(2^n)$ and whether $2^{2n} = \mathcal{O}(2^n)$.  
-**Solution Steps:**  
-1. **Part (i) $2^{n+1}$:**  
-   $$
+**Problem:** Prove or disprove whether $2^{n+1} = \mathcal{O}(2^n)$ and whether $2^{2n} = \mathcal{O}(2^n)$.
+**Solution Steps:**
+1. **Part (i) $2^{n+1}$:**
+$$
    2^{n+1} = 2^1 \cdot 2^n = 2 \cdot 2^n
-   $$  
-   Choosing $c = 2$ and $n_0 = 1$ satisfies $2^{n+1} \le c \cdot 2^n$.  
+$$
+   Choosing $c = 2$ and $n_0 = 1$ satisfies $2^{n+1} \le c \cdot 2^n$.
    **Result:** True, $2^{n+1} = \mathcal{O}(2^n)$.
-2. **Part (ii) $2^{2n}$:**  
-   $$
+2. **Part (ii) $2^{2n}$:**
+$$
    2^{2n} = (2^2)^n = 4^n
-   $$  
-   Assume $\exists c, n_0$ such that $4^n \le c \cdot 2^n$. Dividing by $2^n$ yields $2^n \le c$.  
-   As $n \to \infty$, $2^n$ grows without bound, so no constant $c$ can bound it.  
+$$
+   Assume $\exists c, n_0$ such that $4^n \le c \cdot 2^n$. Dividing by $2^n$ yields $2^n \le c$.
+   As $n \to \infty$, $2^n$ grows without bound, so no constant $c$ can bound it.
    **Result:** False, $2^{2n} \neq \mathcal{O}(2^n)$.
 
 [Source: DAA_Unit1.pptx, Slide 45]
@@ -475,16 +482,24 @@ $$
 
 # Chapter 2 — Unit-II: Analysis of Algorithms
 
-> **Course Code:** 3CS501CC24 / 2CS503  
-> **Course Title:** Design & Analysis of Algorithms (DAA)  
-> **Primary Source:** Faculty Lecture Material (LMS)  
-> **Files Integrated:** `DAA_Unit2.pptx` (Slides 1–37), `DAA_Unit3(a).pptx` (Slides 1–70), `DAA_Unit3(b).pptx` (Slides 1–30)  
+> **Course Code:** 3CS501CC24 / 2CS503
+> **Course Title:** Design & Analysis of Algorithms (DAA)
+> **Primary Source:** Faculty Lecture Material (LMS)
+> **Files Integrated:** `DAA_Unit2.pptx` (Slides 1–37), `DAA_Unit3(a).pptx` (Slides 1–70), `DAA_Unit3(b).pptx` (Slides 1–30)
+
+---
+
+## Source map
+
+- `DAA_Unit2.pptx` (Slides 1–37) — primary faculty lecture material.
+- `DAA_Unit3(a).pptx` (Slides 1–70) — primary faculty lecture material.
+- `DAA_Unit3(b).pptx` (Slides 1–30) — primary faculty lecture material.
 
 ---
 
 ## 1. Chapter Overview
 
-Unit-II focuses on analyzing control structures, solving linear and divide-and-conquer recurrence relations, and applying these analytical techniques to fundamental sorting algorithms. Students learn to systematically evaluate iterative constructs (`for`, `while`, `repeat`), recursive functions, recurrence relations (via Substitution, Characteristic Equations, Particular Solutions, Variable Transformations, Range Transformations, Master Theorems, and Recurrence Trees), and perform complete trace and performance evaluations of Quick Sort and Merge Sort.
+Unit-II focuses on analyzing control structures, solving linear and divide-and-conquer recurrence relations, and applying these analytical techniques to fundamental sorting algorithms. Students learn to systematically evaluate iterative constructs (`for`, `while`, `repeat`), recursive functions, recurrence relations (via Substitution, Characteristic Equations, Particular Solutions, Variable Transformations, Range Transformations, Master Theorems, and Recurrence Trees), and perform complete trace and performance evaluations of Quick Sort, Merge Sort, Insertion Sort, Selection Sort, Bubble Sort, and Heap Sort.
 
 [Source: DAA_Unit2.pptx, Slides 1–14; DAA_Unit3(a).pptx, Slides 1–4; DAA_Unit3(b).pptx, Slides 1–3]
 
@@ -504,6 +519,8 @@ Unit-II focuses on analyzing control structures, solving linear and divide-and-c
 8. **Divide-and-Conquer:** An algorithmic design strategy that breaks a problem into smaller subproblems, solves them recursively, and combines their results.
 9. **In-Place Sort:** A sorting algorithm requiring $\mathcal{O}(1)$ auxiliary space beyond the input array.
 10. **Partitioning:** Rearranging an array around a pivot element such that all elements left of the pivot are $\le \text{pivot}$ and elements right are $\ge \text{pivot}$.
+11. **Stable Sort:** A sorting algorithm that preserves the relative order of equal elements.
+12. **Binary Heap:** A nearly complete binary tree satisfying the heap property (Max-Heap or Min-Heap).
 
 [Source: DAA_Unit2.pptx, Slides 1–14; DAA_Unit3(a).pptx, Slides 3–4, 10–21; DAA_Unit3(b).pptx, Slides 14–22]
 
@@ -561,9 +578,9 @@ for (int i = 1; i <= n; i++)
 ```
 * **Inner Loop Count:** Executes $i$ times for each $i$.
 * **Total Executions:**
-  $$
-  T(n) = \sum_{i=1}^n \sum_{j=1}^i 1 = \sum_{i=1}^n i = \frac{n(n+1)}{2} = \frac{1}{2}n^2 + \frac{1}{2}n = \Theta(n^2)
-  $$
+$$
+T(n) = \sum_{i=1}^n \sum_{j=1}^i 1 = \sum_{i=1}^n i = \frac{n(n+1)}{2} = \frac{1}{2}n^2 + \frac{1}{2}n = \Theta(n^2)
+$$
 
 #### Example 3.2: Triple Polynomial Loop
 ```c
@@ -590,7 +607,7 @@ while (i <= n) {
     i = i * c; // c > 1
 }
 ```
-* **Analysis:** In iteration $k$, $i = c^k$. The loop terminates when $c^k > n \implies k > \log_c n$.  
+* **Analysis:** In iteration $k$, $i = c^k$. The loop terminates when $c^k > n \implies k > \log_c n$.
 * **Complexity:** $T(n) = \Theta(\log_c n) = \Theta(\log n)$.
 
 #### Loop Type B: Exponential Step ($i = i^c$ or $i = \sqrt{i}$)
@@ -622,13 +639,13 @@ int factorial(int n) {
 }
 ```
 * **Recurrence Relation:**
-  $$
-  T(n) = \begin{cases} \Theta(1) & \text{if } n \le 1 \\ T(n-1) + d & \text{if } n > 1 \end{cases}
-  $$
+$$
+T(n) = \begin{cases} \Theta(1) & \text{if } n \le 1 \\ T(n-1) + d & \text{if } n > 1 \end{cases}
+$$
 * **Unwinding/Expansion:**
-  $$
-  T(n) = T(n-1) + d = T(n-2) + 2d = \dots = T(1) + (n-1)d = \Theta(n)
-  $$
+$$
+T(n) = T(n-1) + d = T(n-2) + 2d = \dots = T(1) + (n-1)d = \Theta(n)
+$$
 
 [Source: DAA_Unit2.pptx, Slides 8–12]
 
@@ -638,194 +655,173 @@ int factorial(int n) {
 
 ### 5.1 Method 1: Intelligent Guesswork & Substitution Method
 
-1. **Guess** the form of the solution (e.g., $T(n) = \mathcal{O}(n \log n)$).
-2. Use **Mathematical Induction** to establish constants $c$ and $n_0$.
+#### Step-by-Step Recipe (Checklist)
+1. [ ] **Guess the Form:** Formulate an intelligent guess for the solution based on experience, recursion depth, or a recurrence tree (e.g., guess $T(n) \le c n \log n$ or $T(n) \le c n$).
+2. [ ] **Set up Induction Hypothesis:** State that $T(k) \le c \cdot g(k)$ holds for all $k < n$.
+3. [ ] **Inductive Step:** Substitute the inductive hypothesis into the recurrence relation to prove $T(n) \le c \cdot g(n)$.
+4. [ ] **Determine Constants:** Solve the algebraic inequality to find positive constants $c > 0$ and $n_0 > 0$ that make the inequality true.
+5. [ ] **Establish Base Cases:** Verify that the constants $c$ and $n_0$ are compatible with the boundary/initial conditions of the recurrence.
 
-#### Worked Example: Solve $T(n) = T(n-1) + n$
-* **Unwinding (Iteration):**
-  $$
-  \begin{aligned}
-  T(n) &= T(n-1) + n \\
-  T(n-1) &= T(n-2) + (n-1) \\
-  T(n-2) &= T(n-3) + (n-2) \\
-  T(n) &= T(n-k) + \sum_{j=0}^{k-1} (n - j)
-  \end{aligned}
-  $$
-  Setting $k = n$:
-  $$
-  T(n) = T(0) + \sum_{j=1}^n j = 0 + \frac{n(n+1)}{2} = \Theta(n^2)
-  $$
+```mermaid
+flowchart TD
+    A[Make a Guess] --> B[Assume holds for k < n]
+    B --> C[Substitute T_k in Recurrence]
+    C --> D[Solve algebraically for c and n_0]
+    D --> E{Does it hold?}
+    E -- Yes --> F[Inductive Proof Complete]
+    E -- No --> G[Adjust Guess / Try higher-order terms]
+```
 
-[Source: DAA_Unit3(a).pptx, Slides 5–8]
+#### Worked Example: Solve $T(n) = 2 T(n/2) + n$
+* **Goal:** Show that $T(n) = \mathcal{O}(n \log n)$ using the substitution method.
+* **Hypothesis:** Assume $T(k) \le c k \log_2 k$ for all $k < n$, with some constant $c > 0$.
+* **Inductive Step:** Substitute the hypothesis into the recurrence:
+$$
+\begin{aligned}
+T(n) &\le 2 \left(c \frac{n}{2} \log_2 \frac{n}{2}\right) + n \\
+&= c n \log_2 \frac{n}{2} + n \\
+&= c n (\log_2 n - \log_2 2) + n \\
+&= c n \log_2 n - c n + n \\
+&= c n \log_2 n - (c - 1)n
+\end{aligned}
+$$
+* **Inequality Requirement:** We need $c n \log_2 n - (c - 1)n \le c n \log_2 n$.
+* **Solving for $c$:** This holds if and only if $c - 1 \ge 0 \implies c \ge 1$.
+* **Conclusion:** Choosing $c = 1$ and $n_0 = 2$ proves $T(n) \le c n \log_2 n$. Hence, the upper bound is $\mathcal{O}(n \log n)$. To show the lower bound $\Omega(n \log n)$, use the same steps with $T(k) \ge c' k \log_2 k$ to yield a tighter bound of $\Theta(n \log n)$.
 
 ---
 
 ### 5.2 Method 2: Homogeneous Recurrences (Characteristic Equations)
 
-A homogeneous linear recurrence with constant coefficients has the form:
+Linear homogeneous recurrence relations have the form:
 $$
 a_0 T(n) + a_1 T(n-1) + a_2 T(n-2) + \dots + a_k T(n-k) = 0
 $$
 
-Replacing $T(n-j)$ with $x^{k-j}$ yields the **Characteristic Equation**:
+#### Step-by-Step Recipe (Checklist)
+1. [ ] **Set up the Characteristic Polynomial:** Substitute $T(n-j) \to x^{k-j}$ to obtain:
 $$
 a_0 x^k + a_1 x^{k-1} + a_2 x^{k-2} + \dots + a_k = 0
 $$
+2. [ ] **Find the Roots:** Factor the polynomial to obtain the roots $r_1, r_2, \dots, r_k$.
+3. [ ] **Identify Root Cases:**
+   * **Case A: Distinct Roots:** If all roots $r_j$ are unique, write:
+$$
+T(n) = c_1 r_1^n + c_2 r_2^n + \dots + c_k r_k^n
+$$
+   * **Case B: Repeated Roots:** If root $r_1$ occurs with multiplicity $m$, write:
+$$
+T(n) = (c_1 + c_2 n + c_3 n^2 + \dots + c_m n^{m-1}) r_1^n + c_{m+1} r_{m+1}^n + \dots
+$$
+4. [ ] **Solve for Constants:** Use initial conditions ($T(0)$, $T(1)$, etc.) to solve the system of linear equations for constants $c_j$.
+5. [ ] **Write Final Solution:** State the closed-form representation of $T(n)$.
 
-#### Root Cases for General Solution $T(n)$:
-1. **Distinct Roots ($r_1 \neq r_2 \neq \dots \neq r_k$):**
-   $$
-   T(n) = c_1 r_1^n + c_2 r_2^n + \dots + c_k r_k^n
-   $$
-2. **Repeated Roots ($r_1 = r_2$ multiplicity $m$):**
-   $$
-   T(n) = (c_1 + c_2 n + c_3 n^2 + \dots + c_m n^{m-1}) r_1^n + c_{m+1} r_3^n + \dots
-   $$
-
----
-
-#### Worked Problem 5.1: $T(n) - T(n-1) - 2T(n-2) = 0$, $T(0)=0, T(1)=1$
-1. **Characteristic Equation:** $x^2 - x - 2 = 0 \implies (x - 2)(x + 1) = 0 \implies r_1 = 2, r_2 = -1$.
-2. **General Solution:** $T(n) = c_1 (2)^n + c_2 (-1)^n$.
-3. **Apply Initial Conditions:**
-   $$
-   \begin{aligned}
-   T(0) &= c_1 + c_2 = 0 \implies c_2 = -c_1 \\
-   T(1) &= 2c_1 - c_2 = 1 \implies 2c_1 - (-c_1) = 1 \implies 3c_1 = 1 \implies c_1 = \frac{1}{3}, c_2 = -\frac{1}{3}
-   \end{aligned}
-   $$
-4. **Final Solution:** $T(n) = \frac{1}{3}(2^n) - \frac{1}{3}(-1)^n = \Theta(2^n)$.
-
-[Source: DAA_Unit3(a).pptx, Slides 10–12]
-
----
-
-#### Worked Problem 5.2: In-Depth Analysis of Fibonacci Sequence
-Recursive Fibonacci algorithm:
-```c
-int fibrec(int n) {
-    if (n < 2) return n;
-    else return fibrec(n - 1) + fibrec(n - 2);
-}
+```mermaid
+flowchart TD
+    Start[Homogeneous Recurrence] --> Poly[Form Characteristic Polynomial]
+    Poly --> FindRoots[Find Roots of Polynomial]
+    FindRoots --> Case{Are roots distinct?}
+    Case -- Yes --> DistinctFormula["T(n) = c1*r1^n + c2*r2^n + ..."]
+    Case -- No --> RepeatedFormula["T(n) = (c1 + c2*n + ...)*r1^n + ..."]
+    DistinctFormula --> Solve["Apply Initial Conditions to solve for c_j"]
+    RepeatedFormula --> Solve
+    Solve --> End[Closed-form Solution]
 ```
-* **Recurrence:** $T(n) = T(n-1) + T(n-2) \implies T(n) - T(n-1) - T(n-2) = 0$.
-* **Characteristic Polynomial:** $x^2 - x - 1 = 0$.
-* **Roots (Golden Ratio $\phi$):**
-  $$
-  r_1 = \frac{1 + \sqrt{5}}{2} \approx 1.618, \quad r_2 = \frac{1 - \sqrt{5}}{2} \approx -0.618
-  $$
-* **General Form:** $T(n) = c_1 \left(\frac{1+\sqrt{5}}{2}\right)^n + c_2 \left(\frac{1-\sqrt{5}}{2}\right)^n$.
-* **Substituting $T(0)=0, T(1)=1$:**
-  $$
-  c_1 = \frac{1}{\sqrt{5}}, \quad c_2 = -\frac{1}{\sqrt{5}}
-  $$
-* **de Moivre's Closed-Form Formula:**
-  $$
-  T(n) = \frac{1}{\sqrt{5}}\left(\frac{1+\sqrt{5}}{2}\right)^n - \frac{1}{\sqrt{5}}\left(\frac{1-\sqrt{5}}{2}\right)^n = \Theta(\phi^n) = \Theta(1.618^n)
-  $$
-  Recursive Fibonacci requires **exponential running time**.
 
-[Source: DAA_Unit3(a).pptx, Slides 13–16]
-
----
-
-#### Worked Problem 5.3: Analysis of Tower of Hanoi
-Move $m$ disks: $t(m) = 2 t(m-1) + 1$ with $t(0) = 0$.
-* **Convert to Homogeneous:**
-  $$
-  \begin{aligned}
-  t(m) - 2t(m-1) &= 1 \quad \text{--- (Eq 1)} \\
-  -t(m-1) + 2t(m-2) &= -1 \quad \text{--- (Eq 2, shifted and multiplied by -1)}
-  \end{aligned}
-  $$
-  Adding (Eq 1) and (Eq 2):
-  $$
-  t(m) - 3t(m-1) + 2t(m-2) = 0
-  $$
-* **Characteristic Equation:** $x^2 - 3x + 2 = 0 \implies (x - 2)(x - 1) = 0 \implies r_1 = 2, r_2 = 1$.
-* **General Solution:** $t(m) = c_1 (2^m) + c_2 (1^m) = c_1 2^m + c_2$.
-* **Initial Conditions ($t(0)=0, t(1)=1$):**
-  $$
-  c_1 + c_2 = 0, \quad 2c_1 + c_2 = 1 \implies c_1 = 1, c_2 = -1
-  $$
-* **Closed Form:** $t(m) = 2^m - 1 = \Theta(2^m)$.
-
-[Source: DAA_Unit3(a).pptx, Slides 17–20]
+#### Worked Problem 5.1: $T(n) - 3T(n-1) + 2T(n-2) = 0$, $T(0)=2, T(1)=3$
+1. **Characteristic Equation:** $x^2 - 3x + 2 = 0 \implies (x-1)(x-2) = 0 \implies r_1 = 1, r_2 = 2$.
+2. **General Solution (Distinct Roots):**
+$$
+T(n) = c_1 (1^n) + c_2 (2^n) = c_1 + c_2 2^n
+$$
+3. **Applying Initial Conditions:**
+   * For $n=0$: $c_1 + c_2 = 2$
+   * For $n=1$: $c_1 + 2c_2 = 3$
+4. **Solving System:** Subtracting the first equation from the second yields $c_2 = 1$, which gives $c_1 = 1$.
+5. **Final Tight Bound Solution:**
+$$
+T(n) = 1 + 2^n = \Theta(2^n)
+$$
 
 ---
 
 ### 5.3 Method 3: Non-Homogeneous Recurrences
 
-A non-homogeneous recurrence has the form:
+Non-homogeneous linear recurrences contain a non-zero driving function $f(n)$:
 $$
 a_0 T(n) + a_1 T(n-1) + \dots + a_k T(n-k) = f(n)
 $$
 
-The complete general solution is:
+#### Step-by-Step Recipe (Checklist)
+1. [ ] **Solve Homogeneous Part ($T(n)_h$):** Set $f(n) = 0$ and find $T(n)_h$ using Method 2.
+2. [ ] **Determine the Form of Particular Solution ($T(n)_p$):** Identify the type of $f(n)$ and set up the corresponding template:
+   * If $f(n) = c$ (Constant): Try $T_p = P$. If $1$ is a characteristic root of multiplicity $t$, use $T_p = P n^t$.
+   * If $f(n) = \text{polynomial of degree } m$: Try $T_p = d_0 + d_1 n + \dots + d_m n^m$.
+   * If $f(n) = d \cdot a^n$ (Exponential):
+     * If $a$ is not a characteristic root: Try $T_p = P a^n$.
+     * If $a$ is a characteristic root of multiplicity $t$: Try $T_p = P n^t a^n$.
+3. [ ] **Substitute $T(n)_p$ into Recurrence:** Plug the template into the full non-homogeneous relation.
+4. [ ] **Solve for Coefficients:** Group terms by powers of $n$ or components to solve for coefficients ($P, d_j$).
+5. [ ] **Combine Solutions:** Write the total solution:
 $$
 T(n) = T(n)_h + T(n)_p
 $$
-where $T(n)_h$ is the homogeneous solution ($f(n)=0$) and $T(n)_p$ is the particular solution for $f(n)$.
+6. [ ] **Apply Initial Conditions:** Use the initial conditions on the *combined* solution $T(n)$ to find the homogeneous constants $c_j$.
 
-#### Rules for Particular Solution $T(n)_p$:
-
-| Driving Function $f(n)$ | Form of Particular Solution $T(n)_p$ |
-| :--- | :--- |
-| **Constant** ($f(n) = c$) | Try $T_p = P$. If it fails (root 1 exists), try $T_p = n P, n^2 P, \dots$ |
-| **Polynomial** (Degree $m$) | $T_p = d_0 + d_1 n + d_2 n^2 + \dots + d_m n^m$ |
-| **Exponential** ($f(n) = d \cdot a^n$) | If $a$ is not a characteristic root: $T_p = P \cdot a^n$. <br> If $a$ is a root of multiplicity $t$: $T_p = P \cdot n^t a^n$. |
-
----
-
-#### Worked Problem 5.4: $T(n) - 8T(n-1) = 14n + 5$
-1. **Homogeneous Part ($T(n)_h$):**
-   $$
-   x - 8 = 0 \implies x = 8 \implies T(n)_h = c_1 (8^n)
-   $$
-2. **Particular Part ($T(n)_p$):**  
-   Since $f(n) = 14n + 5$ is a degree-1 polynomial, substitute $T(n)_p = d_0 + d_1 n$:
-   $$
-   (d_0 + d_1 n) - 8(d_0 + d_1 (n - 1)) = 14n + 5
-   $$
-   $$
-   -7 d_1 n + (-7 d_0 + 8 d_1) = 14n + 5
-   $$
-   Matching coefficients:
-   * $n^1 \text{ term:} -7 d_1 = 14 \implies d_1 = -2$
-   * $n^0 \text{ term:} -7 d_0 + 8(-2) = 5 \implies -7 d_0 = 21 \implies d_0 = -3$
-   Therefore, $T(n)_p = -3 - 2n$.
-3. **Total Solution:**
-   $$
-   T(n) = c_1 (8^n) - 2n - 3
-   $$
-
-[Source: DAA_Unit3(a).pptx, Slides 24, 27]
+#### Worked Problem 5.4: $T(n) - 2T(n-1) = 3^n$, $T(0)=1$
+1. **Homogeneous Part:** $x - 2 = 0 \implies r = 2 \implies T(n)_h = c_1 2^n$.
+2. **Particular Part:** Since $f(n) = 3^n$, and $3$ is not a characteristic root ($3 \ne 2$), try $T(n)_p = P 3^n$.
+3. **Substitution:**
+$$
+P 3^n - 2 (P 3^{n-1}) = 3^n
+$$
+   Divide by $3^{n-1}$:
+$$
+3P - 2P = 3 \implies P = 3 \implies T(n)_p = 3 \cdot 3^n = 3^{n+1}
+$$
+4. **Combined General Solution:**
+$$
+T(n) = c_1 2^n + 3^{n+1}
+$$
+5. **Apply Initial Condition $T(0)=1$:**
+$$
+T(0) = c_1 2^0 + 3^1 = c_1 + 3 = 1 \implies c_1 = -2
+$$
+6. **Final Tight Bound Solution:**
+$$
+T(n) = -2(2^n) + 3^{n+1} = 3^{n+1} - 2^{n+1} = \Theta(3^n)
+$$
 
 ---
 
 ### 5.4 Method 4: Change of Variable Method
 
-Used when the recurrence contains non-standard arguments such as $\sqrt{n}$ or powers of $2$.
+Used when the recurrence contains logarithmic or square root arguments, making traditional methods inapplicable.
 
-#### Worked Problem 5.5: Solve $T(n) = 2 T(\sqrt{n}) + \log n$
-1. **Domain Transformation:** Substitute $n = 2^m \implies m = \log_2 n$.
-   $$
-   T(2^m) = 2 T(2^{m/2}) + m
-   $$
-2. **Rename Function:** Define $S(m) = T(2^m)$:
-   $$
-   S(m) = 2 S(m/2) + m
-   $$
-3. **Solve for $S(m)$:** Using Master Theorem ($a=2, b=2, f(m)=m \implies m^{\log_2 2} = m^1$):
-   $$
-   S(m) = \Theta(m \log m)
-   $$
-4. **Back-Substitution ($m = \log n$):**
-   $$
-   T(n) = S(\log n) = \Theta(\log n \cdot \log(\log n))
-   $$
+#### Step-by-Step Recipe (Checklist)
+1. [ ] **Identify the Variable Transformation:** Substitute $n = 2^m \implies m = \log_2 n$.
+2. [ ] **Rewrite Recurrence Terms:** Replace $T(n)$ with $T(2^m)$ and subproblems accordingly (e.g., $T(\sqrt{n}) \to T(2^{m/2})$).
+3. [ ] **Define a New Function:** Let $S(m) = T(2^m)$.
+4. [ ] **Solve the New Recurrence:** Solve the transformed recurrence $S(m)$ using standard methods (Master Theorem or Characteristic Equations).
+5. [ ] **Perform Back-Substitution:** Replace $m$ with $\log_2 n$ in the solved expression for $S(m)$ to obtain the final tight bound for $T(n)$.
 
-[Source: DAA_Unit3(a).pptx, Slide 59]
+#### Worked Problem 5.5: Solve $T(n) = T(\sqrt{n}) + \Theta(1)$
+1. **Transformation:** Let $n = 2^m \implies \sqrt{n} = 2^{m/2}$.
+$$
+T(2^m) = T(2^{m/2}) + c
+$$
+2. **Rename Function:** Let $S(m) = T(2^m)$:
+$$
+S(m) = S(m/2) + c
+$$
+3. **Solve for $S(m)$:** Using Master Theorem ($a=1, b=2, f(m)=c \implies m^{\log_2 1} = m^0 = 1$):
+$$
+S(m) = \Theta(\log m)
+$$
+4. **Back-Substitute $m = \log_2 n$:**
+$$
+T(n) = S(\log_2 n) = \Theta(\log (\log n))
+$$
 
 ---
 
@@ -833,19 +829,29 @@ Used when the recurrence contains non-standard arguments such as $\sqrt{n}$ or p
 
 Used for non-linear recurrences containing powers or products of terms.
 
-#### Worked Problem 5.6: Solve $T(n) = n T^2(n/2)$
-1. **Change Variable ($n = 2^m, S(m) = T(2^m)$):**
-   $$
-   S(m) = 2^m S^2(m-1)
-   $$
-2. **Range Transformation:** Take $\log_2$ on both sides and set $U(m) = \log_2 S(m)$:
-   $$
-   \log_2 S(m) = \log_2(2^m) + \log_2(S^2(m-1)) \implies U(m) = m + 2 U(m-1)
-   $$
-3. **Solve Linear Recurrence:** $U(m) - 2U(m-1) = m \implies U(m) = \Theta(2^m)$.
-4. **Back-Substitute:** $S(m) = 2^{U(m)} = 2^{\Theta(2^m)} \implies T(n) = 2^{\Theta(n)}$.
+#### Step-by-Step Recipe (Checklist)
+1. [ ] **Linearize Using Logarithm:** Take the logarithm of both sides to convert multiplication/powers into addition/multiplication.
+2. [ ] **Define New Variable:** Let $U(n) = \log T(n)$ or $U(m) = \log S(m)$.
+3. [ ] **Solve Transformed Recurrence:** Solve the resulting linear recurrence for $U(n)$.
+4. [ ] **Apply Inverse Transformation:** Recover $T(n) = 2^{U(n)}$.
 
-[Source: DAA_Unit3(a).pptx, Slides 62–63]
+#### Worked Problem 5.6: Solve $T(n) = 2 T(n/2)^2$ with $T(1) = 2$
+1. **Apply Logarithm ($\log_2$):**
+$$
+\log_2 T(n) = \log_2(2 T(n/2)^2) = 1 + 2 \log_2 T(n/2)
+$$
+2. **Define New Variable:** Let $U(n) = \log_2 T(n)$:
+$$
+U(n) = 2 U(n/2) + 1
+$$
+3. **Solve for $U(n)$:** Using Master Theorem ($a=2, b=2, f(n)=1 \implies n^{\log_2 2} = n^1$):
+$$
+U(n) = \Theta(n)
+$$
+4. **Back-Substitute:**
+$$
+T(n) = 2^{U(n)} = 2^{\Theta(n)}
+$$
 
 ---
 
@@ -856,56 +862,55 @@ $$
 T(n) = a T\left(\frac{n}{b}\right) + f(n) \quad \text{where } a \ge 1, b > 1
 $$
 
-Compare $f(n)$ with $n^{\log_b a}$:
-
+#### Visual Decision Tree Diagram:
 ```mermaid
 flowchart TD
-    Start["Compare f(n) with n^(log_b a)"] --> Case1["f(n) = O(n^(log_b a - epsilon))"]
-    Start --> Case2["f(n) = Theta(n^(log_b a))"]
-    Start --> Case3["f(n) = Omega(n^(log_b a + epsilon)) AND regularity condition"]
-    Case1 --> Res1["T(n) = Theta(n^(log_b a))"]
-    Case2 --> Res2["T(n) = Theta(n^(log_b a) * log n)"]
-    Case3 --> Res3["T(n) = Theta(f(n))"]
+    Start["Given: T(n) = aT(n/b) + f(n)"] --> Comp["Compare f(n) with n^(log_b a)"]
+    Comp --> Case1["f(n) is polynomially smaller: O(n^(log_b a - epsilon))"]
+    Comp --> Case2["f(n) is asymptotically equal: Theta(n^(log_b a) * log^k n)"]
+    Comp --> Case3["f(n) is polynomially larger: Omega(n^(log_b a + epsilon))"]
+    Case1 --> Res1["Case 1: T(n) = Theta(n^(log_b a))"]
+    Case2 --> Res2["Case 2: T(n) = Theta(n^(log_b a) * log^(k+1) n)"]
+    Case3 --> Reg{"Verify Regularity: a*f(n/b) <= c*f(n) for c < 1"}
+    Reg -- Yes --> Res3["Case 3: T(n) = Theta(f(n))"]
+    Reg -- No --> Fail["Inapplicable. Use Recurrence Tree."]
 ```
 
-#### Master Theorem Cases:
+#### Step-by-Step Recipe (Checklist)
+1. [ ] **Extract Constants:** Identify $a$, $b$, and the driving function $f(n)$.
+2. [ ] **Compute Boundary Benchmark:** Calculate the critical exponent value: $n^{\log_b a}$.
+3. [ ] **Compare Growth Rates:**
+   * **Case 1 (Leaves Dominant):** If $f(n) = \mathcal{O}(n^{\log_b a - \epsilon})$ for some constant $\epsilon > 0$, then:
+$$
+T(n) = \Theta(n^{\log_b a})
+$$
+   * **Case 2 (Balanced Levels):** If $f(n) = \Theta(n^{\log_b a} \log^k n)$ for $k \ge 0$, then:
+$$
+T(n) = \Theta(n^{\log_b a} \log^{k+1} n)
+$$
+   * **Case 3 (Root Dominant):** If $f(n) = \Omega(n^{\log_b a + \epsilon})$ for some constant $\epsilon > 0$, check the **Regularity Condition**:
+$$
+a f(n/b) \le c f(n) \quad \text{for some constant } c < 1 \text{ and large } n.
+$$
+     If both hold, then:
+$$
+T(n) = \Theta(f(n))
+$$
 
-1. **Case 1 (Tree Leaves Dominant):**  
-   If $f(n) = \mathcal{O}(n^{\log_b a - \epsilon})$ for some constant $\epsilon > 0$:
-   $$
-   T(n) = \Theta(n^{\log_b a})
-   $$
+#### 10 Comprehensive Solved Examples:
 
-2. **Case 2 (Balanced Levels):**  
-   If $f(n) = \Theta(n^{\log_b a} \log^k n)$ for $k \ge 0$:
-   $$
-   T(n) = \Theta(n^{\log_b a} \log^{k+1} n)
-   $$
-
-3. **Case 3 (Root Cost Dominant):**  
-   If $f(n) = \Omega(n^{\log_b a + \epsilon})$ for $\epsilon > 0$, and if $a f(n/b) \le c f(n)$ for some $c < 1$ (regularity condition):
-   $$
-   T(n) = \Theta(f(n))
-   $$
-
----
-
-#### 10 Solved Master Theorem Examples:
-
-| # | Recurrence Relation | $a$ | $b$ | $n^{\log_b a}$ | $f(n)$ | Master Case | Solution $T(n)$ |
-| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **1** | $T(n) = 4 T(n/2) + n$ | 4 | 2 | $n^2$ | $n$ | Case 1 | $\Theta(n^2)$ |
-| **2** | $T(n) = 4 T(n/2) + n^2$ | 4 | 2 | $n^2$ | $n^2$ | Case 2 ($k=0$) | $\Theta(n^2 \log n)$ |
-| **3** | $T(n) = 4 T(n/2) + n^3$ | 4 | 2 | $n^2$ | $n^3$ | Case 3 | $\Theta(n^3)$ |
-| **4** | $T(n) = 9 T(n/3) + n$ | 9 | 3 | $n^2$ | $n$ | Case 1 | $\Theta(n^2)$ |
-| **5** | $T(n) = T(2n/3) + 1$ | 1 | $3/2$ | $n^0 = 1$ | $1$ | Case 2 ($k=0$) | $\Theta(\log n)$ |
-| **6** | $T(n) = 7 T(n/2) + n^3$ | 7 | 2 | $n^{2.81}$ | $n^3$ | Case 3 | $\Theta(n^3)$ |
-| **7** | $T(n) = 2 T(n/2) + n \log n$| 2 | 2 | $n^1$ | $n \log n$ | Case 2 ($k=1$) | $\Theta(n \log^2 n)$ |
-| **8** | $T(n) = 27 T(n/3) + n^3$ | 27| 3 | $n^3$ | $n^3$ | Case 2 ($k=0$) | $\Theta(n^3 \log n)$ |
-| **9** | $T(n) = 2 T(n/2) + \Theta(n)$ | 2 | 2 | $n^1$ | $n$ | Case 2 ($k=0$) | $\Theta(n \log n)$ |
-| **10**| $T(n) = 2 T(n/2) + \frac{n}{\log n}$| 2 | 2 | $n^1$ | $\frac{n}{\log n}$ | **Inapplicable** | Non-polynomially smaller gap |
-
-[Source: DAA_Unit3(a).pptx, Slides 28–41]
+| # | Recurrence Relation | $a$ | $b$ | $n^{\log_b a}$ | $f(n)$ | Master Case | Solution $T(n)$ | Detailed Step-by-Step Explanation |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **1** | $T(n) = 4 T(n/2) + n$ | 4 | 2 | $n^2$ | $n$ | Case 1 | $\Theta(n^2)$ | $f(n) = n = \mathcal{O}(n^{2-1})$ with $\epsilon = 1$. The leaf levels dominate the complexity. |
+| **2** | $T(n) = 4 T(n/2) + n^2$ | 4 | 2 | $n^2$ | $n^2$ | Case 2 ($k=0$) | $\Theta(n^2 \log n)$ | $f(n) = n^2 = \Theta(n^2 \log^0 n)$. Balanced work at all levels. |
+| **3** | $T(n) = 4 T(n/2) + n^3$ | 4 | 2 | $n^2$ | $n^3$ | Case 3 | $\Theta(n^3)$ | $f(n) = n^3 = \Omega(n^{2+1})$ with $\epsilon=1$. Regularity: $4(n/2)^3 = n^3/2 \le \frac{1}{2} n^3$ (holds for $c = 1/2 < 1$). |
+| **4** | $T(n) = 9 T(n/3) + n$ | 9 | 3 | $n^2$ | $n$ | Case 1 | $\Theta(n^2)$ | $f(n) = n = \mathcal{O}(n^{2-1})$ with $\epsilon = 1$. |
+| **5** | $T(n) = T(2n/3) + 1$ | 1 | $3/2$ | $n^0 = 1$ | $1$ | Case 2 ($k=0$) | $\Theta(\log n)$ | $f(n) = 1 = \Theta(1)$. Binary Search equivalent. |
+| **6** | $T(n) = 7 T(n/2) + n^3$ | 7 | 2 | $n^{2.81}$ | $n^3$ | Case 3 | $\Theta(n^3)$ | $f(n) = n^3 = \Omega(n^{2.81 + \epsilon})$ with $\epsilon \approx 0.19$. Regularity: $7(n/2)^3 = \frac{7}{8}n^3 \le c n^3$ holds for $c = 7/8 < 1$. |
+| **7** | $T(n) = 2 T(n/2) + n \log n$| 2 | 2 | $n^1$ | $n \log n$ | Case 2 ($k=1$) | $\Theta(n \log^2 n)$ | $f(n) = n \log^1 n$, matching $n^{\log_b a} \log^k n$ with $k=1$. |
+| **8** | $T(n) = 27 T(n/3) + n^3$ | 27| 3 | $n^3$ | $n^3$ | Case 2 ($k=0$) | $\Theta(n^3 \log n)$ | $f(n) = n^3 = \Theta(n^3 \log^0 n)$. |
+| **9** | $T(n) = 2 T(n/2) + \Theta(n)$ | 2 | 2 | $n^1$ | $n$ | Case 2 ($k=0$) | $\Theta(n \log n)$ | Merge Sort equivalent. |
+| **10**| $T(n) = 2 T(n/2) + \frac{n}{\log n}$| 2 | 2 | $n^1$ | $\frac{n}{\log n}$ | **Inapplicable** | Non-polynomially smaller gap | The ratio $\frac{n^{\log_b a}}{f(n)} = \log n$ is not polynomial (i.e. cannot find constant $\epsilon > 0$ such that $f(n) = \mathcal{O}(n^{1-\epsilon})$). Use Recurrence Tree instead. |
 
 ---
 
@@ -916,15 +921,35 @@ $$
 T(n) = a T(n - b) + \mathcal{O}(n^k) \quad \text{where } a > 0, b > 0, k \ge 0
 $$
 
+#### Step-by-Step Recipe (Checklist)
+1. [ ] **Extract Constants:** Identify $a$, $b$, and the polynomial degree exponent $k$.
+2. [ ] **Select Case based on $a$:**
+   * **Case 1 ($a < 1$):** Work decreases exponentially. The root level dominates:
 $$
-T(n) = \begin{cases} \mathcal{O}(n^k) & \text{if } a < 1 \\ \mathcal{O}(n^{k+1}) & \text{if } a = 1 \\ \mathcal{O}(a^{n/b} \cdot n^k) & \text{if } a > 1 \end{cases}
+T(n) = \Theta(n^k)
+$$
+   * **Case 2 ($a = 1$):** Work is evenly balanced. Multiplied by recursion depth factor:
+$$
+T(n) = \Theta(n^{k+1})
+$$
+   * **Case 3 ($a > 1$):** Work increases exponentially. The leaves dominate:
+$$
+T(n) = \Theta(a^{n/b} \cdot n^k)
 $$
 
-[Source: DAA_Unit3(a).pptx, Slide 42]
+#### Worked Example: Solve $T(n) = T(n-1) + n$
+* **Parameters:** $a=1, b=1, k=1$.
+* **Application:** Matches Case 2 ($a=1$).
+* **Solution:**
+$$
+T(n) = \Theta(n^{1+1}) = \Theta(n^2)
+$$
 
 ---
 
 ### 5.8 Method 8: Recurrence Tree Method
+
+Provides a reliable graphical model to compute the work done at each tree level when algebraic approximations fail.
 
 #### Systematic 6-Step Recurrence Tree Procedure:
 1. **Tree Construction:** Draw nodes representing splitting costs.
@@ -933,10 +958,6 @@ $$
 4. **Leaf Node Count:** Calculate total leaves at level $x$.
 5. **Base-Level Cost:** Calculate cost of leaves $= \text{leaves} \times T(1)$.
 6. **Summation:** Total cost $T(n) = \sum_{i=0}^{x-1} \text{Level}_i + \text{Leaf Cost}$.
-
----
-
-#### Worked Problem 5.7: $T(n) = 2 T(n/2) + n$
 
 ```mermaid
 flowchart TD
@@ -948,64 +969,33 @@ flowchart TD
     R1 --> R22["n/4"]
 ```
 
-1. **Cost by Level:**
-   * Level $0$: $n$
-   * Level $1$: $\frac{n}{2} + \frac{n}{2} = n$
-   * Level $2$: $4 \times \frac{n}{4} = n$
-   * Level $i$: $2^i \times \frac{n}{2^i} = n$
-2. **Depth Determination:** $\frac{n}{2^x} = 1 \implies 2^x = n \implies x = \log_2 n$.
-3. **Total Cost Summation:**
-   $$
-   T(n) = \sum_{i=0}^{\log_2 n - 1} n + \left(n \times T(1)\right) = n \log_2 n + \Theta(n) = \Theta(n \log_2 n)
-   $$
-
-[Source: DAA_Unit3(a).pptx, Slides 43–50]
-
----
-
-#### Worked Problem 5.8: $T(n) = T(n/3) + T(2n/3) + n$
-* **Level 0 Cost:** $n$
-* **Level 1 Cost:** $\frac{n}{3} + \frac{2n}{3} = n$
-* **Level 2 Cost:** $\frac{n}{9} + \frac{2n}{9} + \frac{2n}{9} + \frac{4n}{9} = n$
-* **Tree Depth:** Shortest path terminates at $\log_3 n$; longest path terminates at $\log_{3/2} n$.
-* **Asymptotic Bound:**
-  $$
-  T(n) = \sum_{i=0}^{\log_{3/2} n} n = \Theta(n \log_{3/2} n) = \Theta(n \log n)
-  $$
-
-[Source: DAA_Unit3(a).pptx, Slides 51–52]
+#### Worked Problem 5.7: $T(n) = 2 T(n/2) + n$
+1. **Tree Structure:**
+   * Level 0 node: cost $n$.
+   * Level 1 nodes: 2 nodes, each of cost $n/2$. Sum $= n$.
+   * Level 2 nodes: 4 nodes, each of cost $n/4$. Sum $= n$.
+   * Level $i$ nodes: $2^i$ nodes, each of cost $n/2^i$. Sum $= 2^i \cdot \frac{n}{2^i} = n$.
+2. **Determine Tree Depth:** The problem size at level $x$ is $n/2^x$. We reach the base case when $n/2^x = 1 \implies x = \log_2 n$.
+3. **Number of Leaves:** $2^{\log_2 n} = n$ leaves, each costing $T(1) = \Theta(1)$. Total Leaf Cost $= \Theta(n)$.
+4. **Sum of Levels:**
+$$
+T(n) = \sum_{i=0}^{\log_2 n - 1} n + \Theta(n) = n \log_2 n + \Theta(n) = \Theta(n \log n)
+$$
 
 ---
 
-## 6. In-Depth Analysis of Divide-and-Conquer Sorting Algorithms
+## 6. In-Depth Analysis of Sorting Algorithms
 
-The **Divide-and-Conquer (D&C)** paradigm operates in three phases:
-1. **Divide:** Break problem into smaller subproblems.
-2. **Conquer:** Solve subproblems recursively (or directly if tiny).
-3. **Combine:** Merge subproblem solutions into the final result.
-
-```mermaid
-flowchart TD
-    P[Original Problem Instance Size n] --> D[Divide Step]
-    D --> S1[Subproblem 1 Size n/b]
-    D --> S2[Subproblem 2 Size n/b]
-    S1 --> C1[Conquer & Solve Recursively]
-    S2 --> C2[Conquer & Solve Recursively]
-    C1 --> Comb[Combine Solutions Step]
-    C2 --> Comb
-    Comb --> Sol[Final Correct Output]
-```
-
-[Source: DAA_Unit3(a).pptx, Slide 64; DAA_Unit3(b).pptx, Slide 2]
+In this section, we analyze the performance, operation, pseudocode, and complexity bounds for six fundamental sorting algorithms.
 
 ---
 
-### 6.1 In-Depth Analysis: Merge Sort
+### 6.1 Merge Sort
 
-#### Concept & Operational Strategy
-Merge Sort divides an array into two equal halves, sorts each half recursively, and merges the two sorted halves using an auxiliary array.
+#### Concept & Strategy
+Merge Sort divides an array into two equal halves, recursively sorts each half, and combines the two sorted halves into a single sorted array using temporary buffer arrays.
 
-#### Merge Sort Algorithms (Pseudocode)
+#### Algorithm & Pseudocode
 
 ```python
 def MergeSort(A, p, r):
@@ -1014,21 +1004,18 @@ def MergeSort(A, p, r):
         MergeSort(A, p, q)       # Conquer: Left half T(n/2)
         MergeSort(A, q + 1, r)   # Conquer: Right half T(n/2)
         Merge(A, p, q, r)        # Combine: Merge two sorted sub-arrays O(n)
-```
 
-```python
 def Merge(A, p, q, r):
     n1 = q - p + 1
     n2 = r - q
-    # Create temporary arrays L and R
     L = [0] * (n1 + 1)
     R = [0] * (n2 + 1)
     for i in range(n1):
         L[i] = A[p + i]
     for j in range(n2):
         R[j] = A[q + 1 + j]
-    L[n1] = float('inf') # Sentinel value
-    R[n2] = float('inf') # Sentinel value
+    L[n1] = float('inf') # Sentinel value to simplify boundary check
+    R[n2] = float('inf') # Sentinel value to simplify boundary check
     i = 0
     j = 0
     for k in range(p, r + 1):
@@ -1040,9 +1027,7 @@ def Merge(A, p, q, r):
             j += 1
 ```
 
----
-
-#### Detailed Execution Trace Example: Merge Sort
+#### Detailed Execution Trace Example
 * **Input Array:** `[724, 521, 2, 98, 529, 31, 189, 451]` ($n = 8$)
 
 ```mermaid
@@ -1062,47 +1047,42 @@ flowchart TD
     ML & MR --> Final["Final Sorted Array: [2, 31, 98, 189, 451, 521, 529, 724]"]
 ```
 
-#### Merge Sort Complexity Derivation:
-* **Recurrence:** $T(n) = 2 T(n/2) + \Theta(n)$
-* **Master Theorem Application:** $a = 2, b = 2, f(n) = \Theta(n) \implies n^{\log_2 2} = n^1$. Matches Master Case 2 ($k=0$).
-* **Time Complexity:**
-  * **Worst-Case:** $\Theta(n \log n)$
-  * **Best-Case:** $\Theta(n \log n)$
-  * **Average-Case:** $\Theta(n \log n)$
-* **Space Complexity:** $\Theta(n)$ auxiliary space required for merging arrays.
-
-[Source: DAA_Unit3(b).pptx, Slides 14–20]
+#### Mathematical Complexity Analysis
+* **Recurrence Relation:**
+$$
+T(n) = 2 T(n/2) + \Theta(n)
+$$
+* **Best-Case Complexity:** Even if the array is already sorted, the algorithm splits the array and completes the merging comparisons: $\Theta(n \log n)$.
+* **Worst-Case Complexity:** In all inputs, the recursive tree is perfectly balanced and work done per level remains linear: $\Theta(n \log n)$.
+* **Average-Case Complexity:** $\Theta(n \log n)$.
+* **Auxiliary Space:** $\Theta(n)$ required for the temporary buffer arrays `L` and `R` during the Merge phase.
+* **Stability:** **Stable**; preserves original order of duplicate elements because of the `<=` check in `Merge`.
 
 ---
 
-### 6.2 In-Depth Analysis: Quick Sort
+### 6.2 Quick Sort
 
-#### Concept & Partitioning Strategy
-Quick Sort selects a **pivot** element and partitions the array into two sub-arrays such that all elements left of the pivot are $\le \text{pivot}$ and all elements right are $\ge \text{pivot}$. It then recursively sorts the sub-arrays in-place.
+#### Concept & Strategy
+Quick Sort selects a pivot element and partitions the array into two sub-arrays around that pivot such that all elements left of the pivot are $\le \text{pivot}$ and all elements right are $\ge \text{pivot}$. It recursively sorts the sub-arrays in-place.
 
-#### Quick Sort Algorithms (Pseudocode)
+#### Algorithm & Pseudocode
 
 ```python
 def QuickSort(T, i, j):
     if i < j:
-        # Partition array around pivot, l is final pivot index
-        l = Partition(T, i, j)
-        QuickSort(T, i, l - 1) # Sort left partition
-        QuickSort(T, l + 1, j) # Sort right partition
-```
+        l = Partition(T, i, j) # Partition around pivot, return pivot index
+        QuickSort(T, i, l - 1) # Recursively sort left partition
+        QuickSort(T, l + 1, j) # Recursively sort right partition
 
-```python
 def Partition(T, i, j):
-    p = T[i] # Pivot element chosen as first element
+    p = T[i] # Pivot chosen as first element
     k = i
     l = j + 1
     while True:
-        # Increment k until T[k] > p
         while True:
             k += 1
             if k >= j or T[k] > p:
                 break
-        # Decrement l until T[l] <= p
         while True:
             l -= 1
             if T[l] <= p:
@@ -1111,14 +1091,12 @@ def Partition(T, i, j):
             T[k], T[l] = T[l], T[k] # Swap out-of-order elements
         else:
             break
-    T[i], T[l] = T[l], T[i] # Swap pivot into final position l
+    T[i], T[l] = T[l], T[i] # Place pivot in final correct index l
     return l
 ```
 
----
-
-#### Detailed Execution Trace Example: Quick Sort Partition
-* **Input Array:** `[42, 23, 74, 11, 65, 58, 94, 36, 99, 87]`, $p = 42, i = 0, j = 9$.
+#### Detailed Execution Trace Example (Partition Phase)
+* **Input Array:** `[42, 23, 74, 11, 65, 58, 94, 36, 99, 87]`, pivot $p = 42, i=0, j=9$.
 
 ```mermaid
 flowchart TD
@@ -1129,55 +1107,225 @@ flowchart TD
     PivotSwap --> Result["Partitioned Array: [11, 23, 36, 42, 65, 58, 94, 74, 99, 87] | Pivot Index = 3"]
 ```
 
----
-
-#### Mathematical Analysis of Quick Sort Cases
-
-1. **Worst-Case Analysis:**
-   * **Occurrence:** Occurs when the input array is already sorted or reverse-sorted, causing the pivot to always be the minimum or maximum element.
-   * **Partition Split:** Produces one sub-array of size $n - 1$ and one of size $0$.
-   * **Recurrence:**
-     $$
-     T(n) = T(n-1) + T(0) + \Theta(n) = T(n-1) + \Theta(n)
-     $$
-   * **Unwinding Solution:**
-     $$
-     T(n) = \sum_{k=1}^n k = \frac{n(n+1)}{2} = \Theta(n^2)
-     $$
-
-2. **Best-Case Analysis:**
-   * **Occurrence:** Occurs when the partition step splits the array into two equal halves of size $n/2$.
-   * **Recurrence:**
-     $$
-     T(n) = 2 T(n/2) + \Theta(n)
-     $$
-   * **Solution:** $T(n) = \Theta(n \log n)$.
-
-3. **Average-Case Analysis ($9:1$ Proportional Split):**
-   * **Occurrence:** Even if partitioning consistently produces an unbalanced $9:1$ split:
-   * **Recurrence:**
-     $$
-     T(n) = T\left(\frac{9n}{10}\right) + T\left(\frac{n}{10}\right) + \Theta(n)
-     $$
-   * **Recurrence Tree Solution:** Depth of tree is $\log_{10/9} n = \Theta(\log n)$. Total level cost is $n$.
-   * **Result:** $T(n) = \Theta(n \log n)$.
-
-[Source: DAA_Unit3(b).pptx, Slides 21–30]
+#### Mathematical Complexity Analysis
+* **Worst-Case Recurrence:** Occurs with reverse-sorted or sorted arrays where the pivot is always the minimum or maximum element, yielding $1$ and $n-1$ size splits:
+$$
+T(n) = T(n-1) + T(0) + \Theta(n) = T(n-1) + \Theta(n) \implies \Theta(n^2)
+$$
+* **Best-Case Recurrence:** Occurs with perfectly balanced midpoint pivot selections:
+$$
+T(n) = 2 T(n/2) + \Theta(n) \implies \Theta(n \log n)
+$$
+* **Average-Case Recurrence ($9:1$ Unbalanced Split):**
+$$
+T(n) = T\left(\frac{9n}{10}\right) + T\left(\frac{n}{10}\right) + \Theta(n) \implies \Theta(n \log n)
+$$
+* **Auxiliary Space:** $\mathcal{O}(\log n)$ stack space for recursion.
+* **Stability:** **Unstable**; swaps can disrupt the relative order of equal elements during Partitioning.
 
 ---
 
-### 6.3 Detailed Comparison: Quick Sort vs. Merge Sort
+### 6.3 Insertion Sort
 
-| Feature / Metric | Quick Sort | Merge Sort |
-| :--- | :--- | :--- |
-| **Algorithmic Strategy** | Divide and Conquer (Partitioning around pivot). | Divide and Conquer (Equal splitting & merging). |
-| **Worst-Case Time** | $\Theta(n^2)$ (Sorted/Reverse sorted inputs). | $\Theta(n \log n)$ (Guaranteed). |
-| **Best-Case Time** | $\Theta(n \log n)$ | $\Theta(n \log n)$ |
-| **Average-Case Time** | $\Theta(n \log n)$ | $\Theta(n \log n)$ |
-| **Auxiliary Space** | $\mathcal{O}(\log n)$ (Recursion stack space). | $\Theta(n)$ (Auxiliary array space required for merging). |
-| **In-Place Sorting** | **Yes** (Sorts array elements in-place). | **No** (Requires $O(n)$ temporary memory). |
-| **Stability** | **Unstable** by default. | **Stable** (Preserves relative order of equal elements). |
-| **Practical Performance** | Faster in practice due to small constant factors & cache locality. | Slower constant factors due to array copying. |
+#### Concept & Strategy
+Insertion Sort builds the final sorted array one element at a time. It processes elements sequentially, shifting larger elements to the right to insert the current element into its correct sorted position.
+
+#### Algorithm & Pseudocode
+
+```python
+def InsertionSort(A):
+    for j in range(1, len(A)):
+        key = A[j]
+        i = j - 1
+        while i >= 0 and A[i] > key:
+            A[i + 1] = A[i]
+            i -= 1
+        A[i + 1] = key
+```
+
+#### Detailed Execution Trace Example
+* **Input Array:** `[12, 11, 13, 5, 6]`
+  * **Pass 1 ($j=1, \text{key}=11$):** `11 < 12`, shift `12` to right $\to$ `[11, 12, 13, 5, 6]`.
+  * **Pass 2 ($j=2, \text{key}=13$):** `13 > 12`, no shift $\to$ `[11, 12, 13, 5, 6]`.
+  * **Pass 3 ($j=3, \text{key}=5$):** `5` is smaller than all previous; shift `13, 12, 11` $\to$ `[5, 11, 12, 13, 6]`.
+  * **Pass 4 ($j=4, \text{key}=6$):** Shift `13, 12, 11` $\to$ `[5, 6, 11, 12, 13]`.
+
+#### Mathematical Complexity Analysis
+* **Best-Case Complexity (Already Sorted):** The inner loop condition `A[i] > key` is false immediately on each iteration. Only $n-1$ comparisons occur:
+$$
+T(n) = \Theta(n)
+$$
+* **Worst-Case Complexity (Reverse Sorted):** Every element must be shifted to the left edge:
+$$
+T(n) = \sum_{j=1}^{n-1} j = \frac{n(n-1)}{2} = \Theta(n^2)
+$$
+* **Average-Case Complexity:** Expected fraction of shifts on randomized arrays: $\Theta(n^2)$.
+* **Auxiliary Space:** $\Theta(1)$ (In-place).
+* **Stability:** **Stable**; equal elements are not swapped past each other because the comparison is strictly `A[i] > key`.
+
+---
+
+### 6.4 Selection Sort
+
+#### Concept & Strategy
+Selection Sort divides the array into a sorted and an unsorted region. It repeatedly scans the unsorted region, finds the absolute minimum element, and swaps it with the leftmost unsorted element.
+
+#### Algorithm & Pseudocode
+
+```python
+def SelectionSort(A):
+    n = len(A)
+    for i in range(n - 1):
+        min_idx = i
+        for j in range(i + 1, n):
+            if A[j] < A[min_idx]:
+                min_idx = j
+        A[i], A[min_idx] = A[min_idx], A[i] # Swap minimum element into position
+```
+
+#### Detailed Execution Trace Example
+* **Input Array:** `[64, 25, 12, 22, 11]`
+  * **Pass 1 ($i=0$):** Find min of `[64, 25, 12, 22, 11]` $\to$ `11` (idx 4). Swap with `64` $\to$ `[11, 25, 12, 22, 64]`.
+  * **Pass 2 ($i=1$):** Find min of `[25, 12, 22, 64]` $\to$ `12` (idx 2). Swap with `25` $\to$ `[11, 12, 25, 22, 64]`.
+  * **Pass 3 ($i=2$):** Find min of `[25, 22, 64]` $\to$ `22` (idx 3). Swap with `25` $\to$ `[11, 12, 22, 25, 64]`.
+  * **Pass 4 ($i=3$):** Find min of `[25, 64]` $\to$ `25` (idx 3). Swap with self $\to$ `[11, 12, 22, 25, 64]`.
+
+#### Mathematical Complexity Analysis
+* **Time Complexity (All Cases):** The algorithm executes double nested loops to find the minimum index, independent of the input configuration:
+$$
+T(n) = \sum_{i=0}^{n-2} (n - 1 - i) = \frac{n(n-1)}{2} = \Theta(n^2)
+$$
+  * **Best-Case Complexity:** $\Theta(n^2)$.
+  * **Worst-Case Complexity:** $\Theta(n^2)$.
+  * **Average-Case Complexity:** $\Theta(n^2)$.
+* **Auxiliary Space:** $\Theta(1)$ (In-place).
+* **Stability:** **Unstable**; swapping the minimum element can change the relative order of other equal elements.
+
+---
+
+### 6.5 Bubble Sort
+
+#### Concept & Strategy
+Bubble Sort repeatedly steps through the array, compares adjacent elements, and swaps them if they are in the wrong order. This "bubbles" the maximum unsorted element to its final rightmost position. An optimized flag avoids redundant passes if no swaps occur.
+
+#### Algorithm & Pseudocode
+
+```python
+def BubbleSort(A):
+    n = len(A)
+    for i in range(n):
+        swapped = False
+        for j in range(0, n - i - 1):
+            if A[j] > A[j + 1]:
+                A[j], A[j + 1] = A[j + 1], A[j] # Swap
+                swapped = True
+        if not swapped: # No swaps means array is already sorted
+            break
+```
+
+#### Detailed Execution Trace Example
+* **Input Array:** `[5, 1, 4, 2, 8]`
+  * **Pass 1:** Compare and swap adjacent pairs:
+    * `[5, 1, 4, 2, 8] -> [1, 5, 4, 2, 8]`
+    * `[1, 5, 4, 2, 8] -> [1, 4, 5, 2, 8]`
+    * `[1, 4, 5, 2, 8] -> [1, 4, 2, 5, 8]`
+    * `[1, 4, 2, 5, 8]` (no swap for `5, 8`). Largest element `8` bubbled.
+  * **Pass 2:** `[1, 4, 2, 5, 8] -> [1, 2, 4, 5, 8]`. Element `5` bubbled.
+  * **Pass 3:** No swaps occur on next pass (`swapped` stays `False`), exit immediately.
+
+#### Mathematical Complexity Analysis
+* **Best-Case Complexity (Already Sorted):** The inner loop executes once, does not perform swaps, sets `swapped` to `False`, and terminates early:
+$$
+T(n) = \Theta(n)
+$$
+* **Worst-Case Complexity (Reverse Sorted):** The outer loop runs $n$ times, swapping on every adjacent comparison:
+$$
+T(n) = \sum_{i=0}^{n-1} (n - i - 1) = \Theta(n^2)
+$$
+* **Average-Case Complexity:** $\Theta(n^2)$.
+* **Auxiliary Space:** $\Theta(1)$ (In-place).
+* **Stability:** **Stable**; elements are only swapped if strictly out of order (`A[j] > A[j+1]`).
+
+---
+
+### 6.6 Heap Sort
+
+#### Concept & Strategy
+Heap Sort constructs a **Max-Heap** (a binary tree where parent nodes are greater than or equal to their children). It repeatedly extracts the maximum element (located at the root node) and restores the heap property to the remaining elements.
+
+```
+       Max-Heap Structure:
+             [90]          Parent index i
+            /    \
+         [85]    [70]      Left child: 2i + 1
+         /  \
+      [50]  [30]           Right child: 2i + 2
+```
+
+#### Algorithm & Pseudocode
+
+```python
+def HeapSort(A):
+    n = len(A)
+    # Step 1: Build Max-Heap
+    for i in range(n // 2 - 1, -1, -1):
+        MaxHeapify(A, n, i)
+    # Step 2: Extract elements from heap one-by-one
+    for i in range(n - 1, 0, -1):
+        A[i], A[0] = A[0], A[i] # Swap root (maximum) with last unsorted element
+        MaxHeapify(A, i, 0)     # Restore max-heap on reduced heap size i
+
+def MaxHeapify(A, heap_size, i):
+    largest = i
+    left = 2 * i + 1
+    right = 2 * i + 2
+    if left < heap_size and A[left] > A[largest]:
+        largest = left
+    if right < heap_size and A[right] > A[largest]:
+        largest = right
+    if largest != i:
+        A[i], A[largest] = A[largest], A[i] # Swap
+        MaxHeapify(A, heap_size, largest)   # Recursively heapify affected subtree
+```
+
+#### Detailed Execution Trace Example
+* **Input Array:** `[4, 10, 3, 5, 1]`
+  * **Build Heap Phase:** Run `MaxHeapify` starting from index 1:
+    * Root index 1 (`10`): children `5` and `1`. Satisfied.
+    * Root index 0 (`4`): children `10` and `3`. `10 > 4`, swap them $\to$ `[10, 4, 3, 5, 1]`.
+    * Recursively Heapify index 1 (`4`): children `5` and `1`. `5 > 4`, swap them $\to$ `[10, 5, 3, 4, 1]`.
+    * Result Max-Heap: `[10, 5, 3, 4, 1]`.
+  * **Sorting Phase:**
+    * Swap root `10` with last element `1` $\to$ `[1, 5, 3, 4, 10]`. Heapify reduced heap `[1, 5, 3, 4]` $\to$ `[5, 4, 3, 1, 10]`.
+    * Swap root `5` with `1` $\to$ `[1, 4, 3, 5, 10]`. Heapify `[1, 4, 3]` $\to$ `[4, 1, 3, 5, 10]`.
+    * Swap root `4` with `3` $\to$ `[3, 1, 4, 5, 10]`. Heapify `[3, 1]` $\to$ `[3, 1, 4, 5, 10]`.
+    * Swap root `3` with `1` $\to$ `[1, 3, 4, 5, 10]`. Done.
+
+#### Mathematical Complexity Analysis
+* **Time Complexity (All Cases):**
+  * Building a Max-Heap takes $\mathcal{O}(n)$ time.
+  * Extracting $n$ elements and calling `MaxHeapify` (which takes $\mathcal{O}(\log n)$ time) takes $n \log n$ operations:
+$$
+T(n) = \Theta(n \log n)
+$$
+  * **Best-Case Complexity:** $\Theta(n \log n)$.
+  * **Worst-Case Complexity:** $\Theta(n \log n)$.
+  * **Average-Case Complexity:** $\Theta(n \log n)$.
+* **Auxiliary Space:** $\Theta(1)$ (In-place).
+* **Stability:** **Unstable**; heap sorting operations swap elements across large distances in the heap structure, disrupting their relative order.
+
+---
+
+### 6.7 Detailed Comparison: Sorting Algorithms
+
+| Sorting Algorithm | Best-Case Time | Average-Case Time | Worst-Case Time | Auxiliary Space | In-Place Sorting? | Stable Sort? | Practical Performance Characteristic |
+| :--- | :--- | :--- | :--- | :--- | :---: | :---: | :--- |
+| **Bubble Sort** | $\Theta(n)$ | $\Theta(n^2)$ | $\Theta(n^2)$ | $\Theta(1)$ | Yes | Yes | Very slow. Good only for checking if small arrays are already sorted. |
+| **Insertion Sort**| $\Theta(n)$ | $\Theta(n^2)$ | $\Theta(n^2)$ | $\Theta(1)$ | Yes | Yes | Efficient for tiny datasets ($n < 50$) or nearly-sorted data. |
+| **Selection Sort**| $\Theta(n^2)$ | $\Theta(n^2)$ | $\Theta(n^2)$ | $\Theta(1)$ | Yes | No | Performs minimal array writes, but slow overall due to quadratic comparison count. |
+| **Merge Sort** | $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n)$ | No | Yes | Guarantees $\Theta(n \log n)$ but requires significant auxiliary buffer memory. |
+| **Quick Sort** | $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n^2)$ | $\mathcal{O}(\log n)$ | Yes | No | Fastest in practice due to cache locality and low overhead multipliers. |
+| **Heap Sort** | $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(1)$ | Yes | No | Guarantees $\Theta(n \log n)$ and is strictly in-place; lacks cache locality. |
 
 [Source: DAA_Unit3(b).pptx, Slides 14–30]
 
@@ -1205,8 +1353,12 @@ T(n) = a T(n-b) + \mathcal{O}(n^k) \implies \begin{cases} \mathcal{O}(n^k) & a <
 $$
 
 ### 5. Sorting Complexities
-* **Merge Sort:** Worst = Best = Average = $\Theta(n \log n)$, Space = $\Theta(n)$
+* **Bubble Sort:** Best = $\Theta(n)$, Worst = Average = $\Theta(n^2)$
+* **Insertion Sort:** Best = $\Theta(n)$, Worst = Average = $\Theta(n^2)$
+* **Selection Sort:** Best = Worst = Average = $\Theta(n^2)$
+* **Merge Sort:** Best = Worst = Average = $\Theta(n \log n)$, Space = $\Theta(n)$
 * **Quick Sort:** Worst = $\Theta(n^2)$, Best = Average = $\Theta(n \log n)$, Space = $\mathcal{O}(\log n)$
+* **Heap Sort:** Best = Worst = Average = $\Theta(n \log n)$, Space = $\Theta(1)$
 
 [Source: DAA_Unit2.pptx; DAA_Unit3(a).pptx; DAA_Unit3(b).pptx]
 
@@ -1223,6 +1375,7 @@ $$
 * **Pivot:** Element chosen in Quick Sort around which array elements are partitioned.
 * **In-Place Algorithm:** Algorithm requiring $O(1)$ extra space beyond recursion stack.
 * **Stable Sort:** Sorting algorithm maintaining relative order of equal elements.
+* **Max-Heap:** A complete binary tree where parent node keys are always $\ge$ child node keys.
 
 [Source: DAA_Unit2.pptx; DAA_Unit3(a).pptx; DAA_Unit3(b).pptx]
 
@@ -1231,50 +1384,50 @@ $$
 ## 9. Exam-Oriented Review & Worked Problems (Unit-II)
 
 ### Worked Numerical Problem 2.1
-**Problem:** Solve the non-homogeneous recurrence $T(n) - 7T(n-1) + 12T(n-2) = 4^n$.  
-**Given:** $a_0 = 1, a_1 = -7, a_2 = 12$, $f(n) = 4^n$.  
+**Problem:** Solve the non-homogeneous recurrence $T(n) - 7T(n-1) + 12T(n-2) = 4^n$.
+**Given:** $a_0 = 1, a_1 = -7, a_2 = 12$, $f(n) = 4^n$.
 **Solution Steps:**
-1. **Homogeneous Part:**  
-   $$
+1. **Homogeneous Part:**
+$$
    x^2 - 7x + 12 = 0 \implies (x - 3)(x - 4) = 0 \implies r_1 = 3, r_2 = 4
-   $$  
-   $$
+$$
+$$
    T(n)_h = c_1 (3^n) + c_2 (4^n)
-   $$
-2. **Particular Part:**  
-   Since $a = 4$ is a characteristic root with multiplicity $t = 1$, try $T(n)_p = P \cdot n 4^n$:  
-   $$
+$$
+2. **Particular Part:**
+   Since $a = 4$ is a characteristic root with multiplicity $t = 1$, try $T(n)_p = P \cdot n 4^n$:
+$$
    (P \cdot n 4^n) - 7(P (n-1) 4^{n-1}) + 12(P (n-2) 4^{n-2}) = 4^n
-   $$  
-   Divide by $4^{n-2}$:  
-   $$
+$$
+   Divide by $4^{n-2}$:
+$$
    16 P n - 7 \cdot 4 P (n-1) + 12 P (n-2) = 16
-   $$  
-   $$
+$$
+$$
    16 P n - 28 P n + 28 P + 12 P n - 24 P = 16 \implies 4 P = 16 \implies P = 4
-   $$  
+$$
    Thus, $T(n)_p = 4 \cdot n 4^n = n 4^{n+1}$.
-3. **Total Solution:**  
-   $$
+3. **Total Solution:**
+$$
    T(n) = c_1 (3^n) + c_2 (4^n) + n 4^{n+1}
-   $$
+$$
 
 [Source: DAA_Unit3(a).pptx, Slides 25, 26]
 
 ---
 
 ### Worked Numerical Problem 2.2
-**Problem:** Solve $T(n) = 3 T(n/4) + c n^2$ using the Recurrence Tree method.  
+**Problem:** Solve $T(n) = 3 T(n/4) + c n^2$ using the Recurrence Tree method.
 **Solution Steps:**
 1. **Cost at Level $i$:** $3^i \cdot c \left(\frac{n}{4^i}\right)^2 = c n^2 \left(\frac{3}{16}\right)^i$.
-2. **Total Cost Summation:**  
-   $$
+2. **Total Cost Summation:**
+$$
    T(n) = c n^2 \sum_{i=0}^{\log_4 n - 1} \left(\frac{3}{16}\right)^i + \Theta(n^{\log_4 3})
-   $$
-3. **Geometric Series Evaluation ($\sum_{i=0}^\infty (3/16)^i = \frac{1}{1 - 3/16} = \frac{16}{13}$):**  
-   $$
+$$
+3. **Geometric Series Evaluation ($\sum_{i=0}^\infty (3/16)^i = \frac{1}{1 - 3/16} = \frac{16}{13}$):**
+$$
    T(n) \le \frac{16}{13} c n^2 + \Theta(n^{0.793}) = \Theta(n^2)
-   $$
+$$
 
 [Source: DAA_Unit3(a).pptx, Slide 55]
 
@@ -1285,4 +1438,4 @@ $$
 2. State and prove all three cases of the Master Theorem for Divide-and-Conquer recurrences.
 3. Solve $T(n) = 2 T(n-1) + 1$ using characteristic equations.
 4. Explain the Partitioning algorithm in Quick Sort. Walk through a step-by-step trace of Quick Sort on array `[5, 3, 8, 9, 1, 7, 0, 2, 6, 4]`.
-5. Compare Quick Sort and Merge Sort in terms of worst-case complexity, space complexity, stability, and in-place property.
+5. Compare Quick Sort, Merge Sort, and Heap Sort in terms of worst-case complexity, space complexity, stability, and in-place property.
