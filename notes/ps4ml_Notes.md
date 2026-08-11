@@ -1,5 +1,9 @@
 # Chapter: Probability & Statistics for Machine Learning
 
+## Source map
+
+- `ps4ml.pdf` — primary course presentation file.
+
 ---
 
 ## 1. Introduction and Objectives
@@ -58,11 +62,11 @@ Where:
 flowchart TD
     A[Probability Distributions] --> B[Discrete Distributions PMF]
     A --> C[Continuous Distributions PDF]
-    
+
     B --> B1[Bernoulli: P X=x = p^x 1-p ^1-x]
     B --> B2[Binomial: P X=k = n C k p^k 1-p ^n-k]
     B --> B3[Poisson: P X=k = lambda^k e^-lambda / k!]
-    
+
     C --> C1[Gaussian / Normal Distribution]
     C --> C2[Exponential Distribution]
 ```
@@ -131,6 +135,6 @@ A method of estimating parameters of an assumed probability distribution by maxi
 1. $P(D) = 0.001 \implies P(\neg D) = 0.999$.
 2. $P(+ \mid D) = 0.99$, $P(+ \mid \neg D) = 1 - 0.95 = 0.05$.
 3. Compute total probability of positive test $P(+)$:
-   $$P(+) = P(+ \mid D)P(D) + P(+ \mid \neg D)P(\neg D) = (0.99 \times 0.001) + (0.05 \times 0.999) = 0.00099 + 0.04995 = 0.05094$$
+$$P(+) = P(+ \mid D)P(D) + P(+ \mid \neg D)P(\neg D) = (0.99 \times 0.001) + (0.05 \times 0.999) = 0.00099 + 0.04995 = 0.05094$$
 4. Compute Bayes posterior $P(D \mid +)$:
-   $$P(D \mid +) = \frac{0.00099}{0.05094} \approx 0.01943 \implies 1.94\%$$
+$$P(D \mid +) = \frac{0.00099}{0.05094} \approx 0.01943 \implies 1.94\%$$

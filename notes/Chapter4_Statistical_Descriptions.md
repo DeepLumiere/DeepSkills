@@ -5,6 +5,12 @@
 
 # Chapter 4 — Statistical Descriptions of Data
 
+## Source map
+
+- `4.Statistical Descriptions of Data_new.pdf` — primary course presentation file.
+
+---
+
 ## 1. Chapter Overview
 This chapter provides an exhaustive foundation for the statistical description of data, an essential step in data analysis and preprocessing. Before applying advanced machine learning, deep learning, or data mining algorithms, one must deeply understand the basic characteristics of the data at hand. The core topics include:
 - Measuring the central tendency of data (Mean, Weighted Mean, Trimmed Mean, Median, Mode).
@@ -303,7 +309,7 @@ $$ \chi^2 = \sum_{i} \sum_{j} \frac{(O_{ij} - E_{ij})^2}{E_{ij}} $$
 **Given Dataset:** $\{4, 8, 6, 5, 3\}$
 **Solution / Explanation:**
 1. Calculate the mean:
-   $$ \bar{x} = \frac{4 + 8 + 6 + 5 + 3}{5} = \frac{26}{5} = 5.2 $$
+$$ \bar{x} = \frac{4 + 8 + 6 + 5 + 3}{5} = \frac{26}{5} = 5.2 $$
 2. Calculate the squared deviations $(x_i - \bar{x})^2$:
    - $x_1 = 4: (4 - 5.2)^2 = (-1.2)^2 = 1.44$
    - $x_2 = 8: (8 - 5.2)^2 = (2.8)^2 = 7.84$
@@ -311,11 +317,11 @@ $$ \chi^2 = \sum_{i} \sum_{j} \frac{(O_{ij} - E_{ij})^2}{E_{ij}} $$
    - $x_4 = 5: (5 - 5.2)^2 = (-0.2)^2 = 0.04$
    - $x_5 = 3: (3 - 5.2)^2 = (-2.2)^2 = 4.84$
 3. Sum the squared differences:
-   $$ \sum = 1.44 + 7.84 + 0.64 + 0.04 + 4.84 = 14.8 $$
+$$ \sum = 1.44 + 7.84 + 0.64 + 0.04 + 4.84 = 14.8 $$
 4. Calculate sample variance (divide by $n-1 = 4$):
-   $$ s^2 = \frac{14.8}{4} = 3.7 $$
+$$ s^2 = \frac{14.8}{4} = 3.7 $$
 5. Calculate standard deviation:
-   $$ s = \sqrt{3.7} \approx 1.92 $$
+$$ s = \sqrt{3.7} \approx 1.92 $$
 **Result:** Variance is 3.7, Standard Deviation is $\approx 1.923$.
 
 ### Example 3: Full Five-Number Summary and IQR Fences
@@ -382,7 +388,7 @@ $Y = \{60, 70, 90\}$
    - Female/Reading: $\frac{(40 - 30)^2}{30} = \frac{100}{30} = 3.33$
    - Female/Sports: $\frac{(10 - 20)^2}{20} = \frac{100}{20} = 5.00$
 3. **Sum to get $\chi^2$:**
-   $$ \chi^2 = 3.33 + 5.00 + 3.33 + 5.00 = 16.66 $$
+$$ \chi^2 = 3.33 + 5.00 + 3.33 + 5.00 = 16.66 $$
 **Result:** $\chi^2 = 16.66$. If this value is greater than the critical value from the Chi-square table (for $(2-1)\times(2-1) = 1$ degree of freedom), we reject the null hypothesis and conclude that Gender and Preferred Activity are dependent.
 
 ---
