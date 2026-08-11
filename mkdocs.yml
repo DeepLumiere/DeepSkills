@@ -1,5 +1,5 @@
 site_name: DeepSkills Notes
+site_url: https://deeplumiere.github.io/DeepSkills/
+docs_dir: 'notes'
 theme:
   name: material
-
-docs_dir: 'notes' # Points directly to your notes directory
