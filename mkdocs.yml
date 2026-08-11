@@ -1,56 +1,55 @@
 site_name: DeepSkills
-site_description: Personal notes and documentation
+site_description: DeepSkills Knowledge Base and Engineering Notes
 site_author: DeepLumiere
 site_url: https://deeplumiere.github.io/DeepSkills/
 
-# Repository metadata
 repo_name: DeepLumiere/DeepSkills
 repo_url: https://github.com/DeepLumiere/DeepSkills
 edit_uri: edit/main/notes/
 
-# Directory containing markdown files
 docs_dir: 'notes'
 
 theme:
   name: material
-  language: en
+  font:
+    text: Plus Jakarta Sans
+    code: JetBrains Mono
   
-  # Branding & Visual Options
   palette:
+    # Dark Mode (Default)
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+
     # Light Mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: teal
+      accent: cyan
       toggle:
-        icon: material/brightness-7
+        icon: material/weather-sunny
         name: Switch to dark mode
-    # Dark Mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
 
-  # Features (UI/UX Extensions)
   features:
-    - navigation.instant        # Loads pages without refreshing
-    - navigation.tracking       # Updates URL as you scroll
-    - navigation.tabs           # Top-level navigation tabs
-    - navigation.tabs.sticky    # Keep navigation tabs visible
-    - navigation.sections       # Render sections in sidebar
-    - navigation.expand         # Expand all sections by default
+    - navigation.instant        # Smooth client-side routing
+    - navigation.tracking       # Active header scroll tracking
+    - navigation.sections       # Sidebar folder section headers
+    - navigation.expand         # Automatically expand sidebar items
     - navigation.top            # Back to top button
-    - navigation.footer         # Footer with next/previous links
-    - search.suggest            # Live search auto-completion
-    - search.highlight          # Highlight search terms on page
-    - search.share              # Search term sharing link
+    - navigation.footer         # Next/Prev footer navigation
+    - search.suggest            # Auto-suggest search term completions
+    - search.highlight          # Highlight matching query text
     - content.code.copy         # Copy code block button
-    - content.action.edit       # Edit on GitHub button
+    - content.code.annotate     # In-line code annotations
+    - content.action.edit       # Direct GitHub edit button
 
-# Markdown Extensions (Formatting & Enhancements)
+extra_css:
+  - stylesheets/extra.css
+
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
