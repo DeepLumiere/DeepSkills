@@ -254,7 +254,7 @@ $$
 | **$ALE$** | Pin 30 | Output | **Address Latch Enable:** Positive pulse emitted during $T_1$ of machine cycle to latch lower address byte into external 74LS373 latch. |
 | **$\overline{\text{RD}}$** | Pin 32 | Output (Tri-state) | **Read Control:** Active low signal indicating CPU is reading data from memory or I/O device. |
 | **$\overline{\text{WR}}$** | Pin 31 | Output (Tri-state) | **Write Control:** Active low signal indicating CPU is writing data to memory or I/O device. |
-| **$	ext{IO}/\overline{\text{M}}$** | Pin 34 | Output (Tri-state) | **IO / Memory Status:** Active high indicates I/O operation; Active low indicates Memory operation. |
+| **$\text{IO}/\overline{\text{M}}$** | Pin 34 | Output (Tri-state) | **IO / Memory Status:** Active high indicates I/O operation; Active low indicates Memory operation. |
 | **$S_1, S_0$** | Pins 33, 29 | Output | **Machine Status Signals:** Specify type of active machine cycle (Fetch, Read, Write, Halt). |
 | **$TRAP$** | Pin 6 | Input | Non-maskable highest priority interrupt. Highest priority; level and edge sensitive. Vector: `0024H`. |
 | **$RST 7.5$** | Pin 7 | Input | Maskable interrupt; rising-edge sensitive. Internal flip-flop remembers trigger. Vector: `003CH`. |
@@ -277,7 +277,7 @@ $$
 
 ### Machine Status Signal Decoding Truth Table
 
-| $	ext{IO}/\overline{\text{M}}$ | $S_1$ | $S_0$ | Machine Cycle State | Control Signals Active |
+| $\text{IO}/\overline{\text{M}}$ | $S_1$ | $S_0$ | Machine Cycle State | Control Signals Active |
 | :---: | :---: | :---: | :--- | :--- |
 | **0** | **1** | **1** | Opcode Fetch (OF) | $\overline{\text{RD}} = 0$ |
 | **0** | **1** | **0** | Memory Read (MR) | $\overline{\text{RD}} = 0$ |
@@ -303,6 +303,14 @@ $$
 | **RST 5.5** | 4 | High-Level | Maskable (`SIM`) | `0020H` | Fixed vector ($5.5 \times 8 = 44 = 20\text{H}$) |
 | **INTR** | 5 (Lowest) | High-Level | Maskable (`EI`/`DI`) | Provided Externally | Determined by 8259 or external hardware |
 
+> **CRITICAL EXAM TWISTER (TRAP Triggering Sensitivity):**
+> Why is the **TRAP** interrupt designed to be **both Level and Edge sensitive**?
+> 1. **Edge Sensitivity:** A rising edge is required to trigger and set the internal TRAP latch. This prevents the interrupt from continuously re-triggering and looping indefinitely if the interrupt signal remains high for a long duration.
+> 2. **Level Sensitivity:** The signal must remain high (level sensitive) until the microprocessor completes the execution of the current instruction and samples the interrupt line. This ensures that a very short, spurious noise spike doesn't trigger a false TRAP service routine.
+>
+> **RST 7.5 (Edge-Only):** Uses a positive edge-triggered D flip-flop to store the interrupt request. Thus, the pulse can be very short and doesn't need to be held high. It can be cleared using a `SIM` instruction.
+> **RST 6.5 & 5.5 (Level-Only):** Must be held high until sampled, and must be deactivated before the interrupt service routine ends to avoid re-triggering.
+
 ### Software Restart Instructions (RST 0 to RST 7)
 Formula for Restart Vector Address:
 
@@ -327,6 +335,27 @@ For example, `RST 5` $\rightarrow 5 \times 8 = 40_{10} = 28\text{H} \rightarrow 
    - **2nd $\overline{\text{INTA}}$ Pulse:** 8259 places the low byte of the target Service Routine address onto data bus.
    - **3rd $\overline{\text{INTA}}$ Pulse:** 8259 places the high byte of the target Service Routine address onto data bus.
 4. The 8085 pushes Program Counter (PC) onto stack and jumps to the 16-bit vector address provided by 8259.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Dev as External Devices (IR0-IR7)
+    participant PIC as 8259 PIC
+    participant CPU as 8085/8086 CPU
+    participant Bus as System Data Bus
+
+    Dev->>PIC: Assert Interrupt Request (e.g., IR3)
+    Note over PIC: Check IRR, IMR, & Priority Resolver
+    PIC->>CPU: Raise INTR (Interrupt Request) High
+    Note over CPU: Complete Current Instruction
+    CPU->>PIC: Emit 1st INTA (Interrupt Acknowledge) Pulse
+    PIC->>Bus: Place CALL Opcode (0xCD) on Bus
+    CPU->>PIC: Emit 2nd INTA Pulse
+    PIC->>Bus: Place Low-Byte of ISR Address on Bus
+    CPU->>PIC: Emit 3rd INTA Pulse
+    PIC->>Bus: Place High-Byte of ISR Address on Bus
+    Note over CPU: Push Program Counter (PC) to Stack & Jump to ISR Address
+```
 5. **Cascading Support:** Master 8259 can connect to 8 slave 8259 controllers to manage up to 64 priority hardware interrupts.
 
 [Source: 8085 PPT, Slides 26–34]
@@ -357,7 +386,7 @@ This chapter presents an exhaustive architectural analysis of the Intel 8086 16-
 * **16-bit Microprocessor Architecture:** Contains a 16-bit ALU, 16-bit internal registers, and a 16-bit external data bus ($D_{15} - D_0$).
 * **Physical Addressability:** 20-bit unidirectional address bus ($A_{19} - A_0$) allowing direct addressing of $2^{20} = 1,048,576\text{ bytes} = 1\text{ MB}$ physical memory space.
 * **Operating Clock Frequencies:** Standard 8086 ($5\text{ MHz}$), 8086-2 ($8\text{ MHz}$), 8086-1 ($10\text{ MHz}$).
-* **Dual Operating Modes:** Hardware configurable via pin 33 ($	ext{MN}/\overline{\text{MX}}$):
+* **Dual Operating Modes:** Hardware configurable via pin 33 ($\text{MN}/\overline{\text{MX}}$):
   - **Minimum Mode:** Single-processor system where 8086 generates all bus control signals.
   - **Maximum Mode:** Multiprocessor system utilizing 8288 Bus Controller to generate control signals.
 * **Pipelined Dual-Unit Architecture:** Divided asynchronously into:
@@ -418,6 +447,21 @@ flowchart TD
    - **Register Set:** Contains 8 general/pointer/index registers and 16-bit Flag register.
    - **Asynchronous Operation:** BIU and EU operate independently. While EU executes an instruction, BIU prefetches subsequent instruction bytes, maximizing bus utilization (Pipelining).
    - **Queue Flushing:** When EU encounters a branch/jump/call instruction, the pre-fetched queue bytes are flushed (cleared), and BIU fetches from the new branch target address.
+
+```mermaid
+flowchart TD
+    subgraph BIU [Bus Interface Unit]
+        fetch[Prefetch Instruction Bytes] --> q[6-Byte FIFO Instruction Queue]
+    end
+    subgraph EU [Execution Unit]
+        q -->|Fetch Next Byte| decode[Decode Instruction]
+        decode --> exec[Execute Instruction]
+        exec --> branch{Is Branch/Jump/Call?}
+        branch -->|Yes| flush[Flush / Clear Queue]
+        branch -->|No| cont[Continue Execution]
+    end
+    flush -->|New Target Address| fetch
+```
 
 [Source: 3CS526CC23 8086 Architecture part 1, Slides 6, 7, 18–20]
 
@@ -512,10 +556,59 @@ The 8086 addresses $1\text{ MB}$ ($1,048,576\text{ bytes}$) of physical memory u
 
 ---
 
+### 8086 Physical Memory Organization: Memory Banking
+
+Although the 8086 has a 20-bit address bus to access 1 MB of physical memory, the memory is physically organized as two independent 512 KB banks: the **Even Bank (Low Bank)** and the **Odd Bank (High Bank)**. This allows the 16-bit CPU to access either an 8-bit byte or a 16-bit word in a single bus cycle.
+
+* **Even Bank (Low Bank):** Contains all even-numbered physical addresses (`00000H, 00002H, ... FFFFEH`). Connected to the lower half of the data bus ($D_7 - D_0$). It is enabled when address line $A_0 = 0$.
+* **Odd Bank (High Bank):** Contains all odd-numbered physical addresses (`00001H, 00003H, ... FFFFFH`). Connected to the upper half of the data bus ($D_{15} - D_8$). It is enabled when Bus High Enable ($\overline{\text{BHE}}$) pin is active low ($\overline{\text{BHE}} = 0$).
+
+```mermaid
+flowchart TD
+    subgraph Mem[8086 1 MB Physical Memory Space]
+        subgraph Even[Even Bank / Low Bank<br>Enables D7-D0<br>Activated when A0 = 0]
+            even_mem[512 KB Even Addresses<br>00000H, 00002H, ... FFFFEH]
+        end
+        subgraph Odd[Odd Bank / High Bank<br>Enables D15-D8<br>Activated when BHE = 0]
+            odd_mem[512 KB Odd Addresses<br>00001H, 00003H, ... FFFFFH]
+        end
+    end
+    8086[8086 CPU] -->|BHE Signal| Odd
+    8086 -->|A0 Signal| Even
+```
+
+#### Bank Selection and Alignment Scenarios (Exam Twisters)
+
+The 8086 uses $A_0$ and $\overline{\text{BHE}}$ status signals to select the appropriate memory bank(s) according to this truth table:
+
+| $\overline{\text{BHE}}$ | $A_0$ | Data Bus Width Used | Memory Bank Accessed | Bus Cycles Required |
+| :---: | :---: | :---: | :--- | :---: |
+| **0** | **0** | 16-bit ($D_{15} - D_0$) | Both Banks (Aligned Word access at Even Address) | 1 Cycle |
+| **0** | **1** | 8-bit ($D_{15} - D_8$) | Odd Bank only (Byte access at Odd Address) | 1 Cycle |
+| **1** | **0** | 8-bit ($D_7 - D_0$) | Even Bank only (Byte access at Even Address) | 1 Cycle |
+| **1** | **1** | None (Idle) | No Bank selected | - |
+
+> **CRITICAL EXAM TWISTER (Unaligned Word Access):**
+> If the CPU attempts to read/write a 16-bit word starting at an **odd address** (e.g., `00001H`), it is called an **unaligned word access**. This requires **two consecutive bus cycles**:
+> 1. **First Bus Cycle:** CPU accesses the Odd Bank ($\overline{\text{BHE}}=0, A_0=1$) to read the low byte of the word from `00001H` using $D_{15}-D_8$.
+> 2. **Second Bus Cycle:** CPU accesses the Even Bank ($\overline{\text{BHE}}=1, A_0=0$) to read the high byte of the word from `00002H` using $D_7-D_0$.
+
+[Source: 3CS526CC23 8086 Architecture part 1, Slide 25]
+
+---
+
 ### Physical Address Generation Formula
 
 ### Figure 3.3: 8086 Physical Address Summing Block
 ![Figure 3.3: 8086 Physical Address Summing Block](images/8086_physical_address_generation.png)
+
+```mermaid
+flowchart LR
+    Seg[Segment Register<br>e.g., CS = 3000H] -->|Shift Left 4 Bits<br>Multiply by 10H| Shift[Base Segment Address<br>30000H]
+    Offset[Offset Register<br>e.g., IP = 1234H] --> Add
+    Shift --> Add((20-Bit Adder))
+    Add -->|Sum| PA[Physical Address<br>31234H]
+```
 
 #### Mathematical Formula
 
@@ -535,6 +628,27 @@ Segment Register (16-bit):  [ S3  S2  S1  S0 ] 0H    (Shifted 4 bits left = x 16
 ---------------------------------------------------
 Physical Address (20-bit):  [ P4  P3  P2  P1  P0 ]
 ```
+
+> **CRITICAL EXAM TWISTER (Physical Address Wrap-around in Real Mode):**
+> What happens if the segment and offset combination computes an address exceeding the 1 MB addressable boundary (`FFFFFH`)?
+> For example: $\text{Segment} = \text{FFFFH}$, $\text{Offset} = \text{FFFFH}$.
+
+$$
+\text{Base Segment Address} = \text{FFFFH} \times 10\text{H} = \text{FFFF0H}
+$$
+
+$$
+\text{Physical Address} = \text{FFFF0H} + \text{FFFFH} = \text{10FFEFH}
+$$
+
+> Since the 8086 has only 20 physical address lines ($A_{19} - A_0$), the 21st bit (the leading `1` in `10FFEFH`) is discarded (there is no 21st line).
+> The address **wraps around** to the very beginning of physical memory space, specifically to:
+
+$$
+\text{Wrapped Address} = \text{0FFEFH}
+$$
+
+> This is a classic real-mode memory limitation and an extremely common trick question in university examinations.
 
 ---
 
@@ -586,7 +700,11 @@ Physical Address (20-bit):  [ P4  P3  P2  P1  P0 ]
 **Required:** Physical Address of Top of Stack.  
 **Formula:** $\text{Physical Address} = \text{SS} \times 10\text{H} + \text{SP}$.  
 **Solution Steps:**
-$$\text{Physical Address} = 30000\text{H} + 8434\text{H} = 38434\text{H}$$  
+
+$$
+\text{Physical Address} = 30000\text{H} + 8434\text{H} = 38434\text{H}
+$$
+
 **Final Answer:** Top of Stack Physical Address = `38434H`.
 
 [Source: 3CS526CC23 8086 Architecture part 1, Slides 31, 33]
@@ -603,7 +721,7 @@ $$\text{Physical Address} = 30000\text{H} + 8434\text{H} = 38434\text{H}$$
 1. **$AD_{15} - AD_0$ (Pins 1–16, 39):** Multiplexed Address/Data bus. Carries memory address during $T_1$, and data during $T_2, T_3, T_4$.
 2. **$A_{19}/S_6 - A_{16}/S_3$ (Pins 35–38):** Multiplexed high address lines and system status lines.
 3. **$\overline{\text{BHE}}/S_7$ (Pin 34):** Bus High Enable / Status. Active low signal used to enable upper data byte ($D_{15} - D_8$) on memory bus.
-4. **$	ext{MN}/\overline{\text{MX}}$ (Pin 33):** Minimum / Maximum mode select. High selects Minimum mode; Low selects Maximum mode.
+4. **$\text{MN}/\overline{\text{MX}}$ (Pin 33):** Minimum / Maximum mode select. High selects Minimum mode; Low selects Maximum mode.
 5. **$RD$ (Pin 32):** Read signal. Active low.
 6. **$TEST$ (Pin 23):** Tested by `WAIT` instruction. If low, CPU continues execution; if high, CPU waits.
 7. **$READY$ (Pin 22):** Bus ready input for interfacing slow memories.
@@ -652,13 +770,14 @@ Operand data is encoded directly as part of the machine instruction byte sequenc
 
 - **Formula:** $\text{Operand} = A$
 - **Example:** `MOV AX, 2550H` (Loads immediate word `2550H` into AX).
-- **Important Restriction:** Immediate data **cannot** be loaded directly into Segment Registers (`DS`, `ES`, `SS`, `CS`).  
-  - *Invalid Example:* `MOV DS, 0123H` (**ILLEGAL**).
-  - *Correction:* Must load into general register first, then transfer to DS:
-    ```assembly
-    MOV AX, 0123H
-    MOV DS, AX
-    ```
+> **CRITICAL EXAM WARNING (Segment Register Load Restriction):**
+> Inside the 8086 Instruction Set Architecture, **immediate data cannot be loaded directly into any Segment Register** (`CS`, `DS`, `SS`, `ES`).
+> - *Invalid/Illegal:* `MOV DS, 1000H` (Will result in a compiler/assembler error).
+> - *Correct Workaround:* You must load the immediate value into a 16-bit general purpose register (like `AX`, `BX`, `CX`, `DX`) first, and then copy that register into the target Segment Register:
+>   ```assembly
+>   MOV AX, 1000H   ; Load immediate data into AX
+>   MOV DS, AX      ; Transfer from AX to DS
+>   ```
 
 ---
 
@@ -930,13 +1049,18 @@ Arithmetic instructions perform binary addition, subtraction, multiplication, di
 ### INC (Increment) & DEC (Decrement)
 * **Purpose:** Adds 1 to (INC) or subtracts 1 from (DEC) the operand.
 * **Syntax:** `INC Source`, `DEC Source`
-* **CRITICAL FLAG RULE:** **INC and DEC affect PF, AF, ZF, SF, OF, but DO NOT affect the Carry Flag (CF)!** This preserves CF during loop counters.
+* **CRITICAL FLAG RULE:** **INC and DEC affect PF, AF, ZF, SF, OF, but DO NOT affect the Carry Flag (CF)!**
 * **Constraints:** Operand cannot be immediate data.
 * **Examples:**
   ```assembly
   INC AX               ; Increment AX by 1
   DEC BYTE PTR [5000H] ; Decrement byte in memory location 5000H by 1
   ```
+
+> **CRITICAL EXAM TWISTER (Why INC/DEC do not affect CF):**
+> If you have a loop that performs multi-word additions using `ADC` (Add with Carry), you typically use a register like `SI` or `DI` to point to the array elements, and a loop register like `CX` or `BX` as a counter. After each array addition, you increment the pointer using `INC SI` and decrement the counter using `DEC CX`.
+> If `INC` or `DEC` affected the Carry Flag, they would overwrite the carry status generated by the `ADC` instruction. This would ruin the addition of the next word/byte in the sequence!
+> By leaving CF untouched, the 8086 allows developers to update pointers and counters inside multi-word arithmetic loops without losing valuable carry information.
 
 ---
 
@@ -1219,12 +1343,21 @@ Where:
 
 1. **If $\text{CS} = 24A0\text{H}$ and $\text{IP} = 1082\text{H}$, determine the physical memory address.**  
    *Solution:*
-$$\text{Physical Address} = 24A00\text{H} + 1082\text{H} = 25A82\text{H}$$
+
+$$
+\text{Physical Address} = 24A00\text{H} + 1082\text{H} = 25A82\text{H}
+$$
 
 2. **Find the effective address ($EA$) and physical address for `MOV AX, [BX+SI+0100H]` given $\text{DS} = 3000\text{H}$, $\text{BX} = 0200\text{H}$, $\text{SI} = 0050\text{H}$.**  
    *Solution:*
-$$EA = 0200\text{H} + 0050\text{H} + 0100\text{H} = 0350\text{H}$$
-$$\text{Physical Address} = 30000\text{H} + 0350\text{H} = 30350\text{H}$$
+
+$$
+EA = 0200\text{H} + 0050\text{H} + 0100\text{H} = 0350\text{H}
+$$
+
+$$
+\text{Physical Address} = 30000\text{H} + 0350\text{H} = 30350\text{H}
+$$
 
 ---
 
