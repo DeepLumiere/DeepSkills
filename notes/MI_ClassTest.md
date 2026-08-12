@@ -1,4 +1,4 @@
-# Complete University Textbook Notes: Microprocessors and Interfacing
+# Microprocessors & Interfacing Notes
 
 > **Course Code:** 3CS526CC23  
 > **Course Title:** Microprocessor and Interfacing [3 0 2 4]  
@@ -8,7 +8,7 @@
 
 ---
 
-# Chapter 1 — Introduction to Microprocessors & Assembly Language
+# Chapter 1 — Introduction & Assembly Language
 
 ## Source map
 
@@ -119,7 +119,7 @@ Assembly language operates at the boundary between human-readable software logic
 
 ---
 
-# Chapter 2 — 8085 Microprocessor Architecture, Registers & Interfacing
+# Chapter 2 — 8085 Microprocessor Architecture
 
 ## 1. Chapter Overview
 This chapter presents a comprehensive technical study of the Intel 8085 8-bit microprocessor architecture. It details internal functional blocks, register structures, flag bit states, multiplexed bus operations, timing and status signals, pin functions, hardware interrupt processing, and peripheral interfacing with the 8259 Programmable Interrupt Controller.
@@ -145,7 +145,7 @@ This chapter presents a comprehensive technical study of the Intel 8085 8-bit mi
 
 ---
 
-## 3. Internal Architecture & Functional Block Diagram
+## 3. 8085 Internal Architecture
 
 The internal functional architecture of the Intel 8085 consists of distinct operational blocks:
 
@@ -322,7 +322,7 @@ For example, `RST 5` $\rightarrow 5 \times 8 = 40_{10} = 28\text{H} \rightarrow 
 
 ---
 
-### Interfacing with 8259 Programmable Interrupt Controller (PIC)
+### Interfacing with 8259 PIC
 
 #### Figure 2.6: 8259 Interrupt Controller Block Diagram
 ![Figure 2.6: 8259 Interrupt Controller Block Diagram](images/8259_interrupt_controller.png)
@@ -374,7 +374,7 @@ sequenceDiagram
 
 ---
 
-# Chapter 3 — 8086 Microprocessor Architecture, Memory Segmentation & Encoding
+# Chapter 3 — 8086 Architecture & Memory
 
 ## 1. Chapter Overview
 This chapter presents an exhaustive architectural analysis of the Intel 8086 16-bit microprocessor. It details the dual-core internal organization comprising the Bus Interface Unit (BIU) and Execution Unit (EU), instruction prefetch queuing, 16-bit register structures, flag registers, 1 MB segmented memory organization, physical address calculation formulas, 8086 pin functions, all 7 addressing modes with circuit block diagrams, instruction machine encoding rules, and bus timing characteristics.
@@ -400,7 +400,7 @@ This chapter presents an exhaustive architectural analysis of the Intel 8086 16-
 
 ---
 
-## 3. Internal Architecture: BIU and EU Interaction
+## 3. 8086 BIU and EU Interaction
 
 ### Figure 3.1: 8086 Internal Architecture Diagram
 ![Figure 3.1: 8086 Internal Architecture Diagram](images/8086_internal_architecture.png)
@@ -531,7 +531,7 @@ $$
 
 ---
 
-## 6. Memory Segmentation & Physical Address Calculation
+## 6. Memory Segmentation & Address Calculation
 
 ### Concept of Segmented Memory
 The 8086 addresses $1\text{ MB}$ ($1,048,576\text{ bytes}$) of physical memory using a 20-bit address. However, all internal registers are 16-bit wide. To bridge this gap, memory is organized into logical **Segments**.
@@ -556,7 +556,7 @@ The 8086 addresses $1\text{ MB}$ ($1,048,576\text{ bytes}$) of physical memory u
 
 ---
 
-### 8086 Physical Memory Organization: Memory Banking
+### Memory Banking (Physical Organization)
 
 Although the 8086 has a 20-bit address bus to access 1 MB of physical memory, the memory is physically organized as two independent 512 KB banks: the **Even Bank (Low Bank)** and the **Odd Bank (High Bank)**. This allows the 16-bit CPU to access either an 8-bit byte or a 16-bit word in a single bus cycle.
 
@@ -873,7 +873,7 @@ Combines Base register, Index register, and an optional displacement to compute 
 
 ---
 
-# Chapter 4 — 8086 Instruction Set, Addressing Modes & Programming
+# Chapter 4 — 8086 Instruction Set
 
 ## 1. Chapter Overview
 This chapter provides an exhaustive breakdown of the 8086 microprocessor instruction set. Instructions are classified into functional categories: Data Transfer, Arithmetic, Logical, Shift/Rotate, String Manipulation, Branch/Control Transfer, and Processor Control. Each instruction is detailed with syntax, operational mechanics, flag impacts, constraints, worked code examples, and practical programming patterns.
@@ -1225,7 +1225,7 @@ Branch instructions alter program execution flow by modifying IP (and CS for Far
 
 ---
 
-# Appendix A — Comprehensive Formula Sheet
+# Appendix A — Formula Sheet
 
 ### 1. 8085 Clock Period & T-State Duration
 $$
@@ -1239,7 +1239,7 @@ $$
 $$
 Where $N$ is restart vector number (e.g., $RST 7.5 \rightarrow 7.5 \times 8 = 60_{10} = 003C_H$).
 
-### 3. 8086 Physical Address Calculation (Decimal & Hex Formats)
+### 3. Physical Address Calculation
 $$
 \text{Physical Address} = (\text{Segment Register Value} \times 16_{10}) + \text{Offset Address}
 $$
@@ -1252,7 +1252,7 @@ Where:
 * $\text{Segment Register} \in \{\text{CS}, \text{DS}, \text{SS}, \text{ES}\}$ (16-bit Base Selector).
 * $\text{Offset Address} \in \{\text{IP}, \text{SP}, \text{BP}, \text{BX}, \text{SI}, \text{DI}, \text{Direct Address}\}$ (16-bit Offset).
 
-### 4. 8086 Effective Address ($EA$) Formulas by Addressing Mode
+### 4. Effective Address ($EA$) Formulas
 * **Register:** $EA = R$
 * **Immediate:** $\text{Operand} = A$
 * **Direct:** $EA = A$
@@ -1263,7 +1263,7 @@ Where:
 
 ---
 
-# Appendix B — Comprehensive Definition Sheet
+# Appendix B — Definition Sheet
 
 * **Accumulator:** Primary register used to store inputs and output results of ALU operations.
 * **Address Bus:** Unidirectional bus lines used by CPU to select memory or I/O locations.
@@ -1281,7 +1281,7 @@ Where:
 
 ---
 
-# Appendix C — List of Important Architecture Diagrams
+# Appendix C — Important Diagrams
 
 1. **8085 Block Diagram & Architecture:** [Figure 2.1](images/8085_block_diagram.png), [Figure 2.2](images/8085_internal_architecture.png)
 2. **8085 Flag Register Format:** [Figure 2.4](images/8085_flag_register.png)
@@ -1296,7 +1296,7 @@ Where:
 
 ---
 
-# Appendix D — List of Important Summary Tables
+# Appendix D — Summary Tables
 
 1. Microprocessor Generation Evolution Table (Chapter 1, Section 3)
 2. University Curriculum Practical Matrix (Chapter 1, Section 6)
@@ -1311,7 +1311,9 @@ Where:
 
 ---
 
-# Appendix E — Exam-Oriented Review & Question Bank
+# Appendix E — Exam Review & Questions
+
+> This section provides an **Exam-oriented review** and question bank to test core microprocessor concepts.
 
 ### Section 1: Conceptual & Short Answer Questions
 
