@@ -1,4 +1,4 @@
-# Full Stack Web Development (FSD) — Complete & Exhaustive Study Notes
+# Full Stack Web Development
 
 **Course:** Full Stack Web Development (FSD)  
 **Source Material:** `UNIT-1 Full Stack Development Basics.docx`, `UNIT-1 Full Stack Development Basics.pdf`, `UNIT-2 Frontend Frameworks.docx`  
@@ -6,7 +6,13 @@
 
 ---
 
-# Unit 1 — Full Stack Development Basics
+# Chapter 1 — Full Stack Basics
+
+## Source map
+- `UNIT-1 Full Stack Development Basics.docx` — primary faculty lecture notes.
+- `UNIT-1 Full Stack Development Basics.pdf` — secondary reference slides.
+
+---
 
 ## 1. Chapter Overview
 Unit 1 provides the structural, architectural, and protocol foundation for web application engineering. It spans:
@@ -36,7 +42,7 @@ A **Full Stack Developer** possesses comprehensive domain knowledge across the e
 
 ---
 
-### 2.2 Role Comparison: Front-End vs. Back-End vs. Full Stack
+### 2.2 Role Comparison
 
 | Feature / Dimension | Front-End Developer | Back-End Developer | Full Stack Developer |
 | :--- | :--- | :--- | :--- |
@@ -49,7 +55,7 @@ A **Full Stack Developer** possesses comprehensive domain knowledge across the e
 
 ---
 
-### 2.3 Software Engineer vs. Full Stack Developer
+### 2.3 SE vs. FSD
 
 ```mermaid
 flowchart LR
@@ -68,7 +74,7 @@ flowchart LR
 
 ---
 
-### 2.4 Trade-Off Analysis of Full Stack Development
+### 2.4 Trade-Off Analysis
 
 #### Advantages:
 1. **End-to-End Ownership:** Deep architectural insight into the entire software lifecycle.
@@ -86,7 +92,7 @@ flowchart LR
 
 ---
 
-## 3. The 3-Tier Enterprise Architecture
+## 3. The 3-Tier Architecture
 
 ### 3.1 Structural Architecture
 The 3-Tier Architecture cleanly segregates software application code into three distinct, decoupled tiers.
@@ -99,7 +105,7 @@ flowchart TD
     DataAccess <--> Database[("Database Tier (DBMS)\n[MySQL, PostgreSQL, MongoDB]")]
 ```
 
-### 3.2 Strict Rules of 3-Tier Architecture
+### 3.2 Rules of 3-Tier Architecture
 1. **Absolute Layer Isolation:** Code belonging to a tier must reside exclusively inside that tier's files.
 2. **Strict Cascade Communication:**
    - Presentation Tier talks **only** to Business Tier. It is strictly prohibited from touching the Data Access Tier or Database directly.
@@ -124,7 +130,7 @@ flowchart TD
 
 ---
 
-## 4. Popular Web Development Stacks & Project Contexts
+## 4. Web Stacks & Project Contexts
 
 ### 4.1 Comparative Stack Matrix
 
@@ -178,7 +184,7 @@ flowchart TD
 
 ---
 
-### 5.4 JSON Structural Formats & Code Examples
+### 5.4 JSON Formats & Code Examples
 
 #### A. JSON Object Example
 ```json
@@ -222,11 +228,133 @@ JSON standard **does not support native comments** (`//` or `/* */`). To include
 }
 ```
 
+---
+
+### 5.5 JSON Accessing & Manipulation
+
+To utilize a JSON payload inside JavaScript, it must either be parsed from a string into an active memory JavaScript Object, or accessed using object property navigation if already parsed.
+
+#### A. Dot Notation vs. Bracket Notation
+Once a JSON string is parsed into a JavaScript object (e.g., `const data`), its values can be accessed using:
+1. **Dot Notation (`object.property`):** Best used when the key is a valid JavaScript identifier (no spaces, special characters, or numeric starting digits).
+2. **Bracket Notation (`object["property"]`):** Mandatory when the key contains spaces, hyphens, starts with a number, or is stored inside a variable.
+
+```javascript
+const user = {
+  "first-name": "Alice",
+  "age": 25,
+  "role 2": "Administrator"
+};
+
+// Dot notation
+console.log(user.age); // Output: 25
+
+// Bracket notation
+console.log(user["first-name"]); // Output: Alice
+console.log(user["role 2"]);      // Output: Administrator
+
+// Dynamic key lookup
+const key = "age";
+console.log(user[key]);          // Output: 25
+```
+
+---
+
+#### B. Accessing Complex Nested Structures
+In real-world web APIs, JSON objects are heavily nested with objects containing arrays of other objects. Accessing these requires chaining dot/bracket accessors with index subscripts.
+
+```javascript
+const companyPayload = {
+  "companyName": "TechCorp",
+  "locations": ["New York", "London"],
+  "departments": [
+    {
+      "deptId": 101,
+      "deptName": "Engineering",
+      "manager": { "id": 5, "name": "Sarah" },
+      "employees": [
+        { "id": 1001, "name": "Ram", "skills": ["Node.js", "MongoDB"] },
+        { "id": 1002, "name": "Shyam", "skills": ["React", "CSS"] }
+      ]
+    }
+  ]
+};
+
+// 1. Access the company name
+console.log(companyPayload.companyName); //TechCorp
+
+// 2. Access London from locations array
+console.log(companyPayload.locations[1]); // London
+
+// 3. Access Engineering department's manager name
+console.log(companyPayload.departments[0].manager.name); // Sarah
+
+// 4. Access Shyam's first skill
+console.log(companyPayload.departments[0].employees[1].skills[0]); // React
+```
+
+---
+
+#### C. Parsing vs. Serialization (The JSON API)
+JavaScript provides a global native `JSON` object containing two critical high-performance methods for converting data types:
+
+1. **`JSON.parse(text, reviver)` — Deserialization:**
+   - **Purpose:** Converts a valid JSON text string into a live JavaScript object.
+   - **The `reviver` function:** An optional callback to transform properties while they are being parsed.
+
+   ```javascript
+   const jsonString = '{"name":"Alice","birth":"2000-05-15T00:00:00.000Z"}';
+
+   // Direct Parse
+   const obj = JSON.parse(jsonString);
+   console.log(typeof obj.birth); // "string"
+
+   // Parse with Reviver to instantiate real Date objects automatically
+   const parsedObj = JSON.parse(jsonString, (key, value) => {
+     if (key === "birth") return new Date(value);
+     return value;
+   });
+   console.log(parsedObj.birth instanceof Date); // true
+   ```
+
+2. **`JSON.stringify(value, replacer, space)` — Serialization:**
+   - **Purpose:** Converts a JavaScript object into a valid, flat JSON text string.
+   - **The `replacer` argument:** An optional array or callback to filter or format serialized keys.
+   - **The `space` argument:** A number or string used to insert spacing and linebreaks for pretty-printing.
+
+   ```javascript
+   const employee = {
+     id: 101,
+     name: "Sarah Jones",
+     salary: 95000,
+     role: "Manager"
+   };
+
+   // Simple serialization
+   console.log(JSON.stringify(employee));
+   // Output: '{"id":101,"name":"Sarah Jones","salary":95000,"role":"Manager"}'
+
+   // Pretty-print with 2-space indentation
+   console.log(JSON.stringify(employee, null, 2));
+   /* Output:
+   {
+     "id": 101,
+     "name": "Sarah Jones",
+     "salary": 95000,
+     "role": "Manager"
+   }
+   */
+
+   // Filtered serialization (serialize ONLY name and role attributes)
+   console.log(JSON.stringify(employee, ["name", "role"]));
+   // Output: '{"name":"Sarah Jones","role":"Manager"}'
+   ```
+
 [Source: `UNIT-1 Full Stack Development Basics.docx`, Section 4]
 
 ---
 
-## 6. REpresentational State Transfer (REST) Architecture
+## 6. REST Architecture
 
 ### 6.1 Architectural Definition
 REST is an architectural style that defines constraints for building scalable, resilient, and stateless web services. Systems adhering to REST principles are termed **RESTful**.
@@ -260,7 +388,7 @@ flowchart TD
 
 ---
 
-## 7. RESTful HTTP Communications & Protocol Details
+## 7. REST HTTP Communications
 
 ### 7.1 HTTP Verbs (Operations on Resources)
 
@@ -275,7 +403,7 @@ flowchart TD
 
 ---
 
-### 7.2 Headers & Media Content Types (MIME Types)
+### 7.2 Headers & MIME Types
 The request `Accept` header indicates media types acceptable in response. The response `Content-Type` header informs the client of the returned payload format.
 
 #### MIME Type Structure: `type/subtype`
@@ -340,7 +468,12 @@ Content-Type: application/json
 
 ---
 
-# Unit 2 — Frontend Frameworks & Modern Web UI
+# Chapter 2 — Frontend Frameworks & Modern Web UI
+
+## Source map
+- `UNIT-2 Frontend Frameworks.docx` — primary faculty lecture notes.
+
+---
 
 ## 1. Chapter Overview
 Unit 2 covers front-end web engineering, UI frameworks, responsive visual design, and SPA component architectures:
@@ -353,9 +486,118 @@ Unit 2 covers front-end web engineering, UI frameworks, responsive visual design
 
 ---
 
-## 2. Responsive Web Design (RWD) & Layout Media
+## 2. HTML5 Foundations & Document Structure
 
-### 2.1 Viewport Configuration
+HTML5 is the standard markup language for documents designed to be displayed in a web browser. It provides the semantically structured hierarchy that forms the backbone of all web applications.
+
+### 2.1 HTML5 Document Skeleton
+Every valid HTML5 page begins with a document type declaration followed by a nested tree of structural elements:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Metadata and External Assets -->
+  <meta charset="UTF-8">
+  <title>FSD Learning Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Visible Page Content -->
+  <h1>Welcome to Full Stack Development</h1>
+  <p>Learn end-to-end web engineering.</p>
+  <script src="app.js"></script>
+</body>
+</html>
+```
+
+* **`<!DOCTYPE html>`:** A mandatory preamble that instructs the browser to render the document in standards-compliant mode rather than "quirks mode".
+* **`<html>`:** The root element of the HTML document. The `lang` attribute specifies the language of the page content for accessibility.
+* **`<head>`:** Contains non-visible metadata, charset definitions, responsive viewport settings, page titles, and links to stylesheets.
+* **`<body>`:** Contains all the visible layout elements, headings, text, media, and interactive controls.
+
+---
+
+### 2.2 Block vs. Inline Elements
+HTML layout elements are categorized into two primary display behaviors:
+
+| behavioral Attribute | Block-level Elements | Inline Elements |
+| :--- | :--- | :--- |
+| **Line Flow** | Starts on a new line; forces subsequent elements to flow onto a new line. | Flows inline; does not start on a new line or force line breaks. |
+| **Width & Height** | Automatically fills 100% width of its parent container. Respects `width` and `height` properties. | Takes up only as much width as its content. Ignores `width` and `height` properties. |
+| **Nesting Rules** | Can nest other block-level and inline elements. | Can only nest other inline elements (cannot nest block elements). |
+| **Typical Tags** | `<div>`, `<p>`, `<h1>`-`<h6>`, `<form>`, `<section>`, `<ul>`, `<li>` | `<span>`, `<a>`, `<strong>`, `<em>`, `<label>`, `<img>`, `<input>` |
+
+---
+
+### 2.3 Forms & Input Validation
+HTML `<form>` elements gather user input and submit it to a server for processing.
+
+```html
+<form action="/api/register" method="POST" class="registration-form">
+  <!-- 1. Text Input with length constraints -->
+  <label for="username">Username:</label>
+  <input type="text" id="username" name="username" required minlength="4" maxlength="15">
+
+  <!-- 2. Email Input with native regex pattern matching -->
+  <label for="email">Email Address:</label>
+  <input type="email" id="email" name="email" required>
+
+  <!-- 3. Password Input with customized pattern regex validation -->
+  <label for="password">Password (Min 8 chars, 1 number, 1 uppercase):</label>
+  <input type="password" id="password" name="password" required
+         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+
+  <!-- 4. Select Dropdown Menu -->
+  <label for="role">Select Role:</label>
+  <select id="role" name="role">
+    <option value="student">Student</option>
+    <option value="instructor">Instructor</option>
+  </select>
+
+  <!-- 5. Checkbox terms consent -->
+  <input type="checkbox" id="terms" name="terms" required>
+  <label for="terms">I agree to the Terms of Service</label>
+
+  <button type="submit">Register Account</button>
+</form>
+```
+
+#### Native Constraint Validation Attributes:
+* **`required`:** Prevents form submission if the input field is empty.
+* **`type="email" / type="url"`:** Validates that the input matches standard email or URL syntactic patterns automatically.
+* **`minlength / maxlength`:** Restricts the minimum and maximum character count of text fields.
+* **`min / max`:** Restricts the numeric boundaries for `type="number"` and `type="date"` inputs.
+* **`pattern="..."`:** Specifies a custom Regular Expression (RegEx) that the input value must match to pass validation.
+
+---
+
+### 2.4 Global & Custom Data Attributes
+All HTML elements share certain **global attributes**, but developers can also attach custom metadata:
+
+1. **`id`:** Unique identifier. Must be completely unique within the entire HTML document. Best used for target styling or JS DOM selection.
+2. **`class`:** Non-unique identifier. Used to group multiple elements for shared CSS rules or JS array collection.
+3. **`style`:** Used to apply CSS style rules directly inline on an element (takes specificity precedence).
+4. **`data-*` (Custom Data Attributes):** Allows developers to store custom metadata on standard HTML elements without violating specifications. These can be easily accessed in JavaScript via the `dataset` API.
+
+   ```html
+   <div id="product-card" class="card" data-product-id="4051" data-category="electronics">
+     Product: Smartphone
+   </div>
+
+   <script>
+     const card = document.getElementById("product-card");
+     // Access custom data attributes
+     console.log(card.dataset.productId); // Output: "4051"
+     console.log(card.dataset.category);  // Output: "electronics"
+   </script>
+   ```
+
+---
+
+## 3. Responsive Web Design (RWD) & Layout Media
+
+### 3.1 Viewport Configuration
 To ensure mobile browser engines do not default to desktop rendering scale (~980px viewport width), every responsive web page **must include** the viewport meta tag inside the HTML `<head>`:
 
 ```html
@@ -435,6 +677,234 @@ body {
     font-size: 22px;
     background-color: #e2e8f0;
   }
+}
+```
+
+##### Live Design Preview: Box Sizing Interactive Visualizer
+The iframe below demonstrates the live physical rendering changes when switching between standard `content-box` and `border-box` behaviors:
+
+<iframe srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f8fafc; color: #334155; }
+  .box { width: 200px; height: 100px; background: #3b82f6; border: 10px solid #1d4ed8; padding: 20px; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; text-align: center; transition: all 0.3s; margin-bottom: 20px; }
+  .controls { display: flex; gap: 10px; margin-bottom: 20px; }
+  button { padding: 8px 16px; border: none; background: #1e293b; color: white; border-radius: 4px; cursor: pointer; font-weight: bold; }
+  button.active { background: #3b82f6; }
+</style>
+</head>
+<body>
+  <h3>Live Box Sizing Preview</h3>
+  <div class='controls'>
+    <button id='btnContent' class='active' onclick='setSizing(&quot;content-box&quot;)'>content-box (Default)</button>
+    <button id='btnBorder' onclick='setSizing(&quot;border-box&quot;)'>border-box (Recommended)</button>
+  </div>
+  <div id='demoBox' class='box' style='box-sizing: content-box;'>Width: 200px<br>Padding: 20px<br>Border: 10px</div>
+  <div id='info'>Total Rendered Width: <strong>260px</strong></div>
+  <script>
+    function setSizing(type) {
+      const box = document.getElementById('demoBox');
+      const info = document.getElementById('info');
+      box.style.boxSizing = type;
+      document.getElementById('btnContent').classList.toggle('active', type === 'content-box');
+      document.getElementById('btnBorder').classList.toggle('active', type === 'border-box');
+      if (type === 'content-box') {
+        info.innerHTML = 'Total Rendered Width: <strong>260px</strong> (200 + 40 padding + 20 border)';
+      } else {
+        info.innerHTML = 'Total Rendered Width: <strong>200px</strong> (Padding & Border fit inside width)';
+      }
+    }
+  </script>
+</body>
+</html>
+" style="width: 100%; height: 350px; border: 2px solid #cbd5e1; border-radius: 8px; margin-bottom: 20px;"></iframe>
+
+---
+
+### 2.5 CSS Foundations & Styling Systems
+
+CSS (Cascading Style Sheets) controls the visual presentation, layout, and styling of HTML elements. Understanding its foundational rules is critical for any front-end or full-stack developer.
+
+#### A. CSS Selector Specificity Rules
+CSS uses rules of **specificity** to resolve conflicts when multiple styles target the same element. Specificity is calculated as a 4-part value `(a, b, c, d)`:
+1. **Inline Styles (`style="..."`):** Has the highest weight `(1, 0, 0, 0)`.
+2. **ID Selectors (`#id`):** Weights `(0, 1, 0, 0)`.
+3. **Class, Pseudo-class, and Attribute Selectors (`.class`, `:hover`, `[type="text"]`):** Weights `(0, 0, 1, 0)`.
+4. **Element and Pseudo-element Selectors (`div`, `::before`):** Weights `(0, 0, 0, 1)`.
+
+> **Note on `!important`:** Applying `color: blue !important;` overrides all other specificity selectors. However, its use is heavily discouraged in standard engineering as it breaks cascade inheritance and debugging flow.
+
+```css
+/* Specificity: 0, 0, 0, 1 (Element) */
+p { color: red; }
+
+/* Specificity: 0, 0, 1, 0 (Class) */
+.highlight { color: green; }
+
+/* Specificity: 0, 1, 0, 0 (ID) */
+#main-banner { color: blue; }
+
+/* Combined Specificity: 0, 1, 1, 1 (ID + Class + Element) */
+#main-banner p.highlight { color: purple; }
+```
+
+---
+
+#### B. The CSS Box Model & Sizing
+Every HTML element is modeled as a rectangular box. By default, its dimensions are calculated based on the standard Box Model:
+
+```mermaid
+flowchart TD
+    subgraph BoxModel [The CSS Box Model]
+        margin["Margin (External whitespace)"]
+        border["Border (Boundary edge)"]
+        padding["Padding (Internal buffer whitespace)"]
+        content["Content (The raw text/image)"]
+
+        margin --> border --> padding --> content
+    end
+```
+
+### Formula
+
+$$
+\text{Total Box Width} = \text{width} + \text{left/right padding} + \text{left/right border} + \text{left/right margin}
+$$
+
+### Where
+* $\text{width}$ = Declared content width in CSS.
+* $\text{padding}$ = Buffer whitespace inside the border.
+* $\text{border}$ = Width of boundary edge line.
+* $\text{margin}$ = Margin spacing outside the element.
+
+> **CRITICAL EXAM TWISTER (Box Sizing Rules):**
+> - **`box-sizing: content-box` (Default):** If you set `width: 300px`, `padding: 20px`, and `border: 5px solid`, the **total rendered width** in the browser becomes:
+
+$$
+300 + 40\text{ (padding)} + 10\text{ (border)} = 350\text{px}
+$$
+
+> This causes layouts to break easily when adding padding.
+> - **`box-sizing: border-box` (Standard Best Practice):** Incorporates padding and border inside the declared width. If you set `width: 300px`, the browser automatically shrinks the content zone so the **total rendered width remains exactly 300px**.
+>
+>   ```css
+>   /* Reset Box-Sizing for the entire application */
+>   *, *::before, *::after {
+>     box-sizing: border-box;
+>     margin: 0;
+>     padding: 0;
+>   }
+>   ```
+
+---
+
+#### C. CSS Positioning Layout Modes
+CSS `position` determines the layout coordinate space of an element:
+
+1. **`static` (Default):** Flows naturally in the document order. `top/left/right/bottom` properties have no effect.
+2. **`relative`:** Offset relative to its *original static position* in the normal flow. Other elements do not move to fill the gap.
+3. **`absolute`:** Pulled out of the normal flow. Positioned relative to its **nearest non-static ancestor** (usually a parent set to `position: relative`).
+4. **`fixed`:** Pulled out of normal flow and positioned relative to the **viewport (screen)**. Stays in the exact same place during page scrolling.
+5. **`sticky`:** Hybrid mode. Behaves like `relative` until the viewport scroll reaches a specified threshold (e.g., `top: 0`), where it "sticks" like a `fixed` element.
+
+---
+
+#### D. Flexbox Layout System
+Flexbox is a 1-Dimensional layout system optimized for distributing space and aligning items along a single axis (either row or column).
+
+```css
+.flex-container {
+  display: flex;
+  flex-direction: row;        /* Layout axis: row | row-reverse | column | column-reverse */
+  justify-content: center;    /* Main-axis alignment: flex-start | flex-end | center | space-between | space-around */
+  align-items: center;        /* Cross-axis alignment: flex-start | flex-end | center | stretch | baseline */
+  flex-wrap: wrap;            /* Wrap items: nowrap | wrap | wrap-reverse */
+}
+
+.flex-item {
+  flex-grow: 1;               /* Ability to grow to fill empty space (0 = false) */
+  flex-shrink: 1;             /* Ability to shrink to prevent overflow */
+  flex-basis: 200px;          /* Default size of element before flexing */
+}
+```
+
+##### Live Design Preview: Flexbox Alignment Interactive Visualizer
+The iframe below demonstrates dynamic layout alignments when configuring Flexbox main-axis and cross-axis alignment live:
+
+<iframe srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f8fafc; color: #334155; }
+  .container { display: flex; height: 150px; background: #e2e8f0; border: 2px dashed #cbd5e1; border-radius: 6px; padding: 10px; transition: all 0.3s; }
+  .item { width: 50px; height: 50px; background: #10b981; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px; }
+  .controls { margin-bottom: 15px; display: flex; flex-direction: column; gap: 8px; }
+  select { padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; background: white; font-weight: bold; }
+</style>
+</head>
+<body>
+  <h3>Live Flexbox Layout Preview</h3>
+  <div class='controls'>
+    <label>justify-content (Main Axis):
+      <select id='justifySel' onchange='updateLayout()'>
+        <option value='flex-start'>flex-start</option>
+        <option value='center'>center</option>
+        <option value='flex-end'>flex-end</option>
+        <option value='space-between'>space-between</option>
+        <option value='space-around'>space-around</option>
+      </select>
+    </label>
+    <label>align-items (Cross Axis):
+      <select id='alignSel' onchange='updateLayout()'>
+        <option value='flex-start'>flex-start</option>
+        <option value='center' selected>center</option>
+        <option value='flex-end'>flex-end</option>
+        <option value='stretch'>stretch</option>
+      </select>
+    </label>
+  </div>
+  <div id='flexContainer' class='container' style='justify-content: flex-start; align-items: center;'>
+    <div class='item'>1</div>
+    <div class='item' style='background:#f59e0b;'>2</div>
+    <div class='item' style='background:#ef4444;'>3</div>
+  </div>
+  <script>
+    function updateLayout() {
+      const cont = document.getElementById('flexContainer');
+      cont.style.justifyContent = document.getElementById('justifySel').value;
+      cont.style.alignItems = document.getElementById('alignSel').value;
+    }
+  </script>
+</body>
+</html>
+" style="width: 100%; height: 350px; border: 2px solid #cbd5e1; border-radius: 8px; margin-bottom: 20px;"></iframe>
+
+---
+
+#### E. CSS Grid Layout System
+CSS Grid is a powerful 2-Dimensional layout system optimized for building structured layouts with both rows and columns.
+
+```css
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* 3 equal fractional width columns */
+  grid-template-rows: auto 100px;         /* Row 1 size auto, Row 2 size 100px */
+  gap: 16px;                              /* Row and column gutters */
+}
+
+.grid-item-header {
+  grid-column: 1 / span 3;                /* Span header across all 3 columns */
+}
+
+.grid-item-sidebar {
+  grid-column: 1 / 2;
+}
+
+.grid-item-main {
+  grid-column: 2 / span 2;
 }
 ```
 
@@ -552,6 +1022,181 @@ function drop(event) {
 
 ---
 
+### 3.4 Native HTML5 Geolocation API
+The HTML5 Geolocation API allows the user to share their physical geographic location coordinates with web applications. For privacy reasons, the browser explicitly prompts the user for permission before sharing location coordinates.
+
+#### Core Syntax:
+- **`navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options)`:** Fetches the current location once.
+- **`navigator.geolocation.watchPosition(successCallback, errorCallback, options)`:** Periodically tracks the user's location as it changes.
+
+```html
+<button onclick="getLocation()">Get Coordinates</button>
+<p id="locationDisplay"></p>
+
+<script>
+function getLocation() {
+  const display = document.getElementById("locationDisplay");
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+  } else {
+    display.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  const lat = position.coords.latitude;
+  const lon = position.coords.longitude;
+  document.getElementById("locationDisplay").innerHTML =
+    `Latitude: ${lat} <br>Longitude: ${lon}`;
+}
+
+function showError(error) {
+  const display = document.getElementById("locationDisplay");
+  switch(error.code) {
+    case error.PERMISSION_DENIED:
+      display.innerHTML = "User denied the request for Geolocation.";
+      break;
+    case error.POSITION_UNAVAILABLE:
+      display.innerHTML = "Location information is unavailable.";
+      break;
+    case error.TIMEOUT:
+      display.innerHTML = "The request to get user location timed out.";
+      break;
+    default:
+      display.innerHTML = "An unknown error occurred.";
+  }
+}
+</script>
+```
+
+---
+
+### 3.5 HTML5 Web Storage API
+Web Storage allows applications to store key-value data directly in the browser. This is much faster, more secure, and carries a much larger capacity (~5 MB) compared to HTTP cookies (~4 KB).
+
+#### LocalStorage vs. SessionStorage Comparison:
+
+| Feature / Dimension | LocalStorage | SessionStorage |
+| :--- | :--- | :--- |
+| **Data Persistence** | Persistent. Retained permanently even when the tab, window, or browser is closed. | Temporary. Cleared automatically when the specific browser tab is closed. |
+| **Scope Boundary** | Shared across all tabs and windows of the same origin (protocol + host + port). | Limited to the specific browser tab where it was created. |
+| **Typical Use Cases** | User preferences, persistent theme configurations, offline draft autosaves. | Temporary forms multi-step wizards, single-session data state. |
+
+#### Core API Operations & Syntax:
+All storage keys and values are stored exclusively as **strings**. To store complex JavaScript objects/arrays, they must be converted using `JSON.stringify()` before saving and `JSON.parse()` when retrieving:
+
+```javascript
+// 1. Setting and Getting primitive values
+localStorage.setItem("username", "Alice FSD");
+const user = localStorage.getItem("username");
+console.log(user); // Output: "Alice FSD"
+
+// 2. Storing and retrieving complex structured objects
+const profile = { id: 101, roles: ["User", "Admin"] };
+
+// Serialization required
+localStorage.setItem("userProfile", JSON.stringify(profile));
+
+// Deserialization required
+const savedProfile = JSON.parse(localStorage.getItem("userProfile"));
+console.log(savedProfile.roles[1]); // Output: "Admin"
+
+// 3. Deleting data
+localStorage.removeItem("username"); // Delete specific key
+localStorage.clear();               // Clear entire origin storage
+```
+
+---
+
+### 3.6 HTML5 Canvas API
+The HTML5 `<canvas>` element provides a resolution-dependent coordinate grid space used to draw 2D/3D graphics dynamically via JavaScript scripts.
+
+#### Core Syntax:
+1. Define the canvas element with fixed `width` and `height` attributes (do not use CSS to scale them as it stretches the pixel grid).
+2. Retrieve the 2D rendering context using `canvas.getContext("2d")`.
+3. Invoke draw API paths (`strokeRect`, `beginPath`, `arc`, `fillText`).
+
+```html
+<canvas id="myCanvas" width="400" height="200" style="border:1px solid #000;"></canvas>
+
+<script>
+const canvas = document.getElementById("myCanvas");
+const ctx = canvas.getContext("2d");
+
+// 1. Draw a blue solid rectangle
+ctx.fillStyle = "#3b82f6";
+ctx.fillRect(20, 20, 150, 100);
+
+// 2. Draw a red circle outline
+ctx.beginPath();
+ctx.arc(280, 70, 40, 0, 2 * Math.PI); // x, y, radius, startAngle, endAngle
+ctx.strokeStyle = "#ef4444";
+ctx.lineWidth = 5;
+ctx.stroke();
+
+// 3. Draw solid text
+ctx.font = "24px Arial";
+ctx.fillStyle = "#1e293b";
+ctx.fillText("HTML5 Canvas", 110, 160);
+</script>
+```
+
+---
+
+### 3.7 HTML5 Web Workers API
+In standard web browsers, JavaScript runs inside a single-threaded execution context (the Main Thread). If a script executes a heavy mathematical calculation, the browser tab freezes (lock-up UI).
+**Web Workers** allow scripts to run in background worker threads independently of the main execution thread.
+
+```mermaid
+flowchart LR
+    Main["Main JS Thread (UI, DOM, User Clicks)"]
+    Worker["Background Worker Thread (Heavy Calculation)"]
+
+    Main -->|"1. postMessage(data)"| Worker
+    Worker -->|"2. onmessage (process data)"| Worker
+    Worker -->|"3. postMessage(result)"| Main
+    Main -->|"4. onmessage (render result)"| Main
+```
+
+#### Code Implementation:
+
+1. **The Background Worker Script (`worker.js`):**
+   ```javascript
+   // Listen for message from main thread
+   onmessage = function(e) {
+     const limit = e.data;
+     let sum = 0;
+     // Perform heavy computation
+     for (let i = 1; i <= limit; i++) {
+       sum += i;
+     }
+     // Post result back to main thread
+     postMessage(sum);
+   };
+   ```
+
+2. **The Main Thread Script (`app.js`):**
+   ```javascript
+   // 1. Spawning the background thread worker
+   const myWorker = new Worker("worker.js");
+
+   // 2. Sending calculation task to worker
+   myWorker.postMessage(1000000000); // Pass heavy loop limit
+
+   // 3. Listen for completed result
+   myWorker.onmessage = function(e) {
+     console.log("Calculated Sum result: " + e.data);
+     document.getElementById("output").innerText = e.data;
+
+     // 4. Terminate worker when finished to free memory resources
+     myWorker.terminate();
+   };
+   ```
+
+[Source: `UNIT-2 Frontend Frameworks.docx`, Section 2]
+
+---
+
 ## 4. Bootstrap 5 Framework
 
 ### 4.1 Overview & Bootstrap 5 vs 4 Key Upgrades
@@ -580,7 +1225,7 @@ Bootstrap is an open-source front-end toolkit for responsive layout grid creatio
 
 ---
 
-### 4.3 Bootstrap 5 Container System & Breakpoint Matrix
+### 4.3 Container System
 
 | Container Class | Extra Small (`< 576px`) | Small `sm` (`≥ 576px`) | Medium `md` (`≥ 768px`) | Large `lg` (`≥ 992px`) | X-Large `xl` (`≥ 1200px`) | XXL `xxl` (`≥ 1400px`) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -641,6 +1286,147 @@ Tailwind CSS provides low-level utility classes to compose UI designs directly i
     <p>Card background transforms smoothly to green on mouse hover.</p>
   </div>
 </div>
+```
+
+[Source: `UNIT-2 Frontend Frameworks.docx`, Section 3]
+
+---
+
+### 5.3 JavaScript Core Engineering Concepts
+
+JavaScript is the native, high-performance, single-threaded execution language of the web browser runtime environment. Deeply mastering its core engineering mechanics is essential for any full-stack developer.
+
+#### A. Execution Context and Variable Scope Rules
+The JavaScript engine organizes variable visibility and lifetime inside distinct scoping contexts:
+
+| Scope Type | Keyword | Hoisting Behavior | Re-declaration Allowed? | Scope Boundary |
+| :--- | :---: | :--- | :---: | :--- |
+| **Global / Function** | `var` | Hoisted to top of scope and initialized as `undefined`. | Yes | Bound to enclosing function execution context. Ignores `{}` block levels. |
+| **Block-Bound** | `let` | Hoisted to top of block but uninitialized (placed in Temporal Dead Zone). | No | Bound strictly to enclosing block braces `{}` (loops, conditionals). |
+| **Block-Bound Constant** | `const` | Hoisted to top of block but uninitialized (placed in Temporal Dead Zone). | No | Bound strictly to enclosing block braces `{}`. Reference pointer is immutable. |
+
+```javascript
+// Temporal Dead Zone Example
+// console.log(x); // Throws ReferenceError for let/const
+let x = 10;
+
+// Scope Boundary Example
+function testScope() {
+  if (true) {
+    var functionScoped = "Visible everywhere in function";
+    let blockScoped = "Only visible inside this IF block";
+  }
+  console.log(functionScoped); // Output: "Visible everywhere in function"
+  // console.log(blockScoped); // Throws ReferenceError
+}
+```
+
+---
+
+#### B. JavaScript Closures
+A **closure** is the combination of a function bundled together (enclosed) with references to its surrounding state (the **lexical environment**). In other words, a closure gives an inner function access to the outer function's scope even after the outer function has finished executing.
+
+```javascript
+function createCounter() {
+  let count = 0; // Private outer scope variable
+
+  return {
+    increment: function() {
+      count++;
+      return count;
+    },
+    decrement: function() {
+      count--;
+      return count;
+    }
+  };
+}
+
+const counter = createCounter();
+console.log(counter.increment()); // Output: 1
+console.log(counter.increment()); // Output: 2
+// count is completely encapsulated and cannot be modified directly from outside!
+```
+
+---
+
+#### C. Modern ES6+ Features
+ES6 (ECMAScript 2015) and subsequent standards introduced powerful syntactic sugar and operational features:
+
+1. **Arrow Functions:** Concise anonymous function syntax with **lexical binding of the `this` pointer** (ignores context invocation boundaries).
+2. **Template Literals:** Multi-line string interpolation using backticks (`` ` ``) and dynamic variables (`${var}`).
+3. **Destructuring Assignment:** Unpacks properties of arrays or objects directly into separate variables.
+4. **Spread / Rest Operator (`...`):** Unpacks/packages array/object elements.
+
+```javascript
+// 1. Arrow Functions and Template Literals
+const greet = (name) => `Hello, ${name}!`;
+
+// 2. Destructuring Assignment
+const student = { name: "Alice", gpa: 3.8 };
+const { name, gpa } = student; // Alice, 3.8
+
+// 3. Spread/Rest Operator
+const arr1 = [1, 2];
+const arr2 = [...arr1, 3, 4]; // [1, 2, 3, 4]
+```
+
+---
+
+#### D. Asynchronous JavaScript: Promises & Async/Await
+Since JavaScript is single-threaded, long-running processes (like network API requests or disk reads) must execute asynchronously to prevent the main thread from blocking.
+
+1. **Promises:** Represent the eventual completion (or failure) of an asynchronous operation and its resulting value. Transitions through 3 states: `pending`, `fulfilled` (via `resolve()`), and `rejected` (via `reject()`).
+2. **Async / Await:** Syntactic sugar built on top of Promises to write asynchronous code that reads like sequential, synchronous code.
+
+```javascript
+// 1. Creating a Promise wrapper
+const fetchUserData = (userId) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (userId > 0) {
+        resolve({ id: userId, username: "Alice_FSD" });
+      } else {
+        reject("Invalid User ID");
+      }
+    }, 1000); // Simulate network latency
+  });
+};
+
+// 2. Consuming using Async / Await with Try-Catch error mapping
+async function loadUser() {
+  try {
+    console.log("Fetching user...");
+    const user = await fetchUserData(101); // Pauses execution context until resolved
+    console.log(`Loaded user: ${user.username}`);
+  } catch (error) {
+    console.error(`Error loading user: ${error}`);
+  }
+}
+loadUser();
+```
+
+---
+
+#### E. DOM Manipulation and Event Handlers
+The Document Object Model (DOM) represents the document as a logical tree of elements. JavaScript manipulates this tree dynamically:
+
+```javascript
+// 1. DOM Element Selection
+const btn = document.querySelector("#submit-btn");
+const container = document.querySelector(".content-container");
+
+// 2. Adding Event Listener with dynamic DOM node updates
+btn.addEventListener("click", (event) => {
+  event.preventDefault(); // Halt default form navigation
+
+  // 3. Dynamic element creation and insertion
+  const newItem = document.createElement("p");
+  newItem.className = "alert alert-success";
+  newItem.textContent = "Data successfully saved to DOM tree!";
+
+  container.appendChild(newItem);
+});
 ```
 
 [Source: `UNIT-2 Frontend Frameworks.docx`, Section 3]
@@ -892,7 +1678,7 @@ export default App;
 
 ---
 
-### 7.5 End-to-End Practical Application: Movie Ticket Booking Engine
+### 7.5 Practical App: Movie Ticket Booking
 
 #### Complete Code Implementation (`MovieTicketBooking.js`):
 ```jsx
@@ -1016,7 +1802,7 @@ export default MovieTicketBooking;
 
 ---
 
-# Formula & Technical Rule Sheet
+# Formula & Rule Sheet
 
 ### 1. Viewport Text Sizing Rule
 $$
@@ -1048,7 +1834,7 @@ $$
 
 ---
 
-# Key Glossary of Important Terms
+# Key Glossary
 
 - **3-Tier Architecture:** Software engineering pattern dividing application into Presentation, Business Logic, and Data Access tiers.
 - **REST:** REpresentational State Transfer architectural style for stateless, scalable web service communication.
@@ -1061,7 +1847,9 @@ $$
 
 ---
 
-# Exam-Oriented Review & Likely Questions
+# Exam Review & Questions
+
+> This section provides an **Exam-oriented review** and study questions to test core web engineering concepts.
 
 ### 1. Conceptual & Descriptive Questions
 1. **Explain the 3-Tier Architecture in detail.** Detail the exact rules governing communication between tiers. Why is the Business Tier prohibited from knowing database details?
