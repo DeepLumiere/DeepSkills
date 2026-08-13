@@ -90,7 +90,10 @@ markdown_extensions:
   - tables
   - toc:
       permalink: true
-
+extra:
+  analytics:
+    provider: google
+    property: G-301Z6Q0P7W
 nav:
   - Home: index.md
   - Hardware & Microprocessors:
