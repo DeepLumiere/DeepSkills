@@ -120,11 +120,11 @@ nav:
       - Multivariate Linear Regression: Multivariate_Linear_Regression_Notes.md
       - Regularization: Regularization_Notes.md
       - Prob & Stats for ML: ps4ml_Notes.md
-      - Data Analysis & Visualization:
-          - Ch 1 - Introduction: Chapter1_Introduction_to_DAV.md
-          - Ch 2 - Types of Data: Chapter2_Types_of_Data.md
-          - Ch 3 - Dataset & Attributes: Chapter3_Dataset_and_Attributes.md
-          - Ch 4 - Statistical Descriptions: Chapter4_Statistical_Descriptions.md
-          - Ch 5 - Data Preprocessing: Chapter5_Data_Preprocessing.md
+  - Data Analysis & Visualization:
+      - Ch 1 - Introduction: Chapter1_Introduction_to_DAV.md
+      - Ch 2 - Types of Data: Chapter2_Types_of_Data.md
+      - Ch 3 - Dataset & Attributes: Chapter3_Dataset_and_Attributes.md
+      - Ch 4 - Statistical Descriptions: Chapter4_Statistical_Descriptions.md
+      - Ch 5 - Data Preprocessing: Chapter5_Data_Preprocessing.md
   - Web Development:
       - Full Stack Development: FSD_Complete_Study_Notes.md
