@@ -90,3 +90,41 @@ markdown_extensions:
   - tables
   - toc:
       permalink: true
+
+nav:
+  - Home: index.md
+  - Hardware & Microprocessors:
+      - Microprocessors & Interfacing: MI_ClassTest.md
+  - Algorithms & Networking:
+      - Design & Analysis of Algorithms:
+          - Complete Notes (Unit 1 & 2): DAA_Unit1_and_Unit2_Complete_Notes.md
+          - Unit 1 Notes: DAA_Unit1_Elementary_Algorithmic_Notes.md
+          - Unit 2 Notes: DAA_Unit2_Analysis_of_Algorithms_Notes.md
+      - Computer Networks:
+          - Class Test Complete: CompNet_ClassTest.md
+          - Ch 1 - Introduction: Chapter_1_Introduction.md
+          - Ch 3 - Data Link Layer: Chapter_3_Data_Link_Layer.md
+      - Data Communication:
+          - Chapter 1: DC_Chapter1_Notes.md
+          - Chapter 2: DC_Chapter2_Notes.md
+          - Chapter 3: DC_Chapter3_Notes.md
+          - Chapter 4: DC_Chapter4_Notes.md
+          - Chapter 5: DC_Chapter5_Notes.md
+          - Chapter 6: DC_Chapter6_Notes.md
+          - Chapter 7: DC_Chapter7_Notes.md
+          - Chapter 8: DC_Chapter8_Notes.md
+          - Chapter 10: DC_Chapter10_Notes.md
+  - Machine Learning & Data Science:
+      - Machine Learning Overview: 1Machine_Learning_and_its_Applications_Notes.md
+      - Linear Regression: Linear_Regression_Notes.md
+      - Multivariate Linear Regression: Multivariate_Linear_Regression_Notes.md
+      - Regularization: Regularization_Notes.md
+      - Prob & Stats for ML: ps4ml_Notes.md
+      - Data Analysis & Visualization:
+          - Ch 1 - Introduction: Chapter1_Introduction_to_DAV.md
+          - Ch 2 - Types of Data: Chapter2_Types_of_Data.md
+          - Ch 3 - Dataset & Attributes: Chapter3_Dataset_and_Attributes.md
+          - Ch 4 - Statistical Descriptions: Chapter4_Statistical_Descriptions.md
+          - Ch 5 - Data Preprocessing: Chapter5_Data_Preprocessing.md
+  - Web Development:
+      - Full Stack Development: FSD_Complete_Study_Notes.md
