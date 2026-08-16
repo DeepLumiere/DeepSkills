@@ -439,3 +439,16 @@ $$
 **Q8: Using decimal scaling, normalize the sequence $[-45, 8, 924, -1005]$.**
 **A:** The maximum absolute value is $|-1005| = 1005$. To make it less than $1$, we divide by $10,000$ ($10^4$), so $j=4$.
 Result: $[-0.0045, 0.0008, 0.0924, -0.1005]$.
+
+---
+
+## Source map
+
+| Section / Topic | Source Document & References |
+| :--- | :--- |
+| **Chapter Overview & Fundamentals (Why is Data Dirty)** | `5. data_preprocessing.pdf`, Slides 1–8 |
+| **Data Cleaning: Missing Data Strategies** | `5. data_preprocessing.pdf`, Slides 11–17 |
+| **Data Cleaning: Noisy Data & Binning Methods** | `5. data_preprocessing.pdf`, Slides 18–22 |
+| **Data Integration & Redundancy Analysis ($\chi^2$, Pearson, Covariance)** | `5. data_preprocessing.pdf`, Slides 27–48 |
+| **Data Transformation & Normalization (Min-Max, Z-score, Decimal)** | `5. data_preprocessing.pdf`, Slides 50–57 |
+| **Data Reduction & Discretization (Sturges' Rule)** | `5. data_preprocessing.pdf`, Slides 8, 19–20 |

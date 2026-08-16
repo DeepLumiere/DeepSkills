@@ -176,7 +176,9 @@ When dealing with large datasets, the way data is presented mathematically profo
 **Meaning:** A simple list of individual numerical observations exactly as they were recorded.
 **Formal definition:** A set of observations $X = \{x_1, x_2, \dots, x_N\}$ where each $x_i$ is an individual raw data point.
 **Example:** The ages of 10 students:
-$$X = \{14, 17, 18, 18, 22, 25, 26, 28, 30, 32\}$$
+$$
+X = \{14, 17, 18, 18, 22, 25, 26, 28, 30, 32\}
+$$
 **Advantage:** Retains 100% of the original information precision.
 **Disadvantage:** Very difficult to interpret or identify patterns when the dataset is large ($N > 50$).
 
@@ -185,12 +187,18 @@ $$X = \{14, 17, 18, 18, 22, 25, 26, 28, 30, 32\}$$
 **Components:**
 - **Class Interval $[a, b)$:** The range of values defined by a lower limit $a$ and upper limit $b$.
 - **Class Width ($w$):** The difference between the upper and lower boundaries of a class.
-  $$ w = b - a $$
+  $$
+  w = b - a
+  $$
 - **Midpoint ($x_i$):** The central value of the class interval, used as the representative value for calculations (like the mean).
-  $$ x_i = \frac{a + b}{2} $$
+  $$
+  x_i = \frac{a + b}{2}
+  $$
 - **Frequency ($f_i$):** The number of observations falling into the $i$-th class interval.
 - **Relative Frequency:** The proportion of total observations falling into the class.
-  $$ \text{Relative Frequency} = \frac{f_i}{N} $$
+  $$
+  \text{Relative Frequency} = \frac{f_i}{N}
+  $$
   where $N = \sum f_i$ is the total number of observations.
 - **Cumulative Frequency ($CF$):** The running total of frequencies through the classes.
 
@@ -297,7 +305,7 @@ Imagine you are at a busy airport with passengers checking in, waiting in lounge
   - *Passenger Information Table:* Contains `Passenger ID`, `Name`, `Passport No`, `Flight No`, `SeatNo`, `BoardingTime` (e.g., `P001, Alice, M1234567, AI202, 12A, 18:15`).
 - **Semi-Structured Data:**
   - *Shopping Receipts:* Electronic receipts from duty-free stores in XML/JSON format.
-  - *Check-in Data:* Logs combining structured elements (timestamps) with unstructured errors in an XML `<CheckIn>` tag.
+  - *Check-in Data:* Logs combining structured elements (timestamps) with unstructured errors in XML format.
 - **Unstructured Data:**
   - *Announcements:* Audio files of public address system ("Flight AB123 is now boarding").
   - *Passenger Interactions:* Video files from security cameras.
@@ -361,32 +369,46 @@ At a mall, people are browsing, looking for discounts, filling feedback forms, a
 
 ### 1. Nominal Category Equality
 Determines if two labels are the same.
-$$ x_i = x_j \quad \text{or} \quad x_i \neq x_j $$
+$$
+x_i = x_j \quad \text{or} \quad x_i \neq x_j
+$$
 
 ### 2. Ordinal Rank Ordering
 Determines the strict ordering between two elements.
-$$ x_i > x_j \quad \text{or} \quad x_i < x_j $$
+$$
+x_i > x_j \quad \text{or} \quad x_i < x_j
+$$
 
 ### 3. Interval Difference
 Calculates the exact quantitative difference between two measurements.
-$$ \Delta x = x_i - x_j $$
+$$
+\Delta x = x_i - x_j
+$$
 
 ### 4. Ratio Proportion
 Calculates the multiplicative relationship between two measurements.
-$$ r = \frac{x_i}{x_j} \quad \text{where } (x_j \neq 0) $$
+$$
+r = \frac{x_i}{x_j} \quad \text{where } (x_j \neq 0)
+$$
 
 ### 5. Grouped Data Class Width
 Determines the size of each continuous interval in a frequency distribution.
-$$ w = b - a $$
+$$
+w = b - a
+$$
 Where $b$ is the upper boundary and $a$ is the lower boundary.
 
 ### 6. Grouped Data Midpoint
 Calculates the representative center value of an interval.
-$$ x_i = \frac{a + b}{2} $$
+$$
+x_i = \frac{a + b}{2}
+$$
 
 ### 7. Relative Frequency
 Calculates the proportion of total observations falling into a specific interval.
-$$ \text{Relative Frequency} = \frac{f_i}{N} $$
+$$
+\text{Relative Frequency} = \frac{f_i}{N}
+$$
 Where $f_i$ is the class frequency and $N = \sum f_i$ is the total number of observations.
 
 ---
@@ -420,7 +442,7 @@ Where $f_i$ is the class frequency and $N = \sum f_i$ is the total number of obs
 - Distinguishing between Structured, Semi-Structured, and Unstructured data based on examples.
 - The step-by-step process of KDD.
 
-### Potential Questions
+### Potential Questions & Answers
 
 **Q1: Why is temperature in Celsius classified as Interval scale rather than Ratio scale?**
 **A:** Celsius has an arbitrary zero point ($0^\circ\text{C}$ is merely the freezing point of water, not the total absolute absence of thermal energy). Consequently, ratios are invalid; $40^\circ\text{C}$ is not twice as hot as $20^\circ\text{C}$.
@@ -445,3 +467,16 @@ Where $f_i$ is the class frequency and $N = \sum f_i$ is the total number of obs
 
 **Q8: Explain the difference between primary and secondary data sources.**
 **A:** Primary data sources are original data collected directly for a specific investigation (e.g., door-to-door surveys, personal interviews). Secondary data sources are pre-existing data compiled by others (e.g., Internet databases, books, newspapers).
+
+---
+
+## Source map
+
+| Section / Topic | Source Document & References |
+| :--- | :--- |
+| **Chapter Overview & Sources of Data** | `2.Types of Data.pdf`, Slides 2–3 |
+| **KDD Process Algorithm & Diagram** | `2.Types of Data.pdf`, Slide 4 |
+| **Data Classifications & Stevens' Levels of Measurement** | `2.Types of Data.pdf`, Slides 2–5; Existing Notes |
+| **Grouped vs Ungrouped Data Representation** | `2.Types of Data.pdf`, Slide 15; Existing Notes |
+| **Structured, Semi-Structured, Unstructured Digital Data** | `2.Types of Data.pdf`, Slides 6–12, 21–24 |
+| **Case Studies (Airport, Shopping Mall) & Exercises** | `2.Types of Data.pdf`, Slides 13–25 |

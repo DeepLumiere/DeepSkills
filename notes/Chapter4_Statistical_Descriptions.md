@@ -4,8 +4,6 @@
 > Files Integrated: 4.Statistical Descriptions of Data_new.pdf, ch4_text.txt
 </Complete DAV Notes: Chapter 4 — Statistical Descriptions of Data>
 
-<Chapter 4 — Statistical Descriptions of Data>
-
 # Chapter 4 — Statistical Descriptions of Data
 
 ## 1. Chapter Overview
@@ -246,8 +244,8 @@ You grew 50 baby carrots and measured their lengths to group the results. Comput
 We need dispersion measures because even when two datasets have the same mean and median, they can be very different in spread shape.
 
 **Example of why we need SD:**
-* **Dataset 1:** $44, 46, 48, 45, 47$ $\rightarrow$ Mean = 46, Variance = 2.0, SD = 1.41 (low dispersion)
-* **Dataset 2:** $34, 46, 59, 39, 52$ $\rightarrow$ Mean = 46, Variance = 79.6, SD = 8.92 (high dispersion)
+* **Dataset 1:** $44, 46, 48, 45, 47 \rightarrow$ Mean = 46, Variance = 2.0, SD = 1.41 (low dispersion)
+* **Dataset 2:** $34, 46, 59, 39, 52 \rightarrow$ Mean = 46, Variance = 79.6, SD = 8.92 (high dispersion)
 Both have mean and median of 46, but spread is completely different.
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 29, 40]
 
@@ -298,7 +296,9 @@ $$
 **Given Data:** $[4, 5, 6, 6, 7, 8]$
 
 **Step 1: Mean**
-$$ \bar{x} = \frac{4+5+6+6+7+8}{6} = \frac{36}{6} = 6 $$
+$$
+\bar{x} = \frac{4+5+6+6+7+8}{6} = \frac{36}{6} = 6
+$$
 
 **Step 2: Deviations & Squared Deviations**
 | $x_i$ | $(x_i - \text{mean})$ | $(x_i - \text{mean})^2$ |
@@ -358,11 +358,6 @@ Upper bound = $Q_3 + 12 = 37 + 12 = 49$
 Since $50 > 49$, $50$ is an outlier. The maximum non-outlier whisker goes to $38$.
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 54-57]
 
-**Boxplot Data Sets for Practice:**
-* **Data 1:** $10, 12, 11, 15, 11, 14, 13, 17, 12, 22, 14, 11$
-* **Data 2:** $22, 25, 17, 19, 33, 64, 23, 17, 20, 18$
-[Source: 4.Statistical Descriptions of Data_new.pdf, Slide 63]
-
 ---
 
 ## 8. Distribution Shape and Skewness
@@ -379,12 +374,9 @@ Since $50 > 49$, $50$ is an outlier. The maximum non-outlier whisker goes to $38
 **Mean:** $\frac{63}{10} = 6.3$
 **Median:** Average of 5th and 6th values = $\frac{6+7}{2} = 6.5$
 **Mode:** $7$ appears 4 times.
-**Conclusion:** $6.3 < 6.5 < 7$ $\rightarrow$ Mean $<$ Median $<$ Mode.
+**Conclusion:** $6.3 < 6.5 < 7 \rightarrow$ Mean $<$ Median $<$ Mode.
 This data is **negatively skewed (left-skewed)**.
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 50-53]
-
-*Note on Skewness in Boxplots:* The position of the median line inside the box and the relative length of the whiskers can visually indicate skewness.
-[Source: 4.Statistical Descriptions of Data_new.pdf, Slide 58]
 
 ---
 
@@ -403,12 +395,6 @@ This data is **negatively skewed (left-skewed)**.
 | **Frequency** | Numerical data points falling within each bin. Height of bar. |
 | **Density** | Frequency divided by bin width. Used to normalize datasets of different sizes. |
 
-### Histogram Uses
-1. Shape of distribution (normal, skewed, bimodal).
-2. Central tendency (where values cluster).
-3. Spread/variability.
-4. Outliers or gaps.
-
 ### Histogram vs. Bar Graph
 
 | Feature | Bar Graph | Histogram |
@@ -418,7 +404,6 @@ This data is **negatively skewed (left-skewed)**.
 | **Significance of Bar Width** | No special significance | Represents interval or bin |
 | **Spacing between bars** | Bars separated with equal spaces | Bars touch each other |
 
-Histograms often tell more than boxplots. Two datasets might share the exact same five-number summary (same boxplot) but have completely different internal distributions visible on a histogram.
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 65-72]
 
 ---
@@ -435,29 +420,12 @@ A continuous probability distribution representing data that is symmetrical, wit
 4. Total Area = 1 (100%).
 5. Tails never touch the X-axis.
 
-| Symbol | Meaning | Example |
-| :--- | :--- | :--- |
-| $f(x)$ | Probability density at value $x$ | Height of curve |
-| $x$ | Observation | Scored 75 marks |
-| $\mu$ | Mean | Average = 70 |
-| $\sigma$ | Standard deviation | 10 marks |
-| $\pi$ | Constant $\approx 3.1416$ | |
-| $e$ | Euler's number $\approx 2.718$ | |
-
 ### Z-Scores
 
 Z-score measures how many standard deviations a point is from the mean.
 * $z=0$: Data point equals mean.
-* $z>0$: Above average.
-* $z<0$: Below average.
-
-**Theoretical Z-Scores (Standard):**
-Pre-defined values based on percentiles:
-* 0% = -3.0
-* 10% = -1.28
-* 50% = 0
-* 90% = 1.28
-* 100% = 3.0
+* $z > 0$: Above average.
+* $z < 0$: Below average.
 
 **Actual Z-Score Formula:**
 $$
@@ -465,12 +433,7 @@ z = \frac{x - \bar{x}}{s}
 $$
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 76-84]
 
-### Quantile Plot
-
-Displays all data to assess overall behavior. Each value $x_i$ (sorted) is paired with $f_i$, indicating that approximately $100f_i\%$ of data are $\le x_i$.
-[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 85-86]
-
-### Q-Q Plot (Quantile-Quantile)
+### Quantile Plot & Q-Q Plot (Quantile-Quantile)
 
 Graphs quantiles of one distribution against corresponding quantiles of another (or a theoretical normal distribution) to determine if they come from the same population.
 
@@ -488,7 +451,6 @@ Mean $\bar{x} = 5.52$. SD $s = 1.108$.
 * $3.77 \rightarrow -1.49$
 * $5.79 \rightarrow 0.23$
 * $7.19 \rightarrow 1.42$
-*(Calculated for all values)*
 
 **Step 4: Percentile Rank**
 Formula: $\frac{i - 0.5}{n}$
@@ -505,67 +467,44 @@ Formula: $\frac{i - 0.5}{n}$
 Points plotted as $(Theoretical Z, Actual Z)$. If data is normal, points align along the $y=x$ reference line.
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 91-96]
 
-### Scatter Plot
-
-Provides a first look at bivariate data to see clusters, positive/negative correlation, and uncorrelated data. Each pair of values is treated as coordinates $(x,y)$.
-[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 73-75]
-
-### When to Use What Plot
-
-| Question | Use This Plot | X-axis | Y-axis |
-| :--- | :--- | :--- | :--- |
-| Compare categories | **Bar Chart** | Category | Numerical Value |
-| Distribution of one variable | **Histogram** | Numerical intervals | Frequency |
-| Trend over time | **Line Chart** | Time | Numerical Value |
-| Relationship between 2 variables | **Scatter Plot** | Numerical Var 1 | Numerical Var 2 |
-| Parts of a whole | **Pie Chart** | Categories | Percentage |
-| Median, quartiles, outliers | **Box Plot** | Category | Numerical Value |
-| Value at every percentile | **Quantile Plot**| Percentiles | Data Values |
-| Compare 2 distributions / normality| **Q-Q Plot** | Quantiles of Data 1 | Quantiles of Data 2 |
-[Source: 4.Statistical Descriptions of Data_new.pdf, Slide 98]
-
-### Data Visualization Categories
-
-1. Pixel-oriented visualization
-2. Geometric projection visualization
-3. Icon-based visualization
-4. Hierarchical visualization
-[Source: 4.Statistical Descriptions of Data_new.pdf, Slide 99]
-
 ---
 
 ## Formula Sheet
 
 ### 1. Ungrouped Mean
 $$
-\bar{x} = \frac{1}{n}\sum x_i
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i
 $$
 
-### 2. Grouped Median
+### 2. Grouped Mean
+$$
+\bar{x} = \frac{\sum_{i=1}^{k} f_i x_i}{N}
+$$
+
+### 3. Grouped Median
 $$
 M_e = L + \left[ \frac{\frac{N}{2} - B}{G} \right] \times w
 $$
-Where $L$ is lower boundary, $B$ is cumulative freq before, $G$ is freq of median class, $w$ is width.
 
-### 3. Grouped Mode
+### 4. Grouped Mode
 $$
 M_o = L + \left[ \frac{f_m - f_{m-1}}{2f_m - f_{m-1} - f_{m+1}} \right] \times w
 $$
 
-### 4. Variance and Standard Deviation
+### 5. Variance and Standard Deviation
 $$
-s^2 = \frac{\sum (x_i - \bar{x})^2}{n} \quad (\text{or } n-1 \text{ for sample})
+s^2 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n} \quad (\text{or } n-1 \text{ for sample})
 $$
 $$
 s = \sqrt{s^2}
 $$
 
-### 5. Actual Z-Score
+### 6. Actual Z-Score
 $$
 z = \frac{x - \bar{x}}{s}
 $$
 
-### 6. Percentile Rank for Q-Q Plot
+### 7. Percentile Rank for Q-Q Plot
 $$
 \text{Percentile} = \frac{i - 0.5}{n}
 $$
@@ -580,25 +519,50 @@ $$
 * **Interquartile Range (IQR):** Difference between $Q_3$ and $Q_1$, spread of the middle 50%.
 * **Histogram:** Graph of tabulated frequencies using area of adjacent bars.
 * **Q-Q Plot:** Plot comparing quantiles of two distributions to test similarity or normality.
-* **Skewness:** Asymmetry of distribution (Positively skewed if Mean > Median > Mode).
+* **Skewness:** Asymmetry of distribution (Positively skewed if Mean $>$ Median $>$ Mode).
 * **Normal Distribution:** Bell-shaped, symmetric distribution where Mean = Median = Mode.
 
 ---
 
 ## Exam-Oriented Review
 
-**Important Concepts to Understand:**
-* Difference between central tendency and dispersion.
-* Impact of outliers on mean vs median.
-* Grouped vs ungrouped data calculations.
-* Differences between Bar Graph and Histogram.
-* Constructing and interpreting a Q-Q Plot and identifying theoretical vs actual Z-scores.
+### Important Questions & Model Answers
 
-**Potential Questions:**
-1. Given a dataset, calculate the five-number summary and determine if there are any outliers.
-2. Calculate the variance and standard deviation for a given set of die rolls.
-3. If Mean = 6.3, Median = 6.5, and Mode = 7, describe the shape of the distribution. (Answer: Negatively skewed).
-4. Explain the steps to create a Q-Q plot and what the $y=x$ line represents.
-5. Provide the formula for the grouped median and define each term.
+**Q1: Given a dataset $\{25, 28, 29, 29, 30, 34, 35, 35, 37, 38, 50\}$, calculate the five-number summary and identify any outliers.**
+**A:**
+1. Sorted Data ($n=11$): $25, 28, 29, 29, 30, 34, 35, 35, 37, 38, 50$
+2. Minimum = $25$, Maximum = $50$
+3. Median = 6th term = $34$
+4. $Q_1$ (lower half median) = $29$, $Q_3$ (upper half median) = $37$
+5. $IQR = Q_3 - Q_1 = 37 - 29 = 8$
+6. Upper fence = $Q_3 + 1.5 \times IQR = 37 + 12 = 49$. Since $50 > 49$, $50$ is an outlier.
+7. Lower fence = $Q_1 - 1.5 \times IQR = 29 - 12 = 17$. No lower outliers.
+**Five-Number Summary:** Min = $25$, $Q_1 = 29$, Median = $34$, $Q_3 = 37$, Max = $50$ (Outlier: $50$).
 
-</Chapter 4 — Statistical Descriptions of Data>
+**Q2: Calculate the variance and standard deviation for a fair die roll ($X = \{1, 2, 3, 4, 5, 6\}$).**
+**A:** Mean $\bar{x} = 3.5$.
+Variance $\sigma^2 = \frac{1}{6} \sum (x_i - 3.5)^2 = \frac{1}{6} (6.25 + 2.25 + 0.25 + 0.25 + 2.25 + 6.25) = \frac{17.5}{6} \approx 2.917$.
+Standard Deviation $\sigma = \sqrt{2.917} \approx 1.708$.
+
+**Q3: If Mean = 6.3, Median = 6.5, and Mode = 7, describe the shape of the distribution.**
+**A:** Since Mean $<$ Median $<$ Mode, the tail of the distribution extends to the left, which indicates that the data is **negatively skewed (left-skewed)**.
+
+**Q4: Explain the steps to construct a Q-Q Plot and what alignment along the $y=x$ line implies.**
+**A:**
+1. Sort data in ascending order and assign ranks $i = 1, \dots, n$.
+2. Calculate empirical percentiles using $f_i = \frac{i - 0.5}{n}$.
+3. Find theoretical z-scores corresponding to these percentiles from standard normal distribution.
+4. Calculate actual z-scores using sample mean and standard deviation.
+5. Plot (Theoretical Z, Actual Z). Points aligning along the $y=x$ reference line imply that the sample dataset comes from a normal distribution.
+
+---
+
+## Source map
+
+| Section / Topic | Source Document & References |
+| :--- | :--- |
+| **Chapter Overview & Fundamental Concepts** | `4.Statistical Descriptions of Data_new.pdf`, Slides 2–4 |
+| **Central Tendency (Ungrouped & Grouped)** | `4.Statistical Descriptions of Data_new.pdf`, Slides 5–28 |
+| **Dispersion (Range, Quantiles, Variance, SD)** | `4.Statistical Descriptions of Data_new.pdf`, Slides 29–48 |
+| **Boxplots, Skewness, Histograms** | `4.Statistical Descriptions of Data_new.pdf`, Slides 49–72 |
+| **Normal Distribution, Z-Scores, Quantile & Q-Q Plots** | `4.Statistical Descriptions of Data_new.pdf`, Slides 73–99 |

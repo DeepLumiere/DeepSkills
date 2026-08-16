@@ -94,8 +94,8 @@ graph TD
 ### 3. Ordinal Attributes
 **Meaning:** Ordered categories where the interval or distance between them is unknown. They are treated as categorical, but the numbers have mathematical meaning purely in their ordering.
 **Example:** 
-- Size: Small < Medium < Large
-- Grades: A+ > A > B+
+- Size: Small $<$ Medium $<$ Large
+- Grades: A+ $>$ A $>$ B+
 - Satisfaction Level: 0 = Very Dissatisfied, 1 = Dissatisfied, 2 = Neutral, 3 = Satisfied, 4 = Very Satisfied.
 - Restaurant Rating: Scale from 0 to 4 stars.
 [Source: 3.Dataset and Attributes.pdf, Slide 7, 36]
@@ -214,7 +214,7 @@ Data where the order of attributes matters in time or space.
 - **Time Series Data:** Measured at regular time intervals. 
   - *Example:* Stock price (Day 1: ₹150, Day 2: ₹152, Day 3: ₹147). Used in finance, weather.
 - **Spatial Data:** Location-based attributes tied to geographical coordinates. 
-  - *Example:* (Lat: 23.5, Long: 72.6) → 30°C. Used in GIS, urban planning.
+  - *Example:* (Lat: 23.5, Long: 72.6) $\rightarrow$ 30°C. Used in GIS, urban planning.
 [Source: 3.Dataset and Attributes.pdf, Slides 26-30]
 
 ---
@@ -241,7 +241,7 @@ Data where the order of attributes matters in time or space.
 [Source: 3.Dataset and Attributes.pdf, Slide 43]
 
 **Example: Student Spreadsheet Combining All Three**
-- **Dimensionality:** Number of fields per student (ID, name, age, score) → number of columns.
+- **Dimensionality:** Number of fields per student (ID, name, age, score) $\rightarrow$ number of columns.
 - **Sparsity:** Number of empty cells (e.g., missing assignments).
 - **Resolution:** Are marks given as whole numbers (78) or with decimals (78.56)?
 [Source: 3.Dataset and Attributes.pdf, Slide 44]
@@ -279,6 +279,8 @@ An $m \times n$ matrix contains $m$ rows (objects) and $n$ columns (features/att
 
 ## Exam-Oriented Review
 
+### Important Concepts & Answers
+
 **Q1: What is the Curse of Dimensionality?**
 **A:** When a dataset has a high number of attributes, data becomes sparse and less meaningful, making it extremely difficult to analyze. Distance measures lose contrast as dimensions increase.
 
@@ -293,3 +295,14 @@ An $m \times n$ matrix contains $m$ rows (objects) and $n$ columns (features/att
 
 **Q5: Provide an example that illustrates dimensionality, sparsity, and resolution.**
 **A:** In a student spreadsheet: Dimensionality is the number of columns (ID, Name, Age, Marks). Sparsity is the number of empty cells (e.g., missing homework grades). Resolution is whether marks are recorded as whole numbers (78) or with decimals (78.56).
+
+---
+
+## Source map
+
+| Section / Topic | Source Document & References |
+| :--- | :--- |
+| **Chapter Overview & Fundamental Concepts** | `3.Dataset and Attributes.pdf`, Slides 1–3 |
+| **Attribute Taxonomy (Nominal, Binary, Ordinal, Numeric)** | `3.Dataset and Attributes.pdf`, Slides 5–11, 31–39 |
+| **Dataset Types & Matrix Formats (Record, Graph, Ordered, DTM)** | `3.Dataset and Attributes.pdf`, Slides 12–30 |
+| **Dataset Characteristics (Dimensionality, Sparsity, Resolution)** | `3.Dataset and Attributes.pdf`, Slides 41–44 |
