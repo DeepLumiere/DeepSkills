@@ -187,18 +187,18 @@ $$
 **Components:**
 - **Class Interval $[a, b)$:** The range of values defined by a lower limit $a$ and upper limit $b$.
 - **Class Width ($w$):** The difference between the upper and lower boundaries of a class.
-  $$
+$$
   w = b - a
-  $$
+$$
 - **Midpoint ($x_i$):** The central value of the class interval, used as the representative value for calculations (like the mean).
-  $$
+$$
   x_i = \frac{a + b}{2}
-  $$
+$$
 - **Frequency ($f_i$):** The number of observations falling into the $i$-th class interval.
 - **Relative Frequency:** The proportion of total observations falling into the class.
-  $$
+$$
   \text{Relative Frequency} = \frac{f_i}{N}
-  $$
+$$
   where $N = \sum f_i$ is the total number of observations.
 - **Cumulative Frequency ($CF$):** The running total of frequencies through the classes.
 

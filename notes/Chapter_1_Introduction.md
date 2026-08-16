@@ -146,7 +146,11 @@ Networking prefixes are decimal: $\mathrm{K}=10^3$, $\mathrm{M}=10^6$, $\mathrm{
 
 ## 8. Formula and definition sheet
 
-$$T_{\mathrm{tx}}=\frac{L}{R}\qquad T_{\mathrm{prop}}=\frac{d}{v}\qquad \mathrm{BDP}=R\times\mathrm{RTT}$$
+
+$$
+T_{\mathrm{tx}}=\frac{L}{R}\qquad T_{\mathrm{prop}}=\frac{d}{v}\qquad \mathrm{BDP}=R\times\mathrm{RTT}
+$$
+
 
 - **Encapsulation:** add each layer's control information while moving downward.
 - **Protocol:** peer-to-peer communication rules.

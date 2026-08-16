@@ -427,15 +427,15 @@ Estimates the central location of grouped data when individual values are unknow
 - *Difference:* Raw ungrouped data retains every single exact observation. Grouped class table data aggregates individual values into continuous range intervals with frequency counts $f_i$, replacing individual points with class midpoints $x_i$.
 - *Calculation:*
   1. **Ungrouped Mean:**
-     $$
+$$
      \bar{x} = \frac{12 + 14 + 15 + 18 + 22 + 24}{6} = \frac{105}{6} = 17.5
-     $$
+$$
   2. **Grouped Class Table Mean:**
      - Interval $10-20$: Midpoint $x_1 = 15$, Frequency $f_1 = 4$ (values: $12, 14, 15, 18$)
      - Interval $20-30$: Midpoint $x_2 = 25$, Frequency $f_2 = 2$ (values: $22, 24$)
-     $$
+$$
      \bar{x}_{\text{grouped}} = \frac{(4 \times 15) + (2 \times 25)}{4 + 2} = \frac{60 + 50}{6} = \frac{110}{6} \approx 18.33
-     $$
+$$
 
 **Q4: List and briefly explain the 6 phases of the CRISP-DM model.**
 **A:**
