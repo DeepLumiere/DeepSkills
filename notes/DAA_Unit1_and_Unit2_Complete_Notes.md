@@ -118,9 +118,11 @@ Even though Computer A is $1,000$ times faster in raw hardware speed, Merge Sort
 ### 4.2 Space Complexity vs. Time Complexity
 
 * **Space Complexity:** Total memory required by an algorithm during execution.
+
 $$
-  S(P) = c + S_p(n)
+S(P) = c + S_p(n)
 $$
+
   where $c$ is fixed memory (code space, simple variables) and $S_p(n)$ is dynamic memory (instance-dependent arrays, recursion stack).
 * **Significance:** Storage hardware is cheap and abundant; computational time is a scarce resource. Therefore, **Time Complexity** is universally prioritized over Space Complexity in algorithm performance evaluation.
 
@@ -201,6 +203,7 @@ Asymptotic notation provides a mathematical language for describing the growth r
 
 **Formal Definition:**
 For a given function $g(n)$, $\mathcal{O}(g(n))$ is the set of functions:
+
 $$
 \mathcal{O}(g(n)) = \{ f(n) : \text{there exist positive constants } c > 0 \text{ and } n_0 > 0 \text{ such that } 0 \le f(n) \le c \cdot g(n) \text{ for all } n \ge n_0 \}
 $$
@@ -226,9 +229,11 @@ $\mathcal{O}(g(n))$ bounds the worst-case running time from above. The running t
 * **Given:** $f(n) = 2n + 6$, $g(n) = n$.
 * **Requirement:** Find constants $c > 0, n_0 > 0$ such that $2n + 6 \le c \cdot n$ for $n \ge n_0$.
 * **Derivation:**
+
 $$
-  2n + 6 \le 2n + 6n = 8n \quad (\text{for all } n \ge 1)
+2n + 6 \le 2n + 6n = 8n \quad (\text{for all } n \ge 1)
 $$
+
 * **Conclusion:** Selecting $c = 8$ and $n_0 = 1$ satisfies $0 \le 2n+6 \le 8n$ for all $n \ge 1$. Hence, $2n+6 = \mathcal{O}(n)$.
 
 [Source: DAA_Unit1.pptx, Slides 28–31]
@@ -241,6 +246,7 @@ $$
 
 **Formal Definition:**
 For a given function $g(n)$, $\Omega(g(n))$ is the set of functions:
+
 $$
 \Omega(g(n)) = \{ f(n) : \text{there exist positive constants } c > 0 \text{ and } n_0 > 0 \text{ such that } 0 \le c \cdot g(n) \le f(n) \text{ for all } n \ge n_0 \}
 $$
@@ -259,9 +265,11 @@ $\Omega(g(n))$ provides an absolute lower bound on running time. The algorithm t
 * **Requirement:** Find $c > 0, n_0 > 0$ such that $c \cdot n^2 \le 3n^2 + 2n + 4$.
 * **Derivation:**
   For $n \ge 1$, $2n + 4 \ge 0$, so:
+
 $$
-  3n^2 \le 3n^2 + 2n + 4
+3n^2 \le 3n^2 + 2n + 4
 $$
+
 * **Conclusion:** Selecting $c = 3$ and $n_0 = 1$ satisfies $3n^2 \le f(n)$ for all $n \ge 1$. Hence, $3n^2+2n+4 = \Omega(n^2)$.
 
 [Source: DAA_Unit1.pptx, Slides 33–34, 53]
@@ -274,6 +282,7 @@ $$
 
 **Formal Definition:**
 For a given function $g(n)$, $\Theta(g(n))$ is the set of functions:
+
 $$
 \Theta(g(n)) = \{ f(n) : \text{there exist positive constants } c_1 > 0, c_2 > 0, n_0 > 0 \text{ such that } 0 \le c_1 \cdot g(n) \le f(n) \le c_2 \cdot g(n) \text{ for all } n \ge n_0 \}
 $$
@@ -289,9 +298,11 @@ $$
 * **Requirement:** Find $c_1, c_2 > 0$ and $n_0 > 0$ such that $c_1 n \le 3n + 2 \le c_2 n$ for all $n \ge n_0$.
 * **Derivation:**
   For $n \ge 1$:
+
 $$
-  2n \le 3n + 2 \le 5n
+2n \le 3n + 2 \le 5n
 $$
+
 * **Conclusion:** Choosing $c_1 = 2$, $c_2 = 5$, and $n_0 = 1$ proves $3n+2 = \Theta(n)$.
 
 [Source: DAA_Unit1.pptx, Slides 35–36, 55]
@@ -355,13 +366,17 @@ For two positive functions $f(n)$ and $g(n)$, evaluate $L = \lim_{n \to \infty} 
 
 #### Worked Problem: Prove $\sqrt{n}$ grows faster than $\log n$
 * Let $f(n) = \sqrt{n}$ and $g(n) = \log_e n$. Compute $L$:
+
 $$
-  L = \lim_{n \to \infty} \frac{\log n}{\sqrt{n}}
+L = \lim_{n \to \infty} \frac{\log n}{\sqrt{n}}
 $$
+
   Applying L'Hôpital's Rule ($\frac{\infty}{\infty}$ form):
+
 $$
-  L = \lim_{n \to \infty} \frac{\frac{d}{dn}(\log n)}{\frac{d}{dn}(n^{1/2})} = \lim_{n \to \infty} \frac{\frac{1}{n}}{\frac{1}{2\sqrt{n}}} = \lim_{n \to \infty} \frac{2\sqrt{n}}{n} = \lim_{n \to \infty} \frac{2}{\sqrt{n}} = 0
+L = \lim_{n \to \infty} \frac{\frac{d}{dn}(\log n)}{\frac{d}{dn}(n^{1/2})} = \lim_{n \to \infty} \frac{\frac{1}{n}}{\frac{1}{2\sqrt{n}}} = \lim_{n \to \infty} \frac{2\sqrt{n}}{n} = \lim_{n \to \infty} \frac{2}{\sqrt{n}} = 0
 $$
+
 * **Result:** Since the limit is $0$, $\log n = o(\sqrt{n})$, which proves that $\sqrt{n}$ grows strictly faster than $\log n$.
 
 [Source: DAA_Unit1.pptx, Slides 46, 48]
@@ -392,26 +407,31 @@ If total cost equals $\text{Cost of Elephants} + \text{Cost of Goldfish}$, since
 ## 10. Formula Sheet (Unit-I)
 
 ### 1. Big-$\mathcal{O}$ Upper Bound
+
 $$
 0 \le f(n) \le c \cdot g(n) \quad \forall n \ge n_0
 $$
 
 ### 2. Big-$\Omega$ Lower Bound
+
 $$
 0 \le c \cdot g(n) \le f(n) \quad \forall n \ge n_0
 $$
 
 ### 3. Big-$\Theta$ Tight Bound
+
 $$
 0 \le c_1 \cdot g(n) \le f(n) \le c_2 \cdot g(n) \quad \forall n \ge n_0
 $$
 
 ### 4. Limit Evaluation Rule
+
 $$
 \lim_{n \to \infty} \frac{f(n)}{g(n)} = L \implies \begin{cases} 0 & f = o(g) \\ c > 0 & f = \Theta(g) \\ \infty & f = \omega(g) \end{cases}
 $$
 
 ### 5. Maximum Rule
+
 $$
 \mathcal{O}(f(n) + g(n)) = \mathcal{O}(\max(f(n), g(n)))
 $$
@@ -456,15 +476,19 @@ $$
 **Problem:** Prove or disprove whether $2^{n+1} = \mathcal{O}(2^n)$ and whether $2^{2n} = \mathcal{O}(2^n)$.
 **Solution Steps:**
 1. **Part (i) $2^{n+1}$:**
+
 $$
-   2^{n+1} = 2^1 \cdot 2^n = 2 \cdot 2^n
+2^{n+1} = 2^1 \cdot 2^n = 2 \cdot 2^n
 $$
+
    Choosing $c = 2$ and $n_0 = 1$ satisfies $2^{n+1} \le c \cdot 2^n$.
    **Result:** True, $2^{n+1} = \mathcal{O}(2^n)$.
 2. **Part (ii) $2^{2n}$:**
+
 $$
-   2^{2n} = (2^2)^n = 4^n
+2^{2n} = (2^2)^n = 4^n
 $$
+
    Assume $\exists c, n_0$ such that $4^n \le c \cdot 2^n$. Dividing by $2^n$ yields $2^n \le c$.
    As $n \to \infty$, $2^n$ grows without bound, so no constant $c$ can bound it.
    **Result:** False, $2^{2n} \neq \mathcal{O}(2^n)$.
@@ -478,7 +502,6 @@ $$
 2. Define Big-$\mathcal{O}$, Big-$\Omega$, and Big-$\Theta$ notations formally. Provide geometric interpretations for each.
 3. Order the following functions by asymptotic growth rate: $n!, 2^n, n \log n, n^3, \log \log n, n^2, \sqrt{n}$.
 4. Show by formal definition that $f(n) = 3n^2 + 5n + 2 = \Theta(n^2)$.
-
 
 # Chapter 2 — Unit-II: Analysis of Algorithms
 
@@ -551,6 +574,7 @@ int Sum(int A[], int n) {
 ```
 
 #### Step Count Derivation:
+
 $$
 T(n) = c_1(1) + c_2(n+1) + c_3(n) + c_4(1) = (c_2 + c_3)n + (c_1 + c_2 + c_4) = a \cdot n + b = \Theta(n)
 $$
@@ -578,6 +602,7 @@ for (int i = 1; i <= n; i++)
 ```
 * **Inner Loop Count:** Executes $i$ times for each $i$.
 * **Total Executions:**
+
 $$
 T(n) = \sum_{i=1}^n \sum_{j=1}^i 1 = \sum_{i=1}^n i = \frac{n(n+1)}{2} = \frac{1}{2}n^2 + \frac{1}{2}n = \Theta(n^2)
 $$
@@ -639,10 +664,13 @@ int factorial(int n) {
 }
 ```
 * **Recurrence Relation:**
+
 $$
 T(n) = \begin{cases} \Theta(1) & \text{if } n \le 1 \\ T(n-1) + d & \text{if } n > 1 \end{cases}
 $$
+
 * **Unwinding/Expansion:**
+
 $$
 T(n) = T(n-1) + d = T(n-2) + 2d = \dots = T(1) + (n-1)d = \Theta(n)
 $$
@@ -676,6 +704,7 @@ flowchart TD
 * **Goal:** Show that $T(n) = \mathcal{O}(n \log n)$ using the substitution method.
 * **Hypothesis:** Assume $T(k) \le c k \log_2 k$ for all $k < n$, with some constant $c > 0$.
 * **Inductive Step:** Substitute the hypothesis into the recurrence:
+
 $$
 \begin{aligned}
 T(n) &\le 2 \left(c \frac{n}{2} \log_2 \frac{n}{2}\right) + n \\
@@ -685,6 +714,7 @@ T(n) &\le 2 \left(c \frac{n}{2} \log_2 \frac{n}{2}\right) + n \\
 &= c n \log_2 n - (c - 1)n
 \end{aligned}
 $$
+
 * **Inequality Requirement:** We need $c n \log_2 n - (c - 1)n \le c n \log_2 n$.
 * **Solving for $c$:** This holds if and only if $c - 1 \ge 0 \implies c \ge 1$.
 * **Conclusion:** Choosing $c = 1$ and $n_0 = 2$ proves $T(n) \le c n \log_2 n$. Hence, the upper bound is $\mathcal{O}(n \log n)$. To show the lower bound $\Omega(n \log n)$, use the same steps with $T(k) \ge c' k \log_2 k$ to yield a tighter bound of $\Theta(n \log n)$.
@@ -694,25 +724,32 @@ $$
 ### 5.2 Method 2: Homogeneous Recurrences (Characteristic Equations)
 
 Linear homogeneous recurrence relations have the form:
+
 $$
 a_0 T(n) + a_1 T(n-1) + a_2 T(n-2) + \dots + a_k T(n-k) = 0
 $$
 
 #### Step-by-Step Recipe (Checklist)
 1. [ ] **Set up the Characteristic Polynomial:** Substitute $T(n-j) \to x^{k-j}$ to obtain:
+
 $$
 a_0 x^k + a_1 x^{k-1} + a_2 x^{k-2} + \dots + a_k = 0
 $$
+
 2. [ ] **Find the Roots:** Factor the polynomial to obtain the roots $r_1, r_2, \dots, r_k$.
 3. [ ] **Identify Root Cases:**
    * **Case A: Distinct Roots:** If all roots $r_j$ are unique, write:
+
 $$
 T(n) = c_1 r_1^n + c_2 r_2^n + \dots + c_k r_k^n
 $$
+
    * **Case B: Repeated Roots:** If root $r_1$ occurs with multiplicity $m$, write:
+
 $$
 T(n) = (c_1 + c_2 n + c_3 n^2 + \dots + c_m n^{m-1}) r_1^n + c_{m+1} r_{m+1}^n + \dots
 $$
+
 4. [ ] **Solve for Constants:** Use initial conditions ($T(0)$, $T(1)$, etc.) to solve the system of linear equations for constants $c_j$.
 5. [ ] **Write Final Solution:** State the closed-form representation of $T(n)$.
 
@@ -731,14 +768,17 @@ flowchart TD
 #### Worked Problem 5.1: $T(n) - 3T(n-1) + 2T(n-2) = 0$, $T(0)=2, T(1)=3$
 1. **Characteristic Equation:** $x^2 - 3x + 2 = 0 \implies (x-1)(x-2) = 0 \implies r_1 = 1, r_2 = 2$.
 2. **General Solution (Distinct Roots):**
+
 $$
 T(n) = c_1 (1^n) + c_2 (2^n) = c_1 + c_2 2^n
 $$
+
 3. **Applying Initial Conditions:**
    * For $n=0$: $c_1 + c_2 = 2$
    * For $n=1$: $c_1 + 2c_2 = 3$
 4. **Solving System:** Subtracting the first equation from the second yields $c_2 = 1$, which gives $c_1 = 1$.
 5. **Final Tight Bound Solution:**
+
 $$
 T(n) = 1 + 2^n = \Theta(2^n)
 $$
@@ -748,6 +788,7 @@ $$
 ### 5.3 Method 3: Non-Homogeneous Recurrences
 
 Non-homogeneous linear recurrences contain a non-zero driving function $f(n)$:
+
 $$
 a_0 T(n) + a_1 T(n-1) + \dots + a_k T(n-k) = f(n)
 $$
@@ -763,31 +804,42 @@ $$
 3. [ ] **Substitute $T(n)_p$ into Recurrence:** Plug the template into the full non-homogeneous relation.
 4. [ ] **Solve for Coefficients:** Group terms by powers of $n$ or components to solve for coefficients ($P, d_j$).
 5. [ ] **Combine Solutions:** Write the total solution:
+
 $$
 T(n) = T(n)_h + T(n)_p
 $$
+
 6. [ ] **Apply Initial Conditions:** Use the initial conditions on the *combined* solution $T(n)$ to find the homogeneous constants $c_j$.
 
 #### Worked Problem 5.4: $T(n) - 2T(n-1) = 3^n$, $T(0)=1$
 1. **Homogeneous Part:** $x - 2 = 0 \implies r = 2 \implies T(n)_h = c_1 2^n$.
 2. **Particular Part:** Since $f(n) = 3^n$, and $3$ is not a characteristic root ($3 \ne 2$), try $T(n)_p = P 3^n$.
 3. **Substitution:**
+
 $$
 P 3^n - 2 (P 3^{n-1}) = 3^n
 $$
+
    Divide by $3^{n-1}$:
+
 $$
 3P - 2P = 3 \implies P = 3 \implies T(n)_p = 3 \cdot 3^n = 3^{n+1}
 $$
+
 4. **Combined General Solution:**
+
 $$
 T(n) = c_1 2^n + 3^{n+1}
 $$
+
 5. **Apply Initial Condition $T(0)=1$:**
+
 $$
 T(0) = c_1 2^0 + 3^1 = c_1 + 3 = 1 \implies c_1 = -2
 $$
+
 6. **Final Tight Bound Solution:**
+
 $$
 T(n) = -2(2^n) + 3^{n+1} = 3^{n+1} - 2^{n+1} = \Theta(3^n)
 $$
@@ -807,18 +859,25 @@ Used when the recurrence contains logarithmic or square root arguments, making t
 
 #### Worked Problem 5.5: Solve $T(n) = T(\sqrt{n}) + \Theta(1)$
 1. **Transformation:** Let $n = 2^m \implies \sqrt{n} = 2^{m/2}$.
+
 $$
 T(2^m) = T(2^{m/2}) + c
 $$
+
 2. **Rename Function:** Let $S(m) = T(2^m)$:
+
 $$
 S(m) = S(m/2) + c
 $$
+
 3. **Solve for $S(m)$:** Using Master Theorem ($a=1, b=2, f(m)=c \implies m^{\log_2 1} = m^0 = 1$):
+
 $$
 S(m) = \Theta(\log m)
 $$
+
 4. **Back-Substitute $m = \log_2 n$:**
+
 $$
 T(n) = S(\log_2 n) = \Theta(\log (\log n))
 $$
@@ -837,18 +896,25 @@ Used for non-linear recurrences containing powers or products of terms.
 
 #### Worked Problem 5.6: Solve $T(n) = 2 T(n/2)^2$ with $T(1) = 2$
 1. **Apply Logarithm ($\log_2$):**
+
 $$
 \log_2 T(n) = \log_2(2 T(n/2)^2) = 1 + 2 \log_2 T(n/2)
 $$
+
 2. **Define New Variable:** Let $U(n) = \log_2 T(n)$:
+
 $$
 U(n) = 2 U(n/2) + 1
 $$
+
 3. **Solve for $U(n)$:** Using Master Theorem ($a=2, b=2, f(n)=1 \implies n^{\log_2 2} = n^1$):
+
 $$
 U(n) = \Theta(n)
 $$
+
 4. **Back-Substitute:**
+
 $$
 T(n) = 2^{U(n)} = 2^{\Theta(n)}
 $$
@@ -858,6 +924,7 @@ $$
 ### 5.6 Method 6: Master Theorem for Divide-and-Conquer Recurrences
 
 For recurrences of the form:
+
 $$
 T(n) = a T\left(\frac{n}{b}\right) + f(n) \quad \text{where } a \ge 1, b > 1
 $$
@@ -881,18 +948,25 @@ flowchart TD
 2. [ ] **Compute Boundary Benchmark:** Calculate the critical exponent value: $n^{\log_b a}$.
 3. [ ] **Compare Growth Rates:**
    * **Case 1 (Leaves Dominant):** If $f(n) = \mathcal{O}(n^{\log_b a - \epsilon})$ for some constant $\epsilon > 0$, then:
+
 $$
 T(n) = \Theta(n^{\log_b a})
 $$
+
    * **Case 2 (Balanced Levels):** If $f(n) = \Theta(n^{\log_b a} \log^k n)$ for $k \ge 0$, then:
+
 $$
 T(n) = \Theta(n^{\log_b a} \log^{k+1} n)
 $$
+
    * **Case 3 (Root Dominant):** If $f(n) = \Omega(n^{\log_b a + \epsilon})$ for some constant $\epsilon > 0$, check the **Regularity Condition**:
+
 $$
 a f(n/b) \le c f(n) \quad \text{for some constant } c < 1 \text{ and large } n.
 $$
+
      If both hold, then:
+
 $$
 T(n) = \Theta(f(n))
 $$
@@ -917,6 +991,7 @@ $$
 ### 5.7 Method 7: Master Theorem for Subtract-and-Conquer Recurrences
 
 For recurrences of the form:
+
 $$
 T(n) = a T(n - b) + \mathcal{O}(n^k) \quad \text{where } a > 0, b > 0, k \ge 0
 $$
@@ -925,14 +1000,19 @@ $$
 1. [ ] **Extract Constants:** Identify $a$, $b$, and the polynomial degree exponent $k$.
 2. [ ] **Select Case based on $a$:**
    * **Case 1 ($a < 1$):** Work decreases exponentially. The root level dominates:
+
 $$
 T(n) = \Theta(n^k)
 $$
+
    * **Case 2 ($a = 1$):** Work is evenly balanced. Multiplied by recursion depth factor:
+
 $$
 T(n) = \Theta(n^{k+1})
 $$
+
    * **Case 3 ($a > 1$):** Work increases exponentially. The leaves dominate:
+
 $$
 T(n) = \Theta(a^{n/b} \cdot n^k)
 $$
@@ -941,6 +1021,7 @@ $$
 * **Parameters:** $a=1, b=1, k=1$.
 * **Application:** Matches Case 2 ($a=1$).
 * **Solution:**
+
 $$
 T(n) = \Theta(n^{1+1}) = \Theta(n^2)
 $$
@@ -978,6 +1059,7 @@ flowchart TD
 2. **Determine Tree Depth:** The problem size at level $x$ is $n/2^x$. We reach the base case when $n/2^x = 1 \implies x = \log_2 n$.
 3. **Number of Leaves:** $2^{\log_2 n} = n$ leaves, each costing $T(1) = \Theta(1)$. Total Leaf Cost $= \Theta(n)$.
 4. **Sum of Levels:**
+
 $$
 T(n) = \sum_{i=0}^{\log_2 n - 1} n + \Theta(n) = n \log_2 n + \Theta(n) = \Theta(n \log n)
 $$
@@ -1049,9 +1131,11 @@ flowchart TD
 
 #### Mathematical Complexity Analysis
 * **Recurrence Relation:**
+
 $$
 T(n) = 2 T(n/2) + \Theta(n)
 $$
+
 * **Best-Case Complexity:** Even if the array is already sorted, the algorithm splits the array and completes the merging comparisons: $\Theta(n \log n)$.
 * **Worst-Case Complexity:** In all inputs, the recursive tree is perfectly balanced and work done per level remains linear: $\Theta(n \log n)$.
 * **Average-Case Complexity:** $\Theta(n \log n)$.
@@ -1109,17 +1193,23 @@ flowchart TD
 
 #### Mathematical Complexity Analysis
 * **Worst-Case Recurrence:** Occurs with reverse-sorted or sorted arrays where the pivot is always the minimum or maximum element, yielding $1$ and $n-1$ size splits:
+
 $$
 T(n) = T(n-1) + T(0) + \Theta(n) = T(n-1) + \Theta(n) \implies \Theta(n^2)
 $$
+
 * **Best-Case Recurrence:** Occurs with perfectly balanced midpoint pivot selections:
+
 $$
 T(n) = 2 T(n/2) + \Theta(n) \implies \Theta(n \log n)
 $$
+
 * **Average-Case Recurrence ($9:1$ Unbalanced Split):**
+
 $$
 T(n) = T\left(\frac{9n}{10}\right) + T\left(\frac{n}{10}\right) + \Theta(n) \implies \Theta(n \log n)
 $$
+
 * **Auxiliary Space:** $\mathcal{O}(\log n)$ stack space for recursion.
 * **Stability:** **Unstable**; swaps can disrupt the relative order of equal elements during Partitioning.
 
@@ -1152,13 +1242,17 @@ def InsertionSort(A):
 
 #### Mathematical Complexity Analysis
 * **Best-Case Complexity (Already Sorted):** The inner loop condition `A[i] > key` is false immediately on each iteration. Only $n-1$ comparisons occur:
+
 $$
 T(n) = \Theta(n)
 $$
+
 * **Worst-Case Complexity (Reverse Sorted):** Every element must be shifted to the left edge:
+
 $$
 T(n) = \sum_{j=1}^{n-1} j = \frac{n(n-1)}{2} = \Theta(n^2)
 $$
+
 * **Average-Case Complexity:** Expected fraction of shifts on randomized arrays: $\Theta(n^2)$.
 * **Auxiliary Space:** $\Theta(1)$ (In-place).
 * **Stability:** **Stable**; equal elements are not swapped past each other because the comparison is strictly `A[i] > key`.
@@ -1192,9 +1286,11 @@ def SelectionSort(A):
 
 #### Mathematical Complexity Analysis
 * **Time Complexity (All Cases):** The algorithm executes double nested loops to find the minimum index, independent of the input configuration:
+
 $$
 T(n) = \sum_{i=0}^{n-2} (n - 1 - i) = \frac{n(n-1)}{2} = \Theta(n^2)
 $$
+
   * **Best-Case Complexity:** $\Theta(n^2)$.
   * **Worst-Case Complexity:** $\Theta(n^2)$.
   * **Average-Case Complexity:** $\Theta(n^2)$.
@@ -1235,13 +1331,17 @@ def BubbleSort(A):
 
 #### Mathematical Complexity Analysis
 * **Best-Case Complexity (Already Sorted):** The inner loop executes once, does not perform swaps, sets `swapped` to `False`, and terminates early:
+
 $$
 T(n) = \Theta(n)
 $$
+
 * **Worst-Case Complexity (Reverse Sorted):** The outer loop runs $n$ times, swapping on every adjacent comparison:
+
 $$
 T(n) = \sum_{i=0}^{n-1} (n - i - 1) = \Theta(n^2)
 $$
+
 * **Average-Case Complexity:** $\Theta(n^2)$.
 * **Auxiliary Space:** $\Theta(1)$ (In-place).
 * **Stability:** **Stable**; elements are only swapped if strictly out of order (`A[j] > A[j+1]`).
@@ -1305,9 +1405,11 @@ def MaxHeapify(A, heap_size, i):
 * **Time Complexity (All Cases):**
   * Building a Max-Heap takes $\mathcal{O}(n)$ time.
   * Extracting $n$ elements and calling `MaxHeapify` (which takes $\mathcal{O}(\log n)$ time) takes $n \log n$ operations:
+
 $$
 T(n) = \Theta(n \log n)
 $$
+
   * **Best-Case Complexity:** $\Theta(n \log n)$.
   * **Worst-Case Complexity:** $\Theta(n \log n)$.
   * **Average-Case Complexity:** $\Theta(n \log n)$.
@@ -1338,16 +1440,19 @@ $$
 * Exponential Loop ($i = i^c$): $T(n) = \Theta(\log \log n)$
 
 ### 2. Homogeneous General Solution
+
 $$
 T(n) = c_1 r_1^n + c_2 r_2^n + \dots + c_k r_k^n
 $$
 
 ### 3. Master Theorem (Divide & Conquer)
+
 $$
 T(n) = a T(n/b) + f(n) \implies \begin{cases} \Theta(n^{\log_b a}) & f(n) = \mathcal{O}(n^{\log_b a - \epsilon}) \\ \Theta(n^{\log_b a} \log^{k+1} n) & f(n) = \Theta(n^{\log_b a} \log^k n) \\ \Theta(f(n)) & f(n) = \Omega(n^{\log_b a + \epsilon}) \end{cases}
 $$
 
 ### 4. Master Theorem (Subtract & Conquer)
+
 $$
 T(n) = a T(n-b) + \mathcal{O}(n^k) \implies \begin{cases} \mathcal{O}(n^k) & a < 1 \\ \mathcal{O}(n^{k+1}) & a = 1 \\ \mathcal{O}(a^{n/b} n^k) & a > 1 \end{cases}
 $$
@@ -1388,28 +1493,37 @@ $$
 **Given:** $a_0 = 1, a_1 = -7, a_2 = 12$, $f(n) = 4^n$.
 **Solution Steps:**
 1. **Homogeneous Part:**
+
 $$
-   x^2 - 7x + 12 = 0 \implies (x - 3)(x - 4) = 0 \implies r_1 = 3, r_2 = 4
+x^2 - 7x + 12 = 0 \implies (x - 3)(x - 4) = 0 \implies r_1 = 3, r_2 = 4
 $$
+
 $$
-   T(n)_h = c_1 (3^n) + c_2 (4^n)
+T(n)_h = c_1 (3^n) + c_2 (4^n)
 $$
+
 2. **Particular Part:**
    Since $a = 4$ is a characteristic root with multiplicity $t = 1$, try $T(n)_p = P \cdot n 4^n$:
+
 $$
-   (P \cdot n 4^n) - 7(P (n-1) 4^{n-1}) + 12(P (n-2) 4^{n-2}) = 4^n
+(P \cdot n 4^n) - 7(P (n-1) 4^{n-1}) + 12(P (n-2) 4^{n-2}) = 4^n
 $$
+
    Divide by $4^{n-2}$:
+
 $$
-   16 P n - 7 \cdot 4 P (n-1) + 12 P (n-2) = 16
+16 P n - 7 \cdot 4 P (n-1) + 12 P (n-2) = 16
 $$
+
 $$
-   16 P n - 28 P n + 28 P + 12 P n - 24 P = 16 \implies 4 P = 16 \implies P = 4
+16 P n - 28 P n + 28 P + 12 P n - 24 P = 16 \implies 4 P = 16 \implies P = 4
 $$
+
    Thus, $T(n)_p = 4 \cdot n 4^n = n 4^{n+1}$.
 3. **Total Solution:**
+
 $$
-   T(n) = c_1 (3^n) + c_2 (4^n) + n 4^{n+1}
+T(n) = c_1 (3^n) + c_2 (4^n) + n 4^{n+1}
 $$
 
 [Source: DAA_Unit3(a).pptx, Slides 25, 26]
@@ -1421,12 +1535,15 @@ $$
 **Solution Steps:**
 1. **Cost at Level $i$:** $3^i \cdot c \left(\frac{n}{4^i}\right)^2 = c n^2 \left(\frac{3}{16}\right)^i$.
 2. **Total Cost Summation:**
+
 $$
-   T(n) = c n^2 \sum_{i=0}^{\log_4 n - 1} \left(\frac{3}{16}\right)^i + \Theta(n^{\log_4 3})
+T(n) = c n^2 \sum_{i=0}^{\log_4 n - 1} \left(\frac{3}{16}\right)^i + \Theta(n^{\log_4 3})
 $$
+
 3. **Geometric Series Evaluation ($\sum_{i=0}^\infty (3/16)^i = \frac{1}{1 - 3/16} = \frac{16}{13}$):**
+
 $$
-   T(n) \le \frac{16}{13} c n^2 + \Theta(n^{0.793}) = \Theta(n^2)
+T(n) \le \frac{16}{13} c n^2 + \Theta(n^{0.793}) = \Theta(n^2)
 $$
 
 [Source: DAA_Unit3(a).pptx, Slide 55]

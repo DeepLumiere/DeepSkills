@@ -1228,18 +1228,23 @@ Branch instructions alter program execution flow by modifying IP (and CS for Far
 # Appendix A — Formula Sheet
 
 ### 1. 8085 Clock Period & T-State Duration
+
 $$
 T = \frac{1}{f_{\text{CLK}}}
 $$
+
 Where $f_{\text{CLK}}$ is CPU operating frequency (e.g., $3\text{ MHz} \rightarrow T = 333.33\text{ ns}$).
 
 ### 2. 8085 Hardware Interrupt Vector Address
+
 $$
 \text{Vector Address (Hex)} = (N \times 8_{10}) \quad \text{converted to 16-bit Hex}
 $$
+
 Where $N$ is restart vector number (e.g., $RST 7.5 \rightarrow 7.5 \times 8 = 60_{10} = 003C_H$).
 
 ### 3. Physical Address Calculation
+
 $$
 \text{Physical Address} = (\text{Segment Register Value} \times 16_{10}) + \text{Offset Address}
 $$

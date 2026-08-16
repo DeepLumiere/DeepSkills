@@ -88,6 +88,7 @@ This chapter introduces the fundamental concepts of Data Analysis and Visualisat
 ## 3. Fundamental Concepts: The DIKW Hierarchy & Data Life Cycle
 
 The **DIKW Model** describes the transformation of raw facts into strategic actions:
+
 $$
 \text{Data} \longrightarrow \text{Information} \longrightarrow \text{Knowledge} \longrightarrow \text{Wisdom}
 $$
@@ -356,6 +357,7 @@ Researchers and practitioners can leverage various public datasets for learning 
 ### 1. Data Aggregation Formula (Ungrouped Mean)
 
 #### Formula:
+
 $$
 \bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i
 $$
@@ -373,6 +375,7 @@ Computes the arithmetic average of a discrete set of unweighted, raw observation
 ### 2. Data Aggregation Formula (Grouped Class Table Mean)
 
 #### Formula:
+
 $$
 \bar{x} = \frac{\sum_{i=1}^{k} f_i x_i}{N} \quad \text{where } N = \sum_{i=1}^{k} f_i
 $$
@@ -427,14 +430,17 @@ Estimates the central location of grouped data when individual values are unknow
 - *Difference:* Raw ungrouped data retains every single exact observation. Grouped class table data aggregates individual values into continuous range intervals with frequency counts $f_i$, replacing individual points with class midpoints $x_i$.
 - *Calculation:*
   1. **Ungrouped Mean:**
+
 $$
-     \bar{x} = \frac{12 + 14 + 15 + 18 + 22 + 24}{6} = \frac{105}{6} = 17.5
+\bar{x} = \frac{12 + 14 + 15 + 18 + 22 + 24}{6} = \frac{105}{6} = 17.5
 $$
+
   2. **Grouped Class Table Mean:**
      - Interval $10-20$: Midpoint $x_1 = 15$, Frequency $f_1 = 4$ (values: $12, 14, 15, 18$)
      - Interval $20-30$: Midpoint $x_2 = 25$, Frequency $f_2 = 2$ (values: $22, 24$)
+
 $$
-     \bar{x}_{\text{grouped}} = \frac{(4 \times 15) + (2 \times 25)}{4 + 2} = \frac{60 + 50}{6} = \frac{110}{6} \approx 18.33
+\bar{x}_{\text{grouped}} = \frac{(4 \times 15) + (2 \times 25)}{4 + 2} = \frac{60 + 50}{6} = \frac{110}{6} \approx 18.33
 $$
 
 **Q4: List and briefly explain the 6 phases of the CRISP-DM model.**

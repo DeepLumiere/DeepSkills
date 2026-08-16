@@ -69,11 +69,13 @@ graph TD
 
 **Formula:**
 Sample Mean:
+
 $$
 \bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i
 $$
 
 Population Mean:
+
 $$
 \mu = \frac{1}{N}\sum_{i=1}^{N} x_i
 $$
@@ -92,6 +94,7 @@ A major problem with the mean is its sensitivity to extreme (outlier) values. Ev
 Sometimes each value is associated with a weight reflecting significance, importance, or occurrence frequency.
 
 **Formula:**
+
 $$
 \bar{x}_w = \frac{\sum_{i=1}^{n} w_i x_i}{\sum_{i=1}^{n} w_i}
 $$
@@ -145,6 +148,7 @@ When data are grouped into intervals (classes), we estimate central tendency mea
 ### Grouped Mean
 
 **Formula:**
+
 $$
 \bar{x} = \frac{\sum f_i x_i}{N}
 $$
@@ -157,6 +161,7 @@ $$
 ### Grouped Median
 
 **Formula:**
+
 $$
 M_e = L + \left[ \frac{\frac{N}{2} - B}{G} \right] \times w
 $$
@@ -171,10 +176,13 @@ $$
 ### Grouped Mode
 
 **Formula:**
+
 $$
 M_o = L + \left[ \frac{f_m - f_{m-1}}{(f_m - f_{m-1}) + (f_m - f_{m+1})} \right] \times w
 $$
+
 Which simplifies to:
+
 $$
 M_o = L + \left[ \frac{f_m - f_{m-1}}{2f_m - f_{m-1} - f_{m+1}} \right] \times w
 $$
@@ -214,6 +222,7 @@ $L = 60.5$ (lower class boundary)
 $B = 9$ (cumulative freq before)
 $G = 8$ (freq of median class)
 $w = 5$ (width)
+
 $$
 M_e = 60.5 + \left[ \frac{10.5 - 9}{8} \right] \times 5 = 60.5 + \left( \frac{1.5}{8} \right) \times 5 = 60.5 + 0.9375 = 61.4375
 $$
@@ -226,9 +235,11 @@ $f_{m-1} = 7$
 $f_m = 8$
 $f_{m+1} = 4$
 $w = 5$
+
 $$
 M_o = 60.5 + \left[ \frac{8 - 7}{2(8) - 7 - 4} \right] \times 5 = 60.5 + \left[ \frac{1}{16 - 11} \right] \times 5 = 60.5 + \frac{5}{5} = 61.5
 $$
+
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 16-24]
 
 ### Example: Baby Carrots
@@ -281,9 +292,11 @@ For $n=9$:
 
 **Meaning:** The interquartile range gives the spread of the middle half of the distribution.
 **Formula:**
+
 $$
 IQR = Q_3 - Q_1
 $$
+
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slide 37]
 
 ### Variance and Standard Deviation
@@ -296,6 +309,7 @@ $$
 **Given Data:** $[4, 5, 6, 6, 7, 8]$
 
 **Step 1: Mean**
+
 $$
 \bar{x} = \frac{4+5+6+6+7+8}{6} = \frac{36}{6} = 6
 $$
@@ -321,9 +335,11 @@ SD = $\sqrt{1.67} \approx 1.29$
 **Given:** A fair die is rolled. Sample space $X = \{1, 2, 3, 4, 5, 6\}$. $n=6$.
 **Mean:** $\frac{1+2+3+4+5+6}{6} = 3.5$
 **Variance:**
+
 $$
 \sigma^2 = \frac{1}{6} \left[ (1-3.5)^2 + (2-3.5)^2 + \dots \right] = \frac{1}{6} (6.25 + 2.25 + 0.25 + 0.25 + 2.25 + 6.25) = \frac{17.5}{6} = 2.917
 $$
+
 **Standard Deviation:** $\sqrt{2.917} = 1.708$
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 61-62]
 
@@ -428,9 +444,11 @@ Z-score measures how many standard deviations a point is from the mean.
 * $z < 0$: Below average.
 
 **Actual Z-Score Formula:**
+
 $$
 z = \frac{x - \bar{x}}{s}
 $$
+
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 76-84]
 
 ### Quantile Plot & Q-Q Plot (Quantile-Quantile)
@@ -472,39 +490,47 @@ Points plotted as $(Theoretical Z, Actual Z)$. If data is normal, points align a
 ## Formula Sheet
 
 ### 1. Ungrouped Mean
+
 $$
 \bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i
 $$
 
 ### 2. Grouped Mean
+
 $$
 \bar{x} = \frac{\sum_{i=1}^{k} f_i x_i}{N}
 $$
 
 ### 3. Grouped Median
+
 $$
 M_e = L + \left[ \frac{\frac{N}{2} - B}{G} \right] \times w
 $$
 
 ### 4. Grouped Mode
+
 $$
 M_o = L + \left[ \frac{f_m - f_{m-1}}{2f_m - f_{m-1} - f_{m+1}} \right] \times w
 $$
 
 ### 5. Variance and Standard Deviation
+
 $$
 s^2 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n} \quad (\text{or } n-1 \text{ for sample})
 $$
+
 $$
 s = \sqrt{s^2}
 $$
 
 ### 6. Actual Z-Score
+
 $$
 z = \frac{x - \bar{x}}{s}
 $$
 
 ### 7. Percentile Rank for Q-Q Plot
+
 $$
 \text{Percentile} = \frac{i - 0.5}{n}
 $$

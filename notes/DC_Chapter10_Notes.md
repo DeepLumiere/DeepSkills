@@ -8,7 +8,6 @@
 
 [Source: Reference Material - Chapter 10.pptx, Slides 3-6]
 
-
 ## 2. Block Coding & Hamming Distance
 
 ### Hamming Distance $d(x, y)$
@@ -25,7 +24,6 @@ $$
 
 [Source: Reference Material - Chapter 10.pptx, Slide 15]
 
-
 ## 3. Cyclic Redundancy Check (CRC)
 
 ### Worked Example: CRC Division
@@ -39,4 +37,3 @@ $$
 3. Transmitted Frame = Data + Remainder.
 
 [Source: Reference Material - Chapter 10.pptx, Slide 28]
-

@@ -29,7 +29,6 @@ $$
 \lim_{n \to \infty} P(|\bar{X}_n - \mu| < \epsilon) = 1 \quad \text{for any } \epsilon > 0
 $$
 
-
 Where:
 - $\bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i$: Sample mean after $n$ trials.
 - $\mu = \mathbb{E}[X]$: Population mean (true theoretical expectation).
@@ -46,18 +45,15 @@ Where:
 ### 3.1 Conditional Probability & Bayes' Theorem
 Conditional probability measures the likelihood of event $A$ occurring given that event $B$ has already occurred:
 
-
 $$
 P(A \mid B) = \frac{P(A \cap B)}{P(B)} \quad \text{provided } P(B) > 0
 $$
-
 
 #### Bayes' Theorem Formulation:
 
 $$
 P(A \mid B) = \frac{P(B \mid A) P(A)}{P(B)}
 $$
-
 
 Where:
 - $P(A \mid B)$: Posterior probability of hypothesis $A$ given evidence $B$.
@@ -89,7 +85,6 @@ $$
 f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x - \mu)^2}{2\sigma^2} \right)
 $$
 
-
 Where $\mu$ is the distribution mean and $\sigma^2$ is variance.
 
 ---
@@ -105,7 +100,6 @@ Given i.i.d. dataset $\mathcal{D} = \{x^{(1)}, \dots, x^{(m)}\}$, Maximum Likeli
 $$
 \theta_{\text{MLE}} = \arg\max_\theta \log L(\theta) = \arg\max_\theta \sum_{i=1}^m \log P(x^{(i)} \mid \theta)
 $$
-
 
 ![Maximum Likelihood Estimation Objective](images/ps4ml_slide_32.png)
 ![Statistical Hypothesis Testing Slide](images/ps4ml_slide_40.png)

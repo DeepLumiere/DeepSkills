@@ -8,7 +8,6 @@
 
 [Source: Reference Material - Chapter 2.pptx, Slide 1]
 
-
 ## 2. Layered Tasks & Layered Architecture
 
 ### Concept: Layering Principle
@@ -16,7 +15,6 @@
 **Meaning:** Subdividing a complex networking process into smaller, manageable, independent modular layers where each layer performs specific services for the layer above it.
 
 [Source: Reference Material - Chapter 2.pptx, Slides 2-4]
-
 
 ### Definition: OSI Model (Open Systems Interconnection)
 
@@ -40,7 +38,6 @@
 
 [Source: Reference Material - Chapter 2.pptx, Slides 5-15]
 
-
 ### Figure 2.1: OSI 7-Layer Model Architecture & Encapsulation
 
 ![OSI Model Architecture](Reference Material - Chapter 2_images/slide_6_img_1.png)
@@ -50,7 +47,6 @@
 **Flow / Relationship:** Application data moves down the stack adding headers (Encapsulation) and moves up at receiver stripping headers (Decapsulation).
 
 [Source: Reference Material - Chapter 2.pptx, Slide 6]
-
 
 ### Layer Addresses & Protocols Comparison
 
@@ -66,7 +62,6 @@
 | **Data Link** | Frame | Physical Address (MAC) | `00:1A:2B:3C:4D:5E` | Ethernet, Wi-Fi | [Source: Ch 2, Slide 19] |
 
 | **Physical** | Bits | Signal Voltage / Light | 0s and 1s | IEEE 802.3, RS-232 | [Source: Ch 2, Slide 20] |
-
 
 ### Definition Sheet & Review
 

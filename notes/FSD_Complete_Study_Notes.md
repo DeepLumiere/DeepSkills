@@ -2232,12 +2232,15 @@ export default MovieTicketBooking;
 # Formula & Rule Sheet
 
 ### 1. Viewport Text Sizing Rule
+
 $$
 \text{Font Size (in cm)} = \text{Viewport Width (cm)} \times \left(\frac{\text{vw}}{100}\right)
 $$
+
 *Where $1\text{vw} = 1\%$ of total browser viewport width.*
 
 ### 2. HTTP Method Idempotency & Safety Matrix
+
 $$
 \begin{aligned}
 \text{GET} &\implies \text{Safe: True}, \quad \text{Idempotent: True} \\
@@ -2248,6 +2251,7 @@ $$
 $$
 
 ### 3. Bootstrap Container Max-Width Step Function
+
 $$
 \text{Max Width}(\text{viewport } w) = \begin{cases} 
 100\% & w < 576\text{px} \\

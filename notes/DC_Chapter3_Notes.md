@@ -5,7 +5,6 @@
 - **Subject:** Physical Layer Signals & Transmission
 - **Source:** Reference Material - Chapter 3.pptx
 
-
 ## 2. Analog and Digital Signals
 
 ### Definition: Analog vs Digital Signals
@@ -15,7 +14,6 @@
 - **Digital Signal:** Discrete signal taking only limited specified values (e.g. 0 and 1).
 
 [Source: Reference Material - Chapter 3.pptx, Slides 2-8]
-
 
 ### Sine Wave Parameters & Mathematical Representation
 
@@ -35,13 +33,11 @@ $$
 
 - $\lambda$: Wavelength (Meters, m), where $\lambda = \frac{c}{f} = c \times T$
 
-
 ### Figure 3.1: Sine Wave Parameters
 
 ![Sine Wave Signal](images/DC/slide_50_img_33.png)
 
 [Source: Reference Material - Chapter 3.pptx, Slide 5]
-
 
 ### Worked Numerical Example: Wavelength Calculation
 
@@ -59,7 +55,6 @@ $$
 
 [Source: Reference Material - Chapter 3.pptx, Slide 14]
 
-
 ## 3. Fourier Analysis & Bandwidth
 
 ### Composite Signal & Bandwidth Formula
@@ -75,7 +70,6 @@ B = 5000 - 100 = 4900\text{ Hz} = 4.9\text{ kHz}
 $$
 
 [Source: Reference Material - Chapter 3.pptx, Slide 22]
-
 
 ## 4. Transmission Impairments & Formulas
 
@@ -93,7 +87,6 @@ $$
 
 [Source: Reference Material - Chapter 3.pptx, Slide 35]
 
-
 ### 2. Signal-to-Noise Ratio (SNR & $SNR_{dB}$)
 
 $$
@@ -106,7 +99,6 @@ $$
 
 [Source: Reference Material - Chapter 3.pptx, Slide 42]
 
-
 ## 5. Data Rate Limits (Nyquist & Shannon Theorems)
 
 ### Nyquist Bit Rate (Noiseless Channel)
@@ -118,7 +110,6 @@ $$
 - $B$: Bandwidth in Hz
 - $L$: Number of signal levels
 
-
 ### Shannon Capacity (Noisy Channel)
 
 $$
@@ -128,7 +119,6 @@ $$
 - $C$: Upper limit of channel data rate in bps
 - $B$: Bandwidth in Hz
 - $\text{SNR}$: Signal to noise power ratio (absolute value, NOT dB)
-
 
 ### Worked Example: Shannon Capacity Calculation
 
@@ -147,4 +137,3 @@ C = 3000 \times \log_2(1 + 3162) = 3000 \times \log_2(3163) \approx 3000 \times 
 $$
 
 [Source: Reference Material - Chapter 3.pptx, Slide 50]
-

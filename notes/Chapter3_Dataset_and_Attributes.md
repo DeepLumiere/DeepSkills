@@ -178,6 +178,7 @@ x_{21} & x_{22} & \dots & x_{2n} \\
 x_{m1} & x_{m2} & \dots & x_{mn}
 \end{bmatrix}_{m \times n}
 $$
+
 [Source: 3.Dataset and Attributes.pdf, Slide 17]
 
 #### The Sparse Data Matrix (Document-Term Matrix)
@@ -251,9 +252,11 @@ Data where the order of attributes matters in time or space.
 ## Formula Sheet
 
 ### 1. Attribute Vector
+
 $$
 \mathbf{x}_i = [x_{i1}, x_{i2}, \dots, x_{in}]^T
 $$
+
 Where $\mathbf{x}_i$ is the vector of attributes for the $i$-th data object.
 
 ### 2. Data Matrix Size

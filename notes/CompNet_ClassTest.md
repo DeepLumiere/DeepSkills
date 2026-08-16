@@ -98,11 +98,11 @@ and server, sharing resources directly (e.g., BitTorrent, IPFS). [Faculty — Sl
 [Diagram: Peer-to-Peer Model — Faculty Slide 8]
 
 ### Person-to-Person Communication
-- Email, instant messaging, video calls, social networking, and user-generated content (wikis, blogs).  
+- Email, instant messaging, video calls, social networking, and user-generated content (wikis, blogs).
   [General — Slide 8]
 
 ### Entertainment & Media
-- On-demand video streaming (Netflix, YouTube), online multiplayer gaming, IPTV.  
+- On-demand video streaming (Netflix, YouTube), online multiplayer gaming, IPTV.
   [General — Slide 8]
 
 ### E-Commerce Categories
@@ -110,7 +110,7 @@ and server, sharing resources directly (e.g., BitTorrent, IPFS). [Faculty — Sl
 - **B2B (Business-to-Business):** Businesses purchasing raw materials from suppliers.
 - **C2C (Consumer-to-Consumer):** Individuals selling products/services to other individuals (e.g., eBay).
 - **G2C (Government-to-Consumer):** Government-provided services (e.g., tax filing portals).
-- **C2B (Consumer-to-Business):** Consumers listing budgets for services, and businesses bidding for them.  
+- **C2B (Consumer-to-Business):** Consumers listing budgets for services, and businesses bidding for them.
   [Faculty — Slide 9 / General — Slide 9]
 
 ---
@@ -121,11 +121,11 @@ and server, sharing resources directly (e.g., BitTorrent, IPFS). [Faculty — Sl
 - **Mobile Wireless:** Laptops/smartphones connected through 4G/5G/Wi-Fi while moving.
 - **Fixed Wireless:** Desktop PCs connected via wireless links within a building.
 - **Mobile Wired:** Laptop connected to an Ethernet jack at different locations (e.g., hotel desks).
-- **Fixed Wired:** Desktop PC permanently connected through wired networks in an office.  
+- **Fixed Wired:** Desktop PC permanently connected through wired networks in an office.
   [Faculty — Slide 10 / General — Slide 10]
 
 ### Wearable Devices & Sensor Networks
-- Examples include smartwatches, environmental sensors, and medical monitoring implants.  
+- Examples include smartwatches, environmental sensors, and medical monitoring implants.
   [Faculty — Slide 49]
 
 ---
@@ -133,11 +133,11 @@ and server, sharing resources directly (e.g., BitTorrent, IPFS). [Faculty — Sl
 ## 2.4 Social and Legal Issues
 
 ### Network Neutrality
-- The principle that Internet Service Providers (ISPs) must treat all Internet data equally, without discriminating or charging differently based on users, content, websites, platforms, or applications.  
+- The principle that Internet Service Providers (ISPs) must treat all Internet data equally, without discriminating or charging differently based on users, content, websites, platforms, or applications.
   [Faculty — Slide 11 / General — Slide 11]
 
 ### Privacy, Freedom of Speech, Censorship, and Copyright
-- These involve conflicts between copyright holders, state censorship, user anonymity, and wiretapping laws.  
+- These involve conflicts between copyright holders, state censorship, user anonymity, and wiretapping laws.
   [Faculty — Slide 11 / General — Slide 11]
 
 ## 3. Network Hardware Classification
@@ -956,7 +956,7 @@ $$
 d_{\text{min}} \ge d + 1
 $$
 
-To detect **d** single-bit errors, the minimum Hamming distance \(d_{\text{min}}\) of the code must be at least **d + 1**.  
+To detect **d** single-bit errors, the minimum Hamming distance \(d_{\text{min}}\) of the code must be at least **d + 1**.
 [Faculty — Slide 25]
 
 ---
@@ -967,7 +967,7 @@ $$
 d_{\text{min}} \ge 2p + 1
 $$
 
-To correct **p** single-bit errors, the minimum Hamming distance \(d_{\text{min}}\) must be at least **2p + 1**.  
+To correct **p** single-bit errors, the minimum Hamming distance \(d_{\text{min}}\) must be at least **2p + 1**.
 [Faculty — Slide 25]
 
 ---
@@ -978,7 +978,7 @@ To correct **p** single-bit errors, the minimum Hamming distance \(d_{\text{min}
 
 1. Bit positions are numbered starting at 1 (1, 2, 3, 4, 5, 6, 7...).
 2. Check bits (Parity bits \(P_k\)) are placed at positions that are powers of 2: 1, 2, 4, 8, 16…(\(2^k\)).
-3. Data bits (\(D_j\)) fill all remaining positions (3, 5, 6, 7, 9…).  
+3. Data bits (\(D_j\)) fill all remaining positions (3, 5, 6, 7, 9…).
 [Faculty — Slide 27 / General — Slide 27]
 
 ---
@@ -995,10 +995,10 @@ $$
 
 #### Step-by-Step Worked Numerical Example 1: Hamming Code Encoding
 
-**Problem:** Encode the 4-bit data message \(D = 1101_2\) 
+**Problem:** Encode the 4-bit data message \(D = 1101_2\)
 (\(D_4=1,D_3=1,D_2=0,D_1=1\)) into a (7,4) Hamming code using EVEN parity.
 
-- Given: Data \(m = 4\) bits (1101).  
+- Given: Data \(m = 4\) bits (1101).
   \(r = 3\) check bits are required because:
 
 $$
@@ -1542,6 +1542,7 @@ $$
 $$
 W_s \le 2^{n-1}
 $$
+
 ### 8.2 Important Definitions
 
 • Framing: Grouping bits from the Physical Layer into discrete frames with headers/trailers.
