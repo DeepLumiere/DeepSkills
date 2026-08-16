@@ -27,9 +27,6 @@ And a short intro, I'm interested in computer vision, robotics, autonomous drivi
 [![Website](https://img.shields.io/badge/Website-DeepSkills-00897B?style=flat-square&logo=google-chrome&logoColor=white)](https://deeplumiere.github.io/DeepLumiere)
 [![Email: 24bce152@nirmauni.ac.in](https://img.shields.io/badge/Email-Contact-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:24bce152@nirmauni.ac.in)
 
-
-
-
 ---
 
 > **Tip:** Toggle between Light and Dark mode using the sun/moon icon in the top right header.

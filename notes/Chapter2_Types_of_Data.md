@@ -176,9 +176,11 @@ When dealing with large datasets, the way data is presented mathematically profo
 **Meaning:** A simple list of individual numerical observations exactly as they were recorded.
 **Formal definition:** A set of observations $X = \{x_1, x_2, \dots, x_N\}$ where each $x_i$ is an individual raw data point.
 **Example:** The ages of 10 students:
+
 $$
 X = \{14, 17, 18, 18, 22, 25, 26, 28, 30, 32\}
 $$
+
 **Advantage:** Retains 100% of the original information precision.
 **Disadvantage:** Very difficult to interpret or identify patterns when the dataset is large ($N > 50$).
 
@@ -187,18 +189,24 @@ $$
 **Components:**
 - **Class Interval $[a, b)$:** The range of values defined by a lower limit $a$ and upper limit $b$.
 - **Class Width ($w$):** The difference between the upper and lower boundaries of a class.
+
 $$
-  w = b - a
+w = b - a
 $$
+
 - **Midpoint ($x_i$):** The central value of the class interval, used as the representative value for calculations (like the mean).
+
 $$
-  x_i = \frac{a + b}{2}
+x_i = \frac{a + b}{2}
 $$
+
 - **Frequency ($f_i$):** The number of observations falling into the $i$-th class interval.
 - **Relative Frequency:** The proportion of total observations falling into the class.
+
 $$
-  \text{Relative Frequency} = \frac{f_i}{N}
+\text{Relative Frequency} = \frac{f_i}{N}
 $$
+
   where $N = \sum f_i$ is the total number of observations.
 - **Cumulative Frequency ($CF$):** The running total of frequencies through the classes.
 
@@ -369,46 +377,55 @@ At a mall, people are browsing, looking for discounts, filling feedback forms, a
 
 ### 1. Nominal Category Equality
 Determines if two labels are the same.
+
 $$
 x_i = x_j \quad \text{or} \quad x_i \neq x_j
 $$
 
 ### 2. Ordinal Rank Ordering
 Determines the strict ordering between two elements.
+
 $$
 x_i > x_j \quad \text{or} \quad x_i < x_j
 $$
 
 ### 3. Interval Difference
 Calculates the exact quantitative difference between two measurements.
+
 $$
 \Delta x = x_i - x_j
 $$
 
 ### 4. Ratio Proportion
 Calculates the multiplicative relationship between two measurements.
+
 $$
 r = \frac{x_i}{x_j} \quad \text{where } (x_j \neq 0)
 $$
 
 ### 5. Grouped Data Class Width
 Determines the size of each continuous interval in a frequency distribution.
+
 $$
 w = b - a
 $$
+
 Where $b$ is the upper boundary and $a$ is the lower boundary.
 
 ### 6. Grouped Data Midpoint
 Calculates the representative center value of an interval.
+
 $$
 x_i = \frac{a + b}{2}
 $$
 
 ### 7. Relative Frequency
 Calculates the proportion of total observations falling into a specific interval.
+
 $$
 \text{Relative Frequency} = \frac{f_i}{N}
 $$
+
 Where $f_i$ is the class frequency and $N = \sum f_i$ is the total number of observations.
 
 ---

@@ -44,17 +44,13 @@ In univariate (simple) linear regression, we model the relationship between the 
 ### 2.1 The Linear Hypothesis
 The hypothesis function $h_\theta(x)$ (or predicted output $\hat{y}$) is defined as:
 
-
 $$
 h_\theta(x) = \theta_0 + \theta_1 x
 $$
 
-
-
 $$
 \hat{y} = h_\theta(x)
 $$
-
 
 Where:
 - $x$: Input feature (e.g., House Area in SQM).
@@ -76,11 +72,9 @@ Where:
 ### 3.1 Residual Error
 For any training instance $(x^{(i)}, y^{(i)})$, the residual (error) is defined as the vertical distance between the actual target $y^{(i)}$ and predicted output $h_\theta(x^{(i)})$:
 
-
 $$
 e^{(i)} = y^{(i)} - h_\theta(x^{(i)}) = y^{(i)} - (\theta_0 + \theta_1 x^{(i)})
 $$
-
 
 ### 3.2 Formulation of Mean Squared Error (MSE)
 Why do we use Mean Squared Error rather than raw or absolute errors?
@@ -90,11 +84,9 @@ Why do we use Mean Squared Error rather than raw or absolute errors?
 
 The Mean Squared Error cost function $J(\theta_0, \theta_1)$ is mathematically defined as:
 
-
 $$
 J(\theta_0, \theta_1) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
 $$
-
 
 Where:
 - $m$: Total number of training examples.
@@ -119,11 +111,9 @@ Gradient Descent is an iterative optimization algorithm used to minimize $J(\the
 ### 4.2 Simultaneous Update Rule
 The general update rule for parameter $\theta_j$ ($j = 0, 1$) is:
 
-
 $$
 \theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1)
 $$
-
 
 #### ⚠️ CRITICAL RULE: Simultaneous Updates
 Parameters $\theta_0$ and $\theta_1$ MUST be updated simultaneously at every iteration.
@@ -140,19 +130,15 @@ Parameters $\theta_0$ and $\theta_1$ MUST be updated simultaneously at every ite
 ### 4.3 Derivative Expressions for Linear Regression
 Let us compute partial derivatives of $J(\theta_0, \theta_1)$ with respect to $\theta_0$ and $\theta_1$:
 
-
 $$
 \frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1) = \frac{\partial}{\partial \theta_j} \left[ \frac{1}{2m} \sum_{i=1}^m (h_\theta(x^{(i)}) - y^{(i)})^2 \right]
 $$
 
-
 Applying chain rule:
-
 
 $$
 \frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1) = \frac{1}{m} \sum_{i=1}^m (h_\theta(x^{(i)}) - y^{(i)}) \cdot \frac{\partial}{\partial \theta_j} h_\theta(x^{(i)})
 $$
-
 
 Since $h_\theta(x^{(i)}) = \theta_0 + \theta_1 x^{(i)}$:
 - For $j = 0$: $\frac{\partial}{\partial \theta_0} h_\theta(x^{(i)}) = 1$
@@ -160,17 +146,13 @@ Since $h_\theta(x^{(i)}) = \theta_0 + \theta_1 x^{(i)}$:
 
 #### Concrete Derivative Formulas:
 
-
 $$
 \frac{\partial}{\partial \theta_0} J(\theta_0, \theta_1) = \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})
 $$
 
-
-
 $$
 \frac{\partial}{\partial \theta_1} J(\theta_0, \theta_1) = \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x^{(i)}
 $$
-
 
 #### Full Gradient Descent Algorithm:
 
@@ -185,6 +167,7 @@ $$
 \theta_1 := \theta_1 - \alpha \frac{1}{m}
 \sum_{i=1}^{m}(h_\theta(x^{(i)}) - y^{(i)})x^{(i)}
 $$
+
 ![Partial Derivatives Derivation](images/linear_reg_slide_14.png)
 ![Full Batch Gradient Descent Algorithm](images/linear_reg_slide_15.png)
 
@@ -319,19 +302,15 @@ $$
 J(0, 1) = \frac{1}{2 \times 3} \left[ (-1)^2 + (-1)^2 + (-2)^2 \right] = \frac{1}{6} [1 + 1 + 4] = \frac{6}{6} = 1.0
 $$
 
-
 **Step 4: Compute Gradients**:
 
 $$
 \frac{\partial J}{\partial \theta_0} = \frac{1}{3} [(-1) + (-1) + (-2)] = \frac{-4}{3} \approx -1.333
 $$
 
-
-
 $$
 \frac{\partial J}{\partial \theta_1} = \frac{1}{3} [(-1)(1) + (-1)(2) + (-2)(3)] = \frac{1}{3} [-1 - 2 - 6] = \frac{-9}{3} = -3.0
 $$
-
 
 **Step 5: Simultaneous Gradient Descent Update**:
 
@@ -339,12 +318,9 @@ $$
 \theta_0^{(new)} := 0 - 0.1 \times \left(-\frac{4}{3}\right) = 0 + 0.1333 = 0.1333
 $$
 
-
-
 $$
 \theta_1^{(new)} := 1 - 0.1 \times (-3.0) = 1 + 0.3 = 1.3000
 $$
-
 
 **Final Answer**:
 - Initial Cost $J(0,1) = 1.0$

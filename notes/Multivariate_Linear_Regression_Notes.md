@@ -31,7 +31,6 @@ $$
 x^{(2)} = \begin{bmatrix} 1416 \\ 3 \\ 2 \\ 40 \end{bmatrix}, \quad x_3^{(2)} = 2, \quad y^{(2)} = 232
 $$
 
-
 ---
 
 ## 2. Vectorized Hypothesis Formulation
@@ -40,27 +39,21 @@ $$
 ### 2.1 Multi-Feature Hypothesis Equation
 The non-vectorized hypothesis for $n$ features is:
 
-
 $$
 h_\theta(x) = \theta_0 + \theta_1 x_1 + \theta_2 x_2 + \dots + \theta_n x_n
 $$
 
-
 To express this compactly in vector notation, we define a dummy intercept feature:
-
 
 $$
 x_0 = 1 \quad \implies x_0^{(i)} = 1 \text{ for all } i
 $$
 
-
 Now, define feature vector $x \in \mathbb{R}^{n+1}$ and parameter vector $\theta \in \mathbb{R}^{n+1}$:
-
 
 $$
 x = \begin{bmatrix} x_0 \\ x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix} \in \mathbb{R}^{n+1}, \quad \theta = \begin{bmatrix} \theta_0 \\ \theta_1 \\ \theta_2 \\ \vdots \\ \theta_n \end{bmatrix} \in \mathbb{R}^{n+1}
 $$
-
 
 ### 2.2 Matrix-Vector Multiplication Form
 
@@ -68,24 +61,20 @@ $$
 h_\theta(x) = \theta_0 x_0 + \theta_1 x_1 + \dots + \theta_n x_n = \begin{bmatrix} \theta_0 & \theta_1 & \dots & \theta_n \end{bmatrix} \begin{bmatrix} x_0 \\ x_1 \\ \vdots \\ x_n \end{bmatrix} = \theta^T x
 $$
 
-
 ![Vectorized Hypothesis Definition](images/multivariate_reg_slide_7.png)
 
 ### 2.3 Multivariate Cost Function and Gradient Descent
 The cost function for $n$ features remains Mean Squared Error:
 
-
 $$
 J(\theta) = J(\theta_0, \theta_1, \dots, \theta_n) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
 $$
-
 
 #### Gradient Descent Update Rule ($n \ge 1$):
 
 $$
 \text{Repeat until convergence \{} \quad \theta_j := \theta_j - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)} \quad \text{for } j = 0, 1, \dots, n \quad \}
 $$
-
 
 Notice that for $j = 0$, since $x_0^{(i)} = 1$, the update equation matches univariate linear regression identically!
 
@@ -107,31 +96,25 @@ By scaling features to approximately $-1 \le x_i \le 1$, cost function contours 
 ### 3.2 Min-Max Normalization
 Maps feature values into a bounded range $[new\_min_A, new\_max_A]$ (typically $[0, 1]$):
 
-
 $$
 v' = \frac{v - \min_A}{\max_A - \min_A} (new\_max_A - new\_min_A) + new\_min_A
 $$
-
 
 ![Min-Max Normalization Formula](images/multivariate_reg_slide_15.png)
 
 #### Worked Example:
 Given attribute *income* with range $[\$12,000, \$98,000]$, scale $v = \$73,600$ into $[0.0, 1.0]$:
 
-
 $$
 v' = \frac{73,600 - 12,000}{98,000 - 12,000} (1.0 - 0) + 0 = \frac{61,600}{86,000} = 0.716
 $$
 
-
 ### 3.3 Z-Score Normalization (Standardization)
 Centers features to zero mean ($\bar{x} = 0$) and unit standard deviation ($\sigma = 1$):
-
 
 $$
 x_j' = \frac{x_j - \mu_j}{\sigma_j}
 $$
-
 
 Where:
 - $\mu_j = \frac{1}{m} \sum_{i=1}^m x_j^{(i)}$ (mean of feature $j$).
@@ -142,11 +125,9 @@ Where:
 #### Worked Example:
 Given attribute *income* with mean $\mu = \$54,000$ and standard deviation $\sigma = \$16,000$, normalize $v = \$73,600$:
 
-
 $$
 v' = \frac{73,600 - 54,000}{16,000} = \frac{19,600}{16,000} = 1.225
 $$
-
 
 ---
 
@@ -167,11 +148,9 @@ Declare convergence if cost $J(\theta)$ decreases by less than threshold $\epsil
 ### 4.3 Practical Rule for Choosing $\alpha$
 Try a sequence of $\alpha$ values scaled by factors of approximately $3$:
 
-
 $$
 \dots, 0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0, \dots
 $$
-
 
 ![Summary of Alpha Selection Sequence](images/multivariate_reg_slide_21.png)
 
@@ -185,11 +164,9 @@ Linear regression can model complex non-linear relationships by creating polynom
 ### 5.1 Polynomial Feature Mapping
 Suppose dataset plot indicates a non-linear relationship between house Size ($x$) and Price ($y$):
 
-
 $$
 h_\theta(x) = \theta_0 + \theta_1 (\text{size}) + \theta_2 (\text{size})^2 + \theta_3 (\text{size})^3
 $$
-
 
 We map this into multivariate linear regression by defining new variables:
 - $x_1 = \text{size}$
@@ -203,11 +180,9 @@ Thus, $h_\theta(x) = \theta_0 + \theta_1 x_1 + \theta_2 x_2 + \theta_3 x_3$.
 ### 5.2 Choice of Non-Linear Features
 Polynomials like cubic curves may decrease at large values. Alternative mappings like square-root functions can be used:
 
-
 $$
 h_\theta(x) = \theta_0 + \theta_1 (\text{size}) + \theta_2 \sqrt{\text{size}}
 $$
-
 
 #### ⚠️ Warning on Feature Scaling:
 When using polynomial features, feature scaling becomes indispensable. For instance, if $\text{size} \in [1, 1000]$, then $\text{size}^2 \in [1, 10^6]$ and $\text{size}^3 \in [1, 10^9]$!
@@ -224,44 +199,34 @@ Instead of iterative gradient descent, the optimal parameters $\theta^*$ can be 
 ### 6.1 Matrix Formulation
 Construct Design Matrix $X \in \mathbb{R}^{m \times (n+1)}$ and Target Vector $y \in \mathbb{R}^m$:
 
-
 $$
 X = \begin{bmatrix} 1 & x_1^{(1)} & x_2^{(1)} & \dots & x_n^{(1)} \\ 1 & x_1^{(2)} & x_2^{(2)} & \dots & x_n^{(2)} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_1^{(m)} & x_2^{(m)} & \dots & x_n^{(m)} \end{bmatrix}, \quad y = \begin{bmatrix} y^{(1)} \\ y^{(2)} \\ \vdots \\ y^{(m)} \end{bmatrix}
 $$
-
 
 ![Design Matrix Construction Example](images/multivariate_reg_slide_30.png)
 
 ### 6.2 Closed-Form Derivation
 The vector cost function is:
 
-
 $$
 J(\theta) = \frac{1}{2m} (X\theta - y)^T (X\theta - y) = \frac{1}{2m} (\theta^T X^T X \theta - 2 \theta^T X^T y + y^T y)
 $$
 
-
 To minimize $J(\theta)$, set matrix partial derivative to zero vector $\mathbf{0}$:
-
 
 $$
 \nabla_\theta J(\theta) = \frac{1}{m} (X^T X \theta - X^T y) = \mathbf{0}
 $$
 
-
-
 $$
 X^T X \theta = X^T y
 $$
 
-
 Multiplying both sides by matrix inverse $(X^T X)^{-1}$:
-
 
 $$
 \theta = (X^T X)^{-1} X^T y
 $$
-
 
 ![Normal Equation Closed Form Formula](images/multivariate_reg_slide_31.png)
 
@@ -307,17 +272,13 @@ What happens if $(X^T X)$ is singular (non-invertible / degenerate)?
 
 For single variable linear regression $y = w_0 + w_1 x$, the closed-form analytical equations are:
 
-
 $$
 w_1 = \frac{\sum_{i=1}^d (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^d (x_i - \bar{x})^2}
 $$
 
-
-
 $$
 w_0 = \bar{y} - w_1 \bar{x}
 $$
-
 
 Where $\bar{x} = \frac{1}{d} \sum x_i$ and $\bar{y} = \frac{1}{d} \sum y_i$.
 
@@ -336,12 +297,9 @@ $$
 w_1 = \frac{(3-9.1)(30-55.4) + \dots + (16-9.1)(83-55.4)}{(3-9.1)^2 + \dots + (16-9.1)^2} = 3.5
 $$
 
-
-
 $$
 w_0 = 55.4 - (3.5)(9.1) = 23.6
 $$
-
 
 Fitted Model: $\hat{y} = 23.6 + 3.5 x$.
 Predicting salary for $10$ years experience: $\hat{y} = 23.6 + 3.5(10) = 58.6 \implies \$58,600$.
@@ -438,26 +396,21 @@ $$
 X = \begin{bmatrix} 1 & 1 & 2 \\ 1 & 2 & 1 \end{bmatrix}, \quad y = \begin{bmatrix} 6 \\ 5 \end{bmatrix}
 $$
 
-
 **Step 2: Compute $X^T X$**:
 
 $$
 X^T = \begin{bmatrix} 1 & 1 \\ 1 & 2 \\ 2 & 1 \end{bmatrix}
 $$
 
-
-
 $$
 X^T X = \begin{bmatrix} 1 & 1 \\ 1 & 2 \\ 2 & 1 \end{bmatrix} \begin{bmatrix} 1 & 1 & 2 \\ 1 & 2 & 1 \end{bmatrix} = \begin{bmatrix} 2 & 3 & 3 \\ 3 & 5 & 4 \\ 3 & 4 & 5 \end{bmatrix}
 $$
-
 
 **Step 3: Compute $X^T y$**:
 
 $$
 X^T y = \begin{bmatrix} 1 & 1 \\ 1 & 2 \\ 2 & 1 \end{bmatrix} \begin{bmatrix} 6 \\ 5 \end{bmatrix} = \begin{bmatrix} 6 + 5 \\ 6 + 10 \\ 12 + 5 \end{bmatrix} = \begin{bmatrix} 11 \\ 16 \\ 17 \end{bmatrix}
 $$
-
 
 **Step 4: Solve linear system $X^T X \theta = X^T y$**:
 Setting $\theta_0 = 1, \theta_1 = 1, \theta_2 = 2$:

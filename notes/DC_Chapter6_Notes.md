@@ -5,7 +5,6 @@
 - **Subject:** FDM, WDM, TDM & Spread Spectrum
 - **Source:** Reference Material - Chapter 6_Multiplexing.pptx
 
-
 ## 2. Multiplexing Techniques Comparison
 
 | Multiplexing Technique | Medium / Domain | Signal Type | Principle | Common Application | Source Tag |
@@ -19,10 +18,8 @@
 
 | **Statistical TDM** | Time | Digital | Dynamic time slot allocation based on demand | Packet Switching Networks | [Source: Ch 6, Slide 25] |
 
-
 ### Figure 6.1: FDM vs TDM Concept Architecture
 
 ![FDM vs TDM](images/DC/slide_40_img_22.png)
 
 [Source: Reference Material - Chapter 6_Multiplexing.pptx, Slide 4]
-

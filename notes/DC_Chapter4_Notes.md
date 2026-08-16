@@ -5,7 +5,6 @@
 - **Subject:** Digital-to-Digital & Analog-to-Digital Conversion
 - **Source:** Reference Material - Chapter 4.pptx
 
-
 ## 2. Line Coding Schemes Comparison
 
 | Scheme Category | Specific Line Code | Voltage Levels | Self-Synchronization | DC Component | Key Characteristics | Source Tag |
@@ -25,13 +24,11 @@
 
 | **Bipolar** | AMI (Alternate Mark Inversion) | $+V, 0, -V$ | Partial | No | 0 is zero voltage; 1 alternates $+V$ and $-V$ | [Source: Ch 4, Slide 16] |
 
-
 ### Line Coding Waveforms Figure
 
 ![Line Coding Schemes](images/DC/slide_70_img_37.png)
 
 [Source: Reference Material - Chapter 4.pptx, Slide 7]
-
 
 ## 3. Pulse Code Modulation (PCM)
 
@@ -53,20 +50,20 @@ $$
 
 **Where:** $f_s$ is the sampling rate in samples/sec, and $f_{\max}$ is the maximum frequency contained in the analog signal.
 
-
 ### Worked Example: Audio PCM Bit Rate Calculation
 
 **Given:** Human voice signal with max frequency $f_{\max} = 4000\text{ Hz}$. Signal is sampled at Nyquist rate and quantized into $L = 256$ levels ($n = 8$ bits per sample).
 
 1. **Sampling Rate $f_s$:**
+
 $$
 f_s = 2 \times 4000 = 8000\text{ samples/sec}
 $$
 
 2. **Bit Rate $R_b$:**
+
 $$
 R_b = f_s \times n = 8000 \times 8 = 64,000\text{ bps} = 64\text{ Kbps}
 $$
 
 [Source: Reference Material - Chapter 4.pptx, Slide 30]
-

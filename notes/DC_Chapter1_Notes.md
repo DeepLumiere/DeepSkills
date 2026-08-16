@@ -35,7 +35,6 @@
 
 | **Protocol** | Set of rules governing data communications (Agreed rules between communicating devices). | [Source: Ch 1, Slide 4] |
 
-
 ### Figure 1.1: Data Communication Components Architecture
 
 ![Data Communication Components](images/DC/slide_3_img_3.gif)
@@ -45,7 +44,6 @@
 **Flow / Relationship:** Sender transmits message over physical medium using rules defined by Protocol to Receiver.
 
 [Source: Reference Material - Chapter 1.pptx, Slide 3]
-
 
 ## 3. Data Representation & Flow Modes
 
@@ -60,7 +58,6 @@
 - **Audio / Video:** Continuous signal digitized into binary streams.
 
 [Source: Reference Material - Chapter 1.pptx, Slides 6-8]
-
 
 ### Direction of Data Flow (Simplex, Half-Duplex, Full-Duplex)
 
@@ -86,7 +83,6 @@ flowchart LR
 
 | **Full-Duplex** | Bidirectional (Simultaneous in both directions) | Channel split into two directions | Telephone Network, Ethernet | [Source: Ch 1, Slide 11] |
 
-
 ## 4. Networks & Topology Classification
 
 ### Physical Topologies Comparison
@@ -103,7 +99,6 @@ flowchart LR
 | **Ring** | Dedicated point-to-point to 2 neighbors | Easy to reconfigure, fault detection | Unidirectional break affects whole ring | $N$ links | [Source: Ch 1, Slides 25-27] |
 
 | **Hybrid** | Combination of 2+ topologies (e.g. Star-Bus) | Scalable, Flexible | Complex design, costly | Varies | [Source: Ch 1, Slide 28] |
-
 
 ### Mathematical Formula: Mesh Topology Links & Ports
 
@@ -125,7 +120,6 @@ $$
 
 [Source: Reference Material - Chapter 1.pptx, Slide 16]
 
-
 ## 5. Network Categories (LAN, MAN, WAN)
 
 | Network Type | Full Form | Geographic Coverage | Control / Ownership | Example | Source Tag |
@@ -136,7 +130,6 @@ $$
 | **MAN** | Metropolitan Area Network | City / Town scale | Public or Private | Cable TV Network, City Fiber | [Source: Ch 1, Slide 32] |
 
 | **WAN** | Wide Area Network | Country, Continent, Global | Multiple Operators | Internet, Telecom Backbone | [Source: Ch 1, Slide 33] |
-
 
 ## 6. Formula Sheet
 
@@ -149,7 +142,6 @@ $$
 - $L$: Total number of duplex physical channels
 - $N$: Total number of network devices
 
-
 ## 7. Definition Sheet
 
 - **Protocol:** Syntax, semantics, and timing rules governing data communications.
@@ -161,7 +153,6 @@ $$
 - **Half-Duplex:** Two-way alternate data communication mode.
 
 - **Full-Duplex:** Two-way simultaneous data communication mode.
-
 
 ## 8. Exam-Oriented Review & Questions
 

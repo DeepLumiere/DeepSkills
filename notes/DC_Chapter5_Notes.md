@@ -5,7 +5,6 @@
 - **Subject:** Digital-to-Analog & Analog-to-Analog Modulation
 - **Source:** Reference Material - Chapter 5.pptx
 
-
 ## 2. Digital-to-Analog Modulation (ASK, FSK, PSK, QAM)
 
 | Modulation Type | Full Name | Variable Carrier Parameter | Bandwidth Requirement ($B$) | Bit Rate vs Baud Rate | Source Tag |
@@ -19,13 +18,11 @@
 
 | **QAM** | Quadrature Amplitude Modulation | Amplitude & Phase | $B = (1 + d) \times S$ | High spectral efficiency | [Source: Ch 5, Slide 24] |
 
-
 ### Figure 5.1: Constellation Diagram for 4-QAM / QPSK
 
 ![Constellation Diagram](images/DC/slide_22_img_16.png)
 
 [Source: Reference Material - Chapter 5.pptx, Slide 22]
-
 
 ## 3. Analog-to-Analog Modulation (AM, FM, PM)
 
@@ -36,4 +33,3 @@
 - **Phase Modulation (PM):** $B_{\text{PM}} = 2 (1 + \gamma) B_m$
 
 [Source: Reference Material - Chapter 5.pptx, Slides 35-45]
-

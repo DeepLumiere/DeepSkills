@@ -118,9 +118,11 @@ Even though Computer A is $1,000$ times faster in raw hardware speed, Merge Sort
 ### 4.2 Space Complexity vs. Time Complexity
 
 * **Space Complexity:** Total memory required by an algorithm during execution.
+
 $$
-  S(P) = c + S_p(n)
+S(P) = c + S_p(n)
 $$
+
   where $c$ is fixed memory (code space, simple variables) and $S_p(n)$ is dynamic memory (instance-dependent arrays, recursion stack).
 * **Significance:** Storage hardware is cheap and abundant; computational time is a scarce resource. Therefore, **Time Complexity** is universally prioritized over Space Complexity in algorithm performance evaluation.
 
@@ -201,6 +203,7 @@ Asymptotic notation provides a mathematical language for describing the growth r
 
 **Formal Definition:**
 For a given function $g(n)$, $\mathcal{O}(g(n))$ is the set of functions:
+
 $$
 \mathcal{O}(g(n)) = \{ f(n) : \text{there exist positive constants } c > 0 \text{ and } n_0 > 0 \text{ such that } 0 \le f(n) \le c \cdot g(n) \text{ for all } n \ge n_0 \}
 $$
@@ -226,9 +229,11 @@ $\mathcal{O}(g(n))$ bounds the worst-case running time from above. The running t
 * **Given:** $f(n) = 2n + 6$, $g(n) = n$.
 * **Requirement:** Find constants $c > 0, n_0 > 0$ such that $2n + 6 \le c \cdot n$ for $n \ge n_0$.
 * **Derivation:**
+
 $$
-  2n + 6 \le 2n + 6n = 8n \quad (\text{for all } n \ge 1)
+2n + 6 \le 2n + 6n = 8n \quad (\text{for all } n \ge 1)
 $$
+
 * **Conclusion:** Selecting $c = 8$ and $n_0 = 1$ satisfies $0 \le 2n+6 \le 8n$ for all $n \ge 1$. Hence, $2n+6 = \mathcal{O}(n)$.
 
 [Source: DAA_Unit1.pptx, Slides 28–31]
@@ -241,6 +246,7 @@ $$
 
 **Formal Definition:**
 For a given function $g(n)$, $\Omega(g(n))$ is the set of functions:
+
 $$
 \Omega(g(n)) = \{ f(n) : \text{there exist positive constants } c > 0 \text{ and } n_0 > 0 \text{ such that } 0 \le c \cdot g(n) \le f(n) \text{ for all } n \ge n_0 \}
 $$
@@ -259,9 +265,11 @@ $\Omega(g(n))$ provides an absolute lower bound on running time. The algorithm t
 * **Requirement:** Find $c > 0, n_0 > 0$ such that $c \cdot n^2 \le 3n^2 + 2n + 4$.
 * **Derivation:**
   For $n \ge 1$, $2n + 4 \ge 0$, so:
+
 $$
-  3n^2 \le 3n^2 + 2n + 4
+3n^2 \le 3n^2 + 2n + 4
 $$
+
 * **Conclusion:** Selecting $c = 3$ and $n_0 = 1$ satisfies $3n^2 \le f(n)$ for all $n \ge 1$. Hence, $3n^2+2n+4 = \Omega(n^2)$.
 
 [Source: DAA_Unit1.pptx, Slides 33–34, 53]
@@ -274,6 +282,7 @@ $$
 
 **Formal Definition:**
 For a given function $g(n)$, $\Theta(g(n))$ is the set of functions:
+
 $$
 \Theta(g(n)) = \{ f(n) : \text{there exist positive constants } c_1 > 0, c_2 > 0, n_0 > 0 \text{ such that } 0 \le c_1 \cdot g(n) \le f(n) \le c_2 \cdot g(n) \text{ for all } n \ge n_0 \}
 $$
@@ -289,9 +298,11 @@ $$
 * **Requirement:** Find $c_1, c_2 > 0$ and $n_0 > 0$ such that $c_1 n \le 3n + 2 \le c_2 n$ for all $n \ge n_0$.
 * **Derivation:**
   For $n \ge 1$:
+
 $$
-  2n \le 3n + 2 \le 5n
+2n \le 3n + 2 \le 5n
 $$
+
 * **Conclusion:** Choosing $c_1 = 2$, $c_2 = 5$, and $n_0 = 1$ proves $3n+2 = \Theta(n)$.
 
 [Source: DAA_Unit1.pptx, Slides 35–36, 55]
@@ -355,13 +366,17 @@ For two positive functions $f(n)$ and $g(n)$, evaluate $L = \lim_{n \to \infty} 
 
 #### Worked Problem: Prove $\sqrt{n}$ grows faster than $\log n$
 * Let $f(n) = \sqrt{n}$ and $g(n) = \log_e n$. Compute $L$:
+
 $$
-  L = \lim_{n \to \infty} \frac{\log n}{\sqrt{n}}
+L = \lim_{n \to \infty} \frac{\log n}{\sqrt{n}}
 $$
+
   Applying L'Hôpital's Rule ($\frac{\infty}{\infty}$ form):
+
 $$
-  L = \lim_{n \to \infty} \frac{\frac{d}{dn}(\log n)}{\frac{d}{dn}(n^{1/2})} = \lim_{n \to \infty} \frac{\frac{1}{n}}{\frac{1}{2\sqrt{n}}} = \lim_{n \to \infty} \frac{2\sqrt{n}}{n} = \lim_{n \to \infty} \frac{2}{\sqrt{n}} = 0
+L = \lim_{n \to \infty} \frac{\frac{d}{dn}(\log n)}{\frac{d}{dn}(n^{1/2})} = \lim_{n \to \infty} \frac{\frac{1}{n}}{\frac{1}{2\sqrt{n}}} = \lim_{n \to \infty} \frac{2\sqrt{n}}{n} = \lim_{n \to \infty} \frac{2}{\sqrt{n}} = 0
 $$
+
 * **Result:** Since the limit is $0$, $\log n = o(\sqrt{n})$, which proves that $\sqrt{n}$ grows strictly faster than $\log n$.
 
 [Source: DAA_Unit1.pptx, Slides 46, 48]
@@ -392,26 +407,31 @@ If total cost equals $\text{Cost of Elephants} + \text{Cost of Goldfish}$, since
 ## 10. Formula Sheet (Unit-I)
 
 ### 1. Big-$\mathcal{O}$ Upper Bound
+
 $$
 0 \le f(n) \le c \cdot g(n) \quad \forall n \ge n_0
 $$
 
 ### 2. Big-$\Omega$ Lower Bound
+
 $$
 0 \le c \cdot g(n) \le f(n) \quad \forall n \ge n_0
 $$
 
 ### 3. Big-$\Theta$ Tight Bound
+
 $$
 0 \le c_1 \cdot g(n) \le f(n) \le c_2 \cdot g(n) \quad \forall n \ge n_0
 $$
 
 ### 4. Limit Evaluation Rule
+
 $$
 \lim_{n \to \infty} \frac{f(n)}{g(n)} = L \implies \begin{cases} 0 & f = o(g) \\ c > 0 & f = \Theta(g) \\ \infty & f = \omega(g) \end{cases}
 $$
 
 ### 5. Maximum Rule
+
 $$
 \mathcal{O}(f(n) + g(n)) = \mathcal{O}(\max(f(n), g(n)))
 $$
@@ -456,15 +476,19 @@ $$
 **Problem:** Prove or disprove whether $2^{n+1} = \mathcal{O}(2^n)$ and whether $2^{2n} = \mathcal{O}(2^n)$.
 **Solution Steps:**
 1. **Part (i) $2^{n+1}$:**
+
 $$
-   2^{n+1} = 2^1 \cdot 2^n = 2 \cdot 2^n
+2^{n+1} = 2^1 \cdot 2^n = 2 \cdot 2^n
 $$
+
    Choosing $c = 2$ and $n_0 = 1$ satisfies $2^{n+1} \le c \cdot 2^n$.
    **Result:** True, $2^{n+1} = \mathcal{O}(2^n)$.
 2. **Part (ii) $2^{2n}$:**
+
 $$
-   2^{2n} = (2^2)^n = 4^n
+2^{2n} = (2^2)^n = 4^n
 $$
+
    Assume $\exists c, n_0$ such that $4^n \le c \cdot 2^n$. Dividing by $2^n$ yields $2^n \le c$.
    As $n \to \infty$, $2^n$ grows without bound, so no constant $c$ can bound it.
    **Result:** False, $2^{2n} \neq \mathcal{O}(2^n)$.
