@@ -180,15 +180,35 @@ With 3-bit numbers and window $7$, frames $0$ through $6$ were sent and frame $4
 
 ## 9. Formula and definition sheet
 
-$$n=m+r\qquad \text{code rate}=\frac{m}{n}$$
 
-$$d_{\min}\geq s+1\qquad d_{\min}\geq2s+1$$
+$$
+n=m+r\qquad \text{code rate}=\frac{m}{n}
+$$
 
-$$2^r\geq m+r+1$$
 
-$$T_{\mathrm{tx}}=\frac{F}{R}\qquad U_{\mathrm{SW}}=\frac{T_{\mathrm{tx}}}{T_{\mathrm{tx}}+\mathrm{RTT}+T_{\mathrm{ACK}}}$$
 
-$$W_{\mathrm{GBN}}\leq N-1\qquad W_{\mathrm{SR}}\leq\frac{N}{2}$$
+$$
+d_{\min}\geq s+1\qquad d_{\min}\geq2s+1
+$$
+
+
+
+$$
+2^r\geq m+r+1
+$$
+
+
+
+$$
+T_{\mathrm{tx}}=\frac{F}{R}\qquad U_{\mathrm{SW}}=\frac{T_{\mathrm{tx}}}{T_{\mathrm{tx}}+\mathrm{RTT}+T_{\mathrm{ACK}}}
+$$
+
+
+
+$$
+W_{\mathrm{GBN}}\leq N-1\qquad W_{\mathrm{SR}}\leq\frac{N}{2}
+$$
+
 
 - **Framing:** identify start/end of frames in a bit stream.
 - **CRC:** modulo-2 polynomial error-detection code.
@@ -334,7 +354,11 @@ PPP's `0x7E` flag and `0x7D` escape are byte-oriented equivalents of the framing
 
 **Formula:**
 
-$$d_{\min}=s+1$$
+
+$$
+d_{\min}=s+1
+$$
+
 
 **Reason:** any received word changed in up to $s$ positions must not coincide with another valid codeword. For correction, the received word must be closer to its original codeword than to any other valid word, requiring $d_{\min}=2s+1$. [Source: DLL Numericals, pp. 4-7]
 
@@ -342,7 +366,11 @@ $$d_{\min}=s+1$$
 
 The supplied numerical material gives distance $9\times10^{10}\,\mathrm{m}$, speed $3\times10^8\,\mathrm{m/s}$, link rate $64\,\mathrm{Mb/s}$, and frame size $32\,\mathrm{KB}$.
 
-$$T_{\mathrm{prop}}=\frac{9\times10^{10}}{3\times10^8}=300\,\mathrm{s}$$
+
+$$
+T_{\mathrm{prop}}=\frac{9\times10^{10}}{3\times10^8}=300\,\mathrm{s}
+$$
+
 
 The source computes a bandwidth-delay quantity of $19.2\,\mathrm{Gbit}$ and approximately $75000$ frames in one one-way delay, leading to extremely low stop-and-wait utilization of $6.67\times10^{-4}\%$. It then gives a send window of $150001$ frames for $100\%$ utilization under the stated simplifications. [Source: DLL Numericals, pp. 28-29]
 

@@ -28,14 +28,14 @@ flowchart TD
     A --> C[Unsupervised Learning]
     A --> D[Semi-Supervised Learning]
     A --> E[Reinforcement Learning]
-    
+
     B --> B1[Classification - Discrete Outputs]
     B --> B2[Regression - Continuous Outputs]
-    
+
     C --> C1[Clustering - Grouping Data]
     C --> C2[Dimensionality Reduction - PCA/TSNE]
     C --> C3[Density Estimation]
-    
+
     E --> E1[Agent, Environment, State, Action, Reward]
 ```
 
@@ -131,4 +131,7 @@ A framework where an autonomous agent interacts with an environment, learning ac
 **Problem**: Calculate Euclidean distance between two data instances $\mathbf{x}^{(1)} = [2, 5, 8]^T$ and $\mathbf{x}^{(2)} = [5, 1, 8]^T$.
 
 **Solution**:
-$$d(\mathbf{x}^{(1)}, \mathbf{x}^{(2)}) = \sqrt{(5-2)^2 + (1-5)^2 + (8-8)^2} = \sqrt{3^2 + (-4)^2 + 0^2} = \sqrt{9 + 16 + 0} = \sqrt{25} = 5.0$$
+
+$$
+d(\mathbf{x}^{(1)}, \mathbf{x}^{(2)}) = \sqrt{(5-2)^2 + (1-5)^2 + (8-8)^2} = \sqrt{3^2 + (-4)^2 + 0^2} = \sqrt{9 + 16 + 0} = \sqrt{25} = 5.0
+$$

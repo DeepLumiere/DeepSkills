@@ -47,7 +47,11 @@ Suppose we want to prevent high-degree terms ($\theta_3 x^3, \theta_4 x^4$) from
 ### 2.2 Formal $L_2$ Regularized Cost Function
 The regularized cost function $J(\theta)$ is defined as:
 
-$$J(\theta) = \frac{1}{2m} \left[ \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2 + \lambda \sum_{j=1}^{n} \theta_j^2 \right]$$
+
+$$
+J(\theta) = \frac{1}{2m} \left[ \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2 + \lambda \sum_{j=1}^{n} \theta_j^2 \right]
+$$
+
 
 Where:
 - $\frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2$: Standard Mean Squared Error (Data fit objective).
@@ -75,14 +79,26 @@ Because bias term $\theta_0$ is unpenalized, parameter update equations are spli
 ### 3.1 Parameter Update Equations
 
 #### For Bias Term ($j = 0$):
-$$\theta_0 := \theta_0 - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) x_0^{(i)}$$
+
+$$
+\theta_0 := \theta_0 - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) x_0^{(i)}
+$$
+
 
 #### For Weight Terms ($j = 1, 2, \dots, n$):
-$$\theta_j := \theta_j - \alpha \left[ \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)} + \frac{\lambda}{m} \theta_j \right]$$
+
+$$
+\theta_j := \theta_j - \alpha \left[ \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)} + \frac{\lambda}{m} \theta_j \right]
+$$
+
 
 Grouping terms containing $\theta_j$:
 
-$$\theta_j := \theta_j \left( 1 - \alpha \frac{\lambda}{m} \right) - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)}$$
+
+$$
+\theta_j := \theta_j \left( 1 - \alpha \frac{\lambda}{m} \right) - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)}
+$$
+
 
 ![Regularized Gradient Descent Derivation](images/regularization_slide_12.png)
 
@@ -99,11 +115,19 @@ The factor $\left(1 - \alpha \frac{\lambda}{m}\right)$ explains the term **"Weig
 ### 4.1 Closed-Form Matrix Equation
 To find global minimum analytically with $L_2$ regularization, set $\nabla_\theta J(\theta) = \mathbf{0}$:
 
-$$\theta = \left( X^T X + \lambda L \right)^{-1} X^T y$$
+
+$$
+\theta = \left( X^T X + \lambda L \right)^{-1} X^T y
+$$
+
 
 Where $L$ is an $(n+1) \times (n+1)$ matrix with $0$ at top-left position $(0,0)$ and $1$'s along the remaining diagonal:
 
-$$L = \begin{bmatrix} 0 & 0 & 0 & \dots & 0 \\ 0 & 1 & 0 & \dots & 0 \\ 0 & 0 & 1 & \dots & 0 \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & 0 & \dots & 1 \end{bmatrix} \in \mathbb{R}^{(n+1) \times (n+1)}$$
+
+$$
+L = \begin{bmatrix} 0 & 0 & 0 & \dots & 0 \\ 0 & 1 & 0 & \dots & 0 \\ 0 & 0 & 1 & \dots & 0 \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & 0 & \dots & 1 \end{bmatrix} \in \mathbb{R}^{(n+1) \times (n+1)}
+$$
+
 
 ![Regularized Normal Equation Matrix Formula](images/regularization_slide_13.png)
 
@@ -180,15 +204,31 @@ Suppose $\theta_0 = 0$ is fixed. For weight parameter $\theta_1$, given $\alpha 
 - $h_\theta(x^{(2)}) = 3 \times 2 = 6$ (actual $y^{(2)} = 4 \implies \text{error} = +2$)
 
 **Step 2: Unregularized Data Gradient**:
-$$\frac{1}{m} \sum_{i=1}^2 (h_\theta(x^{(i)}) - y^{(i)}) x^{(i)} = \frac{1}{2} [(1)(1) + (2)(2)] = \frac{1 + 4}{2} = 2.5$$
+
+$$
+\frac{1}{m} \sum_{i=1}^2 (h_\theta(x^{(i)}) - y^{(i)}) x^{(i)} = \frac{1}{2} [(1)(1) + (2)(2)] = \frac{1 + 4}{2} = 2.5
+$$
+
 
 **Step 3: Weight Decay Factor**:
-$$1 - \alpha \frac{\lambda}{m} = 1 - 0.1 \times \frac{4}{2} = 1 - 0.2 = 0.8$$
+
+$$
+1 - \alpha \frac{\lambda}{m} = 1 - 0.1 \times \frac{4}{2} = 1 - 0.2 = 0.8
+$$
+
 
 **Step 4: Regularized Parameter Update**:
-$$\theta_1^{(new)} := \theta_1 \left(1 - \alpha \frac{\lambda}{m}\right) - \alpha (\text{data gradient})$$
 
-$$\theta_1^{(new)} := 3 \times 0.8 - 0.1 \times 2.5 = 2.4 - 0.25 = 2.15$$
+$$
+\theta_1^{(new)} := \theta_1 \left(1 - \alpha \frac{\lambda}{m}\right) - \alpha (\text{data gradient})
+$$
+
+
+
+$$
+\theta_1^{(new)} := 3 \times 0.8 - 0.1 \times 2.5 = 2.4 - 0.25 = 2.15
+$$
+
 
 **Final Answer**:
 - Weight decay reduced parameter from $3.0 \to 2.4$ prior to subtracting data gradient $0.25$, yielding final parameter $\theta_1^{(new)} = 2.15$.

@@ -24,7 +24,11 @@ Probability and statistics form the mathematical bedrock of machine learning, en
 The Law of Large Numbers states that as the number of independent and identically distributed (i.i.d.) trials $n$ approaches infinity, the sample average $\bar{X}_n$ converges towards the true expected value $\mu = \mathbb{E}[X]$.
 
 #### Mathematical Statement:
-$$\lim_{n \to \infty} P(|\bar{X}_n - \mu| < \epsilon) = 1 \quad \text{for any } \epsilon > 0$$
+
+$$
+\lim_{n \to \infty} P(|\bar{X}_n - \mu| < \epsilon) = 1 \quad \text{for any } \epsilon > 0
+$$
+
 
 Where:
 - $\bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i$: Sample mean after $n$ trials.
@@ -42,10 +46,18 @@ Where:
 ### 3.1 Conditional Probability & Bayes' Theorem
 Conditional probability measures the likelihood of event $A$ occurring given that event $B$ has already occurred:
 
-$$P(A \mid B) = \frac{P(A \cap B)}{P(B)} \quad \text{provided } P(B) > 0$$
+
+$$
+P(A \mid B) = \frac{P(A \cap B)}{P(B)} \quad \text{provided } P(B) > 0
+$$
+
 
 #### Bayes' Theorem Formulation:
-$$P(A \mid B) = \frac{P(B \mid A) P(A)}{P(B)}$$
+
+$$
+P(A \mid B) = \frac{P(B \mid A) P(A)}{P(B)}
+$$
+
 
 Where:
 - $P(A \mid B)$: Posterior probability of hypothesis $A$ given evidence $B$.
@@ -72,7 +84,11 @@ flowchart TD
 ```
 
 #### Gaussian (Normal) Distribution PDF:
-$$f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x - \mu)^2}{2\sigma^2} \right)$$
+
+$$
+f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x - \mu)^2}{2\sigma^2} \right)
+$$
+
 
 Where $\mu$ is the distribution mean and $\sigma^2$ is variance.
 
@@ -85,7 +101,11 @@ Where $\mu$ is the distribution mean and $\sigma^2$ is variance.
 Given i.i.d. dataset $\mathcal{D} = \{x^{(1)}, \dots, x^{(m)}\}$, Maximum Likelihood Estimation finds parameter vector $\theta$ maximizing likelihood $L(\theta) = \prod_{i=1}^m P(x^{(i)} \mid \theta)$.
 
 #### Log-Likelihood Objective:
-$$\theta_{\text{MLE}} = \arg\max_\theta \log L(\theta) = \arg\max_\theta \sum_{i=1}^m \log P(x^{(i)} \mid \theta)$$
+
+$$
+\theta_{\text{MLE}} = \arg\max_\theta \log L(\theta) = \arg\max_\theta \sum_{i=1}^m \log P(x^{(i)} \mid \theta)
+$$
+
 
 ![Maximum Likelihood Estimation Objective](images/ps4ml_slide_32.png)
 ![Statistical Hypothesis Testing Slide](images/ps4ml_slide_40.png)
@@ -135,6 +155,13 @@ A method of estimating parameters of an assumed probability distribution by maxi
 1. $P(D) = 0.001 \implies P(\neg D) = 0.999$.
 2. $P(+ \mid D) = 0.99$, $P(+ \mid \neg D) = 1 - 0.95 = 0.05$.
 3. Compute total probability of positive test $P(+)$:
-$$P(+) = P(+ \mid D)P(D) + P(+ \mid \neg D)P(\neg D) = (0.99 \times 0.001) + (0.05 \times 0.999) = 0.00099 + 0.04995 = 0.05094$$
+
+$$
+P(+) = P(+ \mid D)P(D) + P(+ \mid \neg D)P(\neg D) = (0.99 \times 0.001) + (0.05 \times 0.999) = 0.00099 + 0.04995 = 0.05094
+$$
+
 4. Compute Bayes posterior $P(D \mid +)$:
-$$P(D \mid +) = \frac{0.00099}{0.05094} \approx 0.01943 \implies 1.94\%$$
+
+$$
+P(D \mid +) = \frac{0.00099}{0.05094} \approx 0.01943 \implies 1.94\%
+$$
