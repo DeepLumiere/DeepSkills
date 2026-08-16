@@ -97,11 +97,6 @@ graph BT
     A["Data: Raw Facts"] --> B["Information: Contextualized Data"]
     B --> C["Knowledge: Actionable Information"]
     C --> D["Wisdom: Applied Knowledge"]
-    
-    style A fill:#e1f5fe,stroke:#01579b
-    style B fill:#b3e5fc,stroke:#01579b
-    style C fill:#81d4fa,stroke:#01579b
-    style D fill:#4fc3f7,stroke:#01579b
 ```
 
 ### Data Life Cycle
@@ -220,7 +215,6 @@ flowchart TD
     D --> E[Visualize Results]
     E --> F[Communicate Findings / Take Action]
 ```
-*(Based on the Data Analysis steps process models)*
 
 ### Big Data and Frameworks
 
@@ -359,29 +353,39 @@ Researchers and practitioners can leverage various public datasets for learning 
 
 ## Formula Sheet
 
-### 1. Data Aggregation Formula (Ungrouped)
+### 1. Data Aggregation Formula (Ungrouped Mean)
+
+#### Formula:
 $$
 \bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i
 $$
 
-### Where:
-- $\bar{x}$ = Mean of the dataset
-- $n$ = Number of total observations
-- $x_i$ = Individual observation
+#### Where:
+- $\bar{x}$ = Sample Mean
+- $n$ = Total number of observations in the dataset
+- $x_i$ = $i$-th individual observation
 
-### 2. Data Aggregation Formula (Grouped Class Table)
+#### Meaning:
+Computes the arithmetic average of a discrete set of unweighted, raw observations.
+
+---
+
+### 2. Data Aggregation Formula (Grouped Class Table Mean)
+
+#### Formula:
 $$
 \bar{x} = \frac{\sum_{i=1}^{k} f_i x_i}{N} \quad \text{where } N = \sum_{i=1}^{k} f_i
 $$
 
-### Where:
-- $\bar{x}$ = Estimated mean
-- $k$ = Number of class intervals
-- $f_i$ = Frequency of the $i$-th class
-- $x_i$ = Midpoint of the $i$-th class
-- $N$ = Total frequency
+#### Where:
+- $\bar{x}$ = Estimated Mean for grouped data
+- $k$ = Total number of class intervals
+- $f_i$ = Frequency of the $i$-th class interval
+- $x_i$ = Midpoint of the $i$-th class interval, calculated as $\frac{\text{Lower Limit} + \text{Upper Limit}}{2}$
+- $N$ = Total frequency across all classes
 
-[Source: 1.Introduction to DAV.pdf]
+#### Meaning:
+Estimates the central location of grouped data when individual values are unknown, assuming observations are evenly distributed within each class interval.
 
 ---
 
@@ -404,20 +408,60 @@ $$
 
 ## Exam-Oriented Review
 
+### Key Questions & Model Answers
+
 **Q1: Contrast Descriptive Analytics and Prescriptive Analytics with examples.**
-**A:** Descriptive analytics summarizes past data (e.g., total sales revenue last month was $\$50,000$). Prescriptive analytics provides actionable recommendations based on optimization models (e.g., reorder 200 units of product X now to maximize profit and avoid stockout).
+**A:**
+- **Descriptive Analytics** focuses on summarizing historical data to answer *"What happened?"*. It uses summary statistics, aggregations, and standard reporting tools. Example: A retail store generating a report showing that total sales revenue last month was $\$50,000$.
+- **Prescriptive Analytics** goes beyond prediction to suggest optimal courses of action to answer *"What should we do?"*. It uses mathematical optimization, simulation, and decision rules. Example: An automated inventory system recommending the exact reorder quantity of 200 units for Product X now to maximize profit and prevent stockouts.
 
-**Q2: What is the difference between Quantitative and Qualitative data?**
-**A:** Quantitative data is numerical and can be measured directly (e.g., age, salary). Qualitative data is descriptive and categorized but not directly measured in numbers (e.g., gender, feedback).
+**Q2: What is the difference between Quantitative and Qualitative data? Provide two examples of each.**
+**A:**
+- **Quantitative Data** consists of numerical values that can be measured or counted objectively.
+  - *Examples:* Student GPA ($3.8$), Monthly Income ($\$4,500$).
+- **Qualitative Data** consists of non-numerical categorical descriptions that classify attributes based on traits or qualities.
+  - *Examples:* Customer Feedback ("Excellent"), T-shirt size ("Medium").
 
-**Q3: How does raw ungrouped data differ from grouped class table data?**
-**A:** Raw ungrouped data preserves every individual measurement. Grouped class table data aggregates measurements into class intervals with frequency counts, trading individual precision for compact representation.
+**Q3: How does raw ungrouped data differ from grouped class table data? Given raw values $\{12, 14, 15, 18, 22, 24\}$, calculate the mean using both raw form and a grouped frequency table with intervals $10-20$ and $20-30$.**
+**A:**
+- *Difference:* Raw ungrouped data retains every single exact observation. Grouped class table data aggregates individual values into continuous range intervals with frequency counts $f_i$, replacing individual points with class midpoints $x_i$.
+- *Calculation:*
+  1. **Ungrouped Mean:**
+     $$
+     \bar{x} = \frac{12 + 14 + 15 + 18 + 22 + 24}{6} = \frac{105}{6} = 17.5
+     $$
+  2. **Grouped Class Table Mean:**
+     - Interval $10-20$: Midpoint $x_1 = 15$, Frequency $f_1 = 4$ (values: $12, 14, 15, 18$)
+     - Interval $20-30$: Midpoint $x_2 = 25$, Frequency $f_2 = 2$ (values: $22, 24$)
+     $$
+     \bar{x}_{\text{grouped}} = \frac{(4 \times 15) + (2 \times 25)}{4 + 2} = \frac{60 + 50}{6} = \frac{110}{6} \approx 18.33
+     $$
 
-**Q4: List the 6 phases of the CRISP-DM model.**
-**A:** 1. Business Understanding, 2. Data Understanding, 3. Data Preparation, 4. Modeling, 5. Evaluation, 6. Deployment.
+**Q4: List and briefly explain the 6 phases of the CRISP-DM model.**
+**A:**
+1. **Business Understanding:** Define project objectives and requirements from a business perspective.
+2. **Data Understanding:** Collect, explore, and verify data quality to identify initial insights.
+3. **Data Preparation:** Clean, construct, integrate, and format datasets for modeling.
+4. **Modeling:** Select and apply various modeling techniques (e.g., regression, classification).
+5. **Evaluation:** Thoroughly assess models to ensure they meet business goals.
+6. **Deployment:** Integrate models into operational environments for ongoing decision-making.
 
 **Q5: Explain the two steps of Data Transformation.**
-**A:** 1. **Data mapping:** Mapping data elements from source to destination and capturing the required logic. 2. **Code generation:** Creating the actual transformation program to execute the mapping.
+**A:**
+1. **Data mapping:** The process of mapping data elements from the source schema to the target schema, defining rules for data transformation.
+2. **Code generation:** Creating the executable transformation software program or query that carries out the defined mapping logic.
 
-**Q6: Name four ways to visualize data and when to use them.**
-**A:** 1. **Tables:** For small number of data points. 2. **Charts:** To map dimensions to geometric shapes like bars or pies. 3. **Maps:** To reconnect data to the physical world. 4. **Graphs:** To show interconnections/edges between data points/nodes.
+---
+
+## Source map
+
+| Section / Topic | Source Document & References |
+| :--- | :--- |
+| **Course Overview & Syllabus** | `ch1_text.txt`, Slides 3–12 |
+| **DIKW Hierarchy & Data Life Cycle** | `1.Introduction to DAV.pdf`, Slide 15; `ch1_text.txt`, Slide 15 |
+| **Definitions (Data, Info, Knowledge, Wisdom, Analysis, Visualization)** | `ch1_text.txt`, Slides 14, 18, 24 |
+| **Data Types & Formats (Ungrouped vs Grouped)** | `1.Introduction to DAV.pdf`, Slide 16; `ch1_text.txt`, Slides 16–17 |
+| **Data Analysis Process & Big Data 5 V's & CRISP-DM / KDD** | `ch1_text.txt`, Slides 19–22; `1.Introduction to DAV.pdf` |
+| **Analytics Types (Descriptive, Diagnostic, Predictive, Prescriptive)** | `ch1_text.txt`, Slide 23; `1.Introduction to DAV.pdf` |
+| **Data Transformation & Visualisation Techniques** | `ch1_text.txt`, Slides 24–29 |
+| **Tools Ecosystem & Industry Applications** | `ch1_text.txt`, Slides 30–31, 42–43 |
