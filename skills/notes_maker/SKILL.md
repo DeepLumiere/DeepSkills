@@ -160,8 +160,11 @@ Inline example:
 The posterior is $P(A \mid B) = \dfrac{P(B \mid A)P(A)}{P(B)}$, derived from the definition of conditional probability.
 ```
 
-Formatting rules for math:
+Strict LaTeX & Math Formatting Rules:
 
+* **Display Math Delimiters (`$$`):** Opening and closing `$$` delimiters MUST be left-aligned on their own lines with no preceding spaces/indentation and MUST be surrounded by blank lines. Single-line inline display math (e.g. `$$ y = mx + c $$`) is strictly forbidden as it breaks rendering engines like pymdownx.arithmatex and GitHub markdown preview.
+* **Relational Math Operators (`<` and `>`):** Comparison operators like `<` and `>` MUST always be formatted inside LaTeX math blocks (e.g. `$a < b$` or `$$a > b$$`) or escaped as `&lt;` / `&gt;` when in text. Unescaped `<` or `>` in plain Markdown text can be misparsed as unclosed HTML tags.
+* **LaTeX Backslash Escaping in Scripts:** When generating or inserting LaTeX equations via Python or automated tools, backslashes followed by characters like `t`, `n`, `r`, `b` (e.g., `\text`, `\times`, `\to`) MUST be double-escaped (e.g., `\\text`, `\\times`, `\\to`) so they do not get converted into ASCII tab or newline control characters.
 * Every variable, subscript, and Greek letter must be in proper LaTeX commands (`\alpha`, `\sigma^2`, `\hat{y}`, `\sum_{i=1}^{n}`, `\frac{a}{b}` or `\dfrac{a}{b}` for display fractions), never plain-text approximations like `sigma^2` or `a/b`.
 * Multi-line derivations use an `aligned` environment inside `$$ ... $$` so the `=` signs line up:
 
@@ -271,7 +274,7 @@ Do NOT ignore visual information, and do NOT describe a diagram in prose alone �
 
 ## 8.1 Extract and embed the real image
 
-1. Whenever a source file (PDF, PPTX, etc.) contains a diagram, figure, chart, graph, screenshot, or architecture drawing, extract that image as its own file (crop it from the page/slide, or pull the embedded image asset directly) and save it into an `images/` folder alongside the notes, e.g. `images/ch3_fig2_architecture.png`.
+1. Whenever a source file (PDF, PPTX, DOCX, etc.) contains a diagram, figure, chart, graph, screenshot, or architecture drawing, extract that image as its own file (crop it from the page/slide, or pull the embedded image asset directly) and save it into an `images/` folder alongside the notes file (e.g. `notes/images/ch3_fig2_architecture.png`).
 2. Embed it in the notes using standard Markdown image syntax immediately under the figure heading:
 
 ```markdown
@@ -938,9 +941,27 @@ Not every worked calculation belongs in the end-of-chapter Worked Numerical Prob
 To keep long documents easy to scan and consistently formatted:
 
 * Use a strict heading hierarchy: `#` for the chapter title, `##` for numbered top-level chapter sections (per Section 20's template), `###` for named subsections (a specific figure, a specific table, a definition), and `####` for finer subdivisions inside a subsection (e.g. "Written Analysis of Components" inside a figure section, or a worked example inside a concept explanation). Do not skip levels.
+* **Concise Headings for TOC:** Keep `h1`, `h2`, `h3` heading titles refined and concise to avoid horizontal overflow or line wrapping in the right sidebar Table of Contents (TOC) of MkDocs.
+* **Responsive Layout & Overflow Control:** Ensure tables, preformatted text blocks, long formulas, and code blocks fit standard page widths. In MkDocs custom stylesheet (`notes/stylesheets/extra.css`), elements must be configured with `overflow-x: auto` and images with `max-width: 100%` to prevent horizontal site layout breaking.
 * Separate every subsection — every table, list, figure block, definition, formula, and worked example — from the next with a horizontal rule (`---`) on its own line, matching the density already implied by Sections 4–17. This is what keeps a dense, citation-heavy document visually navigable rather than a wall of text.
 * Bold key terms, register/signal/pin names, and named quantities on first mention within a subsection (e.g. **Accumulator (Register A)**, $\overline{\text{RD}}$) so a student scanning the page can find them quickly.
 * Keep table alignment markers consistent within a document (e.g. `:---` for left-aligned text columns, `:---:` for centered short codes/bit values) rather than mixing styles arbitrarily.
+
+---
+
+# 39. MkDocs Theme, Stylesheets, and Javascript Integration
+
+To guarantee that rendered notes render MathJax formulas, Mermaid graphs, and responsive tables without layout glitches, the skill must ensure the following site files exist and follow strict configuration standards:
+
+1. **Custom Stylesheet (`notes/stylesheets/extra.css`):**
+   - Must reside at `notes/stylesheets/extra.css` as declared under `extra_css` in `mkdocs.yml`.
+   - Must include responsive container wrappers (`overflow-x: auto`) for `.md-typeset table`, `.md-typeset pre`, `.arithmatex`, and `.mermaid`.
+   - Must include responsive image styling (`max-width: 100%; height: auto; border-radius: 8px;`).
+
+2. **MathJax Helper Script (`notes/javascripts/mathjax.js`):**
+   - Must reside at `notes/javascripts/mathjax.js` as declared under `extra_javascript` in `mkdocs.yml`.
+   - Must configure MathJax 3 inline (`$`, `\(`) and display (`$$`, `\[`) delimiters with `ignoreHtmlClass: ".*|"` and `processHtmlClass: "arithmatex"`.
+   - Must hook into MkDocs instant navigation via `document$.subscribe(...)` to reset and re-trigger `MathJax.typesetPromise()` on page navigation.
 
 ---
 
