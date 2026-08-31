@@ -203,7 +203,10 @@ def main() -> int:
             unit_text, extracted = docx_text_and_images(source, image_dir / "embedded")
             images.extend(extracted)
         else:
-            images.append(source)
+            out_path = image_dir / f"{safe_name(source)}{ext}"
+            saved = save_unique_bytes(source.read_bytes(), out_path)
+            if saved:
+                images.append(saved)
 
         for index, text in enumerate(unit_text, start=1):
             record["units"].append({"number": index, "text": text, "source_ref": f"{source.name}, section/slide {index}"})

@@ -20,12 +20,48 @@
   --md-code-bg-color: #f1f5f9;
 }
 
-/* Rounded Cards & Elements */
+/* Responsive Design & Horizontal Overflow Control */
+.md-typeset table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .md-typeset pre,
 .md-typeset code,
 .md-typeset .admonition,
 .md-typeset details {
   border-radius: 10px;
+  max-width: 100%;
+}
+
+.md-typeset pre > code {
+  overflow-x: auto;
+}
+
+/* MathJax & LaTeX Display Math Responsive Container */
+.md-typeset .arithmatex,
+.md-typeset .MathJax_Display,
+.md-typeset math {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+/* Mermaid Diagram Responsive Container */
+.md-typeset .mermaid {
+  overflow-x: auto;
+  max-width: 100%;
+  text-align: center;
+}
+
+/* Responsive Images */
+.md-typeset img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Subtle Glowing Header & Navbar Border */
