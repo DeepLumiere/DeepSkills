@@ -882,7 +882,7 @@ Combinators describe the structural relationships between elements:
 | Combinator Pattern | Notation | Selection Target | Example Usage |
 | :--- | :---: | :--- | :--- |
 | **Descendant** | `A B` | Selects any element `B` that is inside element `A` (regardless of nesting depth). | `div p` targets any `<p>` inside any `<div>`. |
-| **Child** | `A > B` | Selects only immediate child elements `B` directly nested under element `A`. | `ul > li` targets only top-level `<li>` items. |
+| **Child** | `A &gt; B` | Selects only immediate child elements `B` directly nested under element `A`. | `ul &gt; li` targets only top-level `<li>` items. |
 | **Adjacent Sibling** | `A + B` | Selects the sibling `B` immediately following element `A` at the same hierarchy level. | `h1 + p` targets the first paragraph after an `h1`. |
 | **General Sibling** | `A ~ B` | Selects all sibling elements `B` following element `A` at the same hierarchy level. | `h2 ~ p` targets all paragraphs after an `h2`. |
 
@@ -917,7 +917,7 @@ blockquote::before {
 
 #### D. The Cascade & CSS Inheritance
 The CSS **Cascade** processes conflicting declarations by evaluating:
-1. **Origin & Importance:** User-Agent stylesheet (browser default) < User stylesheet < Author stylesheet (developer CSS) < Author `!important` < User `!important`.
+1. **Origin & Importance:** User-Agent stylesheet (browser default) $<$ User stylesheet $<$ Author stylesheet (developer CSS) $<$ Author `!important` $<$ User `!important`.
 2. **Selector Specificity:** Highest `(a,b,c,d)` weight wins.
 3. **Source Order:** If specificity and origin are equal, the declaration written last in the CSS source file wins.
 

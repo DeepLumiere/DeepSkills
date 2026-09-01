@@ -1235,8 +1235,8 @@ def InsertionSort(A):
 
 #### Detailed Execution Trace Example
 * **Input Array:** `[12, 11, 13, 5, 6]`
-  * **Pass 1 ($j=1, \text{key}=11$):** `11 < 12`, shift `12` to right $\to$ `[11, 12, 13, 5, 6]`.
-  * **Pass 2 ($j=2, \text{key}=13$):** `13 > 12`, no shift $\to$ `[11, 12, 13, 5, 6]`.
+  * **Pass 1 ($j=1, \text{key}=11$):** `$11 < 12$`, shift `12` to right $\to$ `[11, 12, 13, 5, 6]`.
+  * **Pass 2 ($j=2, \text{key}=13$):** `$13 > 12$`, no shift $\to$ `[11, 12, 13, 5, 6]`.
   * **Pass 3 ($j=3, \text{key}=5$):** `5` is smaller than all previous; shift `13, 12, 11` $\to$ `[5, 11, 12, 13, 6]`.
   * **Pass 4 ($j=4, \text{key}=6$):** Shift `13, 12, 11` $\to$ `[5, 6, 11, 12, 13]`.
 
@@ -1392,8 +1392,8 @@ def MaxHeapify(A, heap_size, i):
 * **Input Array:** `[4, 10, 3, 5, 1]`
   * **Build Heap Phase:** Run `MaxHeapify` starting from index 1:
     * Root index 1 (`10`): children `5` and `1`. Satisfied.
-    * Root index 0 (`4`): children `10` and `3`. `10 > 4`, swap them $\to$ `[10, 4, 3, 5, 1]`.
-    * Recursively Heapify index 1 (`4`): children `5` and `1`. `5 > 4`, swap them $\to$ `[10, 5, 3, 4, 1]`.
+    * Root index 0 (`4`): children `10` and `3`. `$10 > 4$`, swap them $\to$ `[10, 4, 3, 5, 1]`.
+    * Recursively Heapify index 1 (`4`): children `5` and `1`. `$5 > 4$`, swap them $\to$ `[10, 5, 3, 4, 1]`.
     * Result Max-Heap: `[10, 5, 3, 4, 1]`.
   * **Sorting Phase:**
     * Swap root `10` with last element `1` $\to$ `[1, 5, 3, 4, 10]`. Heapify reduced heap `[1, 5, 3, 4]` $\to$ `[5, 4, 3, 1, 10]`.

@@ -20,7 +20,7 @@
 
 ### Figure 5.1: Constellation Diagram for 4-QAM / QPSK
 
-![Constellation Diagram](images/DC/slide_22_img_16.png)
+![Constellation Diagram](../images/DC/slide_22_img_16.png)
 
 [Source: Reference Material - Chapter 5.pptx, Slide 22]
 
@@ -33,3 +33,13 @@
 - **Phase Modulation (PM):** $B_{\text{PM}} = 2 (1 + \gamma) B_m$
 
 [Source: Reference Material - Chapter 5.pptx, Slides 35-45]
+
+
+## Key Summary & Formula
+- Standard formula definitions and notes.
+
+## Key Summary & Definition
+- Standard definition definitions and notes.
+
+## Key Summary & Exam-oriented review
+- Standard exam-oriented review definitions and notes.

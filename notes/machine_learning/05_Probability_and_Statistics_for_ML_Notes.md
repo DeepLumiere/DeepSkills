@@ -11,9 +11,9 @@
 
 Probability and statistics form the mathematical bedrock of machine learning, enabling models to quantify uncertainty, perform probabilistic inference, estimate parameters, and optimize decision-making under noise.
 
-![Probability and Statistics Title Slide](images/ps4ml_slide_1.png)
-![Learning Outcomes Overview](images/ps4ml_slide_2.png)
-![Table of Contents](images/ps4ml_slide_4.png)
+![Probability and Statistics Title Slide](../images/ps4ml_slide_1.png)
+![Learning Outcomes Overview](../images/ps4ml_slide_2.png)
+![Table of Contents](../images/ps4ml_slide_4.png)
 
 ---
 
@@ -34,8 +34,8 @@ Where:
 - $\mu = \mathbb{E}[X]$: Population mean (true theoretical expectation).
 - $\epsilon > 0$: Arbitrarily small positive constant tolerance.
 
-![Law of Large Numbers Coin Flip Experiment](images/ps4ml_slide_5.png)
-![LLN Convergence Curves](images/ps4ml_slide_8.png)
+![Law of Large Numbers Coin Flip Experiment](../images/ps4ml_slide_5.png)
+![LLN Convergence Curves](../images/ps4ml_slide_8.png)
 
 ---
 
@@ -61,8 +61,8 @@ Where:
 - $P(A)$: Prior probability of hypothesis $A$.
 - $P(B) = \sum_k P(B \mid A_k) P(A_k)$: Marginal probability of evidence $B$ (normalizing constant).
 
-![Conditional Probability & Bayes Theorem Slide](images/ps4ml_slide_15.png)
-![Probability Distributions Overview](images/ps4ml_slide_20.png)
+![Conditional Probability & Bayes Theorem Slide](../images/ps4ml_slide_15.png)
+![Probability Distributions Overview](../images/ps4ml_slide_20.png)
 
 ### 3.2 Discrete vs. Continuous Distributions
 
@@ -101,8 +101,8 @@ $$
 \theta_{\text{MLE}} = \arg\max_\theta \log L(\theta) = \arg\max_\theta \sum_{i=1}^m \log P(x^{(i)} \mid \theta)
 $$
 
-![Maximum Likelihood Estimation Objective](images/ps4ml_slide_32.png)
-![Statistical Hypothesis Testing Slide](images/ps4ml_slide_40.png)
+![Maximum Likelihood Estimation Objective](../images/ps4ml_slide_32.png)
+![Statistical Hypothesis Testing Slide](../images/ps4ml_slide_40.png)
 
 ---
 

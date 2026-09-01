@@ -40,7 +40,7 @@
 
 ### Figure 2.1: OSI 7-Layer Model Architecture & Encapsulation
 
-![OSI Model Architecture](Reference Material - Chapter 2_images/slide_6_img_1.png)
+
 
 **What it shows:** Headers ($H_7$ through $H_2$) and Trailer ($T_2$) added at each layer during transmission.
 
@@ -70,3 +70,10 @@
 - **Port Address:** 16-bit identifier used at Transport layer to select specific process/service.
 
 - **Physical Address:** 48-bit (6-byte) MAC address burned into NIC card for hop-to-hop link delivery.
+
+
+## Key Summary & Formula
+- Standard formula definitions and notes.
+
+## Key Summary & Exam-oriented review
+- Standard exam-oriented review definitions and notes.

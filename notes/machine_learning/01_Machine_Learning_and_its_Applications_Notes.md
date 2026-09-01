@@ -11,9 +11,9 @@ Machine Learning (ML) is a branch of artificial intelligence concerned with buil
 #### Formal Definition (Tom Mitchell, 1997):
 > "A computer program is said to learn from experience $E$ with respect to some class of tasks $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$."
 
-![Machine Learning Course Overview](images/ml_intro_slide_1.png)
-![Teaching and Syllabus Structure](images/ml_intro_slide_2.png)
-![Core Recommended Textbooks](images/ml_intro_slide_3.png)
+![Machine Learning Course Overview](../images/ml_intro_slide_1.png)
+![Teaching and Syllabus Structure](../images/ml_intro_slide_2.png)
+![Core Recommended Textbooks](../images/ml_intro_slide_3.png)
 
 ---
 
@@ -48,8 +48,8 @@ flowchart TD
 | Key Sub-types | Classification, Regression | Clustering, Dimensionality Reduction | Semi-supervised Classification | Q-Learning, Policy Gradients |
 | Benchmark Tasks | Spam detection, House pricing | Customer segmentation, PCA | Medical imaging with few labels | Game playing (Chess, Go), Robotics |
 
-![Supervised vs Unsupervised Learning Slide](images/ml_intro_slide_15.png)
-![Classification vs Regression Slide](images/ml_intro_slide_18.png)
+![Supervised vs Unsupervised Learning Slide](../images/ml_intro_slide_15.png)
+![Classification vs Regression Slide](../images/ml_intro_slide_18.png)
 
 ---
 
@@ -66,15 +66,15 @@ Predicting a discrete categorical class label $y \in \{0, 1, \dots, K-1\}$.
 #### Definition: Regression
 Predicting a real-valued continuous quantity $y \in \mathbb{R}$ (e.g., Stock prices, Housing values, Temperature forecasting).
 
-![Classification Output Scatter Plot](images/ml_intro_slide_36.png)
-![Regression Fitting Curve Slide](images/ml_intro_slide_40.png)
+![Classification Output Scatter Plot](../images/ml_intro_slide_36.png)
+![Regression Fitting Curve Slide](../images/ml_intro_slide_40.png)
 
 ### 3.2 Unsupervised Learning Techniques
 - **Clustering (K-Means, Hierarchical)**: Partitioning data points into $K$ distinct clusters based on feature similarity metrics (e.g., Euclidean distance $d(u,v) = \sqrt{\sum (u_i - v_i)^2}$).
 - **Dimensionality Reduction (PCA)**: Projecting high-dimensional data into low-dimensional orthogonal latent space while preserving maximum variance.
 
-![Clustering Latent Structure Slide](images/ml_intro_slide_48.png)
-![Dimensionality Reduction PCA Visualization](images/ml_intro_slide_55.png)
+![Clustering Latent Structure Slide](../images/ml_intro_slide_48.png)
+![Dimensionality Reduction PCA Visualization](../images/ml_intro_slide_55.png)
 
 ---
 
@@ -85,8 +85,8 @@ Predicting a real-valued continuous quantity $y \in \mathbb{R}$ (e.g., Stock pri
 2. **Natural Language Processing**: Machine translation, sentiment evaluation, automated text summarization.
 3. **Autonomous Robotics**: Real-time sensor fusion, path planning, self-driving navigation.
 
-![Applications Overview Slide](images/ml_intro_slide_70.png)
-![Medical Imaging AI Diagnostics](images/ml_intro_slide_80.png)
+![Applications Overview Slide](../images/ml_intro_slide_70.png)
+![Medical Imaging AI Diagnostics](../images/ml_intro_slide_80.png)
 
 ---
 

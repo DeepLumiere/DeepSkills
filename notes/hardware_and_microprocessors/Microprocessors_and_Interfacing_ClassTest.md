@@ -150,10 +150,10 @@ This chapter presents a comprehensive technical study of the Intel 8085 8-bit mi
 The internal functional architecture of the Intel 8085 consists of distinct operational blocks:
 
 ### Figure 2.1: 8085 Internal Architecture Block Diagram
-![Figure 2.1: 8085 Internal Architecture Block Diagram](images/8085_block_diagram.png)
+![Figure 2.1: 8085 Internal Architecture Block Diagram](../images/8085_block_diagram.png)
 
 ### Figure 2.2: 8085 Detailed Internal Functional Diagram
-![Figure 2.2: 8085 Detailed Internal Functional Diagram](images/8085_internal_architecture.png)
+![Figure 2.2: 8085 Detailed Internal Functional Diagram](../images/8085_internal_architecture.png)
 
 #### Written Analysis of 8085 Functional Components
 
@@ -179,7 +179,7 @@ The internal functional architecture of the Intel 8085 consists of distinct oper
 ## 4. 8085 Register Organization
 
 ### Figure 2.3: 8085 Register Array Structure
-![Figure 2.3: 8085 Register Array Structure](images/8085_registers_structure.png)
+![Figure 2.3: 8085 Register Array Structure](../images/8085_registers_structure.png)
 
 ### Comprehensive 8085 Register Specifications
 
@@ -203,7 +203,7 @@ The internal functional architecture of the Intel 8085 consists of distinct oper
 ## 5. 8085 Flag Register Details
 
 ### Figure 2.4: 8085 Flag Register Bit Format
-![Figure 2.4: 8085 Flag Register Bit Format](images/8085_flag_register.png)
+![Figure 2.4: 8085 Flag Register Bit Format](../images/8085_flag_register.png)
 
 The 8-bit Flag register contains 5 active conditional status flags:
 
@@ -243,7 +243,7 @@ $$
 ## 6. 8085 Pin Diagram & Signal Descriptions
 
 ### Figure 2.5: 8085 Pin Out & Interrupt Lines
-![Figure 2.5: 8085 Pin Out & Interrupt Lines](images/8085_pin_interrupt_diagram.png)
+![Figure 2.5: 8085 Pin Out & Interrupt Lines](../images/8085_pin_interrupt_diagram.png)
 
 ### Comprehensive Pin Function Table
 
@@ -325,7 +325,7 @@ For example, `RST 5` $\rightarrow 5 \times 8 = 40_{10} = 28\text{H} \rightarrow 
 ### Interfacing with 8259 PIC
 
 #### Figure 2.6: 8259 Interrupt Controller Block Diagram
-![Figure 2.6: 8259 Interrupt Controller Block Diagram](images/8259_interrupt_controller.png)
+![Figure 2.6: 8259 Interrupt Controller Block Diagram](../images/8259_interrupt_controller.png)
 
 #### 8259 Handshake Execution Sequence
 1. External devices assert interrupt lines $IR_0 - IR_7$ on the 8259 PIC.
@@ -403,7 +403,7 @@ This chapter presents an exhaustive architectural analysis of the Intel 8086 16-
 ## 3. 8086 BIU and EU Interaction
 
 ### Figure 3.1: 8086 Internal Architecture Diagram
-![Figure 3.1: 8086 Internal Architecture Diagram](images/8086_internal_architecture.png)
+![Figure 3.1: 8086 Internal Architecture Diagram](../images/8086_internal_architecture.png)
 
 #### Functional Breakdown of BIU and EU
 
@@ -541,7 +541,7 @@ The 8086 addresses $1\text{ MB}$ ($1,048,576\text{ bytes}$) of physical memory u
 * Four active logical segments are accessible at any instant: Code Segment (CS), Data Segment (DS), Stack Segment (SS), and Extra Segment (ES).
 
 ### Figure 3.2: 8086 Segmented Memory Organization
-![Figure 3.2: 8086 Segmented Memory Organization](images/8086_segmented_memory.png)
+![Figure 3.2: 8086 Segmented Memory Organization](../images/8086_segmented_memory.png)
 
 ---
 
@@ -550,7 +550,7 @@ The 8086 addresses $1\text{ MB}$ ($1,048,576\text{ bytes}$) of physical memory u
 1. **Expands Memory Capacity:** Allows 16-bit registers to address $1\text{ MB}$ of physical memory using segment:offset combinations.
 2. **Code and Data Protection:** Separates executable code, data variables, and stack buffers into distinct logical areas, preventing accidental program overwrite.
 3. **Dynamic Program Relocation:** Programs can be loaded into any physical memory location without altering internal offset addresses—only the segment register values are updated.
-4. **Supports Programs > 64 KB:** Code, data, or stack structures exceeding $64\text{ KB}$ can be handled by defining multiple logical segments.
+4. **Supports Programs $>$ 64 KB:** Code, data, or stack structures exceeding $64\text{ KB}$ can be handled by defining multiple logical segments.
 
 [Source: 3CS526CC23 8086 Architecture part 1, Slides 21–24]
 
@@ -600,7 +600,7 @@ The 8086 uses $A_0$ and $\overline{\text{BHE}}$ status signals to select the app
 ### Physical Address Generation Formula
 
 ### Figure 3.3: 8086 Physical Address Summing Block
-![Figure 3.3: 8086 Physical Address Summing Block](images/8086_physical_address_generation.png)
+![Figure 3.3: 8086 Physical Address Summing Block](../images/8086_physical_address_generation.png)
 
 ```mermaid
 flowchart LR
@@ -714,7 +714,7 @@ $$
 ## 8. 8086 Pin Diagram & Signal Descriptions
 
 ### Figure 3.4: 8086 Pin Diagram (40-Pin DIP Layout)
-![Figure 3.4: 8086 Pin Diagram](images/8086_pin_diagram.png)
+![Figure 3.4: 8086 Pin Diagram](../images/8086_pin_diagram.png)
 
 ### Key 8086 Pin Signals
 
@@ -755,7 +755,7 @@ The 8086 provides 7 primary addressing modes for accessing instruction operands:
 Operand is stored inside an internal CPU register.
 
 ### Figure 3.5: Register Addressing Mode
-![Figure 3.5: Register Addressing Mode](images/8086_addressing_register.png)
+![Figure 3.5: Register Addressing Mode](../images/8086_addressing_register.png)
 
 - **Formula:** $EA = R$
 - **Example:** `MOV BX, DX` (Copies contents of DX into BX).
@@ -766,7 +766,7 @@ Operand is stored inside an internal CPU register.
 Operand data is encoded directly as part of the machine instruction byte sequence.
 
 ### Figure 3.6: Immediate Addressing Mode
-![Figure 3.6: Immediate Addressing Mode](images/8086_addressing_immediate.png)
+![Figure 3.6: Immediate Addressing Mode](../images/8086_addressing_immediate.png)
 
 - **Formula:** $\text{Operand} = A$
 - **Example:** `MOV AX, 2550H` (Loads immediate word `2550H` into AX).
@@ -785,7 +785,7 @@ Operand data is encoded directly as part of the machine instruction byte sequenc
 The 16-bit effective address (offset) of the operand is explicitly written inside the instruction.
 
 ### Figure 3.7: Direct Addressing Mode
-![Figure 3.7: Direct Addressing Mode](images/8086_addressing_direct.png)
+![Figure 3.7: Direct Addressing Mode](../images/8086_addressing_direct.png)
 
 - **Formula:** $EA = A$, $\text{Physical Address} = \text{DS} \times 10\text{H} + A$
 - **Example:** `MOV AX, [2400H]` (If $\text{DS} = 2000\text{H}$, $\text{Physical Address} = 20000\text{H} + 2400\text{H} = 22400\text{H}$).
@@ -796,7 +796,7 @@ The 16-bit effective address (offset) of the operand is explicitly written insid
 The 16-bit offset address of the operand in memory is held inside a Base register (`BX`, `BP`) or Index register (`SI`, `DI`).
 
 ### Figure 3.8: Register Indirect Addressing Mode
-![Figure 3.8: Register Indirect Addressing Mode](images/8086_addressing_indirect.png)
+![Figure 3.8: Register Indirect Addressing Mode](../images/8086_addressing_indirect.png)
 
 - **Formula:** $EA = [R]$ where $R \in \{\text{BX}, \text{BP}, \text{SI}, \text{DI}\}$
 - **Example:** `MOV AX, [BX]` (If $\text{DS} = 1010\text{H}$ and $\text{BX} = 1122\text{H}$, $\text{Physical Address} = 10100\text{H} + 1122\text{H} = 11222\text{H}$).
@@ -808,7 +808,7 @@ The 16-bit offset address of the operand in memory is held inside a Base registe
 Effective address is computed by adding an 8-bit or 16-bit displacement to the contents of a Base register (`BX` or `BP`).
 
 ### Figure 3.9: Base Relative Addressing Mode
-![Figure 3.9: Base Relative Addressing Mode](images/8086_addressing_base_relative.png)
+![Figure 3.9: Base Relative Addressing Mode](../images/8086_addressing_base_relative.png)
 
 - **Formula:** $EA = [\text{Base Reg}] + \text{Displacement}$
   - Default Segment for `BX` is **DS**.
@@ -822,7 +822,7 @@ Effective address is computed by adding an 8-bit or 16-bit displacement to the c
 Effective address is computed by adding an 8-bit or 16-bit displacement to an Index register (`SI` or `DI`).
 
 ### Figure 3.10: Indexed Relative Addressing Mode
-![Figure 3.10: Indexed Relative Addressing Mode](images/8086_addressing_indexed_relative.png)
+![Figure 3.10: Indexed Relative Addressing Mode](../images/8086_addressing_indexed_relative.png)
 
 - **Formula:** $EA = [\text{Index Reg}] + \text{Displacement}$
 - **Example:** `MOV DX, ARRAY[SI]` (If $\text{DS} = 2000\text{H}$, $\text{SI} = 5000\text{H}$, $\text{ARRAY} = 1234\text{H}$, $\text{Physical Address} = 20000\text{H} + 5000\text{H} + 1234\text{H} = 26234\text{H}$).
@@ -833,7 +833,7 @@ Effective address is computed by adding an 8-bit or 16-bit displacement to an In
 Combines Base register, Index register, and an optional displacement to compute the effective address.
 
 ### Figure 3.11: Base Indexed Relative Addressing Mode
-![Figure 3.11: Base Indexed Relative Addressing Mode](images/8086_addressing_base_indexed.png)
+![Figure 3.11: Base Indexed Relative Addressing Mode](../images/8086_addressing_base_indexed.png)
 
 - **Formula:** $EA = [\text{Base Reg}] + [\text{Index Reg}] + \text{Displacement}$
 - **Example:** `MOV AX, BETA[BX][SI]` (If $\text{DS} = 1200\text{H}$, $\text{BX} = 1000\text{H}$, $\text{SI} = 2000\text{H}$, $\text{BETA} = 1234\text{H}$, $\text{Physical Address} = 12000\text{H} + 1000\text{H} + 2000\text{H} + 1234\text{H} = 15234\text{H}$).
@@ -847,7 +847,7 @@ Combines Base register, Index register, and an optional displacement to compute 
 8086 instructions range from 1 to 6 bytes in length.
 
 ### Figure 3.12: 8086 MOV Instruction Template Format
-![Figure 3.12: 8086 MOV Instruction Template Format](images/8086_instruction_format_mov.png)
+![Figure 3.12: 8086 MOV Instruction Template Format](../images/8086_instruction_format_mov.png)
 
 ### Field Descriptions in Machine Code Byte
 
@@ -867,7 +867,7 @@ Combines Base register, Index register, and an optional displacement to compute 
 6. **R/M (Register/Memory Field, 3 bits):** Specifies second operand or memory addressing combination.
 
 ### Figure 3.13: 8086 MOD and R/M Encoding Matrix
-![Figure 3.13: 8086 MOD and R/M Encoding Matrix](images/8086_mod_rm_table.png)
+![Figure 3.13: 8086 MOD and R/M Encoding Matrix](../images/8086_mod_rm_table.png)
 
 [Source: 3CS526CC23 8086 Architecture, Slides 55–66]
 
@@ -958,7 +958,7 @@ Data transfer instructions move data between registers, memory locations, and I/
 * **Purpose:** Loads a 32-bit far pointer from a 4-byte memory location into a 16-bit general register and the Data Segment register (DS).
 
 ### Figure 4.1: LDS and LES Memory Pointer Loading Mechanism
-![Figure 4.1: LDS and LES Memory Pointer Loading Mechanism](images/8086_lds_les_memory_structure.png)
+![Figure 4.1: LDS and LES Memory Pointer Loading Mechanism](../images/8086_lds_les_memory_structure.png)
 
 * **Syntax:** `LDS Reg16, MEM32`
 * **Operation:**
@@ -1288,16 +1288,16 @@ Where:
 
 # Appendix C — Important Diagrams
 
-1. **8085 Block Diagram & Architecture:** [Figure 2.1](images/8085_block_diagram.png), [Figure 2.2](images/8085_internal_architecture.png)
-2. **8085 Flag Register Format:** [Figure 2.4](images/8085_flag_register.png)
-3. **8085 Pin Out & Interrupt Connections:** [Figure 2.5](images/8085_pin_interrupt_diagram.png)
-4. **8259 Interrupt Controller Block Diagram:** [Figure 2.6](images/8259_interrupt_controller.png)
-5. **8086 Internal Architecture (BIU + EU):** [Figure 3.1](images/8086_internal_architecture.png)
-6. **8086 Memory Segmentation Diagram:** [Figure 3.2](images/8086_segmented_memory.png)
-7. **8086 Address Generation Adder Block:** [Figure 3.3](images/8086_physical_address_generation.png)
-8. **8086 Pin Diagram (40-Pin DIP):** [Figure 3.4](images/8086_pin_diagram.png)
-9. **8086 Addressing Mode Circuit Diagrams:** [Figures 3.5 – 3.11](images/8086_addressing_register.png)
-10. **8086 Machine Instruction Format Templates:** [Figures 3.12 – 3.13](images/8086_instruction_format_mov.png)
+1. **8085 Block Diagram & Architecture:** [Figure 2.1](../images/8085_block_diagram.png), [Figure 2.2](../images/8085_internal_architecture.png)
+2. **8085 Flag Register Format:** [Figure 2.4](../images/8085_flag_register.png)
+3. **8085 Pin Out & Interrupt Connections:** [Figure 2.5](../images/8085_pin_interrupt_diagram.png)
+4. **8259 Interrupt Controller Block Diagram:** [Figure 2.6](../images/8259_interrupt_controller.png)
+5. **8086 Internal Architecture (BIU + EU):** [Figure 3.1](../images/8086_internal_architecture.png)
+6. **8086 Memory Segmentation Diagram:** [Figure 3.2](../images/8086_segmented_memory.png)
+7. **8086 Address Generation Adder Block:** [Figure 3.3](../images/8086_physical_address_generation.png)
+8. **8086 Pin Diagram (40-Pin DIP):** [Figure 3.4](../images/8086_pin_diagram.png)
+9. **8086 Addressing Mode Circuit Diagrams:** [Figures 3.5 – 3.11](../images/8086_addressing_register.png)
+10. **8086 Machine Instruction Format Templates:** [Figures 3.12 – 3.13](../images/8086_instruction_format_mov.png)
 
 ---
 
@@ -1339,10 +1339,10 @@ Where:
 ### Section 2: Architectural & Diagram-Based Questions
 
 1. **Draw and explain the internal architecture of 8086, highlighting BIU and EU interaction.**  
-   *Review Requirement:* Draw [Figure 3.1](images/8086_internal_architecture.png). Explain prefetch queue operations, asynchronous execution, address generation, and queue flushing during branches.
+   *Review Requirement:* Draw [Figure 3.1](../images/8086_internal_architecture.png). Explain prefetch queue operations, asynchronous execution, address generation, and queue flushing during branches.
 
 2. **Explain the 8085 Interrupt structure in order of priority.**  
-   *Review Requirement:* List priority: TRAP > RST 7.5 > RST 6.5 > RST 5.5 > INTR. Detail vector addresses, triggering mechanisms (edge vs level), and masking via `SIM`.
+   *Review Requirement:* List priority: TRAP $>$ RST 7.5 $>$ RST 6.5 $>$ RST 5.5 $>$ INTR. Detail vector addresses, triggering mechanisms (edge vs level), and masking via `SIM`.
 
 ---
 

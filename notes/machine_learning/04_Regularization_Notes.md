@@ -21,7 +21,7 @@ When fitting machine learning models, balancing model capacity against dataset s
    - Model is overly complex with too many parameters (e.g., 4th-degree polynomial $h_\theta(x) = \sum_{j=0}^4 \theta_j x^j$).
    - Fits training data almost perfectly ($J(\theta) \approx 0$), but fits noise and fails drastically to generalize to new test samples.
 
-![Linear Regression Fitting Examples: Underfit, Just Right, Overfit](images/regularization_slide_2.png)
+![Linear Regression Fitting Examples: Underfit, Just Right, Overfit](../images/regularization_slide_2.png)
 
 ### 1.2 Strategies to Resolve Overfitting
 1. **Reduce Feature Count**:
@@ -32,7 +32,7 @@ When fitting machine learning models, balancing model capacity against dataset s
    - Retain all $n$ features, but penalize/shrink parameter magnitudes $\theta_j$ ($j = 1, \dots, n$).
    - Works exceptionally well when having numerous features, each contributing a small amount to target prediction.
 
-![Options for Addressing Overfitting](images/regularization_slide_3.png)
+![Options for Addressing Overfitting](../images/regularization_slide_3.png)
 
 ---
 
@@ -42,7 +42,7 @@ When fitting machine learning models, balancing model capacity against dataset s
 ### 2.1 Intuition Behind Penalizing Parameters
 Suppose we want to prevent high-degree terms ($\theta_3 x^3, \theta_4 x^4$) from causing wild oscillations. If we add huge penalties (e.g., $1000 \cdot \theta_3^2 + 1000 \cdot \theta_4^2$) to the cost function, optimization will force $\theta_3 \approx 0$ and $\theta_4 \approx 0$, effectively simplifying model behavior.
 
-![Penalizing Parameters Intuition](images/regularization_slide_5.png)
+![Penalizing Parameters Intuition](../images/regularization_slide_5.png)
 
 ### 2.2 Formal $L_2$ Regularized Cost Function
 The regularized cost function $J(\theta)$ is defined as:
@@ -57,15 +57,15 @@ Where:
 - $\lambda \ge 0$: Regularization Parameter controlling trade-off between fitting training data well and keeping parameters small.
 - **Index $j = 1$ to $n$**: Notice parameter $\theta_0$ (intercept/bias) is explicitly excluded from penalization by standard convention.
 
-![Regularized Cost Function Formula Slide](images/regularization_slide_6.png)
-![Regularization Parameter Role Slide](images/regularization_slide_7.png)
+![Regularized Cost Function Formula Slide](../images/regularization_slide_6.png)
+![Regularization Parameter Role Slide](../images/regularization_slide_7.png)
 
 ### 2.3 Impact of Regularization Parameter $\lambda$
 - **If $\lambda = 0$**: Regularization is disabled, reverting to standard MSE (risk of overfitting).
 - **If $\lambda$ is optimal**: Keeps weights small, smoothing hypothesis curve and improving test set generalization.
 - **If $\lambda$ is extremely large (e.g., $\lambda = 10^{10}$)**: Penalizes $\theta_1, \dots, \theta_n$ so severely that all $\theta_j \approx 0$. Hypothesis collapses to $h_\theta(x) \approx \theta_0$ (flat horizontal line), resulting in severe **underfitting**.
 
-![Extremely Large Lambda Causing Underfitting](images/regularization_slide_8.png)
+![Extremely Large Lambda Causing Underfitting](../images/regularization_slide_8.png)
 
 ---
 
@@ -94,7 +94,7 @@ $$
 \theta_j := \theta_j \left( 1 - \alpha \frac{\lambda}{m} \right) - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)}
 $$
 
-![Regularized Gradient Descent Derivation](images/regularization_slide_12.png)
+![Regularized Gradient Descent Derivation](../images/regularization_slide_12.png)
 
 ### 3.2 Weight Decay Interpretation
 The factor $\left(1 - \alpha \frac{\lambda}{m}\right)$ explains the term **"Weight Decay"**:
@@ -119,14 +119,14 @@ $$
 L = \begin{bmatrix} 0 & 0 & 0 & \dots & 0 \\ 0 & 1 & 0 & \dots & 0 \\ 0 & 0 & 1 & \dots & 0 \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & 0 & \dots & 1 \end{bmatrix} \in \mathbb{R}^{(n+1) \times (n+1)}
 $$
 
-![Regularized Normal Equation Matrix Formula](images/regularization_slide_13.png)
+![Regularized Normal Equation Matrix Formula](../images/regularization_slide_13.png)
 
 ### 4.2 Resolution of Non-Invertibility
 When $m \le n$ (fewer samples than features), matrix $X^T X$ is singular and non-invertible.
 
 However, for any $\lambda > 0$, matrix $\left( X^T X + \lambda L \right)$ is **guaranteed to be strictly positive definite and invertible**! Thus, regularization completely resolves non-invertibility problems in normal equations.
 
-![Non-Invertibility Proof via Regularization](images/regularization_slide_14.png)
+![Non-Invertibility Proof via Regularization](../images/regularization_slide_14.png)
 
 ---
 
@@ -217,3 +217,7 @@ $$
 
 **Final Answer**:
 - Weight decay reduced parameter from $3.0 \to 2.4$ prior to subtracting data gradient $0.25$, yielding final parameter $\theta_1^{(new)} = 2.15$.
+
+
+## Key Summary & Definition
+- Standard definition definitions and notes.
