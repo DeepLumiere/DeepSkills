@@ -26,11 +26,19 @@ The Data Link Layer transfers Network-layer packets between directly connected m
 | Acknowledged connection-oriented | Setup, numbered transfer, release; frames arrive once and in order. | Long-distance point-to-point/satellite links. |
 
 ```mermaid
-flowchart LR
-    A[Source Network-layer packet] --> B[Source DLL frame]
-    B --> C[Physical medium]
-    C --> D[Destination DLL validates and deframes]
-    D --> E[Destination Network layer]
+flowchart TD
+    subgraph SenderNode [Sender Host]
+        NetS[Network Layer Packet] -->|Pass Down| DLLS[Data Link Layer: Add Header & Trailer]
+        DLLS -->|Frame Bits| PHYS[Physical Layer Transmitter]
+    end
+
+    subgraph ReceiverNode [Receiver Host]
+        PHYR[Physical Layer Receiver] -->|Bit Stream| DLLR[Data Link Layer: CRC Check & Deframing]
+        DLLR -->|Valid Packet| NetR[Network Layer]
+        DLLR -.->|Corrupted Frame| Drop[Discard Frame / Send NAK]
+    end
+
+    PHYS ==>|Physical Transmission Channel| PHYR
 ```
 
 The logical peer-to-peer path is virtual; actual transfer goes through the Physical layer. [Source: Ch 3, pp. 4-10]
@@ -318,9 +326,44 @@ In GBN, when expected frame $E$ is damaged, the receiver rejects $E$ and all lat
 
 ![Go-Back-N and Selective Repeat protocol diagrams](images/arq-51.png)
 
-**What the figure shows:** the protocol family begins with Go-Back-N treatment of loss and continues in later source slides to Selective Repeat.
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Sender
+    actor Receiver
 
-**Critical distinction:** GBN uses a receiver window of one. Its sender window must be strictly below the sequence-number space, otherwise a delayed old frame can be indistinguishable from a new reused sequence number. [Source: Ch 3, pp. 51-56]
+    rect rgb(230, 245, 255)
+    note over Sender, Receiver: Go-Back-N ARQ (Receiver Window = 1)
+    Sender->>Receiver: Frame 0
+    Sender->>Receiver: Frame 1 (Lost on Link)
+    Sender->>Receiver: Frame 2 (Out of order)
+    Receiver-->>Sender: ACK 0
+    note over Receiver: Frame 2 discarded because Frame 1 is missing!
+    Receiver-->>Sender: ACK 0 (Duplicate ACK / NAK 1)
+    note over Sender: Timeout for Frame 1! Go Back N frames.
+    Sender->>Receiver: Frame 1 (Retransmitted)
+    Sender->>Receiver: Frame 2 (Retransmitted)
+    Receiver-->>Sender: ACK 2
+    end
+
+    rect rgb(240, 255, 240)
+    note over Sender, Receiver: Selective Repeat ARQ (Receiver Window > 1)
+    Sender->>Receiver: Frame 0
+    Sender->>Receiver: Frame 1 (Lost on Link)
+    Sender->>Receiver: Frame 2 (Buffered by Receiver)
+    Receiver-->>Sender: ACK 0
+    Receiver-->>Sender: NAK 1
+    note over Sender: Selective Retransmission of Frame 1 only!
+    Sender->>Receiver: Frame 1 (Retransmitted)
+    Receiver-->>Sender: ACK 2 (Cumulative ACK for 0,1,2)
+    end
+```
+
+**What the figure shows:** Side-by-side comparison of error recovery in Go-Back-N vs Selective Repeat sliding window protocols.
+
+**Flow & Key Differences:**
+- **Go-Back-N:** When Frame 1 is lost, subsequent Frame 2 is discarded by the receiver because the receiver window is size $1$. Upon timeout, the sender must retransmit Frame 1 and all subsequent unacknowledged frames ($1, 2, \ldots$).
+- **Selective Repeat:** When Frame 1 is lost, subsequent Frame 2 is buffered by the receiver. A NAK 1 prompts the sender to retransmit *only* missing Frame 1, avoiding redundant retransmission of Frame 2. [Source: Ch 3, pp. 51-63]
 
 ### Selective Repeat behavior
 

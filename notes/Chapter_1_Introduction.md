@@ -35,16 +35,37 @@ A **protocol** defines the format and meaning of messages exchanged by peer enti
 
 ### Definition: Encapsulation and decapsulation
 
-Encapsulation adds control information as data moves down the stack. At the receiver, decapsulation removes and interprets that information as data moves up.
+**Meaning:** Encapsulation is the process where each layer adds control information (headers and optionally trailers) to data received from the upper layer as it moves down the protocol stack. Decapsulation is the reverse process at the receiving host, where each layer strips and interprets its respective header before handing payload up.
+
+**Formal mechanism:**
+- Application Layer creates data message $M$.
+- Transport Layer appends Transport Header $H_t$ to form Segment $(H_t, M)$.
+- Network Layer appends Network Header $H_n$ (IP addresses) to form Datagram/Packet $(H_n, H_t, M)$.
+- Data Link Layer appends Frame Header $H_l$ (MAC addresses) and Frame Trailer $T_l$ (CRC checksum) to form Frame $(H_l, H_n, H_t, M, T_l)$.
+- Physical Layer encodes frame bits into physical signals (optical, electrical, or radio waves).
 
 ```mermaid
-flowchart LR
-    A[Application message] --> B[Transport segment]
-    B --> C[Network packet]
-    C --> D[Data-link frame]
-    D --> E[Bits]
-    E --> F[Receiver decapsulation]
+flowchart TD
+    subgraph SenderStack [Sender Encapsulation]
+        direction TB
+        App[Application Layer: Message M] -->|Pass Data| Trans[Transport Layer: Segment Ht + M]
+        Trans -->|Pass Segment| Net[Network Layer: Packet Hn + Ht + M]
+        Net -->|Pass Packet| DLL[Data Link Layer: Frame Hl + Hn + Ht + M + Tl]
+        DLL -->|Send Bits| PHY[Physical Layer: Bitstream Signals]
+    end
+
+    subgraph ReceiverStack [Receiver Decapsulation]
+        direction BT
+        RPHY[Physical Layer: Signal Reception] -->|Bits| RDLL[Data Link Layer: Verify CRC & Strip Hl, Tl]
+        RDLL -->|Packet| RNet[Network Layer: Verify IP & Strip Hn]
+        RNet -->|Segment| RTrans[Transport Layer: Verify Port & Strip Ht]
+        RTrans -->|Message M| RApp[Application Layer: Deliver Message]
+    end
+
+    PHY ==>|Physical Medium| RPHY
 ```
+
+**What the diagram shows:** The exact progression of headers added during encapsulation down the protocol stack and stripped during decapsulation at the destination. [Source: Ch 1, pp. 25-29]
 
 ## 3. Applications and hardware
 
@@ -233,9 +254,55 @@ A **reliable message stream** preserves message boundaries and reliable delivery
 
 ![OSI, TCP/IP, and hybrid course models](images/reference-model-36.png)
 
-**What the figure shows:** the OSI seven-layer stack and its functional emphasis.
+```mermaid
+flowchart LR
+    subgraph OSI [OSI 7-Layer Model]
+        direction TB
+        O7[7. Application]
+        O6[6. Presentation]
+        O5[5. Session]
+        O4[4. Transport]
+        O3[3. Network]
+        O2[2. Data Link]
+        O1[1. Physical]
+    end
 
-**Connection:** the course's five-layer model retains the widely used pedagogical separation of Physical and Data Link layers while using the practical TCP/IP protocol family above them. [Source: Ch 1, pp. 36-39]
+    subgraph TCPIP [TCP/IP 4-Layer Model]
+        direction TB
+        T4[Application Layer]
+        T3[Transport Layer]
+        T2[Internet Layer]
+        T1[Link / Network Access]
+    end
+
+    subgraph Hybrid [Course 5-Layer Hybrid Model]
+        direction TB
+        H5[5. Application Layer]
+        H4[4. Transport Layer]
+        H3[3. Network Layer]
+        H2[2. Data Link Layer]
+        H1[1. Physical Layer]
+    end
+
+    O7 & O6 & O5 --- T4
+    O4 --- T3
+    O3 --- T2
+    O2 & O1 --- T1
+
+    T4 --- H5
+    T3 --- H4
+    T2 --- H3
+    T1 --- H2 & H1
+```
+
+**What the figure shows:** The detailed architectural mapping between the theoretical 7-Layer OSI model, the 4-layer TCP/IP Internet model, and the 5-layer hybrid course model.
+
+**Components & Layer Roles:**
+- **Application Layer (OSI 7,6,5 / Hybrid 5):** Protocols like HTTP, FTP, SMTP, DNS. Handles user-level network interaction, syntax formatting, and session state.
+- **Transport Layer (OSI 4 / Hybrid 4):** End-to-end communication, segmentation, flow control, and port addressing (TCP, UDP).
+- **Network / Internet Layer (OSI 3 / Hybrid 3):** Routing, IP logical addressing, and packet forwarding (IPv4, IPv6, ICMP).
+- **Data Link Layer (OSI 2 / Hybrid 2):** Framing, physical MAC addressing, error detection, and local medium access control (Ethernet 802.3, Wi-Fi 802.11).
+- **Physical Layer (OSI 1 / Hybrid 1):** Bit transmission over copper, fiber, or radio waves. [Source: Ch 1, pp. 36-39]
 
 ### Example networks and wireless operation
 
