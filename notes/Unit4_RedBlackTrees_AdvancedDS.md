@@ -31,7 +31,7 @@ Every Red-Black tree must satisfy the following five properties:
 4. **Red Property:** If a node is RED, both of its children must be BLACK. (This means there can be no two consecutive RED nodes on any path).
 5. **Black-Height Property:** All simple paths from any node to any of its descendant NIL leaves contain the same number of BLACK nodes.
 
-![Red-Black Tree Example](extracted/images/embedded/DAA_Unit4-image1.png)
+![Red-Black Tree Example](images/DAA_Unit4-image1.png)
 
 ### Black-Height
 - **Definition:** The black-height of a node $x$, denoted as $bh(x)$, is the number of BLACK nodes on any simple path from $x$ (not including $x$ itself) down to a leaf. Due to property 5, this value is well-defined.
@@ -336,7 +336,7 @@ It is used when a data structure occasionally performs a very expensive operatio
   - Case 2 (Resize from $n$ to $2n$): $c_i = n + 1$. $\Delta\Phi = (2(n+1) - 2n) - (2n - n) = 2 - n$. Amortised cost $\hat{c}_i = (n + 1) + 2 - n = 3$.
   - Since the amortised cost is a constant 3, the amortised time for insertion is $O(1)$.
 
-![Amortised Analysis Formula](extracted/images/embedded/Amortised_Analysis-image3.png)
+![Amortised Analysis Formula](images/Amortised_Analysis-image3.png)
 
 ### Comparison Table
 | Method | Approach | When to Use |
@@ -384,7 +384,7 @@ A Binomial Tree is an ordered tree defined recursively.
   4. The root has degree $k$, which is the maximum degree in the tree.
 - **Corollary:** The maximum degree in an $n$-node binomial heap is $\lfloor \log n \rfloor$.
 
-![Binomial Tree Structure](extracted/images/rendered/Binomial_Heap-04.png)
+![Binomial Tree Structure](images/Binomial_Heap-04.png)
 
 ### Binomial Heap Structure
 A binomial heap $H$ is a set of binomial trees that satisfies:

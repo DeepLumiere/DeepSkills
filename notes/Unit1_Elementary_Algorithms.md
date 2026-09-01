@@ -31,7 +31,7 @@
 ### Definition: Algorithm
 **Formal Definition:** An algorithm is any well-defined computational procedure that takes some value, or a set of values, as input and produces some value, or a set of values, as output. It is a sequence of computational steps that transform the input into the desired output.
 
-![Algorithm Process](images/embedded/DAA_Unit_0_Introduction-image6.png)
+![Algorithm Process](images/DAA_Unit_0_Introduction-image6.png)
 
 **Intuition:** Think of it like a recipe for a chocolate cake. The ingredients are the inputs, the step-by-step cooking process is the algorithm, and the final cake is the output.
 
@@ -164,7 +164,7 @@ $$
   Prove that $f(n) = 6993$ is $\mathcal{O}(1)$.
   *Proof:* We need $6993 \le c \cdot 1$. Choose $c = 6993$ and $n_0 = 1$. The inequality holds. Thus, $f(n) = \mathcal{O}(1)$.
 
-![Big-O Graph Example](images/embedded/DAA_Unit1-image31.png)
+![Big-O Graph Example](images/DAA_Unit1-image31.png)
 
 ### 6.2 Big-Omega Notation (Lower Bound)
 - **Formal Definition:** $f(n) = \Omega(g(n))$ if there exist positive constants $c > 0$ and $n_0 > 0$ such that:
