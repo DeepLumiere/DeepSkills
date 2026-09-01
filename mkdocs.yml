@@ -101,8 +101,13 @@ nav:
   - Algorithms & Networking:
       - Design & Analysis of Algorithms:
           - Complete Notes (Unit 1 & 2): DAA_Unit1_and_Unit2_Complete_Notes.md
-          - Unit 1 Notes: DAA_Unit1_Elementary_Algorithmic_Notes.md
+          - Unit 1 Notes: Unit1_Elementary_Algorithms.md
           - Unit 2 Notes: DAA_Unit2_Analysis_of_Algorithms_Notes.md
+          - Unit 3 Notes: Unit3_Recurrence_DivideConquer.md
+          - Unit 4 Notes: Unit4_RedBlackTrees_AdvancedDS.md
+          - Unit 5 Notes: Unit5_Greedy_Algorithms.md
+          - Unit 6 Notes: Unit6_Dynamic_Programming.md
+          - Unit 7 Notes: Unit7_Backtracking_BranchBound.md
       - Computer Networks:
           - Class Test Complete: CompNet_ClassTest.md
           - Ch 1 - Introduction: Chapter_1_Introduction.md
