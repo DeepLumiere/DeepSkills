@@ -40,7 +40,7 @@
 
 ### Figure 2.1: OSI 7-Layer Model Architecture & Encapsulation
 
-![OSI Model Architecture](Reference Material - Chapter 2_images/slide_6_img_1.png)
+![OSI Model Architecture](images/ch2/slide7_img1.png)
 
 **What it shows:** Headers ($H_7$ through $H_2$) and Trailer ($T_2$) added at each layer during transmission.
 
