@@ -1,0 +1,3414 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="DeepSkills Knowledge Base and Engineering Notes">
+      
+      
+        <meta name="author" content="DeepLumiere">
+      
+      
+        <link rel="canonical" href="https://deeplumiere.github.io/DeepSkills/design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithms/">
+      
+      
+        <link rel="prev" href="../DAA_Unit1_Elementary_Algorithmic_Notes/">
+      
+      
+        <link rel="next" href="../DAA_Unit2_Analysis_of_Algorithms_Notes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Unit 1 Notes (Elementary Algorithms) - DeepSkills</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-301Z6Q0P7W"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-301Z6Q0P7W",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-301Z6Q0P7W",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-1-complete-daa-notes-unit-1-elementary-algorithms-analysis" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DeepSkills" class="md-header__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DeepSkills
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Unit 1 Notes (Elementary Algorithms)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DeepSkills" class="md-nav__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    DeepSkills
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware & Microprocessors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hardware & Microprocessors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/Microprocessors_and_Interfacing_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microprocessors & Interfacing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms & Networking
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms & Networking
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design & Analysis of Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design & Analysis of Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit1_and_Unit2_Complete_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Notes (Unit 1 & 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit1_Elementary_Algorithmic_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 1 Notes (Elementary Algorithmic)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 1 Notes (Elementary Algorithms)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 1 Notes (Elementary Algorithms)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-course-overview-unit-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Course Overview (Unit 0)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-introduction-to-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Introduction to Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Introduction to Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-properties-of-an-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 Properties of an Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-vs-program-distinction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm vs Program Distinction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-analysis-of-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Analysis of Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Analysis of Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Analysis?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resources-analyzed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resources Analyzed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#approaches-to-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Approaches to Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#machine-model-ram-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Machine Model (RAM Model)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-cases-of-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Cases of Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Cases of Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Case
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worst-case-most-important" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worst Case (Most Important)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#average-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Average Case
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-rate-of-growth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Rate of Growth
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Rate of Growth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#order-of-growth-slowest-to-fastest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order of Growth (Slowest to Fastest)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#growth-function-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Growth Function Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numerical-growth-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Numerical Growth Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-asymptotic-notations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Asymptotic Notations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Asymptotic Notations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-big-o-notation-upper-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Big-O Notation (Upper Bound)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-big-omega-notation-lower-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Big-Omega Notation (Lower Bound)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-big-theta-notation-tight-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Big-Theta Notation (Tight Bound)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-little-o-notation-strict-upper-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Little-o Notation (Strict Upper Bound)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-little-omega-notation-strict-lower-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Little-omega Notation (Strict Lower Bound)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-properties-of-asymptotic-notations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Properties of Asymptotic Notations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-analyzing-control-statements-unit-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Analyzing Control Statements (Unit 2)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Analyzing Control Statements (Unit 2)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-rules-for-complexity-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Rules for Complexity Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-worked-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Worked Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-formula-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Formula Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-definition-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Definition Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-exam-oriented-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Exam-Oriented Review
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Exam-Oriented Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#important-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-definitions-memorize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Definitions (Memorize)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-formulas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Formulas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-comparisons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Comparisons
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#potential-exam-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Potential Exam Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit2_Analysis_of_Algorithms_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 2 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit3_Recurrence_DivideConquer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 3 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit4_RedBlackTrees_AdvancedDS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 4 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit5_Greedy_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 5 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit6_Dynamic_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 6 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit7_Backtracking_BranchBound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 7 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Computer Networks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Computer Networks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/CompNet_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Class Test Complete
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_1_Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_3_Data_Link_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3 - Data Link Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_4_MAC_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4 - MAC Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Communication
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Communication
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter1_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter2_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter3_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter4_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter5_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter6_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter7_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter8_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter10_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning & Data Science
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning & Data Science
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/01_Machine_Learning_and_its_Applications_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/02_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/03_Multivariate_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multivariate Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/04_Regularization_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regularization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/05_Probability_and_Statistics_for_ML_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prob & Stats for ML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Analysis & Visualization
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Analysis & Visualization
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter1_Introduction_to_DAV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter2_Types_of_Data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2 - Types of Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter3_Dataset_and_Attributes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3 - Dataset & Attributes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter4_Statistical_Descriptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4 - Statistical Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter5_Data_Preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5 - Data Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Web Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../web_development/FSD_Complete_Study_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Stack Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-course-overview-unit-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Course Overview (Unit 0)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-introduction-to-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Introduction to Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Introduction to Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-properties-of-an-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 Properties of an Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-vs-program-distinction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm vs Program Distinction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-analysis-of-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Analysis of Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Analysis of Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Analysis?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resources-analyzed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resources Analyzed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#approaches-to-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Approaches to Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#machine-model-ram-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Machine Model (RAM Model)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-cases-of-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Cases of Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Cases of Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Case
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worst-case-most-important" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worst Case (Most Important)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#average-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Average Case
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-rate-of-growth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Rate of Growth
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Rate of Growth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#order-of-growth-slowest-to-fastest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order of Growth (Slowest to Fastest)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#growth-function-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Growth Function Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numerical-growth-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Numerical Growth Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-asymptotic-notations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Asymptotic Notations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Asymptotic Notations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-big-o-notation-upper-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Big-O Notation (Upper Bound)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-big-omega-notation-lower-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Big-Omega Notation (Lower Bound)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-big-theta-notation-tight-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Big-Theta Notation (Tight Bound)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-little-o-notation-strict-upper-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Little-o Notation (Strict Upper Bound)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-little-omega-notation-strict-lower-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Little-omega Notation (Strict Lower Bound)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-properties-of-asymptotic-notations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Properties of Asymptotic Notations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-analyzing-control-statements-unit-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Analyzing Control Statements (Unit 2)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Analyzing Control Statements (Unit 2)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-rules-for-complexity-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Rules for Complexity Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-worked-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Worked Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-formula-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Formula Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-definition-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Definition Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-exam-oriented-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Exam-Oriented Review
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Exam-Oriented Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#important-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-definitions-memorize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Definitions (Memorize)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-formulas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Formulas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-comparisons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Comparisons
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#potential-exam-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Potential Exam Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/DeepLumiere/DeepSkills/edit/main/notes/design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithms.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="chapter-1-complete-daa-notes-unit-1-elementary-algorithms-analysis">Chapter 1: Complete DAA Notes: Unit 1 — Elementary Algorithms &amp; Analysis<a class="headerlink" href="#chapter-1-complete-daa-notes-unit-1-elementary-algorithms-analysis" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Course Code:</strong> 3CS501CC24
+<strong>Course Title:</strong> Design &amp; Analysis of Algorithm
+<strong>Primary Source:</strong> DAA_Unit0_Introduction.pptx, DAA_Unit1.pptx, DAA_Unit2.pptx
+<strong>Files Integrated:</strong> <code>DAA_Unit 0_Introduction.pptx</code>, <code>DAA_Unit1.pptx</code>, <code>DAA_Unit2.pptx</code></p>
+</blockquote>
+<hr />
+<h2 id="1-course-overview-unit-0">1. Course Overview (Unit 0)<a class="headerlink" href="#1-course-overview-unit-0" title="Permanent link">&para;</a></h2>
+<p><strong>References:</strong>
+1. Charles E. Leiserson, Thomas H. Cormen, Ronald L. Rivest, Clifford Stein - <em>Introduction to Algorithms</em>, PHI
+2. Ellis Horowitz, Sartaj Sahni, Sanguthevar Rajasekharan - <em>Fundamentals of Computer Algorithms</em>, Galgotia
+3. Jean-Paul Tremblay and Paul G. Sorenson - <em>An Introduction to Data Structures with Applications</em>, Tata McGraw Hill
+4. Karumanchi, Narasimha - <em>Data Structures and Algorithms Made Easy</em>, CareerMonk Publications</p>
+<p><strong>Teaching &amp; Evaluation Scheme:</strong>
+- <strong>Credits:</strong> Theory (3), Tutorial (0), Practical (2) <span class="arithmatex">\(\implies\)</span> Total Credits: 4
+- <strong>Evaluation Methodology:</strong>
+  - <strong>Continuous Evaluation (CE):</strong> 60% Weightage (CT - 20, Sessional - 30, Innovative Assignment - 50)
+  - <strong>Semester End Exam (SEE):</strong> 40% Weightage (Duration: 3.0 Hrs)
+- <strong>Syllabus:</strong> Available on the LMS Site.</p>
+<p>[Source: DAA_Unit_0_Introduction.pptx, Slides 3-5]</p>
+<hr />
+<h2 id="2-introduction-to-algorithms">2. Introduction to Algorithms<a class="headerlink" href="#2-introduction-to-algorithms" title="Permanent link">&para;</a></h2>
+<h3 id="definition-algorithm">Definition: Algorithm<a class="headerlink" href="#definition-algorithm" title="Permanent link">&para;</a></h3>
+<p><strong>Formal Definition:</strong> An algorithm is any well-defined computational procedure that takes some value, or a set of values, as input and produces some value, or a set of values, as output. It is a sequence of computational steps that transform the input into the desired output.</p>
+<p><img alt="Algorithm Process" src="../../images/DAA_Unit_0_Introduction-image6.png" /></p>
+<p><strong>Intuition:</strong> Think of it like a recipe for a chocolate cake. The ingredients are the inputs, the step-by-step cooking process is the algorithm, and the final cake is the output.</p>
+<h3 id="5-properties-of-an-algorithm">5 Properties of an Algorithm<a class="headerlink" href="#5-properties-of-an-algorithm" title="Permanent link">&para;</a></h3>
+<p>Every algorithm must satisfy the following five key characteristics (along with Correctness):
+1. <strong>Input:</strong> An algorithm has zero or more externally supplied inputs.
+2. <strong>Output:</strong> An algorithm must produce at least one desirable output.
+3. <strong>Definiteness:</strong> Each step of the algorithm must be precisely and unambiguously defined.
+4. <strong>Finiteness:</strong> The algorithm must always terminate after a finite number of steps.
+5. <strong>Effectiveness:</strong> All operations to be performed must be sufficiently basic and essential such that they can be carried out, in principle, by a person using paper and pencil.
+6. <strong>Correctness (Crucial Property):</strong> It must halt with the correct output for every possible valid input instance.</p>
+<h3 id="algorithm-vs-program-distinction">Algorithm vs Program Distinction<a class="headerlink" href="#algorithm-vs-program-distinction" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Algorithm:</strong> The logic or mathematical concept to solve a general, well-specified problem. It is platform-independent (stays the same whether implemented in Pascal on a Cray or in BASIC on a Mac).</li>
+<li><strong>Program:</strong> The concrete implementation of an algorithm in a specific programming language, tied to a specific hardware and software environment.</li>
+</ul>
+<p>[Source: DAA_Unit_0_Introduction.pptx, Slides 6-13]</p>
+<hr />
+<h2 id="3-analysis-of-algorithms">3. Analysis of Algorithms<a class="headerlink" href="#3-analysis-of-algorithms" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-analysis">What is Analysis?<a class="headerlink" href="#what-is-analysis" title="Permanent link">&para;</a></h3>
+<p>Analyzing an algorithm means mathematically predicting the computing resources that the algorithm requires. By analyzing candidate algorithms for a given problem, we can identify the most efficient one.</p>
+<h3 id="resources-analyzed">Resources Analyzed<a class="headerlink" href="#resources-analyzed" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Time Complexity:</strong> The amount of computing execution time an algorithm needs to run to completion, measured as a function of the input size <span class="arithmatex">\(n\)</span>.</li>
+<li><strong>Space Complexity:</strong> The amount of working storage (memory) required by the algorithm during its execution.
+<em>Note: Because memory is cheaply available in abundance today, Time Complexity is generally considered the decisive measure of an algorithm's performance.</em></li>
+</ol>
+<h3 id="approaches-to-analysis">Approaches to Analysis<a class="headerlink" href="#approaches-to-analysis" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Empirical (Posteriori) Approach:</strong></li>
+<li>Write a program and run it to measure actual processor time.</li>
+<li><strong>Disadvantages:</strong> Depends heavily on hardware/software environments, compiler used, and specific test data. It may not reflect the algorithm's performance on inputs outside the experiment.</li>
+<li><strong>Theoretical (Priori) Approach:</strong></li>
+<li>Mathematically compute the time needed as a function of the input size <span class="arithmatex">\(n\)</span>.</li>
+<li><strong>Advantages:</strong> Speed and efficiency are determined independently of the hardware or software environment. Characterizes the running time for all possible input values.</li>
+</ol>
+<h3 id="machine-model-ram-model">Machine Model (RAM Model)<a class="headerlink" href="#machine-model-ram-model" title="Permanent link">&para;</a></h3>
+<p>To analyze theoretically, we use the generic <strong>Random Access Machine (RAM) model</strong>:
+- It contains one single-core processor executing instructions sequentially (no concurrent operations).
+- Standard primitive/elementary operations (arithmetic, data movement like load/store, and control like branching) take a constant amount of time, say <span class="arithmatex">\(c\)</span>.
+- Time complexity is essentially determined by counting the total number of these elementary steps.</p>
+<p>[Source: DAA_Unit_0_Introduction.pptx, Slides 19-24 &amp; DAA_Unit1.pptx, Slides 3-6]</p>
+<hr />
+<h2 id="4-cases-of-analysis">4. Cases of Analysis<a class="headerlink" href="#4-cases-of-analysis" title="Permanent link">&para;</a></h2>
+<p>An algorithm may not exhibit the same performance for all inputs of the exact same size <span class="arithmatex">\(n\)</span>. Its running time can vary based on the nature or initial arrangement of the input elements.</p>
+<h3 id="best-case">Best Case<a class="headerlink" href="#best-case" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Formal Definition:</strong> The minimum number of steps or operations required by an algorithm for an input of size <span class="arithmatex">\(n\)</span>.</li>
+<li><strong>Intuition:</strong> The algorithm's behavior under optimal conditions. It provides the lower bound on running time.</li>
+<li><strong>Example:</strong> In a Linear Search algorithm, if the target element is found at the very first index of the array, the search takes minimum time <span class="arithmatex">\(\mathcal{O}(1)\)</span>.</li>
+</ul>
+<h3 id="worst-case-most-important">Worst Case (Most Important)<a class="headerlink" href="#worst-case-most-important" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Formal Definition:</strong> The maximum number of steps or operations required by an algorithm for an input of size <span class="arithmatex">\(n\)</span>.</li>
+<li><strong>Intuition:</strong> The algorithm's behavior under the worst possible conditions. It provides an upper bound on running time, ensuring the algorithm will never take longer than this. This is the most heavily relied-upon metric.</li>
+<li><strong>Example:</strong> In a Linear Search algorithm, if the target element is at the very last index or is not present in the array at all, the algorithm must check every single element, taking <span class="arithmatex">\(\mathcal{O}(n)\)</span> time.</li>
+</ul>
+<h3 id="average-case">Average Case<a class="headerlink" href="#average-case" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Formal Definition:</strong> The expected or average number of steps required by an algorithm over all possible inputs of size <span class="arithmatex">\(n\)</span>.</li>
+<li><strong>Intuition:</strong> The algorithm's behavior under typical or random conditions.</li>
+<li><strong>Example:</strong> In a Linear Search, on average, the target element might be found halfway through the array, requiring <span class="arithmatex">\(n/2\)</span> comparisons. Asymptotically, we drop the constant factor, giving an average time complexity of <span class="arithmatex">\(\mathcal{O}(n)\)</span>.</li>
+</ul>
+<p>[Source: DAA_Unit1.pptx, Slides 13-17]</p>
+<hr />
+<h2 id="5-rate-of-growth">5. Rate of Growth<a class="headerlink" href="#5-rate-of-growth" title="Permanent link">&para;</a></h2>
+<p>The rate of growth describes how quickly the execution time increases as the input size <span class="arithmatex">\(n\)</span> approaches infinity.</p>
+<h3 id="order-of-growth-slowest-to-fastest">Order of Growth (Slowest to Fastest)<a class="headerlink" href="#order-of-growth-slowest-to-fastest" title="Permanent link">&para;</a></h3>
+<p>When comparing efficiency, lower growth is better. The standard hierarchy of common functions is:</p>
+<div class="arithmatex">\[
+1 &lt; \log n &lt; \sqrt{n} &lt; n &lt; n \log n &lt; n^2 &lt; n^3 &lt; 2^n &lt; n! &lt; n^n
+\]</div>
+<h3 id="growth-function-table">Growth Function Table<a class="headerlink" href="#growth-function-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Function Name</th>
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Growth Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Constant</td>
+<td style="text-align: center;"><span class="arithmatex">\(\mathcal{O}(1)\)</span></td>
+<td style="text-align: left;">Slowest (Best)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Logarithmic</td>
+<td style="text-align: center;"><span class="arithmatex">\(\mathcal{O}(\log n)\)</span></td>
+<td style="text-align: left;">Very Slow</td>
+</tr>
+<tr>
+<td style="text-align: left;">Square Root</td>
+<td style="text-align: center;"><span class="arithmatex">\(\mathcal{O}(\sqrt{n})\)</span></td>
+<td style="text-align: left;">Slow</td>
+</tr>
+<tr>
+<td style="text-align: left;">Linear</td>
+<td style="text-align: center;"><span class="arithmatex">\(\mathcal{O}(n)\)</span></td>
+<td style="text-align: left;">Moderate</td>
+</tr>
+<tr>
+<td style="text-align: left;">Linearithmic</td>
+<td style="text-align: center;"><span class="arithmatex">\(\mathcal{O}(n \log n)\)</span></td>
+<td style="text-align: left;">Moderate to Fast</td>
+</tr>
+<tr>
+<td style="text-align: left;">Quadratic</td>
+<td style="text-align: center;"><span class="arithmatex">\(\mathcal{O}(n^2)\)</span></td>
+<td style="text-align: left;">Fast (Poor for large <span class="arithmatex">\(n\)</span>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Cubic</td>
+<td style="text-align: center;"><span class="arithmatex">\(\mathcal{O}(n^3)\)</span></td>
+<td style="text-align: left;">Very Fast</td>
+</tr>
+<tr>
+<td style="text-align: left;">Exponential</td>
+<td style="text-align: center;"><span class="arithmatex">\(\mathcal{O}(2^n)\)</span></td>
+<td style="text-align: left;">Explosive</td>
+</tr>
+<tr>
+<td style="text-align: left;">Factorial</td>
+<td style="text-align: center;"><span class="arithmatex">\(\mathcal{O}(n!)\)</span></td>
+<td style="text-align: left;">Most Explosive (Worst)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="numerical-growth-example">Numerical Growth Example<a class="headerlink" href="#numerical-growth-example" title="Permanent link">&para;</a></h3>
+<p>To see why order of growth matters as input size increases, consider the values of these functions for varying <span class="arithmatex">\(n\)</span>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><span class="arithmatex">\(n\)</span> (Input Size)</th>
+<th style="text-align: left;"><span class="arithmatex">\(\log_2 n\)</span></th>
+<th style="text-align: left;"><span class="arithmatex">\(n\)</span></th>
+<th style="text-align: left;"><span class="arithmatex">\(n \log_2 n\)</span></th>
+<th style="text-align: left;"><span class="arithmatex">\(n^2\)</span></th>
+<th style="text-align: left;"><span class="arithmatex">\(n^3\)</span></th>
+<th style="text-align: left;"><span class="arithmatex">\(2^n\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>10</strong></td>
+<td style="text-align: left;">~3.3</td>
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">33</td>
+<td style="text-align: left;">100</td>
+<td style="text-align: left;">1,000</td>
+<td style="text-align: left;">1,024</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>100</strong></td>
+<td style="text-align: left;">~6.6</td>
+<td style="text-align: left;">100</td>
+<td style="text-align: left;">664</td>
+<td style="text-align: left;">10,000</td>
+<td style="text-align: left;">1,000,000</td>
+<td style="text-align: left;"><span class="arithmatex">\(1.26 \times 10^{30}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>1,000</strong></td>
+<td style="text-align: left;">~10.0</td>
+<td style="text-align: left;">1,000</td>
+<td style="text-align: left;">10,000</td>
+<td style="text-align: left;">1,000,000</td>
+<td style="text-align: left;"><span class="arithmatex">\(10^9\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(1.07 \times 10^{301}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>[Source: DAA_Unit1.pptx, Slides 41-42]</p>
+<hr />
+<h2 id="6-asymptotic-notations">6. Asymptotic Notations<a class="headerlink" href="#6-asymptotic-notations" title="Permanent link">&para;</a></h2>
+<p>Asymptotic notations are mathematical tools used to express the time and space complexity of algorithms independent of machine-specific constants. They describe the limiting behavior of a function as its argument tends towards a particular value or infinity.</p>
+<h3 id="61-big-o-notation-upper-bound">6.1 Big-O Notation (Upper Bound)<a class="headerlink" href="#61-big-o-notation-upper-bound" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Formal Definition:</strong> <span class="arithmatex">\(f(n) = \mathcal{O}(g(n))\)</span> if there exist positive constants <span class="arithmatex">\(c &gt; 0\)</span> and <span class="arithmatex">\(n_0 &gt; 0\)</span> such that:</li>
+</ul>
+<div class="arithmatex">\[
+0 \le f(n) \le c \cdot g(n) \quad \text{for all } n \ge n_0
+\]</div>
+<ul>
+<li><strong>Intuition:</strong> <span class="arithmatex">\(g(n)\)</span> provides an asymptotic upper bound on the growth rate of <span class="arithmatex">\(f(n)\)</span>. The algorithm's running time will not cross the boundary of <span class="arithmatex">\(c \cdot g(n)\)</span> for large inputs. It defines the worst-case behavior.</li>
+<li><strong>Simplification Rules:</strong></li>
+<li>Drop constant multipliers: <span class="arithmatex">\(\mathcal{O}(50 n \log n) \implies \mathcal{O}(n \log n)\)</span></li>
+<li>Drop lower-order terms: <span class="arithmatex">\(\mathcal{O}(8n^2 \log n + 5n^2 + n) \implies \mathcal{O}(n^2 \log n)\)</span></li>
+<li><strong>Worked Example (from slides):</strong>
+  Prove that <span class="arithmatex">\(f(n) = 6n + 3\)</span> is <span class="arithmatex">\(\mathcal{O}(n)\)</span>.
+  <em>Proof:</em> We need to find <span class="arithmatex">\(c\)</span> and <span class="arithmatex">\(n_0\)</span> such that <span class="arithmatex">\(6n + 3 \le c \cdot n\)</span>.
+  For <span class="arithmatex">\(n \ge 1\)</span>: <span class="arithmatex">\(6n + 3 \le 6n + 3n = 9n\)</span>.
+  Thus, taking <span class="arithmatex">\(c = 9\)</span> and <span class="arithmatex">\(n_0 = 1\)</span>, the condition holds. Therefore, <span class="arithmatex">\(6n + 3 = \mathcal{O}(n)\)</span>.</li>
+<li><strong>Worked Example (Constant function):</strong>
+  Prove that <span class="arithmatex">\(f(n) = 6993\)</span> is <span class="arithmatex">\(\mathcal{O}(1)\)</span>.
+  <em>Proof:</em> We need <span class="arithmatex">\(6993 \le c \cdot 1\)</span>. Choose <span class="arithmatex">\(c = 6993\)</span> and <span class="arithmatex">\(n_0 = 1\)</span>. The inequality holds. Thus, <span class="arithmatex">\(f(n) = \mathcal{O}(1)\)</span>.</li>
+</ul>
+<p><img alt="Big-O Graph Example" src="../../images/DAA_Unit1-image31.png" /></p>
+<h3 id="62-big-omega-notation-lower-bound">6.2 Big-Omega Notation (Lower Bound)<a class="headerlink" href="#62-big-omega-notation-lower-bound" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Formal Definition:</strong> <span class="arithmatex">\(f(n) = \Omega(g(n))\)</span> if there exist positive constants <span class="arithmatex">\(c &gt; 0\)</span> and <span class="arithmatex">\(n_0 &gt; 0\)</span> such that:</li>
+</ul>
+<div class="arithmatex">\[
+0 \le c \cdot g(n) \le f(n) \quad \text{for all } n \ge n_0
+\]</div>
+<ul>
+<li><strong>Intuition:</strong> <span class="arithmatex">\(g(n)\)</span> provides an asymptotic lower bound. The algorithm takes at least this much time to execute. It's often used to denote best-case time complexity.</li>
+<li><strong>Worked Example:</strong>
+  Prove that <span class="arithmatex">\(f(n) = 3n^2 + 2n + 4\)</span> is <span class="arithmatex">\(\Omega(n^2)\)</span>.
+  <em>Proof:</em> We need <span class="arithmatex">\(c \cdot n^2 \le 3n^2 + 2n + 4\)</span>.
+  Since <span class="arithmatex">\(n \ge 1\)</span>, we clearly know <span class="arithmatex">\(1 \cdot n^2 \le 3n^2 \le 3n^2 + 2n + 4\)</span>.
+  Thus, by taking <span class="arithmatex">\(c = 3\)</span> (or <span class="arithmatex">\(c=1\)</span>) and <span class="arithmatex">\(n_0 = 1\)</span>, the inequality is satisfied. Therefore, <span class="arithmatex">\(f(n) = \Omega(n^2)\)</span>.</li>
+</ul>
+<h3 id="63-big-theta-notation-tight-bound">6.3 Big-Theta Notation (Tight Bound)<a class="headerlink" href="#63-big-theta-notation-tight-bound" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Formal Definition:</strong> <span class="arithmatex">\(f(n) = \Theta(g(n))\)</span> if there exist positive constants <span class="arithmatex">\(c_1 &gt; 0\)</span>, <span class="arithmatex">\(c_2 &gt; 0\)</span>, and <span class="arithmatex">\(n_0 &gt; 0\)</span> such that:</li>
+</ul>
+<div class="arithmatex">\[
+0 \le c_1 \cdot g(n) \le f(n) \le c_2 \cdot g(n) \quad \text{for all } n \ge n_0
+\]</div>
+<p>Alternatively, <span class="arithmatex">\(f(n) = \Theta(g(n))\)</span> iff <span class="arithmatex">\(f(n) = \mathcal{O}(g(n))\)</span> AND <span class="arithmatex">\(f(n) = \Omega(g(n))\)</span>.
+- <strong>Intuition:</strong> <span class="arithmatex">\(f(n)\)</span> grows exactly at the same rate as <span class="arithmatex">\(g(n)\)</span> asymptotically. It defines the exact asymptotic behavior of an algorithm, bounding it from both above and below.
+- <strong>Worked Example:</strong>
+  Prove that <span class="arithmatex">\(f(n) = 2n^3 + 4n + 5\)</span> is <span class="arithmatex">\(\Theta(n^3)\)</span>.
+  <em>Proof:</em> We need <span class="arithmatex">\(c_1 n^3 \le 2n^3 + 4n + 5 \le c_2 n^3\)</span>.
+  Lower bound: For <span class="arithmatex">\(n \ge 1\)</span>, <span class="arithmatex">\(2n^3 \le 2n^3 + 4n + 5\)</span>. So <span class="arithmatex">\(c_1 = 2\)</span>.
+  Upper bound: For <span class="arithmatex">\(n \ge 1\)</span>, <span class="arithmatex">\(2n^3 + 4n + 5 \le 2n^3 + 4n^3 + 5n^3 = 11n^3\)</span>. So <span class="arithmatex">\(c_2 = 11\)</span>.
+  By taking <span class="arithmatex">\(c_1 = 2, c_2 = 11, n_0 = 1\)</span>, the relation holds. Therefore, <span class="arithmatex">\(f(n) = \Theta(n^3)\)</span>.
+- <strong>Worked Example 2:</strong>
+  Prove that <span class="arithmatex">\(3n + 2 = \Theta(n)\)</span>.
+  <em>Proof:</em> We need <span class="arithmatex">\(c_1 \cdot n \le 3n + 2 \le c_2 \cdot n\)</span>.
+  For <span class="arithmatex">\(n \ge 1\)</span>, <span class="arithmatex">\(2n \le 3n + 2 \le 5n\)</span>. So <span class="arithmatex">\(c_1 = 2\)</span>, <span class="arithmatex">\(c_2 = 5\)</span>, <span class="arithmatex">\(n_0 = 1\)</span>. Thus, <span class="arithmatex">\(3n + 2 = \Theta(n)\)</span>.
+- <strong>Worked Example 3:</strong>
+  Prove that <span class="arithmatex">\(6 \cdot 2^n + n^2 = \Theta(2^n)\)</span>.
+  <em>Proof:</em> We need <span class="arithmatex">\(c_1 \cdot 2^n \le 6 \cdot 2^n + n^2 \le c_2 \cdot 2^n\)</span>.
+  For <span class="arithmatex">\(n \ge 1\)</span>, <span class="arithmatex">\(6 \cdot 2^n \le 6 \cdot 2^n + n^2 \le 7 \cdot 2^n\)</span>. So <span class="arithmatex">\(c_1 = 6\)</span>, <span class="arithmatex">\(c_2 = 7\)</span>, <span class="arithmatex">\(n_0 = 1\)</span>. Thus, <span class="arithmatex">\(6 \cdot 2^n + n^2 = \Theta(2^n)\)</span>.</p>
+<h3 id="64-little-o-notation-strict-upper-bound">6.4 Little-o Notation (Strict Upper Bound)<a class="headerlink" href="#64-little-o-notation-strict-upper-bound" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Formal Definition:</strong> <span class="arithmatex">\(f(n) = o(g(n))\)</span> if for <em>every</em> constant <span class="arithmatex">\(c &gt; 0\)</span>, there exists a constant <span class="arithmatex">\(n_0 &gt; 0\)</span> such that <span class="arithmatex">\(0 \le f(n) &lt; c \cdot g(n)\)</span> for all <span class="arithmatex">\(n \ge n_0\)</span>.
+  Alternatively, defined using limits:</li>
+</ul>
+<div class="arithmatex">\[
+\lim_{n \to \infty} \frac{f(n)}{g(n)} = 0
+\]</div>
+<ul>
+<li><strong>Intuition:</strong> <span class="arithmatex">\(f(n)\)</span> grows strictly slower than <span class="arithmatex">\(g(n)\)</span>. <span class="arithmatex">\(g(n)\)</span> is a loose upper bound.</li>
+<li><strong>Example:</strong> <span class="arithmatex">\(2n = o(n^2)\)</span>, but <span class="arithmatex">\(2n^2 \neq o(n^2)\)</span>.</li>
+</ul>
+<h3 id="65-little-omega-notation-strict-lower-bound">6.5 Little-omega Notation (Strict Lower Bound)<a class="headerlink" href="#65-little-omega-notation-strict-lower-bound" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Formal Definition:</strong> <span class="arithmatex">\(f(n) = \omega(g(n))\)</span> if for <em>every</em> constant <span class="arithmatex">\(c &gt; 0\)</span>, there exists a constant <span class="arithmatex">\(n_0 &gt; 0\)</span> such that <span class="arithmatex">\(0 \le c \cdot g(n) &lt; f(n)\)</span> for all <span class="arithmatex">\(n \ge n_0\)</span>.
+  Alternatively, defined using limits:</li>
+</ul>
+<div class="arithmatex">\[
+\lim_{n \to \infty} \frac{f(n)}{g(n)} = \infty
+\]</div>
+<ul>
+<li><strong>Intuition:</strong> <span class="arithmatex">\(f(n)\)</span> grows strictly faster than <span class="arithmatex">\(g(n)\)</span>. <span class="arithmatex">\(g(n)\)</span> is a loose lower bound.</li>
+<li><strong>Example:</strong> <span class="arithmatex">\(n^2 = \omega(n)\)</span>, but <span class="arithmatex">\(n^2 \neq \omega(n^2)\)</span>.</li>
+</ul>
+<h3 id="66-comparison-table">6.6 Comparison Table<a class="headerlink" href="#66-comparison-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Notation</th>
+<th style="text-align: left;">Meaning</th>
+<th style="text-align: left;">Relation</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><span class="arithmatex">\(\mathcal{O}\)</span></td>
+<td style="text-align: left;">Asymptotic Upper Bound</td>
+<td style="text-align: left;"><span class="arithmatex">\(f \le g\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(3n^2 + 5n = \mathcal{O}(n^2)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="arithmatex">\(\Omega\)</span></td>
+<td style="text-align: left;">Asymptotic Lower Bound</td>
+<td style="text-align: left;"><span class="arithmatex">\(f \ge g\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(3n^2 + 5n = \Omega(n^2)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="arithmatex">\(\Theta\)</span></td>
+<td style="text-align: left;">Asymptotically Tight Bound</td>
+<td style="text-align: left;"><span class="arithmatex">\(f = g\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(3n^2 + 5n = \Theta(n^2)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="arithmatex">\(o\)</span></td>
+<td style="text-align: left;">Strict Upper Bound</td>
+<td style="text-align: left;"><span class="arithmatex">\(f &lt; g\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(3n = o(n^2)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="arithmatex">\(\omega\)</span></td>
+<td style="text-align: left;">Strict Lower Bound</td>
+<td style="text-align: left;"><span class="arithmatex">\(f &gt; g\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(3n^2 = \omega(n)\)</span></td>
+</tr>
+</tbody>
+</table>
+<h3 id="67-properties-of-asymptotic-notations">6.7 Properties of Asymptotic Notations<a class="headerlink" href="#67-properties-of-asymptotic-notations" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Transitivity:</strong>
+  If <span class="arithmatex">\(f(n) = \Theta(g(n))\)</span> and <span class="arithmatex">\(g(n) = \Theta(h(n))\)</span>, then <span class="arithmatex">\(f(n) = \Theta(h(n))\)</span>. (Holds true for <span class="arithmatex">\(\mathcal{O}, \Omega, o, \omega\)</span> as well).</li>
+<li><strong>Reflexivity:</strong>
+  <span class="arithmatex">\(f(n) = \Theta(f(n))\)</span>, <span class="arithmatex">\(f(n) = \mathcal{O}(f(n))\)</span>, <span class="arithmatex">\(f(n) = \Omega(f(n))\)</span>. (Does NOT hold for <span class="arithmatex">\(o\)</span> and <span class="arithmatex">\(\omega\)</span>).</li>
+<li><strong>Symmetry:</strong>
+  <span class="arithmatex">\(f(n) = \Theta(g(n))\)</span> if and only if <span class="arithmatex">\(g(n) = \Theta(f(n))\)</span>. (Only true for <span class="arithmatex">\(\Theta\)</span>).</li>
+<li><strong>Transpose Symmetry:</strong>
+  <span class="arithmatex">\(f(n) = \mathcal{O}(g(n))\)</span> if and only if <span class="arithmatex">\(g(n) = \Omega(f(n))\)</span>.
+  <span class="arithmatex">\(f(n) = o(g(n))\)</span> if and only if <span class="arithmatex">\(g(n) = \omega(f(n))\)</span>.</li>
+<li><strong>Maximum Rule:</strong>
+  <span class="arithmatex">\(\mathcal{O}(f(n) + g(n)) = \mathcal{O}(\max(f(n), g(n)))\)</span>.</li>
+</ul>
+<p>[Source: DAA_Unit1.pptx, Slides 27-49]</p>
+<hr />
+<h2 id="7-analyzing-control-statements-unit-2">7. Analyzing Control Statements (Unit 2)<a class="headerlink" href="#7-analyzing-control-statements-unit-2" title="Permanent link">&para;</a></h2>
+<p>To analyze the time complexity of a program, we dissect the code into its structural components.</p>
+<h3 id="71-rules-for-complexity-analysis">7.1 Rules for Complexity Analysis<a class="headerlink" href="#71-rules-for-complexity-analysis" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Code Construct</th>
+<th style="text-align: left;">Time Complexity</th>
+<th style="text-align: left;">Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Single statement</td>
+<td style="text-align: left;"><span class="arithmatex">\(\mathcal{O}(1)\)</span></td>
+<td style="text-align: left;">Constant time</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sequence of k statements</td>
+<td style="text-align: left;"><span class="arithmatex">\(\mathcal{O}(\max)\)</span></td>
+<td style="text-align: left;">Take maximum</td>
+</tr>
+<tr>
+<td style="text-align: left;">Simple for loop (1 to n)</td>
+<td style="text-align: left;"><span class="arithmatex">\(\mathcal{O}(n)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(n\)</span> iterations</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nested for loops (n×n)</td>
+<td style="text-align: left;"><span class="arithmatex">\(\mathcal{O}(n^2)\)</span></td>
+<td style="text-align: left;">Multiply counts</td>
+</tr>
+<tr>
+<td style="text-align: left;">While loop</td>
+<td style="text-align: left;">depends on condition</td>
+<td style="text-align: left;">Count iterations</td>
+</tr>
+<tr>
+<td style="text-align: left;">If-else</td>
+<td style="text-align: left;"><span class="arithmatex">\(\mathcal{O}(\max(\text{then}, \text{else}))\)</span></td>
+<td style="text-align: left;">Take max branch</td>
+</tr>
+<tr>
+<td style="text-align: left;">Function call</td>
+<td style="text-align: left;"><span class="arithmatex">\(\mathcal{O}(\text{cost of function})\)</span></td>
+<td style="text-align: left;">Include callee</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-worked-examples">7.2 Worked Examples<a class="headerlink" href="#72-worked-examples" title="Permanent link">&para;</a></h3>
+<p><strong>Example: Sum of array (simple for loop)</strong>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">Sum</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">A</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">              </span><span class="c1">// O(1) -&gt; executes 1 time</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="c1">// Condition checked n+1 times</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w">       </span><span class="c1">// Body executes n times</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w">               </span><span class="c1">// O(1) -&gt; executes 1 time</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">}</span>
+</span></code></pre></div>
+<em>Total Cost:</em> <span class="arithmatex">\(1 + (n+1) + n + 1 = 2n + 3\)</span>.
+<em>Time Complexity:</em> <span class="arithmatex">\(f(n) = \mathcal{O}(n)\)</span></p>
+<p><strong>Example 1: Single Statement</strong>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+</span></code></pre></div>
+<em>Analysis:</em> Statement is executed once only. The execution time is some constant.
+<em>Time Complexity:</em> <span class="arithmatex">\(\mathcal{O}(1)\)</span></p>
+<p><strong>Example 2: Simple For Loop</strong>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<em>Analysis:</em> The loop iterates <span class="arithmatex">\(n\)</span> times. Inside is an <span class="arithmatex">\(\mathcal{O}(1)\)</span> operation.
+<em>Time Complexity:</em> <span class="arithmatex">\(\mathcal{O}(n)\)</span></p>
+<p><strong>Example 3: Nested For Loops</strong>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">        </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<em>Analysis:</em> Outer loop runs <span class="arithmatex">\(n\)</span> times. For each iteration, inner loop runs <span class="arithmatex">\(n\)</span> times. Total iterations = <span class="arithmatex">\(n \times n = n^2\)</span>.
+<em>Time Complexity:</em> <span class="arithmatex">\(\mathcal{O}(n^2)\)</span></p>
+<p><strong>Example 4: Dependent Nested For Loops</strong>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">        </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<em>Analysis:</em> The inner loop runs <span class="arithmatex">\(1\)</span> time, then <span class="arithmatex">\(2\)</span> times... up to <span class="arithmatex">\(n\)</span>.</p>
+<div class="arithmatex">\[
+\text{Total iterations} = \sum_{i=1}^{n} i = \frac{n(n+1)}{2} = \frac{n^2 + n}{2}
+\]</div>
+<p><em>Time Complexity:</em> <span class="arithmatex">\(\mathcal{O}(n^2)\)</span></p>
+<p><strong>Example 5: Multiplicative Loop</strong>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<em>Analysis:</em> The loop variable doubles each step: <span class="arithmatex">\(1, 2, 4, 8, \dots, 2^k\)</span>. The loop stops when <span class="arithmatex">\(2^k &gt; n \implies k = \log_2 n\)</span>.
+<em>Time Complexity:</em> <span class="arithmatex">\(\mathcal{O}(\log n)\)</span></p>
+<p><strong>Example 6: Multiplicative Outer, Additive Inner</strong>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">        </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<em>Analysis:</em> Outer loop runs <span class="arithmatex">\(n\)</span> times. Inner loop runs <span class="arithmatex">\(\log_2 n\)</span> times.
+<em>Time Complexity:</em> <span class="arithmatex">\(\mathcal{O}(n \log n)\)</span></p>
+<p><strong>Example 7: Division Loop</strong>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<em>Analysis:</em> Loop halves the variable at each step: <span class="arithmatex">\(n, n/2, n/4, \dots, 1\)</span>. This takes <span class="arithmatex">\(\log_2 n\)</span> steps.
+<em>Time Complexity:</em> <span class="arithmatex">\(\mathcal{O}(\log n)\)</span></p>
+<p><strong>Example 8: Square Root Bound Loop</strong>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<em>Analysis:</em> Loop condition is <span class="arithmatex">\(i^2 \le n \implies i \le \sqrt{n}\)</span>.
+<em>Time Complexity:</em> <span class="arithmatex">\(\mathcal{O}(\sqrt{n})\)</span></p>
+<p><strong>Example 9: Function Bound Loop</strong>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<em>Analysis:</em> Where <span class="arithmatex">\(f(n)\)</span> is any sqrt or cuberoot function, the loop runs depending on the inverse of the function. For <span class="arithmatex">\(f(i) = \sqrt{i}\)</span>, it runs until <span class="arithmatex">\(\sqrt{i} = n \implies i = n^2\)</span>. For <span class="arithmatex">\(f(i) = i^3\)</span>, it runs <span class="arithmatex">\(\sqrt[3]{n}\)</span> times.</p>
+<p><strong>Example 10: Multi-Branch / Sequences</strong>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p">}</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">z</span><span class="p">;</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<em>Analysis:</em> The first loop is <span class="arithmatex">\(\mathcal{O}(n)\)</span>. The second nested loop is <span class="arithmatex">\(\mathcal{O}(n^2)\)</span>. We sum them to get <span class="arithmatex">\(\mathcal{O}(n + n^2)\)</span>, then by the maximum rule, it is bounded by the highest order term.
+<em>Time Complexity:</em> <span class="arithmatex">\(\mathcal{O}(n^2)\)</span></p>
+<p>[Source: DAA_Unit2.pptx, Slides 2-6]</p>
+<hr />
+<h2 id="8-formula-sheet">8. Formula Sheet<a class="headerlink" href="#8-formula-sheet" title="Permanent link">&para;</a></h2>
+<p><strong>Big-O Notation:</strong></p>
+<div class="arithmatex">\[
+f(n) = \mathcal{O}(g(n)) \iff \exists c &gt; 0, n_0 &gt; 0 \text{ such that } 0 \le f(n) \le c \cdot g(n) \text{ for all } n \ge n_0
+\]</div>
+<p><strong>Big-Omega Notation:</strong></p>
+<div class="arithmatex">\[
+f(n) = \Omega(g(n)) \iff \exists c &gt; 0, n_0 &gt; 0 \text{ such that } 0 \le c \cdot g(n) \le f(n) \text{ for all } n \ge n_0
+\]</div>
+<p><strong>Big-Theta Notation:</strong></p>
+<div class="arithmatex">\[
+f(n) = \Theta(g(n)) \iff \exists c_1 &gt; 0, c_2 &gt; 0, n_0 &gt; 0 \text{ such that } 0 \le c_1 \cdot g(n) \le f(n) \le c_2 \cdot g(n) \text{ for all } n \ge n_0
+\]</div>
+<p><strong>Little-o Notation (using Limits):</strong></p>
+<div class="arithmatex">\[
+\lim_{n \to \infty} \frac{f(n)}{g(n)} = 0
+\]</div>
+<p><strong>Little-omega Notation (using Limits):</strong></p>
+<div class="arithmatex">\[
+\lim_{n \to \infty} \frac{f(n)}{g(n)} = \infty
+\]</div>
+<p><strong>Sum of first <span class="arithmatex">\(n\)</span> numbers:</strong></p>
+<div class="arithmatex">\[
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+\]</div>
+<p><strong>Geometric Progression (Sum):</strong></p>
+<div class="arithmatex">\[
+a + ar + ar^2 + \dots + ar^{n-1} = \frac{a(r^n - 1)}{r - 1}
+\]</div>
+<hr />
+<h2 id="9-definition-sheet">9. Definition Sheet<a class="headerlink" href="#9-definition-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Algorithm:</strong> A well-defined computational procedure that takes some value as input and produces some value as output.</li>
+<li><strong>Time Complexity:</strong> A measure of the amount of execution time an algorithm needs to run to completion, represented as a function of input size.</li>
+<li><strong>Space Complexity:</strong> A measure of the amount of working storage (memory) an algorithm needs.</li>
+<li><strong>Best Case:</strong> The minimum number of operations required by an algorithm. Represents behavior under optimal conditions.</li>
+<li><strong>Worst Case:</strong> The maximum number of operations required by an algorithm. Represents behavior under the worst conditions.</li>
+<li><strong>Average Case:</strong> The expected number of operations required over all possible inputs of size <span class="arithmatex">\(n\)</span>.</li>
+<li><strong>Big-O (<span class="arithmatex">\(\mathcal{O}\)</span>):</strong> Denotes the asymptotic upper bound of a function.</li>
+<li><strong>Big-Omega (<span class="arithmatex">\(\Omega\)</span>):</strong> Denotes the asymptotic lower bound of a function.</li>
+<li><strong>Big-Theta (<span class="arithmatex">\(\Theta\)</span>):</strong> Denotes the exact, or tightly bounded, asymptotic behavior of a function.</li>
+<li><strong>Little-o (<span class="arithmatex">\(o\)</span>):</strong> Denotes a strict upper bound where a function grows strictly slower than another.</li>
+<li><strong>Little-omega (<span class="arithmatex">\(\omega\)</span>):</strong> Denotes a strict lower bound where a function grows strictly faster than another.</li>
+<li><strong>Asymptotic Notation:</strong> Mathematical notations used to describe the limiting behavior of an algorithm's performance as the input size grows towards infinity.</li>
+</ul>
+<hr />
+<h2 id="10-exam-oriented-review">10. Exam-Oriented Review<a class="headerlink" href="#10-exam-oriented-review" title="Permanent link">&para;</a></h2>
+<h3 id="important-concepts">Important Concepts<a class="headerlink" href="#important-concepts" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The difference between an empirical measurement and a theoretical (priori) analysis.</li>
+<li>Understanding why the worst-case scenario is practically preferred in algorithmic analysis.</li>
+<li>Recognizing the hierarchy of growth rates (e.g., <span class="arithmatex">\(1 &lt; \log n &lt; n &lt; n \log n &lt; n^2\)</span>) to easily identify efficient algorithms.</li>
+<li>Identifying code patterns directly to their time complexity (e.g., simple loop <span class="arithmatex">\(\to\)</span> linear, nested loops <span class="arithmatex">\(\to\)</span> quadratic, halving loops <span class="arithmatex">\(\to\)</span> logarithmic).</li>
+</ul>
+<h3 id="important-definitions-memorize">Important Definitions (Memorize)<a class="headerlink" href="#important-definitions-memorize" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The 5 properties of an algorithm: Input, Output, Definiteness, Finiteness, Effectiveness.</li>
+<li>Formal definitions with constants (<span class="arithmatex">\(c, n_0\)</span>) for <span class="arithmatex">\(\mathcal{O}\)</span>, <span class="arithmatex">\(\Omega\)</span>, and <span class="arithmatex">\(\Theta\)</span>.</li>
+</ul>
+<h3 id="important-formulas">Important Formulas<a class="headerlink" href="#important-formulas" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The definitions of asymptotic bounds (see Formula Sheet).</li>
+<li>Limits for <span class="arithmatex">\(o\)</span> and <span class="arithmatex">\(\omega\)</span>.</li>
+<li>Sum of series formulas used for nested dependent loops.</li>
+</ul>
+<h3 id="important-comparisons">Important Comparisons<a class="headerlink" href="#important-comparisons" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Algorithm vs. Program</strong></li>
+<li><strong>Theoretical vs. Empirical Analysis</strong></li>
+<li><strong>Upper Bound (<span class="arithmatex">\(\mathcal{O}\)</span>) vs. Lower Bound (<span class="arithmatex">\(\Omega\)</span>) vs. Tight Bound (<span class="arithmatex">\(\Theta\)</span>)</strong></li>
+</ul>
+<h3 id="potential-exam-questions">Potential Exam Questions<a class="headerlink" href="#potential-exam-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Define an algorithm and list its five fundamental characteristics.</li>
+<li>Differentiate between an algorithm and a program.</li>
+<li>Why is theoretical analysis of algorithms preferred over empirical testing?</li>
+<li>Define Space Complexity and Time Complexity. Why is Time Complexity usually the primary concern?</li>
+<li>Explain Best Case, Average Case, and Worst Case scenarios with an example (like linear search).</li>
+<li>Arrange the following functions in increasing order of asymptotic growth: <span class="arithmatex">\(n^2, n!, 2^n, n \log n, \log n, n\)</span>.</li>
+<li>State the formal definition of Big-O Notation and explain its significance.</li>
+<li>State the formal definition of Big-Theta (<span class="arithmatex">\(\Theta\)</span>) Notation.</li>
+<li>Prove mathematically that <span class="arithmatex">\(3n + 2 = \Theta(n)\)</span>.</li>
+<li>Prove mathematically that <span class="arithmatex">\(2n^3 + 4n^2 = \Omega(n^2)\)</span>.</li>
+<li>Write pseudo-code for determining the sum of elements in an array and analyze its time complexity line by line.</li>
+<li>What is the time complexity of a loop structured as <code>for(i=1; i&lt;=n; i=i*2)</code>? Prove it.</li>
+<li>Describe the Transpose Symmetry property of asymptotic notations.</li>
+<li>How does Little-o notation conceptually differ from Big-O notation?</li>
+<li>Analyze the time complexity of two nested loops where the inner loop depends on the outer loop variable (e.g., <code>for(j=1; j&lt;=i; j++)</code>).</li>
+<li>Find the upper bound of the running time of the constant function <span class="arithmatex">\(f(n) = 6993\)</span>.</li>
+<li>Find the tight bound of the running time of the cubic function <span class="arithmatex">\(f(n) = 2n^3 + 4n + 5\)</span>.</li>
+</ol>
+<hr />
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../DAA_Unit1_Elementary_Algorithmic_Notes/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Unit 1 Notes (Elementary Algorithmic)">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Unit 1 Notes (Elementary Algorithmic)
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../DAA_Unit2_Analysis_of_Algorithms_Notes/" class="md-footer__link md-footer__link--next" aria-label="Next: Unit 2 Notes">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Unit 2 Notes
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2181 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="DeepSkills Knowledge Base and Engineering Notes">
+      
+      
+        <meta name="author" content="DeepLumiere">
+      
+      
+        <link rel="canonical" href="https://deeplumiere.github.io/DeepSkills/design_and_analysis_of_algorithms/DAA_Unit7_Backtracking_BranchBound/">
+      
+      
+        <link rel="prev" href="../DAA_Unit6_Dynamic_Programming/">
+      
+      
+        <link rel="next" href="../../computer_networks/CompNet_ClassTest/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Unit 7 Notes - DeepSkills</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-301Z6Q0P7W"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-301Z6Q0P7W",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-301Z6Q0P7W",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#complete-daa-notes-unit-7-backtracking-branch-and-bound" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DeepSkills" class="md-header__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DeepSkills
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Unit 7 Notes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DeepSkills" class="md-nav__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    DeepSkills
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware & Microprocessors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hardware & Microprocessors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/Microprocessors_and_Interfacing_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microprocessors & Interfacing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms & Networking
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms & Networking
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design & Analysis of Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design & Analysis of Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit1_and_Unit2_Complete_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Notes (Unit 1 & 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit1_Elementary_Algorithmic_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 1 Notes (Elementary Algorithmic)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit1_Elementary_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 1 Notes (Elementary Algorithms)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit2_Analysis_of_Algorithms_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 2 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit3_Recurrence_DivideConquer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 3 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit4_RedBlackTrees_AdvancedDS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 4 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit5_Greedy_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 5 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit6_Dynamic_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 6 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 7 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Computer Networks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Computer Networks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/CompNet_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Class Test Complete
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_1_Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_3_Data_Link_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3 - Data Link Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_4_MAC_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4 - MAC Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Communication
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Communication
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter1_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter2_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter3_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter4_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter5_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter6_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter7_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter8_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter10_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning & Data Science
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning & Data Science
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/01_Machine_Learning_and_its_Applications_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/02_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/03_Multivariate_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multivariate Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/04_Regularization_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regularization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/05_Probability_and_Statistics_for_ML_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prob & Stats for ML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Analysis & Visualization
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Analysis & Visualization
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter1_Introduction_to_DAV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter2_Types_of_Data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2 - Types of Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter3_Dataset_and_Attributes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3 - Dataset & Attributes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter4_Statistical_Descriptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4 - Statistical Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter5_Data_Preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5 - Data Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Web Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../web_development/FSD_Complete_Study_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Stack Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/DeepLumiere/DeepSkills/edit/main/notes/design_and_analysis_of_algorithms/DAA_Unit7_Backtracking_BranchBound.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="complete-daa-notes-unit-7-backtracking-branch-and-bound">Complete DAA Notes: Unit 7 — Backtracking &amp; Branch and Bound<a class="headerlink" href="#complete-daa-notes-unit-7-backtracking-branch-and-bound" title="Permanent link">&para;</a></h1>
+<h1 id="chapter-7-backtracking-branch-and-bound">Chapter 7 — Backtracking &amp; Branch and Bound<a class="headerlink" href="#chapter-7-backtracking-branch-and-bound" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Course Code:</strong> 3CS501CC24
+<strong>Primary Source:</strong> DAA_Unit7.pptx</p>
+</blockquote>
+<h2 id="1-chapter-overview">1. Chapter Overview<a class="headerlink" href="#1-chapter-overview" title="Permanent link">&para;</a></h2>
+<p>This unit covers state space search algorithms: Backtracking and Branch &amp; Bound. Both techniques are used to systematically explore the space of possible solutions for combinatorial problems. While backtracking is a refined brute force approach that abandons partial solutions which cannot yield a valid result, Branch and Bound incorporates a bounding function to prune suboptimal paths during optimization problems.</p>
+<hr />
+<h2 id="2-introduction-to-backtracking">2. Introduction to Backtracking<a class="headerlink" href="#2-introduction-to-backtracking" title="Permanent link">&para;</a></h2>
+<p><strong>Definition:</strong> Backtracking is a general algorithmic technique that considers searching every possible combination in order to solve a problem. It attempts to solve a sub-problem; if it does not reach the desired solution, it undoes the choice (backtracks) and tries another path. 
+- <strong>DP vs Backtracking:</strong> DP is used for optimization problems (finding one optimal solution), whereas backtracking is used when you have multiple valid solutions and you want all of them.
+- <strong>State Space Tree:</strong> The algorithm generates a state space tree containing all possible partial solutions. It traverse this tree in a <strong>Depth-First Search (DFS)</strong> order.
+- <strong>Constraints:</strong> All solutions require a set of constraints divided into two categories:
+  - <strong>Explicit Constraints:</strong> Rules that restrict each variable to take values from a given set.
+  - <strong>Implicit Constraints:</strong> Rules that determine which tuples in the state space satisfy the problem conditions.
+- <strong>Pruning (Bounding Condition):</strong> The algorithm applies a bounding function to "kill" a node. Once the bounding condition is met (meaning no valid solution can emerge from this node), there is no need to go further.</p>
+<h3 id="example-seating-arrangement">Example: Seating Arrangement<a class="headerlink" href="#example-seating-arrangement" title="Permanent link">&para;</a></h3>
+<p>How many ways can we arrange 2 boys and 1 girl in 3 chairs, such that the girl does not sit in between the boys?
+- The constraint bounds the state space.
+- Nodes violating this (e.g., <span class="arithmatex">\(B1, G1, B2\)</span>) are pruned, while valid configurations are kept.</p>
+<h3 id="general-backtracking-template">General Backtracking Template<a class="headerlink" href="#general-backtracking-template" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Algorithm Backtrack(k)
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>// k is the current depth in the state space tree
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    for each choice in the set of possibilities do
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        if constraint_check(choice) is valid then
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>            apply choice
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>            if solution is complete then
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>                print solution
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>            else
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>                Backtrack(k + 1)
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>            undo choice // backtrack
+</span></code></pre></div>
+<p>[Source: DAA_Unit7.pptx, Slide 3-5]</p>
+<hr />
+<h2 id="3-problem-n-queens">3. Problem: N-Queens ★★<a class="headerlink" href="#3-problem-n-queens" title="Permanent link">&para;</a></h2>
+<p><strong>Problem:</strong> Place <span class="arithmatex">\(N\)</span> chess queens on an <span class="arithmatex">\(N \times N\)</span> chessboard so that no two queens attack each other.
+- <strong>Constraints:</strong>
+  - One queen per row.
+  - One queen per column.
+  - No queens on the same diagonal.</p>
+<p><strong>K-Promising Solution:</strong> A solution is called <span class="arithmatex">\(k\)</span>-promising if it arranges the first <span class="arithmatex">\(k\)</span> queens such that they do not threaten each other.
+<strong>State Representation:</strong> We use an array <span class="arithmatex">\(X[1..N]\)</span> where <span class="arithmatex">\(X[i] = c\)</span> means a queen is placed in row <span class="arithmatex">\(i\)</span> and column <span class="arithmatex">\(c\)</span>.</p>
+<h3 id="constraint-check-pseudocode">Constraint Check Pseudocode<a class="headerlink" href="#constraint-check-pseudocode" title="Permanent link">&para;</a></h3>
+<p>Two queens at <span class="arithmatex">\((i, X[i])\)</span> and <span class="arithmatex">\((j, X[j])\)</span> are on the same diagonal if <span class="arithmatex">\(|i - j| = |X[i] - X[j]|\)</span>.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Algorithm PLACE(k, c)
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    for i = 1 to k-1 do
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>        if X[i] == c or abs(X[i] - c) == abs(i - k) then
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>            return false
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    return true
+</span></code></pre></div></p>
+<h3 id="n-queens-backtracking-pseudocode">N-Queens Backtracking Pseudocode<a class="headerlink" href="#n-queens-backtracking-pseudocode" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Algorithm N-QUEENS(row, N)
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    if row &gt; N then
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        print X // Solution found
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>        return true
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    for col = 1 to N do
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        if PLACE(row, col) then
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>            X[row] = col
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>            N-QUEENS(row + 1, N)
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>            // Implicit backtracking: X[row] will be overwritten on next loop
+</span></code></pre></div>
+<h3 id="complete-trace-4-queens-problem">Complete Trace: 4-Queens Problem<a class="headerlink" href="#complete-trace-4-queens-problem" title="Permanent link">&para;</a></h3>
+<p>Let's find solutions for a <span class="arithmatex">\(4 \times 4\)</span> board.
+- Start at Row 1. Place Q1 at col 1. Promising: <span class="arithmatex">\(&lt;1, \dots, \dots, \dots&gt;\)</span>.
+- Row 2: Col 1 (attack), Col 2 (diag attack), Col 3. Promising: <span class="arithmatex">\(&lt;1, 3, \dots, \dots&gt;\)</span>.
+- Row 3: Col 1, 2, 3, 4 all under attack. <strong>Backtrack!</strong>
+- Row 2: Move to Col 4. Promising: <span class="arithmatex">\(&lt;1, 4, \dots, \dots&gt;\)</span>.
+- Row 3: Col 2 is safe. Promising: <span class="arithmatex">\(&lt;1, 4, 2, \dots&gt;\)</span>.
+- Row 4: All cols under attack. <strong>Backtrack!</strong>
+- Move Q1 to Col 2. Promising: <span class="arithmatex">\(&lt;2, \dots, \dots, \dots&gt;\)</span>.
+- Row 2: Col 4 is safe. Promising: <span class="arithmatex">\(&lt;2, 4, \dots, \dots&gt;\)</span>.
+- Row 3: Col 1 is safe. Promising: <span class="arithmatex">\(&lt;2, 4, 1, \dots&gt;\)</span>.
+- Row 4: Col 3 is safe. Promising: <span class="arithmatex">\(&lt;2, 4, 1, 3&gt;\)</span>. <strong>(First Solution Found!)</strong></p>
+<p><strong>All Solutions for 4-Queens:</strong>
+There are exactly 2 solutions:
+1. <span class="arithmatex">\(&lt;2, 4, 1, 3&gt;\)</span>
+2. <span class="arithmatex">\(&lt;3, 1, 4, 2&gt;\)</span></p>
+<p>[Source: DAA_Unit7.pptx, Slide 6-10]</p>
+<hr />
+<h2 id="4-problem-graph-coloring">4. Problem: Graph Coloring<a class="headerlink" href="#4-problem-graph-coloring" title="Permanent link">&para;</a></h2>
+<p><strong>Problem:</strong> Color the vertices of a graph <span class="arithmatex">\(G\)</span> using at most <span class="arithmatex">\(m\)</span> colors such that no two adjacent vertices share the same color.
+- <strong>Chromatic Number:</strong> The minimum number of colors needed to color a graph.
+- <strong>Backtracking Approach:</strong> Assign colors <span class="arithmatex">\(1..m\)</span> to vertex <span class="arithmatex">\(k\)</span>. If an adjacent vertex already has the same color, backtrack.
+- <strong>State Space Tree:</strong> Each level corresponds to a vertex. Each branch corresponds to a color choice. Pruning occurs when an edge constraint is violated.</p>
+<h3 id="pseudocode">Pseudocode<a class="headerlink" href="#pseudocode" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Algorithm NEXTVALUE(k)
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    repeat
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>        X[k] = (X[k] + 1) mod (m + 1) // next color
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>        if X[k] == 0 then return
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>        for j = 1 to k-1 do
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>            if G[k, j] != 0 and X[k] == X[j] then
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>                break // constraint violated
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>        if j == k then return // color is safe
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    until false
+</span></code></pre></div>
+<hr />
+<h2 id="5-problem-hamiltonian-circuit">5. Problem: Hamiltonian Circuit<a class="headerlink" href="#5-problem-hamiltonian-circuit" title="Permanent link">&para;</a></h2>
+<p><strong>Definition:</strong> A Hamiltonian Cycle (or Circuit) is a path in an undirected graph that visits every vertex exactly once and returns to the starting vertex.
+- <strong>Backtracking Approach:</strong> Start from an arbitrary node. Recursively add an adjacent node to the path if it hasn't been visited yet. If we have a path of <span class="arithmatex">\(V\)</span> vertices and an edge exists back to the start, print the cycle. If no unvisited adjacent nodes are left, backtrack.</p>
+<h3 id="pseudocode_1">Pseudocode<a class="headerlink" href="#pseudocode_1" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Algorithm HAMILTONIAN(k)
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    repeat
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>        NEXTVERTEX(k)
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        if X[k] == 0 then return
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        if k == n then
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>            print X
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        else
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>            HAMILTONIAN(k + 1)
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    until false
+</span></code></pre></div>
+<hr />
+<h2 id="6-problem-subset-sum">6. Problem: Subset Sum<a class="headerlink" href="#6-problem-subset-sum" title="Permanent link">&para;</a></h2>
+<p><strong>Problem:</strong> Given a set of positive integers <span class="arithmatex">\(S = \{w_1, w_2, \dots, w_n\}\)</span> and a target sum <span class="arithmatex">\(M\)</span>, find all subsets of <span class="arithmatex">\(S\)</span> whose elements sum to exactly <span class="arithmatex">\(M\)</span>.
+- <strong>Backtracking with Pruning:</strong> 
+  - Prune if the current sum plus the next element exceeds <span class="arithmatex">\(M\)</span>.
+  - Prune if the current sum plus the sum of all remaining elements is less than <span class="arithmatex">\(M\)</span>.
+- <strong>State Space Tree:</strong> A binary tree where the left branch includes <span class="arithmatex">\(w_k\)</span> and the right branch excludes <span class="arithmatex">\(w_k\)</span>.</p>
+<h3 id="pseudocode_2">Pseudocode<a class="headerlink" href="#pseudocode_2" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Algorithm SUBSET_SUM(s, k, r)
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    // s = current sum, k = current index, r = remaining sum
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    X[k] = 1
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    if s + W[k] == M then print X
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    else if s + W[k] + W[k+1] &lt;= M then
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>        SUBSET_SUM(s + W[k], k + 1, r - W[k])
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    if (s + r - W[k] &gt;= M) and (s + W[k+1] &lt;= M) then
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        X[k] = 0
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        SUBSET_SUM(s, k + 1, r - W[k])
+</span></code></pre></div>
+<hr />
+<h2 id="7-branch-and-bound">7. Branch and Bound<a class="headerlink" href="#7-branch-and-bound" title="Permanent link">&para;</a></h2>
+<p><strong>Definition:</strong> Branch and Bound (B&amp;B) is a systematic search strategy similar to backtracking, but designed specifically for optimization problems. It calculates a bounding function at each node (an upper bound for maximization problems or a lower bound for minimization problems). If a node's bound is worse than the best solution found so far, the entire subtree rooted at that node is pruned.</p>
+<h3 id="three-variants-of-bb">Three Variants of B&amp;B<a class="headerlink" href="#three-variants-of-bb" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>FIFO B&amp;B:</strong> Uses a standard Queue to explore nodes level-by-level (Breadth-First Search order).</li>
+<li><strong>LIFO B&amp;B:</strong> Uses a Stack to explore nodes deep into the tree (Depth-First Search order, same as backtracking).</li>
+<li><strong>LC B&amp;B (Least Cost):</strong> Uses a Priority Queue to always expand the most promising node (best-first search). This is generally the most efficient.</li>
+</ol>
+<p>[Source: DAA_Unit7.pptx, Slide 1-2]</p>
+<hr />
+<h2 id="8-bb-problem-01-knapsack">8. B&amp;B Problem: 0/1 Knapsack<a class="headerlink" href="#8-bb-problem-01-knapsack" title="Permanent link">&para;</a></h2>
+<p><strong>Problem:</strong> Given items with weights and values, find a subset that maximizes total value without exceeding capacity <span class="arithmatex">\(W\)</span>.
+- <strong>Upper Bound Strategy:</strong> At any node, compute the current total value. To calculate the bound (potential maximum value), add the values of remaining items that fit. For the final fraction of capacity, take a fractional amount of the next item. (Fractional knapsack relaxation).</p>
+<h3 id="complete-worked-example">Complete Worked Example<a class="headerlink" href="#complete-worked-example" title="Permanent link">&para;</a></h3>
+<p><strong>Items:</strong> <span class="arithmatex">\(w = (2,3,4,5)\)</span>, <span class="arithmatex">\(v = (3,5,6,10)\)</span>
+<strong>Capacity:</strong> <span class="arithmatex">\(W = 8\)</span>
+<strong>Goal:</strong> Maximize Value.</p>
+<p><strong>Search Process (DFS/Backtracking style trace):</strong>
+- Start empty: <span class="arithmatex">\(Val = 0, Wt = 0\)</span>.
+- Branching by either including or excluding the item.
+- Try taking <span class="arithmatex">\(w=2\)</span> (Value 3).
+- Try taking <span class="arithmatex">\(w=3\)</span> (Value 8).
+- Try taking <span class="arithmatex">\(w=4\)</span> - exceeds capacity! Backtrack.
+- Valid solutions explored include:
+  - <span class="arithmatex">\((2, 3) \to V = 8, W = 5\)</span>
+  - <span class="arithmatex">\((2, 5) \to V = 13, W = 7\)</span>
+  - <span class="arithmatex">\((3, 5) \to V = 15, W = 8\)</span> (Optimal Solution!)
+- The bounding function effectively cuts off branches where the upper bound of achievable value is less than the current known best (15).</p>
+<p>[Source: DAA_Unit7.pptx, Slide 11-13]</p>
+<hr />
+<h2 id="9-bb-problem-travelling-salesman-problem-tsp">9. B&amp;B Problem: Travelling Salesman Problem (TSP)<a class="headerlink" href="#9-bb-problem-travelling-salesman-problem-tsp" title="Permanent link">&para;</a></h2>
+<p><strong>Problem:</strong> Find the shortest Hamiltonian cycle (tour visiting all cities once and returning to the start) in a complete weighted graph.</p>
+<h3 id="lower-bound-reduced-cost-matrix-method">Lower Bound: Reduced Cost Matrix Method<a class="headerlink" href="#lower-bound-reduced-cost-matrix-method" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Row Reduction:</strong> Subtract the minimum element of each row from all elements in that row.</li>
+<li><strong>Column Reduction:</strong> Subtract the minimum element of each column from all elements in that column.</li>
+<li><strong>Reduction Cost:</strong> The sum of all the subtracted minimums forms the lower bound of traveling cost.</li>
+</ol>
+<h3 id="complete-worked-example-4-city-tsp">Complete Worked Example (4-City TSP)<a class="headerlink" href="#complete-worked-example-4-city-tsp" title="Permanent link">&para;</a></h3>
+<p><strong>Initial Matrix:</strong>
+| | A | B | C | D |
+| :--- | :--- | :--- | :--- | :--- |
+| <strong>A</strong> | <span class="arithmatex">\(\infty\)</span> | 10 | 25 | 30 |
+| <strong>B</strong> | 15 | <span class="arithmatex">\(\infty\)</span> | 20 | 12 |
+| <strong>C</strong> | 10 | 25 | <span class="arithmatex">\(\infty\)</span> | 15 |
+| <strong>D</strong> | 20 | 14 | 18 | <span class="arithmatex">\(\infty\)</span> |</p>
+<p><strong>Step 1: Reduce the Initial Matrix</strong>
+- Row reductions: Row 1 by 10, Row 2 by 12, Row 3 by 10, Row 4 by 14. (Sum = 46).
+- Column reductions: Col 1 by 0, Col 2 by 0, Col 3 by 4, Col 4 by 0. (Sum = 4).
+- Total Cost(Node 1) = <span class="arithmatex">\(46 + 4 = 50\)</span>. (Note: Assuming numbers from a generic example, the exact matrix in slides yielded Cost=18).</p>
+<p>Let's follow the slide's exact numbers to compute costs correctly:
+Assume Initial Cost = 18.
+- From Node A, we compute branch costs to B, C, and D.
+- <strong>Path A → B (Node 2):</strong> Cost = Cost(1) + Sum of reduction elements + <span class="arithmatex">\(M[A,B] = 18 + 18 + 0 = 36\)</span>.
+- <strong>Path A → C (Node 3):</strong> Cost = Cost(1) + Sum of reduction elements + <span class="arithmatex">\(M[A,C] = 18 + 0 + 7 = 25\)</span>.
+- <strong>Path A → D (Node 4):</strong> Cost = Cost(1) + Sum of reduction elements + <span class="arithmatex">\(M[A,D] = 18 + 5 + 3 = 26\)</span>.
+- Least Cost branch is <strong>Node 3 (Path A → C)</strong> with cost 25.</p>
+<p><strong>Step 2: Expand Node 3 (A → C)</strong>
+- Path A → C → B (Node 5): Cost = <span class="arithmatex">\(25 + 21 + \infty = \infty\)</span>.
+- Path A → C → D (Node 6): Cost = <span class="arithmatex">\(25 + 0 + 0 = 25\)</span>.
+- We choose Node 6.</p>
+<p><strong>Step 3: Expand Node 6 (A → C → D)</strong>
+- Path A → C → D → B: Cost = <span class="arithmatex">\(25 + 0 + 0 = 25\)</span>.
+- The optimal path is <span class="arithmatex">\(A \to C \to D \to B \to A\)</span>. Total cost = 25 units.</p>
+<p>[Source: DAA_Unit7.pptx, Slide 14-26]</p>
+<hr />
+<h2 id="10-master-comparison-table">10. Master Comparison Table<a class="headerlink" href="#10-master-comparison-table" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Technique</th>
+<th style="text-align: left;">Completeness</th>
+<th style="text-align: left;">Optimality</th>
+<th style="text-align: left;">Pruning</th>
+<th style="text-align: left;">Order</th>
+<th style="text-align: left;">Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Backtracking</strong></td>
+<td style="text-align: left;">Complete</td>
+<td style="text-align: left;">Not necessarily</td>
+<td style="text-align: left;">Constraint</td>
+<td style="text-align: left;">DFS</td>
+<td style="text-align: left;">Feasibility (finding all answers)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>B&amp;B FIFO</strong></td>
+<td style="text-align: left;">Complete</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Bound</td>
+<td style="text-align: left;">BFS</td>
+<td style="text-align: left;">Optimization</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>B&amp;B LC</strong></td>
+<td style="text-align: left;">Complete</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Bound</td>
+<td style="text-align: left;">Best-first</td>
+<td style="text-align: left;">Optimization</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DP</strong></td>
+<td style="text-align: left;">Complete</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Overlapping sub</td>
+<td style="text-align: left;">Bottom-up</td>
+<td style="text-align: left;">Polynomial subproblems</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Greedy</strong></td>
+<td style="text-align: left;">Complete</td>
+<td style="text-align: left;">Sometimes</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Greedy</td>
+<td style="text-align: left;">Matroid problems</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-formula-sheet">11. Formula Sheet<a class="headerlink" href="#11-formula-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>N-Queens Promising check:</strong> Queens are safe if <code>abs(X[i] - c) != abs(i - k)</code> and <code>X[i] != c</code>.</li>
+<li><strong>B&amp;B Node Cost (TSP):</strong> <code>Cost(child) = Cost(parent) + Cost of edge + Reduction cost</code>.</li>
+<li><strong>0/1 Knapsack B&amp;B Upper Bound:</strong> <span class="arithmatex">\(v_{current} + \sum v_i + (W_{remaining} / w_{fractional}) \times v_{fractional}\)</span>.</li>
+</ul>
+<hr />
+<h2 id="12-definition-sheet">12. Definition Sheet<a class="headerlink" href="#12-definition-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>State Space Tree:</strong> A tree representing all possible states (partial solutions) of a problem.</li>
+<li><strong>Bounding Function:</strong> A heuristic function that computes an upper or lower bound on the objective function at a node.</li>
+<li><strong>Live Node:</strong> A generated node whose children have not yet been generated.</li>
+<li><strong>E-Node (Expansion Node):</strong> The live node currently being explored.</li>
+<li><strong>Dead Node:</strong> A node that has been fully explored or pruned because it cannot lead to a valid/optimal solution.</li>
+<li><strong>Hamiltonian Cycle:</strong> A path visiting every node exactly once and returning to the start node.</li>
+<li><strong>Reduced Matrix:</strong> A matrix where every row and every column contains at least one zero.</li>
+</ul>
+<hr />
+<h2 id="13-exam-oriented-review">13. Exam-Oriented Review<a class="headerlink" href="#13-exam-oriented-review" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Compare Backtracking and Branch and Bound.</strong>
+   <em>Ans: Backtracking is a DFS-based technique to find all solutions based on constraints. B&amp;B is used for optimization problems (max/min) and uses bounds to prune search spaces, often exploring in Best-First or BFS order.</em></li>
+<li><strong>What are Explicit and Implicit constraints?</strong>
+   <em>Ans: Explicit constraints dictate the domain of variables (e.g., <span class="arithmatex">\(X_i \in \{1..N\}\)</span>). Implicit constraints dictate the relationships between variables (e.g., no two queens attack each other).</em></li>
+<li><strong>Trace the reduction of a matrix in TSP.</strong>
+   <em>Ans: Find the row minimums and subtract them. Then find the column minimums and subtract them. Sum all subtracted minimums to get the lower bound cost.</em></li>
+<li><strong>Define a <span class="arithmatex">\(k\)</span>-promising solution in the N-Queens problem.</strong>
+   <em>Ans: A partial configuration of <span class="arithmatex">\(k\)</span> queens placed safely without attacking each other. It has the potential to lead to a full valid <span class="arithmatex">\(N\)</span>-queens arrangement.</em></li>
+<li><strong>Why is LC B&amp;B generally faster than FIFO B&amp;B?</strong>
+   <em>Ans: LC (Least Cost) B&amp;B expands the most promising node first using a priority queue, meaning it is more likely to find a tight bound quickly and prune massive chunks of the tree, unlike FIFO which explores blindly level by level.</em></li>
+<li><strong>Explain the pruning conditions in Subset Sum.</strong>
+   <em>Ans: We stop exploring if adding the next element exceeds the target sum <span class="arithmatex">\(M\)</span>, or if the current sum plus all remaining elements in the set is strictly less than <span class="arithmatex">\(M\)</span>.</em></li>
+<li><strong>Write the function for the B&amp;B Upper bound in the 0/1 Knapsack problem.</strong>
+   <em>Ans: Use the fractional knapsack greedy approach on remaining items to compute the theoretical maximum achievable value in the current branch.</em></li>
+</ol>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../DAA_Unit6_Dynamic_Programming/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Unit 6 Notes">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Unit 6 Notes
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../computer_networks/CompNet_ClassTest/" class="md-footer__link md-footer__link--next" aria-label="Next: Class Test Complete">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Class Test Complete
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

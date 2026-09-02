@@ -1,0 +1,3394 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="DeepSkills Knowledge Base and Engineering Notes">
+      
+      
+        <meta name="author" content="DeepLumiere">
+      
+      
+        <link rel="canonical" href="https://deeplumiere.github.io/DeepSkills/data_analysis/Chapter5_Data_Preprocessing/">
+      
+      
+        <link rel="prev" href="../Chapter4_Statistical_Descriptions/">
+      
+      
+        <link rel="next" href="../../web_development/FSD_Complete_Study_Notes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Ch 5 - Data Preprocessing - DeepSkills</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-301Z6Q0P7W"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-301Z6Q0P7W",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-301Z6Q0P7W",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-5-data-preprocessing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DeepSkills" class="md-header__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DeepSkills
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ch 5 - Data Preprocessing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DeepSkills" class="md-nav__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    DeepSkills
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware & Microprocessors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hardware & Microprocessors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/Microprocessors_and_Interfacing_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microprocessors & Interfacing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms & Networking
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms & Networking
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design & Analysis of Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design & Analysis of Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_and_Unit2_Complete_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Notes (Unit 1 & 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithmic_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 1 Notes (Elementary Algorithmic)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 1 Notes (Elementary Algorithms)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit2_Analysis_of_Algorithms_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 2 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit3_Recurrence_DivideConquer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 3 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit4_RedBlackTrees_AdvancedDS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 4 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit5_Greedy_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 5 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit6_Dynamic_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 6 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit7_Backtracking_BranchBound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 7 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Computer Networks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Computer Networks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/CompNet_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Class Test Complete
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_1_Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_3_Data_Link_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3 - Data Link Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_4_MAC_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4 - MAC Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Communication
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Communication
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter1_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter2_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter3_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter4_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter5_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter6_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter7_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter8_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter10_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning & Data Science
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning & Data Science
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/01_Machine_Learning_and_its_Applications_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/02_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/03_Multivariate_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multivariate Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/04_Regularization_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regularization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/05_Probability_and_Statistics_for_ML_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prob & Stats for ML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Analysis & Visualization
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Analysis & Visualization
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter1_Introduction_to_DAV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter2_Types_of_Data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2 - Types of Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter3_Dataset_and_Attributes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3 - Dataset & Attributes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4_Statistical_Descriptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4 - Statistical Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5 - Data Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5 - Data Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-fundamental-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fundamental Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Fundamental Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-is-data-dirty" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why is Data Dirty?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-data-preprocessing-is-important" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Data Preprocessing is Important
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#major-tasks-in-data-preprocessing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Major Tasks in Data Preprocessing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Definitions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Definitions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-data-preprocessing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Data Preprocessing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-noisy-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Noisy Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-data-cleaning-missing-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Data Cleaning: Missing Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Data Cleaning: Missing Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strategies-to-handle-missing-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategies to Handle Missing Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data-cleaning-noisy-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Data Cleaning: Noisy Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Data Cleaning: Noisy Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-handle-noisy-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Handle Noisy Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binning-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binning Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-binning-for-data-smoothing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Binning for Data Smoothing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-data-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Data Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Data Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Issues
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correlation-analysis-categorical-data-chi-square-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correlation Analysis (Categorical Data) - Chi-Square Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correlation-analysis-numerical-data-pearson-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correlation Analysis (Numerical Data) - Pearson Correlation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-pearson-correlation-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Pearson Correlation Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#covariance-numeric-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Covariance (Numeric Data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-covariance-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Covariance Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-data-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Data Transformation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Data Transformation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normalization-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normalization Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples: Normalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-data-reduction-discretization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Data Reduction &amp; Discretization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Data Reduction &amp; Discretization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-reduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Reduction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-discretization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Discretization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-edge-cases-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Edge Cases &amp; Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formula-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formula Sheet
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Formula Sheet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-equal-width-binning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Equal-Width Binning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-chi-square-chi2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Chi-Square (\(\chi^2\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-pearson-correlation-coefficient-r" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Pearson Correlation Coefficient (\(r\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-covariance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Covariance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-min-max-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Min-Max Normalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-z-score-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Z-Score Normalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-decimal-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Decimal Scaling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-sturges-rule-bin-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Sturges' Rule (Bin count)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definition-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exam-oriented-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exam-Oriented Review
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#source-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source map
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Web Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../web_development/FSD_Complete_Study_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Stack Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-fundamental-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fundamental Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Fundamental Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-is-data-dirty" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why is Data Dirty?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-data-preprocessing-is-important" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Data Preprocessing is Important
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#major-tasks-in-data-preprocessing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Major Tasks in Data Preprocessing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Definitions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Definitions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-data-preprocessing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Data Preprocessing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-noisy-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Noisy Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-data-cleaning-missing-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Data Cleaning: Missing Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Data Cleaning: Missing Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strategies-to-handle-missing-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategies to Handle Missing Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data-cleaning-noisy-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Data Cleaning: Noisy Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Data Cleaning: Noisy Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-handle-noisy-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Handle Noisy Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binning-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binning Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-binning-for-data-smoothing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Binning for Data Smoothing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-data-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Data Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Data Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Issues
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correlation-analysis-categorical-data-chi-square-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correlation Analysis (Categorical Data) - Chi-Square Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correlation-analysis-numerical-data-pearson-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correlation Analysis (Numerical Data) - Pearson Correlation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-pearson-correlation-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Pearson Correlation Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#covariance-numeric-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Covariance (Numeric Data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-covariance-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Covariance Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-data-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Data Transformation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Data Transformation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normalization-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normalization Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples: Normalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-data-reduction-discretization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Data Reduction &amp; Discretization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Data Reduction &amp; Discretization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-reduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Reduction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-discretization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Discretization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-edge-cases-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Edge Cases &amp; Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formula-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formula Sheet
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Formula Sheet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-equal-width-binning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Equal-Width Binning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-chi-square-chi2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Chi-Square (\(\chi^2\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-pearson-correlation-coefficient-r" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Pearson Correlation Coefficient (\(r\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-covariance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Covariance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-min-max-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Min-Max Normalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-z-score-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Z-Score Normalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-decimal-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Decimal Scaling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-sturges-rule-bin-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Sturges' Rule (Bin count)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definition-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exam-oriented-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exam-Oriented Review
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#source-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source map
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/DeepLumiere/DeepSkills/edit/main/notes/data_analysis/Chapter5_Data_Preprocessing.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<p><Complete DAV Notes: Chapter 5 — Data Preprocessing></p>
+<blockquote>
+<p><strong>Course:</strong> Data Analysis and Visualization
+<strong>Primary Source:</strong> 5. data_preprocessing.pdf
+<strong>Files Integrated:</strong> <code>5. data_preprocessing.pdf</code>, <code>ch5_text.txt</code>
+</Complete DAV Notes: Chapter 5 — Data Preprocessing></p>
+</blockquote>
+<h1 id="chapter-5-data-preprocessing">Chapter 5 — Data Preprocessing<a class="headerlink" href="#chapter-5-data-preprocessing" title="Permanent link">&para;</a></h1>
+<h2 id="1-chapter-overview">1. Chapter Overview<a class="headerlink" href="#1-chapter-overview" title="Permanent link">&para;</a></h2>
+<p>Data preprocessing is an indispensable step in the data mining and data engineering pipeline. Real-world raw data is inherently incomplete, noisy, and inconsistent. Without quality data, there can be no quality results. This chapter presents the complete data preprocessing pipeline, covering data cleaning (handling missing and noisy data), data integration (resolving conflicts and redundancies), data transformation (normalization and aggregation), data reduction, and data discretization.</p>
+<p>[Source: 5. data_preprocessing.pdf, Slides 1-8]</p>
+<hr />
+<h2 id="2-fundamental-concepts">2. Fundamental Concepts<a class="headerlink" href="#2-fundamental-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="why-is-data-dirty">Why is Data Dirty?<a class="headerlink" href="#why-is-data-dirty" title="Permanent link">&para;</a></h3>
+<p>Data in the real world is frequently imperfect. The main categories of "dirty" data are:
+*   <strong>Incomplete data:</strong> Lacking attribute values, lacking certain attributes of interest, or containing only aggregate data.
+    *   <em>Causes:</em> "Not applicable" data value when collected; different considerations between the time of collection and analysis; human/hardware/software problems.
+    *   <em>Example:</em> <code>occupation=" "</code>
+*   <strong>Noisy data:</strong> Containing incorrect values, random errors, or outliers.
+    *   <em>Causes:</em> Faulty data collection instruments; human or computer error at data entry; errors in data transmission; technology limitations; inconsistent naming conventions.
+    *   <em>Example:</em> <code>Salary="-10"</code>
+*   <strong>Inconsistent data:</strong> Containing discrepancies in codes or names.
+    *   <em>Causes:</em> Different data sources; functional dependency violations (e.g., modifying some linked data without updating others); duplicate records.
+    *   <em>Example:</em> <code>Age="42"</code> but <code>Birthday="03/07/1997"</code>; rating was "1,2,3" but is now "A, B, C"; discrepancies between duplicate records.</p>
+<p>[Source: 5. data_preprocessing.pdf, Slides 2-3, 18]</p>
+<h3 id="why-data-preprocessing-is-important">Why Data Preprocessing is Important<a class="headerlink" href="#why-data-preprocessing-is-important" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>No quality data <span class="arithmatex">\(\rightarrow\)</span> No quality results.</strong></li>
+<li>Quality decisions require accurate, complete, and consistent data.</li>
+<li>Missing or duplicate data leads to incorrect or misleading statistics.</li>
+<li>Data warehouses require consistent, integrated quality data. Most of the effort in building a data warehouse involves extraction, cleaning, and transformation.</li>
+</ul>
+<p>[Source: 5. data_preprocessing.pdf, Slide 7]</p>
+<h3 id="major-tasks-in-data-preprocessing">Major Tasks in Data Preprocessing<a class="headerlink" href="#major-tasks-in-data-preprocessing" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Data Cleaning:</strong> Fill in missing values, smooth noisy data, identify or remove outliers, and resolve inconsistencies.</li>
+<li><strong>Data Integration:</strong> Integration of multiple databases, data cubes, or files into a coherent store.</li>
+<li><strong>Data Transformation:</strong> Normalization and aggregation.</li>
+<li><strong>Data Reduction:</strong> Obtains a reduced representation in volume but produces the same or similar analytical results.</li>
+<li><strong>Data Discretization:</strong> Part of data reduction but with particular importance, especially for numerical data (e.g., binning).</li>
+</ol>
+<p>[Source: 5. data_preprocessing.pdf, Slide 8]</p>
+<hr />
+<h2 id="3-definitions">3. Definitions<a class="headerlink" href="#3-definitions" title="Permanent link">&para;</a></h2>
+<h3 id="definition-data-preprocessing">Definition: Data Preprocessing<a class="headerlink" href="#definition-data-preprocessing" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> The process of preparing raw data for analysis by cleaning and transforming it into a usable format.
+<strong>Formal definition:</strong> In data mining, it refers to preparing raw data for mining by performing tasks like cleaning, transforming, and organizing it into a format suitable for mining algorithms.
+[Source: 5. data_preprocessing.pdf, Slide 7]</p>
+<h3 id="definition-noisy-data">Definition: Noisy Data<a class="headerlink" href="#definition-noisy-data" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> Data that contains incorrect values, random errors, or unwanted variance.
+<strong>Formal definition:</strong> Random error or unwanted variance in measured variables.
+[Source: 5. data_preprocessing.pdf, Slide 18]</p>
+<hr />
+<h2 id="4-data-cleaning-missing-data">4. Data Cleaning: Missing Data<a class="headerlink" href="#4-data-cleaning-missing-data" title="Permanent link">&para;</a></h2>
+<p>Missing data is common (e.g., missing customer income in sales data).
+<strong>Causes:</strong> Equipment malfunction, inconsistency leading to deletion, data not entered due to misunderstanding, data not considered important at entry time, or history/changes not registered.</p>
+<h3 id="strategies-to-handle-missing-data">Strategies to Handle Missing Data<a class="headerlink" href="#strategies-to-handle-missing-data" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Strategy</th>
+<th style="text-align: left;">Procedure</th>
+<th style="text-align: left;">Pros</th>
+<th style="text-align: left;">Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>1. Ignore the Tuple</strong></td>
+<td style="text-align: left;">Remove the record (row) with missing values. Commonly used when the class label is missing in classification tasks.</td>
+<td style="text-align: left;">Complete removal results in a robust model. Deleting a row/column with no info avoids incorrect weightage.</td>
+<td style="text-align: left;">Loss of information/data. Works poorly if the percentage of missing values is high (e.g., <span class="arithmatex">\(&gt;30\%\)</span>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>2. Fill Manually</strong></td>
+<td style="text-align: left;">Manually enter the missing data using domain knowledge.</td>
+<td style="text-align: left;">Highly accurate if done correctly by domain experts.</td>
+<td style="text-align: left;">Time-consuming and often infeasible for large datasets.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3a. Global Constant</strong></td>
+<td style="text-align: left;">Replace missing values with a fixed value (e.g., "Unknown" or "NA").</td>
+<td style="text-align: left;">Preserves data size, simple to implement.</td>
+<td style="text-align: left;">May distort distributions or create an artificial class.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3b. Attribute Mean/Mode</strong></td>
+<td style="text-align: left;">Replace with the overall mean (or mode) of the attribute.</td>
+<td style="text-align: left;">Better approach when data size is small. Prevents data loss compared to tuple removal.</td>
+<td style="text-align: left;">Adds variance and bias. Works poorly compared to multiple-imputation methods.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3c. Class-Specific Mean</strong></td>
+<td style="text-align: left;">Replace with the mean calculated for all samples in the same class.</td>
+<td style="text-align: left;">More accurate than global mean.</td>
+<td style="text-align: left;">Still introduces some bias within the class.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3d. Most Probable Value</strong></td>
+<td style="text-align: left;">Predict missing values using Bayesian formulas, decision trees, or regression models.</td>
+<td style="text-align: left;">Highly accurate, preserves inter-variable relationships.</td>
+<td style="text-align: left;">Computationally expensive.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>4. Assign Unique Category</strong></td>
+<td style="text-align: left;">(For categorical features) Assign a new class, e.g., 'U' for 'unknown' (like for Cabin or Embarked in Titanic).</td>
+<td style="text-align: left;">Less possibilities with one extra category <span class="arithmatex">\(\rightarrow\)</span> low variance after one-hot encoding. Negates data loss.</td>
+<td style="text-align: left;">Adds less variance. Adds another feature during encoding, which may hurt model performance.</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: 5. data_preprocessing.pdf, Slides 11-17]</p>
+<hr />
+<h2 id="5-data-cleaning-noisy-data">5. Data Cleaning: Noisy Data<a class="headerlink" href="#5-data-cleaning-noisy-data" title="Permanent link">&para;</a></h2>
+<p>Noise lowers data quality, leading to misleading analysis and poor model performance.</p>
+<h3 id="how-to-handle-noisy-data">How to Handle Noisy Data<a class="headerlink" href="#how-to-handle-noisy-data" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Binning:</strong> Smooth a sorted data value by consulting its "neighborhood" (values around it). Sort data, partition into bins (e.g., equal-frequency), and smooth by bin means, bin medians, or bin boundaries.</li>
+<li><strong>Regression:</strong> Smooth data by fitting it into regression functions (linear or multiple linear regression).</li>
+<li><strong>Clustering:</strong> Detect and remove outliers by organizing similar values into groups (clusters).</li>
+<li><strong>Semi-automated method:</strong> Combined computer and human inspection to detect suspicious values and check manually.</li>
+</ol>
+<p>[Source: 5. data_preprocessing.pdf, Slide 19]</p>
+<h3 id="binning-methods">Binning Methods<a class="headerlink" href="#binning-methods" title="Permanent link">&para;</a></h3>
+<p><strong>1. Equal-width (distance) partitioning:</strong>
+Divides the range into <span class="arithmatex">\(N\)</span> intervals of equal size (uniform grid). If <span class="arithmatex">\(A\)</span> and <span class="arithmatex">\(B\)</span> are the lowest and highest values, the width <span class="arithmatex">\(W\)</span> is:</p>
+<div class="arithmatex">\[
+W = \frac{B - A}{N}
+\]</div>
+<ul>
+<li><em>Pros:</em> Straightforward.</li>
+<li><em>Cons:</em> Outliers may dominate the presentation; skewed data is not handled well.</li>
+</ul>
+<p><strong>2. Equal-depth (frequency) partitioning:</strong>
+Divides the range into <span class="arithmatex">\(N\)</span> intervals, each containing approximately the same number of samples.
+*   <em>Pros:</em> Good data scaling.
+*   <em>Cons:</em> Managing categorical attributes can be tricky.</p>
+<p>[Source: 5. data_preprocessing.pdf, Slide 20]</p>
+<h3 id="example-binning-for-data-smoothing">Example: Binning for Data Smoothing<a class="headerlink" href="#example-binning-for-data-smoothing" title="Permanent link">&para;</a></h3>
+<p><strong>Given sorted data for price (in dollars):</strong>
+<span class="arithmatex">\(V = [4, 8, 9, 15, 21, 21, 24, 25, 26, 28, 29, 34]\)</span></p>
+<p><strong>Step 1: Partition into equal-frequency (equi-depth) bins</strong>
+Since <span class="arithmatex">\(N=12\)</span>, creating 3 bins means each bin gets <span class="arithmatex">\(12/3 = 4\)</span> values.
+*   <strong>Bin 1:</strong> <span class="arithmatex">\([4, 8, 9, 15]\)</span>
+*   <strong>Bin 2:</strong> <span class="arithmatex">\([21, 21, 24, 25]\)</span>
+*   <strong>Bin 3:</strong> <span class="arithmatex">\([26, 28, 29, 34]\)</span></p>
+<p><strong>Step 2: Smoothing by bin means</strong>
+Each value in a bin is replaced by the mean of that bin.
+*   Mean(Bin 1) = <span class="arithmatex">\((4+8+9+15)/4 = 36/4 = 9 \implies [9, 9, 9, 9]\)</span>
+*   Mean(Bin 2) = <span class="arithmatex">\((21+21+24+25)/4 = 91/4 = 22.75 \implies\)</span> (Rounded in source to <span class="arithmatex">\(23\)</span>) <span class="arithmatex">\(\implies [23, 23, 23, 23]\)</span>
+*   Mean(Bin 3) = <span class="arithmatex">\((26+28+29+34)/4 = 117/4 = 29.25 \implies\)</span> (Rounded in source to <span class="arithmatex">\(29\)</span>) <span class="arithmatex">\(\implies [29, 29, 29, 29]\)</span></p>
+<p><strong>Step 3: Smoothing by bin boundaries</strong>
+The minimum and maximum values of the bin are its boundaries. Each value in the bin is replaced by the closest boundary value.
+*   <strong>Bin 1 Boundaries:</strong> <span class="arithmatex">\(4\)</span> and <span class="arithmatex">\(15\)</span>.
+    *   <span class="arithmatex">\(4 \rightarrow 4\)</span>
+    *   <span class="arithmatex">\(8 \rightarrow 4\)</span> (closer to <span class="arithmatex">\(4\)</span> than <span class="arithmatex">\(15\)</span>)
+    *   <span class="arithmatex">\(9 \rightarrow 4\)</span> (closer to <span class="arithmatex">\(4\)</span> than <span class="arithmatex">\(15\)</span>)
+    *   <span class="arithmatex">\(15 \rightarrow 15\)</span>
+    *   Result: <span class="arithmatex">\([4, 4, 4, 15]\)</span>
+*   <strong>Bin 2 Boundaries:</strong> <span class="arithmatex">\(21\)</span> and <span class="arithmatex">\(25\)</span>.
+    *   <span class="arithmatex">\(21 \rightarrow 21\)</span>
+    *   <span class="arithmatex">\(21 \rightarrow 21\)</span>
+    *   <span class="arithmatex">\(24 \rightarrow 25\)</span>
+    *   <span class="arithmatex">\(25 \rightarrow 25\)</span>
+    *   Result: <span class="arithmatex">\([21, 21, 25, 25]\)</span>
+*   <strong>Bin 3 Boundaries:</strong> <span class="arithmatex">\(26\)</span> and <span class="arithmatex">\(34\)</span>.
+    *   <span class="arithmatex">\(26 \rightarrow 26\)</span>
+    *   <span class="arithmatex">\(28 \rightarrow 26\)</span>
+    *   <span class="arithmatex">\(29 \rightarrow 26\)</span>
+    *   <span class="arithmatex">\(34 \rightarrow 34\)</span>
+    *   Result: <span class="arithmatex">\([26, 26, 26, 34]\)</span></p>
+<p>[Source: 5. data_preprocessing.pdf, Slides 21-22]</p>
+<hr />
+<h2 id="6-data-integration">6. Data Integration<a class="headerlink" href="#6-data-integration" title="Permanent link">&para;</a></h2>
+<p>Data integration combines data from multiple sources into a coherent store.</p>
+<h3 id="key-issues">Key Issues<a class="headerlink" href="#key-issues" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Schema Integration:</strong> Integrating metadata from different sources (e.g., <code>cust-id</code> vs <code>cust-no</code>).<ul>
+<li><em>Entity identification problem:</em> Identifying real-world entities from multiple data sources (e.g., "Bill Clinton" = "William Clinton").</li>
+</ul>
+</li>
+<li><strong>Detecting and Resolving Data Value Conflicts:</strong> For the same real-world entity, attribute values from different sources are different.<ul>
+<li><em>Reasons:</em> Different representations, different scales (e.g., metric vs. British units).</li>
+</ul>
+</li>
+<li><strong>Handling Redundancy:</strong> Redundant data often occurs when integrating databases.<ul>
+<li><em>Object identification:</em> Same attribute/object may have different names (e.g., linking Aadhar card and PAN card).</li>
+<li><em>Derivable data:</em> One attribute may be derived in another table (e.g., annual revenue, age).</li>
+<li><em>Tuple duplication:</em> Increases redundancy and inconsistency.</li>
+</ul>
+</li>
+</ol>
+<p>[Source: 5. data_preprocessing.pdf, Slides 27-28]</p>
+<h3 id="correlation-analysis-categorical-data-chi-square-test">Correlation Analysis (Categorical Data) - Chi-Square Test<a class="headerlink" href="#correlation-analysis-categorical-data-chi-square-test" title="Permanent link">&para;</a></h3>
+<p>Used to detect redundancy between categorical attributes.</p>
+<div class="arithmatex">\[
+\chi^2 = \sum_{i=1}^{R} \sum_{j=1}^{C} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+\]</div>
+<p>Where expected frequency <span class="arithmatex">\(E_{ij}\)</span>:</p>
+<div class="arithmatex">\[
+E_{ij} = \frac{(\text{Row}_i \text{ Sum}) \times (\text{Col}_j \text{ Sum})}{N}
+\]</div>
+<p>Degrees of freedom <span class="arithmatex">\(= (R-1)(C-1)\)</span>.</p>
+<p><strong>Example: Gender vs Preferred Reading</strong>
+*   <strong>Null Hypothesis:</strong> There is no relationship between the two categorical variables (independent).
+*   <strong>Acceptable (Alternate) Hypothesis:</strong> There is a relationship (not independent).</p>
+<p>Assume we calculate <span class="arithmatex">\(\chi^2\)</span> and the degrees of freedom is <span class="arithmatex">\(1\)</span>. For a <span class="arithmatex">\(0.001\)</span> significance level, the tabular threshold is <span class="arithmatex">\(10.828\)</span>.
+If <span class="arithmatex">\(\chi^2_{\text{calculated}} &gt; 10.828\)</span>, we reject the null hypothesis and conclude that gender and preferred reading are strongly correlated.</p>
+<p>[Source: 5. data_preprocessing.pdf, Slides 30-33]</p>
+<h3 id="correlation-analysis-numerical-data-pearson-correlation">Correlation Analysis (Numerical Data) - Pearson Correlation<a class="headerlink" href="#correlation-analysis-numerical-data-pearson-correlation" title="Permanent link">&para;</a></h3>
+<p>Measures the linear correlation between two continuous variables.</p>
+<div class="arithmatex">\[
+r_{A,B} = \frac{\sum_{i=1}^{n}(A_i - \bar{A})(B_i - \bar{B})}{\sqrt{\sum_{i=1}^{n}(A_i - \bar{A})^2 \sum_{i=1}^{n}(B_i - \bar{B})^2}}
+\]</div>
+<p>Alternatively expressed as:</p>
+<div class="arithmatex">\[
+r = \frac{n(\sum xy) - (\sum x)(\sum y)}{\sqrt{[n\sum x^2 - (\sum x)^2][n\sum y^2 - (\sum y)^2]}}
+\]</div>
+<ul>
+<li><span class="arithmatex">\(r &gt; 0\)</span>: Positively correlated (A increases as B increases).</li>
+<li><span class="arithmatex">\(r = 0\)</span>: Independent.</li>
+<li><span class="arithmatex">\(r &lt; 0\)</span>: Negatively correlated.</li>
+</ul>
+<h3 id="example-pearson-correlation-calculation">Example: Pearson Correlation Calculation<a class="headerlink" href="#example-pearson-correlation-calculation" title="Permanent link">&para;</a></h3>
+<p><strong>Given:</strong> <span class="arithmatex">\(n=6\)</span>, <span class="arithmatex">\(\sum x = 247\)</span>, <span class="arithmatex">\(\sum y = 486\)</span>, <span class="arithmatex">\(\sum xy = 20,485\)</span>, <span class="arithmatex">\(\sum x^2 = 11,409\)</span>, <span class="arithmatex">\(\sum y^2 = 40,022\)</span>.
+<strong>Find:</strong> Correlation coefficient <span class="arithmatex">\(r\)</span>.</p>
+<p><strong>Solution:</strong></p>
+<div class="arithmatex">\[
+\begin{aligned}
+r &amp;= \frac{6(20485) - (247 \times 486)}{\sqrt{[6(11409) - (247)^2] \times [6(40022) - (486)^2]}} \\
+&amp;= \frac{122910 - 120042}{\sqrt{[68454 - 61009] \times [240132 - 236196]}} \\
+&amp;= \frac{2868}{\sqrt{7445 \times 3936}} \\
+&amp;= \frac{2868}{\sqrt{29303520}} \\
+&amp;= \frac{2868}{5413.27} \\
+&amp;= 0.5298
+\end{aligned}
+\]</div>
+<p><strong>Result:</strong> <span class="arithmatex">\(r \approx 0.53\)</span>. This means the variables have a moderate positive correlation (52.98%).
+[Source: 5. data_preprocessing.pdf, Slide 46]</p>
+<h3 id="covariance-numeric-data">Covariance (Numeric Data)<a class="headerlink" href="#covariance-numeric-data" title="Permanent link">&para;</a></h3>
+<p>Covariance is similar to correlation.</p>
+<div class="arithmatex">\[
+\text{Cov}(A,B) = \frac{\sum_{i=1}^{n} (A_i - \bar{A})(B_i - \bar{B})}{n} = E(AB) - E(A)E(B)
+\]</div>
+<ul>
+<li><strong>Positive covariance:</strong> If <span class="arithmatex">\(\text{Cov}(A,B) &gt; 0\)</span>, A and B both tend to be larger than their expected values.</li>
+<li><strong>Negative covariance:</strong> If <span class="arithmatex">\(\text{Cov}(A,B) &lt; 0\)</span>, if A is larger than expected, B is likely smaller.</li>
+<li><strong>Independence:</strong> If independent, <span class="arithmatex">\(\text{Cov}(A,B) = 0\)</span>. However, <span class="arithmatex">\(\text{Cov}(A,B) = 0\)</span> does not strictly imply independence unless under specific assumptions (like multivariate normal distribution).</li>
+</ul>
+<h3 id="example-covariance-calculation">Example: Covariance Calculation<a class="headerlink" href="#example-covariance-calculation" title="Permanent link">&para;</a></h3>
+<p>Suppose two stocks A and B have the following values: <span class="arithmatex">\((2, 5), (3, 8), (5, 10), (4, 11), (6, 14)\)</span>.
+Will their prices rise or fall together?</p>
+<p><strong>Solution:</strong>
+1.  Find <span class="arithmatex">\(E(A)\)</span>: <span class="arithmatex">\((2+3+5+4+6)/5 = 20/5 = 4\)</span>
+2.  Find <span class="arithmatex">\(E(B)\)</span>: <span class="arithmatex">\((5+8+10+11+14)/5 = 48/5 = 9.6\)</span>
+3.  Find <span class="arithmatex">\(\text{Cov}(A,B)\)</span>:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+    \text{Cov}(A,B) &amp;= \frac{(2\times5) + (3\times8) + (5\times10) + (4\times11) + (6\times14)}{5} - (4 \times 9.6) \\
+    &amp;= \frac{10 + 24 + 50 + 44 + 84}{5} - 38.4 \\
+    &amp;= \frac{212}{5} - 38.4 \\
+    &amp;= 42.4 - 38.4 \\
+    &amp;= 4.0
+    \end{aligned}
+\]</div>
+<p><strong>Result:</strong> <span class="arithmatex">\(\text{Cov}(A, B) = 4\)</span>. Since covariance is positive, A and B rise together.
+[Source: 5. data_preprocessing.pdf, Slide 48]</p>
+<hr />
+<h2 id="7-data-transformation">7. Data Transformation<a class="headerlink" href="#7-data-transformation" title="Permanent link">&para;</a></h2>
+<p>Transforms data into appropriate forms for mining. Methods include:
+1.  <strong>Smoothing:</strong> Remove noise.
+2.  <strong>Aggregation:</strong> Summarization, data cube construction.
+3.  <strong>Generalization:</strong> Concept hierarchy climbing.
+4.  <strong>Normalization:</strong> Scale to fall within a small, specified range (e.g., 0 to 1).
+5.  <strong>Attribute/feature construction:</strong> New attributes constructed from given ones.</p>
+<h3 id="normalization-methods">Normalization Methods<a class="headerlink" href="#normalization-methods" title="Permanent link">&para;</a></h3>
+<p><strong>1. Min-Max Normalization</strong>
+Linearly maps values to a new range <span class="arithmatex">\([\text{new\_min}_A, \text{new\_max}_A]\)</span>.</p>
+<div class="arithmatex">\[
+v' = \frac{v - \min_A}{\max_A - \min_A} (\text{new\_max}_A - \text{new\_min}_A) + \text{new\_min}_A
+\]</div>
+<p><strong>2. Z-score Normalization</strong>
+Normalizes based on mean (<span class="arithmatex">\(\mu\)</span>) and standard deviation (<span class="arithmatex">\(\sigma\)</span>).</p>
+<div class="arithmatex">\[
+v' = \frac{v - \mu_A}{\sigma_A}
+\]</div>
+<p><strong>3. Decimal Scaling</strong>
+Moves the decimal point of values based on the maximum absolute value.</p>
+<div class="arithmatex">\[
+v' = \frac{v}{10^j}
+\]</div>
+<p>Where <span class="arithmatex">\(j\)</span> is the smallest integer such that <span class="arithmatex">\(\max(|v'|) &lt; 1\)</span>.</p>
+<p>[Source: 5. data_preprocessing.pdf, Slides 50-51]</p>
+<h3 id="examples-normalization">Examples: Normalization<a class="headerlink" href="#examples-normalization" title="Permanent link">&para;</a></h3>
+<p><strong>Min-Max Example:</strong>
+*   <strong>Given:</strong> Feature <code>income</code> ranges from <span class="arithmatex">\(\$12,000\)</span> to <span class="arithmatex">\(\$98,000\)</span>. Target range is <span class="arithmatex">\([0.0, 1.0]\)</span>.
+*   <strong>Transform:</strong> <span class="arithmatex">\(v = \$73,600\)</span>.
+*   <strong>Solution:</strong></p>
+<div class="arithmatex">\[
+v' = \frac{73600 - 12000}{98000 - 12000}(1.0 - 0.0) + 0.0 = \frac{61600}{86000} \approx 0.7163
+\]</div>
+<p><strong>Z-score Example:</strong>
+*   <strong>Given:</strong> Mean <span class="arithmatex">\(\mu = \$54,000\)</span>, Std Dev <span class="arithmatex">\(\sigma = \$16,000\)</span>.
+*   <strong>Transform:</strong> <span class="arithmatex">\(v = \$73,600\)</span>.
+*   <strong>Solution:</strong></p>
+<div class="arithmatex">\[
+v' = \frac{73600 - 54000}{16000} = \frac{19600}{16000} = 1.225
+\]</div>
+<p><strong>Decimal Scaling Example:</strong>
+*   <strong>Given:</strong> Range of values is <span class="arithmatex">\(-986\)</span> to <span class="arithmatex">\(917\)</span>.
+*   <strong>Transform:</strong> Maximum absolute value is <span class="arithmatex">\(|-986| = 986\)</span>. Therefore, <span class="arithmatex">\(j=3\)</span> (since <span class="arithmatex">\(986/1000 = 0.986 &lt; 1\)</span>).
+*   <strong>Solution:</strong>
+    *   <span class="arithmatex">\(-986 \rightarrow -986 / 10^3 = -0.986\)</span>
+    *   <span class="arithmatex">\(917 \rightarrow 917 / 10^3 = 0.917\)</span></p>
+<p>[Source: 5. data_preprocessing.pdf, Slides 53-57]</p>
+<hr />
+<h2 id="8-data-reduction-discretization">8. Data Reduction &amp; Discretization<a class="headerlink" href="#8-data-reduction-discretization" title="Permanent link">&para;</a></h2>
+<h3 id="data-reduction">Data Reduction<a class="headerlink" href="#data-reduction" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Purpose:</strong> Obtains a reduced representation in volume but produces the same or similar analytical results.</li>
+<li><strong>Techniques:</strong> Dimensionality reduction (e.g., PCA), numerosity reduction, and data compression.</li>
+</ul>
+<h3 id="data-discretization">Data Discretization<a class="headerlink" href="#data-discretization" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Part of data reduction but highly important for continuous numeric data.</li>
+<li>Methods include binning (discussed earlier).</li>
+<li><strong>Sturges' Rule</strong> for determining the number of bins <span class="arithmatex">\(k\)</span> for ungrouped continuous data:</li>
+</ul>
+<div class="arithmatex">\[
+k = \lceil 1 + \log_2(n) \rceil
+\]</div>
+<p>[Source: 5. data_preprocessing.pdf, Slides 8, 19-20]</p>
+<hr />
+<h2 id="9-edge-cases-troubleshooting">9. Edge Cases &amp; Troubleshooting<a class="headerlink" href="#9-edge-cases-troubleshooting" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Edge Case</th>
+<th style="text-align: left;">Problem / Risk</th>
+<th style="text-align: left;">Handling Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Zero Range (<span class="arithmatex">\(\max_A = \min_A\)</span>)</strong></td>
+<td style="text-align: left;">Min-Max normalization divides by zero.</td>
+<td style="text-align: left;">Set <span class="arithmatex">\(v' = 0\)</span> for all instances or drop the constant feature.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Zero Std Dev (<span class="arithmatex">\(\sigma_A = 0\)</span>)</strong></td>
+<td style="text-align: left;">Z-score normalization divides by zero.</td>
+<td style="text-align: left;">Feature is constant; drop before scaling.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Outliers in Min-Max</strong></td>
+<td style="text-align: left;">Extreme values compress normal data into a tiny range.</td>
+<td style="text-align: left;">Use Z-score normalization instead.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Categorical features with missing values</strong></td>
+<td style="text-align: left;">Mean imputation doesn't work.</td>
+<td style="text-align: left;">Use Mode imputation or "Assign Unique Category" ('Unknown').</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="formula-sheet">Formula Sheet<a class="headerlink" href="#formula-sheet" title="Permanent link">&para;</a></h2>
+<h3 id="1-equal-width-binning">1. Equal-Width Binning<a class="headerlink" href="#1-equal-width-binning" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+W = \frac{B - A}{N}
+\]</div>
+<ul>
+<li><span class="arithmatex">\(W\)</span> = width of each bin</li>
+<li><span class="arithmatex">\(A, B\)</span> = lowest and highest values</li>
+<li><span class="arithmatex">\(N\)</span> = number of intervals</li>
+</ul>
+<h3 id="2-chi-square-chi2">2. Chi-Square (<span class="arithmatex">\(\chi^2\)</span>)<a class="headerlink" href="#2-chi-square-chi2" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\chi^2 = \sum_{i=1}^{R} \sum_{j=1}^{C} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+\]</div>
+<div class="arithmatex">\[
+E_{ij} = \frac{(\text{Row}_i \text{ Sum}) \times (\text{Col}_j \text{ Sum})}{N}
+\]</div>
+<ul>
+<li>Degrees of Freedom <span class="arithmatex">\(= (R-1)(C-1)\)</span></li>
+</ul>
+<h3 id="3-pearson-correlation-coefficient-r">3. Pearson Correlation Coefficient (<span class="arithmatex">\(r\)</span>)<a class="headerlink" href="#3-pearson-correlation-coefficient-r" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+r = \frac{n(\sum xy) - (\sum x)(\sum y)}{\sqrt{[n\sum x^2 - (\sum x)^2][n\sum y^2 - (\sum y)^2]}}
+\]</div>
+<h3 id="4-covariance">4. Covariance<a class="headerlink" href="#4-covariance" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\text{Cov}(A,B) = \frac{\sum_{i=1}^{n} (A_i - \bar{A})(B_i - \bar{B})}{n} = E(AB) - E(A)E(B)
+\]</div>
+<h3 id="5-min-max-normalization">5. Min-Max Normalization<a class="headerlink" href="#5-min-max-normalization" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+v' = \frac{v - \min_A}{\max_A - \min_A} (\text{new\_max}_A - \text{new\_min}_A) + \text{new\_min}_A
+\]</div>
+<h3 id="6-z-score-normalization">6. Z-Score Normalization<a class="headerlink" href="#6-z-score-normalization" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+v' = \frac{v - \mu_A}{\sigma_A}
+\]</div>
+<h3 id="7-decimal-scaling">7. Decimal Scaling<a class="headerlink" href="#7-decimal-scaling" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+v' = \frac{v}{10^j} \quad \text{where } \max(|v'|) &lt; 1
+\]</div>
+<h3 id="8-sturges-rule-bin-count">8. Sturges' Rule (Bin count)<a class="headerlink" href="#8-sturges-rule-bin-count" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+k = \lceil 1 + \log_2(n) \rceil
+\]</div>
+<hr />
+<h2 id="definition-sheet">Definition Sheet<a class="headerlink" href="#definition-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Data Preprocessing:</strong> The process of cleaning, transforming, and organizing raw data into a usable format for mining algorithms.</li>
+<li><strong>Noisy Data:</strong> Data containing random errors or unwanted variance.</li>
+<li><strong>Binning:</strong> A smoothing technique that groups sorted data into local "neighborhoods" (bins).</li>
+<li><strong>Data Integration:</strong> Combining data from multiple sources into a coherent store, addressing schema conflicts and redundancies.</li>
+<li><strong>Normalization:</strong> Scaling numerical data to fall within a small, specified range to prevent large-magnitude features from dominating distance calculations.</li>
+<li><strong>Min-Max Normalization:</strong> Linear scaling mapping attribute values into a specified range, typically <span class="arithmatex">\([0, 1]\)</span>.</li>
+<li><strong>Z-Score Normalization:</strong> Scaling technique centering data at mean <span class="arithmatex">\(0\)</span> with standard deviation <span class="arithmatex">\(1\)</span>.</li>
+<li><strong>Decimal Scaling:</strong> Normalization by shifting decimal places based on the maximum absolute value.</li>
+</ul>
+<hr />
+<h2 id="exam-oriented-review">Exam-Oriented Review<a class="headerlink" href="#exam-oriented-review" title="Permanent link">&para;</a></h2>
+<p><strong>Q1: List three reasons why real-world data is dirty.</strong>
+<strong>A:</strong> 1) Incomplete (missing values due to equipment failure or "not applicable" fields). 2) Noisy (errors during data entry or transmission). 3) Inconsistent (discrepancies in naming conventions or duplicate records with conflicting data).</p>
+<p><strong>Q2: What are the pros and cons of replacing missing values with a global constant?</strong>
+<strong>A:</strong> <em>Pros:</em> Preserves data set size and is simple to implement. <em>Cons:</em> It may distort feature distributions or trick a learning algorithm into treating the constant (e.g., "Unknown") as a legitimate, meaningful class.</p>
+<p><strong>Q3: Perform equal-frequency binning with 3 bins on the following data: <span class="arithmatex">\(2, 6, 7, 9, 13, 15, 17, 21, 24\)</span>, and smooth by bin means.</strong>
+<strong>A:</strong>
+*   Sort: Already sorted. <span class="arithmatex">\(N=9\)</span>. 3 bins <span class="arithmatex">\(\rightarrow\)</span> 3 items per bin.
+*   Bin 1: <span class="arithmatex">\([2, 6, 7] \rightarrow \text{Mean} = (2+6+7)/3 = 5 \rightarrow [5, 5, 5]\)</span>
+*   Bin 2: <span class="arithmatex">\([9, 13, 15] \rightarrow \text{Mean} = (9+13+15)/3 = 37/3 \approx 12.33 \rightarrow [12.33, 12.33, 12.33]\)</span>
+*   Bin 3: <span class="arithmatex">\([17, 21, 24] \rightarrow \text{Mean} = (17+21+24)/3 = 62/3 \approx 20.67 \rightarrow [20.67, 20.67, 20.67]\)</span></p>
+<p><strong>Q4: How does Min-Max normalization differ from Z-score normalization in handling outliers?</strong>
+<strong>A:</strong> Min-Max normalization scales values strictly between a defined min and max range. Extreme outliers will become the new max or min, compressing the rest of the normal data into a tiny numerical window. Z-score normalization handles outliers better because it scales based on the mean and standard deviation, allowing outliers to remain as large magnitude values without heavily compressing the bulk distribution.</p>
+<p><strong>Q5: Normalize the value <span class="arithmatex">\(v=500\)</span> to the range <span class="arithmatex">\([0, 1]\)</span> if the attribute's minimum is <span class="arithmatex">\(100\)</span> and maximum is <span class="arithmatex">\(900\)</span>.</strong>
+<strong>A:</strong> <span class="arithmatex">\(v' = \frac{500 - 100}{900 - 100}(1 - 0) + 0 = \frac{400}{800} = 0.5\)</span>.</p>
+<p><strong>Q6: What is the purpose of the Chi-Square test in data integration?</strong>
+<strong>A:</strong> To detect redundancy between categorical (discrete) attributes. It tests the null hypothesis that two variables are independent. If <span class="arithmatex">\(\chi^2\)</span> is large (greater than a critical threshold), the variables are dependent and strongly correlated, meaning one might be redundant.</p>
+<p><strong>Q7: If the Pearson correlation coefficient between two features is <span class="arithmatex">\(r = 0.95\)</span>, what does this imply?</strong>
+<strong>A:</strong> It implies a very strong positive linear correlation. The features rise and fall together. In the context of data preprocessing, this highly redundant information might mean one of the features can be safely removed to reduce dimensionality.</p>
+<p><strong>Q8: Using decimal scaling, normalize the sequence <span class="arithmatex">\([-45, 8, 924, -1005]\)</span>.</strong>
+<strong>A:</strong> The maximum absolute value is <span class="arithmatex">\(|-1005| = 1005\)</span>. To make it less than <span class="arithmatex">\(1\)</span>, we divide by <span class="arithmatex">\(10,000\)</span> (<span class="arithmatex">\(10^4\)</span>), so <span class="arithmatex">\(j=4\)</span>.
+Result: <span class="arithmatex">\([-0.0045, 0.0008, 0.0924, -0.1005]\)</span>.</p>
+<hr />
+<h2 id="source-map">Source map<a class="headerlink" href="#source-map" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Section / Topic</th>
+<th style="text-align: left;">Source Document &amp; References</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Chapter Overview &amp; Fundamentals (Why is Data Dirty)</strong></td>
+<td style="text-align: left;"><code>5. data_preprocessing.pdf</code>, Slides 1–8</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Cleaning: Missing Data Strategies</strong></td>
+<td style="text-align: left;"><code>5. data_preprocessing.pdf</code>, Slides 11–17</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Cleaning: Noisy Data &amp; Binning Methods</strong></td>
+<td style="text-align: left;"><code>5. data_preprocessing.pdf</code>, Slides 18–22</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Integration &amp; Redundancy Analysis (<span class="arithmatex">\(\chi^2\)</span>, Pearson, Covariance)</strong></td>
+<td style="text-align: left;"><code>5. data_preprocessing.pdf</code>, Slides 27–48</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Transformation &amp; Normalization (Min-Max, Z-score, Decimal)</strong></td>
+<td style="text-align: left;"><code>5. data_preprocessing.pdf</code>, Slides 50–57</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Reduction &amp; Discretization (Sturges' Rule)</strong></td>
+<td style="text-align: left;"><code>5. data_preprocessing.pdf</code>, Slides 8, 19–20</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../Chapter4_Statistical_Descriptions/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Ch 4 - Statistical Descriptions">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Ch 4 - Statistical Descriptions
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../web_development/FSD_Complete_Study_Notes/" class="md-footer__link md-footer__link--next" aria-label="Next: Full Stack Development">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Full Stack Development
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

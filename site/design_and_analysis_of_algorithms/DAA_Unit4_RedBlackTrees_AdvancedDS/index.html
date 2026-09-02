@@ -1,0 +1,3515 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="DeepSkills Knowledge Base and Engineering Notes">
+      
+      
+        <meta name="author" content="DeepLumiere">
+      
+      
+        <link rel="canonical" href="https://deeplumiere.github.io/DeepSkills/design_and_analysis_of_algorithms/DAA_Unit4_RedBlackTrees_AdvancedDS/">
+      
+      
+        <link rel="prev" href="../DAA_Unit3_Recurrence_DivideConquer/">
+      
+      
+        <link rel="next" href="../DAA_Unit5_Greedy_Algorithms/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Unit 4 Notes - DeepSkills</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-301Z6Q0P7W"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-301Z6Q0P7W",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-301Z6Q0P7W",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-4-complete-daa-notes-unit-4-red-black-trees-amortised-analysis-binomial-heaps" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DeepSkills" class="md-header__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DeepSkills
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Unit 4 Notes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DeepSkills" class="md-nav__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    DeepSkills
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware & Microprocessors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hardware & Microprocessors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/Microprocessors_and_Interfacing_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microprocessors & Interfacing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms & Networking
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms & Networking
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design & Analysis of Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design & Analysis of Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit1_and_Unit2_Complete_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Notes (Unit 1 & 2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit1_Elementary_Algorithmic_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 1 Notes (Elementary Algorithmic)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit1_Elementary_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 1 Notes (Elementary Algorithms)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit2_Analysis_of_Algorithms_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 2 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit3_Recurrence_DivideConquer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 3 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 4 Notes
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 4 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-motivation-why-red-black-trees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Motivation: Why Red-Black Trees?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-definition-red-black-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Definition: Red-Black Tree
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Definition: Red-Black Tree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-5-red-black-tree-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The 5 Red-Black Tree Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#black-height" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Black-Height
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-red-black-trees-vs-avl-trees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Red-Black Trees vs AVL Trees
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-rotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Rotations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Rotations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#left-rotatet-x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Left-Rotate(T, x)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#right-rotatet-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Right-Rotate(T, y)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Insertion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Insertion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-bst-insert-color-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: BST Insert + Color RED
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-rb-insert-fixup-all-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: RB-INSERT-FIXUP — ALL CASES
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rb-insert-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RB-INSERT pseudocode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rb-insert-fixup-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RB-INSERT-FIXUP pseudocode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#case-decision-table-for-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case Decision Table for Insertion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-insertion-trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Insertion Trace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-deletion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Deletion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Deletion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview-bst-delete-transplant-fixup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview: BST Delete + Transplant + FIXUP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rb-transplant-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RB-TRANSPLANT pseudocode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rb-delete-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RB-DELETE pseudocode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rb-delete-fixup-all-cases-for-double-black-node-x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RB-DELETE-FIXUP — ALL CASES (for double-black node x)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rb-delete-fixup-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RB-DELETE-FIXUP pseudocode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#case-decision-table-for-deletion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case Decision Table for Deletion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-deletion-trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Deletion Trace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-complexity-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Complexity Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-amortised-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Amortised Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Amortised Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-amortised-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Amortised Analysis?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use-vs-per-operation-worst-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use (vs per-operation worst case)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-1-aggregate-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1 — Aggregate Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-accounting-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2 — Accounting Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-3-potential-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 3 — Potential Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-binomial-heaps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Binomial Heaps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Binomial Heaps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mergeable-heap-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mergeable Heap Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-binary-vs-binomial-vs-fibonacci-heap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison: Binary vs Binomial vs Fibonacci Heap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binomial-tree-b_k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binomial Tree \(B_k\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binomial-heap-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binomial Heap Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all-operations-pseudocode-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All Operations (pseudocode + complexity)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-formula-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Formula Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-definition-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Definition Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-exam-oriented-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Exam-Oriented Review
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit5_Greedy_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 5 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit6_Dynamic_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 6 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DAA_Unit7_Backtracking_BranchBound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit 7 Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Computer Networks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Computer Networks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/CompNet_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Class Test Complete
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_1_Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_3_Data_Link_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3 - Data Link Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_4_MAC_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4 - MAC Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Communication
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Communication
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter1_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter2_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter3_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter4_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter5_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter6_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter7_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter8_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter10_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning & Data Science
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning & Data Science
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/01_Machine_Learning_and_its_Applications_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/02_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/03_Multivariate_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multivariate Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/04_Regularization_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regularization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/05_Probability_and_Statistics_for_ML_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prob & Stats for ML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Analysis & Visualization
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Analysis & Visualization
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter1_Introduction_to_DAV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter2_Types_of_Data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2 - Types of Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter3_Dataset_and_Attributes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3 - Dataset & Attributes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter4_Statistical_Descriptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4 - Statistical Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter5_Data_Preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5 - Data Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Web Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../web_development/FSD_Complete_Study_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Stack Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-motivation-why-red-black-trees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Motivation: Why Red-Black Trees?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-definition-red-black-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Definition: Red-Black Tree
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Definition: Red-Black Tree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-5-red-black-tree-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The 5 Red-Black Tree Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#black-height" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Black-Height
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-red-black-trees-vs-avl-trees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Red-Black Trees vs AVL Trees
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-rotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Rotations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Rotations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#left-rotatet-x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Left-Rotate(T, x)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#right-rotatet-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Right-Rotate(T, y)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Insertion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Insertion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-bst-insert-color-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: BST Insert + Color RED
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-rb-insert-fixup-all-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: RB-INSERT-FIXUP — ALL CASES
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rb-insert-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RB-INSERT pseudocode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rb-insert-fixup-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RB-INSERT-FIXUP pseudocode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#case-decision-table-for-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case Decision Table for Insertion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-insertion-trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Insertion Trace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-deletion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Deletion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Deletion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview-bst-delete-transplant-fixup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview: BST Delete + Transplant + FIXUP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rb-transplant-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RB-TRANSPLANT pseudocode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rb-delete-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RB-DELETE pseudocode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rb-delete-fixup-all-cases-for-double-black-node-x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RB-DELETE-FIXUP — ALL CASES (for double-black node x)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rb-delete-fixup-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RB-DELETE-FIXUP pseudocode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#case-decision-table-for-deletion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case Decision Table for Deletion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-deletion-trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Deletion Trace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-complexity-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Complexity Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-amortised-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Amortised Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Amortised Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-amortised-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Amortised Analysis?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use-vs-per-operation-worst-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use (vs per-operation worst case)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-1-aggregate-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1 — Aggregate Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-accounting-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2 — Accounting Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-3-potential-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 3 — Potential Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-binomial-heaps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Binomial Heaps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Binomial Heaps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mergeable-heap-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mergeable Heap Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-binary-vs-binomial-vs-fibonacci-heap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison: Binary vs Binomial vs Fibonacci Heap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binomial-tree-b_k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binomial Tree \(B_k\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binomial-heap-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binomial Heap Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all-operations-pseudocode-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All Operations (pseudocode + complexity)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-formula-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Formula Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-definition-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Definition Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-exam-oriented-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Exam-Oriented Review
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/DeepLumiere/DeepSkills/edit/main/notes/design_and_analysis_of_algorithms/DAA_Unit4_RedBlackTrees_AdvancedDS.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="chapter-4-complete-daa-notes-unit-4-red-black-trees-amortised-analysis-binomial-heaps">Chapter 4: Complete DAA Notes: Unit 4 — Red-Black Trees, Amortised Analysis &amp; Binomial Heaps<a class="headerlink" href="#chapter-4-complete-daa-notes-unit-4-red-black-trees-amortised-analysis-binomial-heaps" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Course Code:</strong> 3CS501CC24
+<strong>Primary Source:</strong> DAA_Unit4.pptx, Amortised Analysis.pptx, Binomial Heap.pdf</p>
+</blockquote>
+<hr />
+<h2 id="1-chapter-overview">1. Chapter Overview<a class="headerlink" href="#1-chapter-overview" title="Permanent link">&para;</a></h2>
+<p>This unit covers advanced data structures and their analysis methods. We begin with <strong>Red-Black Trees</strong>, a self-balancing binary search tree that guarantees <span class="arithmatex">\(O(\log n)\)</span> bounds on basic operations, effectively preventing the skewed tree performance issues of standard BSTs. Next, we explore <strong>Amortised Analysis</strong>, a technique for evaluating the average performance of a sequence of operations over time rather than a single worst-case operation. Finally, we discuss <strong>Binomial Heaps</strong>, a mergeable heap data structure that supports efficient <span class="arithmatex">\(O(\log n)\)</span> union operations by utilizing a forest of Binomial Trees.</p>
+<hr />
+<h2 id="2-motivation-why-red-black-trees">2. Motivation: Why Red-Black Trees?<a class="headerlink" href="#2-motivation-why-red-black-trees" title="Permanent link">&para;</a></h2>
+<p>Binary search trees (BSTs) are fundamental data structures, but their performance heavily depends on the tree's shape.
+- <strong>Problem with unbalanced BST:</strong> If elements are inserted in a sorted or nearly sorted order, a standard BST becomes highly unbalanced (skewed). In the worst case, it resembles a linked list, degrading the time complexity for search, insertion, and deletion from <span class="arithmatex">\(O(\log n)\)</span> to <span class="arithmatex">\(O(n)\)</span>.
+- <strong>Need for balanced BSTs:</strong> To ensure efficient operations regardless of the insertion order, we need trees that automatically adjust their structure to remain balanced.
+- <strong>Red-Black Tree as a solution:</strong> Red-Black Trees are a type of self-balancing binary search tree. By adding a single color attribute (RED or BLACK) to each node and enforcing a strict set of rules, the tree guarantees that no path from the root to a leaf is more than twice as long as any other. This structural guarantee ensures that the tree height remains <span class="arithmatex">\(O(\log n)\)</span>, keeping search, insertion, and deletion operations highly efficient.</p>
+<p>[Source: DAA_Unit4.pptx, Slide 2]</p>
+<hr />
+<h2 id="3-definition-red-black-tree">3. Definition: Red-Black Tree<a class="headerlink" href="#3-definition-red-black-tree" title="Permanent link">&para;</a></h2>
+<p>A Red-Black Tree is a self-balancing binary search tree where each node has an additional attribute: a <strong>color</strong>, which can be either RED or BLACK. The color-coding scheme acts as a set of constraints that force the tree to maintain its balance during dynamic operations.</p>
+<h3 id="the-5-red-black-tree-properties">The 5 Red-Black Tree Properties<a class="headerlink" href="#the-5-red-black-tree-properties" title="Permanent link">&para;</a></h3>
+<p>Every Red-Black tree must satisfy the following five properties:
+1. <strong>Node Color:</strong> Every node is either RED or BLACK.
+2. <strong>Root Property:</strong> The root of the tree is always BLACK.
+3. <strong>Leaf Property:</strong> Every leaf (NIL node) is BLACK. (These NIL nodes are placeholders that do not store data, ensuring every physical node has two children).
+4. <strong>Red Property:</strong> If a node is RED, both of its children must be BLACK. (This means there can be no two consecutive RED nodes on any path).
+5. <strong>Black-Height Property:</strong> All simple paths from any node to any of its descendant NIL leaves contain the same number of BLACK nodes.</p>
+<p><img alt="Red-Black Tree Example" src="../../images/DAA_Unit4-image1.png" /></p>
+<h3 id="black-height">Black-Height<a class="headerlink" href="#black-height" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Definition:</strong> The black-height of a node <span class="arithmatex">\(x\)</span>, denoted as <span class="arithmatex">\(bh(x)\)</span>, is the number of BLACK nodes on any simple path from <span class="arithmatex">\(x\)</span> (not including <span class="arithmatex">\(x\)</span> itself) down to a leaf. Due to property 5, this value is well-defined.</li>
+<li><strong>Lemma:</strong> A Red-Black tree with <span class="arithmatex">\(n\)</span> internal nodes has a height <span class="arithmatex">\(h \leq 2 \cdot \log(n+1)\)</span>.</li>
+<li><strong>Proof sketch:</strong></li>
+<li>The subtree rooted at any node <span class="arithmatex">\(x\)</span> contains at least <span class="arithmatex">\(2^{bh(x)} - 1\)</span> internal nodes.</li>
+<li>Because of the Red Property, at least half the nodes on any path from the root to a leaf (excluding the root) must be BLACK. Thus, the black-height of the root must be at least <span class="arithmatex">\(h/2\)</span>.</li>
+<li>Therefore, <span class="arithmatex">\(n \geq 2^{h/2} - 1\)</span>, which algebraically implies <span class="arithmatex">\(h \leq 2 \cdot \log(n+1)\)</span>.</li>
+</ul>
+<p>[Source: DAA_Unit4.pptx, Slide 3]</p>
+<hr />
+<h2 id="4-red-black-trees-vs-avl-trees">4. Red-Black Trees vs AVL Trees<a class="headerlink" href="#4-red-black-trees-vs-avl-trees" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Red-Black Tree</th>
+<th style="text-align: left;">AVL Tree</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Balance strictness</strong></td>
+<td style="text-align: left;">Less strictly balanced. Path lengths can differ by up to a factor of 2.</td>
+<td style="text-align: left;">More strictly balanced. Path lengths differ by at most 1.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Height bound</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(h \leq 2 \log(n+1)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(h \approx 1.44 \log n\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Insertion Rotations</strong></td>
+<td style="text-align: left;">Max 2 rotations per insertion.</td>
+<td style="text-align: left;">Max 2 rotations per insertion.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Deletion Rotations</strong></td>
+<td style="text-align: left;">Max 3 rotations per deletion.</td>
+<td style="text-align: left;">Up to <span class="arithmatex">\(O(\log n)\)</span> rotations per deletion.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Search Time</strong></td>
+<td style="text-align: left;">Fast <span class="arithmatex">\(O(\log n)\)</span>, but slightly slower than AVL.</td>
+<td style="text-align: left;">Faster <span class="arithmatex">\(O(\log n)\)</span> due to strict balance.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>When to prefer</strong></td>
+<td style="text-align: left;">Frequent insertions and deletions (less rotation overhead). Standard in library maps (e.g., C++ <code>std::map</code>).</td>
+<td style="text-align: left;">Frequent lookups/searches and less frequent modifications.</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: DAA_Unit4.pptx, Slide 4]</p>
+<hr />
+<h2 id="5-rotations">5. Rotations<a class="headerlink" href="#5-rotations" title="Permanent link">&para;</a></h2>
+<p>Rotations are local operations that change the tree's pointer structure without violating the binary search tree property. They are used during insertion and deletion to restore the Red-Black properties.</p>
+<h3 id="left-rotatet-x">Left-Rotate(T, x)<a class="headerlink" href="#left-rotatet-x" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Before/after state:</strong> The right child <span class="arithmatex">\(y\)</span> of <span class="arithmatex">\(x\)</span> becomes the parent of <span class="arithmatex">\(x\)</span>. Node <span class="arithmatex">\(x\)</span> becomes the left child of <span class="arithmatex">\(y\)</span>. The left child of <span class="arithmatex">\(y\)</span> becomes the right child of <span class="arithmatex">\(x\)</span>.</li>
+<li><strong>BST property preservation:</strong> The inorder traversal order remains identical.</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>LEFT-ROTATE(T, x)
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>1  y = x.right
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>2  x.right = y.left
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>3  if y.left != T.nil
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>4      y.left.parent = x
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>5  y.parent = x.parent
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>6  if x.parent == T.nil
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>7      T.root = y
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>8  elseif x == x.parent.left
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>9      x.parent.left = y
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>10 else x.parent.right = y
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>11 y.left = x
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>12 x.parent = y
+</span></code></pre></div>
+<h3 id="right-rotatet-y">Right-Rotate(T, y)<a class="headerlink" href="#right-rotatet-y" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Before/after state:</strong> The left child <span class="arithmatex">\(x\)</span> of <span class="arithmatex">\(y\)</span> becomes the parent of <span class="arithmatex">\(y\)</span>. Node <span class="arithmatex">\(y\)</span> becomes the right child of <span class="arithmatex">\(x\)</span>. The right child of <span class="arithmatex">\(x\)</span> becomes the left child of <span class="arithmatex">\(y\)</span>.</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>RIGHT-ROTATE(T, y)
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>1  x = y.left
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>2  y.left = x.right
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>3  if x.right != T.nil
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>4      x.right.parent = y
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>5  x.parent = y.parent
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>6  if y.parent == T.nil
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>7      T.root = x
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>8  elseif y == y.parent.right
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>9      y.parent.right = x
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>10 else y.parent.left = x
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>11 x.right = y
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>12 y.parent = x
+</span></code></pre></div>
+<p>[Source: DAA_Unit4.pptx, Slide 5]</p>
+<hr />
+<h2 id="6-insertion">6. Insertion<a class="headerlink" href="#6-insertion" title="Permanent link">&para;</a></h2>
+<p>Inserting a node into a Red-Black tree involves a standard BST insertion followed by fixing any violations of the Red-Black properties.</p>
+<h3 id="step-1-bst-insert-color-red">Step 1: BST Insert + Color RED<a class="headerlink" href="#step-1-bst-insert-color-red" title="Permanent link">&para;</a></h3>
+<p>We insert the new node <span class="arithmatex">\(z\)</span> just like in a standard BST and color it RED.
+- Coloring it RED preserves the Black-Height property.
+- However, if <span class="arithmatex">\(z\)</span>'s parent is also RED, it violates the Red Property (no consecutive RED nodes).</p>
+<h3 id="step-2-rb-insert-fixup-all-cases">Step 2: RB-INSERT-FIXUP — ALL CASES<a class="headerlink" href="#step-2-rb-insert-fixup-all-cases" title="Permanent link">&para;</a></h3>
+<p>To resolve a RED-RED violation between <span class="arithmatex">\(z\)</span> and <span class="arithmatex">\(z.parent\)</span>, we use the <code>RB-INSERT-FIXUP</code> procedure.
+<strong>Loop Invariant:</strong> <span class="arithmatex">\(z\)</span> is RED. If <span class="arithmatex">\(z.parent\)</span> is the root, then <span class="arithmatex">\(z.parent\)</span> is BLACK. The only possible violation is that <span class="arithmatex">\(z\)</span> and <span class="arithmatex">\(z.parent\)</span> are both RED.</p>
+<p>Assume <span class="arithmatex">\(z.parent\)</span> is a left child of <span class="arithmatex">\(z.grandparent\)</span>. (If it's a right child, the cases are perfectly symmetrical). Let <span class="arithmatex">\(y\)</span> be <span class="arithmatex">\(z\)</span>'s uncle (the right child of <span class="arithmatex">\(z.grandparent\)</span>).</p>
+<p><strong>Case 1 — Uncle is RED:</strong>
+- <strong>Condition:</strong> <span class="arithmatex">\(z\)</span>'s uncle <span class="arithmatex">\(y\)</span> is RED.
+- <strong>Action:</strong> Color <span class="arithmatex">\(z.parent\)</span> BLACK, color <span class="arithmatex">\(y\)</span> (uncle) BLACK, color <span class="arithmatex">\(z.grandparent\)</span> RED, and move <span class="arithmatex">\(z\)</span> up to point to <span class="arithmatex">\(z.grandparent\)</span>.
+- <strong>Why:</strong> Since <span class="arithmatex">\(z\)</span> and <span class="arithmatex">\(z.parent\)</span> are both RED, we can push the RED color up to the grandparent. Coloring the parent and uncle BLACK restores the Red Property locally and preserves the black-height. The violation may now occur between the grandparent and the great-grandparent, so we iterate.</p>
+<p><strong>Case 2 — Uncle is BLACK, z is inner child (triangle):</strong>
+- <strong>Condition:</strong> Uncle <span class="arithmatex">\(y\)</span> is BLACK, and <span class="arithmatex">\(z\)</span> is the right child of a left-child parent (forms a "kink" or triangle).
+- <strong>Action:</strong> Set <span class="arithmatex">\(z = z.parent\)</span>, and perform <code>LEFT-ROTATE(T, z)</code>.
+- <strong>Why:</strong> This rotation straightens the "bend", converting it into Case 3 without altering the black-height.</p>
+<p><strong>Case 3 — Uncle is BLACK, z is outer child (line):</strong>
+- <strong>Condition:</strong> Uncle <span class="arithmatex">\(y\)</span> is BLACK, and <span class="arithmatex">\(z\)</span> is the left child of a left-child parent (forms a straight line).
+- <strong>Action:</strong> Color <span class="arithmatex">\(z.parent\)</span> BLACK, color <span class="arithmatex">\(z.grandparent\)</span> RED, and perform <code>RIGHT-ROTATE(T, z.grandparent)</code>.
+- <strong>Why:</strong> The rotation structurally balances the tree. The recoloring restores the Red Property and ensures the black-height is consistent on all paths. The loop terminates after this case.</p>
+<h3 id="rb-insert-pseudocode">RB-INSERT pseudocode<a class="headerlink" href="#rb-insert-pseudocode" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>RB-INSERT(T, z)
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>1  y = T.nil
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>2  x = T.root
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>3  while x != T.nil
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>4      y = x
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>5      if z.key &lt; x.key
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>6          x = x.left
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>7      else x = x.right
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>8  z.parent = y
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>9  if y == T.nil
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>10     T.root = z
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>11 elseif z.key &lt; y.key
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>12     y.left = z
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>13 else y.right = z
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>14 z.left = T.nil
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>15 z.right = T.nil
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>16 z.color = RED
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>17 RB-INSERT-FIXUP(T, z)
+</span></code></pre></div>
+<h3 id="rb-insert-fixup-pseudocode">RB-INSERT-FIXUP pseudocode<a class="headerlink" href="#rb-insert-fixup-pseudocode" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>RB-INSERT-FIXUP(T, z)
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>1  while z.parent.color == RED
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>2      if z.parent == z.parent.parent.left
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>3          y = z.parent.parent.right
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>4          if y.color == RED
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>5              z.parent.color = BLACK         // Case 1
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>6              y.color = BLACK                // Case 1
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>7              z.parent.parent.color = RED    // Case 1
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>8              z = z.parent.parent            // Case 1
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>9          else
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>10             if z == z.parent.right
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>11                 z = z.parent               // Case 2
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>12                 LEFT-ROTATE(T, z)          // Case 2
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>13             z.parent.color = BLACK         // Case 3
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>14             z.parent.parent.color = RED    // Case 3
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>15             RIGHT-ROTATE(T, z.parent.parent) // Case 3
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>16     else (same as then clause with &quot;right&quot; and &quot;left&quot; exchanged)
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>17 T.root.color = BLACK
+</span></code></pre></div>
+<h3 id="case-decision-table-for-insertion">Case Decision Table for Insertion<a class="headerlink" href="#case-decision-table-for-insertion" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Situation</th>
+<th style="text-align: left;">Uncle Color</th>
+<th style="text-align: left;"><span class="arithmatex">\(z\)</span> Position</th>
+<th style="text-align: left;">Action</th>
+<th style="text-align: left;">Next Step</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Case 1</strong></td>
+<td style="text-align: left;">RED</td>
+<td style="text-align: left;">Inner or Outer</td>
+<td style="text-align: left;">Recolor Parent, Uncle to BLACK. Grandparent to RED.</td>
+<td style="text-align: left;">Move <span class="arithmatex">\(z\)</span> to Grandparent, check again.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Case 2</strong></td>
+<td style="text-align: left;">BLACK</td>
+<td style="text-align: left;">Inner (Triangle)</td>
+<td style="text-align: left;">Rotate Parent in opposite direction of <span class="arithmatex">\(z\)</span>'s side.</td>
+<td style="text-align: left;">Proceeds directly to Case 3.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Case 3</strong></td>
+<td style="text-align: left;">BLACK</td>
+<td style="text-align: left;">Outer (Line)</td>
+<td style="text-align: left;">Recolor Parent to BLACK, Grandparent to RED. Rotate Grandparent.</td>
+<td style="text-align: left;">Terminates.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="complete-insertion-trace">Complete Insertion Trace<a class="headerlink" href="#complete-insertion-trace" title="Permanent link">&para;</a></h3>
+<p>Sequence: <code>10, 20, 30, 15, 25</code>
+1. Insert <code>10</code>: Root, colored BLACK.
+2. Insert <code>20</code>: Inserted as right child of 10. Colored RED. No fixup needed.
+3. Insert <code>30</code>: Inserted as right child of 20. Colored RED. (Violation!). Uncle of 30 is NIL (BLACK). 30 is an outer right child. (Mirror of Case 3). Right child of right child. Action: Left-rotate around 10. Recolor 20 to BLACK, 10 to RED. Tree: 20(B) is root, 10(R) is left, 30(R) is right.
+4. Insert <code>15</code>: Inserted as right child of 10. Colored RED. (Violation!). Uncle of 15 is 30(RED). (Case 1). Action: Recolor 10, 30 to BLACK. Recolor 20 to RED. 20 is root, so recolored BLACK at the end.
+5. Insert <code>25</code>: Inserted as left child of 30. Colored RED. (Violation!). Uncle of 25 is 10(BLACK). 25 is left child of right child (Mirror of Case 2). Action: Right-rotate around 30. Then it becomes right child of right child (Mirror of Case 3). Recolor 25 BLACK, 30 RED, Left-rotate around 25.</p>
+<p>[Source: DAA_Unit4.pptx, Slides 6-7]</p>
+<hr />
+<h2 id="7-deletion">7. Deletion<a class="headerlink" href="#7-deletion" title="Permanent link">&para;</a></h2>
+<p>Deleting a node from a Red-Black tree is structurally similar to BST deletion, with the addition of restoring properties.</p>
+<h3 id="overview-bst-delete-transplant-fixup">Overview: BST Delete + Transplant + FIXUP<a class="headerlink" href="#overview-bst-delete-transplant-fixup" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Find the node to delete (<span class="arithmatex">\(z\)</span>). If <span class="arithmatex">\(z\)</span> has two children, its successor <span class="arithmatex">\(y\)</span> takes its place.</li>
+<li>The color of the removed or moved node determines if properties are violated. If the removed node was RED, no properties are violated (black-height is unaffected, no adjacent REDs created, root is still black).</li>
+<li>If the removed node was BLACK, the black-height property is violated. We track a node <span class="arithmatex">\(x\)</span> that replaces the deleted node. Node <span class="arithmatex">\(x\)</span> takes on an "extra" unit of blackness, making it a "double-black" node. We must eliminate this double blackness using <code>RB-DELETE-FIXUP</code>.</li>
+</ol>
+<h3 id="rb-transplant-pseudocode">RB-TRANSPLANT pseudocode<a class="headerlink" href="#rb-transplant-pseudocode" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>RB-TRANSPLANT(T, u, v)
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>1  if u.parent == T.nil
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>2      T.root = v
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>3  elseif u == u.parent.left
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>4      u.parent.left = v
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>5  else u.parent.right = v
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>6  v.parent = u.parent
+</span></code></pre></div>
+<h3 id="rb-delete-pseudocode">RB-DELETE pseudocode<a class="headerlink" href="#rb-delete-pseudocode" title="Permanent link">&para;</a></h3>
+<p><em>(Note: Omitted full standard BST delete boilerplate for brevity, focuses on color tracking)</em>
+Let <span class="arithmatex">\(y\)</span> be the node actually removed or moved, and <span class="arithmatex">\(x\)</span> be the node that moves into <span class="arithmatex">\(y\)</span>'s original position. If <span class="arithmatex">\(y\)</span>'s original color was BLACK, we call <code>RB-DELETE-FIXUP(T, x)</code>.</p>
+<h3 id="rb-delete-fixup-all-cases-for-double-black-node-x">RB-DELETE-FIXUP — ALL CASES (for double-black node x)<a class="headerlink" href="#rb-delete-fixup-all-cases-for-double-black-node-x" title="Permanent link">&para;</a></h3>
+<p>Assume <span class="arithmatex">\(x\)</span> is the left child of its parent. Let <span class="arithmatex">\(w\)</span> be <span class="arithmatex">\(x\)</span>'s sibling (<span class="arithmatex">\(w = x.parent.right\)</span>). We want to push the double-blackness up the tree until we reach the root or a RED node, or we can balance it out.</p>
+<p><strong>Case 1 — Sibling w is RED:</strong>
+- <strong>Condition:</strong> <span class="arithmatex">\(w\)</span> (sibling of <span class="arithmatex">\(x\)</span>) is RED.
+- <strong>Action:</strong> Color <span class="arithmatex">\(w\)</span> BLACK, color <span class="arithmatex">\(x.parent\)</span> RED, and <code>LEFT-ROTATE(T, x.parent)</code>. Update <span class="arithmatex">\(w\)</span> to be the new sibling.
+- <strong>Why:</strong> This changes <span class="arithmatex">\(x\)</span>'s sibling to a BLACK node without changing the black-height. This transforms Case 1 into Case 2, 3, or 4.</p>
+<p><strong>Case 2 — Sibling w is BLACK, both w's children are BLACK:</strong>
+- <strong>Condition:</strong> <span class="arithmatex">\(w\)</span> is BLACK, <span class="arithmatex">\(w.left\)</span> is BLACK, and <span class="arithmatex">\(w.right\)</span> is BLACK.
+- <strong>Action:</strong> Color <span class="arithmatex">\(w\)</span> RED, move <span class="arithmatex">\(x\)</span> up to <span class="arithmatex">\(x.parent\)</span>.
+- <strong>Why:</strong> We remove one unit of blackness from <span class="arithmatex">\(x\)</span> and one unit from <span class="arithmatex">\(w\)</span>, pushing the extra blackness up to the parent. If the parent was RED, it becomes BLACK, and the double-black resolves. If it was BLACK, it becomes double-black, and we iterate.</p>
+<p><strong>Case 3 — Sibling w is BLACK, w's near child is RED, far child is BLACK:</strong>
+- <strong>Condition:</strong> <span class="arithmatex">\(w\)</span> is BLACK, <span class="arithmatex">\(w.left\)</span> (near) is RED, <span class="arithmatex">\(w.right\)</span> (far) is BLACK.
+- <strong>Action:</strong> Color <span class="arithmatex">\(w.left\)</span> BLACK, color <span class="arithmatex">\(w\)</span> RED, and <code>RIGHT-ROTATE(T, w)</code>. Update <span class="arithmatex">\(w\)</span> to be the new sibling.
+- <strong>Why:</strong> This shifts the RED child to the "far" side, transforming Case 3 into Case 4, without altering black-heights.</p>
+<p><strong>Case 4 — Sibling w is BLACK, w's far child is RED:</strong>
+- <strong>Condition:</strong> <span class="arithmatex">\(w\)</span> is BLACK, <span class="arithmatex">\(w.right\)</span> (far) is RED.
+- <strong>Action:</strong> Color <span class="arithmatex">\(w\)</span> to match <span class="arithmatex">\(x.parent\)</span>'s color, color <span class="arithmatex">\(x.parent\)</span> BLACK, color <span class="arithmatex">\(w.right\)</span> BLACK, and <code>LEFT-ROTATE(T, x.parent)</code>. Set <span class="arithmatex">\(x = T.root\)</span>.
+- <strong>Why:</strong> This rotation and recoloring perfectly absorbs the extra blackness from <span class="arithmatex">\(x\)</span> into the tree structure. The double-black is resolved, and the loop terminates.</p>
+<h3 id="rb-delete-fixup-pseudocode">RB-DELETE-FIXUP pseudocode<a class="headerlink" href="#rb-delete-fixup-pseudocode" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>RB-DELETE-FIXUP(T, x)
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>1  while x != T.root and x.color == BLACK
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>2      if x == x.parent.left
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>3          w = x.parent.right
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>4          if w.color == RED
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>5              w.color = BLACK                           // Case 1
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>6              x.parent.color = RED                      // Case 1
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>7              LEFT-ROTATE(T, x.parent)                  // Case 1
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>8              w = x.parent.right                        // Case 1
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>9          if w.left.color == BLACK and w.right.color == BLACK
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>10             w.color = RED                             // Case 2
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>11             x = x.parent                              // Case 2
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>12         else
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>13             if w.right.color == BLACK
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>14                 w.left.color = BLACK                  // Case 3
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>15                 w.color = RED                         // Case 3
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>16                 RIGHT-ROTATE(T, w)                    // Case 3
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>17                 w = x.parent.right                    // Case 3
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>18             w.color = x.parent.color                  // Case 4
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>19             x.parent.color = BLACK                    // Case 4
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>20             w.right.color = BLACK                     // Case 4
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>21             LEFT-ROTATE(T, x.parent)                  // Case 4
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>22             x = T.root                                // Case 4
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>23     else (same as then clause with &quot;right&quot; and &quot;left&quot; exchanged)
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>24 x.color = BLACK
+</span></code></pre></div>
+<h3 id="case-decision-table-for-deletion">Case Decision Table for Deletion<a class="headerlink" href="#case-decision-table-for-deletion" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Case</th>
+<th style="text-align: left;">Sibling Color</th>
+<th style="text-align: left;">Sibling's Children</th>
+<th style="text-align: left;">Action</th>
+<th style="text-align: left;">Next</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Case 1</strong></td>
+<td style="text-align: left;">RED</td>
+<td style="text-align: left;">(must be BLACK)</td>
+<td style="text-align: left;">Recolor Sibling BLACK, Parent RED, Rotate Parent toward <span class="arithmatex">\(x\)</span>.</td>
+<td style="text-align: left;">Proceed to Case 2, 3, or 4.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Case 2</strong></td>
+<td style="text-align: left;">BLACK</td>
+<td style="text-align: left;">Both BLACK</td>
+<td style="text-align: left;">Recolor Sibling RED, move <span class="arithmatex">\(x\)</span> to Parent.</td>
+<td style="text-align: left;">Iterate or Terminate if Parent was RED.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Case 3</strong></td>
+<td style="text-align: left;">BLACK</td>
+<td style="text-align: left;">Near RED, Far BLACK</td>
+<td style="text-align: left;">Recolor Near-Child BLACK, Sibling RED, Rotate Sibling away from <span class="arithmatex">\(x\)</span>.</td>
+<td style="text-align: left;">Proceed to Case 4.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Case 4</strong></td>
+<td style="text-align: left;">BLACK</td>
+<td style="text-align: left;">Far RED</td>
+<td style="text-align: left;">Swap colors, make Far-Child BLACK, Rotate Parent toward <span class="arithmatex">\(x\)</span>.</td>
+<td style="text-align: left;">Terminate.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="complete-deletion-trace">Complete Deletion Trace<a class="headerlink" href="#complete-deletion-trace" title="Permanent link">&para;</a></h3>
+<p>If we have a tree and delete a RED node, we simply remove it. If we delete a BLACK node, it causes double-blackness.
+<em>Example:</em> Deleting a BLACK leaf <span class="arithmatex">\(x\)</span> whose sibling <span class="arithmatex">\(w\)</span> is BLACK and has no RED children (Case 2).
+We color <span class="arithmatex">\(w\)</span> RED. The double black moves to their parent. If the parent was RED, we color it BLACK and we are done.</p>
+<p>[Source: DAA_Unit4.pptx, Slides 9-11]</p>
+<hr />
+<h2 id="8-complexity-summary">8. Complexity Summary<a class="headerlink" href="#8-complexity-summary" title="Permanent link">&para;</a></h2>
+<p>Because the height of a Red-Black tree is mathematically constrained to <span class="arithmatex">\(O(\log n)\)</span>, the worst-case running times for all standard dynamic set operations are guaranteed to be logarithmic.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Operation</th>
+<th style="text-align: left;">Time Complexity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Search</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Insert</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Delete</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Min/Max</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>[Source: DAA_Unit4.pptx, Slide 4]</p>
+<hr />
+<h2 id="9-amortised-analysis">9. Amortised Analysis<a class="headerlink" href="#9-amortised-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-amortised-analysis">What is Amortised Analysis?<a class="headerlink" href="#what-is-amortised-analysis" title="Permanent link">&para;</a></h3>
+<p>Amortised analysis is a technique used in algorithm analysis to calculate the average cost of operations over a worst-case sequence of operations. Unlike average-case analysis, which relies on probability and input distribution, amortised analysis guarantees the average performance of each operation in the worst-case sequence.</p>
+<h3 id="when-to-use-vs-per-operation-worst-case">When to Use (vs per-operation worst case)<a class="headerlink" href="#when-to-use-vs-per-operation-worst-case" title="Permanent link">&para;</a></h3>
+<p>It is used when a data structure occasionally performs a very expensive operation, but this expensive operation is rare and is "paid for" by a large number of preceding cheap operations. A classic example is a dynamic array (like <code>std::vector</code> or <code>ArrayList</code>).</p>
+<h3 id="method-1-aggregate-method">Method 1 — Aggregate Method<a class="headerlink" href="#method-1-aggregate-method" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Definition:</strong> We mathematically determine an upper bound <span class="arithmatex">\(T(n)\)</span> on the total cost of a sequence of <span class="arithmatex">\(n\)</span> operations. The amortised cost is simply the total cost divided by <span class="arithmatex">\(n\)</span>: <span class="arithmatex">\(T(n) / n\)</span>.</li>
+<li><strong>Example:</strong> Binary counter. A <span class="arithmatex">\(k\)</span>-bit counter starts at 0. Incrementing it flips bits. A single increment could flip <span class="arithmatex">\(k\)</span> bits (worst-case <span class="arithmatex">\(O(k)\)</span>). But in a sequence of <span class="arithmatex">\(n\)</span> operations, the lowest bit flips <span class="arithmatex">\(n\)</span> times, the second lowest <span class="arithmatex">\(n/2\)</span> times, the third <span class="arithmatex">\(n/4\)</span> times, etc. Total flips <span class="arithmatex">\(\leq 2n\)</span>. Amortised cost per increment = <span class="arithmatex">\(2n / n = 2 = O(1)\)</span>.</li>
+</ul>
+<h3 id="method-2-accounting-method">Method 2 — Accounting Method<a class="headerlink" href="#method-2-accounting-method" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Approach:</strong> We assign artificial "amortised costs" to operations. When the amortised cost is higher than the actual cost, the difference is saved as "credit". When the amortised cost is lower than the actual cost, the operation uses the stored credit to pay for the difference.</li>
+<li><strong>Rule:</strong> The total credit must never go negative. <span class="arithmatex">\(\sum \text{amortised} \geq \sum \text{actual}\)</span>.</li>
+<li><strong>Example:</strong> Dynamic array. Assign an amortised cost of 3 to each insertion. Actual cost of regular insertion is 1. We store 2 credits. When the array doubles, we use the stored credits to pay for moving elements.</li>
+</ul>
+<h3 id="method-3-potential-method">Method 3 — Potential Method<a class="headerlink" href="#method-3-potential-method" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Definition:</strong> Instead of associating credit with specific elements, we associate "potential energy" with the data structure as a whole.</li>
+<li><strong>Potential function <span class="arithmatex">\(\Phi\)</span>:</strong> Maps the data structure state <span class="arithmatex">\(D_i\)</span> to a non-negative real number <span class="arithmatex">\(\Phi(D_i)\)</span>. Represents stored energy.</li>
+<li><strong>Amortised cost formula:</strong> <span class="arithmatex">\(\hat{c}_i = c_i + \Phi(D_i) - \Phi(D_{i-1})\)</span>
+  (where <span class="arithmatex">\(\hat{c}_i\)</span> is amortised cost, <span class="arithmatex">\(c_i\)</span> is actual cost).</li>
+<li><strong>Rule:</strong> If <span class="arithmatex">\(\Phi(D_n) \geq \Phi(D_0)\)</span>, the sum of amortised costs bounds the sum of actual costs.</li>
+<li><strong>Dynamic array doubling analysis:</strong></li>
+<li>Let <span class="arithmatex">\(\Phi(D_i) = 2 \cdot (\text{number of elements}) - \text{current capacity}\)</span>.</li>
+<li>Initial: <span class="arithmatex">\(\Phi(D_0) = 0\)</span>.</li>
+<li>Case 1 (No resize): <span class="arithmatex">\(c_i = 1\)</span>. <span class="arithmatex">\(\Delta\Phi = (2(k+1) - n) - (2k - n) = 2\)</span>. Amortised cost <span class="arithmatex">\(\hat{c}_i = 1 + 2 = 3\)</span>.</li>
+<li>Case 2 (Resize from <span class="arithmatex">\(n\)</span> to <span class="arithmatex">\(2n\)</span>): <span class="arithmatex">\(c_i = n + 1\)</span>. <span class="arithmatex">\(\Delta\Phi = (2(n+1) - 2n) - (2n - n) = 2 - n\)</span>. Amortised cost <span class="arithmatex">\(\hat{c}_i = (n + 1) + 2 - n = 3\)</span>.</li>
+<li>Since the amortised cost is a constant 3, the amortised time for insertion is <span class="arithmatex">\(O(1)\)</span>.</li>
+</ul>
+<p><img alt="Amortised Analysis Formula" src="../../images/Amortised_Analysis-image3.png" /></p>
+<h3 id="comparison-table">Comparison Table<a class="headerlink" href="#comparison-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Approach</th>
+<th style="text-align: left;">When to Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Aggregate</strong></td>
+<td style="text-align: left;">Global total sum divided by <span class="arithmatex">\(n\)</span></td>
+<td style="text-align: left;">When total cost of sequence is easy to calculate directly.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Accounting</strong></td>
+<td style="text-align: left;">Assign artificial charges, store credit on specific items</td>
+<td style="text-align: left;">When different operations have varying costs and you can assign credit to objects.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Potential</strong></td>
+<td style="text-align: left;">Define a global state function <span class="arithmatex">\(\Phi\)</span></td>
+<td style="text-align: left;">When state changes cleanly model the accumulated "debt" or "credit".</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: Amortised Analysis.pptx, Slides 2-10]</p>
+<hr />
+<h2 id="10-binomial-heaps">10. Binomial Heaps<a class="headerlink" href="#10-binomial-heaps" title="Permanent link">&para;</a></h2>
+<p>A binomial heap is a collection of binomial trees. It provides a highly efficient UNION (merge) operation, significantly outperforming a standard binary heap.</p>
+<h3 id="mergeable-heap-operations">Mergeable Heap Operations<a class="headerlink" href="#mergeable-heap-operations" title="Permanent link">&para;</a></h3>
+<p>A mergeable heap supports the standard priority queue operations plus a UNION operation.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Operation</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>MAKE-HEAP</strong></td>
+<td style="text-align: left;">Creates an empty heap.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>INSERT(H, x)</strong></td>
+<td style="text-align: left;">Inserts node <span class="arithmatex">\(x\)</span> into heap <span class="arithmatex">\(H\)</span>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MINIMUM(H)</strong></td>
+<td style="text-align: left;">Returns a pointer to the minimum node in <span class="arithmatex">\(H\)</span>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>EXTRACT-MIN(H)</strong></td>
+<td style="text-align: left;">Deletes and returns the minimum node from <span class="arithmatex">\(H\)</span>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>UNION(H1, H2)</strong></td>
+<td style="text-align: left;">Merges <span class="arithmatex">\(H_1\)</span> and <span class="arithmatex">\(H_2\)</span> into a new heap.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="comparison-binary-vs-binomial-vs-fibonacci-heap">Comparison: Binary vs Binomial vs Fibonacci Heap<a class="headerlink" href="#comparison-binary-vs-binomial-vs-fibonacci-heap" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Procedure</th>
+<th style="text-align: left;">Binary Heap (worst-case)</th>
+<th style="text-align: left;">Binomial Heap (worst-case)</th>
+<th style="text-align: left;">Fibonacci Heap (amortised)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>MAKE-HEAP</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(1)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(1)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(1)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>INSERT</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(1)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MINIMUM</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(1)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(1)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>EXTRACT-MIN</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>UNION</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(n)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(1)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DECREASE-KEY</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(1)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DELETE</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(\log n)\)</span></td>
+</tr>
+</tbody>
+</table>
+<h3 id="binomial-tree-b_k">Binomial Tree <span class="arithmatex">\(B_k\)</span><a class="headerlink" href="#binomial-tree-b_k" title="Permanent link">&para;</a></h3>
+<p>A Binomial Tree is an ordered tree defined recursively.
+- <strong>Recursive definition:</strong> <span class="arithmatex">\(B_0\)</span> consists of a single node. <span class="arithmatex">\(B_k\)</span> consists of two <span class="arithmatex">\(B_{k-1}\)</span> trees linked together: the root of one is the leftmost child of the root of the other.
+- <strong>Properties of <span class="arithmatex">\(B_k\)</span>:</strong>
+  1. Contains exactly <span class="arithmatex">\(2^k\)</span> nodes.
+  2. The height of the tree is <span class="arithmatex">\(k\)</span>.
+  3. There are exactly <span class="arithmatex">\(\binom{k}{i}\)</span> nodes at depth <span class="arithmatex">\(i\)</span>.
+  4. The root has degree <span class="arithmatex">\(k\)</span>, which is the maximum degree in the tree.
+- <strong>Corollary:</strong> The maximum degree in an <span class="arithmatex">\(n\)</span>-node binomial heap is <span class="arithmatex">\(\lfloor \log n \rfloor\)</span>.</p>
+<p><img alt="Binomial Tree Structure" src="../../images/Binomial_Heap-04.png" /></p>
+<h3 id="binomial-heap-structure">Binomial Heap Structure<a class="headerlink" href="#binomial-heap-structure" title="Permanent link">&para;</a></h3>
+<p>A binomial heap <span class="arithmatex">\(H\)</span> is a set of binomial trees that satisfies:
+1. <strong>Min-Heap Property:</strong> Every binomial tree in <span class="arithmatex">\(H\)</span> obeys the min-heap property.
+2. <strong>Uniqueness Property:</strong> For any non-negative integer <span class="arithmatex">\(k\)</span>, there is at most ONE binomial tree in <span class="arithmatex">\(H\)</span> whose root has degree <span class="arithmatex">\(k\)</span>.</p>
+<p>Because of the uniqueness property, an <span class="arithmatex">\(n\)</span>-node binomial heap consists of at most <span class="arithmatex">\(\lfloor \log n \rfloor + 1\)</span> trees. The trees present correspond to the binary representation of <span class="arithmatex">\(n\)</span>.</p>
+<h3 id="all-operations-pseudocode-complexity">All Operations (pseudocode + complexity)<a class="headerlink" href="#all-operations-pseudocode-complexity" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>MAKE-BINOMIAL-HEAP:</strong> Returns empty heap. Time: <span class="arithmatex">\(O(1)\)</span>.</li>
+<li><strong>BINOMIAL-HEAP-MINIMUM:</strong> Traverses the roots of all trees. Since there are at most <span class="arithmatex">\(\log n\)</span> trees, Time: <span class="arithmatex">\(O(\log n)\)</span>.</li>
+<li><strong>BINOMIAL-LINK(y, z):</strong> Makes node <span class="arithmatex">\(y\)</span> the leftmost child of <span class="arithmatex">\(z\)</span>. Used to link two <span class="arithmatex">\(B_{k-1}\)</span> trees. Time: <span class="arithmatex">\(O(1)\)</span>.
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>BINOMIAL-LINK(y, z)
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>1 p[y] = z
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>2 sibling[y] = child[z]
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>3 child[z] = y
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>4 degree[z] = degree[z] + 1
+</span></code></pre></div></li>
+<li><strong>BINOMIAL-HEAP-UNION:</strong> Analogue to binary addition. Merges root lists, then walks through and links trees of the same degree (handling carry).</li>
+<li>Iterates over at most <span class="arithmatex">\(2 \log n\)</span> roots.</li>
+<li>Time: <span class="arithmatex">\(O(\log n)\)</span>.</li>
+<li><strong>BINOMIAL-HEAP-INSERT:</strong> Creates a new heap with 1 node (<span class="arithmatex">\(B_0\)</span>) and performs UNION. Time: <span class="arithmatex">\(O(\log n)\)</span>.</li>
+<li><strong>BINOMIAL-HEAP-EXTRACT-MIN:</strong> Finds root with min key, removes it, reverses the list of its children to form a new binomial heap, and UNIONs it with the remaining heap. Time: <span class="arithmatex">\(O(\log n)\)</span>.</li>
+<li><strong>BINOMIAL-HEAP-DECREASE-KEY:</strong> Updates the key, then "bubbles up" the value along the parent pointers until min-heap property is restored. Max depth is <span class="arithmatex">\(\log n\)</span>. Time: <span class="arithmatex">\(O(\log n)\)</span>.</li>
+<li><strong>BINOMIAL-HEAP-DELETE(H, x):</strong>
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>BINOMIAL-HEAP-DELETE(H, x)
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>1 BINOMIAL-HEAP-DECREASE-KEY(H, x, -\infty)
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>2 BINOMIAL-HEAP-EXTRACT-MIN(H)
+</span></code></pre></div>
+  Time: <span class="arithmatex">\(O(\log n)\)</span>.</li>
+</ul>
+<p>[Source: Binomial Heap.pdf, Pages 1-21]</p>
+<hr />
+<h2 id="11-formula-sheet">11. Formula Sheet<a class="headerlink" href="#11-formula-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Red-Black Tree Height Bound:</strong> <span class="arithmatex">\(h \leq 2 \log(n+1)\)</span></li>
+<li><strong>Internal Nodes given Black-Height:</strong> Subtree rooted at <span class="arithmatex">\(x\)</span> has <span class="arithmatex">\(\geq 2^{bh(x)} - 1\)</span> internal nodes.</li>
+<li><strong>Potential Method Formula:</strong> <span class="arithmatex">\(\hat{c}_i = c_i + \Phi(D_i) - \Phi(D_{i-1})\)</span></li>
+<li><strong>Binomial Tree Nodes:</strong> <span class="arithmatex">\(|B_k| = 2^k\)</span></li>
+<li><strong>Nodes at depth <span class="arithmatex">\(i\)</span> in <span class="arithmatex">\(B_k\)</span>:</strong> <span class="arithmatex">\(\binom{k}{i} = \frac{k!}{i!(k-i)!}\)</span></li>
+<li><strong>Max degree in Binomial Heap:</strong> <span class="arithmatex">\(\lfloor \log n \rfloor\)</span></li>
+</ul>
+<hr />
+<h2 id="12-definition-sheet">12. Definition Sheet<a class="headerlink" href="#12-definition-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Red-Black Tree:</strong> A self-balancing binary search tree where nodes are colored red or black, enforcing path length constraints to ensure <span class="arithmatex">\(O(\log n)\)</span> balance.</li>
+<li><strong>Black-Height <span class="arithmatex">\(bh(x)\)</span>:</strong> The number of black nodes on any simple path from node <span class="arithmatex">\(x\)</span> to a leaf.</li>
+<li><strong>Amortised Analysis:</strong> A methodology used to analyze the average cost of operations over a sequence, guaranteeing performance bounds without relying on probability.</li>
+<li><strong>Potential Function <span class="arithmatex">\(\Phi\)</span>:</strong> A mathematical function mapping the state of a data structure to a non-negative real number, acting as stored energy to pay for expensive operations.</li>
+<li><strong>Binomial Tree <span class="arithmatex">\(B_k\)</span>:</strong> A recursive tree structure of order <span class="arithmatex">\(k\)</span> formed by linking two binomial trees of order <span class="arithmatex">\(k-1\)</span>.</li>
+<li><strong>Binomial Heap:</strong> A collection of binomial trees that satisfies min-heap properties and contains at most one tree of any given degree.</li>
+</ul>
+<hr />
+<h2 id="13-exam-oriented-review">13. Exam-Oriented Review<a class="headerlink" href="#13-exam-oriented-review" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Why is a Red-Black Tree preferred over an AVL tree for systems requiring frequent insertions and deletions?</strong>
+   <em>Answer:</em> AVL trees enforce a stricter balance (<span class="arithmatex">\(h \approx 1.44 \log n\)</span>), meaning insertions and deletions frequently trigger multiple rotations to restore balance (up to <span class="arithmatex">\(O(\log n)\)</span> rotations on delete). Red-Black trees require at most 2 rotations for insertion and 3 for deletion, reducing overhead for modification-heavy workloads.</li>
+<li><strong>State the 5 properties of a Red-Black tree. Which property guarantees that the tree is balanced?</strong>
+   <em>Answer:</em> 1. Every node is RED or BLACK. 2. Root is BLACK. 3. Leaves (NIL) are BLACK. 4. A RED node cannot have RED children. 5. Every path from a node to descendant leaves has the same black-height. Properties 4 and 5 together guarantee that the longest path is at most twice the shortest path.</li>
+<li><strong>During RB-INSERT, what condition leads to Case 1, and how is it resolved?</strong>
+   <em>Answer:</em> Case 1 occurs when the newly inserted RED node's uncle is also RED. It is resolved by recoloring the parent and uncle BLACK, the grandparent RED, and moving the active pointer up to the grandparent to check for further violations.</li>
+<li><strong>Explain how double-blackness arises in RB-DELETE and what it signifies.</strong>
+   <em>Answer:</em> If the node removed from the tree was BLACK, every path that passed through it is now missing one BLACK node, violating the black-height property. We conceptually assign an extra unit of "blackness" to the node that replaced it, creating a "double-black" node, which must be resolved via rotations/recoloring.</li>
+<li><strong>What is Amortised Analysis and how does it differ from Average-Case Analysis?</strong>
+   <em>Answer:</em> Amortised analysis guarantees the average performance of each operation in the worst-case sequence of operations. Average-case analysis relies on probabilistic assumptions about the input distribution.</li>
+<li><strong>In the Potential Method, what does it mean if <span class="arithmatex">\(\Phi(D_i) - \Phi(D_{i-1})\)</span> is negative?</strong>
+   <em>Answer:</em> It means the actual cost of the operation was partially paid for by the stored potential (credit) in the data structure, resulting in an amortised cost that is lower than the actual cost.</li>
+<li><strong>Define a Binomial Tree <span class="arithmatex">\(B_k\)</span>. How many nodes does it have?</strong>
+   <em>Answer:</em> <span class="arithmatex">\(B_k\)</span> is an ordered tree defined recursively. <span class="arithmatex">\(B_0\)</span> is a single node. <span class="arithmatex">\(B_k\)</span> is formed by linking two <span class="arithmatex">\(B_{k-1}\)</span> trees. It has exactly <span class="arithmatex">\(2^k\)</span> nodes.</li>
+<li><strong>Explain the uniqueness property of a Binomial Heap and its implication.</strong>
+   <em>Answer:</em> For any non-negative integer <span class="arithmatex">\(k\)</span>, there is at most one binomial tree of degree <span class="arithmatex">\(k\)</span> in the heap. Because of this, an <span class="arithmatex">\(n\)</span>-node binomial heap corresponds directly to the binary representation of <span class="arithmatex">\(n\)</span>, containing at most <span class="arithmatex">\(\lfloor \log n \rfloor + 1\)</span> trees.</li>
+<li><strong>How does the BINOMIAL-HEAP-UNION operation work?</strong>
+   <em>Answer:</em> It first merges the root lists of the two heaps into a single list sorted by degree. Then it walks through the list. If it finds two trees of the same degree <span class="arithmatex">\(k\)</span>, it uses <code>BINOMIAL-LINK</code> to make the one with the larger root key a child of the other, forming a tree of degree <span class="arithmatex">\(k+1\)</span>. This is analogous to binary addition with carries.</li>
+<li><strong>What is the time complexity of the UNION operation in a Binary Heap vs a Binomial Heap?</strong>
+    <em>Answer:</em> Binary Heap: <span class="arithmatex">\(O(n)\)</span>. Binomial Heap: <span class="arithmatex">\(O(\log n)\)</span>.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../DAA_Unit3_Recurrence_DivideConquer/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Unit 3 Notes">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Unit 3 Notes
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../DAA_Unit5_Greedy_Algorithms/" class="md-footer__link md-footer__link--next" aria-label="Next: Unit 5 Notes">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Unit 5 Notes
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
