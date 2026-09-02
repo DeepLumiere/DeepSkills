@@ -23,6 +23,26 @@ Binary search trees (BSTs) are fundamental data structures, but their performanc
 ## 3. Definition: Red-Black Tree
 A Red-Black Tree is a self-balancing binary search tree where each node has an additional attribute: a **color**, which can be either RED or BLACK. The color-coding scheme acts as a set of constraints that force the tree to maintain its balance during dynamic operations.
 
+
+```mermaid
+flowchart TD
+    subgraph Left Rotation around X
+        direction LR
+        X["X (Parent)"] --- A["Subtree alpha"]
+        X --- Y["Y (Right Child)"]
+        Y --- B["Subtree beta"]
+        Y --- C["Subtree gamma"]
+    end
+
+    subgraph Right Rotation around Y
+        direction LR
+        Y2["Y (Parent)"] --- X2["X (Left Child)"]
+        Y2 --- C2["Subtree gamma"]
+        X2 --- A2["Subtree alpha"]
+        X2 --- B2["Subtree beta"]
+    end
+```
+
 ### The 5 Red-Black Tree Properties
 Every Red-Black tree must satisfy the following five properties:
 1. **Node Color:** Every node is either RED or BLACK.

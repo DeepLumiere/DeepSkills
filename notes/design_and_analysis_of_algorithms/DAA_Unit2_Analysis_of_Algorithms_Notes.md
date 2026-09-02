@@ -433,7 +433,7 @@ flowchart TD
     Comp --> Case3["f(n) is polynomially larger: Omega(n^(log_b a + epsilon))"]
     Case1 --> Res1["Case 1: T(n) = Theta(n^(log_b a))"]
     Case2 --> Res2["Case 2: T(n) = Theta(n^(log_b a) * log^(k+1) n)"]
-    Case3 --> Reg{"Verify Regularity: a*f(n/b) <= c*f(n) for c < 1"}
+    Case3 --> Reg{"Verify Regularity: a*f(n/b) &le; c*f(n) for c < 1"}
     Reg -- Yes --> Res3["Case 3: T(n) = Theta(f(n))"]
     Reg -- No --> Fail["Inapplicable. Use Recurrence Tree."]
 ```
@@ -619,9 +619,9 @@ flowchart TD
     L12 --> M2["Merged: [2, 98]"]
     R11 --> M3["Merged: [31, 529]"]
     R12 --> M4["Merged: [189, 451]"]
-    M1 & M2 --> ML["Merged Left: [2, 98, 521, 724]"]
-    M3 & M4 --> MR["Merged Right: [31, 189, 451, 529]"]
-    ML & MR --> Final["Final Sorted Array: [2, 31, 98, 189, 451, 521, 529, 724]"]
+    M1 and M2 --> ML["Merged Left: [2, 98, 521, 724]"]
+    M3 and M4 --> MR["Merged Right: [31, 189, 451, 529]"]
+    ML and MR --> Final["Final Sorted Array: [2, 31, 98, 189, 451, 521, 529, 724]"]
 ```
 
 #### Mathematical Complexity Analysis
@@ -679,9 +679,9 @@ def Partition(T, i, j):
 
 ```mermaid
 flowchart TD
-    Step1["Array: [42, 23, 74, 11, 65, 58, 94, 36, 99, 87] | Pivot p = 42"] --> Scan1["Scan: k stops at 74 (>42), l stops at 36 (<=42)"]
+    Step1["Array: [42, 23, 74, 11, 65, 58, 94, 36, 99, 87] | Pivot p = 42"] --> Scan1["Scan: k stops at 74 (>42), l stops at 36 (&le;42)"]
     Scan1 --> Swap1["Swap T[k] and T[l] -> Array: [42, 23, 36, 11, 65, 58, 94, 74, 99, 87]"]
-    Swap1 --> Scan2["Scan: k stops at 65 (>42), l stops at 11 (<=42). Crosses! (k > l)"]
+    Swap1 --> Scan2["Scan: k stops at 65 (>42), l stops at 11 (&le;42). Crosses! (k &gt; l)"]
     Scan2 --> PivotSwap["Swap Pivot T[i] with T[l] (42 with 11)"]
     PivotSwap --> Result["Partitioned Array: [11, 23, 36, 42, 65, 58, 94, 74, 99, 87] | Pivot Index = 3"]
 ```

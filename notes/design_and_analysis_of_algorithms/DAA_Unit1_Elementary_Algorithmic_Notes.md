@@ -218,7 +218,7 @@ $$
 flowchart LR
     subgraph Big-O Upper Bound
     direction LR
-    A["f(n) <= c * g(n) for all n >= n0"]
+    A["f(n) &le; c * g(n) for all n &ge; n0"]
     end
 ```
 
