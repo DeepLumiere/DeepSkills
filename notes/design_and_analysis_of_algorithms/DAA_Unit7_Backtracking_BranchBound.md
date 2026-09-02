@@ -9,7 +9,7 @@
 
 ```mermaid
 flowchart TD
-    subgraph Backtracking vs Branch & Bound
+    subgraph "Backtracking vs Branch & Bound"
         direction LR
         BT["Backtracking (DFS)
 - Explores depth-first
