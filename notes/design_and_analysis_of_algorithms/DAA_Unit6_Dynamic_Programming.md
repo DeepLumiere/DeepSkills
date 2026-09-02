@@ -6,7 +6,7 @@
 > **Primary Source:** DAA_Unit6.pptx
 
 ## 1. Chapter Overview
-This unit covers the foundational concepts of Dynamic Programming (DP), a powerful algorithmic paradigm used to solve optimization problems by breaking them down into simpler, overlapping subproblems. We explore the Principle of Optimality, and trace various classic problems including Binomial Coefficients, the Coin Change Problem, 0/1 Knapsack, Longest Common Subsequence (LCS), Matrix Chain Multiplication, and the Floyd-Warshall All-Pairs Shortest Path algorithm. 
+This unit covers the foundational concepts of Dynamic Programming (DP), a powerful algorithmic paradigm used to solve optimization problems by breaking them down into simpler, overlapping subproblems. We explore the Principle of Optimality, and trace various classic problems including Binomial Coefficients, the Coin Change Problem, 0/1 Knapsack, Longest Common Subsequence (LCS), Matrix Chain Multiplication, and the Floyd-Warshall All-Pairs Shortest Path algorithm.
 
 ---
 
@@ -212,7 +212,7 @@ $m[1,1] = m[2,2] = m[3,3] = m[4,4] = 0$
 | **4** | - | - | - | 0 |
 
 **Reconstruction:**
-Optimal cost is 158. $s[1,4] = 3$. We split at $C$. 
+Optimal cost is 158. $s[1,4] = 3$. We split at $C$.
 $(A_1 \dots A_3) A_4$.
 For $A_1 \dots A_3$, $s[1,3] = 1$. We split at $A$.
 $A_1 (A_2 A_3)$.
@@ -227,7 +227,7 @@ Final parenthesization: **$(A (B C)) D$**
 ---
 
 ## 6. Problem: Longest Common Subsequence (LCS) ★★
-**Problem:** Given two sequences $X$ and $Y$, find the length of the longest subsequence present in both. A subsequence appears in the same relative order but is not necessarily contiguous. 
+**Problem:** Given two sequences $X$ and $Y$, find the length of the longest subsequence present in both. A subsequence appears in the same relative order but is not necessarily contiguous.
 
 ### Recurrence
 Let $c[i,j]$ be the length of the LCS of $X[1..i]$ and $Y[1..j]$.
@@ -440,7 +440,7 @@ If any diagonal element $D^{(n)}[i,i] < 0$, it means there is a negative weight 
 
 ## 14. Exam-Oriented Review
 
-1. **Explain the Principle of Optimality with an example.** 
+1. **Explain the Principle of Optimality with an example.**
    *Ans: States that every subsequence of an optimal sequence is optimal. Example: Shortest path from A to C via B means the path from A to B and B to C must also be optimal.*
 2. **Differentiate Memoization and Tabulation.**
    *Ans: Memoization is top-down recursion with caching; Tabulation is bottom-up iteration filling a table.*
@@ -460,4 +460,3 @@ If any diagonal element $D^{(n)}[i,i] < 0$, it means there is a negative weight 
    *Ans: Each character can either be included or excluded in a subsequence, leading to $2^n$ possible subsets.*
 10. **Write the algorithm to extract the chosen matrices order from the `s` table in Matrix Chain.**
    *Ans: Recursively branch at `s[i, j]`. Print '(' before printing `s[i, k]` side, and ')' after `s[k+1, j]`.*
-

@@ -6,6 +6,20 @@
 > **Primary Source:** DAA_Unit7.pptx
 
 ## 1. Chapter Overview
+
+```mermaid
+flowchart TD
+    subgraph Backtracking vs Branch & Bound
+        direction LR
+        BT["Backtracking (DFS)
+- Explores depth-first
+- Bounding function prunes invalid branches"]
+        BB["Branch & Bound (BFS / Best-First Search)
+- Explores level-wise or via Priority Queue
+- Lower Bound prunes sub-optimal branches"]
+    end
+```
+
 This unit covers state space search algorithms: Backtracking and Branch & Bound. Both techniques are used to systematically explore the space of possible solutions for combinatorial problems. While backtracking is a refined brute force approach that abandons partial solutions which cannot yield a valid result, Branch and Bound incorporates a bounding function to prune suboptimal paths during optimization problems.
 
 ---
@@ -287,4 +301,3 @@ Assume Initial Cost = 18.
    *Ans: We stop exploring if adding the next element exceeds the target sum $M$, or if the current sum plus all remaining elements in the set is strictly less than $M$.*
 7. **Write the function for the B&B Upper bound in the 0/1 Knapsack problem.**
    *Ans: Use the fractional knapsack greedy approach on remaining items to compute the theoretical maximum achievable value in the current branch.*
-

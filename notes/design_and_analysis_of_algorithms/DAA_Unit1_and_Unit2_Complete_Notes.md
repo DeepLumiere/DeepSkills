@@ -1,507 +1,502 @@
-# DAA Class Test Notes UNIT-1 and 2
+# Chapter 1: Complete DAA Notes: Unit 1 — Elementary Algorithms & Analysis
 
-> **Course Code:** 3CS501CC24 / 2CS503
-> **Course Title:** Design & Analysis of Algorithms (DAA)
-> **Primary Source:** Faculty Lecture Material (LMS)
-> **Files Integrated:** `DAA_Unit 0_Introduction.pptx` (Slides 1–24), `DAA_Unit1.pptx` (Slides 1–56)
-
----
-
-## Source map
-
-- `DAA_Unit 0_Introduction.pptx` (Slides 1–24) — primary faculty lecture material.
-- `DAA_Unit1.pptx` (Slides 1–56) — primary faculty lecture material.
+> **Course Code:** 3CS501CC24
+> **Course Title:** Design & Analysis of Algorithm
+> **Primary Source:** DAA_Unit0_Introduction.pptx, DAA_Unit1.pptx, DAA_Unit2.pptx
+> **Files Integrated:** `DAA_Unit 0_Introduction.pptx`, `DAA_Unit1.pptx`, `DAA_Unit2.pptx`
 
 ---
 
-## 1. Chapter Overview
+## 1. Course Overview (Unit 0)
 
-Unit-I introduces the theoretical and mathematical foundations required to design and evaluate computational algorithms. The primary goal of algorithm analysis is to predict resource consumption—principally execution time and memory footprint—independent of specific hardware platforms, operating systems, or programming languages. This chapter covers formal algorithm definitions, essential operational properties, theoretical vs. empirical evaluation approaches, input sizing, elementary operations under the Random Access Machine (RAM) model, and formal asymptotic bounds ($\mathcal{O}, \Omega, \Theta, o, \omega$).
+**References:**
+1. Charles E. Leiserson, Thomas H. Cormen, Ronald L. Rivest, Clifford Stein - *Introduction to Algorithms*, PHI
+2. Ellis Horowitz, Sartaj Sahni, Sanguthevar Rajasekharan - *Fundamentals of Computer Algorithms*, Galgotia
+3. Jean-Paul Tremblay and Paul G. Sorenson - *An Introduction to Data Structures with Applications*, Tata McGraw Hill
+4. Karumanchi, Narasimha - *Data Structures and Algorithms Made Easy*, CareerMonk Publications
 
-[Source: DAA_Unit 0_Introduction.pptx, Slides 1–5; DAA_Unit1.pptx, Slides 1–5]
+**Teaching & Evaluation Scheme:**
+- **Credits:** Theory (3), Tutorial (0), Practical (2) $\implies$ Total Credits: 4
+- **Evaluation Methodology:**
+  - **Continuous Evaluation (CE):** 60% Weightage (CT - 20, Sessional - 30, Innovative Assignment - 50)
+  - **Semester End Exam (SEE):** 40% Weightage (Duration: 3.0 Hrs)
+- **Syllabus:** Available on the LMS Site.
 
----
-
-## 2. Fundamental Concepts of Algorithms
-
-### 2.1 Formal Definition of an Algorithm
-An **algorithm** is any well-defined computational procedure that takes some value, or set of values, as **input** and produces some value, or set of values, as **output**. It represents an unambiguous sequence of computational steps that transforms the input into the desired output.
-
-```mermaid
-flowchart LR
-    A[Input Instance] --> B[Algorithm / Computational Procedure]
-    B --> C[Correct Output]
-```
-
-### 2.2 Problem vs. Instance
-* **Computational Problem:** A formal specification of the desired input/output relationship (e.g., "Sort an array of numbers in non-decreasing order").
-* **Instance of a Problem:** A specific input sequence satisfying the constraints specified in the problem statement. For example, given the sorting problem, the sequence $(31, 41, 59, 26, 41, 58)$ is a problem instance of size $n = 6$, for which the algorithm must return $(26, 31, 41, 41, 58, 59)$.
-
-### 2.3 Characteristics of an Algorithm
-To qualify as a valid algorithm, a computational procedure must satisfy six fundamental properties:
-
-1. **Finiteness:** An algorithm must always terminate after a finite number of execution steps.
-2. **Definiteness:** Each step of an algorithm must be precisely, unambiguously defined.
-3. **Input:** An algorithm has zero or more specified inputs supplied prior to execution.
-4. **Output:** An algorithm must produce at least one output corresponding to the intended solution.
-5. **Effectiveness:** Every operation must be basic enough to be carried out exactly and in finite time.
-6. **Correctness:** For every input instance, the algorithm halts with the correct output. Correctness is the most crucial property of an algorithm.
-
-[Source: DAA_Unit 0_Introduction.pptx, Slides 6–13; DAA_Unit1.pptx, Slides 6–7]
+[Source: DAA_Unit_0_Introduction.pptx, Slides 3-5]
 
 ---
 
-## 3. Core Terminology Dictionary
+## 2. Introduction to Algorithms
 
-### Core Terminology Dictionary
+### Definition: Algorithm
+**Formal Definition:** An algorithm is any well-defined computational procedure that takes some value, or a set of values, as input and produces some value, or a set of values, as output. It is a sequence of computational steps that transform the input into the desired output.
 
-1. **Algorithm:** An unambiguous, step-by-step computational procedure transforming inputs to outputs.
-2. **Problem Instance:** A specific set of inputs satisfying all problem constraints needed to compute a solution.
-3. **Instance Size ($n$):** A numeric quantity measuring the magnitude of the input (e.g., number of elements to sort, number of graph vertices/edges, number of bits in an integer).
-4. **Correct Algorithm:** An algorithm that halts with the accurate output for *every* valid input instance.
-5. **Primitive Operation:** An elementary instruction (addition, assignment, comparison, array indexing) executed in $\mathcal{O}(1)$ constant time.
-6. **RAM Model (Random Access Machine):** A theoretical single-processor model where instructions are executed sequentially without concurrency, and each primitive operation takes $\mathcal{O}(1)$ time.
-7. **Time Complexity:** The amount of execution time required by an algorithm, modeled as a function of input size $n$.
-8. **Space Complexity:** The total working memory (storage) required by an algorithm during execution as a function of input size $n$.
-9. **Growth Rate:** The relative rate at which an algorithm's running time increases as the input size $n$ approaches infinity.
-10. **Asymptotic Analysis:** Evaluation of an algorithm's resource consumption for large input sizes $n \to \infty$, ignoring constant factors and lower-order terms.
+![Algorithm Process](../images/DAA_Unit_0_Introduction-image6.png)
 
-[Source: DAA_Unit 0_Introduction.pptx, Slides 10–22; DAA_Unit1.pptx, Slides 3–7]
+**Intuition:** Think of it like a recipe for a chocolate cake. The ingredients are the inputs, the step-by-step cooking process is the algorithm, and the final cake is the output.
 
----
+### 5 Properties of an Algorithm
+Every algorithm must satisfy the following five key characteristics (along with Correctness):
+1. **Input:** An algorithm has zero or more externally supplied inputs.
+2. **Output:** An algorithm must produce at least one desirable output.
+3. **Definiteness:** Each step of the algorithm must be precisely and unambiguously defined.
+4. **Finiteness:** The algorithm must always terminate after a finite number of steps.
+5. **Effectiveness:** All operations to be performed must be sufficiently basic and essential such that they can be carried out, in principle, by a person using paper and pencil.
+6. **Correctness (Crucial Property):** It must halt with the correct output for every possible valid input instance.
 
-### Definition: Random Access Machine (RAM) Model
+### Algorithm vs Program Distinction
+- **Algorithm:** The logic or mathematical concept to solve a general, well-specified problem. It is platform-independent (stays the same whether implemented in Pascal on a Cray or in BASIC on a Mac).
+- **Program:** The concrete implementation of an algorithm in a specific programming language, tied to a specific hardware and software environment.
 
-**Meaning:**
-The RAM model provides a standard, platform-independent theoretical model of computation to analyze algorithms without running them on physical hardware.
-
-**Formal Definition:**
-In the single-processor RAM model:
-* Instructions are executed strictly sequentially (no parallelism).
-* Standard arithmetic operations ($+, -, \times, \div, \lfloor \cdot \rfloor, \lceil \cdot \rceil$), data movement ($\text{load}, \text{store}, \text{copy}$), and control operations ($\text{branch}, \text{procedure call}$) each consume $c = \mathcal{O}(1)$ unit time.
-* Memory is unbounded, and accessing any memory address takes $\mathcal{O}(1)$ time.
-
-**Intuition:**
-By counting the number of primitive steps executed on a RAM machine, algorithm analysis becomes independent of processor clock speed, compiler optimization, or programming language.
-
-**Example:**
-Executing `sum = sum + A[i]` consists of array indexing, addition, and assignment, each taking constant RAM steps, resulting in $\mathcal{O}(1)$ total time for that single line.
-
-[Source: DAA_Unit 0_Introduction.pptx, Slide 19]
+[Source: DAA_Unit_0_Introduction.pptx, Slides 6-13]
 
 ---
 
-## 4. Efficiency of Algorithms & Elementary Operations
+## 3. Analysis of Algorithms
 
-### 4.1 Why Algorithmic Efficiency Matters
-Algorithms devised to solve the same problem often exhibit vastly different efficiencies. These differences impact performance far more than hardware upgrades.
+### What is Analysis?
+Analyzing an algorithm means mathematically predicting the computing resources that the algorithm requires. By analyzing candidate algorithms for a given problem, we can identify the most efficient one.
 
-Consider sorting $n = 10,000,000$ ($10^7$) numbers on two different computers:
-* **Computer A (Supercomputer):** Executes $10^{10}$ instructions/second. Runs **Insertion Sort** with running time $T_A(n) = 2n^2$ instructions.
-* **Computer B (Standard Computer):** Executes $10^7$ instructions/second ($1,000\times$ slower than Computer A). Runs **Merge Sort** with running time $T_B(n) = 50 n \log_2 n$ instructions.
+### Resources Analyzed
+1. **Time Complexity:** The amount of computing execution time an algorithm needs to run to completion, measured as a function of the input size $n$.
+2. **Space Complexity:** The amount of working storage (memory) required by the algorithm during its execution.
+*Note: Because memory is cheaply available in abundance today, Time Complexity is generally considered the decisive measure of an algorithm's performance.*
 
-#### Worked Calculation: Crossover Analysis
+### Approaches to Analysis
+1. **Empirical (Posteriori) Approach:**
+   - Write a program and run it to measure actual processor time.
+   - **Disadvantages:** Depends heavily on hardware/software environments, compiler used, and specific test data. It may not reflect the algorithm's performance on inputs outside the experiment.
+2. **Theoretical (Priori) Approach:**
+   - Mathematically compute the time needed as a function of the input size $n$.
+   - **Advantages:** Speed and efficiency are determined independently of the hardware or software environment. Characterizes the running time for all possible input values.
+
+### Machine Model (RAM Model)
+To analyze theoretically, we use the generic **Random Access Machine (RAM) model**:
+- It contains one single-core processor executing instructions sequentially (no concurrent operations).
+- Standard primitive/elementary operations (arithmetic, data movement like load/store, and control like branching) take a constant amount of time, say $c$.
+- Time complexity is essentially determined by counting the total number of these elementary steps.
+
+[Source: DAA_Unit_0_Introduction.pptx, Slides 19-24 & DAA_Unit1.pptx, Slides 3-6]
+
+---
+
+## 4. Cases of Analysis
+
+An algorithm may not exhibit the same performance for all inputs of the exact same size $n$. Its running time can vary based on the nature or initial arrangement of the input elements.
+
+### Best Case
+- **Formal Definition:** The minimum number of steps or operations required by an algorithm for an input of size $n$.
+- **Intuition:** The algorithm's behavior under optimal conditions. It provides the lower bound on running time.
+- **Example:** In a Linear Search algorithm, if the target element is found at the very first index of the array, the search takes minimum time $\mathcal{O}(1)$.
+
+### Worst Case (Most Important)
+- **Formal Definition:** The maximum number of steps or operations required by an algorithm for an input of size $n$.
+- **Intuition:** The algorithm's behavior under the worst possible conditions. It provides an upper bound on running time, ensuring the algorithm will never take longer than this. This is the most heavily relied-upon metric.
+- **Example:** In a Linear Search algorithm, if the target element is at the very last index or is not present in the array at all, the algorithm must check every single element, taking $\mathcal{O}(n)$ time.
+
+### Average Case
+- **Formal Definition:** The expected or average number of steps required by an algorithm over all possible inputs of size $n$.
+- **Intuition:** The algorithm's behavior under typical or random conditions.
+- **Example:** In a Linear Search, on average, the target element might be found halfway through the array, requiring $n/2$ comparisons. Asymptotically, we drop the constant factor, giving an average time complexity of $\mathcal{O}(n)$.
+
+[Source: DAA_Unit1.pptx, Slides 13-17]
+
+---
+
+## 5. Rate of Growth
+
+The rate of growth describes how quickly the execution time increases as the input size $n$ approaches infinity.
+
+### Order of Growth (Slowest to Fastest)
+When comparing efficiency, lower growth is better. The standard hierarchy of common functions is:
 
 $$
-\begin{aligned}
-\text{Time}_A &= \frac{2 \times (10^7)^2}{10^{10} \text{ inst/sec}} = \frac{2 \times 10^{14}}{10^{10}} = 20,000 \text{ seconds} \approx 5.56 \text{ hours} \\
-\text{Time}_B &= \frac{50 \times 10^7 \times \log_2(10^7)}{10^7 \text{ inst/sec}} \approx \frac{50 \times 10^7 \times 23.2534}{10^7} = 1,162.67 \text{ seconds} \approx 19.38 \text{ minutes}
-\end{aligned}
+1 < \log n < \sqrt{n} < n < n \log n < n^2 < n^3 < 2^n < n! < n^n
 $$
 
-Even though Computer A is $1,000$ times faster in raw hardware speed, Merge Sort on the slower computer completes the task over **28 times faster** due to superior algorithmic asymptotic complexity ($\mathcal{O}(n \log n)$ vs $\mathcal{O}(n^2)$).
+### Growth Function Table
+| Function Name | Notation | Growth Rate |
+| :--- | :---: | :--- |
+| Constant | $\mathcal{O}(1)$ | Slowest (Best) |
+| Logarithmic | $\mathcal{O}(\log n)$ | Very Slow |
+| Square Root | $\mathcal{O}(\sqrt{n})$ | Slow |
+| Linear | $\mathcal{O}(n)$ | Moderate |
+| Linearithmic | $\mathcal{O}(n \log n)$ | Moderate to Fast |
+| Quadratic | $\mathcal{O}(n^2)$ | Fast (Poor for large $n$) |
+| Cubic | $\mathcal{O}(n^3)$ | Very Fast |
+| Exponential | $\mathcal{O}(2^n)$ | Explosive |
+| Factorial | $\mathcal{O}(n!)$ | Most Explosive (Worst) |
 
-[Source: DAA_Unit 0_Introduction.pptx, Slides 16–18]
+### Numerical Growth Example
+To see why order of growth matters as input size increases, consider the values of these functions for varying $n$:
+
+| $n$ (Input Size) | $\log_2 n$ | $n$ | $n \log_2 n$ | $n^2$ | $n^3$ | $2^n$ |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **10** | ~3.3 | 10 | 33 | 100 | 1,000 | 1,024 |
+| **100** | ~6.6 | 100 | 664 | 10,000 | 1,000,000 | $1.26 \times 10^{30}$ |
+| **1,000** | ~10.0 | 1,000 | 10,000 | 1,000,000 | $10^9$ | $1.07 \times 10^{301}$ |
+
+[Source: DAA_Unit1.pptx, Slides 41-42]
 
 ---
 
-### 4.2 Space Complexity vs. Time Complexity
+## 6. Asymptotic Notations
 
-* **Space Complexity:** Total memory required by an algorithm during execution.
+Asymptotic notations are mathematical tools used to express the time and space complexity of algorithms independent of machine-specific constants. They describe the limiting behavior of a function as its argument tends towards a particular value or infinity.
+
+### 6.1 Big-O Notation (Upper Bound)
+- **Formal Definition:** $f(n) = \mathcal{O}(g(n))$ if there exist positive constants $c > 0$ and $n_0 > 0$ such that:
 
 $$
-S(P) = c + S_p(n)
+0 \le f(n) \le c \cdot g(n) \quad \text{for all } n \ge n_0
 $$
 
-  where $c$ is fixed memory (code space, simple variables) and $S_p(n)$ is dynamic memory (instance-dependent arrays, recursion stack).
-* **Significance:** Storage hardware is cheap and abundant; computational time is a scarce resource. Therefore, **Time Complexity** is universally prioritized over Space Complexity in algorithm performance evaluation.
+- **Intuition:** $g(n)$ provides an asymptotic upper bound on the growth rate of $f(n)$. The algorithm's running time will not cross the boundary of $c \cdot g(n)$ for large inputs. It defines the worst-case behavior.
+- **Simplification Rules:**
+  1. Drop constant multipliers: $\mathcal{O}(50 n \log n) \implies \mathcal{O}(n \log n)$
+  2. Drop lower-order terms: $\mathcal{O}(8n^2 \log n + 5n^2 + n) \implies \mathcal{O}(n^2 \log n)$
+- **Worked Example (from slides):**
+  Prove that $f(n) = 6n + 3$ is $\mathcal{O}(n)$.
+  *Proof:* We need to find $c$ and $n_0$ such that $6n + 3 \le c \cdot n$.
+  For $n \ge 1$: $6n + 3 \le 6n + 3n = 9n$.
+  Thus, taking $c = 9$ and $n_0 = 1$, the condition holds. Therefore, $6n + 3 = \mathcal{O}(n)$.
+- **Worked Example (Constant function):**
+  Prove that $f(n) = 6993$ is $\mathcal{O}(1)$.
+  *Proof:* We need $6993 \le c \cdot 1$. Choose $c = 6993$ and $n_0 = 1$. The inequality holds. Thus, $f(n) = \mathcal{O}(1)$.
 
-[Source: DAA_Unit 0_Introduction.pptx, Slides 22–24]
+![Big-O Graph Example](../images/DAA_Unit1-image31.png)
+
+### 6.2 Big-Omega Notation (Lower Bound)
+- **Formal Definition:** $f(n) = \Omega(g(n))$ if there exist positive constants $c > 0$ and $n_0 > 0$ such that:
+
+$$
+0 \le c \cdot g(n) \le f(n) \quad \text{for all } n \ge n_0
+$$
+
+- **Intuition:** $g(n)$ provides an asymptotic lower bound. The algorithm takes at least this much time to execute. It's often used to denote best-case time complexity.
+- **Worked Example:**
+  Prove that $f(n) = 3n^2 + 2n + 4$ is $\Omega(n^2)$.
+  *Proof:* We need $c \cdot n^2 \le 3n^2 + 2n + 4$.
+  Since $n \ge 1$, we clearly know $1 \cdot n^2 \le 3n^2 \le 3n^2 + 2n + 4$.
+  Thus, by taking $c = 3$ (or $c=1$) and $n_0 = 1$, the inequality is satisfied. Therefore, $f(n) = \Omega(n^2)$.
+
+### 6.3 Big-Theta Notation (Tight Bound)
+- **Formal Definition:** $f(n) = \Theta(g(n))$ if there exist positive constants $c_1 > 0$, $c_2 > 0$, and $n_0 > 0$ such that:
+
+$$
+0 \le c_1 \cdot g(n) \le f(n) \le c_2 \cdot g(n) \quad \text{for all } n \ge n_0
+$$
+
+  Alternatively, $f(n) = \Theta(g(n))$ iff $f(n) = \mathcal{O}(g(n))$ AND $f(n) = \Omega(g(n))$.
+- **Intuition:** $f(n)$ grows exactly at the same rate as $g(n)$ asymptotically. It defines the exact asymptotic behavior of an algorithm, bounding it from both above and below.
+- **Worked Example:**
+  Prove that $f(n) = 2n^3 + 4n + 5$ is $\Theta(n^3)$.
+  *Proof:* We need $c_1 n^3 \le 2n^3 + 4n + 5 \le c_2 n^3$.
+  Lower bound: For $n \ge 1$, $2n^3 \le 2n^3 + 4n + 5$. So $c_1 = 2$.
+  Upper bound: For $n \ge 1$, $2n^3 + 4n + 5 \le 2n^3 + 4n^3 + 5n^3 = 11n^3$. So $c_2 = 11$.
+  By taking $c_1 = 2, c_2 = 11, n_0 = 1$, the relation holds. Therefore, $f(n) = \Theta(n^3)$.
+- **Worked Example 2:**
+  Prove that $3n + 2 = \Theta(n)$.
+  *Proof:* We need $c_1 \cdot n \le 3n + 2 \le c_2 \cdot n$.
+  For $n \ge 1$, $2n \le 3n + 2 \le 5n$. So $c_1 = 2$, $c_2 = 5$, $n_0 = 1$. Thus, $3n + 2 = \Theta(n)$.
+- **Worked Example 3:**
+  Prove that $6 \cdot 2^n + n^2 = \Theta(2^n)$.
+  *Proof:* We need $c_1 \cdot 2^n \le 6 \cdot 2^n + n^2 \le c_2 \cdot 2^n$.
+  For $n \ge 1$, $6 \cdot 2^n \le 6 \cdot 2^n + n^2 \le 7 \cdot 2^n$. So $c_1 = 6$, $c_2 = 7$, $n_0 = 1$. Thus, $6 \cdot 2^n + n^2 = \Theta(2^n)$.
+
+### 6.4 Little-o Notation (Strict Upper Bound)
+- **Formal Definition:** $f(n) = o(g(n))$ if for *every* constant $c > 0$, there exists a constant $n_0 > 0$ such that $0 \le f(n) < c \cdot g(n)$ for all $n \ge n_0$.
+  Alternatively, defined using limits:
+
+$$
+\lim_{n \to \infty} \frac{f(n)}{g(n)} = 0
+$$
+
+- **Intuition:** $f(n)$ grows strictly slower than $g(n)$. $g(n)$ is a loose upper bound.
+- **Example:** $2n = o(n^2)$, but $2n^2 \neq o(n^2)$.
+
+### 6.5 Little-omega Notation (Strict Lower Bound)
+- **Formal Definition:** $f(n) = \omega(g(n))$ if for *every* constant $c > 0$, there exists a constant $n_0 > 0$ such that $0 \le c \cdot g(n) < f(n)$ for all $n \ge n_0$.
+  Alternatively, defined using limits:
+
+$$
+\lim_{n \to \infty} \frac{f(n)}{g(n)} = \infty
+$$
+
+- **Intuition:** $f(n)$ grows strictly faster than $g(n)$. $g(n)$ is a loose lower bound.
+- **Example:** $n^2 = \omega(n)$, but $n^2 \neq \omega(n^2)$.
+
+### 6.6 Comparison Table
+
+| Notation | Meaning | Relation | Example |
+| :--- | :--- | :--- | :--- |
+| $\mathcal{O}$ | Asymptotic Upper Bound | $f \le g$ | $3n^2 + 5n = \mathcal{O}(n^2)$ |
+| $\Omega$ | Asymptotic Lower Bound | $f \ge g$ | $3n^2 + 5n = \Omega(n^2)$ |
+| $\Theta$ | Asymptotically Tight Bound | $f = g$ | $3n^2 + 5n = \Theta(n^2)$ |
+| $o$ | Strict Upper Bound | $f < g$ | $3n = o(n^2)$ |
+| $\omega$ | Strict Lower Bound | $f > g$ | $3n^2 = \omega(n)$ |
+
+### 6.7 Properties of Asymptotic Notations
+- **Transitivity:**
+  If $f(n) = \Theta(g(n))$ and $g(n) = \Theta(h(n))$, then $f(n) = \Theta(h(n))$. (Holds true for $\mathcal{O}, \Omega, o, \omega$ as well).
+- **Reflexivity:**
+  $f(n) = \Theta(f(n))$, $f(n) = \mathcal{O}(f(n))$, $f(n) = \Omega(f(n))$. (Does NOT hold for $o$ and $\omega$).
+- **Symmetry:**
+  $f(n) = \Theta(g(n))$ if and only if $g(n) = \Theta(f(n))$. (Only true for $\Theta$).
+- **Transpose Symmetry:**
+  $f(n) = \mathcal{O}(g(n))$ if and only if $g(n) = \Omega(f(n))$.
+  $f(n) = o(g(n))$ if and only if $g(n) = \omega(f(n))$.
+- **Maximum Rule:**
+  $\mathcal{O}(f(n) + g(n)) = \mathcal{O}(\max(f(n), g(n)))$.
+
+[Source: DAA_Unit1.pptx, Slides 27-49]
 
 ---
 
-## 5. Analysis Techniques: Empirical vs. Mathematical Analysis
+## 7. Analyzing Control Statements (Unit 2)
 
-Algorithm performance can be evaluated using two fundamental paradigms:
+To analyze the time complexity of a program, we dissect the code into its structural components.
 
-| Attribute | Empirical (Posteriori) Analysis | Mathematical / Theoretical (Priori) Analysis |
+### 7.1 Rules for Complexity Analysis
+| Code Construct | Time Complexity | Rule |
 | :--- | :--- | :--- |
-| **Approach** | Implement code, execute on physical hardware, measure wall-clock time using timers (`System.currentTimeMillis()`). | Analyze pseudocode mathematically by counting primitive operations as a function of input size $n$. |
-| **Hardware Dependence** | Heavily dependent on processor, RAM, OS, compiler, and background processes. | Completely hardware and compiler independent. |
-| **Input Coverage** | Limited to specific benchmark inputs tested during experiment. | Evaluates algorithm behavior over all possible input instances of size $n$. |
-| **Implementation Effort**| High; requires complete, bug-free implementation in executable code. | Low; requires only pseudocode or mathematical description. |
-| **Predictive Power** | Cannot reliably predict running time for untested, larger inputs. | Provides exact asymptotic growth rates for $n \to \infty$. |
+| Single statement | $\mathcal{O}(1)$ | Constant time |
+| Sequence of k statements | $\mathcal{O}(\max)$ | Take maximum |
+| Simple for loop (1 to n) | $\mathcal{O}(n)$ | $n$ iterations |
+| Nested for loops (n×n) | $\mathcal{O}(n^2)$ | Multiply counts |
+| While loop | depends on condition | Count iterations |
+| If-else | $\mathcal{O}(\max(\text{then}, \text{else}))$ | Take max branch |
+| Function call | $\mathcal{O}(\text{cost of function})$ | Include callee |
 
-```mermaid
-flowchart TD
-    A[Algorithm Analysis Methods] --> B[Empirical / Posteriori]
-    A --> C[Theoretical / Priori]
-    B --> B1[Write Code] --> B2[Run Benchmarks] --> B3[Measure Execution Time]
-    C --> C1[Inspect Pseudocode] --> C2[Count Primitive Steps] --> C3[Derive Asymptotic Growth Rate]
+### 7.2 Worked Examples
+
+**Example: Sum of array (simple for loop)**
+```c
+int Sum(int A[], int n) {
+    int s = 0;              // O(1) -> executes 1 time
+    for (int i = 0; i < n; i++) // Condition checked n+1 times
+        s = s + A[i];       // Body executes n times
+    return s;               // O(1) -> executes 1 time
+}
 ```
+*Total Cost:* $1 + (n+1) + n + 1 = 2n + 3$.
+*Time Complexity:* $f(n) = \mathcal{O}(n)$
 
-[Source: DAA_Unit1.pptx, Slides 4–5, 19–20]
-
----
-
-## 6. Analysis Framework: Best-Case, Average-Case, and Worst-Case
-
-An algorithm's execution steps depend not only on input size $n$, but also on the specific configuration/arrangement of input data.
-
-```mermaid
-flowchart TD
-    Input[Input Instance of Size n] --> Best[Best-Case: Minimum Steps / Lower Bound]
-    Input --> Avg[Average-Case: Expected Steps / Expected Bound]
-    Input --> Worst[Worst-Case: Maximum Steps / Upper Bound]
+**Example 1: Single Statement**
+```c
+a = b + c;
 ```
+*Analysis:* Statement is executed once only. The execution time is some constant.
+*Time Complexity:* $\mathcal{O}(1)$
 
-### 6.1 Definitions and Properties
-
-1. **Best-Case Analysis:**
-   * **Meaning:** The minimum number of steps executed by an algorithm on any input of size $n$.
-   * **Significance:** Represents optimal behavior under ideal conditions. Provides a lower bound, but is rarely useful in practice because best-case scenarios seldom occur in real-world workloads.
-2. **Average-Case Analysis:**
-   * **Meaning:** The expected number of steps executed over all possible input instances of size $n$, assuming a uniform probability distribution over inputs.
-   * **Significance:** Reflects realistic day-to-day performance. Often mathematically complex to compute due to probability modeling.
-3. **Worst-Case Analysis:**
-   * **Meaning:** The maximum number of steps executed by an algorithm on any input instance of size $n$.
-   * **Significance:** Guarantees an absolute upper bound on execution time. Essential for real-time systems, critical applications, and reliable theoretical guarantees.
-
----
-
-### 6.2 Illustrative Benchmark Examples
-
-| Problem | Best-Case Scenario | Average-Case Scenario | Worst-Case Scenario |
-| :--- | :--- | :--- | :--- |
-| **Linear Search** | Target element is at the first index ($1$ comparison). | Target element is located at index $\frac{n+1}{2}$ ($\approx \frac{n}{2}$ comparisons). | Target element is at the last index or missing ($n$ comparisons). |
-| **Book Finder** | Book is the very first one checked ($1$ check). | Book is located near the middle of the shelf ($\approx \frac{n}{2}$ checks). | Book is the last one or not on shelf ($n$ checks). |
-| **Ascending Sort** | Array is already sorted in ascending order ($0$ swaps). | Array elements are in random order ($\approx \frac{n(n-1)}{4}$ swaps). | Array is reverse-sorted in descending order ($\approx \frac{n(n-1)}{2}$ swaps). |
-
-[Source: DAA_Unit1.pptx, Slides 11–17]
-
----
-
-## 7. Asymptotic Notations & Growth Rates
-
-Asymptotic notation provides a mathematical language for describing the growth rate of an algorithm's running time $f(n)$ as input size $n$ becomes arbitrarily large.
-
----
-
-### 7.1 Big-$\mathcal{O}$ Notation (Asymptotic Upper Bound)
-
-#### Definition: Big-$\mathcal{O}$ Notation
-
-**Formal Definition:**
-For a given function $g(n)$, $\mathcal{O}(g(n))$ is the set of functions:
-
-$$
-\mathcal{O}(g(n)) = \{ f(n) : \text{there exist positive constants } c > 0 \text{ and } n_0 > 0 \text{ such that } 0 \le f(n) \le c \cdot g(n) \text{ for all } n \ge n_0 \}
-$$
-
-$$
-\begin{aligned}
-f(n) = \mathcal{O}(g(n)) \implies f(n) \le c \cdot g(n) \quad \forall n \ge n_0
-\end{aligned}
-$$
-
-```mermaid
-flowchart LR
-    subgraph Big-O Upper Bound
-    direction LR
-    A["f(n) <= c * g(n) for all n >= n0"]
-    end
+**Example 2: Simple For Loop**
+```c
+for(int i = 1; i <= n; i++) {
+    a = b + c;
+}
 ```
+*Analysis:* The loop iterates $n$ times. Inside is an $\mathcal{O}(1)$ operation.
+*Time Complexity:* $\mathcal{O}(n)$
 
-**Intuition:**
-$\mathcal{O}(g(n))$ bounds the worst-case running time from above. The running time of the algorithm will never exceed $c \cdot g(n)$ for large inputs.
+**Example 3: Nested For Loops**
+```c
+for(int i = 1; i <= n; i++) {
+    for(int j = 1; j <= n; j++) {
+        a = b + c;
+    }
+}
+```
+*Analysis:* Outer loop runs $n$ times. For each iteration, inner loop runs $n$ times. Total iterations = $n \times n = n^2$.
+*Time Complexity:* $\mathcal{O}(n^2)$
 
-#### Worked Example: Proving $2n + 6 = \mathcal{O}(n)$
-* **Given:** $f(n) = 2n + 6$, $g(n) = n$.
-* **Requirement:** Find constants $c > 0, n_0 > 0$ such that $2n + 6 \le c \cdot n$ for $n \ge n_0$.
-* **Derivation:**
+**Example 4: Dependent Nested For Loops**
+```c
+for(int i = 1; i <= n; i++) {
+    for(int j = 1; j <= i; j++) {
+        a = b + c;
+    }
+}
+```
+*Analysis:* The inner loop runs $1$ time, then $2$ times... up to $n$.
 
 $$
-2n + 6 \le 2n + 6n = 8n \quad (\text{for all } n \ge 1)
+\text{Total iterations} = \sum_{i=1}^{n} i = \frac{n(n+1)}{2} = \frac{n^2 + n}{2}
 $$
 
-* **Conclusion:** Selecting $c = 8$ and $n_0 = 1$ satisfies $0 \le 2n+6 \le 8n$ for all $n \ge 1$. Hence, $2n+6 = \mathcal{O}(n)$.
+*Time Complexity:* $\mathcal{O}(n^2)$
 
-[Source: DAA_Unit1.pptx, Slides 28–31]
+**Example 5: Multiplicative Loop**
+```c
+for(int i = 1; i <= n; i = i * 2) {
+    a = b + c;
+}
+```
+*Analysis:* The loop variable doubles each step: $1, 2, 4, 8, \dots, 2^k$. The loop stops when $2^k > n \implies k = \log_2 n$.
+*Time Complexity:* $\mathcal{O}(\log n)$
+
+**Example 6: Multiplicative Outer, Additive Inner**
+```c
+for(int i = 1; i <= n; i++) {
+    for(int j = 1; j <= n; j = j * 2) {
+        a = b + c;
+    }
+}
+```
+*Analysis:* Outer loop runs $n$ times. Inner loop runs $\log_2 n$ times.
+*Time Complexity:* $\mathcal{O}(n \log n)$
+
+**Example 7: Division Loop**
+```c
+for(int i = n; i >= 1; i = i / 2) {
+    a = b + c;
+}
+```
+*Analysis:* Loop halves the variable at each step: $n, n/2, n/4, \dots, 1$. This takes $\log_2 n$ steps.
+*Time Complexity:* $\mathcal{O}(\log n)$
+
+**Example 8: Square Root Bound Loop**
+```c
+for(int i = 1; i * i <= n; i++) {
+    a = b + c;
+}
+```
+*Analysis:* Loop condition is $i^2 \le n \implies i \le \sqrt{n}$.
+*Time Complexity:* $\mathcal{O}(\sqrt{n})$
+
+**Example 9: Function Bound Loop**
+```c
+for(int i = 1; f(i) <= n; i++) {
+    a = b + c;
+}
+```
+*Analysis:* Where $f(n)$ is any sqrt or cuberoot function, the loop runs depending on the inverse of the function. For $f(i) = \sqrt{i}$, it runs until $\sqrt{i} = n \implies i = n^2$. For $f(i) = i^3$, it runs $\sqrt[3]{n}$ times.
+
+**Example 10: Multi-Branch / Sequences**
+```c
+for(int i = 1; i <= n; i++) {
+    a = b + c;
+}
+for(int j = 1; j <= n; j++) {
+    for(int k = 1; k <= n; k++) {
+        x = y + z;
+    }
+}
+```
+*Analysis:* The first loop is $\mathcal{O}(n)$. The second nested loop is $\mathcal{O}(n^2)$. We sum them to get $\mathcal{O}(n + n^2)$, then by the maximum rule, it is bounded by the highest order term.
+*Time Complexity:* $\mathcal{O}(n^2)$
+
+[Source: DAA_Unit2.pptx, Slides 2-6]
 
 ---
 
-### 7.2 Big-$\Omega$ Notation (Asymptotic Lower Bound)
+## 8. Formula Sheet
 
-#### Definition: Big-$\Omega$ Notation
-
-**Formal Definition:**
-For a given function $g(n)$, $\Omega(g(n))$ is the set of functions:
+**Big-O Notation:**
 
 $$
-\Omega(g(n)) = \{ f(n) : \text{there exist positive constants } c > 0 \text{ and } n_0 > 0 \text{ such that } 0 \le c \cdot g(n) \le f(n) \text{ for all } n \ge n_0 \}
+f(n) = \mathcal{O}(g(n)) \iff \exists c > 0, n_0 > 0 \text{ such that } 0 \le f(n) \le c \cdot g(n) \text{ for all } n \ge n_0
 $$
 
-$$
-\begin{aligned}
-f(n) = \Omega(g(n)) \implies f(n) \ge c \cdot g(n) \quad \forall n \ge n_0
-\end{aligned}
-$$
-
-**Intuition:**
-$\Omega(g(n))$ provides an absolute lower bound on running time. The algorithm takes *at least* $c \cdot g(n)$ time for all large inputs.
-
-#### Worked Example: Proving $3n^2 + 2n + 4 = \Omega(n^2)$
-* **Given:** $f(n) = 3n^2 + 2n + 4$, $g(n) = n^2$.
-* **Requirement:** Find $c > 0, n_0 > 0$ such that $c \cdot n^2 \le 3n^2 + 2n + 4$.
-* **Derivation:**
-  For $n \ge 1$, $2n + 4 \ge 0$, so:
+**Big-Omega Notation:**
 
 $$
-3n^2 \le 3n^2 + 2n + 4
+f(n) = \Omega(g(n)) \iff \exists c > 0, n_0 > 0 \text{ such that } 0 \le c \cdot g(n) \le f(n) \text{ for all } n \ge n_0
 $$
 
-* **Conclusion:** Selecting $c = 3$ and $n_0 = 1$ satisfies $3n^2 \le f(n)$ for all $n \ge 1$. Hence, $3n^2+2n+4 = \Omega(n^2)$.
+**Big-Theta Notation:**
 
-[Source: DAA_Unit1.pptx, Slides 33–34, 53]
+$$
+f(n) = \Theta(g(n)) \iff \exists c_1 > 0, c_2 > 0, n_0 > 0 \text{ such that } 0 \le c_1 \cdot g(n) \le f(n) \le c_2 \cdot g(n) \text{ for all } n \ge n_0
+$$
+
+**Little-o Notation (using Limits):**
+
+$$
+\lim_{n \to \infty} \frac{f(n)}{g(n)} = 0
+$$
+
+**Little-omega Notation (using Limits):**
+
+$$
+\lim_{n \to \infty} \frac{f(n)}{g(n)} = \infty
+$$
+
+**Sum of first $n$ numbers:**
+
+$$
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+$$
+
+**Geometric Progression (Sum):**
+
+$$
+a + ar + ar^2 + \dots + ar^{n-1} = \frac{a(r^n - 1)}{r - 1}
+$$
 
 ---
 
-### 7.3 Big-$\Theta$ Notation (Asymptotically Tight Bound)
+## 9. Definition Sheet
 
-#### Definition: Big-$\Theta$ Notation
-
-**Formal Definition:**
-For a given function $g(n)$, $\Theta(g(n))$ is the set of functions:
-
-$$
-\Theta(g(n)) = \{ f(n) : \text{there exist positive constants } c_1 > 0, c_2 > 0, n_0 > 0 \text{ such that } 0 \le c_1 \cdot g(n) \le f(n) \le c_2 \cdot g(n) \text{ for all } n \ge n_0 \}
-$$
-
-$$
-\begin{aligned}
-f(n) = \Theta(g(n)) \iff f(n) = \mathcal{O}(g(n)) \quad \text{and} \quad f(n) = \Omega(g(n))
-\end{aligned}
-$$
-
-#### Worked Example: Proving $3n + 2 = \Theta(n)$
-* **Given:** $f(n) = 3n + 2$, $g(n) = n$.
-* **Requirement:** Find $c_1, c_2 > 0$ and $n_0 > 0$ such that $c_1 n \le 3n + 2 \le c_2 n$ for all $n \ge n_0$.
-* **Derivation:**
-  For $n \ge 1$:
-
-$$
-2n \le 3n + 2 \le 5n
-$$
-
-* **Conclusion:** Choosing $c_1 = 2$, $c_2 = 5$, and $n_0 = 1$ proves $3n+2 = \Theta(n)$.
-
-[Source: DAA_Unit1.pptx, Slides 35–36, 55]
+- **Algorithm:** A well-defined computational procedure that takes some value as input and produces some value as output.
+- **Time Complexity:** A measure of the amount of execution time an algorithm needs to run to completion, represented as a function of input size.
+- **Space Complexity:** A measure of the amount of working storage (memory) an algorithm needs.
+- **Best Case:** The minimum number of operations required by an algorithm. Represents behavior under optimal conditions.
+- **Worst Case:** The maximum number of operations required by an algorithm. Represents behavior under the worst conditions.
+- **Average Case:** The expected number of operations required over all possible inputs of size $n$.
+- **Big-O ($\mathcal{O}$):** Denotes the asymptotic upper bound of a function.
+- **Big-Omega ($\Omega$):** Denotes the asymptotic lower bound of a function.
+- **Big-Theta ($\Theta$):** Denotes the exact, or tightly bounded, asymptotic behavior of a function.
+- **Little-o ($o$):** Denotes a strict upper bound where a function grows strictly slower than another.
+- **Little-omega ($\omega$):** Denotes a strict lower bound where a function grows strictly faster than another.
+- **Asymptotic Notation:** Mathematical notations used to describe the limiting behavior of an algorithm's performance as the input size grows towards infinity.
 
 ---
 
-### 7.4 Little-$o$ and Little-$\omega$ Notations (Strict Bounds)
+## 10. Exam-Oriented Review
 
-| Notation | Formal Definition | Limit Definition | Analogy |
-| :--- | :--- | :--- | :--- |
-| **Little-$o$** ($f(n) = o(g(n))$) | $\forall c > 0, \exists n_0 > 0 \text{ s.t. } 0 \le f(n) < c \cdot g(n) \; \forall n \ge n_0$ | $\lim_{n \to \infty} \frac{f(n)}{g(n)} = 0$ | $f < g$ |
-| **Little-$\omega$** ($f(n) = \omega(g(n))$) | $\forall c > 0, \exists n_0 > 0 \text{ s.t. } 0 \le c \cdot g(n) < f(n) \; \forall n \ge n_0$ | $\lim_{n \to \infty} \frac{f(n)}{g(n)} = \infty$ | $f > g$ |
+### Important Concepts
+- The difference between an empirical measurement and a theoretical (priori) analysis.
+- Understanding why the worst-case scenario is practically preferred in algorithmic analysis.
+- Recognizing the hierarchy of growth rates (e.g., $1 < \log n < n < n \log n < n^2$) to easily identify efficient algorithms.
+- Identifying code patterns directly to their time complexity (e.g., simple loop $\to$ linear, nested loops $\to$ quadratic, halving loops $\to$ logarithmic).
 
-[Source: DAA_Unit1.pptx, Slide 49]
+### Important Definitions (Memorize)
+- The 5 properties of an algorithm: Input, Output, Definiteness, Finiteness, Effectiveness.
+- Formal definitions with constants ($c, n_0$) for $\mathcal{O}$, $\Omega$, and $\Theta$.
 
----
+### Important Formulas
+- The definitions of asymptotic bounds (see Formula Sheet).
+- Limits for $o$ and $\omega$.
+- Sum of series formulas used for nested dependent loops.
 
-### 7.5 Hierarchy of Function Growth Rates
-
-The relative asymptotic growth of standard functions in increasing order is:
-
-$$
-\mathcal{O}(1) < \mathcal{O}(\log \log n) < \mathcal{O}(\log n) < \mathcal{O}(\sqrt{n}) < \mathcal{O}(n) < \mathcal{O}(n \log n) < \mathcal{O}(n^2) < \mathcal{O}(n^3) < \mathcal{O}(2^n) < \mathcal{O}(n!) < \mathcal{O}(n^n)
-$$
-
-#### Growth Table Comparison for Specific Values of $n$
-
-| $n$ | $\log_2 n$ | $n \log_2 n$ | $n^2$ | $n^3$ | $2^n$ | $n!$ |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **4** | 2 | 8 | 16 | 64 | 16 | 24 |
-| **16** | 4 | 64 | 256 | 4,096 | 65,536 | $2.09 \times 10^{13}$ |
-| **64** | 6 | 384 | 4,096 | 262,144 | $1.84 \times 10^{19}$ | $1.26 \times 10^{89}$ |
-| **1024** | 10 | 10,240 | 1,048,576 | $1.07 \times 10^9$ | $1.79 \times 10^{308}$ | $\infty$ |
-
-[Source: DAA_Unit1.pptx, Slides 41–42]
-
----
-
-## 8. Methods of Proving Asymptotic Bounds
-
-### 8.1 Method 1: Proof by Definition
-Determines explicit positive constants $c$ and $n_0$ satisfying the formal inequality.
-
-#### Worked Problem: Prove $6n + 3 = \mathcal{O}(n)$
-1. **Inequality setup:** $6n + 3 \le c \cdot n$.
-2. **Algebraic grouping:** For $n \ge 1$, $3 \le 3n$, so $6n + 3 \le 6n + 3n = 9n$.
-3. **Values:** $c = 9, n_0 = 1$.
-4. **Alternative solution (Tabular/Search):**
-   * If $c = 7$: $6n + 3 \le 7n \implies n \ge 3$. Thus $c = 7, n_0 = 3$ is also valid.
-
-[Source: DAA_Unit1.pptx, Slide 52]
-
----
-
-### 8.2 Method 2: Proof by Limit Rules
-
-For two positive functions $f(n)$ and $g(n)$, evaluate $L = \lim_{n \to \infty} \frac{f(n)}{g(n)}$:
-1. If $L = 0 \implies f(n) = o(g(n))$ and $f(n) = \mathcal{O}(g(n))$.
-2. If $L = c > 0 \implies f(n) = \Theta(g(n))$.
-3. If $L = \infty \implies f(n) = \omega(g(n))$ and $f(n) = \Omega(g(n))$.
-
-#### Worked Problem: Prove $\sqrt{n}$ grows faster than $\log n$
-* Let $f(n) = \sqrt{n}$ and $g(n) = \log_e n$. Compute $L$:
-
-$$
-L = \lim_{n \to \infty} \frac{\log n}{\sqrt{n}}
-$$
-
-  Applying L'Hôpital's Rule ($\frac{\infty}{\infty}$ form):
-
-$$
-L = \lim_{n \to \infty} \frac{\frac{d}{dn}(\log n)}{\frac{d}{dn}(n^{1/2})} = \lim_{n \to \infty} \frac{\frac{1}{n}}{\frac{1}{2\sqrt{n}}} = \lim_{n \to \infty} \frac{2\sqrt{n}}{n} = \lim_{n \to \infty} \frac{2}{\sqrt{n}} = 0
-$$
-
-* **Result:** Since the limit is $0$, $\log n = o(\sqrt{n})$, which proves that $\sqrt{n}$ grows strictly faster than $\log n$.
-
-[Source: DAA_Unit1.pptx, Slides 46, 48]
-
----
-
-## 9. Asymptotic Rules & Notations in Equations
-
-### 9.1 Maximum Rule
-When adding polynomial or non-polynomial components, lower-order terms become negligible as $n \to \infty$:
-
-$$
-\mathcal{O}(f(n) + g(n)) = \mathcal{O}(\max(f(n), g(n)))
-$$
-
-#### Examples:
-* $n^4 + 100n^2 + 10n + 50 = \mathcal{O}(n^4)$
-* $10n^3 + 2n^2 = \mathcal{O}(n^3)$
-* $5n \log n + 2^n = \mathcal{O}(2^n)$
-
-### 9.2 Elephants and Goldfish Analogy
-If total cost equals $\text{Cost of Elephants} + \text{Cost of Goldfish}$, since the elephant cost dominates exponentially, total cost $\approx \text{Cost of Elephants}$, rendering goldfish cost asymptotically negligible.
-
-[Source: DAA_Unit1.pptx, Slide 44]
-
----
-
-## 10. Formula Sheet (Unit-I)
-
-### 1. Big-$\mathcal{O}$ Upper Bound
-
-$$
-0 \le f(n) \le c \cdot g(n) \quad \forall n \ge n_0
-$$
-
-### 2. Big-$\Omega$ Lower Bound
-
-$$
-0 \le c \cdot g(n) \le f(n) \quad \forall n \ge n_0
-$$
-
-### 3. Big-$\Theta$ Tight Bound
-
-$$
-0 \le c_1 \cdot g(n) \le f(n) \le c_2 \cdot g(n) \quad \forall n \ge n_0
-$$
-
-### 4. Limit Evaluation Rule
-
-$$
-\lim_{n \to \infty} \frac{f(n)}{g(n)} = L \implies \begin{cases} 0 & f = o(g) \\ c > 0 & f = \Theta(g) \\ \infty & f = \omega(g) \end{cases}
-$$
-
-### 5. Maximum Rule
-
-$$
-\mathcal{O}(f(n) + g(n)) = \mathcal{O}(\max(f(n), g(n)))
-$$
-
-[Source: DAA_Unit1.pptx, Slides 28–49]
-
----
-
-## 11. Definition Sheet (Unit-I)
-
-* **Algorithm:** Unambiguous step-by-step computational procedure transforming input to output.
-* **Finiteness:** Guarantee of termination after finite steps.
-* **Definiteness:** Absolute clarity and lack of ambiguity in every step.
-* **Correctness:** Halting with accurate output for all valid inputs.
-* **RAM Model:** Theoretical single-processor machine where primitive operations take $\mathcal{O}(1)$ time.
-* **Worst-Case Complexity:** Maximum time/space resources required for input of size $n$.
-* **Average-Case Complexity:** Expected resource consumption averaged over all inputs of size $n$.
-* **Best-Case Complexity:** Minimum resources required under ideal input conditions.
-* **Asymptotic Upper Bound ($\mathcal{O}$):** Formal limit capping maximum growth rate.
-* **Asymptotically Tight Bound ($\Theta$):** Exact growth rate matching upper and lower bounds.
-
-[Source: DAA_Unit 0_Introduction.pptx, Slides 6–22; DAA_Unit1.pptx, Slides 6–37]
-
----
-
-## 12. Exam-Oriented Review & Worked Problems (Unit-I)
-
-### Worked Numerical Problem 1.1
-**Problem:** Find the tight bound $\Theta$ for $f(n) = 2n^3 + 4n + 5$.
-**Given:** $f(n) = 2n^3 + 4n + 5$, $g(n) = n^3$.
-**Required:** Find $c_1, c_2, n_0 > 0$ such that $c_1 n^3 \le 2n^3 + 4n + 5 \le c_2 n^3$.
-**Solution Steps:**
-1. For lower bound: $2n^3 \le 2n^3 + 4n + 5$ for all $n \ge 1 \implies c_1 = 2$.
-2. For upper bound ($n \ge 1$): $2n^3 + 4n + 5 \le 2n^3 + 4n^3 + 5n^3 = 11n^3 \implies c_2 = 11$.
-**Final Answer:** $f(n) = \Theta(n^3)$ for $c_1 = 2, c_2 = 11, n_0 = 1$.
-
-[Source: DAA_Unit1.pptx, Slide 54]
-
----
-
-### Worked Numerical Problem 1.2
-**Problem:** Prove or disprove whether $2^{n+1} = \mathcal{O}(2^n)$ and whether $2^{2n} = \mathcal{O}(2^n)$.
-**Solution Steps:**
-1. **Part (i) $2^{n+1}$:**
-
-$$
-2^{n+1} = 2^1 \cdot 2^n = 2 \cdot 2^n
-$$
-
-   Choosing $c = 2$ and $n_0 = 1$ satisfies $2^{n+1} \le c \cdot 2^n$.
-   **Result:** True, $2^{n+1} = \mathcal{O}(2^n)$.
-2. **Part (ii) $2^{2n}$:**
-
-$$
-2^{2n} = (2^2)^n = 4^n
-$$
-
-   Assume $\exists c, n_0$ such that $4^n \le c \cdot 2^n$. Dividing by $2^n$ yields $2^n \le c$.
-   As $n \to \infty$, $2^n$ grows without bound, so no constant $c$ can bound it.
-   **Result:** False, $2^{2n} \neq \mathcal{O}(2^n)$.
-
-[Source: DAA_Unit1.pptx, Slide 45]
-
----
+### Important Comparisons
+- **Algorithm vs. Program**
+- **Theoretical vs. Empirical Analysis**
+- **Upper Bound ($\mathcal{O}$) vs. Lower Bound ($\Omega$) vs. Tight Bound ($\Theta$)**
 
 ### Potential Exam Questions
-1. Compare empirical and theoretical algorithm analysis techniques. Why is theoretical analysis preferred?
-2. Define Big-$\mathcal{O}$, Big-$\Omega$, and Big-$\Theta$ notations formally. Provide geometric interpretations for each.
-3. Order the following functions by asymptotic growth rate: $n!, 2^n, n \log n, n^3, \log \log n, n^2, \sqrt{n}$.
-4. Show by formal definition that $f(n) = 3n^2 + 5n + 2 = \Theta(n^2)$.
+1. Define an algorithm and list its five fundamental characteristics.
+2. Differentiate between an algorithm and a program.
+3. Why is theoretical analysis of algorithms preferred over empirical testing?
+4. Define Space Complexity and Time Complexity. Why is Time Complexity usually the primary concern?
+5. Explain Best Case, Average Case, and Worst Case scenarios with an example (like linear search).
+6. Arrange the following functions in increasing order of asymptotic growth: $n^2, n!, 2^n, n \log n, \log n, n$.
+7. State the formal definition of Big-O Notation and explain its significance.
+8. State the formal definition of Big-Theta ($\Theta$) Notation.
+9. Prove mathematically that $3n + 2 = \Theta(n)$.
+10. Prove mathematically that $2n^3 + 4n^2 = \Omega(n^2)$.
+11. Write pseudo-code for determining the sum of elements in an array and analyze its time complexity line by line.
+12. What is the time complexity of a loop structured as `for(i=1; i<=n; i=i*2)`? Prove it.
+13. Describe the Transpose Symmetry property of asymptotic notations.
+14. How does Little-o notation conceptually differ from Big-O notation?
+15. Analyze the time complexity of two nested loops where the inner loop depends on the outer loop variable (e.g., `for(j=1; j<=i; j++)`).
+16. Find the upper bound of the running time of the constant function $f(n) = 6993$.
+17. Find the tight bound of the running time of the cubic function $f(n) = 2n^3 + 4n + 5$.
+
+---
+
+
+---
 
 # Chapter 2 — Unit-II: Analysis of Algorithms
 
@@ -938,7 +933,7 @@ flowchart TD
     Comp --> Case3["f(n) is polynomially larger: Omega(n^(log_b a + epsilon))"]
     Case1 --> Res1["Case 1: T(n) = Theta(n^(log_b a))"]
     Case2 --> Res2["Case 2: T(n) = Theta(n^(log_b a) * log^(k+1) n)"]
-    Case3 --> Reg{"Verify Regularity: a*f(n/b) <= c*f(n) for c < 1"}
+    Case3 --> Reg{"Verify Regularity: a*f(n/b) &le; c*f(n) for c < 1"}
     Reg -- Yes --> Res3["Case 3: T(n) = Theta(f(n))"]
     Reg -- No --> Fail["Inapplicable. Use Recurrence Tree."]
 ```
@@ -1124,9 +1119,9 @@ flowchart TD
     L12 --> M2["Merged: [2, 98]"]
     R11 --> M3["Merged: [31, 529]"]
     R12 --> M4["Merged: [189, 451]"]
-    M1 & M2 --> ML["Merged Left: [2, 98, 521, 724]"]
-    M3 & M4 --> MR["Merged Right: [31, 189, 451, 529]"]
-    ML & MR --> Final["Final Sorted Array: [2, 31, 98, 189, 451, 521, 529, 724]"]
+    M1 and M2 --> ML["Merged Left: [2, 98, 521, 724]"]
+    M3 and M4 --> MR["Merged Right: [31, 189, 451, 529]"]
+    ML and MR --> Final["Final Sorted Array: [2, 31, 98, 189, 451, 521, 529, 724]"]
 ```
 
 #### Mathematical Complexity Analysis
@@ -1184,9 +1179,9 @@ def Partition(T, i, j):
 
 ```mermaid
 flowchart TD
-    Step1["Array: [42, 23, 74, 11, 65, 58, 94, 36, 99, 87] | Pivot p = 42"] --> Scan1["Scan: k stops at 74 (>42), l stops at 36 (<=42)"]
+    Step1["Array: [42, 23, 74, 11, 65, 58, 94, 36, 99, 87] | Pivot p = 42"] --> Scan1["Scan: k stops at 74 (>42), l stops at 36 (&le;42)"]
     Scan1 --> Swap1["Swap T[k] and T[l] -> Array: [42, 23, 36, 11, 65, 58, 94, 74, 99, 87]"]
-    Swap1 --> Scan2["Scan: k stops at 65 (>42), l stops at 11 (<=42). Crosses! (k > l)"]
+    Swap1 --> Scan2["Scan: k stops at 65 (>42), l stops at 11 (&le;42). Crosses! (k &gt; l)"]
     Scan2 --> PivotSwap["Swap Pivot T[i] with T[l] (42 with 11)"]
     PivotSwap --> Result["Partitioned Array: [11, 23, 36, 42, 65, 58, 94, 74, 99, 87] | Pivot Index = 3"]
 ```
