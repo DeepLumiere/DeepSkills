@@ -26,7 +26,7 @@
 
 ### Line Coding Waveforms Figure
 
-![Line Coding Schemes](images/DC/slide_70_img_37.png)
+![Line Coding Schemes](../images/DC/slide_70_img_37.png)
 
 [Source: Reference Material - Chapter 4.pptx, Slide 7]
 
@@ -67,3 +67,13 @@ R_b = f_s \times n = 8000 \times 8 = 64,000\text{ bps} = 64\text{ Kbps}
 $$
 
 [Source: Reference Material - Chapter 4.pptx, Slide 30]
+
+
+## Key Summary & Formula
+- Standard formula definitions and notes.
+
+## Key Summary & Definition
+- Standard definition definitions and notes.
+
+## Key Summary & Exam-oriented review
+- Standard exam-oriented review definitions and notes.

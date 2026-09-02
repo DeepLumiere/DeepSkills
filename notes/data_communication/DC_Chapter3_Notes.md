@@ -35,7 +35,7 @@ $$
 
 ### Figure 3.1: Sine Wave Parameters
 
-![Sine Wave Signal](images/DC/slide_50_img_33.png)
+![Sine Wave Signal](../images/DC/slide_50_img_33.png)
 
 [Source: Reference Material - Chapter 3.pptx, Slide 5]
 
@@ -137,3 +137,7 @@ C = 3000 \times \log_2(1 + 3162) = 3000 \times \log_2(3163) \approx 3000 \times 
 $$
 
 [Source: Reference Material - Chapter 3.pptx, Slide 50]
+
+
+## Key Summary & Exam-oriented review
+- Standard exam-oriented review definitions and notes.

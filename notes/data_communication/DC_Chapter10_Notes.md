@@ -37,3 +37,13 @@ $$
 3. Transmitted Frame = Data + Remainder.
 
 [Source: Reference Material - Chapter 10.pptx, Slide 28]
+
+
+## Key Summary & Formula
+- Standard formula definitions and notes.
+
+## Key Summary & Definition
+- Standard definition definitions and notes.
+
+## Key Summary & Exam-oriented review
+- Standard exam-oriented review definitions and notes.

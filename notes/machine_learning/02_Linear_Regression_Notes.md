@@ -10,7 +10,7 @@ Linear regression is one of the most foundational supervised learning algorithms
 
 Consider a real-estate dataset where the objective is to predict the **Selling Price** (in Lacs) of a house based on its **Area** (in Square Meters, SQM).
 
-![House Price Prediction Dataset](images/linear_reg_slide_2.png)
+![House Price Prediction Dataset](../images/linear_reg_slide_2.png)
 
 #### Training Dataset Example:
 The dataset consists of $m = 16$ historical observations $(x^{(i)}, y^{(i)})$:
@@ -60,9 +60,9 @@ Where:
 - $\theta_1$: Slope parameter (weight/coefficient), representing rate of change of $\hat{y}$ per unit change in $x$.
 - $\theta = (\theta_0, \theta_1)^T$: Parameter vector of the model.
 
-![Linear Model Line Fitting](images/linear_reg_slide_3.png)
-![Residual Distances](images/linear_reg_slide_4.png)
-![Fitted Regression Line](images/linear_reg_slide_6.png)
+![Linear Model Line Fitting](../images/linear_reg_slide_3.png)
+![Residual Distances](../images/linear_reg_slide_4.png)
+![Fitted Regression Line](../images/linear_reg_slide_6.png)
 
 ---
 
@@ -92,13 +92,13 @@ Where:
 - $m$: Total number of training examples.
 - $\frac{1}{2}$: Scaling factor introduced for mathematical convenience to cleanly cancel out the power $2$ during partial differentiation.
 
-![Mathematical Cost Function Formulation](images/linear_reg_slide_7.png)
+![Mathematical Cost Function Formulation](../images/linear_reg_slide_7.png)
 
 ### 3.3 Geometry of the Cost Function Surface
 The cost function $J(\theta_0, \theta_1)$ forms a 3-dimensional convex paraboloid (bowl shape). Because $J(\theta_0, \theta_1)$ is strictly convex, it possesses a single unique global minimum and zero local minima.
 
-![3D Paraboloid Surface Plot of J(theta0, theta1)](images/linear_reg_slide_8.png)
-![1D Parabolic Curve of Cost Function](images/linear_reg_slide_9.png)
+![3D Paraboloid Surface Plot of J(theta0, theta1)](../images/linear_reg_slide_8.png)
+![1D Parabolic Curve of Cost Function](../images/linear_reg_slide_9.png)
 
 ---
 
@@ -125,7 +125,7 @@ Parameters $\theta_0$ and $\theta_1$ MUST be updated simultaneously at every ite
 | $\theta_0 := \text{temp0}$ | *(Here $\theta_1$ is computed using updated $\theta_0$, breaking gradient direction!)* |
 | $\theta_1 := \text{temp1}$ | |
 
-![Gradient Descent Update Pseudocode](images/linear_reg_slide_10.png)
+![Gradient Descent Update Pseudocode](../images/linear_reg_slide_10.png)
 
 ### 4.3 Derivative Expressions for Linear Regression
 Let us compute partial derivatives of $J(\theta_0, \theta_1)$ with respect to $\theta_0$ and $\theta_1$:
@@ -168,8 +168,8 @@ $$
 \sum_{i=1}^{m}(h_\theta(x^{(i)}) - y^{(i)})x^{(i)}
 $$
 
-![Partial Derivatives Derivation](images/linear_reg_slide_14.png)
-![Full Batch Gradient Descent Algorithm](images/linear_reg_slide_15.png)
+![Partial Derivatives Derivation](../images/linear_reg_slide_14.png)
+![Full Batch Gradient Descent Algorithm](../images/linear_reg_slide_15.png)
 
 ### 4.4 Impact of Learning Rate $\alpha$
 The scalar learning rate $\alpha > 0$ controls the step size taken per iteration:
@@ -180,13 +180,13 @@ The scalar learning rate $\alpha > 0$ controls the step size taken per iteration
    - If slope $\frac{\partial J}{\partial \theta_1} > 0$, $\theta_1 := \theta_1 - \alpha (\text{positive}) \implies \theta_1$ decreases towards optimum.
    - If slope $\frac{\partial J}{\partial \theta_1} < 0$, $\theta_1 := \theta_1 - \alpha (\text{negative}) \implies \theta_1$ increases towards optimum.
 
-![Learning Rate Impact: Small vs Large Alpha](images/linear_reg_slide_11.png)
-![Slope Directions in Gradient Steps](images/linear_reg_slide_12.png)
+![Learning Rate Impact: Small vs Large Alpha](../images/linear_reg_slide_11.png)
+![Slope Directions in Gradient Steps](../images/linear_reg_slide_12.png)
 
 ### 4.5 Batch Gradient Descent
 This algorithm is called **"Batch" Gradient Descent** because each step of gradient descent evaluates the error over the entire batch of $m$ training examples ($\sum_{i=1}^m$).
 
-![Batch Gradient Descent Definition](images/linear_reg_slide_16.png)
+![Batch Gradient Descent Definition](../images/linear_reg_slide_16.png)
 
 ---
 

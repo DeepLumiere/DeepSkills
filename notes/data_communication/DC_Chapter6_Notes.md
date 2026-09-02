@@ -20,6 +20,16 @@
 
 ### Figure 6.1: FDM vs TDM Concept Architecture
 
-![FDM vs TDM](images/DC/slide_40_img_22.png)
+![FDM vs TDM](../images/DC/slide_40_img_22.png)
 
 [Source: Reference Material - Chapter 6_Multiplexing.pptx, Slide 4]
+
+
+## Key Summary & Formula
+- Standard formula definitions and notes.
+
+## Key Summary & Definition
+- Standard definition definitions and notes.
+
+## Key Summary & Exam-oriented review
+- Standard exam-oriented review definitions and notes.

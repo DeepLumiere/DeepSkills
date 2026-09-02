@@ -13,8 +13,8 @@ In real-world applications, target variables depend on multiple features rather 
 - $x^{(i)}$: Feature vector of the $i$-th training example (an $(n+1)$-dimensional column vector).
 - $x_j^{(i)}$: Value of feature $j$ in the $i$-th training example.
 
-![Multivariate Housing Dataset](images/multivariate_reg_slide_4.png)
-![Notation Definition Slide](images/multivariate_reg_slide_5.png)
+![Multivariate Housing Dataset](../images/multivariate_reg_slide_4.png)
+![Notation Definition Slide](../images/multivariate_reg_slide_5.png)
 
 #### Real-Estate Example Dataset ($n = 4$ features, $m = 47$ instances):
 
@@ -61,7 +61,7 @@ $$
 h_\theta(x) = \theta_0 x_0 + \theta_1 x_1 + \dots + \theta_n x_n = \begin{bmatrix} \theta_0 & \theta_1 & \dots & \theta_n \end{bmatrix} \begin{bmatrix} x_0 \\ x_1 \\ \vdots \\ x_n \end{bmatrix} = \theta^T x
 $$
 
-![Vectorized Hypothesis Definition](images/multivariate_reg_slide_7.png)
+![Vectorized Hypothesis Definition](../images/multivariate_reg_slide_7.png)
 
 ### 2.3 Multivariate Cost Function and Gradient Descent
 The cost function for $n$ features remains Mean Squared Error:
@@ -78,8 +78,8 @@ $$
 
 Notice that for $j = 0$, since $x_0^{(i)} = 1$, the update equation matches univariate linear regression identically!
 
-![Multivariate Gradient Descent Algorithm](images/multivariate_reg_slide_10.png)
-![Gradient Descent Update Breakdown per Feature](images/multivariate_reg_slide_12.png)
+![Multivariate Gradient Descent Algorithm](../images/multivariate_reg_slide_10.png)
+![Gradient Descent Update Breakdown per Feature](../images/multivariate_reg_slide_12.png)
 
 ---
 
@@ -91,7 +91,7 @@ When features have vastly different ranges (e.g., House Size $x_1 \in [300, 5000
 
 By scaling features to approximately $-1 \le x_i \le 1$, cost function contours become circular, allowing gradient descent to take direct paths toward global minimum.
 
-![Feature Scaling Range Goal Slide](images/multivariate_reg_slide_14.png)
+![Feature Scaling Range Goal Slide](../images/multivariate_reg_slide_14.png)
 
 ### 3.2 Min-Max Normalization
 Maps feature values into a bounded range $[new\_min_A, new\_max_A]$ (typically $[0, 1]$):
@@ -100,7 +100,7 @@ $$
 v' = \frac{v - \min_A}{\max_A - \min_A} (new\_max_A - new\_min_A) + new\_min_A
 $$
 
-![Min-Max Normalization Formula](images/multivariate_reg_slide_15.png)
+![Min-Max Normalization Formula](../images/multivariate_reg_slide_15.png)
 
 #### Worked Example:
 Given attribute *income* with range $[\$12,000, \$98,000]$, scale $v = \$73,600$ into $[0.0, 1.0]$:
@@ -120,7 +120,7 @@ Where:
 - $\mu_j = \frac{1}{m} \sum_{i=1}^m x_j^{(i)}$ (mean of feature $j$).
 - $\sigma_j = \sqrt{\frac{1}{m} \sum_{i=1}^m (x_j^{(i)} - \mu_j)^2}$ (standard deviation of feature $j$).
 
-![Z-Score Normalization Formula](images/multivariate_reg_slide_16.png)
+![Z-Score Normalization Formula](../images/multivariate_reg_slide_16.png)
 
 #### Worked Example:
 Given attribute *income* with mean $\mu = \$54,000$ and standard deviation $\sigma = \$16,000$, normalize $v = \$73,600$:
@@ -139,8 +139,8 @@ Plot cost $J(\theta)$ against iteration count to verify gradient descent behavio
 - **Normal behavior**: $J(\theta)$ decreases monotonically after every single iteration and flattens out upon reaching convergence.
 - **Incorrect behavior**: If $J(\theta)$ increases or oscillates up and down, learning rate $\alpha$ is too large; reduce $\alpha$.
 
-![Debugging Gradient Descent: J(theta) vs Iterations](images/multivariate_reg_slide_19.png)
-![Gradient Descent Oscillations from Large Alpha](images/multivariate_reg_slide_20.png)
+![Debugging Gradient Descent: J(theta) vs Iterations](../images/multivariate_reg_slide_19.png)
+![Gradient Descent Oscillations from Large Alpha](../images/multivariate_reg_slide_20.png)
 
 ### 4.2 Automatic Convergence Test
 Declare convergence if cost $J(\theta)$ decreases by less than threshold $\epsilon$ (e.g., $\epsilon = 10^{-3}$) in one iteration.
@@ -152,7 +152,7 @@ $$
 \dots, 0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0, \dots
 $$
 
-![Summary of Alpha Selection Sequence](images/multivariate_reg_slide_21.png)
+![Summary of Alpha Selection Sequence](../images/multivariate_reg_slide_21.png)
 
 ---
 
@@ -175,7 +175,7 @@ We map this into multivariate linear regression by defining new variables:
 
 Thus, $h_\theta(x) = \theta_0 + \theta_1 x_1 + \theta_2 x_2 + \theta_3 x_3$.
 
-![Polynomial Regression Fitting](images/multivariate_reg_slide_24.png)
+![Polynomial Regression Fitting](../images/multivariate_reg_slide_24.png)
 
 ### 5.2 Choice of Non-Linear Features
 Polynomials like cubic curves may decrease at large values. Alternative mappings like square-root functions can be used:
@@ -187,7 +187,7 @@ $$
 #### ⚠️ Warning on Feature Scaling:
 When using polynomial features, feature scaling becomes indispensable. For instance, if $\text{size} \in [1, 1000]$, then $\text{size}^2 \in [1, 10^6]$ and $\text{size}^3 \in [1, 10^9]$!
 
-![Choice of Features (Square Root vs Quadratic)](images/multivariate_reg_slide_25.png)
+![Choice of Features (Square Root vs Quadratic)](../images/multivariate_reg_slide_25.png)
 
 ---
 
@@ -203,7 +203,7 @@ $$
 X = \begin{bmatrix} 1 & x_1^{(1)} & x_2^{(1)} & \dots & x_n^{(1)} \\ 1 & x_1^{(2)} & x_2^{(2)} & \dots & x_n^{(2)} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_1^{(m)} & x_2^{(m)} & \dots & x_n^{(m)} \end{bmatrix}, \quad y = \begin{bmatrix} y^{(1)} \\ y^{(2)} \\ \vdots \\ y^{(m)} \end{bmatrix}
 $$
 
-![Design Matrix Construction Example](images/multivariate_reg_slide_30.png)
+![Design Matrix Construction Example](../images/multivariate_reg_slide_30.png)
 
 ### 6.2 Closed-Form Derivation
 The vector cost function is:
@@ -228,7 +228,7 @@ $$
 \theta = (X^T X)^{-1} X^T y
 $$
 
-![Normal Equation Closed Form Formula](images/multivariate_reg_slide_31.png)
+![Normal Equation Closed Form Formula](../images/multivariate_reg_slide_31.png)
 
 ### 6.3 Octave / MATLAB Implementation
 ```octave
@@ -245,7 +245,7 @@ theta = pinv(X' * X) * X' * y
 | Large Datasets ($n \ge 10^6$) | Scalable, works very well | Extremely slow ($n > 10,000$ computationally infeasible) |
 | Feature Scaling | Mandatory for fast convergence | Not required |
 
-![Gradient Descent vs Normal Equation Comparison](images/multivariate_reg_slide_32.png)
+![Gradient Descent vs Normal Equation Comparison](../images/multivariate_reg_slide_32.png)
 
 ---
 
@@ -263,7 +263,7 @@ What happens if $(X^T X)$ is singular (non-invertible / degenerate)?
 - Use pseudo-inverse algorithm `pinv()` in software, which computes a pseudoinverse even for singular matrices.
 - Apply **Regularization** (adds $\lambda I$ to $X^T X$, guaranteeing invertibility).
 
-![Non-Invertibility Analysis Slide](images/multivariate_reg_slide_35.png)
+![Non-Invertibility Analysis Slide](../images/multivariate_reg_slide_35.png)
 
 ---
 
@@ -282,7 +282,7 @@ $$
 
 Where $\bar{x} = \frac{1}{d} \sum x_i$ and $\bar{y} = \frac{1}{d} \sum y_i$.
 
-![Closed Form Simple Regression Formulas](images/multivariate_reg_slide_36.png)
+![Closed Form Simple Regression Formulas](../images/multivariate_reg_slide_36.png)
 
 #### Hand-Worked Salary Numerical Example:
 Dataset ($d = 10$):
@@ -304,7 +304,7 @@ $$
 Fitted Model: $\hat{y} = 23.6 + 3.5 x$.
 Predicting salary for $10$ years experience: $\hat{y} = 23.6 + 3.5(10) = 58.6 \implies \$58,600$.
 
-![Hand-Worked Numerical Example Slide](images/multivariate_reg_slide_37.png)
+![Hand-Worked Numerical Example Slide](../images/multivariate_reg_slide_37.png)
 
 ---
 
@@ -322,7 +322,7 @@ Predicting salary for $10$ years experience: $\hat{y} = 23.6 + 3.5(10) = 58.6 \i
 | Root Mean Square Error (RMSE) | $\sqrt{\frac{\sum_{i=1}^d (y_i - y_i')^2}{d}}$ | Square root of mean squared error |
 | Normalized RMSE (NRMSE) | $\frac{\text{RMSE}}{y_{\max} - y_{\min}}$ | Scale-independent RMSE metric |
 
-![Error Metrics Summary Slide](images/multivariate_reg_slide_38.png)
+![Error Metrics Summary Slide](../images/multivariate_reg_slide_38.png)
 
 ### 9.2 Data Evaluation Schemes
 - **Holdout Validation**: Partition dataset into Training Set and Test Set.
@@ -332,7 +332,7 @@ Predicting salary for $10$ years experience: $\hat{y} = 23.6 + 3.5(10) = 58.6 \i
   - Validation Set: Tunes hyperparameters ($\alpha$, polynomial degree, regularization $\lambda$).
   - Test Set: Final unbiased generalization score.
 
-![Validation Schemes Overview Slide](images/multivariate_reg_slide_39.png)
+![Validation Schemes Overview Slide](../images/multivariate_reg_slide_39.png)
 
 ---
 

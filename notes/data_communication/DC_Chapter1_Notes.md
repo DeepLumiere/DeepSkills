@@ -37,7 +37,7 @@
 
 ### Figure 1.1: Data Communication Components Architecture
 
-![Data Communication Components](images/DC/slide_3_img_3.gif)
+![Data Communication Components](../images/DC/slide_3_img_3.gif)
 
 **What it shows:** Interaction model of sender, receiver, protocol, message, and medium.
 
