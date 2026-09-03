@@ -1010,7 +1010,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.1: Pure ALOHA Transmission & Vulnerable Period
 
-![Figure 4.1: Pure ALOHA Vulnerable Period](images/chapter4/ch4_pure_aloha_vulnerable_period.png)
+![Figure 4.1: Pure ALOHA Vulnerable Period](../images/chapter4/ch4_pure_aloha_vulnerable_period.png)
 
 #### Written Analysis of Figure 4.1
 * **What it shows:** Illustrates why Pure ALOHA has a vulnerable period of $2T_f$. A frame starting at $t_0$ collides if any other frame begins transmission between $t_0 - T_f$ and $t_0 + T_f$.
@@ -1022,7 +1022,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.2: Pure ALOHA vs Slotted ALOHA Vulnerable Period Comparison
 
-![Figure 4.2: ALOHA Vulnerable Period Comparison](images/chapter4/ch4_aloha_vulnerable_comparison.png)
+![Figure 4.2: ALOHA Vulnerable Period Comparison](../images/chapter4/ch4_aloha_vulnerable_comparison.png)
 
 #### Written Analysis of Figure 4.2
 * **What it shows:** Visual side-by-side comparison showing how synchronizing frame starts to slot boundaries eliminates partial collisions and halves the vulnerable period from $2T_f$ to $T_f$.
@@ -1033,7 +1033,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.3: ALOHA Throughput vs Offered Load ($S$ vs $G$) Curves
 
-![Figure 4.3: ALOHA Throughput Curves](images/chapter4/ch4_aloha_throughput_curves.png)
+![Figure 4.3: ALOHA Throughput Curves](../images/chapter4/ch4_aloha_throughput_curves.png)
 
 #### Written Analysis of Figure 4.3
 * **What it shows:** Mathematical plot of throughput $S$ versus offered channel traffic $G$:
@@ -1047,7 +1047,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.4: CSMA Persistence Strategies Comparison
 
-![Figure 4.4: CSMA Persistence Comparison](images/chapter4/ch4_csma_persistence_comparison.png)
+![Figure 4.4: CSMA Persistence Comparison](../images/chapter4/ch4_csma_persistence_comparison.png)
 
 #### Written Analysis of Figure 4.4
 * **What it shows:** Flowchart and timeline behavior comparing 1-persistent, non-persistent, and p-persistent listening strategies when encountering busy channels.
@@ -1058,7 +1058,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.5: CSMA/CD Collision Timeline & Slot Duration ($2\tau$)
 
-![Figure 4.5: CSMA/CD Collision Timeline](images/chapter4/ch4_csmacd_collision_timeline.png)
+![Figure 4.5: CSMA/CD Collision Timeline](../images/chapter4/ch4_csmacd_collision_timeline.png)
 
 #### Written Analysis of Figure 4.5
 * **What it shows:** The fundamental worst-case collision scenario where Station B starts transmitting at $t = \tau - \epsilon$ right before Station A's signal arrives, requiring total time $2\tau$ for collision signal to return to Station A.
@@ -1069,7 +1069,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.6: Basic Bit-Map (Reservation) Protocol
 
-![Figure 4.6: Basic Bit-Map Protocol](images/chapter4/ch4_bitmap_protocol.png)
+![Figure 4.6: Basic Bit-Map Protocol](../images/chapter4/ch4_bitmap_protocol.png)
 
 #### Written Analysis of Figure 4.6
 * **What it shows:** The collision-free frame cycle consisting of an $N$-bit reservation header followed by collision-free transmission of queued data frames in numerical order.
@@ -1080,7 +1080,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.7: Binary Countdown Protocol
 
-![Figure 4.7: Binary Countdown Protocol](images/chapter4/ch4_binary_countdown.png)
+![Figure 4.7: Binary Countdown Protocol](../images/chapter4/ch4_binary_countdown.png)
 
 #### Written Analysis of Figure 4.7
 * **What it shows:** Bit-by-bit address arbitration over a boolean wired-OR channel, showing how lower-addressed stations concede as soon as they read a `1` while broadcasting a `0`.
@@ -1091,7 +1091,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.8: Adaptive Tree Walk Contention Resolution
 
-![Figure 4.8: Adaptive Tree Walk](images/chapter4/ch4_adaptive_tree_walk.png)
+![Figure 4.8: Adaptive Tree Walk](../images/chapter4/ch4_adaptive_tree_walk.png)
 
 #### Written Analysis of Figure 4.8
 * **What it shows:** Binary tree search resolving collisions among 8 stations by recursively searching left subtrees before right subtrees upon detecting collisions.
@@ -1102,7 +1102,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.9: Classic IEEE 802.3 Ethernet Frame Format
 
-![Figure 4.9: Classic Ethernet Frame Format](images/chapter4/ch4_ethernet_frame_format.png)
+![Figure 4.9: Classic Ethernet Frame Format](../images/chapter4/ch4_ethernet_frame_format.png)
 
 #### Written Analysis of Figure 4.9
 * **What it shows:** Complete byte layout of IEEE 802.3 frame: Preamble (7B), SFD (1B), Dest MAC (6B), Source MAC (6B), Type/Length (2B), Data Payload (46–1500B), FCS Checksum (4B).
@@ -1113,7 +1113,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.10: Ethernet Collision Window Round-Trip
 
-![Figure 4.10: Ethernet Collision Window](images/chapter4/ch4_ethernet_collision_window.png)
+![Figure 4.10: Ethernet Collision Window](../images/chapter4/ch4_ethernet_collision_window.png)
 
 #### Written Analysis of Figure 4.10
 * **What it shows:** Mathematical relationship proving why 10Base5 Ethernet with 4 repeaters requires a 512-bit ($64\text{ Byte}$) minimum frame size to cover the $51.2\,\mu\text{s}$ round-trip collision window.
@@ -1124,7 +1124,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.11: Hidden and Exposed Terminal Scenarios in Wireless Networks
 
-![Figure 4.11: Hidden and Exposed Terminals](images/chapter4/ch4_hidden_exposed_terminals.png)
+![Figure 4.11: Hidden and Exposed Terminals](../images/chapter4/ch4_hidden_exposed_terminals.png)
 
 #### Written Analysis of Figure 4.11
 * **What it shows:** (a) Hidden Terminal problem where A and C collide at mutual receiver B. (b) Exposed Terminal problem where C falsely defers transmission to D while B transmits to A.
@@ -1135,7 +1135,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.12: IEEE 802.11 Wireless Architecture (BSS, ESS, AP)
 
-![Figure 4.12: IEEE 802.11 Architecture](images/chapter4/ch4_ieee_80211_architecture.png)
+![Figure 4.12: IEEE 802.11 Architecture](../images/chapter4/ch4_ieee_80211_architecture.png)
 
 #### Written Analysis of Figure 4.12
 * **What it shows:** Architecture of Wi-Fi networks: Basic Service Sets (BSS) containing wireless client stations and an Access Point (AP), interconnected via a wired Distribution System (DS) to form an Extended Service Set (ESS).
@@ -1146,7 +1146,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.13: IEEE 802.11 Inter-Frame Spacing (IFS) Priorities
 
-![Figure 4.13: IEEE 802.11 IFS Priorities](images/chapter4/ch4_ieee_80211_ifs_priorities.png)
+![Figure 4.13: IEEE 802.11 IFS Priorities](../images/chapter4/ch4_ieee_80211_ifs_priorities.png)
 
 #### Written Analysis of Figure 4.13
 * **What it shows:** Hierarchy of inter-frame spacing intervals: $\text{SIFS} < \text{PIFS} < \text{DIFS} < \text{EIFS}$, ensuring immediate ACKs seize the channel before contention data.
@@ -1157,7 +1157,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.14: IEEE 802.11 CSMA/CA Backoff Timeline
 
-![Figure 4.14: IEEE 802.11 CSMA/CA Timeline](images/chapter4/ch4_ieee_80211_csmaca_timeline.png)
+![Figure 4.14: IEEE 802.11 CSMA/CA Timeline](../images/chapter4/ch4_ieee_80211_csmaca_timeline.png)
 
 #### Written Analysis of Figure 4.14
 * **What it shows:** CSMA/CA backoff countdown across multiple contending stations: backoff timer freezes when channel is busy and resumes when idle after DIFS.
@@ -1168,7 +1168,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.15: IEEE 802.11 RTS/CTS Exchange with Virtual Carrier Sensing (NAV)
 
-![Figure 4.15: IEEE 802.11 RTS/CTS with NAV](images/chapter4/ch4_ieee_80211_rts_cts_nav.png)
+![Figure 4.15: IEEE 802.11 RTS/CTS with NAV](../images/chapter4/ch4_ieee_80211_rts_cts_nav.png)
 
 #### Written Analysis of Figure 4.15
 * **What it shows:** Four-way handshake (RTS $\to$ CTS $\to$ Data $\to$ ACK) and NAV timer intervals that force hidden stations to stay silent.
@@ -1179,7 +1179,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.16: IEEE 802.11 MAC Frame Format
 
-![Figure 4.16: IEEE 802.11 MAC Frame Format](images/chapter4/ch4_ieee_80211_mac_frame.png)
+![Figure 4.16: IEEE 802.11 MAC Frame Format](../images/chapter4/ch4_ieee_80211_mac_frame.png)
 
 #### Written Analysis of Figure 4.16
 * **What it shows:** Detailed layout of 802.11 frame: Frame Control (2B), Duration/ID (2B), 4 MAC Address fields (6B each), Sequence Control (2B), Payload (up to 2312B), FCS (4B).
@@ -1190,7 +1190,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.17: Transparent Learning Bridge Operation & Table Evolution
 
-![Figure 4.17: Learning Bridge Operation](images/chapter4/ch4_learning_bridge_operation.png)
+![Figure 4.17: Learning Bridge Operation](../images/chapter4/ch4_learning_bridge_operation.png)
 
 #### Written Analysis of Figure 4.17
 * **What it shows:** Step-by-step forwarding database table evolution as frames arrive across ports, showing dynamic MAC address learning, filtering of local frames, and selective forwarding.
@@ -1201,7 +1201,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.18: Spanning Tree Protocol: Layer 2 Loop & Broadcast Storm Problem
 
-![Figure 4.18: STP Loop Problem](images/chapter4/ch4_stp_loop_problem.png)
+![Figure 4.18: STP Loop Problem](../images/chapter4/ch4_stp_loop_problem.png)
 
 #### Written Analysis of Figure 4.18
 * **What it shows:** Demonstrates how redundant physical loops cause broadcast frames to circulate endlessly in opposite directions, causing broadcast storms and switch crashes.
@@ -1212,7 +1212,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.19: Spanning Tree Protocol: Electing Root Bridge, Root Ports & Designated Ports
 
-![Figure 4.19: STP Port Roles](images/chapter4/ch4_stp_port_roles.png)
+![Figure 4.19: STP Port Roles](../images/chapter4/ch4_stp_port_roles.png)
 
 #### Written Analysis of Figure 4.19
 * **What it shows:** A multi-switch network running 802.1D STP: Root Bridge election (lowest BID), Root Ports (RP), Designated Ports (DP), and Blocked Ports (BP) creating a loop-free tree.
@@ -1223,7 +1223,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.20: Network Interconnection Devices Across Protocol Layers
 
-![Figure 4.20: Network Devices Stack](images/chapter4/ch4_network_devices_stack.png)
+![Figure 4.20: Network Devices Stack](../images/chapter4/ch4_network_devices_stack.png)
 
 #### Written Analysis of Figure 4.20
 * **What it shows:** Structural mapping of Repeaters/Hubs (Layer 1), Bridges/Switches (Layer 2), Routers (Layer 3), and Gateways (Layers 4–7) against the OSI reference stack.
@@ -1234,7 +1234,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.21: IEEE 802.1Q VLAN Frame Tagging & Architecture
 
-![Figure 4.21: IEEE 802.1Q VLAN Tagging](images/chapter4/ch4_vlan_8021q_tagging.png)
+![Figure 4.21: IEEE 802.1Q VLAN Tagging](../images/chapter4/ch4_vlan_8021q_tagging.png)
 
 #### Written Analysis of Figure 4.21
 * **What it shows:** Shows insertion of 4-byte 802.1Q tag header (TPID `0x8100`, Priority bits, CFI, 12-bit VID) across switch trunk links to maintain logical separation across multiple switches.
@@ -1246,7 +1246,7 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 
 ### Figure 4.22: CSMA/CD Contention Slot Infinite Geometric Series Derivation
 
-![Figure 4.22: CSMA/CD Contention Slot Infinite Geometric Series Derivation](images/chapter4/ch4_contention_derivation.png)
+![Figure 4.22: CSMA/CD Contention Slot Infinite Geometric Series Derivation](../images/chapter4/ch4_contention_derivation.png)
 
 #### Written Analysis of Figure 4.22
 
@@ -1264,7 +1264,7 @@ Slide 91's formal mathematical proof establishing the mean number of contention 
 
 ### Figure 4.23: IEEE 802.11 Competing Stations Backoff and Contention Window
 
-![Figure 4.23: IEEE 802.11 Competing Stations Backoff and Contention Window](images/chapter4/ch4_ieee_80211_competing_stations.png)
+![Figure 4.23: IEEE 802.11 Competing Stations Backoff and Contention Window](../images/chapter4/ch4_ieee_80211_competing_stations.png)
 
 #### Written Analysis of Figure 4.23
 
@@ -1281,7 +1281,7 @@ The timeline interaction among multiple contending wireless stations in IEEE 802
 
 ### Figure 4.24: IEEE 802.11 MAC Frame Fragmentation Mechanism
 
-![Figure 4.24: IEEE 802.11 MAC Frame Fragmentation Mechanism](images/chapter4/ch4_ieee_80211_fragmentation.png)
+![Figure 4.24: IEEE 802.11 MAC Frame Fragmentation Mechanism](../images/chapter4/ch4_ieee_80211_fragmentation.png)
 
 #### Written Analysis of Figure 4.24
 
@@ -1296,7 +1296,7 @@ Fragmentation of large network packets into smaller MAC Protocol Data Units (MPD
 
 ### Figure 4.25: IEEE 802.11 PCF Superframe and Contention-Free Period
 
-![Figure 4.25: IEEE 802.11 PCF Superframe and Contention-Free Period](images/chapter4/ch4_ieee_80211_pcf_superframe.png)
+![Figure 4.25: IEEE 802.11 PCF Superframe and Contention-Free Period](../images/chapter4/ch4_ieee_80211_pcf_superframe.png)
 
 #### Written Analysis of Figure 4.25
 

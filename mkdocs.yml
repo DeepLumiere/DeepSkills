@@ -41,7 +41,7 @@ theme:
     - navigation.instant        # Smooth client-side routing
     - navigation.tracking       # Active header scroll tracking
     - navigation.sections       # Sidebar folder section headers
-    - navigation.expand         # Automatically expand sidebar items
+    - navigation.indexes        # Clickable section index links
     - navigation.top            # Back to top button
     - navigation.footer         # Next/Prev footer navigation
     - search.suggest            # Auto-suggest search term completions
@@ -92,6 +92,60 @@ markdown_extensions:
   - tables
   - toc:
       permalink: true
+
+nav:
+  - Overview: index.md
+  - Design & Analysis of Algorithms:
+      - "Unit 1: Elementary Algorithms": design_and_analysis_of_algorithms/Unit_01_Elementary_Algorithms.md
+      - "Unit 2: Analysis of Algorithms": design_and_analysis_of_algorithms/Unit_02_Analysis_of_Algorithms.md
+      - "Unit 3: Recurrence & Divide and Conquer": design_and_analysis_of_algorithms/Unit_03_Recurrence_and_Divide_Conquer.md
+      - "Unit 4: Advanced Data Structures": design_and_analysis_of_algorithms/Unit_04_Advanced_Data_Structures.md
+      - "Unit 5: Greedy Algorithms": design_and_analysis_of_algorithms/Unit_05_Greedy_Algorithms.md
+      - "Unit 6: Dynamic Programming": design_and_analysis_of_algorithms/Unit_06_Dynamic_Programming.md
+      - "Unit 7: Backtracking & Branch and Bound": design_and_analysis_of_algorithms/Unit_07_Backtracking_and_Branch_Bound.md
+  - Machine Learning:
+      - "Chapter 1: Intro & Applications": machine_learning/01_Intro_to_Machine_Learning.md
+      - "Chapter 2: Simple Linear Regression": machine_learning/02_Linear_Regression.md
+      - "Chapter 3: Multivariate Linear Regression": machine_learning/03_Multivariate_Linear_Regression.md
+      - "Chapter 4: Regularization (Ridge & Lasso)": machine_learning/04_Regularization.md
+      - "Chapter 5: Probability & Statistics for ML": machine_learning/05_Probability_and_Statistics_for_ML.md
+      - "Chapter 6: KNN, Naive Bayes & Decision Trees": machine_learning/06_KNN_Naive_Bayes_Decision_Trees.md
+  - Computer Networks:
+      - "Chapter 1: Introduction & Architecture": computer_networks/Chapter_1_Introduction.md
+      - "Chapter 3: Data Link Layer": computer_networks/Chapter_3_Data_Link_Layer.md
+      - "Chapter 4: MAC Sublayer": computer_networks/Chapter_4_MAC_Layer.md
+      - "Review & Exam Practice": computer_networks/CompNet_ClassTest.md
+  - Hardware & Microprocessors:
+      - "01 Assembler Directives": hardware_and_microprocessors/01_Directives_In_Depth.md
+      - "02 8085 Instruction Set": hardware_and_microprocessors/02_8085_Instruction_Set_Comprehensive.md
+      - "03 8086 Instruction Set": hardware_and_microprocessors/03_8086_Instruction_Set_Comprehensive.md
+      - "04 8086 Strings & Loops": hardware_and_microprocessors/04_8086_String_Operations_and_Looping.md
+      - "05 8086 Stack & Modular": hardware_and_microprocessors/05_8086_Stack_Operations_and_Modular_Programming.md
+      - "Class Test Master Guide": hardware_and_microprocessors/Microprocessors_and_Interfacing_ClassTest.md
+  - Data Communication:
+      - "Chapter 1: Overview": data_communication/DC_Chapter1_Notes.md
+      - "Chapter 2: Physical Layer": data_communication/DC_Chapter2_Notes.md
+      - "Chapter 3: Data Transmission": data_communication/DC_Chapter3_Notes.md
+      - "Chapter 4: Transmission Media": data_communication/DC_Chapter4_Notes.md
+      - "Chapter 5: Signal Encoding": data_communication/DC_Chapter5_Notes.md
+      - "Chapter 6: Digital Data Comm": data_communication/DC_Chapter6_Notes.md
+      - "Chapter 7: Data Link Control": data_communication/DC_Chapter7_Notes.md
+      - "Chapter 8: Multiplexing": data_communication/DC_Chapter8_Notes.md
+      - "Chapter 10: Switching": data_communication/DC_Chapter10_Notes.md
+  - Data Analysis & Visualization:
+      - "Chapter 1: Intro to DAV": data_analysis/Chapter1_Introduction_to_DAV.md
+      - "Chapter 2: Types of Data": data_analysis/Chapter2_Types_of_Data.md
+      - "Chapter 3: Dataset & Attributes": data_analysis/Chapter3_Dataset_and_Attributes.md
+      - "Chapter 4: Statistical Descriptions": data_analysis/Chapter4_Statistical_Descriptions.md
+      - "Chapter 5: Data Preprocessing": data_analysis/Chapter5_Data_Preprocessing.md
+      - "Chapter 6: Similarity & Dissimilarity": data_analysis/Chapter6_Similarity_and_Dissimilarity.md
+      - "Chapter 7: Intro to Business Data": data_analysis/Chapter7_Introduction_to_Business_Data.md
+      - "Chapter 8: Data Visualization": data_analysis/Chapter8_Business_Data_Visualization_Definition_Purpose_Usage.md
+      - "Chapter 9: Features of Business Data": data_analysis/Chapter9_Features_of_Business_Data.md
+  - Full Stack Web Development:
+      - "Unit 1: Full Stack Basics & REST": web_development/Unit_01_Full_Stack_Basics.md
+      - "Unit 2: Frontend Frameworks": web_development/Unit_02_Frontend_Frameworks.md
+
 extra:
   analytics:
     provider: google

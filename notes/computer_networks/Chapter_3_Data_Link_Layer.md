@@ -701,7 +701,7 @@ $$
 
 ### Figure 3.1: Packet in Frame Relationship
 
-![Figure 3.1: Packet in Frame Relationship](images/chapter3/ch3_packet_in_frame.png)
+![Figure 3.1: Packet in Frame Relationship](../images/chapter3/ch3_packet_in_frame.png)
 
 #### Written Analysis of Figure 3.1
 * **What it shows:** Illustrates how a Network Layer packet is encapsulated into the payload field of a Data Link Layer frame, flanked by a header and trailer.
@@ -714,7 +714,7 @@ $$
 
 ### Figure 3.2: Data Link Layer Virtual vs Actual Communication
 
-![Figure 3.2: DLL Virtual vs Actual Communication](images/chapter3/ch3_dll_virtual_communication.png)
+![Figure 3.2: DLL Virtual vs Actual Communication](../images/chapter3/ch3_dll_virtual_communication.png)
 
 #### Written Analysis of Figure 3.2
 * **What it shows:** Contrasts the horizontal logical (virtual) peer-to-peer frame communication between Data Link Layers with the actual vertical signal path traversing the physical hardware medium.
@@ -726,7 +726,7 @@ $$
 
 ### Figure 3.3: Framing Character / Byte Count & Synchronization Error
 
-![Figure 3.3: Framing Character / Byte Count](images/chapter3/ch3_framing_byte_count.png)
+![Figure 3.3: Framing Character / Byte Count](../images/chapter3/ch3_framing_byte_count.png)
 
 #### Written Analysis of Figure 3.3
 * **What it shows:** (a) Normal operation of byte count framing across four frames. (b) Catastrophic synchronization failure caused by a single bit error flipping count `5` to `7` in Frame 2.
@@ -737,7 +737,7 @@ $$
 
 ### Figure 3.4: Byte Stuffing and Destuffing Mechanism
 
-![Figure 3.4: Byte Stuffing Mechanism](images/chapter3/ch3_byte_stuffing.png)
+![Figure 3.4: Byte Stuffing Mechanism](../images/chapter3/ch3_byte_stuffing.png)
 
 #### Written Analysis of Figure 3.4
 * **What it shows:** Demonstrates how escape (`ESC`) bytes are stuffed before payload `FLAG` and `ESC` bytes, and stripped at the receiver to achieve data transparency.
@@ -748,7 +748,7 @@ $$
 
 ### Figure 3.5: Bit Stuffing Mechanism (HDLC / USB)
 
-![Figure 3.5: Bit Stuffing Mechanism](images/chapter3/ch3_bit_stuffing.png)
+![Figure 3.5: Bit Stuffing Mechanism](../images/chapter3/ch3_bit_stuffing.png)
 
 #### Written Analysis of Figure 3.5
 * **What it shows:** Visualizes the injection of a `0` bit after every five consecutive `1` bits in data payload, and its subsequent removal at the destination receiver.
@@ -759,7 +759,7 @@ $$
 
 ### Figure 3.6: Hamming $(7,4)$ Code Bit Position Matrix
 
-![Figure 3.6: Hamming Code Bit Layout](images/chapter3/ch3_hamming_code_layout.png)
+![Figure 3.6: Hamming Code Bit Layout](../images/chapter3/ch3_hamming_code_layout.png)
 
 #### Written Analysis of Figure 3.6
 * **What it shows:** Shows the structural interleaving of 3 parity check bits ($p_1, p_2, p_4$ at bit positions $1, 2, 4$) and 4 data bits ($d_1, d_2, d_3, d_4$ at bit positions $3, 5, 6, 7$).
@@ -770,7 +770,7 @@ $$
 
 ### Figure 3.7: Hamming Error Detection Syndrome Decoding
 
-![Figure 3.7: Hamming Error Syndrome](images/chapter3/ch3_hamming_error_syndrome.png)
+![Figure 3.7: Hamming Error Syndrome](../images/chapter3/ch3_hamming_error_syndrome.png)
 
 #### Written Analysis of Figure 3.7
 * **What it shows:** Illustrates how evaluating the three parity equations over received codeword `1110110` yields non-zero syndrome vector $101_2 = 5$, directly identifying bit 5 as the erroneous bit.
@@ -781,7 +781,7 @@ $$
 
 ### Figure 3.8: CRC Modulo-2 Polynomial Division
 
-![Figure 3.8: CRC Modulo-2 Polynomial Division](images/chapter3/ch3_crc_generation.png)
+![Figure 3.8: CRC Modulo-2 Polynomial Division](../images/chapter3/ch3_crc_generation.png)
 
 #### Written Analysis of Figure 3.8
 * **What it shows:** Step-by-step modulo-2 long division of message $1101011111$ appended with 6 zeros by generator $G(x) = x^6 + x^4 + x^3 + 1$ ($1011001$), yielding remainder $R = 011110$.
@@ -792,7 +792,7 @@ $$
 
 ### Figure 3.9: Sliding Window Concepts & Window Advances
 
-![Figure 3.9: Sliding Window Concept](images/chapter3/ch3_sliding_window_concept.png)
+![Figure 3.9: Sliding Window Concept](../images/chapter3/ch3_sliding_window_concept.png)
 
 #### Written Analysis of Figure 3.9
 * **What it shows:** Visualizes sender and receiver sliding windows: frames unacknowledged, frames eligible to send, and window expansion/contraction upon frame transmissions and ACK receptions.
@@ -803,7 +803,7 @@ $$
 
 ### Figure 3.10: 1-Bit Sliding Window Protocol State Timeline
 
-![Figure 3.10: 1-Bit Sliding Window Protocol Timeline](images/chapter3/ch3_protocol4_timeline.png)
+![Figure 3.10: 1-Bit Sliding Window Protocol Timeline](../images/chapter3/ch3_protocol4_timeline.png)
 
 #### Written Analysis of Figure 3.10
 * **What it shows:** Chronological packet-by-packet state progression for Protocol 4 showing (a) normal transmission exchange and (b) simultaneous startup anomaly.
@@ -814,7 +814,7 @@ $$
 
 ### Figure 3.11: ARQ Normal and Error Recovery Timelines
 
-![Figure 3.11: ARQ Error Scenarios](images/chapter3/ch3_arq_error_scenarios.png)
+![Figure 3.11: ARQ Error Scenarios](../images/chapter3/ch3_arq_error_scenarios.png)
 
 #### Written Analysis of Figure 3.11
 * **What it shows:** Chronological comparison of ARQ error scenarios: (a) Lost data frame triggering sender timeout retransmission; (b) Lost ACK frame triggering duplicate transmission and duplicate rejection.
@@ -825,7 +825,7 @@ $$
 
 ### Figure 3.12: Go-Back-N Pipelined Transmission Flow
 
-![Figure 3.12: Go-Back-N Flow](images/chapter3/ch3_gobackn_flow.png)
+![Figure 3.12: Go-Back-N Flow](../images/chapter3/ch3_gobackn_flow.png)
 
 #### Written Analysis of Figure 3.12
 * **What it shows:** Illustrates Go-Back-N with $W_s = 4$. Frame 2 is damaged in transit; receiver discards frames 2, 3, 4, 5. Sender timer expires on frame 2 and retransmits all frames 2, 3, 4, 5.
@@ -836,7 +836,7 @@ $$
 
 ### Figure 3.13: Go-Back-N vs Selective Repeat Window Size Limits
 
-![Figure 3.13: Window Size Limits](images/chapter3/ch3_window_size_limits.png)
+![Figure 3.13: Window Size Limits](../images/chapter3/ch3_window_size_limits.png)
 
 #### Written Analysis of Figure 3.13
 * **What it shows:** Detailed state diagram proving why Go-Back-N requires $W_s \le 2^n - 1$ and Selective Repeat requires $W_s = W_r \le 2^{n-1}$ to prevent sequence number wrap-around ambiguity.
@@ -847,7 +847,7 @@ $$
 
 ### Figure 3.14: PPP Frame Format
 
-![Figure 3.14: PPP Frame Format](images/chapter3/ch3_ppp_frame_format.png)
+![Figure 3.14: PPP Frame Format](../images/chapter3/ch3_ppp_frame_format.png)
 
 #### Written Analysis of Figure 3.14
 * **What it shows:** Field-by-field layout of the RFC 1661 PPP frame: Flag (`0x7E`), Address (`0xFF`), Control (`0x03`), Protocol (16-bit), Payload, FCS Checksum (16/32-bit), Flag (`0x7E`).
@@ -858,7 +858,7 @@ $$
 
 ### Figure 3.15: PPP Link State Transition Diagram
 
-![Figure 3.15: PPP State Diagram](images/chapter3/ch3_ppp_state_diagram.png)
+![Figure 3.15: PPP State Diagram](../images/chapter3/ch3_ppp_state_diagram.png)
 
 #### Written Analysis of Figure 3.15
 * **What it shows:** Complete lifecycle state machine of a PPP connection: Dead $\to$ Establish (LCP) $\to$ Authenticate (PAP/CHAP) $\to$ Network (NCP/IPCP) $\to$ Open $\to$ Terminate $\to$ Dead.
@@ -869,7 +869,7 @@ $$
 
 ### Figure 3.16: ADSL Protocol Stack Architecture
 
-![Figure 3.16: ADSL Protocol Stack](images/chapter3/ch3_adsl_protocol_stack.png)
+![Figure 3.16: ADSL Protocol Stack](../images/chapter3/ch3_adsl_protocol_stack.png)
 
 #### Written Analysis of Figure 3.16
 * **What it shows:** End-to-end layered protocol stack of ADSL broadband, showing user IP packets encapsulated in PPP over AAL5 CPCS-PDU, mapped to 53-byte ATM cells, transmitted over DMT physical copper line.
@@ -881,7 +881,7 @@ $$
 
 ### Figure 3.17: UDP/IP Internet 1's Complement Checksum Example
 
-![Figure 3.17: UDP/IP Internet 1's Complement Checksum Example](images/chapter3/ch3_checksum_example.png)
+![Figure 3.17: UDP/IP Internet 1's Complement Checksum Example](../images/chapter3/ch3_checksum_example.png)
 
 #### Written Analysis of Figure 3.17
 

@@ -33,15 +33,15 @@ This chapter covers datasets, attribute types, and structural properties in data
 
 ```mermaid
 graph TD
-    Data["Types of Data Based on Nature"]
-    Data --> Qual["Qualitative Data"]
-    Data --> Quant["Quantitative Data"]
+    Data[Types of Data Based on Nature]
+    Data --> Qual[Qualitative Data]
+    Data --> Quant[Quantitative Data]
 
-    Qual --> Nom["Nominal"]
-    Qual --> Ord["Ordinal"]
+    Qual --> Nom[Nominal]
+    Qual --> Ord[Ordinal]
 
-    Quant --> Disc["Discrete"]
-    Quant --> Cont["Continuous"]
+    Quant --> Disc[Discrete]
+    Quant --> Cont[Continuous]
 ```
 
 ### Qualitative (Categorical) Data
@@ -60,17 +60,17 @@ Information recorded as numbers representing an objective measurement or a count
 
 ```mermaid
 graph TD
-    Attr["Attribute Types"]
-    Attr --> Nom["Nominal: Unordered Categories"]
-    Attr --> Bin["Binary: Two States"]
-    Attr --> Ord["Ordinal: Ordered Categories"]
-    Attr --> Num["Numeric: Quantitative"]
+    Attr[Attribute Types]
+    Attr --> Nom[Nominal: Unordered Categories]
+    Attr --> Bin[Binary: Two States]
+    Attr --> Ord[Ordinal: Ordered Categories]
+    Attr --> Num[Numeric: Quantitative]
 
-    Bin --> Sym["Symmetric: Equal Importance"]
-    Bin --> Asym["Asymmetric: Unequal Importance"]
+    Bin --> Sym[Symmetric: Equal Importance]
+    Bin --> Asym[Asymmetric: Unequal Importance]
 
-    Num --> Int["Interval-Scaled: No Absolute Zero"]
-    Num --> Rat["Ratio-Scaled: Absolute Zero"]
+    Num --> Int[Interval-Scaled: No Absolute Zero]
+    Num --> Rat[Ratio-Scaled: Absolute Zero]
 ```
 
 ### 1. Nominal Attributes
@@ -94,8 +94,8 @@ graph TD
 ### 3. Ordinal Attributes
 **Meaning:** Ordered categories where the interval or distance between them is unknown. They are treated as categorical, but the numbers have mathematical meaning purely in their ordering.
 **Example:** 
-- Size: Small $<$ Medium $<$ Large
-- Grades: A+ $>$ A $>$ B+
+- Size: Small < Medium < Large
+- Grades: A+ > A > B+
 - Satisfaction Level: 0 = Very Dissatisfied, 1 = Dissatisfied, 2 = Neutral, 3 = Satisfied, 4 = Very Satisfied.
 - Restaurant Rating: Scale from 0 to 4 stars.
 [Source: 3.Dataset and Attributes.pdf, Slide 7, 36]
@@ -122,20 +122,20 @@ graph TD
 
 ```mermaid
 graph TD
-    DS["Dataset Types"]
-    DS --> Rec["Record Data"]
-    DS --> Gr["Graph Data"]
-    DS --> OrdDS["Ordered Data"]
+    DS[Dataset Types]
+    DS --> Rec[Record Data]
+    DS --> Gr[Graph Data]
+    DS --> OrdDS[Ordered Data]
 
-    Rec --> Flat["Flat Files / Relational DB"]
-    Rec --> Trans["Transaction / Market Basket"]
-    Rec --> DM["Data Matrix"]
-    Rec --> DTM["Sparse / Document-Term Matrix"]
+    Rec --> Flat[Flat Files / Relational DB]
+    Rec --> Trans[Transaction / Market Basket]
+    Rec --> DM[Data Matrix]
+    Rec --> DTM[Sparse / Document-Term Matrix]
 
-    OrdDS --> Seq["Sequential Data"]
-    OrdDS --> Seqs["Sequence Data"]
-    OrdDS --> TS["Time Series Data"]
-    OrdDS --> Spat["Spatial Data"]
+    OrdDS --> Seq[Sequential Data]
+    OrdDS --> Seqs[Sequence Data]
+    OrdDS --> TS[Time Series Data]
+    OrdDS --> Spat[Spatial Data]
 ```
 [Source: 3.Dataset and Attributes.pdf, Slide 12]
 
@@ -178,7 +178,6 @@ x_{21} & x_{22} & \dots & x_{2n} \\
 x_{m1} & x_{m2} & \dots & x_{mn}
 \end{bmatrix}_{m \times n}
 $$
-
 [Source: 3.Dataset and Attributes.pdf, Slide 17]
 
 #### The Sparse Data Matrix (Document-Term Matrix)
@@ -215,7 +214,7 @@ Data where the order of attributes matters in time or space.
 - **Time Series Data:** Measured at regular time intervals. 
   - *Example:* Stock price (Day 1: ₹150, Day 2: ₹152, Day 3: ₹147). Used in finance, weather.
 - **Spatial Data:** Location-based attributes tied to geographical coordinates. 
-  - *Example:* (Lat: 23.5, Long: 72.6) $\rightarrow$ 30°C. Used in GIS, urban planning.
+  - *Example:* (Lat: 23.5, Long: 72.6) → 30°C. Used in GIS, urban planning.
 [Source: 3.Dataset and Attributes.pdf, Slides 26-30]
 
 ---
@@ -242,7 +241,7 @@ Data where the order of attributes matters in time or space.
 [Source: 3.Dataset and Attributes.pdf, Slide 43]
 
 **Example: Student Spreadsheet Combining All Three**
-- **Dimensionality:** Number of fields per student (ID, name, age, score) $\rightarrow$ number of columns.
+- **Dimensionality:** Number of fields per student (ID, name, age, score) → number of columns.
 - **Sparsity:** Number of empty cells (e.g., missing assignments).
 - **Resolution:** Are marks given as whole numbers (78) or with decimals (78.56)?
 [Source: 3.Dataset and Attributes.pdf, Slide 44]
@@ -252,11 +251,9 @@ Data where the order of attributes matters in time or space.
 ## Formula Sheet
 
 ### 1. Attribute Vector
-
 $$
 \mathbf{x}_i = [x_{i1}, x_{i2}, \dots, x_{in}]^T
 $$
-
 Where $\mathbf{x}_i$ is the vector of attributes for the $i$-th data object.
 
 ### 2. Data Matrix Size
@@ -282,8 +279,6 @@ An $m \times n$ matrix contains $m$ rows (objects) and $n$ columns (features/att
 
 ## Exam-Oriented Review
 
-### Important Concepts & Answers
-
 **Q1: What is the Curse of Dimensionality?**
 **A:** When a dataset has a high number of attributes, data becomes sparse and less meaningful, making it extremely difficult to analyze. Distance measures lose contrast as dimensions increase.
 
@@ -298,14 +293,3 @@ An $m \times n$ matrix contains $m$ rows (objects) and $n$ columns (features/att
 
 **Q5: Provide an example that illustrates dimensionality, sparsity, and resolution.**
 **A:** In a student spreadsheet: Dimensionality is the number of columns (ID, Name, Age, Marks). Sparsity is the number of empty cells (e.g., missing homework grades). Resolution is whether marks are recorded as whole numbers (78) or with decimals (78.56).
-
----
-
-## Source map
-
-| Section / Topic | Source Document & References |
-| :--- | :--- |
-| **Chapter Overview & Fundamental Concepts** | `3.Dataset and Attributes.pdf`, Slides 1–3 |
-| **Attribute Taxonomy (Nominal, Binary, Ordinal, Numeric)** | `3.Dataset and Attributes.pdf`, Slides 5–11, 31–39 |
-| **Dataset Types & Matrix Formats (Record, Graph, Ordered, DTM)** | `3.Dataset and Attributes.pdf`, Slides 12–30 |
-| **Dataset Characteristics (Dimensionality, Sparsity, Resolution)** | `3.Dataset and Attributes.pdf`, Slides 41–44 |

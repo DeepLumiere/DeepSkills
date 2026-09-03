@@ -41,7 +41,7 @@ An addressing mode defines how the Execution Unit (EU) and Bus Interface Unit (B
 #### 1. Register Addressing Mode
 The operand is stored entirely within one of the internal 8-bit or 16-bit CPU registers.
 ### Figure 3.5: Register Addressing Mode Circuit Diagram
-![Figure 3.5: Register Addressing Mode](images/8086_addressing_register.png)
+![Figure 3.5: Register Addressing Mode](../images/8086_addressing_register.png)
 - **Mathematical Formula:** $EA = R$ (No memory access required).
 - **Valid Registers:** 8-bit (`AL, AH, BL, BH, CL, CH, DL, DH`) or 16-bit (`AX, BX, CX, DX, SP, BP, SI, DI`).
 - **Forbidden Transfers:**
@@ -54,7 +54,7 @@ The operand is stored entirely within one of the internal 8-bit or 16-bit CPU re
 #### 2. Immediate Addressing Mode
 The operand is constant numerical data encoded directly into the instruction byte sequence following the opcode.
 ### Figure 3.6: Immediate Addressing Mode Circuit Diagram
-![Figure 3.6: Immediate Addressing Mode](images/8086_addressing_immediate.png)
+![Figure 3.6: Immediate Addressing Mode](../images/8086_addressing_immediate.png)
 - **Constraints:**
   - Cannot move immediate data directly into Segment Registers (`DS, ES, SS, CS`). Must route via general register:
     ```assembly
@@ -68,7 +68,7 @@ The operand is constant numerical data encoded directly into the instruction byt
 #### 3. Direct Addressing Mode
 The 16-bit effective address ($EA$) is explicitly specified as a constant displacement within square brackets `[ ]`.
 ### Figure 3.7: Direct Addressing Mode Circuit Diagram
-![Figure 3.7: Direct Addressing Mode](images/8086_addressing_direct.png)
+![Figure 3.7: Direct Addressing Mode](../images/8086_addressing_direct.png)
 - **Formula:** $\text{Physical Address} = \text{DS} \times 10\text{H} + \text{Disp16}$
 - **Worked Example:** If $\text{DS} = 2000\text{H}$ and instruction is `MOV DL, [2440H]`:
   $$\text{Physical Address} = 20000\text{H} + 2440\text{H} = 22440\text{H}$$
@@ -78,7 +78,7 @@ The 16-bit effective address ($EA$) is explicitly specified as a constant displa
 #### 4. Register Indirect Addressing Mode
 The effective address of the operand in memory is held in a base register (`BX`, `BP`) or index register (`SI`, `DI`).
 ### Figure 3.8: Register Indirect Addressing Mode Circuit Diagram
-![Figure 3.8: Register Indirect Addressing Mode](images/8086_addressing_indirect.png)
+![Figure 3.8: Register Indirect Addressing Mode](../images/8086_addressing_indirect.png)
 - **Segment Association Rules:**
   - `BX`, `SI`, `DI` default to **Data Segment (DS)**.
   - `BP` defaults to **Stack Segment (SS)**.
@@ -90,7 +90,7 @@ The effective address of the operand in memory is held in a base register (`BX`,
 #### 5. Base Relative Addressing Mode
 The effective address is computed by adding an 8-bit or 16-bit signed displacement to a Base register (`BX` or `BP`).
 ### Figure 3.9: Base Relative Addressing Mode Circuit Diagram
-![Figure 3.9: Base Relative Addressing Mode](images/8086_addressing_base_relative.png)
+![Figure 3.9: Base Relative Addressing Mode](../images/8086_addressing_base_relative.png)
 - **Formula:** $EA = [\text{BX/BP}] + \text{Displacement}$
 - **Displacement Ranges:** 8-bit signed ($-128$ to $+127$) or 16-bit signed ($-32,768$ to $+32,767$).
 - **Worked Example:** If $\text{DS} = 4000\text{H}$, $\text{BX} = 2000\text{H}$, and instruction is `MOV AX, [BX + 10H]`:
@@ -102,7 +102,7 @@ The effective address is computed by adding an 8-bit or 16-bit signed displaceme
 #### 6. Indexed Relative Addressing Mode
 The effective address is computed by adding a signed displacement to an Index register (`SI` or `DI`).
 ### Figure 3.10: Indexed Relative Addressing Mode Circuit Diagram
-![Figure 3.10: Indexed Relative Addressing Mode](images/8086_addressing_indexed_relative.png)
+![Figure 3.10: Indexed Relative Addressing Mode](../images/8086_addressing_indexed_relative.png)
 - **Formula:** $EA = [\text{SI/DI}] + \text{Displacement}$ (Default segment: **DS**).
 - **Worked Example:** If $\text{DS} = 2000\text{H}$, $\text{SI} = 5000\text{H}$, and $\text{ARRAY} = 1234\text{H}$, instruction `MOV DX, ARRAY[SI]`:
   $$EA = 5000\text{H} + 1234\text{H} = 6234\text{H}$$
@@ -113,7 +113,7 @@ The effective address is computed by adding a signed displacement to an Index re
 #### 7. Base Indexed Relative Addressing Mode
 Combines one base register (`BX` or `BP`), one index register (`SI` or `DI`), and an optional displacement.
 ### Figure 3.11: Base Indexed Relative Addressing Mode Circuit Diagram
-![Figure 3.11: Base Indexed Relative Addressing Mode](images/8086_addressing_base_indexed.png)
+![Figure 3.11: Base Indexed Relative Addressing Mode](../images/8086_addressing_base_indexed.png)
 - **Formula:** $EA = [\text{BX/BP}] + [\text{SI/DI}] + \text{Displacement}$
   - Default Segment is **SS** if `BP` is used; otherwise defaults to **DS**.
 - **Worked Example:** If $\text{DS} = 1200\text{H}$, $\text{BX} = 1000\text{H}$, $\text{SI} = 2000\text{H}$, $\text{BETA} = 1234\text{H}$:
@@ -127,7 +127,7 @@ Combines one base register (`BX` or `BP`), one index register (`SI` or `DI`), an
 ## 3. 8086 Machine Instruction Encoding & Timings
 
 ### Figure 3.12: 8086 MOV Machine Instruction Template Format
-![Figure 3.12: 8086 MOV Instruction Template Format](images/8086_instruction_format_mov.png)
+![Figure 3.12: 8086 MOV Instruction Template Format](../images/8086_instruction_format_mov.png)
 
 An 8086 instruction comprises 1 to 6 bytes:
 ```text
@@ -158,7 +158,7 @@ Byte 6:  High-order Immediate Data (if present)
 ---
 
 ### Figure 3.13: 8086 MOD and R/M Encoding Matrix
-![Figure 3.13: 8086 MOD and R/M Encoding Matrix](images/8086_mod_rm_table.png)
+![Figure 3.13: 8086 MOD and R/M Encoding Matrix](../images/8086_mod_rm_table.png)
 
 #### Register Bit Codes ($W=0$ vs $W=1$)
 | Code | $W=0$ (Byte) | $W=1$ (Word) | Segment Register Code |

@@ -52,10 +52,10 @@ This chapter delivers a thorough, university-level examination of the Intel 8085
 The internal organization of the 8085 is partitioned into functional processing units:
 
 ### Figure 2.1: 8085 High-Level Block Diagram
-![Figure 2.1: 8085 High-Level Block Diagram](images/8085_block_diagram.png)
+![Figure 2.1: 8085 High-Level Block Diagram](../images/8085_block_diagram.png)
 
 ### Figure 2.2: 8085 Detailed Internal Functional Diagram
-![Figure 2.2: 8085 Detailed Internal Functional Diagram](images/8085_internal_architecture.png)
+![Figure 2.2: 8085 Detailed Internal Functional Diagram](../images/8085_internal_architecture.png)
 
 ```mermaid
 flowchart TD
@@ -130,10 +130,10 @@ flowchart TD
 ## 4. 8085 Register Configuration & Flag Register Details
 
 ### Figure 2.3: 8085 Register Array Structure
-![Figure 2.3: 8085 Register Array Structure](images/8085_registers_structure.png)
+![Figure 2.3: 8085 Register Array Structure](../images/8085_registers_structure.png)
 
 ### Figure 2.4: 8085 Flag Register Format
-![Figure 2.4: 8085 Flag Register Format](images/8085_flag_register.png)
+![Figure 2.4: 8085 Flag Register Format](../images/8085_flag_register.png)
 
 ```text
 Bit Position:   D7   D6   D5   D4   D3   D2   D1   D0
@@ -174,7 +174,7 @@ $$
 ## 5. Pin Diagram, Signal Classifications & Bus Demultiplexing
 
 ### Figure 2.5: 8085 Pin Out & Interrupt Lines
-![Figure 2.5: 8085 Pin Out & Interrupt Lines](images/8085_pin_interrupt_diagram.png)
+![Figure 2.5: 8085 Pin Out & Interrupt Lines](../images/8085_pin_interrupt_diagram.png)
 
 ### Bus Demultiplexing Mechanism (ALE)
 To minimize physical IC pin count to 40, the 8085 time-multiplexes the lower 8 bits of the address bus with the 8-bit bidirectional data bus ($AD_7 - AD_0$).
@@ -233,7 +233,7 @@ The combination of $IO/\overline{\text{M}}$, $S_1$, and $S_0$ defines the active
 | **INTR** | 5 (Lowest) | High-Level Only | Maskable (`EI`/`DI`)| External | Provided by external hardware / 8259 PIC |
 
 ### Figure 2.6: 8259 Interrupt Controller Block Diagram
-![Figure 2.6: 8259 Interrupt Controller Block Diagram](images/8259_interrupt_controller.png)
+![Figure 2.6: 8259 Interrupt Controller Block Diagram](../images/8259_interrupt_controller.png)
 
 #### 8259 Handshake Execution Sequence
 1. Peripheral devices assert interrupt request lines $IR_0 - IR_7$ on the 8259 PIC.

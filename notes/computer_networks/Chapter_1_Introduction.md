@@ -635,7 +635,7 @@ $$
 
 ### Figure 1.1: Protocol Hierarchies & Peer-to-Peer Interface Model
 
-![Figure 1.1: Protocol Hierarchies and Peer-to-Peer Interface Model](images/chapter1/ch1_protocol_hierarchy.png)
+![Figure 1.1: Protocol Hierarchies and Peer-to-Peer Interface Model](../images/chapter1/ch1_protocol_hierarchy.png)
 
 #### Written Analysis of Figure 1.1
 
@@ -657,7 +657,7 @@ Application processes generate data at Layer 5 of Host 1. The data passes downwa
 
 ### Figure 1.2: Encapsulation and Decapsulation in Layered Architecture
 
-![Figure 1.2: Encapsulation and Decapsulation in Layered Architecture](images/chapter1/ch1_encapsulation_decapsulation.png)
+![Figure 1.2: Encapsulation and Decapsulation in Layered Architecture](../images/chapter1/ch1_encapsulation_decapsulation.png)
 
 #### Written Analysis of Figure 1.2
 
@@ -680,7 +680,7 @@ Layer 5 passes message $M$ to Layer 4. Layer 4 prepends header $H_4$ to form a t
 
 ### Figure 1.3: The ISO 7-Layer Open Systems Interconnection (OSI) Model
 
-![Figure 1.3: The ISO 7-Layer OSI Reference Model Architecture](images/chapter1/ch1_osi_reference_model.png)
+![Figure 1.3: The ISO 7-Layer OSI Reference Model Architecture](../images/chapter1/ch1_osi_reference_model.png)
 
 #### Written Analysis of Figure 1.3
 
@@ -701,7 +701,7 @@ Data originates at the source application, travels down layers 7 through 1, trav
 
 ### Figure 1.4: Comparison Between OSI and TCP/IP Reference Models
 
-![Figure 1.4: Comparison Between OSI and TCP/IP Reference Models](images/chapter1/ch1_osi_tcpip_comparison.png)
+![Figure 1.4: Comparison Between OSI and TCP/IP Reference Models](../images/chapter1/ch1_osi_tcpip_comparison.png)
 
 #### Written Analysis of Figure 1.4
 
@@ -720,7 +720,7 @@ A side-by-side architectural mapping comparing the 7-layer OSI model to the 4-la
 
 ### Figure 1.5: The 5-Layer Hybrid Model Used in Course Study
 
-![Figure 1.5: The 5-Layer Hybrid Course Reference Model](images/chapter1/ch1_hybrid_reference_model.png)
+![Figure 1.5: The 5-Layer Hybrid Course Reference Model](../images/chapter1/ch1_hybrid_reference_model.png)
 
 #### Written Analysis of Figure 1.5
 
@@ -740,7 +740,7 @@ The 5-layer pedagogical model that combines the practical application layer of T
 
 ### Figure 1.6: Reference Model Critiques and Summary Comparison
 
-![Figure 1.6: Reference Model Critiques and Summary Comparison](images/chapter1/ch1_critique_reference_models.png)
+![Figure 1.6: Reference Model Critiques and Summary Comparison](../images/chapter1/ch1_critique_reference_models.png)
 
 #### Written Analysis of Figure 1.6
 
@@ -758,7 +758,7 @@ Summarizes the strengths, historical failures, and structural critiques of both 
 
 ### Figure 1.7: Philosopher-Translator-Secretary Architecture
 
-![Figure 1.7: Philosopher-Translator-Secretary Architecture](images/chapter1/ch1_philosopher_analogy.png)
+![Figure 1.7: Philosopher-Translator-Secretary Architecture](../images/chapter1/ch1_philosopher_analogy.png)
 
 #### Written Analysis of Figure 1.7
 
@@ -777,7 +777,7 @@ Each layer performs a specific transformation, oblivious to the contents of uppe
 
 ### Figure 1.8: Six Connection-Oriented Service Primitives
 
-![Figure 1.8: Six Connection-Oriented Service Primitives](images/chapter1/ch1_service_primitives.png)
+![Figure 1.8: Six Connection-Oriented Service Primitives](../images/chapter1/ch1_service_primitives.png)
 
 #### Written Analysis of Figure 1.8
 
@@ -798,7 +798,7 @@ The service primitives define *what* operations a layer provides to its user; th
 
 ### Figure 1.9: Client-Server Interaction with Acknowledged Datagrams
 
-![Figure 1.9: Client-Server Interaction with Acknowledged Datagrams](images/chapter1/ch1_client_server_interaction.png)
+![Figure 1.9: Client-Server Interaction with Acknowledged Datagrams](../images/chapter1/ch1_client_server_interaction.png)
 
 #### Written Analysis of Figure 1.9
 
@@ -818,7 +818,7 @@ Acknowledged datagrams reduce connection overhead from 9 packets (connect handsh
 
 ### Figure 1.10: Hierarchical Architecture of the Modern Internet
 
-![Figure 1.10: Hierarchical Architecture of the Modern Internet](images/chapter1/ch1_internet_architecture_hierarchy.png)
+![Figure 1.10: Hierarchical Architecture of the Modern Internet](../images/chapter1/ch1_internet_architecture_hierarchy.png)
 
 #### Written Analysis of Figure 1.10
 
