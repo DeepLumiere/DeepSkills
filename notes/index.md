@@ -24,7 +24,7 @@ And a short intro, I'm interested in computer vision, robotics, autonomous drivi
 
 [![GitHub](https://img.shields.io/badge/GitHub-DeepLumiere-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/DeepLumiere)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Deep%20Joshi-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/deep-lumiere)
-[![Website](https://img.shields.io/badge/Website-DeepSkills-00897B?style=flat-square&logo=google-chrome&logoColor=white)](https://deeplumiere.github.io/DeepLumiere)
+[![Website](https://img.shields.io/badge/Website-DeepSkills-00897B?style=flat-square&logo=google-chrome&logoColor=white)](https://deeplumiere.github.io/DeepSkills/)
 [![Email: 24bce152@nirmauni.ac.in](https://img.shields.io/badge/Email-Contact-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:24bce152@nirmauni.ac.in)
 
 ---

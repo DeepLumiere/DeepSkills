@@ -1,7 +1,7 @@
 site_name: DeepSkills
 site_description: DeepSkills Knowledge Base and Engineering Notes
 site_author: DeepLumiere
-site_url: https://deeplumiere.github.io/DeepSkills/
+site_url: !ENV [SITE_URL, https://deeplumiere.github.io/DeepSkills/]
 
 repo_name: DeepLumiere/DeepSkills
 repo_url: https://github.com/DeepLumiere/DeepSkills
