@@ -21,6 +21,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -31,6 +35,8 @@ jobs:
           pip install mkdocs-material
 
       - name: Build static site
+        env:
+          SITE_URL: ${{ steps.pages.outputs.base_url }}/
         run: |
           mkdocs build --config-file ./mkdocs.yml
 
