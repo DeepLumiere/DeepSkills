@@ -425,17 +425,15 @@ Algorithm: BinarySearch(A[1...n], x)
 ```
 
 **Recursive Approach:**
-```text
-Algorithm: binrec(A, x, beg, end)
-    if beg <= end then
-        mid = (beg + end) / 2
-        if x == A[mid] then
-            return mid
-        else if x < A[mid] then
-            return binrec(A, x, beg, mid - 1)
-        else
-            return binrec(A, x, mid + 1, end)
-    return -1
+```mermaid
+flowchart TD
+    Start["binrec(A, x, beg, end)"] --> Base{"Is beg > end?"}
+    Base -- Yes --> NotFound["Return -1 (Not Found)"]
+    Base -- No --> CalcMid["mid = (beg + end) / 2"]
+    CalcMid --> Compare{"Compare A[mid] with x"}
+    Compare -- "A[mid] == x" --> Found["Return mid"]
+    Compare -- "A[mid] < x" --> RecRight["Return binrec(A, x, mid + 1, end)"]
+    Compare -- "A[mid] > x" --> RecLeft["Return binrec(A, x, beg, mid - 1)"]
 ```
 
 ### Recurrence & Solution
@@ -463,29 +461,26 @@ $$
 3. **Combine:** Merge the two sorted sub-lists back into one sorted list.
 
 ### Pseudocode
-```text
-Algorithm: MergeSort(A, p, r)
-    if p < r then
-        q = (p + r) / 2
-        MergeSort(A, p, q)
-        MergeSort(A, q + 1, r)
-        Merge(A, p, q, r)
+```mermaid
+flowchart TD
+    Start["MergeSort(A, p, r)"] --> Base{"Is p < r?"}
+    Base -- No --> Done["Base Case: 1 element -> Return"]
+    Base -- Yes --> Mid["Compute q = (p + r) / 2"]
+    Mid --> Left["Recursively call MergeSort(A, p, q)"]
+    Left --> Right["Recursively call MergeSort(A, q + 1, r)"]
+    Right --> Merge["Call Merge(A, p, q, r) to combine sorted halves"]
 ```
 
-```text
-Algorithm: Merge(A, p, q, r)
-    // Merges sorted subarrays A[p...q] and A[q+1...r]
-    Create arrays L and R
-    Copy A[p...q] to L and A[q+1...r] to R
-    Append ∞ (sentinel) to L and R
-    i = 1, j = 1
-    for k = p to r do
-        if L[i] <= R[j] then
-            A[k] = L[i]
-            i = i + 1
-        else
-            A[k] = R[j]
-            j = j + 1
+```mermaid
+flowchart TD
+    Start["Merge(A, p, q, r)"] --> Init["Copy A[p..q] to Left Array L[], A[q+1..r] to Right Array R[]"]
+    Init --> Pointers["Set i = 1, j = 1, k = p"]
+    Pointers --> Loop{"Is i <= n1 AND j <= n2?"}
+    Loop -- Yes --> Comp{"Is L[i] <= R[j]?"}
+    Comp -- Yes --> TakeL["Set A[k] = L[i], i = i + 1"]
+    Comp -- No --> TakeR["Set A[k] = R[j], j = j + 1"]
+    TakeL & TakeR --> IncK["Set k = k + 1"] --> Loop
+    Loop -- No --> CopyRem["Copy any remaining elements of L[] and R[] into A[]"]
 ```
 
 ### Recurrence & Solution
@@ -550,25 +545,25 @@ Quick Sort is an in-place, divide-and-conquer sorting algorithm.
 3. Recursively apply Quick Sort to the left and right sub-arrays.
 
 ### Hoare's Partition Pseudocode (From Slides)
-```text
-Algorithm: pivot(T, i, j; var l)
-    p = T[i]  // pivot is first element
-    k = i
-    l = j + 1
-    Repeat
-        Repeat k = k + 1 until T[k] > p or k >= j
-        Repeat l = l - 1 until T[l] <= p
-        if k < l then Swap T[k] and T[l]
-    Until k >= l
-    Swap T[i] and T[l]  // Put pivot in final place
-    return l
+```mermaid
+flowchart TD
+    Start["pivot(T, i, j)"] --> Choose["Pivot Key p = T[i], Set k = i + 1, l = j"]
+    Choose --> Loop{"Scan Array: Is k <= l?"}
+    Loop -- Yes --> ScanK["Advance k while T[k] <= p"]
+    ScanK --> ScanL["Decrement l while T[l] > p"]
+    ScanL --> CheckCross{"Is k < l?"}
+    CheckCross -- Yes --> SwapKL["Swap T[k] and T[l]"] --> Loop
+    CheckCross -- No --> Loop
+    Loop -- No --> SwapPivot["Swap Pivot T[i] with T[l]"]
+    SwapPivot --> Return["Return Pivot Index l"]
 ```
-```text
-Algorithm: QuickSort(T, p, r)
-    if p < r then
-        q = pivot(T, p, r)
-        QuickSort(T, p, q - 1)
-        QuickSort(T, q + 1, r)
+```mermaid
+flowchart TD
+    Start["QuickSort(T, p, r)"] --> Check{"Is p < r?"}
+    Check -- No --> Done["Base Case -> Return"]
+    Check -- Yes --> Partition["Call pivot(T, p, r) -> Returns Pivot Index l"]
+    Partition --> RecL["Recursively call QuickSort(T, p, l - 1)"]
+    RecL --> RecR["Recursively call QuickSort(T, l + 1, r)"]
 ```
 
 ### Complexity Analysis
@@ -610,19 +605,18 @@ Total comparisons = $2(n-1)$. (Or $3n/2$ if checking pairs sequentially).
 3. Combine: Final $max = \max(max_{left}, max_{right})$, Final $min = \min(min_{left}, min_{right})$.
 
 ### Pseudocode
-```text
-Algorithm: MaxMin(A, i, j)
-    if i == j then  // 1 element
-        return (A[i], A[i])
-    if j == i + 1 then // 2 elements
-        if A[i] < A[j] return (A[j], A[i])
-        else return (A[i], A[j])
-        
-    mid = (i + j) / 2
-    (max_L, min_L) = MaxMin(A, i, mid)
-    (max_R, min_R) = MaxMin(A, mid + 1, j)
-    
-    return ( max(max_L, max_R), min(min_L, min_R) )
+```mermaid
+flowchart TD
+    Start["MaxMin(A, i, j)"] --> Base1{"Is i == j? (1 Element)"}
+    Base1 -- Yes --> Ret1["max = A[i], min = A[i]"]
+    Base1 -- No --> Base2{"Is i == j - 1? (2 Elements)"}
+    Base2 -- Yes --> Comp2{"Compare A[i] and A[j]"}
+    Comp2 -- "A[i] < A[j]" --> Set2A["max = A[j], min = A[i]"]
+    Comp2 -- "A[i] >= A[j]" --> Set2B["max = A[i], min = A[j]"]
+    Base2 -- No --> Divide["mid = (i + j) / 2"]
+    Divide --> RecL["MaxMin(A, i, mid) -> (max1, min1)"]
+    RecL --> RecR["MaxMin(A, mid + 1, j) -> (max2, min2)"]
+    RecR --> Combine["max = max(max1, max2), min = min(min1, min2)"]
 ```
 
 ### Recurrence & Solution for Comparisons

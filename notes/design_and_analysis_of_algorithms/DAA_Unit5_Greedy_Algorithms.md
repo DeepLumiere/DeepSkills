@@ -36,17 +36,18 @@ A greedy algorithm consists of four functions:
 4. **Solution Function:** Checks whether a complete solution has been reached.
 
 ### General Greedy Pseudocode Template
-```text
-Algorithm Greedy(a, n) {
-    Solution := 0;
-    for i = 0 to n do {
-        x := select(a);
-        if feasible(Solution, x) {
-            Solution := union(Solution, x);
-        }
-    }
-    return Solution;
-}
+```mermaid
+flowchart TD
+    Start["Greedy(a, n)"] --> Init["Set Solution Set S = Empty, Candidates C = a"]
+    Init --> Loop{"Is C not Empty AND NOT Solution(S)?"}
+    Loop -- Yes --> Select["x = Select(C)
+Remove x from C"]
+    Select --> Feasible{"Is Feasible(S, x) True?"}
+    Feasible -- Yes --> Add["Add x to S: S = S Union {x}"] --> Loop
+    Feasible -- No --> Reject["Reject x (Irrevocable)"] --> Loop
+    Loop -- No --> CheckSol{"Is Solution(S) Valid?"}
+    CheckSol -- Yes --> Return["Return Solution S"]
+    CheckSol -- No --> NoSol["Return 'No Solution Found'"]
 ```
 
 ### Common Algorithms Using Greedy Approach
@@ -88,19 +89,16 @@ Given coins of available denominations with unlimited quantity, devise an algori
 At every step, choose the **largest available coin** without worrying about whether this will prove to be a correct decision later. It never changes the decision (irrevocable).
 
 ### Algorithm Pseudocode
-```text
-# Input: C = set of coin denominations
-# Output: S = set of selected coins
-Function make-change(n, C):
-    S ← Ø
-    sum ← 0
-    while sum ≠ n do
-        x ← the largest item in C such that sum + x ≤ n
-        if there is no such item then
-            return "no solution found"
-        S ← S ∪ {a coin of value x}
-        sum ← sum + x
-    return S
+```mermaid
+flowchart TD
+    Start["Greedy-Coin-Change(C, V)"] --> Sort["Sort Coin Denominations C in Descending Order"]
+    Sort --> Init["Set i = 1, Result = []"]
+    Init --> CheckV{"Is V > 0 AND i <= n?"}
+    CheckV -- Yes --> CheckCoin{"Is C[i] <= V?"}
+    CheckCoin -- Yes --> Take["Add C[i] to Result
+Set V = V - C[i]"] --> CheckV
+    CheckCoin -- No --> NextCoin["Set i = i + 1"] --> CheckV
+    CheckV -- No --> Done["Return Result Coins List"]
 ```
 
 ### Worked Example
@@ -133,19 +131,20 @@ Suppose we need to pay $28$ using coins of denominations $\{10, 5, 2, 1, 0.5\}$.
 Calculate the value-to-weight ratio for each item. Sort items in descending order of this ratio. Greedily take as much of the item with the highest ratio as possible.
 
 #### Pseudocode
-```text
-Algorithm: Greedy-Fractional-Knapsack(w[1..n], p[1..n], W)
-    for i = 1 to n do x[i] = 0
-    weight = 0
-    While weight < W do
-        i = the best remaining object (highest p_i/w_i ratio)
-        if weight + w[i] ≤ W then
-            x[i] = 1
-            weight = weight + w[i]
-        else
-            x[i] = (W - weight) / w[i]
-            weight = W
-    return x
+```mermaid
+flowchart TD
+    Start["Greedy-Fractional-Knapsack(w, p, W)"] --> Ratio["Compute Unit Ratio r[i] = p[i] / w[i] for all items i = 1..n"]
+    Ratio --> Sort["Sort all items by ratio r[i] in Descending Order"]
+    Sort --> Init["Set total_profit = 0, current_weight = 0, i = 1"]
+    Init --> Loop{"Is i <= n AND current_weight < W?"}
+    Loop -- Yes --> CheckFit{"Is current_weight + w[i] <= W?"}
+    CheckFit -- "Yes (Take Whole)" --> Whole["Take 100% of item i
+total_profit += p[i]
+current_weight += w[i]"] --> NextItem["i = i + 1"] --> Loop
+    CheckFit -- "No (Take Fraction)" --> Frac["fraction = (W - current_weight) / w[i]
+total_profit += fraction * p[i]
+current_weight = W"] --> Loop
+    Loop -- No --> Done["Return total_profit"]
 ```
 
 #### Complete Worked Example
@@ -193,18 +192,18 @@ Activities are compatible if $s_i \ge f_j$ or $s_j \ge f_i$.
 Sort the activities in increasing order of their **finish times**. Always pick the next activity that starts after the currently selected activity finishes. This maximizes remaining time for future activities.
 
 ### Algorithm Pseudocode
-```text
-Algorithm: Activity-Selection
-Step 1: Sort input activities by increasing finishing time: f_1 ≤ f_2 ≤ ... ≤ f_n
-Step 2: Call GREEDY-ACTIVITY-SELECTOR(s, f)
-    n = length[s]
-    A = {1}
-    j = 1
-    for i = 2 to n do
-        if s_i ≥ f_j then
-            A = A ∪ {i}
-            j = i
-    return set A
+```mermaid
+flowchart TD
+    Start["Activity-Selection(s, f, n)"] --> Sort["Sort activities by Finish Time f[i] in Monotonic Ascending Order"]
+    Sort --> SelectFirst["Select first activity A[1]
+Set S = {A[1]}, last_finish = f[1]"]
+    SelectFirst --> Loop["Loop i = 2 to n"]
+    Loop --> CheckCompat{"Is Start Time s[i] >= last_finish?"}
+    CheckCompat -- Yes --> AddAct["Select activity A[i]
+Add A[i] to S
+Set last_finish = f[i]"] --> NextA["i = i + 1"] --> Loop
+    CheckCompat -- No --> NextA
+    Loop -- "i > n" --> Done["Return Max Compatible Set S"]
 ```
 
 ### Worked Trace
@@ -238,18 +237,20 @@ Given a set of jobs where each takes 1 unit of time, and each job has a profit $
 Sort jobs in decreasing order of their profit. For each job, try to schedule it as close to its deadline as possible (in the latest available free time slot).
 
 ### Algorithm Pseudocode
-```text
-Algorithm JobScheduling(arr[], n)
-    Sort arr[] in descending order of profit
-    result[n] = array to store sequence
-    slot[n] = boolean array to track free slots (init false)
-    
-    for i = 0 to n-1 do
-        for j = min(n, arr[i].deadline) - 1 down to 0 do
-            if slot[j] == false then
-                result[j] = i
-                slot[j] = true
-                break
+```mermaid
+flowchart TD
+    Start["JobScheduling(jobs, n)"] --> Sort["Sort jobs by Profit p[i] in Monotonic Descending Order"]
+    Sort --> MaxDead["Find max deadline D = max(d[i])
+Create Time Slots array slot[1..D] initialized to EMPTY"]
+    MaxDead --> Loop["Loop i = 1 to n"]
+    Loop --> FindSlot["Look for free slot j from min(D, d[i]) down to 1"]
+    FindSlot --> CheckSlot{"Is slot[j] EMPTY?"}
+    CheckSlot -- Yes --> Assign["Assign Job i to slot[j]
+slot[j] = Job i
+total_profit += p[i]"] --> NextJ["i = i + 1"] --> Loop
+    CheckSlot -- No --> PrevSlot["j = j - 1"] --> CheckSlot
+    FindSlot -- "No Slot Found" --> NextJ
+    Loop -- "i > n" --> Done["Return Scheduled Slots & total_profit"]
 ```
 
 ### Worked Trace
@@ -283,17 +284,16 @@ Compress data by assigning variable-length codes to input characters based on th
 Build a binary tree from the bottom up. At each step, extract the two nodes with the lowest frequency, merge them into a new internal node whose frequency is the sum of the two, and re-insert into the priority queue. Repeat until one node (root) remains.
 
 ### Algorithm Pseudocode
-```text
-Algorithm: HUFFMAN(C)
-    n = |C|
-    Q = C (Priority queue, min-heap sorted by frequency)
-    for i = 1 to n - 1 do
-        allocate a new node z
-        z.left = x = EXTRACT-MIN(Q)
-        z.right = y = EXTRACT-MIN(Q)
-        z.freq = x.freq + y.freq
-        INSERT(Q, z)
-    return EXTRACT-MIN(Q)  // Returns the root of the tree
+```mermaid
+flowchart TD
+    Start["HUFFMAN(C)"] --> Init["Create Min-Priority Queue Q of character nodes based on frequency f[c]"]
+    Init --> Loop["Loop i = 1 to |C| - 1"]
+    Loop --> Extract["Extract x = Extract-Min(Q), y = Extract-Min(Q)"]
+    Extract --> Create["Create new node z
+z.left = x, z.right = y
+f[z] = f[x] + f[y]"]
+    Create --> Insert["Insert z into Priority Queue Q"] --> Loop
+    Loop -- "|Q| == 1" --> Return["Return Extract-Min(Q) (Root of Huffman Tree)"]
 ```
 
 ### Step-by-Step Trace
@@ -348,16 +348,17 @@ $\text{Bits} = 45 + 39 + 36 + 48 + 36 + 20 = 224$ bits.
   - `UNION(x, y)`: unites two sets.
 
 #### Pseudocode
-```text
-Algorithm: MST-KRUSKAL(G, w)
-    A = Ø
-    for each vertex v ∈ G.V do MAKE-SET(v)
-    sort edges of G.E into nondecreasing order by weight w
-    for each edge (u, v) ∈ G.E, taken in sorted order do
-        if FIND-SET(u) ≠ FIND-SET(v) then
-            A = A ∪ {(u, v)}
-            UNION(u, v)
-    return A
+```mermaid
+flowchart TD
+    Start["MST-KRUSKAL(G, w)"] --> Init["Set A = Empty (MST edge set)
+Initialize Disjoint Set for each vertex v in V"]
+    Init --> Sort["Sort all edges E in non-decreasing order of weight w(u, v)"]
+    Sort --> Loop["For each edge (u, v) in sorted E"]
+    Loop --> CheckCycle{"Is Find-Set(u) != Find-Set(v)?"}
+    CheckCycle -- "Yes (No Cycle)" --> AddEdge["Add (u, v) to MST set A
+Union(u, v)"] --> NextEdge["Next Edge"] --> Loop
+    CheckCycle -- "No (Forms Cycle)" --> Reject["Ignore edge (u, v)"] --> NextEdge
+    Loop -- "All Edges Checked" --> Done["Return MST Edge Set A"]
 ```
 
 #### Worked Trace Example
@@ -386,19 +387,21 @@ Graph Edges: (1,2: 1), (2,3: 2), (4,5: 3), (6,7: 3), (1,4: 4), (4,7: 4), (2,4: 6
 - **Data Structure:** Min-Priority Queue for selecting the minimum weight edge.
 
 #### Pseudocode
-```text
-Algorithm: MST-PRIM(G, w, r)
-    for each u ∈ G.V do
-        u.key = ∞
-        u.π = NIL
-    r.key = 0
-    Q = G.V
-    while Q ≠ Ø do
-        u = EXTRACT-MIN(Q)
-        for each v ∈ G.Adj[u] do
-            if v ∈ Q and w(u, v) < v.key then
-                v.π = u
-                v.key = w(u, v)
+```mermaid
+flowchart TD
+    Start["MST-PRIM(G, w, r)"] --> Init["For each vertex u in V: key[u] = Infinity, parent[u] = NIL
+Set key[r] = 0"]
+    Init --> BuildQ["Build Min-Priority Queue Q containing all vertices V"]
+    BuildQ --> Loop{"Is Q not Empty?"}
+    Loop -- Yes --> Extract["u = Extract-Min(Q)"]
+    Extract --> Neighbors["For each neighbor v of u in Adj[u]"]
+    Neighbors --> CheckInQ{"Is v in Q AND w(u,v) < key[v]?"}
+    CheckInQ -- Yes --> UpdateKey["Set parent[v] = u
+Set key[v] = w(u,v)
+Decrease-Key in Q"] --> NextV["Next Neighbor"] --> Neighbors
+    CheckInQ -- No --> NextV
+    Neighbors -- "All Neighbors Visited" --> Loop
+    Loop -- No --> Done["Return Tree defined by parent pointers"]
 ```
 
 #### Worked Trace Example
@@ -450,16 +453,21 @@ RELAX(u, v, w)
 ```
 
 ### Algorithm Pseudocode
-```text
-Algorithm: DIJKSTRA(G, w, s)
-    INITIALIZE-SINGLE-SOURCE(G, s)
-    S = Ø
-    Q = G.V
-    while Q ≠ Ø do
-        u = EXTRACT-MIN(Q)
-        S = S ∪ {u}
-        for each vertex v ∈ G.Adj[u] do
-            RELAX(u, v, w)
+```mermaid
+flowchart TD
+    Start["DIJKSTRA(G, w, s)"] --> Init["For each vertex v in V: dist[v] = Infinity, parent[v] = NIL
+Set dist[s] = 0"]
+    Init --> BuildQ["Build Min-Priority Queue Q containing all vertices V"]
+    BuildQ --> Loop{"Is Q not Empty?"}
+    Loop -- Yes --> Extract["u = Extract-Min(Q)"]
+    Extract --> RelaxLoop["For each neighbor v in Adj[u]"]
+    RelaxLoop --> Relax{"Is dist[v] > dist[u] + w(u,v)?"}
+    Relax -- "Yes (Relax Edge)" --> UpdateDist["Set dist[v] = dist[u] + w(u,v)
+Set parent[v] = u
+Decrease-Key in Q"] --> NextN["Next Neighbor"] --> RelaxLoop
+    Relax -- No --> NextN
+    RelaxLoop -- "All Neighbors Visited" --> Loop
+    Loop -- No --> Done["Return Shortest Path Array dist[]"]
 ```
 
 ### Worked Trace
