@@ -158,16 +158,16 @@ $$
 ### Pseudocode
 ```mermaid
 flowchart TD
-    Start["MATRIX-CHAIN-ORDER(p, n)"] --> Init["Create m[1..n, 1..n] and s[1..n, 1..n]
-Set m[i,i] = 0 for all i = 1..n"]
+    Start["MATRIX-CHAIN-ORDER("p, n")"] --> Init["&quot;Create m[1..n, 1..n"] and s["1..n, 1..n"]
+Set m["i,i"] = 0 for all i = 1..n"]
     Init --> LenLoop["Loop chain length L = 2 to n"]
     LenLoop --> InnerI["Loop i = 1 to n - L + 1"]
-    InnerI --> SetJ["Compute j = i + L - 1, Set m[i,j] = Infinity"]
+    InnerI --> SetJ["&quot;Compute j = i + L - 1, Set m[i,j"] = Infinity"]
     SetJ --> KLoop["Loop split point k = i to j - 1"]
-    KLoop --> CalcCost["q = m[i,k] + m[k+1,j] + p[i-1]*p[k]*p[j]"]
-    CalcCost --> CheckMin{"Is q < m[i,j]?"}
-    CheckMin -- Yes --> UpdateMin["Set m[i,j] = q
-Set s[i,j] = k"] --> NextK["k = k + 1"] --> KLoop
+    KLoop --> CalcCost["&quot;q = m[i,k"] + m["k+1,j"] + p["i-1"]*p["k"]*p["j"]"]
+    CalcCost --> CheckMin{"Is q < m["i,j"]?"}
+    CheckMin -- Yes --> UpdateMin["&quot;Set m[i,j"] = q
+Set s["i,j"] = k"] --> NextK["k = k + 1"] --> KLoop
     CheckMin -- No --> NextK
     KLoop -- "k >= j" --> NextI["i = i + 1"] --> InnerI
     InnerI -- "Finished level" --> NextL["L = L + 1"] --> LenLoop
@@ -347,11 +347,11 @@ $$
 ### Pseudocode
 ```mermaid
 flowchart TD
-    Start["FLOYD-WARSHALL(W, n)"] --> Init["Set D^(0) = W (Graph Weight Matrix)"]
+    Start["FLOYD-WARSHALL("W, n")"] --> Init["Set D^(0) = W (Graph Weight Matrix)"]
     Init --> KLoop["Loop k = 1 to n (Intermediate Node)"]
     KLoop --> ILoop["Loop i = 1 to n (Source Node)"]
     ILoop --> JLoop["Loop j = 1 to n (Destination Node)"]
-    JLoop --> Update["d^(k)[i,j] = min( d^(k-1)[i,j], d^(k-1)[i,k] + d^(k-1)[k,j] )"]
+    JLoop --> Update["&quot;d^(k)[i,j"] = min(" d^(k-1")[i,j], d^(k-1)[i,k] + d^(k-1)[k,j] )"]
     Update --> NextJ["j = j + 1"] --> JLoop
     JLoop -- "j > n" --> NextI["i = i + 1"] --> ILoop
     ILoop -- "i > n" --> NextK["k = k + 1"] --> KLoop

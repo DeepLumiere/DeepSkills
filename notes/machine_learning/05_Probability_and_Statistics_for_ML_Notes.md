@@ -68,15 +68,15 @@ Where:
 
 ```mermaid
 flowchart TD
-    A[Probability Distributions] --> B[Discrete Distributions PMF]
-    A --> C[Continuous Distributions PDF]
+    A["Probability Distributions"] --> B["Discrete Distributions PMF"]
+    A --> C["Continuous Distributions PDF"]
 
-    B --> B1[Bernoulli: P X=x = p^x 1-p ^1-x]
-    B --> B2[Binomial: P X=k = n C k p^k 1-p ^n-k]
-    B --> B3[Poisson: P X=k = lambda^k e^-lambda / k!]
+    B --> B1["Bernoulli: P X=x = p^x 1-p ^1-x"]
+    B --> B2["Binomial: P X=k = n C k p^k 1-p ^n-k"]
+    B --> B3["Poisson: P X=k = lambda^k e^-lambda / k!"]
 
-    C --> C1[Gaussian / Normal Distribution]
-    C --> C2[Exponential Distribution]
+    C --> C1["Gaussian / Normal Distribution"]
+    C --> C2["Exponential Distribution"]
 ```
 
 #### Gaussian (Normal) Distribution PDF:

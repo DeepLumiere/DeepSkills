@@ -178,8 +178,8 @@ Proposed by Lawrence Roberts in 1972 to double the capacity of Pure ALOHA.
 
 ```mermaid
 flowchart LR
-    A[Pure ALOHA] -->|Vulnerable Period = 2 Tf| B[Peak Throughput S = 18.4% at G = 0.5]
-    C[Slotted ALOHA] -->|Vulnerable Period = 1 Tf| D[Peak Throughput S = 36.8% at G = 1.0]
+    A["Pure ALOHA"] -->|Vulnerable Period = 2 Tf| B["Peak Throughput S = 18.4% at G = 0.5"]
+    C["Slotted ALOHA"] -->|Vulnerable Period = 1 Tf| D["Peak Throughput S = 36.8% at G = 1.0"]
 ```
 
 [Source: Ch 4 MAC Layer.pdf, Slides 9–15; CN_Numericals_MAC_Layer.pdf, Pages 4–5]
@@ -192,12 +192,12 @@ In local area networks where propagation delay $\tau$ is very short compared to 
 
 ```mermaid
 flowchart TD
-    Sense{Sense Medium}
-    Sense -->|Channel Idle| Transmit[Transmit Frame]
-    Sense -->|Channel Busy| Strategy{Persistence Strategy}
-    Strategy -->|1-Persistent| ListenLoop[Listen continuously until idle -> Transmit immediately]
-    Strategy -->|Non-Persistent| WaitRand[Wait random time interval -> Sense again]
-    Strategy -->|p-Persistent| SlottedCheck[If idle: Transmit with prob p, Defer to next slot with prob 1-p]
+    Sense{"Sense Medium"}
+    Sense -->|Channel Idle| Transmit["Transmit Frame"]
+    Sense -->|Channel Busy| Strategy{"Persistence Strategy"}
+    Strategy -->|1-Persistent| ListenLoop["Listen continuously until idle -> Transmit immediately"]
+    Strategy -->|Non-Persistent| WaitRand["Wait random time interval -> Sense again"]
+    Strategy -->|p-Persistent| SlottedCheck["If idle: Transmit with prob p, Defer to next slot with prob 1-p"]
 ```
 
 1. **1-Persistent CSMA:**
@@ -229,11 +229,11 @@ sequenceDiagram
     actor B as Station B (Position L)
 
     Note over A: t = 0: Starts Transmitting Frame
-    Note over B: t = tau - epsilon: B senses idle & starts transmitting!
+    Note over B: t = tau - epsilon: B senses idle and starts transmitting!
     Note over A,B: Collision occurs near Station B at t = tau
-    Note over B: t = tau: Detects collision, aborts & sends Jamming Signal
+    Note over B: t = tau: Detects collision, aborts and sends Jamming Signal
     Note over A: t = 2*tau - epsilon: Collision signal arrives back at A!
-    Note over A: A detects collision, aborts & enters Binary Exponential Backoff
+    Note over A: A detects collision, aborts and enters Binary Exponential Backoff
 ```
 
 #### Why Collision Detection Takes $2\tau$ (Round-Trip Propagation Time)
@@ -480,12 +480,12 @@ Wireless transmission differs fundamentally from wired Ethernet because radios h
 ```mermaid
 flowchart LR
     subgraph Hidden ["Hidden Terminal Problem"]
-        A((Station A)) ---|Range A| B((Station B))
-        C((Station C)) ---|Range C| B
+        A("(Station A")) ---|Range A| B("(Station B"))
+        C("(Station C")) ---|Range C| B
     end
     subgraph Exposed ["Exposed Terminal Problem"]
-        E_B((Station B)) ---|Transmits to| E_A((Station A))
-        E_C((Station C)) -.->|Wants to send to| E_D((Station D))
+        E_B("(Station B")) ---|Transmits to| E_A("(Station A"))
+        E_C("(Station C")) -.->|Wants to send to| E_D("(Station D"))
     end
 ```
 
@@ -593,22 +593,22 @@ A transparent bridge is plug-and-play; when connected, it learns network topolog
 ```mermaid
 flowchart LR
     subgraph LAN1 ["Segment 1"]
-        A[Host A]
-        B[Host B]
+        A["Host A"]
+        B["Host B"]
     end
     subgraph Switch ["Learning Bridge / Switch"]
-        P1[Port 1]
-        FDB[(Forwarding Table<br>MAC | Port | Age)]
-        P2[Port 2]
+        P1["Port 1"]
+        FDB["(Forwarding Table<br>MAC | Port | Age)"]
+        P2["Port 2"]
     end
     subgraph LAN2 ["Segment 2"]
-        C[Host C]
-        D[Host D]
+        C["Host C"]
+        D["Host D"]
     end
 
-    A & B --- P1
+    A and B --- P1
     P1 --- FDB --- P2
-    P2 --- C & D
+    P2 --- C and D
 ```
 
 #### The Bridge Learning & Forwarding Procedure
@@ -636,11 +636,11 @@ To provide fault tolerance, network engineers build redundant physical links bet
 ```mermaid
 flowchart TD
     subgraph LoopProblem ["Physical Redundant Loop"]
-        SW1((Switch 1)) <--->|Link A| SW2((Switch 2))
+        SW1("(Switch 1")) <--->|Link A| SW2("(Switch 2"))
         SW1 <--->|Link B (Redundant)| SW2
     end
     subgraph STPSolution ["Logical Spanning Tree Topology"]
-        SWA((Switch 1 - ROOT)) ===|Active Link A| SWB((Switch 2))
+        SWA("(Switch 1 - ROOT")) ===|Active Link A| SWB("(Switch 2"))
         SWA -.-x|Link B: Port BLOCKED by STP| SWB
     end
 ```
@@ -707,15 +707,15 @@ A **Virtual Local Area Network (VLAN)** is a logical broadcast domain created by
 
 ```mermaid
 flowchart LR
-    Host1[Host A: VLAN 10] -->|Untagged Frame| SW1_P1[Switch 1 Access Port]
+    Host1["Host A: VLAN 10"] -->|Untagged Frame| SW1_P1["Switch 1 Access Port"]
     subgraph SW1 ["Switch 1"]
-        SW1_P1 -->|Add 802.1Q Tag: VID=10| Trunk1[Trunk Port]
+        SW1_P1 -->|Add 802.1Q Tag: VID=10| Trunk1["Trunk Port"]
     end
-    Trunk1 ===|802.1Q Tagged Trunk Link| Trunk2[Trunk Port]
+    Trunk1 ===|802.1Q Tagged Trunk Link| Trunk2["Trunk Port"]
     subgraph SW2 ["Switch 2"]
-        Trunk2 -->|Strip Tag: VID=10| SW2_P2[Switch 2 Access Port]
+        Trunk2 -->|Strip Tag: VID=10| SW2_P2["Switch 2 Access Port"]
     end
-    SW2_P2 -->|Untagged Frame| Host2[Host B: VLAN 10]
+    SW2_P2 -->|Untagged Frame| Host2["Host B: VLAN 10"]
 ```
 
 1. **Access Port (Untagged Port):** Connects to standard end-user machines (PCs, printers, servers). Frames entering and leaving access ports are standard untagged Ethernet frames; the NIC is unaware of VLANs.

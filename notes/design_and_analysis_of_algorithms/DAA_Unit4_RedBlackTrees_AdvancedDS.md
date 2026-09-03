@@ -64,7 +64,7 @@ flowchart TD
         style C1 fill:#f9e2af,stroke:#333,color:#11111b
     end
 
-    subgraph "After Left-Rotate(T, X)"
+    subgraph "After Left-Rotate("T, X")"
         direction LR
         Y2["Y (RED)"] --- X2["X (BLACK)"]
         Y2 --- C2["Subtree gamma"]
@@ -214,7 +214,7 @@ flowchart TD
         style C2 fill:#1e1e2e,stroke:#333,color:#fff
     end
 
-    subgraph "Case 1 After: Recolor & Left-Rotate(X.p)"
+    subgraph "Case 1 After: Recolor & Left-Rotate("X.p")"
         W2["W (BLACK)"] --- P2["X.p (RED)"]
         W2 --- C22["Subtree B (BLACK)"]
         P2 --- X2["X (Double Black)"]
@@ -287,7 +287,7 @@ flowchart TD
         style WR1 fill:#1e1e2e,stroke:#333,color:#fff
     end
 
-    subgraph "Case 3 After: Right-Rotate(W) -> Converted to Case 4"
+    subgraph "Case 3 After: Right-Rotate("W") -> Converted to Case 4"
         P2["X.p"] --- X2["X (Double Black)"]
         P2 --- WL2["New W: W.left (BLACK)"]
         WL2 --- Sub1["Subtree"]
@@ -327,7 +327,7 @@ flowchart TD
         style WR1 fill:#f38ba8,stroke:#333,color:#11111b
     end
 
-    subgraph "Case 4 After: Recolor & Left-Rotate(X.p) -> Double Black Resolved!"
+    subgraph "Case 4 After: Recolor & Left-Rotate("X.p") -> Double Black Resolved!"
         W2["W (Parent Color)"] --- P2["X.p (BLACK)"]
         W2 --- WR2["W.right (BLACK)"]
         P2 --- X2["X (Single Black)"]
@@ -433,7 +433,7 @@ flowchart TD
     subgraph "Extract-Min Flow"
         Step1["1. Search Root List -> Locate Min Root X"] --> Step2["2. Remove X from Root List"]
         Step2 --> Step3["3. Reverse X's Children to form new Heap H''"]
-        Step3 --> Step4["4. Call Binomial-Heap-Union(H, H'')"]
+        Step3 --> Step4["4. Call Binomial-Heap-Union("H, H''")"]
     end
 ```
 
@@ -501,10 +501,10 @@ flowchart TD
     subgraph "Fibonacci Extract-Min Consolidation Flow"
         E1["Extract Min Z"] --> E2["Move Children of Z to Root List"]
         E2 --> E3["Loop Nodes in Root List"]
-        E3 --> CheckA{"Is A[degree] occupied?"}
+        E3 --> CheckA{"Is A["degree"] occupied?"}
         CheckA -- Yes --> Link["Link Roots: Larger Key becomes child of Smaller Key
 Increment Degree -> Repeat Check"]
-        CheckA -- No --> Store["Store Root in A[degree]"]
+        CheckA -- No --> Store["&quot;Store Root in A[degree"]"]
         Link --> CheckA
         Store --> Done["Reconstruct Root List & Update min pointer"]
     end
@@ -523,7 +523,7 @@ Increment Degree -> Repeat Check"]
 ```mermaid
 flowchart TD
     subgraph "Cascading Cut Case Logic"
-        DK["Decrease-Key(x, k)"] --> CheckViol{"Is x.key < x.parent.key?"}
+        DK["Decrease-Key("x, k")"] --> CheckViol{"Is x.key < x.parent.key?"}
         CheckViol -- No --> Valid["Heap Valid -> Done"]
         CheckViol -- Yes --> CutX["Cut x from Parent P -> Move x to Root List -> Unmark x"]
         CutX --> CheckP{"Is Parent P Marked?"}
@@ -543,15 +543,15 @@ flowchart TD
     A --> C["2. Accounting Method (Banker's)"]
     A --> D["3. Potential Method (Physicist's)"]
 
-    B --> B1["Amortized Cost = Total Cost T(n) / n
+    B --> B1["Amortized Cost = Total Cost T("n") / n
 Guarantees average cost per op over worst-case sequence"]
     C --> C1["Assign Amortized Charge c_hat_i to each op
 If c_hat_i > c_i -> Store Credit in Data Structure
 If c_hat_i < c_i -> Use Credit to pay for op
 Rule: Total Credit >= 0 always"]
-    D --> D1["Define Potential Function Phi(D_i) mapping state to real number
-Amortized Cost c_hat_i = c_i + Phi(D_i) - Phi(D_i-1)
-Rule: Phi(D_n) >= Phi(D_0) always"]
+    D --> D1["Define Potential Function Phi("D_i") mapping state to real number
+Amortized Cost c_hat_i = c_i + Phi("D_i") - Phi("D_i-1")
+Rule: Phi("D_n") >= Phi("D_0") always"]
 
     style A fill:#fab387,stroke:#333,color:#11111b
     style B fill:#89b4fa,stroke:#333,color:#11111b

@@ -105,10 +105,10 @@ The data lifecycle represents the sequence of stages that data goes through from
 
 ```mermaid
 flowchart LR
-    A[Generation/Collection] --> B[Storage]
-    B --> C[Processing/Transformation]
-    C --> D[Analysis]
-    D --> E[Visualization/Communication]
+    A["Generation/Collection"] --> B["Storage"]
+    B --> C["Processing/Transformation"]
+    C --> D["Analysis"]
+    D --> E["Visualization/Communication"]
 ```
 
 [Source: 1.Introduction to DAV.pdf, Slide 15; ch1_text.txt, Slide 15]
@@ -210,11 +210,11 @@ Data analysis is a structured process to make sense of information.
 
 ```mermaid
 flowchart TD
-    A[Define the Goal] --> B[Collect Data]
-    B --> C[Clean/Preprocess Data]
-    C --> D[Analyze Data]
-    D --> E[Visualize Results]
-    E --> F[Communicate Findings / Take Action]
+    A["Define the Goal"] --> B["Collect Data"]
+    B --> C["Clean/Preprocess Data"]
+    C --> D["Analyze Data"]
+    D --> E["Visualize Results"]
+    E --> F["Communicate Findings / Take Action"]
 ```
 
 ### Big Data and Frameworks
@@ -231,11 +231,11 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph CRISP_DM [CRISP-DM Cycle]
-        A[Business Understanding] <--> B[Data Understanding]
-        B <--> C[Data Preparation]
-        C <--> D[Modeling]
-        D --> E[Evaluation]
-        E --> F[Deployment]
+        A["Business Understanding"] <--> B["Data Understanding"]
+        B <--> C["Data Preparation"]
+        C <--> D["Modeling"]
+        D --> E["Evaluation"]
+        E --> F["Deployment"]
         E -.->|Refine| A
     end
 ```
@@ -255,9 +255,9 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    A[Descriptive<br>What happened?] --> B[Diagnostic<br>Why did it happen?]
-    B --> C[Predictive<br>What will happen?]
-    C --> D[Prescriptive<br>What to do?]
+    A["Descriptive<br>What happened?"] --> B["Diagnostic<br>Why did it happen?"]
+    B --> C["Predictive<br>What will happen?"]
+    C --> D["Prescriptive<br>What to do?"]
 ```
 
 | Type | Question | Primary Techniques | Example |

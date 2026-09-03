@@ -36,10 +36,10 @@
 
 ```mermaid
 flowchart LR
-    AnalogInput[Continuous Analog Signal] --> Sampling[1. PAM Sampling]
-    Sampling --> Quantization[2. Quantization]
-    Quantization --> Encoding[3. Binary Encoding]
-    Encoding --> DigitalStream[Digital Bitstream]
+    AnalogInput["Continuous Analog Signal"] --> Sampling["1. PAM Sampling"]
+    Sampling --> Quantization["2. Quantization"]
+    Quantization --> Encoding["3. Binary Encoding"]
+    Encoding --> DigitalStream["Digital Bitstream"]
 ```
 
 ### Nyquist Sampling Rate Theorem

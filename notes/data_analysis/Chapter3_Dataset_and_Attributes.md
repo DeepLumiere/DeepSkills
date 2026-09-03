@@ -33,15 +33,15 @@ This chapter covers datasets, attribute types, and structural properties in data
 
 ```mermaid
 graph TD
-    Data[Types of Data Based on Nature]
-    Data --> Qual[Qualitative Data]
-    Data --> Quant[Quantitative Data]
+    Data["Types of Data Based on Nature"]
+    Data --> Qual["Qualitative Data"]
+    Data --> Quant["Quantitative Data"]
 
-    Qual --> Nom[Nominal]
-    Qual --> Ord[Ordinal]
+    Qual --> Nom["Nominal"]
+    Qual --> Ord["Ordinal"]
 
-    Quant --> Disc[Discrete]
-    Quant --> Cont[Continuous]
+    Quant --> Disc["Discrete"]
+    Quant --> Cont["Continuous"]
 ```
 
 ### Qualitative (Categorical) Data
@@ -60,17 +60,17 @@ Information recorded as numbers representing an objective measurement or a count
 
 ```mermaid
 graph TD
-    Attr[Attribute Types]
-    Attr --> Nom[Nominal: Unordered Categories]
-    Attr --> Bin[Binary: Two States]
-    Attr --> Ord[Ordinal: Ordered Categories]
-    Attr --> Num[Numeric: Quantitative]
+    Attr["Attribute Types"]
+    Attr --> Nom["Nominal: Unordered Categories"]
+    Attr --> Bin["Binary: Two States"]
+    Attr --> Ord["Ordinal: Ordered Categories"]
+    Attr --> Num["Numeric: Quantitative"]
 
-    Bin --> Sym[Symmetric: Equal Importance]
-    Bin --> Asym[Asymmetric: Unequal Importance]
+    Bin --> Sym["Symmetric: Equal Importance"]
+    Bin --> Asym["Asymmetric: Unequal Importance"]
 
-    Num --> Int[Interval-Scaled: No Absolute Zero]
-    Num --> Rat[Ratio-Scaled: Absolute Zero]
+    Num --> Int["Interval-Scaled: No Absolute Zero"]
+    Num --> Rat["Ratio-Scaled: Absolute Zero"]
 ```
 
 ### 1. Nominal Attributes
@@ -122,20 +122,20 @@ graph TD
 
 ```mermaid
 graph TD
-    DS[Dataset Types]
-    DS --> Rec[Record Data]
-    DS --> Gr[Graph Data]
-    DS --> OrdDS[Ordered Data]
+    DS["Dataset Types"]
+    DS --> Rec["Record Data"]
+    DS --> Gr["Graph Data"]
+    DS --> OrdDS["Ordered Data"]
 
-    Rec --> Flat[Flat Files / Relational DB]
-    Rec --> Trans[Transaction / Market Basket]
-    Rec --> DM[Data Matrix]
-    Rec --> DTM[Sparse / Document-Term Matrix]
+    Rec --> Flat["Flat Files / Relational DB"]
+    Rec --> Trans["Transaction / Market Basket"]
+    Rec --> DM["Data Matrix"]
+    Rec --> DTM["Sparse / Document-Term Matrix"]
 
-    OrdDS --> Seq[Sequential Data]
-    OrdDS --> Seqs[Sequence Data]
-    OrdDS --> TS[Time Series Data]
-    OrdDS --> Spat[Spatial Data]
+    OrdDS --> Seq["Sequential Data"]
+    OrdDS --> Seqs["Sequence Data"]
+    OrdDS --> TS["Time Series Data"]
+    OrdDS --> Spat["Spatial Data"]
 ```
 [Source: 3.Dataset and Attributes.pdf, Slide 12]
 

@@ -308,7 +308,7 @@ Flow control prevents sender buffer overrun at the receiver. Protocols progress 
 stateDiagram-v2
     [*] --> Protocol_1_Utopian
     Protocol_1_Utopian --> Protocol_2_Stop_and_Wait : Add Flow Control
-    Protocol_2_Stop_and_Wait --> Protocol_3_PAR_ARQ : Add Error Control & 1-bit Seq No
+    Protocol_2_Stop_and_Wait --> Protocol_3_PAR_ARQ : Add Error Control and 1-bit Seq No
     Protocol_3_PAR_ARQ --> Protocol_4_Sliding_Window_1bit : Add Bidirectional Piggybacking
     Protocol_4_Sliding_Window_1bit --> Protocol_5_Go_Back_N : Add Pipelining (Ws > 1, Wr = 1)
     Protocol_5_Go_Back_N --> Protocol_6_Selective_Repeat : Add Receiver Buffering (Ws > 1, Wr > 1)

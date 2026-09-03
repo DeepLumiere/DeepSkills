@@ -1,0 +1,19 @@
+# Build artifacts
+site/
+site
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual Environments
+venv/
+env/
+.venv/
+
+# IDE & OS files
+.DS_Store
+.vscode/
+.idea/
