@@ -15,7 +15,7 @@ Proximity measurement?quantifying how similar or dissimilar two data objects are
 
 ```mermaid
 flowchart TD
-    DataObjects["Data Objects (Records / Tuples)"] --> Repr["Representation"]
+    DataObjects["Data Objects (Records / Tuples)"] --> Repr[Representation]
     Repr --> DM["Data Matrix (Two-Mode: n x p)"]
     Repr --> DSM["Dissimilarity Matrix (Single-Mode: n x n)"]
     

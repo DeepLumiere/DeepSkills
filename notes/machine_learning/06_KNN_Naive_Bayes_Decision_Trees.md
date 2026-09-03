@@ -1183,7 +1183,7 @@ $$
 
 ```mermaid
 flowchart TD
-    A["CGPA &lt; 8?"] -->|Yes| B[Job Offer = No]
+    A["Is CGPA < 8?"] -->|Yes| B[Job Offer = No]
     A -->|No| C["Communication Skills == Poor?"]
     C -->|Yes| D[Job Offer = No]
     C -->|No| E[Job Offer = Yes]

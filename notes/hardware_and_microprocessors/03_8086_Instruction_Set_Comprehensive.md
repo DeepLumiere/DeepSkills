@@ -295,17 +295,17 @@ This incurs a **4 clock cycle penalty** (+4 cycles) per memory word access!
 flowchart LR
     subgraph Shift_Left["SHL / SAL: Shift Left"]
         direction LR
-        CF1["CF"] <-- "MSB out" -- RegL["D7 ... D0"] <-- "0 shifted in" -- Zero1["0"]
+        CF1[CF] <--|MSB out| RegL["D7 ... D0"] <--|0 shifted in| Zero1[0]
     end
 
     subgraph Shift_Right["SHR: Shift Logical Right"]
         direction LR
-        Zero2["0"] --> "0 shifted in" --> RegR["D7 ... D0"] --> "LSB out" --> CF2["CF"]
+        Zero2[0] -->|0 shifted in| RegR["D7 ... D0"] -->|LSB out| CF2[CF]
     end
 
     subgraph SAR_Right["SAR: Shift Arithmetic Right"]
         direction LR
-        SignBit["Sign (D7)"] --> "Preserve Sign" --> RegSAR["D7 ... D0"] --> "LSB out" --> CF3["CF"]
+        SignBit["Sign (D7)"] -->|Preserve Sign| RegSAR["D7 ... D0"] -->|LSB out| CF3[CF]
     end
 ```
 

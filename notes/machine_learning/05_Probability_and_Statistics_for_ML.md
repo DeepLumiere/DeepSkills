@@ -241,7 +241,7 @@ The relative ordering of Mean, Median, and Mode diagnoses distributional asymmet
 flowchart LR
     subgraph PosSkew[Positive / Right Skewed]
         direction LR
-        A1[Mode] &lt; B1[Median] &lt; C1[Mean]
+        A1[Mode] -->|less than| B1[Median] -->|less than| C1[Mean]
     end
     subgraph Symm[Symmetric / Normal]
         direction LR
@@ -249,7 +249,7 @@ flowchart LR
     end
     subgraph NegSkew[Negative / Left Skewed]
         direction LR
-        A3[Mean] &lt; B3[Median] &lt; C3[Mode]
+        A3[Mean] -->|less than| B3[Median] -->|less than| C3[Mode]
     end
 ```
 

@@ -301,7 +301,7 @@ A recursion tree is a visual representation of a divide-and-conquer algorithm.
 Root = $n$. Level 1 nodes = $n/2, n/2$. Level 2 nodes = $n/4, n/4, n/4, n/4$.
 ```mermaid
 graph TD
-    A["n"] --> B["n/2"]
+    A[n] --> B["n/2"]
     A --> C["n/2"]
     B --> D["n/4"]
     B --> E["n/4"]
@@ -427,13 +427,13 @@ Algorithm: BinarySearch(A[1...n], x)
 **Recursive Approach:**
 ```mermaid
 flowchart TD
-    Start["binrec("A, x, beg, end")"] --> Base{"Is beg > end?"}
+    Start["binrec(A, x, beg, end)"] --> Base{"Is beg > end?"}
     Base -- Yes --> NotFound["Return -1 (Not Found)"]
     Base -- No --> CalcMid["mid = (beg + end) / 2"]
-    CalcMid --> Compare{"Compare A["mid"] with x"}
-    Compare -- "A["mid"] == x" --> Found["Return mid"]
-    Compare -- "A["mid"] < x" --> RecRight["Return binrec("A, x, mid + 1, end")"]
-    Compare -- "A["mid"] > x" --> RecLeft["Return binrec("A, x, beg, mid - 1")"]
+    CalcMid --> Compare{"Compare A[mid] with x"}
+    Compare -- "A[mid] == x" --> Found["Return mid"]
+    Compare -- "A[mid] < x" --> RecRight["Return binrec(A, x, mid + 1, end)"]
+    Compare -- "A[mid] > x" --> RecLeft["Return binrec(A, x, beg, mid - 1)"]
 ```
 
 ### Recurrence & Solution
@@ -463,24 +463,24 @@ $$
 ### Pseudocode
 ```mermaid
 flowchart TD
-    Start["MergeSort("A, p, r")"] --> Base{"Is p < r?"}
+    Start["MergeSort(A, p, r)"] --> Base{"Is p < r?"}
     Base -- No --> Done["Base Case: 1 element -> Return"]
     Base -- Yes --> Mid["Compute q = (p + r) / 2"]
-    Mid --> Left["Recursively call MergeSort("A, p, q")"]
-    Left --> Right["Recursively call MergeSort("A, q + 1, r")"]
-    Right --> Merge["Call Merge("A, p, q, r") to combine sorted halves"]
+    Mid --> Left["Recursively call MergeSort(A, p, q)"]
+    Left --> Right["Recursively call MergeSort(A, q + 1, r)"]
+    Right --> Merge["Call Merge(A, p, q, r) to combine sorted halves"]
 ```
 
 ```mermaid
 flowchart TD
-    Start["Merge("A, p, q, r")"] --> Init["&quot;Copy A[p..q"] to Left Array L[], A["q+1..r"] to Right Array R[]"]
+    Start["Merge(A, p, q, r)"] --> Init["Copy A[p..q] to Left Array L[], A[q+1..r] to Right Array R[]"]
     Init --> Pointers["Set i = 1, j = 1, k = p"]
     Pointers --> Loop{"Is i <= n1 AND j <= n2?"}
-    Loop -- Yes --> Comp{"Is L["i"] <= R["j"]?"}
-    Comp -- Yes --> TakeL["&quot;Set A[k"] = L["i"], i = i + 1"]
-    Comp -- No --> TakeR["&quot;Set A[k"] = R["j"], j = j + 1"]
+    Loop -- Yes --> Comp{"Is L[i] <= R[j]?"}
+    Comp -- Yes --> TakeL["Set A[k] = L[i], i = i + 1"]
+    Comp -- No --> TakeR["Set A[k] = R[j], j = j + 1"]
     TakeL & TakeR --> IncK["Set k = k + 1"] --> Loop
-    Loop -- No --> CopyRem["&quot;Copy any remaining elements of L["] and R[] into A[]"]
+    Loop -- No --> CopyRem["Copy remaining elements of L and R into A"]
 ```
 
 ### Recurrence & Solution
@@ -495,36 +495,36 @@ $$
 
 ### Example Trace on Array [38, 27, 43, 3, 9, 82, 10]
 ```mermaid
-graph TD
-    A["&quot;[38, 27, 43, 3, 9, 82, 10"]"] --> B["&quot;[38, 27, 43, 3"]"]
-    A --> C["&quot;[9, 82, 10"]"]
-    B --> D["&quot;[38, 27"]"]
-    B --> E["&quot;[43, 3"]"]
-    C --> F["&quot;[9, 82"]"]
-    C --> G["&quot;[10"]"]
+flowchart TD
+    A["(38, 27, 43, 3, 9, 82, 10)"] --> B["(38, 27, 43, 3)"]
+    A --> C["(9, 82, 10)"]
+    B --> D["(38, 27)"]
+    B --> E["(43, 3)"]
+    C --> F["(9, 82)"]
+    C --> G["10"]
     
-    D --> D1["&quot;[38"]"]
-    D --> D2["&quot;[27"]"]
-    D1 -.Merge.-> D_Merged["&quot;[27, 38"]"]
+    D --> D1["38"]
+    D --> D2["27"]
+    D1 -.Merge.-> D_Merged["(27, 38)"]
     D2 -.Merge.-> D_Merged
     
-    E --> E1["&quot;[43"]"]
-    E --> E2["&quot;[3"]"]
-    E1 -.Merge.-> E_Merged["&quot;[3, 43"]"]
+    E --> E1["43"]
+    E --> E2["3"]
+    E1 -.Merge.-> E_Merged["(3, 43)"]
     E2 -.Merge.-> E_Merged
     
-    D_Merged -.Merge.-> B_Merged["&quot;[3, 27, 38, 43"]"]
+    D_Merged -.Merge.-> B_Merged["(3, 27, 38, 43)"]
     E_Merged -.Merge.-> B_Merged
     
-    F --> F1["&quot;[9"]"]
-    F --> F2["&quot;[82"]"]
-    F1 -.Merge.-> F_Merged["&quot;[9, 82"]"]
+    F --> F1["9"]
+    F --> F2["82"]
+    F1 -.Merge.-> F_Merged["(9, 82)"]
     F2 -.Merge.-> F_Merged
     
-    F_Merged -.Merge.-> C_Merged["&quot;[9, 10, 82"]"]
+    F_Merged -.Merge.-> C_Merged["(9, 10, 82)"]
     G -.Merge.-> C_Merged
     
-    B_Merged -.Merge.-> A_Merged["&quot;[3, 9, 10, 27, 38, 43, 82"]"]
+    B_Merged -.Merge.-> A_Merged["(3, 9, 10, 27, 38, 43, 82)"]
     C_Merged -.Merge.-> A_Merged
 ```
 
@@ -547,23 +547,23 @@ Quick Sort is an in-place, divide-and-conquer sorting algorithm.
 ### Hoare's Partition Pseudocode (From Slides)
 ```mermaid
 flowchart TD
-    Start["pivot("T, i, j")"] --> Choose["&quot;Pivot Key p = T[i"], Set k = i + 1, l = j"]
+    Start["pivot(T, i, j)"] --> Choose["Pivot Key p = T[i], Set k = i + 1, l = j"]
     Choose --> Loop{"Scan Array: Is k <= l?"}
-    Loop -- Yes --> ScanK["&quot;Advance k while T[k"] <= p"]
-    ScanK --> ScanL["&quot;Decrement l while T[l"] > p"]
+    Loop -- Yes --> ScanK["Advance k while T[k] <= p"]
+    ScanK --> ScanL["Decrement l while T[l] > p"]
     ScanL --> CheckCross{"Is k < l?"}
-    CheckCross -- Yes --> SwapKL["&quot;Swap T[k"] and T["l"]"] --> Loop
+    CheckCross -- Yes --> SwapKL["Swap T[k] and T[l]"] --> Loop
     CheckCross -- No --> Loop
-    Loop -- No --> SwapPivot["&quot;Swap Pivot T[i"] with T["l"]"]
+    Loop -- No --> SwapPivot["Swap Pivot T[i] with T[l]"]
     SwapPivot --> Return["Return Pivot Index l"]
 ```
 ```mermaid
 flowchart TD
-    Start["QuickSort("T, p, r")"] --> Check{"Is p < r?"}
+    Start["QuickSort(T, p, r)"] --> Check{"Is p < r?"}
     Check -- No --> Done["Base Case -> Return"]
-    Check -- Yes --> Partition["Call pivot("T, p, r") -> Returns Pivot Index l"]
-    Partition --> RecL["Recursively call QuickSort("T, p, l - 1")"]
-    RecL --> RecR["Recursively call QuickSort("T, l + 1, r")"]
+    Check -- Yes --> Partition["Call pivot(T, p, r) -> Returns Pivot Index l"]
+    Partition --> RecL["Recursively call QuickSort(T, p, l - 1)"]
+    RecL --> RecR["Recursively call QuickSort(T, l + 1, r)"]
 ```
 
 ### Complexity Analysis
@@ -607,16 +607,16 @@ Total comparisons = $2(n-1)$. (Or $3n/2$ if checking pairs sequentially).
 ### Pseudocode
 ```mermaid
 flowchart TD
-    Start["MaxMin("A, i, j")"] --> Base1{"Is i == j? (1 Element)"}
-    Base1 -- Yes --> Ret1["&quot;max = A[i"], min = A["i"]"]
+    Start["MaxMin(A, i, j)"] --> Base1{"Is i == j? (1 Element)"}
+    Base1 -- Yes --> Ret1["max = A[i], min = A[i]"]
     Base1 -- No --> Base2{"Is i == j - 1? (2 Elements)"}
-    Base2 -- Yes --> Comp2{"Compare A["i"] and A["j"]"}
-    Comp2 -- "A["i"] < A["j"]" --> Set2A["&quot;max = A[j"], min = A["i"]"]
-    Comp2 -- "A["i"] >= A["j"]" --> Set2B["&quot;max = A[i"], min = A["j"]"]
+    Base2 -- Yes --> Comp2{"Compare A[i] and A[j]"}
+    Comp2 -- "A[i] < A[j]" --> Set2A["max = A[j], min = A[i]"]
+    Comp2 -- "A[i] >= A[j]" --> Set2B["max = A[i], min = A[j]"]
     Base2 -- No --> Divide["mid = (i + j) / 2"]
-    Divide --> RecL["MaxMin("A, i, mid") -> (max1, min1)"]
-    RecL --> RecR["MaxMin("A, mid + 1, j") -> (max2, min2)"]
-    RecR --> Combine["max = max("max1, max2"), min = min("min1, min2")"]
+    Divide --> RecL["MaxMin(A, i, mid) -> (max1, min1)"]
+    RecL --> RecR["MaxMin(A, mid + 1, j) -> (max2, min2)"]
+    RecR --> Combine["max = max(max1, max2), min = min(min1, min2)"]
 ```
 
 ### Recurrence & Solution for Comparisons

@@ -253,8 +253,8 @@ flowchart TD
     Start["Homogeneous Recurrence"] --> Poly["Form Characteristic Polynomial"]
     Poly --> FindRoots["Find Roots of Polynomial"]
     FindRoots --> Case{"Are roots distinct?"}
-    Case -- Yes --> DistinctFormula["T("n") = c1*r1^n + c2*r2^n + ..."]
-    Case -- No --> RepeatedFormula["T("n") = (c1 + c2*n + ...)*r1^n + ..."]
+    Case -- Yes --> DistinctFormula["T(n) = c1*r1^n + c2*r2^n + ..."]
+    Case -- No --> RepeatedFormula["T(n) = (c1 + c2*n + ...)*r1^n + ..."]
     DistinctFormula --> Solve["Apply Initial Conditions to solve for c_j"]
     RepeatedFormula --> Solve
     Solve --> End["Closed-form Solution"]
@@ -427,14 +427,14 @@ $$
 #### Visual Decision Tree Diagram:
 ```mermaid
 flowchart TD
-    Start["Given: T("n") = aT("n/b") + f("n")"] --> Comp["Compare f("n") with n^(log_b a)"]
-    Comp --> Case1["f("n") is polynomially smaller: O("n^(log_b a - epsilon"))"]
-    Comp --> Case2["f("n") is asymptotically equal: Theta("n^(log_b a") * log^k n)"]
-    Comp --> Case3["f("n") is polynomially larger: Omega("n^(log_b a + epsilon"))"]
-    Case1 --> Res1["Case 1: T("n") = Theta("n^(log_b a"))"]
-    Case2 --> Res2["Case 2: T("n") = Theta("n^(log_b a") * log^(k+1) n)"]
-    Case3 --> Reg{"Verify Regularity: a*f("n/b") &le; c*f("n") for c < 1"}
-    Reg -- Yes --> Res3["Case 3: T("n") = Theta("f(n"))"]
+    Start["Given: T(n) = aT(n/b) + f(n)"] --> Comp["Compare f(n) with n^(log_b a)"]
+    Comp --> Case1["f(n) is polynomially smaller: O(n^(log_b a - epsilon))"]
+    Comp --> Case2["f(n) is asymptotically equal: Theta(n^(log_b a) * log^k n)"]
+    Comp --> Case3["f(n) is polynomially larger: Omega(n^(log_b a + epsilon))"]
+    Case1 --> Res1["Case 1: T(n) = Theta(n^(log_b a))"]
+    Case2 --> Res2["Case 2: T(n) = Theta(n^(log_b a) * log^(k+1) n)"]
+    Case3 --> Reg{"Verify Regularity: a*f(n/b) <= c*f(n) for c < 1"}
+    Reg -- Yes --> Res3["Case 3: T(n) = Theta(f(n))"]
     Reg -- No --> Fail["Inapplicable. Use Recurrence Tree."]
 ```
 
@@ -609,19 +609,19 @@ def Merge(A, p, q, r):
 
 ```mermaid
 flowchart TD
-    Root["&quot;[724, 521, 2, 98, 529, 31, 189, 451"]"] --> L1["&quot;[724, 521, 2, 98"]"]
-    Root --> R1["&quot;[529, 31, 189, 451"]"]
-    L1 --> L11["&quot;[724, 521"]"]
-    L1 --> L12["&quot;[2, 98"]"]
-    R1 --> R11["&quot;[529, 31"]"]
-    R1 --> R12["&quot;[189, 451"]"]
-    L11 --> M1["&quot;Merged: [521, 724"]"]
-    L12 --> M2["&quot;Merged: [2, 98"]"]
-    R11 --> M3["&quot;Merged: [31, 529"]"]
-    R12 --> M4["&quot;Merged: [189, 451"]"]
-    M1 and M2 --> ML["&quot;Merged Left: [2, 98, 521, 724"]"]
-    M3 and M4 --> MR["&quot;Merged Right: [31, 189, 451, 529"]"]
-    ML and MR --> Final["&quot;Final Sorted Array: [2, 31, 98, 189, 451, 521, 529, 724"]"]
+    Root["(724, 521, 2, 98, 529, 31, 189, 451)"] --> L1["(724, 521, 2, 98)"]
+    Root --> R1["(529, 31, 189, 451)"]
+    L1 --> L11["(724, 521)"]
+    L1 --> L12["(2, 98)"]
+    R1 --> R11["(529, 31)"]
+    R1 --> R12["(189, 451)"]
+    L11 --> M1["Merged: (521, 724)"]
+    L12 --> M2["Merged: (2, 98)"]
+    R11 --> M3["Merged: (31, 529)"]
+    R12 --> M4["Merged: (189, 451)"]
+    M1 and M2 --> ML["Merged Left: (2, 98, 521, 724)"]
+    M3 and M4 --> MR["Merged Right: (31, 189, 451, 529)"]
+    ML and MR --> Final["Final Sorted Array: (2, 31, 98, 189, 451, 521, 529, 724)"]
 ```
 
 #### Mathematical Complexity Analysis
@@ -679,11 +679,11 @@ def Partition(T, i, j):
 
 ```mermaid
 flowchart TD
-    Step1["&quot;Array: [42, 23, 74, 11, 65, 58, 94, 36, 99, 87"] | Pivot p = 42"] --> Scan1["Scan: k stops at 74 (>42), l stops at 36 (&le;42)"]
-    Scan1 --> Swap1["&quot;Swap T[k"] and T["l"] -> Array: [42, 23, 36, 11, 65, 58, 94, 74, 99, 87]"]
-    Swap1 --> Scan2["Scan: k stops at 65 (>42), l stops at 11 (&le;42). Crosses! (k &gt; l)"]
-    Scan2 --> PivotSwap["&quot;Swap Pivot T[i"] with T["l"] (42 with 11)"]
-    PivotSwap --> Result["&quot;Partitioned Array: [11, 23, 36, 42, 65, 58, 94, 74, 99, 87"] | Pivot Index = 3"]
+    Step1["Array: [42, 23, 74, 11, 65, 58, 94, 36, 99, 87"] | Pivot p = 42'] --> Scan1["Scan: k stops at 74 (>42), l stops at 36 (<=42)"]
+    Scan1 --> Swap1["Swap T[k] and T[l] -> Array: [42, 23, 36, 11, 65, 58, 94, 74, 99, 87]"]
+    Swap1 --> Scan2["Scan: k stops at 65 (>42), l stops at 11 (<=42). Crosses! (k > l)"]
+    Scan2 --> PivotSwap["Swap Pivot T[i] with T[l] (42 with 11)"]
+    PivotSwap --> Result["Partitioned Array: (11, 23, 36, 42, 65, 58, 94, 74, 99, 87) | Pivot Index = 3"]
 ```
 
 #### Mathematical Complexity Analysis
@@ -719,12 +719,11 @@ Insertion Sort builds the final sorted array one element at a time. It processes
 
 ```mermaid
 flowchart TD
-    Start["InsertionSort("A, n")"] --> Outer["Loop j = 2 to n"]
-    Outer --> Key["&quot;Set key = A[j"], i = j - 1"]
-    Key --> Inner{"Is i > 0 AND A["i"] > key?"}
-    Inner -- Yes --> Shift["&quot;Shift A[i+1"] = A["i"]
-Set i = i - 1"] --> Inner
-    Inner -- No --> Place["&quot;Insert A[i+1"] = key"] --> Outer
+    Start["InsertionSort(A, n)"] --> Outer["Loop j = 2 to n"]
+    Outer --> Key["Set key = A[j], i = j - 1"]
+    Key --> Inner{"Is i > 0 AND A[i] > key?"}
+    Inner -- Yes --> Shift["Shift A[i+1] = A[i]<br>Set i = i - 1"] --> Inner
+    Inner -- No --> Place["Insert A[i+1] = key"] --> Outer
     Outer -- "j > n" --> Done["Sorted Array A"]
 ```
 
@@ -763,12 +762,12 @@ Selection Sort divides the array into a sorted and an unsorted region. It repeat
 
 ```mermaid
 flowchart TD
-    Start["SelectionSort("A, n")"] --> Outer["Loop i = 1 to n - 1"]
+    Start["SelectionSort(A, n)"] --> Outer["Loop i = 1 to n - 1"]
     Outer --> SetMin["Set min_idx = i, j = i + 1"]
-    SetMin --> Inner{"Loop j = i + 1 to n: Is A["j"] < A["min_idx"]?"}
+    SetMin --> Inner{"Loop j = i + 1 to n: Is A[j] < A[min_idx]?"}
     Inner -- Yes --> UpdateMin["Set min_idx = j"] --> IncJ["j = j + 1"] --> Inner
     Inner -- No --> IncJ
-    Inner -- "j > n" --> Swap["&quot;Swap A[i"] with A["min_idx"]"] --> Outer
+    Inner -- "j > n" --> Swap["Swap A[i] with A[min_idx]"] --> Outer
     Outer -- "i >= n" --> Done["Sorted Array A"]
 ```
 
@@ -803,11 +802,10 @@ Bubble Sort repeatedly steps through the array, compares adjacent elements, and 
 
 ```mermaid
 flowchart TD
-    Start["BubbleSort("A, n")"] --> Outer["Loop i = 1 to n - 1"]
+    Start["BubbleSort(A, n)"] --> Outer["Loop i = 1 to n - 1"]
     Outer --> SetSwapped["Set swapped = False, j = 1"]
-    SetSwapped --> Inner{"Loop j = 1 to n - i: Is A["j"] > A["j+1"]?"}
-    Inner -- Yes --> Swap["&quot;Swap A[j"] and A["j+1"]
-Set swapped = True"] --> IncJ["j = j + 1"] --> Inner
+    SetSwapped --> Inner{"Loop j = 1 to n - i: Is A[j] > A[j+1]?"}
+    Inner -- Yes --> Swap["Swap A[j] and A[j+1]<br>Set swapped = True"] --> IncJ["j = j + 1"] --> Inner
     Inner -- No --> IncJ
     Inner -- "j > n - i" --> CheckSwapped{"Is swapped == False?"}
     CheckSwapped -- Yes --> DoneEarly["Array Already Sorted -> Terminate Early"]
@@ -862,12 +860,11 @@ Heap Sort constructs a **Max-Heap** (a binary tree where parent nodes are greate
 
 ```mermaid
 flowchart TD
-    Start["HeapSort("A, n")"] --> BuildHeap["1. Build-Max-Heap("A"):
-Call Max-Heapify from i = n/2 down to 1"]
+    Start["HeapSort(A, n)"] --> BuildHeap["1. Build-Max-Heap(A):<br>Call Max-Heapify from i = n/2 down to 1"]
     BuildHeap --> Loop["2. Loop i = n down to 2"]
-    Loop --> Extract["&quot;Swap A[1"] (Max) with A["i"]"]
+    Loop --> Extract["Swap A[1] (Max) with A[i]"]
     Extract --> Reduce["Reduce Heap Size = i - 1"]
-    Reduce --> Heapify["Call Max-Heapify("A, 1") to restore Max-Heap property"]
+    Reduce --> Heapify["Call Max-Heapify(A, 1) to restore Max-Heap property"]
     Heapify --> Loop
     Loop -- "i < 2" --> Done["Sorted Array A"]
 ```

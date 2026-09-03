@@ -64,7 +64,7 @@
 ```mermaid
 flowchart LR
     subgraph "Simplex"
-    S1["Sender"] -->|Unidirectional| R1["Receiver"]
+    S1[Sender] -->|Unidirectional| R1[Receiver]
     end
     subgraph "Half-Duplex"
     S2["Device A"] <-->|Bidirectional alternate| R2["Device B"]

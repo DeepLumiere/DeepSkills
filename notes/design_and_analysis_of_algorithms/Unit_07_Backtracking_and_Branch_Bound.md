@@ -11,12 +11,8 @@
 flowchart TD
     subgraph "Backtracking vs Branch & Bound"
         direction LR
-        BT["Backtracking (DFS)
-- Explores depth-first
-- Bounding function prunes invalid branches"]
-        BB["Branch & Bound (BFS / Best-First Search)
-- Explores level-wise or via Priority Queue
-- Lower Bound prunes sub-optimal branches"]
+        BT["Backtracking (DFS)<br>- Explores depth-first<br>- Bounding function prunes invalid branches"]
+        BB["Branch & Bound (BFS / Best-First Search)<br>- Explores level-wise or via Priority Queue<br>- Lower Bound prunes sub-optimal branches"]
     end
 ```
 
@@ -41,11 +37,11 @@ How many ways can we arrange 2 boys and 1 girl in 3 chairs, such that the girl d
 ### General Backtracking Template
 ```mermaid
 flowchart TD
-    Start["Backtrack("k")"] --> Loop["&quot;Loop for each choice x[k"] in Candidate Domain X["k"]"]
-    Loop --> CheckValid{"Is Bounding Function B("x[&quot;1&quot;]...x[&quot;k&quot;]") Valid?"}
+    Start["Backtrack(k)"] --> Loop["Loop for each choice x[k] in Candidate Domain X[k]"]
+    Loop --> CheckValid{"Is Bounding Function B(x[1]...x[k]) Valid?"}
     CheckValid -- "Yes (Valid Branch)" --> CheckSol{"Is k == n (Complete Solution)?"}
-    CheckSol -- Yes --> Output["&quot;Output Solution Vector x[1..n"]"] --> NextVal["Try Next Choice"] --> Loop
-    CheckSol -- No --> Recurse["Call Backtrack("k + 1") to explore deeper"] --> NextVal
+    CheckSol -- Yes --> Output["Output Solution Vector x[1..n]"] --> NextVal["Try Next Choice"] --> Loop
+    CheckSol -- No --> Recurse["Call Backtrack(k + 1) to explore deeper"] --> NextVal
     CheckValid -- "No (Invalid / Pruned)" --> Prune["Prune Branch (Backtrack)"] --> NextVal
     Loop -- "Domain Exhausted" --> Return["Return to Level k - 1"]
 ```
@@ -77,13 +73,12 @@ Algorithm PLACE(k, c)
 ### N-Queens Backtracking Pseudocode
 ```mermaid
 flowchart TD
-    Start["N-QUEENS("row, N")"] --> CheckRow{"Is row > N?"}
-    CheckRow -- Yes --> SolFound["Found Valid N-Queens Placement!
-Print Solution Vector x["1..N"]"]
+    Start["N-QUEENS(row, N)"] --> CheckRow{"Is row > N?"}
+    CheckRow -- Yes --> SolFound["Found Valid N-Queens Placement!<br>Print Solution Vector x[1..N]"]
     CheckRow -- No --> ColLoop["Loop col = 1 to N"]
-    ColLoop --> CheckPlace{"Is PLACE("row, col") Safe?"}
-    CheckPlace -- "Yes (No Attack)" --> Place["&quot;Set x[row"] = col"]
-    Place --> Recurse["Call N-QUEENS("row + 1, N")"] --> NextCol["col = col + 1"] --> ColLoop
+    ColLoop --> CheckPlace{"Is PLACE(row, col) Safe?"}
+    CheckPlace -- "Yes (No Attack)" --> Place["Set x[row] = col"]
+    Place --> Recurse["Call N-QUEENS(row + 1, N)"] --> NextCol["col = col + 1"] --> ColLoop
     CheckPlace -- "No (Under Attack)" --> NextCol
     ColLoop -- "col > N" --> Backtrack["Backtrack to row - 1"]
 ```
@@ -160,18 +155,16 @@ Algorithm HAMILTONIAN(k)
 ### Pseudocode
 ```mermaid
 flowchart TD
-    Start["SUBSET_SUM("s, k, r")"] --> Include["&quot;Generate Left Child: Include w[k"]
-Set x["k"] = 1"]
-    Include --> CheckLeft{"Is s + w["k"] == Target S?"}
-    CheckLeft -- Yes --> OutputL["&quot;Print Subset Solution x[1..k"]"]
-    CheckLeft -- No --> CheckDeeper{"Is s + w["k"] + w["k+1"] <= Target S?"}
-    CheckDeeper -- Yes --> RecurseL["&quot;Call SUBSET_SUM("s + w[k&quot;], k + 1, r - w[&quot;k&quot;]")"]
+    Start["SUBSET_SUM(s, k, r)"] --> Include["Generate Left Child: Include w[k]<br>Set x[k] = 1"]
+    Include --> CheckLeft{"Is s + w[k] == Target S?"}
+    CheckLeft -- Yes --> OutputL["Print Subset Solution x[1..k]"]
+    CheckLeft -- No --> CheckDeeper{"Is s + w[k] + w[k+1] <= Target S?"}
+    CheckDeeper -- Yes --> RecurseL["Call SUBSET_SUM(s + w[k], k + 1, r - w[k])"]
     CheckDeeper -- No --> PruneL["Prune Left Branch"]
     
-    RecurseL & PruneL & OutputL --> Exclude["&quot;Generate Right Child: Exclude w[k"]
-Set x["k"] = 0"]
-    Exclude --> CheckRight{"Is s + r - w["k"] >= Target S AND s + w["k+1"] <= Target S?"}
-    CheckRight -- Yes --> RecurseR["&quot;Call SUBSET_SUM("s, k + 1, r - w[k&quot;]")"]
+    RecurseL & PruneL & OutputL --> Exclude["Generate Right Child: Exclude w[k]<br>Set x[k] = 0"]
+    Exclude --> CheckRight{"Is s + r - w[k] >= Target S AND s + w[k+1] <= Target S?"}
+    CheckRight -- Yes --> RecurseR["Call SUBSET_SUM(s, k + 1, r - w[k])"]
     CheckRight -- No --> PruneR["Prune Right Branch"]
 ```
 

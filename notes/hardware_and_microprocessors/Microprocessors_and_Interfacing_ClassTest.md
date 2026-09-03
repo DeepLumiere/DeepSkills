@@ -606,7 +606,7 @@ The 8086 uses $A_0$ and $\overline{\text{BHE}}$ status signals to select the app
 flowchart LR
     Seg["Segment Register<br>e.g., CS = 3000H"] -->|Shift Left 4 Bits<br>Multiply by 10H| Shift["Base Segment Address<br>30000H"]
     Offset["Offset Register<br>e.g., IP = 1234H"] --> Add
-    Shift --> Add("(20-Bit Adder"))
+    Shift --> Add((20-Bit Adder))
     Add -->|Sum| PA["Physical Address<br>31234H"]
 ```
 

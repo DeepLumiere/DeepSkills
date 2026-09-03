@@ -64,7 +64,7 @@ flowchart TD
         style C1 fill:#f9e2af,stroke:#333,color:#11111b
     end
 
-    subgraph "After Left-Rotate("T, X")"
+    subgraph "After Left-Rotate(T, X)"
         direction LR
         Y2["Y (RED)"] --- X2["X (BLACK)"]
         Y2 --- C2["Subtree gamma"]
@@ -214,7 +214,7 @@ flowchart TD
         style C2 fill:#1e1e2e,stroke:#333,color:#fff
     end
 
-    subgraph "Case 1 After: Recolor & Left-Rotate("X.p")"
+    subgraph "Case 1 After: Recolor and Left-Rotate(X.p)"
         W2["W (BLACK)"] --- P2["X.p (RED)"]
         W2 --- C22["Subtree B (BLACK)"]
         P2 --- X2["X (Double Black)"]
@@ -275,7 +275,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph "Case 3 Before: Inner Child RED, Outer Child BLACK"
-        P1["X.p"] --- X1["X (Double Black)"]
+        P1[X.p] --- X1["X (Double Black)"]
         P1 --- W1["W (BLACK)"]
         W1 --- WL1["W.left (RED)"]
         W1 --- WR1["W.right (BLACK)"]
@@ -287,10 +287,10 @@ flowchart TD
         style WR1 fill:#1e1e2e,stroke:#333,color:#fff
     end
 
-    subgraph "Case 3 After: Right-Rotate("W") -> Converted to Case 4"
-        P2["X.p"] --- X2["X (Double Black)"]
+    subgraph "Case 3 After: Right-Rotate(W) to Case 4"
+        P2[X.p] --- X2["X (Double Black)"]
         P2 --- WL2["New W: W.left (BLACK)"]
-        WL2 --- Sub1["Subtree"]
+        WL2 --- Sub1[Subtree]
         WL2 --- W2["Old W (RED)"]
         W2 --- WR2["W.right (BLACK)"]
 
@@ -317,7 +317,7 @@ flowchart TD
     subgraph "Case 4 Before: Outer Child is RED"
         P1["X.p (Parent)"] --- X1["X (Double Black)"]
         P1 --- W1["W (BLACK)"]
-        W1 --- WL1["W.left"]
+        W1 --- WL1[W.left]
         W1 --- WR1["W.right (RED)"]
 
         style P1 fill:#fab387,stroke:#333,color:#11111b
@@ -327,11 +327,11 @@ flowchart TD
         style WR1 fill:#f38ba8,stroke:#333,color:#11111b
     end
 
-    subgraph "Case 4 After: Recolor & Left-Rotate("X.p") -> Double Black Resolved!"
+    subgraph "Case 4 After: Recolor and Left-Rotate(X.p) - Double Black Resolved"
         W2["W (Parent Color)"] --- P2["X.p (BLACK)"]
         W2 --- WR2["W.right (BLACK)"]
         P2 --- X2["X (Single Black)"]
-        P2 --- WL2["W.left"]
+        P2 --- WL2[W.left]
 
         style W2 fill:#fab387,stroke:#333,color:#11111b
         style P2 fill:#1e1e2e,stroke:#333,color:#fff
@@ -355,18 +355,18 @@ flowchart TD
 flowchart TD
     subgraph "Binomial Trees B0, B1, B2, B3"
         subgraph "B0 (Degree 0, 1 Node)"
-            r0["10"]
+            r0[10]
             style r0 fill:#89b4fa,stroke:#333,color:#11111b
         end
         subgraph "B1 (Degree 1, 2 Nodes)"
-            r1["12"] --- c11["25"]
+            r1[12] --- c11[25]
             style r1 fill:#89b4fa,stroke:#333,color:#11111b
             style c11 fill:#a6e3a1,stroke:#333,color:#11111b
         end
         subgraph "B2 (Degree 2, 4 Nodes)"
-            r2["15"] --- c21["28"]
-            r2 --- c22["33"]
-            c21 --- c211["41"]
+            r2[15] --- c21[28]
+            r2 --- c22[33]
+            c21 --- c211[41]
             style r2 fill:#89b4fa,stroke:#333,color:#11111b
             style c21 fill:#a6e3a1,stroke:#333,color:#11111b
             style c22 fill:#a6e3a1,stroke:#333,color:#11111b
@@ -390,11 +390,11 @@ Given two Binomial Heaps $H_1$ and $H_2$:
 ```mermaid
 flowchart TD
     subgraph "Linking Two B2 Trees (Roots 12 and 18)"
-        rA["12 (Degree 2)"] --- cA1["20"]
-        rA --- cA2["25"]
+        rA["12 (Degree 2)"] --- cA1[20]
+        rA --- cA2[25]
 
-        rB["18 (Degree 2)"] --- cB1["30"]
-        rB --- cB2["35"]
+        rB["18 (Degree 2)"] --- cB1[30]
+        rB --- cB2[35]
 
         style rA fill:#a6e3a1,stroke:#333,color:#11111b
         style rB fill:#f38ba8,stroke:#333,color:#11111b
@@ -402,10 +402,10 @@ flowchart TD
 
     subgraph "Merged B3 Tree (Root 12)"
         rRes["12 (Degree 3)"] --- rB2["18 (Degree 2)"]
-        rRes --- cA12["20"]
-        rRes --- cA22["25"]
-        rB2 --- cB12["30"]
-        rB2 --- cB22["35"]
+        rRes --- cA12[20]
+        rRes --- cA22[25]
+        rB2 --- cB12[30]
+        rB2 --- cB22[35]
 
         style rRes fill:#a6e3a1,stroke:#333,color:#11111b
         style rB2 fill:#f38ba8,stroke:#333,color:#11111b
@@ -432,8 +432,8 @@ flowchart TD
 flowchart TD
     subgraph "Extract-Min Flow"
         Step1["1. Search Root List -> Locate Min Root X"] --> Step2["2. Remove X from Root List"]
-        Step2 --> Step3["3. Reverse X's Children to form new Heap H''"]
-        Step3 --> Step4["4. Call Binomial-Heap-Union("H, H''")"]
+        Step2 --> Step3["3. Reverse X's Children to form new Heap H'"]
+        Step3 --> Step4["4. Call Binomial-Heap-Union(H, H'')"]
     end
 ```
 
@@ -501,10 +501,9 @@ flowchart TD
     subgraph "Fibonacci Extract-Min Consolidation Flow"
         E1["Extract Min Z"] --> E2["Move Children of Z to Root List"]
         E2 --> E3["Loop Nodes in Root List"]
-        E3 --> CheckA{"Is A["degree"] occupied?"}
-        CheckA -- Yes --> Link["Link Roots: Larger Key becomes child of Smaller Key
-Increment Degree -> Repeat Check"]
-        CheckA -- No --> Store["&quot;Store Root in A[degree"]"]
+        E3 --> CheckA{"Is A[degree] occupied?"}
+        CheckA -- Yes --> Link["Link Roots: Larger Key becomes child of Smaller Key<br>Increment Degree -> Repeat Check"]
+        CheckA -- No --> Store["Store Root in A[degree]"]
         Link --> CheckA
         Store --> Done["Reconstruct Root List & Update min pointer"]
     end
@@ -523,7 +522,7 @@ Increment Degree -> Repeat Check"]
 ```mermaid
 flowchart TD
     subgraph "Cascading Cut Case Logic"
-        DK["Decrease-Key("x, k")"] --> CheckViol{"Is x.key < x.parent.key?"}
+        DK["Decrease-Key(x, k)"] --> CheckViol{"Is x.key < x.parent.key?"}
         CheckViol -- No --> Valid["Heap Valid -> Done"]
         CheckViol -- Yes --> CutX["Cut x from Parent P -> Move x to Root List -> Unmark x"]
         CutX --> CheckP{"Is Parent P Marked?"}
@@ -543,15 +542,9 @@ flowchart TD
     A --> C["2. Accounting Method (Banker's)"]
     A --> D["3. Potential Method (Physicist's)"]
 
-    B --> B1["Amortized Cost = Total Cost T("n") / n
-Guarantees average cost per op over worst-case sequence"]
-    C --> C1["Assign Amortized Charge c_hat_i to each op
-If c_hat_i > c_i -> Store Credit in Data Structure
-If c_hat_i < c_i -> Use Credit to pay for op
-Rule: Total Credit >= 0 always"]
-    D --> D1["Define Potential Function Phi("D_i") mapping state to real number
-Amortized Cost c_hat_i = c_i + Phi("D_i") - Phi("D_i-1")
-Rule: Phi("D_n") >= Phi("D_0") always"]
+    B --> B1["Amortized Cost = Total Cost T(n) / n<br>Guarantees average cost per op over worst-case sequence"]
+    C --> C1["Assign Amortized Charge c_hat_i to each op<br>If c_hat_i > c_i: Store Credit in Data Structure<br>If c_hat_i < c_i: Use Credit to pay for op<br>Rule: Total Credit >= 0 always"]
+    D --> D1["Define Potential Function Phi(D_i) mapping state to real number<br>Amortized Cost c_hat_i = c_i + Phi(D_i) - Phi(D_i-1)<br>Rule: Phi(D_n) >= Phi(D_0) always"]
 
     style A fill:#fab387,stroke:#333,color:#11111b
     style B fill:#89b4fa,stroke:#333,color:#11111b
@@ -609,7 +602,7 @@ Standard BST rules apply first, followed by coloring newly inserted nodes **RED*
 
 ```mermaid
 flowchart TD
-    N15["15 (BLACK)"] --- NIL1["NIL"]
+    N15["15 (BLACK)"] --- NIL1[NIL]
     N15 --- N32["32 (RED)"]
     style N15 fill:#1e1e2e,stroke:#333,color:#fff
     style N32 fill:#f38ba8,stroke:#333,color:#11111b
@@ -656,7 +649,7 @@ flowchart TD
         T20["20 (BLACK)"] --- T15["15 (BLACK)"]
         T20 --- T32["32 (BLACK)"]
         T15 --- T4["4 (RED)"]
-        T15 --- NIL2["NIL"]
+        T15 --- NIL2[NIL]
         style T20 fill:#1e1e2e,stroke:#333,color:#fff
         style T15 fill:#1e1e2e,stroke:#333,color:#fff
         style T32 fill:#1e1e2e,stroke:#333,color:#fff
@@ -714,10 +707,10 @@ flowchart TD
         Root --- C32["32 (BLACK)"]
         C12 --- C4["4 (BLACK)"]
         C12 --- C15["15 (BLACK)"]
-        C4 --- NIL_L["NIL"]
+        C4 --- NIL_L[NIL]
         C4 --- C7["7 (RED)"]
         C32 --- C25["25 (RED)"]
-        C32 --- NIL_R["NIL"]
+        C32 --- NIL_R[NIL]
 
         style Root fill:#1e1e2e,stroke:#333,color:#fff
         style C12 fill:#f38ba8,stroke:#333,color:#11111b
@@ -799,20 +792,20 @@ $$	ext{Count } n = 7_{10} = 111_2 \implies 	ext{Final Heap must contain } B_2 + 
 flowchart TD
     subgraph "Final Binomial Heap Forest: B0(7) + B1(12) + B2(4)"
         subgraph "B0 (Degree 0, 1 Node)"
-            BH_7["7"]
+            BH_7[7]
             style BH_7 fill:#89b4fa,stroke:#333,color:#11111b
         end
 
         subgraph "B1 (Degree 1, 2 Nodes)"
-            BH_12["12"] --- BH_25["25"]
+            BH_12[12] --- BH_25[25]
             style BH_12 fill:#89b4fa,stroke:#333,color:#11111b
             style BH_25 fill:#a6e3a1,stroke:#333,color:#11111b
         end
 
         subgraph "B2 (Degree 2, 4 Nodes)"
-            BH_4["4 (Min Root)"] --- BH_15["15"]
-            BH_4 --- BH_20["20"]
-            BH_15 --- BH_32["32"]
+            BH_4["4 (Min Root)"] --- BH_15[15]
+            BH_4 --- BH_20[20]
+            BH_15 --- BH_32[32]
             style BH_4 fill:#f38ba8,stroke:#333,color:#11111b
             style BH_15 fill:#a6e3a1,stroke:#333,color:#11111b
             style BH_20 fill:#a6e3a1,stroke:#333,color:#11111b
@@ -851,12 +844,12 @@ Fibonacci Heaps use **lazy insertion**: new nodes are simply spliced into the ci
 flowchart LR
     subgraph "Fibonacci Heap Root List After 7 Lazy Insertions"
         direction LR
-        N15["15"] <--> N32["32"]
-        N32 <--> N20["20"]
+        N15[15] <--> N32[32]
+        N32 <--> N20[20]
         N20 <--> MIN["4 (H.min)"]
-        MIN <--> N12["12"]
-        N12 <--> N25["25"]
-        N25 <--> N7["7"]
+        MIN <--> N12[12]
+        N12 <--> N25[25]
+        N25 <--> N7[7]
         N7 <--> N15
 
         style MIN fill:#f38ba8,stroke:#333,color:#11111b
@@ -872,7 +865,8 @@ flowchart LR
 #### Step 2: Extract-Min & Degree Consolidation
 1. Remove `H.min` (Node 4).
    - Node 4 has 0 children $\implies$ Root list now has 6 nodes: $[15, 32, 20, 12, 25, 7]$.
-2. Initialize degree array: $D(n) \le \lfloor \log_\phi 6 floor \implies A[0 \dots 2] = [	ext{NIL}, 	ext{NIL}, 	ext{NIL}]$.
+2. Initialize degree array: $D(n) \le \lfloor \log_\phi 6 
+floor \implies A[0 \dots 2] = [	ext{NIL}, 	ext{NIL}, 	ext{NIL}]$.
 3. Iterate through root list nodes:
    - **Node 15 (deg 0):** $A[0] = 	ext{NIL} \implies A[0] = 15$.
    - **Node 32 (deg 0):** $A[0]$ occupied by 15. Collision!
@@ -898,15 +892,15 @@ flowchart LR
 flowchart TD
     subgraph "Consolidated Fibonacci Heap After Extract-Min"
         subgraph "Root 7 (Degree 1, H.min)"
-            F7["7 (H.min)"] --- F25["25"]
+            F7["7 (H.min)"] --- F25[25]
             style F7 fill:#f38ba8,stroke:#333,color:#11111b
             style F25 fill:#a6e3a1,stroke:#333,color:#11111b
         end
 
         subgraph "Root 12 (Degree 2)"
-            F12["12"] --- F20["20"]
-            F12 --- F15["15"]
-            F15 --- F32["32"]
+            F12[12] --- F20[20]
+            F12 --- F15[15]
+            F15 --- F32[32]
             style F12 fill:#89b4fa,stroke:#333,color:#11111b
             style F20 fill:#a6e3a1,stroke:#333,color:#11111b
             style F15 fill:#a6e3a1,stroke:#333,color:#11111b
