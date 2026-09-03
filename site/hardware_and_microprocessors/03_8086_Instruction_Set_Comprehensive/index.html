@@ -1,0 +1,3692 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="DeepSkills Knowledge Base and Engineering Notes">
+      
+      
+        <meta name="author" content="DeepLumiere">
+      
+      
+        <link rel="canonical" href="https://deeplumiere.github.io/DeepSkills/hardware_and_microprocessors/03_8086_Instruction_Set_Comprehensive/">
+      
+      
+        <link rel="prev" href="../02_8085_Instruction_Set_Comprehensive/">
+      
+      
+        <link rel="next" href="../04_8086_String_Operations_and_Looping/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Chapter 5 — 8086 Addressing Modes, Machine Encoding & Complete Instruction Set - DeepSkills</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-301Z6Q0P7W"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-301Z6Q0P7W",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-301Z6Q0P7W",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-5-8086-addressing-modes-machine-encoding-complete-instruction-set" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DeepSkills" class="md-header__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DeepSkills
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter 5 — 8086 Addressing Modes, Machine Encoding &amp; Complete Instruction Set
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DeepSkills" class="md-nav__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    DeepSkills
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Computer networks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Computer networks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_1_Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Introduction to Computer Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_3_Data_Link_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Data Link Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_4_MAC_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Medium Access Control Sublayer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/CompNet_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CompNet ClassTest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data analysis
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data analysis
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter1_Introduction_to_DAV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter1 Introduction to DAV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter2_Types_of_Data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter2 Types of Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter3_Dataset_and_Attributes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter3 Dataset and Attributes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter4_Statistical_Descriptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter4 Statistical Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter5_Data_Preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter5 Data Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data communication
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data communication
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter10_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10 — Error Detection and Correction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter1_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1 — Introduction to Data Communications and Networking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter2_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — Network Models (OSI &amp; TCP/IP Architecture)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter3_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3 — Data and Signals (Physical Layer Foundations)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter4_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 — Digital Transmission
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter5_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 — Analog Transmission (Modulation Techniques)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter6_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 — Multiplexing &amp; Spreading Spectrum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter7_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 — Transmission Media
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter8_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8 — Switching (Circuit, Packet, &amp; Datagram Networks)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design and analysis of algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design and analysis of algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithmic_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1 — Unit-I: Elementary Algorithmic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1: Complete DAA Notes: Unit 1 — Elementary Algorithms &amp; Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_and_Unit2_Complete_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1: Complete DAA Notes: Unit 1 — Elementary Algorithms &amp; Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit2_Analysis_of_Algorithms_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — Unit-II: Analysis of Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit3_Recurrence_DivideConquer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3: Complete DAA Notes — Recurrence Relations &amp; Divide and Conquer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit4_RedBlackTrees_AdvancedDS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4: Unit 4 — Advanced Data Structures &amp; Amortized Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit5_Greedy_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 5 — Greedy Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit6_Dynamic_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 6 — Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit7_Backtracking_BranchBound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 7 — Backtracking &amp; Branch and Bound
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware and microprocessors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hardware and microprocessors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_Directives_In_Depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 — 8086 Assembler Directives, Operators &amp; Storage Allocation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_8085_Instruction_Set_Comprehensive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — 8085 Microprocessor Architecture, Interfacing &amp; Complete Instruction Set
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 — 8086 Addressing Modes, Machine Encoding &amp; Complete Instruction Set
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 — 8086 Addressing Modes, Machine Encoding &amp; Complete Instruction Set
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-8086-addressing-modes-exhaustive-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 8086 Addressing Modes (Exhaustive Analysis)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 8086 Addressing Modes (Exhaustive Analysis)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#summary-comparison-table-of-addressing-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary Comparison Table of Addressing Modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detailed-analysis-of-each-addressing-mode-with-embedded-circuit-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detailed Analysis of Each Addressing Mode with Embedded Circuit Diagrams
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detailed Analysis of Each Addressing Mode with Embedded Circuit Diagrams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-register-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Register Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-35-register-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.5: Register Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.5: Register Addressing Mode Circuit Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-immediate-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Immediate Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-36-immediate-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.6: Immediate Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.6: Immediate Addressing Mode Circuit Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-direct-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Direct Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-37-direct-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.7: Direct Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.7: Direct Addressing Mode Circuit Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-register-indirect-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Register Indirect Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-38-register-indirect-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.8: Register Indirect Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.8: Register Indirect Addressing Mode Circuit Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-base-relative-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Base Relative Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-39-base-relative-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.9: Base Relative Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.9: Base Relative Addressing Mode Circuit Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-indexed-relative-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Indexed Relative Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-310-indexed-relative-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.10: Indexed Relative Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.10: Indexed Relative Addressing Mode Circuit Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-base-indexed-relative-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Base Indexed Relative Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-311-base-indexed-relative-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.11: Base Indexed Relative Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-8086-machine-instruction-encoding-timings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 8086 Machine Instruction Encoding &amp; Timings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 8086 Machine Instruction Encoding &amp; Timings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#figure-312-8086-mov-machine-instruction-template-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.12: 8086 MOV Machine Instruction Template Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bit-fields-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bit Fields Explanation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-313-8086-mod-and-rm-encoding-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.13: 8086 MOD and R/M Encoding Matrix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.13: 8086 MOD and R/M Encoding Matrix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#register-bit-codes-w0-vs-w1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Register Bit Codes (\(W=0\) vs \(W=1\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worked-machine-encoding-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked Machine Encoding Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Worked Machine Encoding Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-31-encode-mov-cl-bx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3.1: Encode MOV CL, [BX]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-32-encode-mov-csbx-dl-segment-override-prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3.2: Encode MOV CS:[BX], DL (Segment Override Prefix)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-timings-bus-alignment-penalties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Timings &amp; Bus Alignment Penalties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Execution Timings &amp; Bus Alignment Penalties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#effective-address-ea-calculation-times" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Effective Address (\(EA\)) Calculation Times
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#critical-bus-boundary-penalty-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Critical Bus Boundary Penalty Rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-complete-8086-instruction-set-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Complete 8086 Instruction Set Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Complete 8086 Instruction Set Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-data-transfer-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Data Transfer Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-arithmetic-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Arithmetic Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-logical-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Logical Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-shift-and-rotate-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Shift and Rotate Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-exam-oriented-review-high-frequency-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Exam-Oriented Review &amp; High-Frequency Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_8086_String_Operations_and_Looping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 — 8086 String Operations, Branching &amp; Looping Mechanics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_8086_Stack_Operations_and_Modular_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 — 8086 Stack Architecture, Procedures &amp; Modular Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Microprocessors_and_Interfacing_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microprocessors &amp; Interfacing Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/01_Machine_Learning_and_its_Applications_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Introduction to Machine Learning &amp; Applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/02_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Simple Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/03_Multivariate_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Multivariate Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/04_Regularization_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Regularization and Overfitting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/05_Probability_and_Statistics_for_ML_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Probability &amp; Statistics for Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Web development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../web_development/FSD_Complete_Study_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Stack Web Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-8086-addressing-modes-exhaustive-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 8086 Addressing Modes (Exhaustive Analysis)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 8086 Addressing Modes (Exhaustive Analysis)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#summary-comparison-table-of-addressing-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary Comparison Table of Addressing Modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detailed-analysis-of-each-addressing-mode-with-embedded-circuit-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detailed Analysis of Each Addressing Mode with Embedded Circuit Diagrams
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detailed Analysis of Each Addressing Mode with Embedded Circuit Diagrams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-register-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Register Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-35-register-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.5: Register Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.5: Register Addressing Mode Circuit Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-immediate-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Immediate Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-36-immediate-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.6: Immediate Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.6: Immediate Addressing Mode Circuit Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-direct-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Direct Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-37-direct-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.7: Direct Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.7: Direct Addressing Mode Circuit Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-register-indirect-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Register Indirect Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-38-register-indirect-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.8: Register Indirect Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.8: Register Indirect Addressing Mode Circuit Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-base-relative-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Base Relative Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-39-base-relative-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.9: Base Relative Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.9: Base Relative Addressing Mode Circuit Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-indexed-relative-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Indexed Relative Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-310-indexed-relative-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.10: Indexed Relative Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.10: Indexed Relative Addressing Mode Circuit Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-base-indexed-relative-addressing-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Base Indexed Relative Addressing Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-311-base-indexed-relative-addressing-mode-circuit-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.11: Base Indexed Relative Addressing Mode Circuit Diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-8086-machine-instruction-encoding-timings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 8086 Machine Instruction Encoding &amp; Timings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 8086 Machine Instruction Encoding &amp; Timings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#figure-312-8086-mov-machine-instruction-template-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.12: 8086 MOV Machine Instruction Template Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bit-fields-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bit Fields Explanation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-313-8086-mod-and-rm-encoding-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 3.13: 8086 MOD and R/M Encoding Matrix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 3.13: 8086 MOD and R/M Encoding Matrix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#register-bit-codes-w0-vs-w1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Register Bit Codes (\(W=0\) vs \(W=1\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worked-machine-encoding-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked Machine Encoding Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Worked Machine Encoding Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-31-encode-mov-cl-bx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3.1: Encode MOV CL, [BX]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-32-encode-mov-csbx-dl-segment-override-prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3.2: Encode MOV CS:[BX], DL (Segment Override Prefix)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-timings-bus-alignment-penalties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Timings &amp; Bus Alignment Penalties
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Execution Timings &amp; Bus Alignment Penalties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#effective-address-ea-calculation-times" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Effective Address (\(EA\)) Calculation Times
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#critical-bus-boundary-penalty-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Critical Bus Boundary Penalty Rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-complete-8086-instruction-set-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Complete 8086 Instruction Set Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Complete 8086 Instruction Set Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-data-transfer-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Data Transfer Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-arithmetic-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Arithmetic Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-logical-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Logical Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-shift-and-rotate-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Shift and Rotate Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-exam-oriented-review-high-frequency-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Exam-Oriented Review &amp; High-Frequency Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/DeepLumiere/DeepSkills/edit/main/notes/hardware_and_microprocessors/03_8086_Instruction_Set_Comprehensive.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="chapter-5-8086-addressing-modes-machine-encoding-complete-instruction-set">Chapter 5 — 8086 Addressing Modes, Machine Encoding &amp; Complete Instruction Set<a class="headerlink" href="#chapter-5-8086-addressing-modes-machine-encoding-complete-instruction-set" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Course Code:</strong> 3CS526CC23<br />
+<strong>Course Title:</strong> Microprocessor and Interfacing [3 0 2 4]<br />
+<strong>Governing Standard:</strong> <code>notes_maker</code> Skill (Comprehensive Chapter Notes Generator)<br />
+<strong>Primary Source:</strong> Faculty Lecture Presentations (<code>3CS526CC23 8086 Architecture.pdf</code>, <code>8086_instruction_set_Basic.pdf</code>, <code>Assembler Language Instruction Set _part 2.pdf</code>) &amp; Reference Literature (Liu &amp; Gibson, Brey)  </p>
+</blockquote>
+<hr />
+<h2 id="1-chapter-overview">1. Chapter Overview<a class="headerlink" href="#1-chapter-overview" title="Permanent link">&para;</a></h2>
+<p>This chapter delivers an exhaustive, textbook-grade presentation of the Intel 8086 16-bit instruction architecture. It covers:
+1. The <strong>7 core addressing modes</strong> with effective address calculations, advantages, limitations, and circuit diagrams.
+2. The <strong>machine code instruction format</strong> (Opcode, Direction bit <span class="arithmatex">\(D\)</span>, Word bit <span class="arithmatex">\(W\)</span>, Mode bits <span class="arithmatex">\(\text{MOD}\)</span>, Register bits <span class="arithmatex">\(\text{REG}\)</span>, and Register/Memory bits <span class="arithmatex">\(R/M\)</span>), including segment overrides and execution timing penalties (even vs odd memory boundaries).
+3. The <strong>complete 8086 instruction set</strong>: Data Transfer, Arithmetic (including BCD/ASCII adjustments), Bitwise Logic, Shift/Rotate operations, Flag Manipulation, and Processor Control instructions.</p>
+<p>[Source: 3CS526CC23 8086 Architecture, Slides 34–71; 8086_instruction_set_Basic, Slides 1–36]</p>
+<hr />
+<h2 id="2-8086-addressing-modes-exhaustive-analysis">2. 8086 Addressing Modes (Exhaustive Analysis)<a class="headerlink" href="#2-8086-addressing-modes-exhaustive-analysis" title="Permanent link">&para;</a></h2>
+<p>An addressing mode defines how the Execution Unit (EU) and Bus Interface Unit (BIU) locate instruction operands. The 8086 supports 7 distinct addressing modes for data operands:</p>
+<h3 id="summary-comparison-table-of-addressing-modes">Summary Comparison Table of Addressing Modes<a class="headerlink" href="#summary-comparison-table-of-addressing-modes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Addressing Mode</th>
+<th style="text-align: left;">Effective Address (<span class="arithmatex">\(EA\)</span>) Formula</th>
+<th style="text-align: left;">Physical Address Formula</th>
+<th style="text-align: left;">Advantages</th>
+<th style="text-align: left;">Disadvantages / Constraints</th>
+<th style="text-align: left;">Assembly Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>1. Register</strong></td>
+<td style="text-align: left;">None (<span class="arithmatex">\(EA = R\)</span>)</td>
+<td style="text-align: left;">None (Internal Registers)</td>
+<td style="text-align: left;">Fastest; no memory bus cycles required.</td>
+<td style="text-align: left;">Limited to internal CPU registers.</td>
+<td style="text-align: left;"><code>MOV BX, DX</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>2. Immediate</strong></td>
+<td style="text-align: left;">None (Part of Opcode)</td>
+<td style="text-align: left;">Code Segment Physical Address</td>
+<td style="text-align: left;">Fast execution; operand is immediately available.</td>
+<td style="text-align: left;">Fixed constant; cannot be modified at runtime. Cannot load directly to Segment Registers.</td>
+<td style="text-align: left;"><code>MOV AX, 2550H</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3. Direct</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(EA = \text{Disp16}\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{DS} \times 10\text{H} + \text{Disp16}\)</span></td>
+<td style="text-align: left;">Simple, direct access to variables.</td>
+<td style="text-align: left;">Fixed memory location; cannot index dynamically.</td>
+<td style="text-align: left;"><code>MOV DL, [2440H]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>4. Register Indirect</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(EA = [R] \quad (R \in \{\text{BX}, \text{BP}, \text{SI}, \text{DI}\})\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{DS/SS} \times 10\text{H} + [R]\)</span></td>
+<td style="text-align: left;">Dynamic pointer access; large addressable space.</td>
+<td style="text-align: left;">Requires extra register setup step; memory bus latency.</td>
+<td style="text-align: left;"><code>MOV CX, [BX]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>5. Base Relative</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(EA = [\text{Base}] + \text{Disp}\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{DS/SS} \times 10\text{H} + EA\)</span></td>
+<td style="text-align: left;">Ideal for records, structures, and stack parameters.</td>
+<td style="text-align: left;">Requires 16-bit address arithmetic calculation.</td>
+<td style="text-align: left;"><code>MOV AX, [BX + 10H]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>6. Indexed Relative</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(EA = [\text{Index}] + \text{Disp}\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{DS} \times 10\text{H} + EA\)</span></td>
+<td style="text-align: left;">Ideal for linear arrays, vectors, and string tables.</td>
+<td style="text-align: left;">Limited to <code>SI</code> and <code>DI</code> index registers.</td>
+<td style="text-align: left;"><code>MOV DX, ARRAY[SI]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>7. Base Indexed Relative</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(EA = [\text{Base}] + [\text{Index}] + \text{Disp}\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{DS/SS} \times 10\text{H} + EA\)</span></td>
+<td style="text-align: left;">Highly versatile; supports multi-dimensional 2D matrices.</td>
+<td style="text-align: left;">Slowest effective address calculation (up to 12 clock cycles).</td>
+<td style="text-align: left;"><code>MOV AX, BETA[BX][SI]</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="detailed-analysis-of-each-addressing-mode-with-embedded-circuit-diagrams">Detailed Analysis of Each Addressing Mode with Embedded Circuit Diagrams<a class="headerlink" href="#detailed-analysis-of-each-addressing-mode-with-embedded-circuit-diagrams" title="Permanent link">&para;</a></h3>
+<h4 id="1-register-addressing-mode">1. Register Addressing Mode<a class="headerlink" href="#1-register-addressing-mode" title="Permanent link">&para;</a></h4>
+<p>The operand is stored entirely within one of the internal 8-bit or 16-bit CPU registers.</p>
+<h3 id="figure-35-register-addressing-mode-circuit-diagram">Figure 3.5: Register Addressing Mode Circuit Diagram<a class="headerlink" href="#figure-35-register-addressing-mode-circuit-diagram" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 3.5: Register Addressing Mode" src="images/8086_addressing_register.png" />
+- <strong>Mathematical Formula:</strong> <span class="arithmatex">\(EA = R\)</span> (No memory access required).
+- <strong>Valid Registers:</strong> 8-bit (<code>AL, AH, BL, BH, CL, CH, DL, DH</code>) or 16-bit (<code>AX, BX, CX, DX, SP, BP, SI, DI</code>).
+- <strong>Forbidden Transfers:</strong>
+  - <code>MOV BL, BX</code> <span class="arithmatex">\(\rightarrow\)</span> <strong>ILLEGAL (Mixed operand widths).</strong>
+  - <code>MOV CS, AX</code> <span class="arithmatex">\(\rightarrow\)</span> <strong>ILLEGAL (Code Segment cannot be destination).</strong>
+  - <code>MOV ES, DS</code> <span class="arithmatex">\(\rightarrow\)</span> <strong>ILLEGAL (Segment-to-segment register transfer not permitted).</strong></p>
+<hr />
+<h4 id="2-immediate-addressing-mode">2. Immediate Addressing Mode<a class="headerlink" href="#2-immediate-addressing-mode" title="Permanent link">&para;</a></h4>
+<p>The operand is constant numerical data encoded directly into the instruction byte sequence following the opcode.</p>
+<h3 id="figure-36-immediate-addressing-mode-circuit-diagram">Figure 3.6: Immediate Addressing Mode Circuit Diagram<a class="headerlink" href="#figure-36-immediate-addressing-mode-circuit-diagram" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 3.6: Immediate Addressing Mode" src="images/8086_addressing_immediate.png" />
+- <strong>Constraints:</strong>
+  - Cannot move immediate data directly into Segment Registers (<code>DS, ES, SS, CS</code>). Must route via general register:
+    <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>MOV AX, 0123H
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>MOV DS, AX
+</span></code></pre></div>
+  - Immediate operand width must match destination register width (<code>MOV AL, 2AAH</code> is illegal).</p>
+<hr />
+<h4 id="3-direct-addressing-mode">3. Direct Addressing Mode<a class="headerlink" href="#3-direct-addressing-mode" title="Permanent link">&para;</a></h4>
+<p>The 16-bit effective address (<span class="arithmatex">\(EA\)</span>) is explicitly specified as a constant displacement within square brackets <code>[ ]</code>.</p>
+<h3 id="figure-37-direct-addressing-mode-circuit-diagram">Figure 3.7: Direct Addressing Mode Circuit Diagram<a class="headerlink" href="#figure-37-direct-addressing-mode-circuit-diagram" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 3.7: Direct Addressing Mode" src="images/8086_addressing_direct.png" />
+- <strong>Formula:</strong> <span class="arithmatex">\(\text{Physical Address} = \text{DS} \times 10\text{H} + \text{Disp16}\)</span>
+- <strong>Worked Example:</strong> If <span class="arithmatex">\(\text{DS} = 2000\text{H}\)</span> and instruction is <code>MOV DL, [2440H]</code>:
+  $<span class="arithmatex">\(\text{Physical Address} = 20000\text{H} + 2440\text{H} = 22440\text{H}\)</span>$</p>
+<hr />
+<h4 id="4-register-indirect-addressing-mode">4. Register Indirect Addressing Mode<a class="headerlink" href="#4-register-indirect-addressing-mode" title="Permanent link">&para;</a></h4>
+<p>The effective address of the operand in memory is held in a base register (<code>BX</code>, <code>BP</code>) or index register (<code>SI</code>, <code>DI</code>).</p>
+<h3 id="figure-38-register-indirect-addressing-mode-circuit-diagram">Figure 3.8: Register Indirect Addressing Mode Circuit Diagram<a class="headerlink" href="#figure-38-register-indirect-addressing-mode-circuit-diagram" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 3.8: Register Indirect Addressing Mode" src="images/8086_addressing_indirect.png" />
+- <strong>Segment Association Rules:</strong>
+  - <code>BX</code>, <code>SI</code>, <code>DI</code> default to <strong>Data Segment (DS)</strong>.
+  - <code>BP</code> defaults to <strong>Stack Segment (SS)</strong>.
+- <strong>Worked Example:</strong> If <span class="arithmatex">\(\text{SS} = 2000\text{H}\)</span>, <span class="arithmatex">\(\text{BP} = 0111\text{H}\)</span>, instruction is <code>MOV [BP], DL</code>:
+  $<span class="arithmatex">\(\text{Physical Address} = 20000\text{H} + 0111\text{H} = 20111\text{H}\)</span>$</p>
+<hr />
+<h4 id="5-base-relative-addressing-mode">5. Base Relative Addressing Mode<a class="headerlink" href="#5-base-relative-addressing-mode" title="Permanent link">&para;</a></h4>
+<p>The effective address is computed by adding an 8-bit or 16-bit signed displacement to a Base register (<code>BX</code> or <code>BP</code>).</p>
+<h3 id="figure-39-base-relative-addressing-mode-circuit-diagram">Figure 3.9: Base Relative Addressing Mode Circuit Diagram<a class="headerlink" href="#figure-39-base-relative-addressing-mode-circuit-diagram" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 3.9: Base Relative Addressing Mode" src="images/8086_addressing_base_relative.png" />
+- <strong>Formula:</strong> <span class="arithmatex">\(EA = [\text{BX/BP}] + \text{Displacement}\)</span>
+- <strong>Displacement Ranges:</strong> 8-bit signed (<span class="arithmatex">\(-128\)</span> to <span class="arithmatex">\(+127\)</span>) or 16-bit signed (<span class="arithmatex">\(-32,768\)</span> to <span class="arithmatex">\(+32,767\)</span>).
+- <strong>Worked Example:</strong> If <span class="arithmatex">\(\text{DS} = 4000\text{H}\)</span>, <span class="arithmatex">\(\text{BX} = 2000\text{H}\)</span>, and instruction is <code>MOV AX, [BX + 10H]</code>:
+  $<span class="arithmatex">\(EA = 2000\text{H} + 0010\text{H} = 2010\text{H}\)</span>$
+  $<span class="arithmatex">\(\text{Physical Address} = 40000\text{H} + 2010\text{H} = 42010\text{H} \quad (\text{Word accessed at } 42010\text{H} \text{ and } 42011\text{H})\)</span>$</p>
+<hr />
+<h4 id="6-indexed-relative-addressing-mode">6. Indexed Relative Addressing Mode<a class="headerlink" href="#6-indexed-relative-addressing-mode" title="Permanent link">&para;</a></h4>
+<p>The effective address is computed by adding a signed displacement to an Index register (<code>SI</code> or <code>DI</code>).</p>
+<h3 id="figure-310-indexed-relative-addressing-mode-circuit-diagram">Figure 3.10: Indexed Relative Addressing Mode Circuit Diagram<a class="headerlink" href="#figure-310-indexed-relative-addressing-mode-circuit-diagram" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 3.10: Indexed Relative Addressing Mode" src="images/8086_addressing_indexed_relative.png" />
+- <strong>Formula:</strong> <span class="arithmatex">\(EA = [\text{SI/DI}] + \text{Displacement}\)</span> (Default segment: <strong>DS</strong>).
+- <strong>Worked Example:</strong> If <span class="arithmatex">\(\text{DS} = 2000\text{H}\)</span>, <span class="arithmatex">\(\text{SI} = 5000\text{H}\)</span>, and <span class="arithmatex">\(\text{ARRAY} = 1234\text{H}\)</span>, instruction <code>MOV DX, ARRAY[SI]</code>:
+  $<span class="arithmatex">\(EA = 5000\text{H} + 1234\text{H} = 6234\text{H}\)</span>$
+  $<span class="arithmatex">\(\text{Physical Address} = 20000\text{H} + 6234\text{H} = 26234\text{H}\)</span>$</p>
+<hr />
+<h4 id="7-base-indexed-relative-addressing-mode">7. Base Indexed Relative Addressing Mode<a class="headerlink" href="#7-base-indexed-relative-addressing-mode" title="Permanent link">&para;</a></h4>
+<p>Combines one base register (<code>BX</code> or <code>BP</code>), one index register (<code>SI</code> or <code>DI</code>), and an optional displacement.</p>
+<h3 id="figure-311-base-indexed-relative-addressing-mode-circuit-diagram">Figure 3.11: Base Indexed Relative Addressing Mode Circuit Diagram<a class="headerlink" href="#figure-311-base-indexed-relative-addressing-mode-circuit-diagram" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 3.11: Base Indexed Relative Addressing Mode" src="images/8086_addressing_base_indexed.png" />
+- <strong>Formula:</strong> <span class="arithmatex">\(EA = [\text{BX/BP}] + [\text{SI/DI}] + \text{Displacement}\)</span>
+  - Default Segment is <strong>SS</strong> if <code>BP</code> is used; otherwise defaults to <strong>DS</strong>.
+- <strong>Worked Example:</strong> If <span class="arithmatex">\(\text{DS} = 1200\text{H}\)</span>, <span class="arithmatex">\(\text{BX} = 1000\text{H}\)</span>, <span class="arithmatex">\(\text{SI} = 2000\text{H}\)</span>, <span class="arithmatex">\(\text{BETA} = 1234\text{H}\)</span>:
+  $<span class="arithmatex">\(EA = 1000\text{H} + 2000\text{H} + 1234\text{H} = 4234\text{H}\)</span>$
+  $<span class="arithmatex">\(\text{Physical Address} = 12000\text{H} + 4234\text{H} = 16234\text{H}\)</span>$</p>
+<p>[Source: 3CS526CC23 8086 Architecture, Slides 34–54]</p>
+<hr />
+<h2 id="3-8086-machine-instruction-encoding-timings">3. 8086 Machine Instruction Encoding &amp; Timings<a class="headerlink" href="#3-8086-machine-instruction-encoding-timings" title="Permanent link">&para;</a></h2>
+<h3 id="figure-312-8086-mov-machine-instruction-template-format">Figure 3.12: 8086 MOV Machine Instruction Template Format<a class="headerlink" href="#figure-312-8086-mov-machine-instruction-template-format" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 3.12: 8086 MOV Instruction Template Format" src="images/8086_instruction_format_mov.png" /></p>
+<p>An 8086 instruction comprises 1 to 6 bytes:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Byte 1:  [  Opcode (6 bits)  | D | W ]
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Byte 2:  [ MOD (2 bits) | REG (3 bits) | R/M (3 bits) ]
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Byte 3:  Low-order Displacement / Direct Address Low Byte
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Byte 4:  High-order Displacement / Direct Address High Byte
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Byte 5:  Low-order Immediate Data (if present)
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>Byte 6:  High-order Immediate Data (if present)
+</span></code></pre></div></p>
+<h3 id="bit-fields-explanation">Bit Fields Explanation<a class="headerlink" href="#bit-fields-explanation" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Opcode (6 bits):</strong> Fundamental machine operation code (<code>100010_2</code> for general <code>MOV</code>).</li>
+<li><strong>D (Direction Bit, 1 bit):</strong></li>
+<li><span class="arithmatex">\(D = 0\)</span>: Transfer data <strong>from</strong> <code>REG</code> register <strong>to</strong> <code>R/M</code> operand.</li>
+<li><span class="arithmatex">\(D = 1\)</span>: Transfer data <strong>to</strong> <code>REG</code> register <strong>from</strong> <code>R/M</code> operand.</li>
+<li><strong>W (Word/Byte Bit, 1 bit):</strong></li>
+<li><span class="arithmatex">\(W = 0\)</span>: 8-bit Byte operation.</li>
+<li><span class="arithmatex">\(W = 1\)</span>: 16-bit Word operation.</li>
+<li><strong>MOD (Mode Field, 2 bits):</strong></li>
+<li><span class="arithmatex">\(\text{MOD} = 00\)</span>: Memory mode, no displacement (except direct addressing if <span class="arithmatex">\(\text{R/M}=110\)</span>).</li>
+<li><span class="arithmatex">\(\text{MOD} = 01\)</span>: Memory mode, 8-bit signed displacement follows (<span class="arithmatex">\(D_8\)</span>).</li>
+<li><span class="arithmatex">\(\text{MOD} = 10\)</span>: Memory mode, 16-bit displacement follows (<span class="arithmatex">\(D_{16}\)</span>).</li>
+<li><span class="arithmatex">\(\text{MOD} = 11\)</span>: Register mode (no memory access; <code>R/M</code> specifies second register).</li>
+<li><strong>REG Field (3 bits):</strong> Selects register operand according to <span class="arithmatex">\(W\)</span> bit.</li>
+</ol>
+<hr />
+<h3 id="figure-313-8086-mod-and-rm-encoding-matrix">Figure 3.13: 8086 MOD and R/M Encoding Matrix<a class="headerlink" href="#figure-313-8086-mod-and-rm-encoding-matrix" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 3.13: 8086 MOD and R/M Encoding Matrix" src="images/8086_mod_rm_table.png" /></p>
+<h4 id="register-bit-codes-w0-vs-w1">Register Bit Codes (<span class="arithmatex">\(W=0\)</span> vs <span class="arithmatex">\(W=1\)</span>)<a class="headerlink" href="#register-bit-codes-w0-vs-w1" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Code</th>
+<th style="text-align: center;"><span class="arithmatex">\(W=0\)</span> (Byte)</th>
+<th style="text-align: center;"><span class="arithmatex">\(W=1\)</span> (Word)</th>
+<th style="text-align: center;">Segment Register Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>000</code></td>
+<td style="text-align: center;">AL</td>
+<td style="text-align: center;">AX</td>
+<td style="text-align: center;">ES (<code>00</code>)</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>001</code></td>
+<td style="text-align: center;">CL</td>
+<td style="text-align: center;">CX</td>
+<td style="text-align: center;">CS (<code>01</code>)</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>010</code></td>
+<td style="text-align: center;">DL</td>
+<td style="text-align: center;">DX</td>
+<td style="text-align: center;">SS (<code>10</code>)</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>011</code></td>
+<td style="text-align: center;">BL</td>
+<td style="text-align: center;">BX</td>
+<td style="text-align: center;">DS (<code>11</code>)</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>100</code></td>
+<td style="text-align: center;">AH</td>
+<td style="text-align: center;">SP</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>101</code></td>
+<td style="text-align: center;">CH</td>
+<td style="text-align: center;">BP</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>110</code></td>
+<td style="text-align: center;">DH</td>
+<td style="text-align: center;">SI</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>111</code></td>
+<td style="text-align: center;">BH</td>
+<td style="text-align: center;">DI</td>
+<td style="text-align: center;">-</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="worked-machine-encoding-examples">Worked Machine Encoding Examples<a class="headerlink" href="#worked-machine-encoding-examples" title="Permanent link">&para;</a></h3>
+<h4 id="example-31-encode-mov-cl-bx">Example 3.1: Encode <code>MOV CL, [BX]</code><a class="headerlink" href="#example-31-encode-mov-cl-bx" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Opcode for <code>MOV</code>: <code>100010</code></li>
+<li>Direction: Data moves into <code>CL</code> (Register) <span class="arithmatex">\(\rightarrow D = 1\)</span></li>
+<li>Width: <code>CL</code> is 8-bit byte <span class="arithmatex">\(\rightarrow W = 0\)</span>
+  <span class="arithmatex">\(\implies \text{Byte 1} = 1000\,1010_2 = \mathbf{8AH}\)</span></li>
+<li>Mode: Indirect <code>[BX]</code> with no displacement <span class="arithmatex">\(\rightarrow \text{MOD} = 00\)</span></li>
+<li>Register <code>CL</code>: <span class="arithmatex">\(\text{REG} = 001\)</span></li>
+<li>R/M for <code>[BX]</code>: <span class="arithmatex">\(\text{R/M} = 111\)</span>
+  <span class="arithmatex">\(\implies \text{Byte 2} = 00\,001\,111_2 = \mathbf{0FH}\)</span></li>
+<li><strong>Final Machine Code:</strong> <code>8A 0FH</code> (2 bytes).</li>
+</ul>
+<h4 id="example-32-encode-mov-csbx-dl-segment-override-prefix">Example 3.2: Encode <code>MOV CS:[BX], DL</code> (Segment Override Prefix)<a class="headerlink" href="#example-32-encode-mov-csbx-dl-segment-override-prefix" title="Permanent link">&para;</a></h4>
+<p>When an operand accesses a segment other than its default, the assembler prepends a 1-byte <strong>Segment Override Prefix</strong>:
+- Prefix for <code>CS</code>: <code>0010 1110_2 = 2EH</code>
+- Opcode <code>MOV</code>: <code>100010</code>
+- Direction: Data moves from <code>DL</code> (REG) to memory <span class="arithmatex">\(\rightarrow D = 0\)</span>
+- Width: <code>DL</code> is Byte <span class="arithmatex">\(\rightarrow W = 0\)</span>
+  <span class="arithmatex">\(\implies \text{Byte 2} = 1000\,1000_2 = \mathbf{88H}\)</span>
+- <span class="arithmatex">\(\text{MOD} = 00\)</span>, <span class="arithmatex">\(\text{REG} = 010\)</span> (<code>DL</code>), <span class="arithmatex">\(\text{R/M} = 111\)</span> (<code>[BX]</code>)
+  <span class="arithmatex">\(\implies \text{Byte 3} = 00\,010\,111_2 = \mathbf{17H}\)</span>
+- <strong>Final Machine Code:</strong> <code>2E 88 17H</code> (3 bytes).</p>
+<hr />
+<h3 id="execution-timings-bus-alignment-penalties">Execution Timings &amp; Bus Alignment Penalties<a class="headerlink" href="#execution-timings-bus-alignment-penalties" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Addressing Mode / Operation</th>
+<th style="text-align: center;">Basic Clock Cycles</th>
+<th style="text-align: center;">Number of Bus Transfers</th>
+<th style="text-align: center;">Extra Cycles for Odd Address Word</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Register to Register</strong></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Immediate to Register</strong></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Memory to Register</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(9 + EA\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">+4</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Register to Memory</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(16 + EA\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">+4</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Immediate to Memory</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(17 + EA\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">+4</td>
+</tr>
+</tbody>
+</table>
+<h4 id="effective-address-ea-calculation-times">Effective Address (<span class="arithmatex">\(EA\)</span>) Calculation Times<a class="headerlink" href="#effective-address-ea-calculation-times" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Direct: <strong>6 cycles</strong></li>
+<li>Register Indirect: <strong>5 cycles</strong></li>
+<li>Base or Indexed Relative: <strong>9 cycles</strong></li>
+<li>Based Indexed Relative: <strong>7 to 12 cycles</strong> (<span class="arithmatex">\(\text{BP}+\text{DI} = 7\)</span>, <span class="arithmatex">\(\text{BP}+\text{SI}+\text{DISP} = 12\)</span>)</li>
+</ul>
+<h4 id="critical-bus-boundary-penalty-rule">Critical Bus Boundary Penalty Rule<a class="headerlink" href="#critical-bus-boundary-penalty-rule" title="Permanent link">&para;</a></h4>
+<p>A 16-bit word aligned at an <strong>even memory address</strong> is transferred across the 16-bit data bus (<span class="arithmatex">\(D_{15}-D_0\)</span>) in <strong>1 bus cycle (4 T-states)</strong> with <span class="arithmatex">\(\overline{\text{BHE}} = 0\)</span> and <span class="arithmatex">\(A_0 = 0\)</span>.<br />
+A 16-bit word located at an <strong>odd memory address</strong> requires <strong>2 separate bus cycles (8 T-states)</strong>:
+1. Low byte read from odd address (<span class="arithmatex">\(A_0 = 1, \overline{\text{BHE}} = 1\)</span>).
+2. High byte read from next even address (<span class="arithmatex">\(A_0 = 0, \overline{\text{BHE}} = 0\)</span>).<br />
+This incurs a <strong>4 clock cycle penalty</strong> (+4 cycles) per memory word access!</p>
+<p>[Source: 3CS526CC23 8086 Architecture, Slides 55–71]</p>
+<hr />
+<h2 id="4-complete-8086-instruction-set-reference">4. Complete 8086 Instruction Set Reference<a class="headerlink" href="#4-complete-8086-instruction-set-reference" title="Permanent link">&para;</a></h2>
+<h3 id="41-data-transfer-instructions">4.1 Data Transfer Instructions<a class="headerlink" href="#41-data-transfer-instructions" title="Permanent link">&para;</a></h3>
+<p><strong>Rule:</strong> Flags are <strong>never affected</strong>, except <code>SAHF</code> and <code>POPF</code>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Mnemonic</th>
+<th style="text-align: left;">Syntax</th>
+<th style="text-align: left;">Operation</th>
+<th style="text-align: center;">Clocks</th>
+<th style="text-align: center;">Flags Affected</th>
+<th style="text-align: left;">Operational Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>MOV</strong></td>
+<td style="text-align: left;"><code>MOV dst, src</code></td>
+<td style="text-align: left;"><span class="arithmatex">\((\text{dst}) \leftarrow (\text{src})\)</span></td>
+<td style="text-align: center;">2–17</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Moves byte/word between registers, memory, immediate.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>XCHG</strong></td>
+<td style="text-align: left;"><code>XCHG dst, src</code></td>
+<td style="text-align: left;"><span class="arithmatex">\((\text{dst}) \leftrightarrow (\text{src})\)</span></td>
+<td style="text-align: center;">3–17</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Swaps contents. Cannot swap memory to memory directly.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>XLAT</strong></td>
+<td style="text-align: left;"><code>XLAT</code> / <code>XLATB</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{AL} \leftarrow [(\text{BX}) + (\text{AL})]\)</span></td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Table lookup translation. Converts code in AL via table at BX.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>LEA</strong></td>
+<td style="text-align: left;"><code>LEA reg16, mem</code></td>
+<td style="text-align: left;"><span class="arithmatex">\((\text{reg16}) \leftarrow EA\)</span></td>
+<td style="text-align: center;">2+EA</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Loads 16-bit effective address (offset) into register.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>LDS</strong></td>
+<td style="text-align: left;"><code>LDS reg16, mem32</code></td>
+<td style="text-align: left;"><span class="arithmatex">\((\text{reg16}) \leftarrow (\text{mem})\)</span>, <span class="arithmatex">\(\text{DS} \leftarrow (\text{mem}+2)\)</span></td>
+<td style="text-align: center;">16+EA</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Loads 32-bit far pointer into register and DS.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>LES</strong></td>
+<td style="text-align: left;"><code>LES reg16, mem32</code></td>
+<td style="text-align: left;"><span class="arithmatex">\((\text{reg16}) \leftarrow (\text{mem})\)</span>, <span class="arithmatex">\(\text{ES} \leftarrow (\text{mem}+2)\)</span></td>
+<td style="text-align: center;">16+EA</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Loads 32-bit far pointer into register and ES.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>LAHF</strong></td>
+<td style="text-align: left;"><code>LAHF</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{AH} \leftarrow \text{Flags}[7..0]\)</span></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Copies lower byte of flags (<span class="arithmatex">\(SF, ZF, AF, PF, CF\)</span>) into AH.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SAHF</strong></td>
+<td style="text-align: left;"><code>SAHF</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{Flags}[7..0] \leftarrow \text{AH}\)</span></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="arithmatex">\(SF, ZF, AF, PF, CF\)</span></td>
+<td style="text-align: left;">Restores lower flag byte from AH.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>IN</strong></td>
+<td style="text-align: left;"><code>IN AL/AX, port</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{Acc} \leftarrow (\text{port})\)</span></td>
+<td style="text-align: center;">8–14</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Reads input port directly (8-bit port) or via DX (16-bit port).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>OUT</strong></td>
+<td style="text-align: left;"><code>OUT port, AL/AX</code></td>
+<td style="text-align: left;"><span class="arithmatex">\((\text{port}) \leftarrow \text{Acc}\)</span></td>
+<td style="text-align: center;">8–14</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Writes output port directly or via DX.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="42-arithmetic-instructions">4.2 Arithmetic Instructions<a class="headerlink" href="#42-arithmetic-instructions" title="Permanent link">&para;</a></h3>
+<p><strong>Rule:</strong> Condition flags (<span class="arithmatex">\(CF, PF, AF, ZF, SF, OF\)</span>) are updated, except where noted.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Mnemonic</th>
+<th style="text-align: left;">Syntax</th>
+<th style="text-align: left;">Operation</th>
+<th style="text-align: center;">Flags Affected</th>
+<th style="text-align: left;">Important Behavioral Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>ADD</strong></td>
+<td style="text-align: left;"><code>ADD dst, src</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{dst} \leftarrow \text{dst} + \text{src}\)</span></td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;">Standard binary addition.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ADC</strong></td>
+<td style="text-align: left;"><code>ADC dst, src</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{dst} \leftarrow \text{dst} + \text{src} + CF\)</span></td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;">Multi-precision addition chaining carry.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SUB</strong></td>
+<td style="text-align: left;"><code>SUB dst, src</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{dst} \leftarrow \text{dst} - \text{src}\)</span></td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;">Standard binary subtraction.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SBB</strong></td>
+<td style="text-align: left;"><code>SBB dst, src</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{dst} \leftarrow \text{dst} - \text{src} - CF\)</span></td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;">Multi-precision subtraction with borrow.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>INC</strong></td>
+<td style="text-align: left;"><code>INC dst</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{dst} \leftarrow \text{dst} + 1\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(OF, SF, ZF, AF, PF\)</span></td>
+<td style="text-align: left;"><strong>CF IS NOT AFFECTED!</strong> Preserves loop carry state.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DEC</strong></td>
+<td style="text-align: left;"><code>DEC dst</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{dst} \leftarrow \text{dst} - 1\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(OF, SF, ZF, AF, PF\)</span></td>
+<td style="text-align: left;"><strong>CF IS NOT AFFECTED!</strong> Preserves loop carry state.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NEG</strong></td>
+<td style="text-align: left;"><code>NEG dst</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{dst} \leftarrow 0 - \text{dst}\)</span></td>
+<td style="text-align: center;">All (<span class="arithmatex">\(CF=1\)</span> if dst <span class="arithmatex">\(\neq 0\)</span>)</td>
+<td style="text-align: left;">Computes 2's complement negation.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CMP</strong></td>
+<td style="text-align: left;"><code>CMP op1, op2</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{op1} - \text{op2}\)</span> (Result discarded)</td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;">Subtracts to set flags; operands remain unaltered.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MUL</strong></td>
+<td style="text-align: left;"><code>MUL src</code></td>
+<td style="text-align: left;">Byte: <span class="arithmatex">\(\text{AX} = \text{AL} \times \text{src}\)</span><br>Word: <span class="arithmatex">\(\text{DX:AX} = \text{AX} \times \text{src}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(CF, OF\)</span> (<span class="arithmatex">\(1\)</span> if high half non-zero)</td>
+<td style="text-align: left;">Unsigned multiplication. Source cannot be immediate.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>IMUL</strong></td>
+<td style="text-align: left;"><code>IMUL src</code></td>
+<td style="text-align: left;">Byte: <span class="arithmatex">\(\text{AX} = \text{AL} \times \text{src}\)</span><br>Word: <span class="arithmatex">\(\text{DX:AX} = \text{AX} \times \text{src}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(CF, OF\)</span> (<span class="arithmatex">\(1\)</span> if high half has sign bits)</td>
+<td style="text-align: left;">Signed 2's complement multiplication.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DIV</strong></td>
+<td style="text-align: left;"><code>DIV src</code></td>
+<td style="text-align: left;">Byte: <span class="arithmatex">\(\text{AL} = \text{AX}/\text{src}, \text{AH} = \text{rem}\)</span><br>Word: <span class="arithmatex">\(\text{AX} = \text{DX:AX}/\text{src}, \text{DX} = \text{rem}\)</span></td>
+<td style="text-align: center;">Undefined</td>
+<td style="text-align: left;">Unsigned division. Quotient too large triggers INT 0!</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>IDIV</strong></td>
+<td style="text-align: left;"><code>IDIV src</code></td>
+<td style="text-align: left;">Signed division as above.</td>
+<td style="text-align: center;">Undefined</td>
+<td style="text-align: left;">Remainder adopts sign of dividend.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CBW</strong></td>
+<td style="text-align: left;"><code>CBW</code></td>
+<td style="text-align: left;">Extends sign bit of AL across AH.</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">No operands. Used prior to 8-bit signed division.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CWD</strong></td>
+<td style="text-align: left;"><code>CWD</code></td>
+<td style="text-align: left;">Extends sign bit of AX across DX.</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">No operands. Used prior to 16-bit signed division.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DAA</strong></td>
+<td style="text-align: left;"><code>DAA</code></td>
+<td style="text-align: left;">Decimal Adjust for Addition</td>
+<td style="text-align: center;"><span class="arithmatex">\(CF, AF, SF, ZF, PF\)</span></td>
+<td style="text-align: left;">Adjusts binary sum in AL to BCD format.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DAS</strong></td>
+<td style="text-align: left;"><code>DAS</code></td>
+<td style="text-align: left;">Decimal Adjust for Subtraction</td>
+<td style="text-align: center;"><span class="arithmatex">\(CF, AF, SF, ZF, PF\)</span></td>
+<td style="text-align: left;">Adjusts binary difference in AL to BCD format.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>AAA</strong></td>
+<td style="text-align: left;"><code>AAA</code></td>
+<td style="text-align: left;">ASCII Adjust for Addition</td>
+<td style="text-align: center;"><span class="arithmatex">\(AF, CF\)</span> (<span class="arithmatex">\(OF, SF, ZF, PF\)</span> undef)</td>
+<td style="text-align: left;">Adjusts unpacked BCD sum in AL after addition.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>AAS</strong></td>
+<td style="text-align: left;"><code>AAS</code></td>
+<td style="text-align: left;">ASCII Adjust for Subtraction</td>
+<td style="text-align: center;"><span class="arithmatex">\(AF, CF\)</span></td>
+<td style="text-align: left;">Adjusts unpacked BCD difference in AL.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>AAM</strong></td>
+<td style="text-align: left;"><code>AAM</code></td>
+<td style="text-align: left;">ASCII Adjust for Multiply</td>
+<td style="text-align: center;"><span class="arithmatex">\(SF, ZF, PF\)</span></td>
+<td style="text-align: left;">Unpacks binary product in AL into AH:AL (<span class="arithmatex">\(AL/10\)</span>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>AAD</strong></td>
+<td style="text-align: left;"><code>AAD</code></td>
+<td style="text-align: left;">ASCII Adjust for Division</td>
+<td style="text-align: center;"><span class="arithmatex">\(SF, ZF, PF\)</span></td>
+<td style="text-align: left;">Prepares unpacked BCD in AH:AL for division (<span class="arithmatex">\(\text{AH}\times 10 + \text{AL}\)</span>).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="43-logical-instructions">4.3 Logical Instructions<a class="headerlink" href="#43-logical-instructions" title="Permanent link">&para;</a></h3>
+<p><strong>Rule:</strong> <span class="arithmatex">\(CF = 0\)</span> and <span class="arithmatex">\(OF = 0\)</span> for all bitwise operations. <span class="arithmatex">\(SF, ZF, PF\)</span> are updated. <span class="arithmatex">\(AF\)</span> is undefined.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Mnemonic</th>
+<th style="text-align: left;">Syntax</th>
+<th style="text-align: left;">Operation</th>
+<th style="text-align: center;">Flags Affected</th>
+<th style="text-align: left;">Typical Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>NOT</strong></td>
+<td style="text-align: left;"><code>NOT dst</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{dst} \leftarrow \overline{\text{dst}}\)</span></td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">1's complement bit inversion.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>AND</strong></td>
+<td style="text-align: left;"><code>AND dst, src</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{dst} \leftarrow \text{dst} \land \text{src}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(CF=0, OF=0, SF, ZF, PF\)</span></td>
+<td style="text-align: left;">Masking / clearing specific bit positions.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>OR</strong></td>
+<td style="text-align: left;"><code>OR dst, src</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{dst} \leftarrow \text{dst} \lor \text{src}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(CF=0, OF=0, SF, ZF, PF\)</span></td>
+<td style="text-align: left;">Forcing specific bits to 1.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>XOR</strong></td>
+<td style="text-align: left;"><code>XOR dst, src</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{dst} \leftarrow \text{dst} \oplus \text{src}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(CF=0, OF=0, SF, ZF, PF\)</span></td>
+<td style="text-align: left;">Inverting bits; clearing register (<code>XOR AX, AX</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>TEST</strong></td>
+<td style="text-align: left;"><code>TEST op1, op2</code></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{op1} \land \text{op2}\)</span> (Result discarded)</td>
+<td style="text-align: center;"><span class="arithmatex">\(CF=0, OF=0, SF, ZF, PF\)</span></td>
+<td style="text-align: left;">Checking if specific bit is set without altering operand.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="44-shift-and-rotate-instructions">4.4 Shift and Rotate Instructions<a class="headerlink" href="#44-shift-and-rotate-instructions" title="Permanent link">&para;</a></h3>
+<p><strong>Operand Rules:</strong> Count <code>CNT</code> must be <code>1</code> (immediate) or held in register <code>CL</code> for counts <span class="arithmatex">\(&gt; 1\)</span>.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Shift_Left["SHL / SAL: Shift Left"]
+        direction LR
+        CF1["CF"] &lt;-- "MSB out" -- RegL["D7 ... D0"] &lt;-- "0 shifted in" -- Zero1["0"]
+    end
+
+    subgraph Shift_Right["SHR: Shift Logical Right"]
+        direction LR
+        Zero2["0"] --&gt; "0 shifted in" --&gt; RegR["D7 ... D0"] --&gt; "LSB out" --&gt; CF2["CF"]
+    end
+
+    subgraph SAR_Right["SAR: Shift Arithmetic Right"]
+        direction LR
+        SignBit["Sign (D7)"] --&gt; "Preserve Sign" --&gt; RegSAR["D7 ... D0"] --&gt; "LSB out" --&gt; CF3["CF"]
+    end</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Mnemonic</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Bit Flow Mechanics</th>
+<th style="text-align: center;">Carry Flag (CF) State</th>
+<th style="text-align: left;">Mathematical Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>SHL / SAL</strong></td>
+<td style="text-align: left;">Logical/Arith Left</td>
+<td style="text-align: left;">Bits shift left; <span class="arithmatex">\(0\)</span> enters LSB.</td>
+<td style="text-align: center;">Last bit shifted out of MSB enters CF.</td>
+<td style="text-align: left;">Multiplies unsigned/signed integer by <span class="arithmatex">\(2^{\text{CNT}}\)</span>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SHR</strong></td>
+<td style="text-align: left;">Logical Right</td>
+<td style="text-align: left;">Bits shift right; <span class="arithmatex">\(0\)</span> enters MSB.</td>
+<td style="text-align: center;">Last bit shifted out of LSB enters CF.</td>
+<td style="text-align: left;">Divides unsigned integer by <span class="arithmatex">\(2^{\text{CNT}}\)</span>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SAR</strong></td>
+<td style="text-align: left;">Arithmetic Right</td>
+<td style="text-align: left;">Bits shift right; <strong>original MSB is duplicated</strong>.</td>
+<td style="text-align: center;">Last bit shifted out of LSB enters CF.</td>
+<td style="text-align: left;">Divides signed integer by <span class="arithmatex">\(2^{\text{CNT}}\)</span> (preserves sign).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ROL</strong></td>
+<td style="text-align: left;">Rotate Left</td>
+<td style="text-align: left;">Circular left: bit out of MSB enters LSB.</td>
+<td style="text-align: center;">CF reflects last bit rotated out of MSB.</td>
+<td style="text-align: left;">Circular bit rotation without data loss.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ROR</strong></td>
+<td style="text-align: left;">Rotate Right</td>
+<td style="text-align: left;">Circular right: bit out of LSB enters MSB.</td>
+<td style="text-align: center;">CF reflects last bit rotated out of LSB.</td>
+<td style="text-align: left;">Circular bit rotation without data loss.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RCL</strong></td>
+<td style="text-align: left;">Rotate Left Thru Carry</td>
+<td style="text-align: left;">9-bit/17-bit loop: MSB <span class="arithmatex">\(\to\)</span> CF <span class="arithmatex">\(\to\)</span> LSB.</td>
+<td style="text-align: center;">Old CF bit enters LSB; old MSB enters CF.</td>
+<td style="text-align: left;">Multi-word shifting across registers.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RCR</strong></td>
+<td style="text-align: left;">Rotate Right Thru Carry</td>
+<td style="text-align: left;">9-bit/17-bit loop: LSB <span class="arithmatex">\(\to\)</span> CF <span class="arithmatex">\(\to\)</span> MSB.</td>
+<td style="text-align: center;">Old CF bit enters MSB; old LSB enters CF.</td>
+<td style="text-align: left;">Multi-word shifting across registers.</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: 8086_instruction_set_Basic, Slides 33–36]</p>
+<hr />
+<h2 id="5-exam-oriented-review-high-frequency-questions">5. Exam-Oriented Review &amp; High-Frequency Questions<a class="headerlink" href="#5-exam-oriented-review-high-frequency-questions" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Calculate the execution time for <code>ADD AX, [BX+SI+0100H]</code> on a 5 MHz 8086.</strong><br />
+<em>Solution:</em></li>
+<li>Clock period <span class="arithmatex">\(T = \frac{1}{5\text{ MHz}} = 0.2\,\mu\text{s}\)</span>.</li>
+<li>Memory to register addition: <span class="arithmatex">\(\text{Base Clocks} = 9 + EA\)</span>.</li>
+<li><span class="arithmatex">\(EA\)</span> for Based Indexed Relative (<span class="arithmatex">\(\text{BX}+\text{SI}+\text{Disp}\)</span>) = 11 clock cycles.</li>
+<li>Total clock cycles (assuming aligned even address) = <span class="arithmatex">\(9 + 11 = 20\text{ cycles}\)</span>.</li>
+<li>
+<p>Execution Time = <span class="arithmatex">\(20 \times 0.2\,\mu\text{s} = \mathbf{4.0\,\mu\text{s}}\)</span>. (If at an odd address, <span class="arithmatex">\(+4\text{ cycles} = 24 \times 0.2\,\mu\text{s} = 4.8\,\mu\text{s}\)</span>).</p>
+</li>
+<li>
+<p><strong>Differentiate between <code>SUB</code> and <code>CMP</code> instructions.</strong><br />
+<em>Answer:</em> Both execute <span class="arithmatex">\((\text{Destination}) - (\text{Source})\)</span> and update all conditional flags identically. However, <code>SUB</code> stores the computed difference in the destination operand, whereas <code>CMP</code> discards the result, preserving the destination contents.</p>
+</li>
+<li>
+<p><strong>Why are <code>CBW</code> and <code>CWD</code> necessary before executing <code>IDIV</code>?</strong><br />
+<em>Answer:</em> <code>IDIV</code> requires the dividend to be twice the bit-width of the divisor (<span class="arithmatex">\(16\text{-bit AX} \div 8\text{-bit divisor}\)</span>, or <span class="arithmatex">\(32\text{-bit DX:AX} \div 16\text{-bit divisor}\)</span>). <code>CBW</code> properly sign-extends a signed 8-bit dividend into 16-bit AX, and <code>CWD</code> extends a 16-bit signed dividend in AX into 32-bit DX:AX, preventing arithmetic errors from garbage bits in AH or DX.</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../02_8085_Instruction_Set_Comprehensive/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Chapter 2 — 8085 Microprocessor Architecture, Interfacing &amp;amp; Complete Instruction Set">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Chapter 2 — 8085 Microprocessor Architecture, Interfacing &amp; Complete Instruction Set
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../04_8086_String_Operations_and_Looping/" class="md-footer__link md-footer__link--next" aria-label="Next: Chapter 6 — 8086 String Operations, Branching &amp;amp; Looping Mechanics">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Chapter 6 — 8086 String Operations, Branching &amp; Looping Mechanics
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/mermaid-init.js"></script>
+      
+    
+  </body>
+</html>
