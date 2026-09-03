@@ -169,16 +169,16 @@ To reduce design complexity, computer network software is organized as a stack o
 ```mermaid
 flowchart TD
     subgraph Host_A ["Host A (Source)"]
-        A5["Layer 5: Application"] -->|Interface| A4["Layer 4: Transport"]
-        A4 -->|Interface| A3["Layer 3: Network"]
-        A3 -->|Interface| A2["Layer 2: Data Link"]
-        A2 -->|Interface| A1["Layer 1: Physical"]
+        A5[Layer 5: Application] -->|Interface| A4[Layer 4: Transport]
+        A4 -->|Interface| A3[Layer 3: Network]
+        A3 -->|Interface| A2[Layer 2: Data Link]
+        A2 -->|Interface| A1[Layer 1: Physical]
     end
     subgraph Host_B ["Host B (Destination)"]
-        B1["Layer 1: Physical"] -->|Interface| B2["Layer 2: Data Link"]
-        B2 -->|Interface| B3["Layer 3: Network"]
-        B3 -->|Interface| B4["Layer 4: Transport"]
-        B4 -->|Interface| B5["Layer 5: Application"]
+        B1[Layer 1: Physical] -->|Interface| B2[Layer 2: Data Link]
+        B2 -->|Interface| B3[Layer 3: Network]
+        B3 -->|Interface| B4[Layer 4: Transport]
+        B4 -->|Interface| B5[Layer 5: Application]
     end
     A5 -.->|Layer 5 Protocol (Virtual Communication)| B5
     A4 -.->|Layer 4 Protocol (Virtual Communication)| B4
@@ -253,7 +253,7 @@ sequenceDiagram
     Note over Server: Executes RECEIVE
     Note over Client: Executes SEND
     Client->>Server: Data Packet
-    Note over Server: Processes data and executes SEND
+    Note over Server: Processes data & executes SEND
     Server-->>Client: Reply / ACK Packet
     Note over Client: Executes DISCONNECT
     Client->>Server: Disconnection Request
@@ -364,32 +364,32 @@ For academic instruction and textbook analysis, Tanenbaum and the course curricu
 ```mermaid
 flowchart LR
     subgraph OSI ["OSI Model (7 Layers)"]
-        O7["Application"]
-        O6["Presentation"]
-        O5["Session"]
-        O4["Transport"]
-        O3["Network"]
-        O2["Data Link"]
-        O1["Physical"]
+        O7[Application]
+        O6[Presentation]
+        O5[Session]
+        O4[Transport]
+        O3[Network]
+        O2[Data Link]
+        O1[Physical]
     end
     subgraph HYBRID ["Hybrid Course Model (5 Layers)"]
-        H5["Application Layer"]
-        H4["Transport Layer"]
-        H3["Network Layer"]
-        H2["Data Link Layer"]
-        H1["Physical Layer"]
+        H5[Application Layer]
+        H4[Transport Layer]
+        H3[Network Layer]
+        H2[Data Link Layer]
+        H1[Physical Layer]
     end
     subgraph TCPIP ["TCP/IP Model (4 Layers)"]
-        T4["Application Layer"]
-        T3["Transport Layer"]
-        T2["Internet Layer"]
-        T1["Link Layer"]
+        T4[Application Layer]
+        T3[Transport Layer]
+        T2[Internet Layer]
+        T1[Link Layer]
     end
 
-    O7 and O6 and O5 --> H5 --> T4
+    O7 & O6 & O5 --> H5 --> T4
     O4 --> H4 --> T3
     O3 --> H3 --> T2
-    O2 and O1 --> H2 and H1 --> T1
+    O2 & O1 --> H2 & H1 --> T1
 ```
 
 [Source: Ch 1 Introduction.pdf, Slide 38; Chapter1-Introduction.pdf, Slide 48]
@@ -556,18 +556,18 @@ Assumes a completely noiseless channel with low-pass frequency characteristics.
 #### Formula
 
 $$
-C_{\text{Shannon}} = B \log_2 \left(1 + \frac{S}{N}\right)
+C_{\text{Shannon}} = B \log_2 \left(1 + \f\frac{S}{N}\r\right)
 $$
 
 #### Where
 * $C_{\text{Shannon}}$ = Maximum theoretical channel capacity ($\text{bps}$)
 * $B$ = Channel bandwidth ($\text{Hz}$)
-* $\frac{S}{N}$ = Signal-to-Noise power ratio (**linear ratio**, not in decibels)
+* $\f\frac{S}{N}$ = Signal-to-Noise power ratio (**linear ratio**, not in decibels)
 
 #### Decibel (dB) Conversion Formula
 
 $$
-\text{SNR}_{\text{dB}} = 10 \log_{10} \left(\frac{S}{N}\right) \iff \frac{S}{N} = 10^{\frac{\text{SNR}_{\text{dB}}}{10}}
+\text{SNR}_{\text{dB}} = 10 \log_{10} \left(\f\frac{S}{N}\r\right) \iff \f\frac{S}{N} = 10^{\f\frac{\text{SNR}_{\text{dB}}}{10}}
 $$
 
 #### Meaning
@@ -585,11 +585,11 @@ Applies to channels corrupted by white Gaussian thermal noise.
 #### Formulas
 
 $$
-T_{\text{trans}} = \frac{L}{R}
+T_{\text{trans}} = \f\frac{L}{R}
 $$
 
 $$
-T_{\text{prop}} = \frac{D}{v}
+T_{\text{prop}} = \f\frac{D}{v}
 $$
 
 $$
@@ -618,7 +618,7 @@ N_{\text{links, unidirectional}} = n(n-1)
 $$
 
 $$
-N_{\text{links, bidirectional}} = \frac{n(n-1)}{2}
+N_{\text{links, bidirectional}} = \f\frac{n(n-1)}{2}
 $$
 
 #### Where
@@ -635,7 +635,7 @@ $$
 
 ### Figure 1.1: Protocol Hierarchies & Peer-to-Peer Interface Model
 
-![Figure 1.1: Protocol Hierarchies and Peer-to-Peer Interface Model](../images/protocol-hierarchy-25.png)
+![Figure 1.1: Protocol Hierarchies and Peer-to-Peer Interface Model](images/chapter1/ch1_protocol_hierarchy.png)
 
 #### Written Analysis of Figure 1.1
 
@@ -657,7 +657,7 @@ Application processes generate data at Layer 5 of Host 1. The data passes downwa
 
 ### Figure 1.2: Encapsulation and Decapsulation in Layered Architecture
 
-![Figure 1.2: Encapsulation and Decapsulation in Layered Architecture](../images/protocol-hierarchy-25.png)
+![Figure 1.2: Encapsulation and Decapsulation in Layered Architecture](images/chapter1/ch1_encapsulation_decapsulation.png)
 
 #### Written Analysis of Figure 1.2
 
@@ -680,7 +680,7 @@ Layer 5 passes message $M$ to Layer 4. Layer 4 prepends header $H_4$ to form a t
 
 ### Figure 1.3: The ISO 7-Layer Open Systems Interconnection (OSI) Model
 
-![Figure 1.3: The ISO 7-Layer OSI Reference Model Architecture](../images/reference-model-36.png)
+![Figure 1.3: The ISO 7-Layer OSI Reference Model Architecture](images/chapter1/ch1_osi_reference_model.png)
 
 #### Written Analysis of Figure 1.3
 
@@ -701,7 +701,7 @@ Data originates at the source application, travels down layers 7 through 1, trav
 
 ### Figure 1.4: Comparison Between OSI and TCP/IP Reference Models
 
-![Figure 1.4: Comparison Between OSI and TCP/IP Reference Models](../images/reference-model-37.png)
+![Figure 1.4: Comparison Between OSI and TCP/IP Reference Models](images/chapter1/ch1_osi_tcpip_comparison.png)
 
 #### Written Analysis of Figure 1.4
 
@@ -720,7 +720,7 @@ A side-by-side architectural mapping comparing the 7-layer OSI model to the 4-la
 
 ### Figure 1.5: The 5-Layer Hybrid Model Used in Course Study
 
-![Figure 1.5: The 5-Layer Hybrid Course Reference Model](../images/reference-model-38.png)
+![Figure 1.5: The 5-Layer Hybrid Course Reference Model](images/chapter1/ch1_hybrid_reference_model.png)
 
 #### Written Analysis of Figure 1.5
 
@@ -740,7 +740,7 @@ The 5-layer pedagogical model that combines the practical application layer of T
 
 ### Figure 1.6: Reference Model Critiques and Summary Comparison
 
-![Figure 1.6: Reference Model Critiques and Summary Comparison](../images/reference-model-39.png)
+![Figure 1.6: Reference Model Critiques and Summary Comparison](images/chapter1/ch1_critique_reference_models.png)
 
 #### Written Analysis of Figure 1.6
 
@@ -755,6 +755,83 @@ Summarizes the strengths, historical failures, and structural critiques of both 
 
 ---
 
+
+### Figure 1.7: Philosopher-Translator-Secretary Architecture
+
+![Figure 1.7: Philosopher-Translator-Secretary Architecture](images/chapter1/ch1_philosopher_analogy.png)
+
+#### Written Analysis of Figure 1.7
+
+**What it shows:**
+Tanenbaum's classic multi-layer communication analogy illustrating peer-to-peer virtual protocols versus actual physical interface transmission across a three-layer stack:
+1. **Layer 3 (Philosophers):** Peer entities wish to communicate concepts ("I like rabbits") in their native languages (e.g., Urdu and English). They communicate via a peer Layer 3 protocol (philosophical discussion).
+2. **Layer 2 (Translators):** Intermediate layer translates philosophical thought into a common intermediate language (e.g., Dutch or standardized bit syntax).
+3. **Layer 1 (Secretaries):** Lower layer converts the text into transmission-ready signals (e.g., telephone lines, telegram, or physical signals) and transmits them across the physical medium.
+
+**Key Architectural Insight:**
+Each layer performs a specific transformation, oblivious to the contents of upper-layer messages. The physical communication goes downward through interfaces on the sending side, across the medium, and upward through interfaces on the receiving side, creating the virtual illusion of direct peer-to-peer conversation.
+
+[Source: Ch 1 Introduction.pdf, Slide 28]
+
+---
+
+### Figure 1.8: Six Connection-Oriented Service Primitives
+
+![Figure 1.8: Six Connection-Oriented Service Primitives](images/chapter1/ch1_service_primitives.png)
+
+#### Written Analysis of Figure 1.8
+
+**What it shows:**
+The formal operational primitive set providing a minimal connection-oriented service between adjacent layers:
+1. **`LISTEN`:** Non-blocking or blocking primitive invoked by the server process waiting passively for incoming connection requests.
+2. **`CONNECT`:** Invoked by the client process to establish an active connection to a listening peer by sending a connection request packet.
+3. **`RECEIVE`:** Blocking call invoked by either entity waiting to receive incoming data packets.
+4. **`SEND`:** Invoked by either entity to transmit a message unit reliably across the established connection.
+5. **`DISCONNECT`:** Invoked to tear down and release connection resources gracefully or abruptly.
+
+**Protocol Relationship:**
+The service primitives define *what* operations a layer provides to its user; the underlying protocol specifies *how* peer entities exchange control packets (CR, CC, DATA, DR, DC) to implement these operations.
+
+[Source: Ch 1 Introduction.pdf, Slide 32]
+
+---
+
+### Figure 1.9: Client-Server Interaction with Acknowledged Datagrams
+
+![Figure 1.9: Client-Server Interaction with Acknowledged Datagrams](images/chapter1/ch1_client_server_interaction.png)
+
+#### Written Analysis of Figure 1.9
+
+**What it shows:**
+Packet transmission timeline and state transitions for a transaction-oriented client-server communication using acknowledged datagrams rather than full 3-way connection establishment:
+1. Server executes `RECEIVE` primitive and enters a listening state.
+2. Client executes `SEND` primitive containing the service request. The packet traverses the transmission channel.
+3. Server receives request, unblocks from `RECEIVE`, processes the request, and issues a `SEND` containing the result/acknowledgement.
+4. Client, waiting on a blocking `RECEIVE`, captures the response and unblocks.
+
+**Trade-Off Analysis:**
+Acknowledged datagrams reduce connection overhead from 9 packets (connect handshake, data, disconnect) to 2 packets (request + reply/ACK), making it optimal for short transactional exchanges (e.g., DNS queries).
+
+[Source: Ch 1 Introduction.pdf, Slide 33]
+
+---
+
+### Figure 1.10: Hierarchical Architecture of the Modern Internet
+
+![Figure 1.10: Hierarchical Architecture of the Modern Internet](images/chapter1/ch1_internet_architecture_hierarchy.png)
+
+#### Written Analysis of Figure 1.10
+
+**What it shows:**
+The commercial, hierarchical topology governing the global Internet:
+* **Tier-1 Backbones (Transit Providers):** International Tier-1 ISPs (e.g., Lumen, AT&T, NTT) interconnected via high-speed peering points without paying transit fees.
+* **Internet Exchange Points (IXPs):** Physical switching facilities where regional and national networks peer directly to exchange traffic locally without incurring upstream transit costs.
+* **Points of Presence (PoPs):** Regional edge aggregation points where lower-tier networks connect to higher-tier providers.
+* **Regional & Access ISPs:** Retail providers delivering cable, fiber (FTTH), DSL, and cellular access to residential hosts and enterprise data centers.
+
+[Source: Ch 1 Introduction.pdf, Slide 46]
+
+---
 ## 11. Tables and Comprehensive Comparisons
 
 ---
@@ -823,7 +900,7 @@ Imagine the length of a 10Base-5 cable is $2500\text{ meters}$. If the propagati
 
 #### Formulas
 $$
-T_{\text{prop}} = \frac{D}{v}
+T_{\text{prop}} = \f\frac{D}{v}
 $$
 
 $$
@@ -833,7 +910,7 @@ $$
 #### Step-by-Step Solution
 1. Calculate propagation delay:
 $$
-T_{\text{prop}} = \frac{2500\text{ m}}{2 \times 10^8\text{ m/s}} = 1.25 \times 10^{-5}\text{ s} = 12.5\,\mu\text{s}
+T_{\text{prop}} = \f\frac{2500\text{ m}}{2 \times 10^8\text{ m/s}} = 1.25 \times 10^{-5}\text{ s} = 12.5\,\mu\text{s}
 $$
 
 2. Calculate bits stored in the cable pipe:
@@ -864,13 +941,13 @@ A digital signaling system is required to operate at $9600\text{ bps}$. If a sig
 
 #### Formulas
 $$
-\text{Bit Rate} = \text{Baud Rate} \times \log_2(V) \implies \text{Baud Rate} = \frac{\text{Bit Rate}}{\log_2(V)}
+\text{Bit Rate} = \text{Baud Rate} \times \log_2(V) \implies \text{Baud Rate} = \f\frac{\text{Bit Rate}}{\log_2(V)}
 $$
 
 #### Step-by-Step Solution
 1. For Case 1:
 $$
-\text{Baud Rate} = \frac{9600\text{ bps}}{\log_2(16)} = \frac{9600}{4} = 2400\text{ Baud}
+\text{Baud Rate} = \f\frac{9600\text{ bps}}{\log_2(16)} = \f\frac{9600}{4} = 2400\text{ Baud}
 $$
 
 2. For Case 2:
@@ -917,21 +994,21 @@ What is the maximum theoretical data rate for a voice-grade line with a bandwidt
 
 #### Given Values
 * Bandwidth: $B = 4\text{ kHz} = 4000\text{ Hz}$
-* Signal-to-Noise Ratio: $\frac{S}{N} = 10000 = 10^4$
+* Signal-to-Noise Ratio: $\f\frac{S}{N} = 10000 = 10^4$
 
 #### Formulas
 $$
-C = B \log_2 \left(1 + \frac{S}{N}\right)
+C = B \log_2 \left(1 + \f\frac{S}{N}\r\right)
 $$
 
-Using logarithmic identity: $\log_2(x) = \frac{\log_{10}(x)}{\log_{10}(2)} \approx \frac{\log_{10}(x)}{0.30103}$
+Using logarithmic identity: $\log_2(x) = \f\frac{\log_{10}(x)}{\log_{10}(2)} \approx \f\frac{\log_{10}(x)}{0.30103}$
 
 #### Step-by-Step Solution
 $$
 \begin{aligned}
 C &= 4000 \times \log_2(1 + 10000) \approx 4000 \times \log_2(10001) \\
-  &= 4000 \times \frac{\log_{10}(10001)}{\log_{10}(2)} \\
-  &= 4000 \times \frac{4.000043}{0.30103} \\
+  &= 4000 \times \f\frac{\log_{10}(10001)}{\log_{10}(2)} \\
+  &= 4000 \times \f\frac{4.000043}{0.30103} \\
   &= 4000 \times 13.2878 \\
   &= 53,151\text{ bps} \approx 53.15\text{ kbps} = 5.3 \times 10^4\text{ bps}
 \end{aligned}
@@ -955,31 +1032,31 @@ What signal-to-noise ratio ($S/N$) in decibels is needed to transmit a T1 carrie
 
 #### Formulas
 $$
-C = B \log_2 \left(1 + \frac{S}{N}\right) \implies \log_2 \left(1 + \frac{S}{N}\right) = \frac{C}{B}
+C = B \log_2 \left(1 + \f\frac{S}{N}\r\right) \implies \log_2 \left(1 + \f\frac{S}{N}\r\right) = \f\frac{C}{B}
 $$
 
 $$
-\frac{S}{N} = 2^{\frac{C}{B}} - 1
+\f\frac{S}{N} = 2^{\f\frac{C}{B}} - 1
 $$
 
 $$
-\text{SNR}_{\text{dB}} = 10 \log_{10} \left(\frac{S}{N}\right)
+\text{SNR}_{\text{dB}} = 10 \log_{10} \left(\f\frac{S}{N}\r\right)
 $$
 
 #### Step-by-Step Solution
 1. Calculate exponent:
 $$
-\frac{C}{B} = \frac{1,544,000}{50,000} = 30.88
+\f\frac{C}{B} = \f\frac{1,544,000}{50,000} = 30.88
 $$
 
 2. Calculate linear SNR:
 $$
-\frac{S}{N} = 2^{30.88} - 1 \approx 2^{30.88} \approx 1.986 \times 10^9
+\f\frac{S}{N} = 2^{30.88} - 1 \approx 2^{30.88} \approx 1.986 \times 10^9
 $$
 
 3. Convert to decibels:
 $$
-\text{SNR}_{\text{dB}} = 10 \log_{10} \left(2^{30.88}\right) = 10 \times 30.88 \times \log_{10}(2) = 308.8 \times 0.30103 \approx 92.96\text{ dB} \approx 93\text{ dB}
+\text{SNR}_{\text{dB}} = 10 \log_{10} \left(2^{30.88}\r\right) = 10 \times 30.88 \times \log_{10}(2) = 308.8 \times 0.30103 \approx 92.96\text{ dB} \approx 93\text{ dB}
 $$
 
 #### Final Answer
@@ -1048,7 +1125,7 @@ $$
 
 3. Required bit rate in bits per second:
 $$
-\text{Bit Rate} = \frac{1,536,000\text{ bits}}{60\text{ seconds}} = 25,600\text{ bps} = 25.6\text{ kbps}
+\text{Bit Rate} = \f\frac{1,536,000\text{ bits}}{60\text{ seconds}} = 25,600\text{ bps} = 25.6\text{ kbps}
 $$
 
 #### Final Answer
@@ -1100,7 +1177,7 @@ N_{\text{unidirectional}} = n(n-1)
 $$
 
 $$
-N_{\text{bidirectional}} = \frac{n(n-1)}{2}
+N_{\text{bidirectional}} = \f\frac{n(n-1)}{2}
 $$
 
 #### Step-by-Step Solution
@@ -1111,7 +1188,7 @@ $$
 
 2. Bidirectional links:
 $$
-N_{\text{bidirectional}} = \frac{50 \times 49}{2} = 1225\text{ links}
+N_{\text{bidirectional}} = \f\frac{50 \times 49}{2} = 1225\text{ links}
 $$
 
 #### Final Answer
@@ -1146,7 +1223,7 @@ $$
 
 3. Set $T_{\text{trans}} = \text{RTT}$:
 $$
-\frac{L}{R} = \text{RTT} \implies R = \frac{L}{\text{RTT}} = \frac{1000\text{ bits}}{2 \times 10^{-4}\text{ s}} = 5 \times 10^6\text{ bps} = 5\text{ Mbps}
+\f\frac{L}{R} = \text{RTT} \implies R = \f\frac{L}{\text{RTT}} = \f\frac{1000\text{ bits}}{2 \times 10^{-4}\text{ s}} = 5 \times 10^6\text{ bps} = 5\text{ Mbps}
 $$
 
 #### Final Answer
@@ -1168,16 +1245,16 @@ If the distance between host A and host B is $4000\text{ km}$, how long does it 
 #### Step-by-Step Solution
 1. One-way propagation time:
 $$
-T_{\text{prop}} = \frac{4 \times 10^6\text{ m}}{3 \times 10^8\text{ m/s}} = \frac{4}{300}\text{ s} = \frac{1}{75}\text{ s} \approx 0.01333\text{ s} = 13.33\text{ ms}
+T_{\text{prop}} = \f\frac{4 \times 10^6\text{ m}}{3 \times 10^8\text{ m/s}} = \f\frac{4}{300}\text{ s} = \f\frac{1}{75}\text{ s} \approx 0.01333\text{ s} = 13.33\text{ ms}
 $$
 
 2. Round-Trip Time:
 $$
-\text{RTT} = 2 \times T_{\text{prop}} = 2 \times \frac{1}{75}\text{ s} = \frac{2}{75}\text{ s} \approx 0.02667\text{ s} = 26.67\text{ ms}
+\text{RTT} = 2 \times T_{\text{prop}} = 2 \times \f\frac{1}{75}\text{ s} = \f\frac{2}{75}\text{ s} \approx 0.02667\text{ s} = 26.67\text{ ms}
 $$
 
 #### Final Answer
-* **ACK Return Time:** $26.67\text{ ms}$ ($\frac{2}{75}\text{ s}$)
+* **ACK Return Time:** $26.67\text{ ms}$ ($\f\frac{2}{75}\text{ s}$)
 
 [Source: CN_Numericals_Data_Communication.pdf, Page 23; cn_tutorial.pdf, Tutorial 2, Q1]
 
@@ -1216,7 +1293,175 @@ $$
 
 ---
 
-## 13. Connections Between Concepts
+
+---
+
+## 13. Edge Cases, Critical Boundary Conditions & Protocol Anomalies
+
+---
+
+### Edge Case 1: Infinite Bandwidth Channel Capacity (The Shannon Limit when $B \to \infty$)
+
+#### Phenomenon & Mathematical Boundary
+A common misconception in physical transmission is that if bandwidth $B$ is expanded to infinity ($B \to \infty$), the data-carrying capacity of a noisy physical channel will also approach infinity. This is mathematically and physically impossible.
+
+#### Mathematical Derivation of the Bound
+In a channel with constant signal power $S$ and additive white Gaussian noise (AWGN) having single-sided power spectral density $N_0$ (so total noise power $N = N_0 B$):
+
+$$
+C = B \log_2 \left(1 + \f\frac{S}{N_0 B}\r\right)
+$$
+
+Let $u = \dfrac{S}{N_0 B}$. As $B \to \infty$, $u \to 0$. We express $C$ using the fundamental natural logarithm limit identity $\lim_{u \to 0} \dfrac{\ln(1+u)}{u} = 1$:
+
+$$
+\begin{aligned}
+C &= B \cdot \f\frac{\ln\left(1 + \f\frac{S}{N_0 B}\r\right)}{\ln 2} \\
+  &= \f\frac{S}{N_0 \ln 2} \cdot \left[ \f\frac{\ln\left(1 + \f\frac{S}{N_0 B}\r\right)}{\f\frac{S}{N_0 B}} \r\right]
+\end{aligned}
+$$
+
+Taking the mathematical limit as $B \to \infty$:
+
+$$
+C_{\infty} = \lim_{B \to \infty} C = \f\frac{S}{N_0 \ln 2} = \f\frac{S}{N_0} \log_2 e \approx 1.4427 \cdot \f\frac{S}{N_0}
+$$
+
+#### Engineering Implication & Boundary Rule
+No matter how wide the physical channel bandwidth is expanded, the maximum achievable capacity is strictly capped by $1.44 \dfrac{S}{N_0}$ bps, dictated entirely by transmitter signal power and the thermal noise spectral density.
+
+[Source: CN_Numericals_Data_Communication.pdf, Page 12]
+
+---
+
+### Edge Case 2: Zero SNR and Infinite Noise Floor ($S/N \to 0$)
+
+#### Phenomenon & Boundary Condition
+When transmitted signal power drops to zero ($S = 0$) or thermal noise power approaches infinity ($N \to \infty$):
+
+$$
+\lim_{\text{SNR} \to 0} C = B \log_2 (1 + 0) = B \log_2(1) = 0\text{ bps}
+$$
+
+#### Practical Consequence
+Unlike human auditory recognition, which can sometimes isolate spoken words in severe acoustic noise through psychological context, no mathematical modulation or coding scheme can transfer a single bit of information reliably over a communication link when $\text{SNR} \le 0$ linear ($-\infty\text{ dB}$).
+
+[Source: CN_Numericals_Data_Communication.pdf, Page 13]
+
+---
+
+### Edge Case 3: Baud Rate vs Bit Rate Boundary Conditions ($V = 2$ vs $V > 2$)
+
+#### Phenomenon & Boundary Rules
+* **Case 1 ($V = 2$, Binary Signaling):** Each signal element represents exactly $\log_2 2 = 1$ bit. Therefore, $\text{Bit Rate (bps)} = \text{Baud Rate (baud)}$.
+* **Case 2 ($V > 2$, Multilevel Signaling):** Each signal element represents $\log_2 V > 1$ bits. Therefore, $\text{Bit Rate} > \text{Baud Rate}$.
+* **Case 3 ($V < 2$):** Physically meaningless in digital communication. A symbol cannot encode less than 2 distinct physical states to carry discrete digital information.
+
+#### Edge Condition: Can Baud Rate Ever Exceed Bit Rate?
+In baseband signaling, **never**. However, in spread-spectrum systems (e.g., CDMA or DSSS) where pseudo-random "chips" are transmitted to spread 1 user data bit across $M$ chips, the chip modulation rate (baud) is $M$ times higher than the user information bit rate.
+
+[Source: CN_Numericals_Data_Communication.pdf, Page 4]
+
+---
+
+### Edge Case 4: Tinygram & Encapsulation Overhead Inefficiency
+
+#### Problem Description
+When an interactive application transmits single characters (e.g., an SSH or Telnet keystroke of $1\text{ byte}$):
+
+#### Layer Overhead Breakdown
+* Application Data: $1\text{ byte}$
+* TCP Header (minimum): $20\text{ bytes}$
+* IP Header (minimum): $20\text{ bytes}$
+* Ethernet II Header + Trailer: $14\text{ bytes (header)} + 4\text{ bytes (FCS)} = 18\text{ bytes}$
+* Ethernet Preamble + SFD + Interpacket Gap: $8\text{ bytes} + 12\text{ bytes equivalent} = 20\text{ bytes}$
+* Total bytes on physical wire: $1 + 20 + 20 + 18 + 20 = 79\text{ bytes}$
+
+#### Efficiency Calculation
+$$
+\text{Protocol Efficiency} = \f\frac{\text{Payload Size}}{\text{Total Frame Size}} = \f\frac{1}{79} \approx 1.26\%
+$$
+
+#### Protocol Solution
+Over $98.7\%$ of the link bandwidth is wasted on protocol headers! This edge case directly led to the invention of **Nagle's Algorithm** at the transport layer, which inhibits sending new small TCP segments while previous data remains unacknowledged.
+
+[Source: Ch 1 Introduction.pdf, Slide 24]
+
+---
+
+### Edge Case 5: Store-and-Forward vs Cut-Through Latency Crossover
+
+#### Latency Formulations
+Consider $M$ intermediate switches connecting source and destination. Each link has transmission rate $R$ and propagation delay $T_{\text{prop}}$. The packet has length $L$, with header size $H$.
+
+1. **Store-and-Forward Switching:** Every intermediate node must completely receive all $L$ bits and verify the checksum before forwarding:
+$$
+T_{\text{SF}} = (M + 1) \f\frac{L}{R} + (M + 1) T_{\text{prop}}
+$$
+
+2. **Cut-Through Switching:** An intermediate node inspects only the first $H$ bits (address headers) and immediately begins retransmitting the incoming bitstream out the egress port:
+$$
+T_{\text{Cut-Through}} = \f\frac{L}{R} + M \f\frac{H}{R} + (M + 1) T_{\text{prop}}
+$$
+
+#### Critical Hazards & Edge Cases
+* **Packet Corruption Hazard:** In cut-through switching, if a collision or bit corruption occurs halfway through the packet, the corrupted bits have *already been forwarded* downstream. Network bandwidth is wasted transporting damaged packets that will ultimately be dropped at the destination.
+* **Speed-Mismatch Hazard:** Cut-through cannot operate if the incoming link rate is faster than the outgoing link rate; the switch is forced to revert to store-and-forward buffering.
+
+[Source: Ch 1 Introduction.pdf, Slide 14; cn_tutorial.pdf, Tutorial 1]
+
+---
+
+### Edge Case 6: Full-Mesh Topology Geometric Growth Hazard
+
+#### Scalability Crisis
+In a full mesh topology of $n$ nodes, the number of physical full-duplex links required is:
+
+$$
+E = \f\frac{n(n - 1)}{2} = O(n^2)
+$$
+
+Every node must possess $n - 1$ physical network interface cards (NICs) or transceiver ports.
+
+* For $n = 10$: $E = 45$ links.
+* For $n = 100$: $E = 4,950$ links.
+* For $n = 10,000$: $E = 49,995,000$ links!
+
+#### Architectural Solution
+Physical full-mesh connectivity is strictly limited to core network backbones ($n \le 10$). Access networks always adopt hierarchical star or tree topologies to keep link and port complexity linear ($O(n)$).
+
+[Source: CN_Numericals_Data_Communication.pdf, Page 20]
+
+---
+
+### Edge Case 7: Bandwidth-Delay Product (BDP) Pipe Starvation vs Bufferbloat
+
+#### Pipe Filling Boundary
+The Bandwidth-Delay Product $\text{BDP} = R \times \text{RTT}$ defines the capacity of the transmission link "pipe".
+
+* **Case 1 (Window $< \text{BDP}$ - Starvation):** The sender exhausts its transmission window and must wait idle for ACKs. Link utilization collapses to $\eta = \dfrac{\text{Window}}{\text{BDP}} < 100\%$.
+* **Case 2 (Window $\gg \text{BDP}$ - Bufferbloat):** The sender injects far more packets than the link pipe can hold. Excess packets queue up inside intermediate router buffers, causing massive queuing delay, jitter, and eventual drop-tail packet loss.
+
+[Source: CN_Numericals_Data_Communication.pdf, Page 22]
+
+---
+
+### Edge Case 8: Half-Open Connection & State Synchronization Failure
+
+#### Failure Scenario
+In connection-oriented services (e.g., transport connections), state is maintained at both endpoints.
+1. Host A and Host B establish a connection.
+2. Host B crashes unexpectedly, losing all memory of the connection, and reboots.
+3. Host A still considers the connection open and active (a **half-open connection**).
+4. When Host A sends data, Host B receives a packet for a connection it knows nothing about and rejects it with a reset (RST).
+5. Furthermore, delayed duplicate connection requests from previous sessions can arrive months later and cause phantom connections if sequence numbers are not initialized via a **Three-Way Handshake**.
+
+[Source: Ch 1 Introduction.pdf, Slides 30–32]
+
+
+---
+
+## 14. Connections Between Concepts
 
 * **Protocol Layering $\leftrightarrow$ Software Modularity:** Network layering applies classical computer science modularity; replacing a physical medium (e.g., copper with fiber) changes only Layer 1/2 without requiring rewrites of Layer 3/4 routing or Layer 7 applications.
 * **Encapsulation $\leftrightarrow$ Address Scope:** As an application message travels down the stack, each layer prepends addressing relevant to its scope: Transport prepends process Port numbers, Network prepends end-to-end IP addresses, and Data Link prepends hop-to-hop physical MAC addresses.
@@ -1225,7 +1470,7 @@ $$
 
 ---
 
-## 14. Key Takeaways
+## 15. Key Takeaways
 
 1. A computer network connects autonomous computers to share resources; a distributed system creates the software illusion of a single coherent computer.
 2. The OSI model provides a clean theoretical 7-layer framework with strict separation between services, interfaces, and protocols.
@@ -1236,7 +1481,7 @@ $$
 
 ---
 
-## 15. Formula Sheet
+## 16. Formula Sheet
 
 ### 1. Nyquist Maximum Channel Capacity (Noiseless)
 $$
@@ -1246,13 +1491,13 @@ $$
 
 ### 2. Shannon Channel Capacity (Noisy Gaussian Channel)
 $$
-C = B \log_2 \left(1 + \frac{S}{N}\right)
+C = B \log_2 \left(1 + \f\frac{S}{N}\r\right)
 $$
-* $C$ = Capacity ($\text{bps}$), $B$ = Bandwidth ($\text{Hz}$), $\frac{S}{N}$ = Linear signal-to-noise ratio.
+* $C$ = Capacity ($\text{bps}$), $B$ = Bandwidth ($\text{Hz}$), $\f\frac{S}{N}$ = Linear signal-to-noise ratio.
 
 ### 3. Decibel SNR Conversion
 $$
-\text{SNR}_{\text{dB}} = 10 \log_{10} \left(\frac{S}{N}\right) \iff \frac{S}{N} = 10^{\frac{\text{SNR}_{\text{dB}}}{10}}
+\text{SNR}_{\text{dB}} = 10 \log_{10} \left(\f\frac{S}{N}\r\right) \iff \f\frac{S}{N} = 10^{\f\frac{\text{SNR}_{\text{dB}}}{10}}
 $$
 
 ### 4. Baud Rate vs Bit Rate
@@ -1262,13 +1507,13 @@ $$
 
 ### 5. Transmission Delay and Propagation Delay
 $$
-T_{\text{trans}} = \frac{L}{R}, \quad T_{\text{prop}} = \frac{D}{v}, \quad \text{RTT} = 2 \times T_{\text{prop}}
+T_{\text{trans}} = \f\frac{L}{R}, \quad T_{\text{prop}} = \f\frac{D}{v}, \quad \text{RTT} = 2 \times T_{\text{prop}}
 $$
 * $L$ = Length ($\text{bits}$), $R$ = Transmission rate ($\text{bps}$), $D$ = Distance ($\text{m}$), $v$ = Velocity ($\text{m/s}$).
 
 ### 6. Full-Mesh Link Count
 $$
-N_{\text{links, bidirectional}} = \frac{n(n-1)}{2}, \quad N_{\text{links, unidirectional}} = n(n-1)
+N_{\text{links, bidirectional}} = \f\frac{n(n-1)}{2}, \quad N_{\text{links, unidirectional}} = n(n-1)
 $$
 
 ### 7. Bandwidth-Delay Product (BDP)
@@ -1278,7 +1523,7 @@ $$
 
 ---
 
-## 16. Definition Sheet
+## 17. Definition Sheet
 
 * **Computer Network:** An interconnected collection of autonomous computers capable of exchanging data.
 * **Protocol:** Formal rules and formats governing the exchange of messages between peer entities at the same layer.
@@ -1293,7 +1538,7 @@ $$
 
 ---
 
-## 17. Exam-Oriented Review
+## 18. Exam-Oriented Review
 
 ---
 
@@ -1334,7 +1579,7 @@ $$
 * **Given:** File size $= 20\text{ MB} = 20 \times 2^{20} \times 8 = 167,772,160\text{ bits}$. Bandwidth $= 10\text{ Mbps} = 10 \times 10^6\text{ bps}$.
 * **Calculation:**
 $$
-T_{\text{trans}} = \frac{167,772,160\text{ bits}}{10,000,000\text{ bps}} = 16.777\text{ seconds}
+T_{\text{trans}} = \f\frac{167,772,160\text{ bits}}{10,000,000\text{ bps}} = 16.777\text{ seconds}
 $$
 *(Note: If using decimal $20\text{ MB} = 160 \times 10^6\text{ bits}$, $T = 16.0\text{ s}$)*.
 
@@ -1347,7 +1592,7 @@ $$
 #### Q7. A signal propagates through a channel of length $3000\text{ km}$ at a speed of $2 \times 10^8\text{ m/s}$. Calculate propagation delay.
 * **Calculation:**
 $$
-T_{\text{prop}} = \frac{3000 \times 10^3\text{ m}}{2 \times 10^8\text{ m/s}} = 0.015\text{ s} = 15\text{ ms}
+T_{\text{prop}} = \f\frac{3000 \times 10^3\text{ m}}{2 \times 10^8\text{ m/s}} = 0.015\text{ s} = 15\text{ ms}
 $$
 
 #### Q8. A network has a bandwidth of $100\text{ Mbps}$ and RTT of $20\text{ ms}$. Calculate bandwidth-delay product.

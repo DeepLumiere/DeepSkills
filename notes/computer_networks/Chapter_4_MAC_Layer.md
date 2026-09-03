@@ -26,7 +26,7 @@
 
 ## 1. Chapter Overview & Channel Allocation Problem
 
-On point-to-point links (studied in Chapter 3), a dedicated channel connects exactly two communicating nodes. However, on broadcast networks (such as Ethernet LANs, satellite downlinks, and Wi-Fi networks), multiple communicating stations share a single common physical transmission channel.
+On point-to-point links (studied in Chapter 3), a dedicated channel connects exactly two communicating nodes. However, on broadcast networks (such as Ethernet LANs, satellite downlinks, and Wi-Fi networks), multiple communicating stations share a single common physical transmission channel. 
 
 The fundamental problem on shared broadcast channels is: **When multiple stations are ready to transmit simultaneously, which station gets the channel?**
 
@@ -54,10 +54,14 @@ flowchart TD
 
 #### 1. Why Static Channel Allocation (FDM / TDM) Fails for Computer Data
 In traditional telephony, a channel is divided among $N$ users using **Frequency Division Multiplexing (FDM)** or **Time Division Multiplexing (TDM)**:
-* If $N$ users share a channel of total capacity $C$ bps, each user is permanently allocated a sub-band of $\frac{C}{N}$ bps.
+* If $N$ users share a channel of total capacity $C$ bps, each user is permanently allocated a sub-band of $\f\frac{C}{N}$ bps.
 * From queuing theory, the average delay $T$ for a Poisson arrival stream with mean arrival rate $\lambda$ and mean frame service rate $\mu$ is:
-  $$T_{\text{FDM}} = \frac{1}{\mu \left(\frac{C}{N}\right) - \left(\frac{\lambda}{N}\right)} = \frac{N}{\mu C - \lambda} = N \cdot T_{\text{single}}$$
-* If $N = 10$ and traffic is bursty (with a high peak-to-average ratio of $1000:1$, typical of web browsing and file downloads), each station is idle for $99\%$ of the time. When a station does generate a burst, it is constrained to a tiny fraction $\frac{1}{N}$ of the bandwidth, causing average delay to increase **$N$-fold**, while all other $(N-1)$ subchannels sit completely idle and wasted!
+
+$$
+T_{\text{FDM}} = \f\frac{1}{\mu \left(\f\frac{C}{N}\r\right) - \left(\f\frac{\lambda}{N}\r\right)} = \f\frac{N}{\mu C - \lambda} = N \cdot T_{\text{single}}
+$$
+
+* If $N = 10$ and traffic is bursty (with a high peak-to-average ratio of $1000:1$, typical of web browsing and file downloads), each station is idle for $99\%$ of the time. When a station does generate a burst, it is constrained to a tiny fraction $\f\frac{1}{N}$ of the bandwidth, causing average delay to increase **$N$-fold**, while all other $(N-1)$ subchannels sit completely idle and wasted!
 
 #### 2. Dynamic Channel Allocation
 Dynamic channel allocation shares the entire capacity $C$ on demand among all active stations. Key design assumptions:
@@ -134,21 +138,31 @@ Let $T_f$ be the frame transmission time.
 #### Mathematical Derivation of Pure ALOHA Throughput
 Let $G$ be the offered load (mean frame generation attempts per frame time $T_f$). Assuming frame generation follows a Poisson distribution:
 
-$$P(k \text{ frames in time } t) = \frac{(G \cdot t / T_f)^k e^{-G \cdot t / T_f}}{k!}$$
+$$
+P(k \text{ frames in time } t) = \f\frac{(G \cdot t / T_f)^k e^{-G \cdot t / T_f}}{k!}
+$$
 
 Over the vulnerable period $t = 2 T_f$, the probability of zero other transmissions ($k = 0$) is:
 
-$$P(0) = e^{-G \cdot (2 T_f) / T_f} = e^{-2G}$$
+$$
+P(0) = e^{-G \cdot (2 T_f) / T_f} = e^{-2G}
+$$
 
 The throughput $S$ (rate of successful transmissions per frame time) is:
 
-$$S = G \cdot P(0) = G e^{-2G}$$
+$$
+S = G \cdot P(0) = G e^{-2G}
+$$
 
 To find maximum throughput, differentiate with respect to $G$:
 
-$$\frac{dS}{dG} = e^{-2G} - 2G e^{-2G} = e^{-2G}(1 - 2G) = 0 \implies G = 0.5$$
+$$
+\f\frac{dS}{dG} = e^{-2G} - 2G e^{-2G} = e^{-2G}(1 - 2G) = 0 \implies G = 0.5
+$$
 
-$$S_{\max} = 0.5 \cdot e^{-1} = \frac{1}{2e} \approx 0.18394 \approx 18.4\%$$
+$$
+S_{\max} = 0.5 \cdot e^{-1} = \f\frac{1}{2e} \approx 0.18394 \approx 18.4\%
+$$
 
 [Source: Ch 4 MAC Layer.pdf, Slides 8–15; CN_Numericals_MAC_Layer.pdf, Pages 4–5]
 
@@ -166,20 +180,35 @@ Proposed by Lawrence Roberts in 1972 to double the capacity of Pure ALOHA.
 * Since transmissions start only at slot boundaries, a frame transmitted in slot $[t_0, t_0 + T_f]$ collides only if another frame is also scheduled for that exact same slot.
 * The **vulnerable period** is halved to **$T_f$**.
 * Probability of zero other frames in slot time $T_f$:
-  $$P(0) = e^{-G}$$
+
+$$
+P(0) = e^{-G}
+$$
+
 * Throughput equation:
-  $$S = G e^{-G}$$
+
+$$
+S = G e^{-G}
+$$
+
 * Differentiating with respect to $G$:
-  $$\frac{dS}{dG} = e^{-G}(1 - G) = 0 \implies G = 1.0$$
+
+$$
+\f\frac{dS}{dG} = e^{-G}(1 - G) = 0 \implies G = 1.0
+$$
+
 * Maximum throughput:
-  $$S_{\max} = 1.0 \cdot e^{-1} = \frac{1}{e} \approx 0.36788 \approx 36.8\%$$
+
+$$
+S_{\max} = 1.0 \cdot e^{-1} = \f\frac{1}{e} \approx 0.36788 \approx 36.8\%
+$$
 
 #### Pure ALOHA vs Slotted ALOHA Comparison
 
 ```mermaid
 flowchart LR
-    A["Pure ALOHA"] -->|Vulnerable Period = 2 Tf| B["Peak Throughput S = 18.4% at G = 0.5"]
-    C["Slotted ALOHA"] -->|Vulnerable Period = 1 Tf| D["Peak Throughput S = 36.8% at G = 1.0"]
+    A[Pure ALOHA] -->|Vulnerable Period = 2 Tf| B[Peak Throughput S = 18.4% at G = 0.5]
+    C[Slotted ALOHA] -->|Vulnerable Period = 1 Tf| D[Peak Throughput S = 36.8% at G = 1.0]
 ```
 
 [Source: Ch 4 MAC Layer.pdf, Slides 9–15; CN_Numericals_MAC_Layer.pdf, Pages 4–5]
@@ -192,12 +221,12 @@ In local area networks where propagation delay $\tau$ is very short compared to 
 
 ```mermaid
 flowchart TD
-    Sense{"Sense Medium"}
-    Sense -->|Channel Idle| Transmit["Transmit Frame"]
-    Sense -->|Channel Busy| Strategy{"Persistence Strategy"}
-    Strategy -->|1-Persistent| ListenLoop["Listen continuously until idle -> Transmit immediately"]
-    Strategy -->|Non-Persistent| WaitRand["Wait random time interval -> Sense again"]
-    Strategy -->|p-Persistent| SlottedCheck["If idle: Transmit with prob p, Defer to next slot with prob 1-p"]
+    Sense{Sense Medium}
+    Sense -->|Channel Idle| Transmit[Transmit Frame]
+    Sense -->|Channel Busy| Strategy{Persistence Strategy}
+    Strategy -->|1-Persistent| ListenLoop[Listen continuously until idle -> Transmit immediately]
+    Strategy -->|Non-Persistent| WaitRand[Wait random time interval -> Sense again]
+    Strategy -->|p-Persistent| SlottedCheck[If idle: Transmit with prob p, Defer to next slot with prob 1-p]
 ```
 
 1. **1-Persistent CSMA:**
@@ -227,13 +256,13 @@ sequenceDiagram
     autonumber
     actor A as Station A (Position 0)
     actor B as Station B (Position L)
-
+    
     Note over A: t = 0: Starts Transmitting Frame
-    Note over B: t = tau - epsilon: B senses idle and starts transmitting!
+    Note over B: t = tau - epsilon: B senses idle & starts transmitting!
     Note over A,B: Collision occurs near Station B at t = tau
-    Note over B: t = tau: Detects collision, aborts and sends Jamming Signal
+    Note over B: t = tau: Detects collision, aborts & sends Jamming Signal
     Note over A: t = 2*tau - epsilon: Collision signal arrives back at A!
-    Note over A: A detects collision, aborts and enters Binary Exponential Backoff
+    Note over A: A detects collision, aborts & enters Binary Exponential Backoff
 ```
 
 #### Why Collision Detection Takes $2\tau$ (Round-Trip Propagation Time)
@@ -244,21 +273,31 @@ Let $\tau$ be the maximum one-way propagation time between the two farthest stat
 4. Station B detects the collision instantly, aborts, and broadcasts a jamming signal.
 5. The collision signal (the corrupted runt waveform) must travel all the way back across the physical cable to reach Station A.
 6. Station A detects the collision at time:
-   $$t_{\text{detect}} = 2\tau - \epsilon \approx 2\tau$$
+
+$$
+t_{\text{detect}} = 2\tau - \epsilon \approx 2\tau
+$$
 
 #### The Minimum Frame Size Requirement
 To guarantee that a transmitting station detects a collision **before** it completes sending its frame, the frame transmission time $T_{\text{trans}}$ must be at least as long as the round-trip propagation time $2\tau$:
 
-$$T_{\text{trans}} \ge 2\tau$$
+$$
+T_{\text{trans}} \ge 2\tau
+$$
 
-$$\frac{L_{\min}}{B} \ge 2 \cdot \frac{D}{v} \implies L_{\min} = 2 \cdot \frac{D}{v} \cdot B = 2 \cdot \tau \cdot B$$
+$$
+\f\frac{L_{\min}}{B} \ge 2 \cdot \f\frac{D}{v} \implies L_{\min} = 2 \cdot \f\frac{D}{v} \cdot B = 2 \cdot \tau \cdot B
+$$
 
 *For Classic 10 Mbps Ethernet (10Base5):*
 * Maximum length with 4 repeaters: $D = 2500\text{ m}$.
 * Signal speed in coaxial cable: $v = 2 \times 10^8\text{ m/s} = 200\text{ m/}\mu\text{s}$.
-* Round-trip delay: $2\tau = \frac{2 \times 2500\text{ m}}{2 \times 10^8\text{ m/s}} = 25\,\mu\text{s}$ (with repeater delays, standard sets slot time to $51.2\,\mu\text{s}$).
+* Round-trip delay: $2\tau = \f\frac{2 \times 2500\text{ m}}{2 \times 10^8\text{ m/s}} = 25\,\mu\text{s}$ (with repeater delays, standard sets slot time to $51.2\,\mu\text{s}$).
 * Minimum frame size:
-  $$L_{\min} = 51.2\,\mu\text{s} \times 10\text{ Mbps} = 512\text{ bits} = 64\text{ Bytes}$$
+
+$$
+L_{\min} = 51.2\,\mu\text{s} \times 10\text{ Mbps} = 512\text{ bits} = 64\text{ Bytes}
+$$
 
 If a station finishes transmitting a 64-byte frame without detecting a collision during the first 512 bits, it is guaranteed to have captured the channel, and no collision can occur for the remainder of the frame.
 
@@ -275,7 +314,11 @@ After a collision, stations randomize their retransmission timing using BEB:
 2. After the **$i$-th collision** for a given frame ($1 \le i \le 16$):
    * Set exponent $k = \min(i, 10)$.
    * The station randomly chooses an integer backoff delay $r$ uniformly distributed in the range:
-     $$r \in \left[0, \; 2^k - 1\right]$$
+
+$$
+r \in \left[0, \; 2^k - 1\r\right]
+$$
+
    * The station waits $r \times 51.2\,\mu\text{s}$ before attempting to sense the channel and retransmit.
 3. *Backoff Progression:*
    * Collision 1 ($i=1$): $r \in [0, 1]$ (Delays: 0 or 1 slot).
@@ -312,9 +355,16 @@ Frame Transmissions: ----> [ Frame from Station 1 ] ---> [ Frame from Station 3 
 #### Channel Efficiency Analysis
 Let $d$ be the data frame size in bits:
 * **Low Load (Only 1 station wants to send):** Sender must wait for $N$ contention bits before transmitting $d$ bits. Overhead = $N$ bits.
-  $$\text{Efficiency} = \frac{d}{d + N}$$
+
+$$
+\text{Efficiency} = \f\frac{d}{d + N}
+$$
+
 * **High Load (All $N$ stations want to send):** $N$ data frames ($N \cdot d$ bits) are transmitted for $N$ contention bits.
-  $$\text{Efficiency} = \frac{N \cdot d}{N \cdot d + N} = \frac{d}{d + 1}$$
+
+$$
+\text{Efficiency} = \f\frac{N \cdot d}{N \cdot d + N} = \f\frac{d}{d + 1}
+$$
 
 [Source: Ch 4 MAC Layer.pdf, Slides 27–30; CN_Numericals_MAC_Layer.pdf, Page 8]
 
@@ -336,7 +386,9 @@ Suppose Stations 0010 (2), 0100 (4), 1010 (10), and 1001 (9) contend:
 * **Bit 0 (LSB):** Station 1010 sends `0`. Channel is `0`.
 * **Winner:** Station 1010 (Station 10) wins and transmits its frame.
 
-$$\text{Channel Efficiency} = \frac{d}{d + \log_2 N}$$
+$$
+\text{Channel Efficiency} = \f\frac{d}{d + \log_2 N}
+$$
 
 [Source: Ch 4 MAC Layer.pdf, Slides 32–35]
 
@@ -352,21 +404,31 @@ Limited-contention protocols combine the low delay of random access at light loa
 
 Suppose $k$ stations are currently contending for a shared slot, and each station independently decides to transmit with probability $p$. The probability $P_{\text{success}}$ that exactly one station transmits successfully is:
 
-$$P_{\text{success}} = k p (1 - p)^{k-1}$$
+$$
+P_{\text{success}} = k p (1 - p)^{k-1}
+$$
 
 To find the optimal transmission probability $p^*$, differentiate with respect to $p$:
 
-$$\frac{d P}{d p} = k (1-p)^{k-1} - k(k-1) p (1-p)^{k-2} = k(1-p)^{k-2}[(1-p) - (k-1)p] = 0$$
+$$
+\f\frac{d P}{d p} = k (1-p)^{k-1} - k(k-1) p (1-p)^{k-2} = k(1-p)^{k-2}[(1-p) - (k-1)p] = 0
+$$
 
-$$1 - p - kp + p = 0 \implies 1 - kp = 0 \implies p^* = \frac{1}{k}$$
+$$
+1 - p - kp + p = 0 \implies 1 - kp = 0 \implies p^* = \f\frac{1}{k}
+$$
 
 Substituting $p = 1/k$ gives the maximum success probability:
 
-$$P_{\text{success, max}} = k \left(\frac{1}{k}\right) \left(1 - \frac{1}{k}\right)^{k-1} = \left(1 - \frac{1}{k}\right)^{k-1}$$
+$$
+P_{\text{success, max}} = k \left(\f\frac{1}{k}\r\right) \left(1 - \f\frac{1}{k}\r\right)^{k-1} = \left(1 - \f\frac{1}{k}\r\right)^{k-1}
+$$
 
 As the number of contending stations $k \to \infty$:
 
-$$\lim_{k \to \infty} \left(1 - \frac{1}{k}\right)^{k-1} = \frac{1}{e} \approx 0.36788 \approx 36.8\%$$
+$$
+\lim_{k \to \infty} \left(1 - \f\frac{1}{k}\r\right)^{k-1} = \f\frac{1}{e} \approx 0.36788 \approx 36.8\%
+$$
 
 [Source: Ch 4 MAC Layer.pdf, Slides 37–38]
 
@@ -445,10 +507,17 @@ Let $F$ be the frame size in bits, $B$ be network bandwidth in bps, $L$ be cable
 * Each contention slot has duration $2\tau$.
 * With $k$ stations contending with optimal probability $p = 1/k$, the probability that a slot acquires the channel successfully is $A = (1 - 1/k)^{k-1} \to 1/e \approx 0.368$.
 * The mean number of contention slots before a successful transmission is:
-  $$\text{Mean Contention Slots} = \sum_{j=0}^{\infty} j A(1-A)^{j-1} = \frac{1 - A}{A} = \frac{1 - 1/e}{1/e} = e - 1 \approx 1.718$$
+
+$$
+\text{Mean Contention Slots} = \sum_{j=0}^{\infty} j A(1-A)^{j-1} = \f\frac{1 - A}{A} = \f\frac{1 - 1/e}{1/e} = e - 1 \approx 1.718
+$$
+
 * The mean length of the contention interval is $T_{\text{contention}} = 2\tau (e - 1) \approx 2\tau e$.
 * The channel efficiency $\eta$ is:
-  $$\eta = \frac{T_{\text{frame}}}{T_{\text{frame}} + T_{\text{contention}}} = \frac{\frac{F}{B}}{\frac{F}{B} + 2 \left(\frac{L}{c}\right) e} = \frac{1}{1 + \frac{2 B L e}{c F}}$$
+
+$$
+\eta = \f\frac{T_{\text{frame}}}{T_{\text{frame}} + T_{\text{contention}}} = \f\frac{\f\frac{F}{B}}{\f\frac{F}{B} + 2 \left(\f\frac{L}{c}\r\right) e} = \f\frac{1}{1 + \f\frac{2 B L e}{c F}}
+$$
 
 **Key Insight:** Ethernet efficiency is high ($> 90\%$) when frames are large ($F = 1500\text{ B}$) and network span $L$ is short; efficiency degrades significantly if frames are small ($F = 64\text{ B}$) on long, high-speed networks.
 
@@ -480,12 +549,12 @@ Wireless transmission differs fundamentally from wired Ethernet because radios h
 ```mermaid
 flowchart LR
     subgraph Hidden ["Hidden Terminal Problem"]
-        A("(Station A")) ---|Range A| B("(Station B"))
-        C("(Station C")) ---|Range C| B
+        A((Station A)) ---|Range A| B((Station B))
+        C((Station C)) ---|Range C| B
     end
     subgraph Exposed ["Exposed Terminal Problem"]
-        E_B("(Station B")) ---|Transmits to| E_A("(Station A"))
-        E_C("(Station C")) -.->|Wants to send to| E_D("(Station D"))
+        E_B((Station B)) ---|Transmits to| E_A((Station A))
+        E_C((Station C)) -.->|Wants to send to| E_D((Station D))
     end
 ```
 
@@ -511,7 +580,7 @@ sequenceDiagram
     actor A as Sender (Station A)
     actor B as Receiver / AP (Station B)
     actor C as Hidden Station C
-
+    
     Note over A: Waits DIFS + Backoff
     A->>B: RTS (Request to Send - Duration = Data + CTS + ACK)
     Note over B: Waits SIFS
@@ -552,7 +621,9 @@ flowchart TD
 * **DIFS (DCF Inter-Frame Space):** $\text{DIFS} = \text{SIFS} + 2 \times \text{Slot Time}$. Used by standard asynchronous stations in **Distributed Coordination Function (DCF)** mode.
 * **EIFS (Extended Inter-Frame Space):** Longest gap; invoked when a station receives an unreadable/corrupted frame to give other stations time to complete ongoing acknowledgments.
 
-$$\text{SIFSTime} = \text{aRxRFDelay} + \text{aRxPLCPDelay} + \text{aMACProcessingDelay} + \text{aRxTxTurnaroundTime}$$
+$$
+\text{SIFSTime} = \text{aRxRFDelay} + \text{aRxPLCPDelay} + \text{aMACProcessingDelay} + \text{aRxTxTurnaroundTime}
+$$
 
 [Source: Ch 4 MAC Layer.pdf, Slides 57–59; Chapter4-Medium Access Control SubLayer.pdf, Slides 48–54]
 
@@ -593,28 +664,32 @@ A transparent bridge is plug-and-play; when connected, it learns network topolog
 ```mermaid
 flowchart LR
     subgraph LAN1 ["Segment 1"]
-        A["Host A"]
-        B["Host B"]
+        A[Host A]
+        B[Host B]
     end
     subgraph Switch ["Learning Bridge / Switch"]
-        P1["Port 1"]
-        FDB["(Forwarding Table<br>MAC | Port | Age)"]
-        P2["Port 2"]
+        P1[Port 1]
+        FDB[(Forwarding Table<br>MAC | Port | Age)]
+        P2[Port 2]
     end
     subgraph LAN2 ["Segment 2"]
-        C["Host C"]
-        D["Host D"]
+        C[Host C]
+        D[Host D]
     end
 
-    A and B --- P1
+    A & B --- P1
     P1 --- FDB --- P2
-    P2 --- C and D
+    P2 --- C & D
 ```
 
 #### The Bridge Learning & Forwarding Procedure
 For every incoming frame arriving on Ingress Port $P$:
 1. **Learn Source Address:** Extract Source MAC address and update table:
-   $$\text{Table}[\text{Source MAC}] = (\text{Port } P, \; \text{Timestamp} = \text{now})$$
+
+$$
+\text{Table}[\text{Source MAC}] = (\text{Port } P, \; \text{Timestamp} = \text{now})
+$$
+
 2. **Forwarding Lookup:** Extract Destination MAC address:
    * **Case 1 (Destination on Same Port):** If Table has Destination MAC mapped to Port $P$, **Filter (Drop)** the frame (destination is on the same local segment; frame already reached it).
    * **Case 2 (Destination on Different Port $Q$):** If Table has Destination MAC mapped to Port $Q \ne P$, **Forward** the frame out Port $Q$ only.
@@ -636,11 +711,11 @@ To provide fault tolerance, network engineers build redundant physical links bet
 ```mermaid
 flowchart TD
     subgraph LoopProblem ["Physical Redundant Loop"]
-        SW1("(Switch 1")) <--->|Link A| SW2("(Switch 2"))
+        SW1((Switch 1)) <--->|Link A| SW2((Switch 2))
         SW1 <--->|Link B (Redundant)| SW2
     end
     subgraph STPSolution ["Logical Spanning Tree Topology"]
-        SWA("(Switch 1 - ROOT")) ===|Active Link A| SWB("(Switch 2"))
+        SWA((Switch 1 - ROOT)) ===|Active Link A| SWB((Switch 2))
         SWA -.-x|Link B: Port BLOCKED by STP| SWB
     end
 ```
@@ -707,15 +782,15 @@ A **Virtual Local Area Network (VLAN)** is a logical broadcast domain created by
 
 ```mermaid
 flowchart LR
-    Host1["Host A: VLAN 10"] -->|Untagged Frame| SW1_P1["Switch 1 Access Port"]
+    Host1[Host A: VLAN 10] -->|Untagged Frame| SW1_P1[Switch 1 Access Port]
     subgraph SW1 ["Switch 1"]
-        SW1_P1 -->|Add 802.1Q Tag: VID=10| Trunk1["Trunk Port"]
+        SW1_P1 -->|Add 802.1Q Tag: VID=10| Trunk1[Trunk Port]
     end
-    Trunk1 ===|802.1Q Tagged Trunk Link| Trunk2["Trunk Port"]
+    Trunk1 ===|802.1Q Tagged Trunk Link| Trunk2[Trunk Port]
     subgraph SW2 ["Switch 2"]
-        Trunk2 -->|Strip Tag: VID=10| SW2_P2["Switch 2 Access Port"]
+        Trunk2 -->|Strip Tag: VID=10| SW2_P2[Switch 2 Access Port]
     end
-    SW2_P2 -->|Untagged Frame| Host2["Host B: VLAN 10"]
+    SW2_P2 -->|Untagged Frame| Host2[Host B: VLAN 10]
 ```
 
 1. **Access Port (Untagged Port):** Connects to standard end-user machines (PCs, printers, servers). Frames entering and leaving access ports are standard untagged Ethernet frames; the NIC is unaware of VLANs.
@@ -744,12 +819,20 @@ flowchart LR
 ---
 
 ### 1. Pure ALOHA Throughput
-$$S = G e^{-2G}$$
-* Max throughput: $S_{\max} = \frac{1}{2e} \approx 18.4\%$ at offered load $G = 0.5$.
+
+$$
+S = G e^{-2G}
+$$
+
+* Max throughput: $S_{\max} = \f\frac{1}{2e} \approx 18.4\%$ at offered load $G = 0.5$.
 
 ### 2. Slotted ALOHA Throughput
-$$S = G e^{-G}$$
-* Max throughput: $S_{\max} = \frac{1}{e} \approx 36.8\%$ at offered load $G = 1.0$.
+
+$$
+S = G e^{-G}
+$$
+
+* Max throughput: $S_{\max} = \f\frac{1}{e} \approx 36.8\%$ at offered load $G = 1.0$.
 
 ### 3. Collision Fraction in Slotted Broadcast Subnet
 With $n$ hosts transmitting with probability $p$ in any slot:
@@ -758,29 +841,117 @@ With $n$ hosts transmitting with probability $p$ in any slot:
 * $P_{\text{collision}} = 1 - n p (1 - p)^{n-1} - (1 - p)^n$
 
 ### 4. CSMA/CD Minimum Frame Size
-$$L_{\min} = 2 \cdot \tau \cdot B = 2 \cdot \left(\frac{D}{v}\right) \cdot B$$
+
+$$
+L_{\min} = 2 \cdot \tau \cdot B = 2 \cdot \left(\f\frac{D}{v}\r\right) \cdot B
+$$
+
 * $L_{\min}$ = Minimum frame length in bits.
 * $\tau = D/v$ = Maximum one-way propagation delay.
 * $B$ = Channel transmission bit rate in bps.
 
 ### 5. Ethernet Channel Efficiency
-$$\eta = \frac{1}{1 + \frac{2 B L e}{c F}}$$
+
+$$
+\eta = \f\frac{1}{1 + \f\frac{2 B L e}{c F}}
+$$
+
 * $F$ = Frame size (bits), $B$ = Bandwidth (bps), $L$ = Cable length (m), $c$ = Propagation velocity (m/s), $e \approx 2.718$.
 
 ### 6. Bluetooth FHSS Dwell Time
-$$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 625\,\mu\text{s}$$
+
+$$
+T_{\text{dwell}} = \f\frac{1}{\text{Hop Rate}} = \f\frac{1}{1600\text{ hops/s}} = 625\,\mu\text{s}
+$$
 
 [Source: CN_Numericals_MAC_Layer.pdf, Pages 2, 4, 10, 16]
 
 ---
 
+
+### Derivation: Mean Contention Slots in CSMA/CD via Geometric Series Derivative
+
+#### Problem Context & Mathematical Formulation
+In classic CSMA/CD (IEEE 802.3), let $k$ stations contend for access during a contention interval. Each station transmits in a slot with probability $p$.
+The probability that exactly one station transmits successfully in a given contention slot is:
+
+$$
+A = k p (1 - p)^{k - 1}
+$$
+
+The probability that the contention interval terminates after exactly $j$ failed contention slots followed by 1 successful slot is geometrically distributed:
+
+$$
+P(\text{conquer in slot } j) = A (1 - A)^{j - 1} \quad \text{for } j = 1, 2, 3, \dots
+$$
+
+The expected (mean) number of contention slots until success is:
+
+$$
+\text{Mean} = \sum_{j=0}^{\infty} j \cdot A (1 - A)^{j - 1}
+$$
+
+#### Step-by-Step Derivation
+1. **Index Adjustment:**
+   Since the term evaluates to 0 when $j = 0$, we start the summation index at $j = 1$ without altering the sum:
+$$
+\text{Mean} = \sum_{j=1}^{\infty} j \cdot A (1 - A)^{j - 1}
+$$
+
+2. **Factoring Constant:**
+   Factor the constant probability $A$ outside the summation:
+$$
+\text{Mean} = A \sum_{j=1}^{\infty} j (1 - A)^{j - 1}
+$$
+
+3. **Geometric Series Differentiability:**
+   Let $x = 1 - A$. Since $0 < A < 1$, $|x| < 1$. Recall the standard infinite geometric series:
+$$
+\sum_{j=0}^{\infty} x^j = 
+\frac{1}{1 - x} \quad \text{for } |x| < 1
+$$
+
+4. **Differentiating with Respect to $x$:**
+   Differentiating term-by-term on both sides:
+$$
+
+\frac{d}{dx}\left(\sum_{j=0}^{\infty} x^j
+\right) = \sum_{j=1}^{\infty} j x^{j - 1} = 
+\frac{d}{dx}\left(
+\frac{1}{1 - x}
+\right) = 
+\frac{1}{(1 - x)^2}
+$$
+
+5. **Back-Substitution of $x = 1 - A$:**
+   Substitute $x = 1 - A$ into the derivative identity:
+$$
+\sum_{j=1}^{\infty} j (1 - A)^{j - 1} = 
+\frac{1}{(1 - (1 - A))^2} = 
+\frac{1}{A^2}
+$$
+
+6. **Final Result:**
+   Multiply by the pre-factored scalar $A$:
+$$
+\text{Mean} = A \cdot 
+\frac{1}{A^2} = 
+\frac{1}{A}
+$$
+
+#### Engineering Significance
+Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contention waste time is $\dfrac{2\tau}{A}$. When optimal transmission probability $p = \dfrac{1}{k}$ is chosen, $A \to \dfrac{1}{e} \approx 0.368$ as $k \to \infty$, which means an average of $e \approx 2.718$ contention slots precede every successful frame transmission.
+
+[Source: Ch 4 MAC Layer.pdf, Slide 91]
+
+---
 ## 11. Algorithms and Procedures
 
 ---
 
 ### Algorithm 4.1: CSMA/CD Transmission with Binary Exponential Backoff
 
-**Purpose:** Transmit frame on shared half-duplex Ethernet while detecting collisions and resolving contention.
+**Purpose:** Transmit frame on shared half-duplex Ethernet while detecting collisions and resolving contention.  
 **Procedure:**
 1. Set collision attempt counter $i = 0$.
 2. **Sense Carrier:**
@@ -802,7 +973,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Algorithm 4.2: Adaptive Tree Walk Contention Resolution
 
-**Purpose:** Resolve collisions among $N = 2^k$ stations using recursive binary search.
+**Purpose:** Resolve collisions among $N = 2^k$ stations using recursive binary search.  
 **Procedure:**
 1. Push Root Node (all stations $0$ to $N-1$) onto evaluation stack.
 2. While stack is not empty:
@@ -818,8 +989,8 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Algorithm 4.3: Transparent Learning Bridge Forwarding
 
-**Purpose:** Forward Layer 2 frames and self-learn topology without loops.
-**Input:** Incoming frame with Source MAC $S$, Destination MAC $D$, arriving on Port $P$.
+**Purpose:** Forward Layer 2 frames and self-learn topology without loops.  
+**Input:** Incoming frame with Source MAC $S$, Destination MAC $D$, arriving on Port $P$.  
 **Procedure:**
 1. Update forwarding table: $\text{Table}[S] = (P, \text{now})$.
 2. If $D$ is in Table:
@@ -839,7 +1010,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.1: Pure ALOHA Transmission & Vulnerable Period
 
-![Figure 4.1: Pure ALOHA Vulnerable Period](../images/ch4/slide68_img1.png)
+![Figure 4.1: Pure ALOHA Vulnerable Period](images/chapter4/ch4_pure_aloha_vulnerable_period.png)
 
 #### Written Analysis of Figure 4.1
 * **What it shows:** Illustrates why Pure ALOHA has a vulnerable period of $2T_f$. A frame starting at $t_0$ collides if any other frame begins transmission between $t_0 - T_f$ and $t_0 + T_f$.
@@ -851,7 +1022,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.2: Pure ALOHA vs Slotted ALOHA Vulnerable Period Comparison
 
-![Figure 4.2: ALOHA Vulnerable Period Comparison](../images/ch4/slide68_img1.png)
+![Figure 4.2: ALOHA Vulnerable Period Comparison](images/chapter4/ch4_aloha_vulnerable_comparison.png)
 
 #### Written Analysis of Figure 4.2
 * **What it shows:** Visual side-by-side comparison showing how synchronizing frame starts to slot boundaries eliminates partial collisions and halves the vulnerable period from $2T_f$ to $T_f$.
@@ -862,7 +1033,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.3: ALOHA Throughput vs Offered Load ($S$ vs $G$) Curves
 
-![Figure 4.3: ALOHA Throughput Curves](../images/ch4/slide79_img1.png)
+![Figure 4.3: ALOHA Throughput Curves](images/chapter4/ch4_aloha_throughput_curves.png)
 
 #### Written Analysis of Figure 4.3
 * **What it shows:** Mathematical plot of throughput $S$ versus offered channel traffic $G$:
@@ -876,7 +1047,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.4: CSMA Persistence Strategies Comparison
 
-![Figure 4.4: CSMA Persistence Comparison](../images/ch4/slide80_img1.png)
+![Figure 4.4: CSMA Persistence Comparison](images/chapter4/ch4_csma_persistence_comparison.png)
 
 #### Written Analysis of Figure 4.4
 * **What it shows:** Flowchart and timeline behavior comparing 1-persistent, non-persistent, and p-persistent listening strategies when encountering busy channels.
@@ -887,7 +1058,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.5: CSMA/CD Collision Timeline & Slot Duration ($2\tau$)
 
-![Figure 4.5: CSMA/CD Collision Timeline](../images/ch4/slide97_img1.png)
+![Figure 4.5: CSMA/CD Collision Timeline](images/chapter4/ch4_csmacd_collision_timeline.png)
 
 #### Written Analysis of Figure 4.5
 * **What it shows:** The fundamental worst-case collision scenario where Station B starts transmitting at $t = \tau - \epsilon$ right before Station A's signal arrives, requiring total time $2\tau$ for collision signal to return to Station A.
@@ -898,7 +1069,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.6: Basic Bit-Map (Reservation) Protocol
 
-![Figure 4.6: Basic Bit-Map Protocol](../images/ch4/slide68_img1.png)
+![Figure 4.6: Basic Bit-Map Protocol](images/chapter4/ch4_bitmap_protocol.png)
 
 #### Written Analysis of Figure 4.6
 * **What it shows:** The collision-free frame cycle consisting of an $N$-bit reservation header followed by collision-free transmission of queued data frames in numerical order.
@@ -909,7 +1080,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.7: Binary Countdown Protocol
 
-![Figure 4.7: Binary Countdown Protocol](../images/ch4/slide79_img1.png)
+![Figure 4.7: Binary Countdown Protocol](images/chapter4/ch4_binary_countdown.png)
 
 #### Written Analysis of Figure 4.7
 * **What it shows:** Bit-by-bit address arbitration over a boolean wired-OR channel, showing how lower-addressed stations concede as soon as they read a `1` while broadcasting a `0`.
@@ -920,7 +1091,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.8: Adaptive Tree Walk Contention Resolution
 
-![Figure 4.8: Adaptive Tree Walk](../images/ch4/slide80_img1.png)
+![Figure 4.8: Adaptive Tree Walk](images/chapter4/ch4_adaptive_tree_walk.png)
 
 #### Written Analysis of Figure 4.8
 * **What it shows:** Binary tree search resolving collisions among 8 stations by recursively searching left subtrees before right subtrees upon detecting collisions.
@@ -931,7 +1102,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.9: Classic IEEE 802.3 Ethernet Frame Format
 
-![Figure 4.9: Classic Ethernet Frame Format](../images/ch4/slide97_img1.png)
+![Figure 4.9: Classic Ethernet Frame Format](images/chapter4/ch4_ethernet_frame_format.png)
 
 #### Written Analysis of Figure 4.9
 * **What it shows:** Complete byte layout of IEEE 802.3 frame: Preamble (7B), SFD (1B), Dest MAC (6B), Source MAC (6B), Type/Length (2B), Data Payload (46–1500B), FCS Checksum (4B).
@@ -942,7 +1113,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.10: Ethernet Collision Window Round-Trip
 
-![Figure 4.10: Ethernet Collision Window](../images/ch4/slide68_img1.png)
+![Figure 4.10: Ethernet Collision Window](images/chapter4/ch4_ethernet_collision_window.png)
 
 #### Written Analysis of Figure 4.10
 * **What it shows:** Mathematical relationship proving why 10Base5 Ethernet with 4 repeaters requires a 512-bit ($64\text{ Byte}$) minimum frame size to cover the $51.2\,\mu\text{s}$ round-trip collision window.
@@ -953,7 +1124,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.11: Hidden and Exposed Terminal Scenarios in Wireless Networks
 
-![Figure 4.11: Hidden and Exposed Terminals](../images/ch4/slide79_img1.png)
+![Figure 4.11: Hidden and Exposed Terminals](images/chapter4/ch4_hidden_exposed_terminals.png)
 
 #### Written Analysis of Figure 4.11
 * **What it shows:** (a) Hidden Terminal problem where A and C collide at mutual receiver B. (b) Exposed Terminal problem where C falsely defers transmission to D while B transmits to A.
@@ -964,7 +1135,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.12: IEEE 802.11 Wireless Architecture (BSS, ESS, AP)
 
-![Figure 4.12: IEEE 802.11 Architecture](../images/ch4/slide80_img1.png)
+![Figure 4.12: IEEE 802.11 Architecture](images/chapter4/ch4_ieee_80211_architecture.png)
 
 #### Written Analysis of Figure 4.12
 * **What it shows:** Architecture of Wi-Fi networks: Basic Service Sets (BSS) containing wireless client stations and an Access Point (AP), interconnected via a wired Distribution System (DS) to form an Extended Service Set (ESS).
@@ -975,7 +1146,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.13: IEEE 802.11 Inter-Frame Spacing (IFS) Priorities
 
-![Figure 4.13: IEEE 802.11 IFS Priorities](../images/ch4/slide97_img1.png)
+![Figure 4.13: IEEE 802.11 IFS Priorities](images/chapter4/ch4_ieee_80211_ifs_priorities.png)
 
 #### Written Analysis of Figure 4.13
 * **What it shows:** Hierarchy of inter-frame spacing intervals: $\text{SIFS} < \text{PIFS} < \text{DIFS} < \text{EIFS}$, ensuring immediate ACKs seize the channel before contention data.
@@ -986,7 +1157,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.14: IEEE 802.11 CSMA/CA Backoff Timeline
 
-![Figure 4.14: IEEE 802.11 CSMA/CA Timeline](../images/ch4/slide68_img1.png)
+![Figure 4.14: IEEE 802.11 CSMA/CA Timeline](images/chapter4/ch4_ieee_80211_csmaca_timeline.png)
 
 #### Written Analysis of Figure 4.14
 * **What it shows:** CSMA/CA backoff countdown across multiple contending stations: backoff timer freezes when channel is busy and resumes when idle after DIFS.
@@ -997,7 +1168,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.15: IEEE 802.11 RTS/CTS Exchange with Virtual Carrier Sensing (NAV)
 
-![Figure 4.15: IEEE 802.11 RTS/CTS with NAV](../images/ch4/slide79_img1.png)
+![Figure 4.15: IEEE 802.11 RTS/CTS with NAV](images/chapter4/ch4_ieee_80211_rts_cts_nav.png)
 
 #### Written Analysis of Figure 4.15
 * **What it shows:** Four-way handshake (RTS $\to$ CTS $\to$ Data $\to$ ACK) and NAV timer intervals that force hidden stations to stay silent.
@@ -1008,7 +1179,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.16: IEEE 802.11 MAC Frame Format
 
-![Figure 4.16: IEEE 802.11 MAC Frame Format](../images/ch4/slide80_img1.png)
+![Figure 4.16: IEEE 802.11 MAC Frame Format](images/chapter4/ch4_ieee_80211_mac_frame.png)
 
 #### Written Analysis of Figure 4.16
 * **What it shows:** Detailed layout of 802.11 frame: Frame Control (2B), Duration/ID (2B), 4 MAC Address fields (6B each), Sequence Control (2B), Payload (up to 2312B), FCS (4B).
@@ -1019,7 +1190,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.17: Transparent Learning Bridge Operation & Table Evolution
 
-![Figure 4.17: Learning Bridge Operation](../images/ch4/slide97_img1.png)
+![Figure 4.17: Learning Bridge Operation](images/chapter4/ch4_learning_bridge_operation.png)
 
 #### Written Analysis of Figure 4.17
 * **What it shows:** Step-by-step forwarding database table evolution as frames arrive across ports, showing dynamic MAC address learning, filtering of local frames, and selective forwarding.
@@ -1030,7 +1201,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.18: Spanning Tree Protocol: Layer 2 Loop & Broadcast Storm Problem
 
-![Figure 4.18: STP Loop Problem](../images/ch4/slide68_img1.png)
+![Figure 4.18: STP Loop Problem](images/chapter4/ch4_stp_loop_problem.png)
 
 #### Written Analysis of Figure 4.18
 * **What it shows:** Demonstrates how redundant physical loops cause broadcast frames to circulate endlessly in opposite directions, causing broadcast storms and switch crashes.
@@ -1041,7 +1212,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.19: Spanning Tree Protocol: Electing Root Bridge, Root Ports & Designated Ports
 
-![Figure 4.19: STP Port Roles](../images/ch4/slide79_img1.png)
+![Figure 4.19: STP Port Roles](images/chapter4/ch4_stp_port_roles.png)
 
 #### Written Analysis of Figure 4.19
 * **What it shows:** A multi-switch network running 802.1D STP: Root Bridge election (lowest BID), Root Ports (RP), Designated Ports (DP), and Blocked Ports (BP) creating a loop-free tree.
@@ -1052,7 +1223,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.20: Network Interconnection Devices Across Protocol Layers
 
-![Figure 4.20: Network Devices Stack](../images/ch4/slide80_img1.png)
+![Figure 4.20: Network Devices Stack](images/chapter4/ch4_network_devices_stack.png)
 
 #### Written Analysis of Figure 4.20
 * **What it shows:** Structural mapping of Repeaters/Hubs (Layer 1), Bridges/Switches (Layer 2), Routers (Layer 3), and Gateways (Layers 4–7) against the OSI reference stack.
@@ -1063,7 +1234,7 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ### Figure 4.21: IEEE 802.1Q VLAN Frame Tagging & Architecture
 
-![Figure 4.21: IEEE 802.1Q VLAN Tagging](../images/ch4/slide97_img1.png)
+![Figure 4.21: IEEE 802.1Q VLAN Tagging](images/chapter4/ch4_vlan_8021q_tagging.png)
 
 #### Written Analysis of Figure 4.21
 * **What it shows:** Shows insertion of 4-byte 802.1Q tag header (TPID `0x8100`, Priority bits, CFI, 12-bit VID) across switch trunk links to maintain logical separation across multiple switches.
@@ -1072,6 +1243,71 @@ $$T_{\text{dwell}} = \frac{1}{\text{Hop Rate}} = \frac{1}{1600\text{ hops/s}} = 
 
 ---
 
+
+### Figure 4.22: CSMA/CD Contention Slot Infinite Geometric Series Derivation
+
+![Figure 4.22: CSMA/CD Contention Slot Infinite Geometric Series Derivation](images/chapter4/ch4_contention_derivation.png)
+
+#### Written Analysis of Figure 4.22
+
+**What it shows:**
+Slide 91's formal mathematical proof establishing the mean number of contention slots in IEEE 802.3 CSMA/CD using the derivative of a standard geometric series.
+* Evaluates $\sum_{j=0}^{\infty} j A (1-A)^{j-1}$.
+* Substitutes $x = 1-A$ into $
+\frac{d}{dx}(1-x)^{-1} = (1-x)^{-2} = A^{-2}$.
+* Proves that the expected number of slots consumed per transmission is exactly $
+\frac{1}{A}$.
+
+[Source: Ch 4 MAC Layer.pdf, Slide 91]
+
+---
+
+### Figure 4.23: IEEE 802.11 Competing Stations Backoff and Contention Window
+
+![Figure 4.23: IEEE 802.11 Competing Stations Backoff and Contention Window](images/chapter4/ch4_ieee_80211_competing_stations.png)
+
+#### Written Analysis of Figure 4.23
+
+**What it shows:**
+The timeline interaction among multiple contending wireless stations in IEEE 802.11 DCF:
+1. When station finds the medium busy, it defers until transmission ends.
+2. Station waits for a DIFS idle period, then samples a random backoff integer from $[0, \text{CW}]$.
+3. The backoff counter decrements only while the medium remains idle during slot times.
+4. If another station's counter expires first and transmits, remaining stations freeze their backoff counters, resuming countdown only after the new transmission finishes plus another DIFS.
+
+[Source: Ch 4 MAC Layer.pdf, Slide 61]
+
+---
+
+### Figure 4.24: IEEE 802.11 MAC Frame Fragmentation Mechanism
+
+![Figure 4.24: IEEE 802.11 MAC Frame Fragmentation Mechanism](images/chapter4/ch4_ieee_80211_fragmentation.png)
+
+#### Written Analysis of Figure 4.24
+
+**What it shows:**
+Fragmentation of large network packets into smaller MAC Protocol Data Units (MPDUs) to combat high wireless bit error rates:
+* Once channel access is won via RTS/CTS, fragments are transmitted in a burst separated only by SIFS.
+* Each fragment receives an individual ACK. If fragment 2 is corrupted, only fragment 2 is retransmitted, avoiding retransmission of the entire multi-kilobyte MSDU.
+
+[Source: Ch 4 MAC Layer.pdf, Slide 64]
+
+---
+
+### Figure 4.25: IEEE 802.11 PCF Superframe and Contention-Free Period
+
+![Figure 4.25: IEEE 802.11 PCF Superframe and Contention-Free Period](images/chapter4/ch4_ieee_80211_pcf_superframe.png)
+
+#### Written Analysis of Figure 4.25
+
+**What it shows:**
+The Point Coordination Function (PCF) centralized polling architecture operating atop DCF:
+* The Access Point emits periodic Beacon frames at PIFS priority, seizing control of the medium.
+* The Superframe is split into a Contention-Free Period (CFP) where the AP polls registered delay-sensitive nodes, and a standard Contention Period (CP) utilizing DCF CSMA/CA.
+
+[Source: Ch 4 MAC Layer.pdf, Slide 65]
+
+---
 ## 13. Tables and Comprehensive Comparisons
 
 ---
@@ -1128,14 +1364,29 @@ A broadcast channel with $n$ contending hosts operates in discrete slots. Each h
 #### Step-by-Step Solution
 1. Define the complete set of mutually exclusive outcomes for any slot:
    * **Event 1 (Success by specific station $i$):** Station $i$ transmits ($p$), remaining $(n-1)$ stations remain silent ($(1-p)^{n-1}$).
-     $$P(\text{Host } i \text{ succeeds}) = p(1-p)^{n-1}$$
+
+$$
+P(\text{Host } i \text{ succeeds}) = p(1-p)^{n-1}
+$$
+
    * **Total Success Probability ($P_{\text{success}}$):** Any one of the $n$ stations succeeds:
-     $$P_{\text{success}} = n p (1 - p)^{n-1}$$
+
+$$
+P_{\text{success}} = n p (1 - p)^{n-1}
+$$
+
    * **Idle Channel Probability ($P_{\text{idle}}$):** No station transmits:
-     $$P_{\text{idle}} = (1 - p)^n$$
+
+$$
+P_{\text{idle}} = (1 - p)^n
+$$
+
    * **Collision Probability ($P_{\text{collision}}$):** Two or more stations transmit.
 2. Since total probability sums to 1:
-   $$P_{\text{collision}} = 1 - P_{\text{success}} - P_{\text{idle}} = 1 - n p(1 - p)^{n-1} - (1 - p)^n$$
+
+$$
+P_{\text{collision}} = 1 - P_{\text{success}} - P_{\text{idle}} = 1 - n p(1 - p)^{n-1} - (1 - p)^n
+$$
 
 #### Final Answer
 * **Fraction of Wasted Slots:** $1 - n p(1 - p)^{n-1} - (1 - p)^n$
@@ -1151,9 +1402,18 @@ Consider the delay of Pure ALOHA versus Slotted ALOHA at very low traffic load (
 
 #### Step-by-Step Solution
 1. In **Pure ALOHA**, a station transmits **immediately** the instant a frame is generated, with zero alignment delay. At low load ($G \to 0$), collisions are negligible, so average delay is simply the frame transmission time:
-   $$T_{\text{Pure}} = T_f$$
-2. In **Slotted ALOHA**, a station generating a frame at a random time must wait for the start of the next slot. On average, this waiting time is half a slot ($rac{1}{2} T_f$). The total delay is:
-   $$T_{\text{Slotted}} = T_f + 0.5 T_f = 1.5 T_f$$
+
+$$
+T_{\text{Pure}} = T_f
+$$
+
+2. In **Slotted ALOHA**, a station generating a frame at a random time must wait for the start of the next slot. On average, this waiting time is half a slot ($
+\frac{1}{2} T_f$). The total delay is:
+
+$$
+T_{\text{Slotted}} = T_f + 0.5 T_f = 1.5 T_f
+$$
+
 3. Therefore, at light load, Pure ALOHA has **less delay** because it does not incur the average half-slot synchronization waiting time.
 
 #### Final Answer
@@ -1178,12 +1438,23 @@ A large population of ALOHA users generates $50\text{ requests/sec}$ (including 
 
 #### Step-by-Step Solution
 1. In Slotted ALOHA, probability of zero other transmissions in a slot is:
-   $$P_{\text{success}} = e^{-G} = e^{-2} = \frac{1}{e^2} \approx 0.135335 \approx 13.53\%$$
+
+$$
+P_{\text{success}} = e^{-G} = e^{-2} = \f\frac{1}{e^2} \approx 0.135335 \approx 13.53\%
+$$
+
 2. Let $P = e^{-2}$ be the probability of success in any attempt. The probability of failure (collision) is $q = 1 - P = 1 - e^{-2} \approx 0.864665$.
    The probability of experiencing exactly $k$ collisions and then succeeding on attempt $(k+1)$ follows a geometric distribution:
-   $$P(k \text{ collisions then success}) = (1 - e^{-2})^k e^{-2} = q^k P$$
+
+$$
+P(k \text{ collisions then success}) = (1 - e^{-2})^k e^{-2} = q^k P
+$$
+
 3. The expected number of transmission attempts $E[N]$ for a geometric random variable is:
-   $$E[N] = \frac{1}{P} = \frac{1}{e^{-2}} = e^2 \approx 7.389\text{ attempts}$$
+
+$$
+E[N] = \f\frac{1}{P} = \f\frac{1}{e^{-2}} = e^2 \approx 7.389\text{ attempts}
+$$
 
 #### Final Answer
 * **(a) First Attempt Success:** $e^{-2} \approx 13.53\%$
@@ -1204,11 +1475,11 @@ Calculate the duration of a contention slot ($2\tau$) in CSMA/CD for:
 #### Step-by-Step Solution
 1. For Twin-Lead Cable ($D = 2000\text{ m}$):
    * Velocity: $v = 0.82 \times 3 \times 10^8\text{ m/s} = 2.46 \times 10^8\text{ m/s}$.
-   * One-way delay: $\tau = \frac{2000\text{ m}}{2.46 \times 10^8\text{ m/s}} = 8.13 \times 10^{-6}\text{ s} = 8.13\,\mu\text{s}$.
+   * One-way delay: $\tau = \f\frac{2000\text{ m}}{2.46 \times 10^8\text{ m/s}} = 8.13 \times 10^{-6}\text{ s} = 8.13\,\mu\text{s}$.
    * Contention slot: $2\tau = 2 \times 8.13\,\mu\text{s} = 16.26\,\mu\text{s} \approx 16.3\,\mu\text{s}$.
 2. For Multimode Fiber ($D = 40,000\text{ m}$):
    * Velocity: $v = 0.65 \times 3 \times 10^8\text{ m/s} = 1.95 \times 10^8\text{ m/s}$.
-   * One-way delay: $\tau = \frac{40,000\text{ m}}{1.95 \times 10^8\text{ m/s}} = 2.051 \times 10^{-4}\text{ s} = 205.13\,\mu\text{s}$.
+   * One-way delay: $\tau = \f\frac{40,000\text{ m}}{1.95 \times 10^8\text{ m/s}} = 2.051 \times 10^{-4}\text{ s} = 205.13\,\mu\text{s}$.
    * Contention slot: $2\tau = 2 \times 205.13\,\mu\text{s} = 410.26\,\mu\text{s} \approx 410\,\mu\text{s}$.
 
 #### Final Answer
@@ -1231,7 +1502,11 @@ How long does a station $s$ have to wait in the worst case before it can start t
 4. Then, the next contention period begins, requiring $s$ reservation bit times before station $s$ can assert its `1` bit.
 5. Then, all lower-numbered stations ($0$ to $s-1$) transmit their data frames ($s \times d$ bits).
 6. Total worst-case waiting time:
-   $$T_{\text{wait, worst}} = N + N \cdot d = N(d + 1)\text{ bit times}$$
+
+$$
+T_{\text{wait, worst}} = N + N \cdot d = N(d + 1)\text{ bit times}
+$$
+
    (Or in terms of bitmap slots before reservation: $N$ contention bits).
 
 #### Final Answer
@@ -1254,7 +1529,11 @@ An IP packet to be transmitted by Ethernet is 60 bytes long, including all its h
    * FCS Checksum: 4 Bytes
    * Total Header/Trailer Overhead = $6 + 6 + 2 + 4 = 18\text{ Bytes}$.
 2. Total frame size without padding:
-   $$\text{Total Frame Size} = 18\text{ Bytes (Overhead)} + 60\text{ Bytes (IP Packet)} = 78\text{ Bytes}$$
+
+$$
+\text{Total Frame Size} = 18\text{ Bytes (Overhead)} + 60\text{ Bytes (IP Packet)} = 78\text{ Bytes}
+$$
+
 3. The minimum required Ethernet frame size is **64 Bytes**.
 4. Since $78\text{ Bytes} > 64\text{ Bytes}$, the frame already exceeds the minimum frame size requirement.
 
@@ -1272,17 +1551,25 @@ Ethernet frames must be at least 64 bytes long to ensure the transmitter can det
 
 #### Step-by-Step Solution
 1. The minimum frame length equation is:
-   $$L_{\min} = 2 \cdot \left(\frac{D}{v}\right) \cdot B = \frac{2 D B}{v}$$
+
+$$
+L_{\min} = 2 \cdot \left(\f\frac{D}{v}\r\right) \cdot B = \f\frac{2 D B}{v}
+$$
+
 2. For Fast Ethernet:
    * Bandwidth $B_{\text{Fast}} = 10 \times B_{\text{Classic}}$.
    * Minimum frame size $L_{\min}$ remains fixed at $64\text{ Bytes} = 512\text{ bits}$.
    * Velocity $v$ remains unchanged.
 3. Equating formulas:
-   $$L_{\min} = \frac{2 D_{\text{Fast}} (10 B)}{v} = \frac{2 D_{\text{Classic}} B}{v} \implies D_{\text{Fast}} = \frac{D_{\text{Classic}}}{10}$$
+
+$$
+L_{\min} = \f\frac{2 D_{\text{Fast}} (10 B)}{v} = \f\frac{2 D_{\text{Classic}} B}{v} \implies D_{\text{Fast}} = \f\frac{D_{\text{Classic}}}{10}
+$$
+
 4. Therefore, the maximum allowable network span (cable length) must be **reduced by a factor of 10** (from $2500\text{ m}$ down to $250\text{ m}$ / $100\text{ m}$ per segment).
 
 #### Final Answer
-* **Method to Maintain 64B Size:** Reduce maximum cable span by factor of 10 ($D_{\text{Fast}} = \frac{1}{10} D_{\text{Classic}}$).
+* **Method to Maintain 64B Size:** Reduce maximum cable span by factor of 10 ($D_{\text{Fast}} = \f\frac{1}{10} D_{\text{Classic}}$).
 
 [Source: CN_Numericals_MAC_Layer.pdf, Page 10; cn_tutorial.pdf, Tutorial 4, Q4]
 
@@ -1300,11 +1587,23 @@ Assume CSMA/CD protocol. Find the minimum frame length for a $1\text{ Mbps}$ net
 
 #### Step-by-Step Solution
 1. One-way propagation delay:
-   $$\tau = 10,000\text{ m} \times 4.5 \times 10^{-9}\text{ s/m} = 4.5 \times 10^{-5}\text{ seconds} = 45\,\mu\text{s}$$
+
+$$
+\tau = 10,000\text{ m} \times 4.5 \times 10^{-9}\text{ s/m} = 4.5 \times 10^{-5}\text{ seconds} = 45\,\mu\text{s}
+$$
+
 2. Round-trip time:
-   $$2\tau = 2 \times 4.5 \times 10^{-5}\text{ s} = 9.0 \times 10^{-5}\text{ s} = 90\,\mu\text{s}$$
+
+$$
+2\tau = 2 \times 4.5 \times 10^{-5}\text{ s} = 9.0 \times 10^{-5}\text{ s} = 90\,\mu\text{s}
+$$
+
 3. Minimum frame length:
-   $$L_{\min} = B \times 2\tau = (10^6\text{ bps}) \times (9.0 \times 10^{-5}\text{ s}) = 90\text{ bits} = 11.25\text{ Bytes}$$
+
+$$
+L_{\min} = B \times 2\tau = (10^6\text{ bps}) \times (9.0 \times 10^{-5}\text{ s}) = 90\text{ bits} = 11.25\text{ Bytes}
+$$
+
 4. Since $11.25\text{ Bytes}$ is very small and well below typical frame sizes (e.g. 64 bytes), CSMA/CD is extremely reasonable for this network.
 
 #### Final Answer
@@ -1382,13 +1681,28 @@ Suppose an $11\text{ Mbps}$ 802.11b LAN is transmitting 64-byte frames back-to-b
 
 #### Step-by-Step Solution
 1. Total frames transmitted per second:
-   $$N_{\text{fps}} = \frac{11 \times 10^6\text{ bps}}{512\text{ bits/frame}} = 21,484.375\text{ frames/sec}$$
+
+$$
+N_{\text{fps}} = \f\frac{11 \times 10^6\text{ bps}}{512\text{ bits/frame}} = 21,484.375\text{ frames/sec}
+$$
+
 2. Probability that a 512-bit frame arrives with zero bit errors:
-   $$P_{\text{correct}} = (1 - p)^{512} = (1 - 10^{-7})^{512} \approx 1 - 512 \times 10^{-7} = 0.9999488$$
+
+$$
+P_{\text{correct}} = (1 - p)^{512} = (1 - 10^{-7})^{512} \approx 1 - 512 \times 10^{-7} = 0.9999488
+$$
+
 3. Fraction of damaged frames:
-   $$P_{\text{damaged}} = 1 - P_{\text{correct}} \approx 5.12 \times 10^{-5}$$
+
+$$
+P_{\text{damaged}} = 1 - P_{\text{correct}} \approx 5.12 \times 10^{-5}
+$$
+
 4. Damaged frames per second:
-   $$\text{Damaged fps} = N_{\text{fps}} \times P_{\text{damaged}} = 21,484 \times (5.12 \times 10^{-5}) \approx 1.10\text{ damaged frames/sec} \approx 1\text{ frame/sec}$$
+
+$$
+\text{Damaged fps} = N_{\text{fps}} \times P_{\text{damaged}} = 21,484 \times (5.12 \times 10^{-5}) \approx 1.10\text{ damaged frames/sec} \approx 1\text{ frame/sec}
+$$
 
 #### Final Answer
 * **Damaged Frames:** **$\approx 1$ damaged frame per second**
@@ -1404,7 +1718,10 @@ Bluetooth uses Frequency Hopping Spread Spectrum (FHSS) with 1600 hops per secon
 
 #### Step-by-Step Solution
 1. Dwell time is the duration spent on each individual carrier frequency channel:
-   $$T_{\text{dwell}} = \frac{1}{\text{Hopping Rate}} = \frac{1}{1600\text{ hops/sec}} = 0.000625\text{ seconds} = 625\,\mu\text{s}$$
+
+$$
+T_{\text{dwell}} = \f\frac{1}{\text{Hopping Rate}} = \f\frac{1}{1600\text{ hops/sec}} = 0.000625\text{ seconds} = 625\,\mu\text{s}
+$$
 
 #### Final Answer
 * **Dwell Time:** $625\,\mu\text{s}$
@@ -1454,18 +1771,25 @@ Determine the minimum data rate $R$ required between B and C so that B's buffers
 #### Step-by-Step Solution
 1. **Link A $\to$ B Analysis:**
    * One-way propagation delay: $T_{p1} = 4000\text{ km} \times 5\,\mu\text{s/km} = 20\text{ ms}$.
-   * Transmission time per frame: $T_{t1} = \frac{1000\text{ bits}}{100\text{ kbps}} = 10\text{ ms}$.
+   * Transmission time per frame: $T_{t1} = \f\frac{1000\text{ bits}}{100\text{ kbps}} = 10\text{ ms}$.
    * Frame 1 begins at $t=0$, finishes sending at $t=10\text{ ms}$, arrives at B at $t = 30\text{ ms}$. ACK returns to A at $t = 50\text{ ms}$.
    * Sender A transmits 3 frames in 50 ms. Frame arrival rate at B is **3 frames per 50 ms**.
 2. **Link B $\to$ C Analysis:**
    * One-way propagation delay: $T_{p2} = 1000\text{ km} \times 5\,\mu\text{s/km} = 5\text{ ms}$.
-   * Let $x = \frac{1000}{R}$ be the transmission time per frame on link B $\to$ C.
+   * Let $x = \f\frac{1000}{R}$ be the transmission time per frame on link B $\to$ C.
    * Total time to send one frame and get ACK: $T_{\text{cycle}} = x + 2 T_{p2} = x + 10\text{ ms}$.
    * Time to send 3 frames: $3(x + 10) = 3x + 30\text{ ms}$.
 3. **Equate Frame Inflow and Outflow Rates:**
-   $$30 + 3x = 50 \implies 3x = 20 \implies x = \frac{20}{3} = 6.667\text{ ms} = 0.006667\text{ s}$$
+
+$$
+30 + 3x = 50 \implies 3x = 20 \implies x = \f\frac{20}{3} = 6.667\text{ ms} = 0.006667\text{ s}
+$$
+
 4. Calculate minimum data rate $R$:
-   $$R = \frac{1000\text{ bits}}{0.006667\text{ s}} = 150,000\text{ bps} = 150\text{ kbps}$$
+
+$$
+R = \f\frac{1000\text{ bits}}{0.006667\text{ s}} = 150,000\text{ bps} = 150\text{ kbps}
+$$
 
 #### Final Answer
 * **Minimum Transmission Rate on Link B $\to$ C:** $150\text{ kbps}$
@@ -1474,7 +1798,145 @@ Determine the minimum data rate $R$ required between B and C so that B's buffers
 
 ---
 
-## 15. Connections Between Concepts
+
+---
+
+## 15. Edge Cases, Critical Boundary Conditions & Protocol Anomalies
+
+---
+
+### Edge Case 1: Pure ALOHA Boundary Collisions & Overload Bistability
+
+#### Boundary Overlap Condition
+In pure ALOHA, a frame transmitted at time $t$ has duration $T_{fr}$.
+* If another station initiates transmission at $t - T_{fr} + \epsilon$ (where $\epsilon > 0$), its trailing bits collide with the start of the current frame.
+* If another station initiates transmission at $t + T_{fr} - \epsilon$, its leading bits collide with the tail of the current frame.
+* **Vulnerable Period:** Exactly $2 T_{fr}$. Even a single bit overlap corrupts both frames entirely due to packet CRC invalidation.
+
+#### The ALOHA Bistability Collapse
+Under Poisson arrivals with offered load $G$:
+
+$$
+S = G e^{-2G}
+$$
+
+* At low load ($G < 0.5$), the system is stable with high throughput.
+* If an accidental traffic burst pushes $G > 0.5$, collision frequency increases, generating retransmissions.
+* Retransmissions add directly to the offered load, increasing $G$ further.
+* Higher $G$ causes more collisions $\implies$ runaway positive feedback loop where $G \to \infty$ and useful throughput $S \to 0$ (complete channel deadlock).
+
+[Source: Ch 4 MAC Layer.pdf, Slides 10–15]
+
+---
+
+### Edge Case 2: CSMA/CD $2\tau$ Collision Window & The Runt Frame Hazard
+
+#### The $2\tau$ Vulnerability Window
+Consider two stations A and B separated by maximum propagation delay $\tau$:
+1. At $t = 0$, station A senses channel idle and begins transmitting.
+2. The wavefront propagates down the cable, reaching station B at $t = \tau - \epsilon$.
+3. At $t = \tau - \epsilon$, station B has data to send. B senses the cable: the wavefront has not yet arrived! B detects an idle channel and transmits.
+4. An immediate collision occurs at $t = \tau$.
+5. Station B detects the collision immediately, aborts, and transmits a 32-bit jam signal.
+6. The collision wavefront travels back toward Station A, arriving at Station A at $t = 2\tau - \epsilon$.
+
+#### Minimum Frame Size Floor Constraint
+Station A can only detect collisions while it is **actively transmitting bits onto the cable**. Therefore:
+
+$$
+T_{\text{trans}} \ge 2\tau \implies 
+\frac{L_{\min}}{R} \ge 2\tau \implies L_{\min} \ge 2\tau \cdot R
+$$
+
+#### The Runt Frame Disaster
+If station A transmits a frame of size $L < L_{\min}$:
+* Station A finishes sending all bits and clears its transmission buffer before $t = 2\tau$.
+* When the collision arrives at $t = 2\tau - \epsilon$, Station A has already declared the transmission successful!
+* Station B discards its packet; Station A believes its packet was received; the network is left with a damaged fragment called a **runt frame** ($< 64\text{ bytes}$). This is why Ethernet strictly mandates padding any payload smaller than 46 bytes to enforce a 64-byte minimum frame size.
+
+[Source: Ch 4 MAC Layer.pdf, Slides 42–44]
+
+---
+
+### Edge Case 3: Binary Exponential Backoff Capture Effect & 16th Collision Drop
+
+#### The Capture Effect Anomaly
+In CSMA/CD, after $i$ collisions, a station chooses random backoff $k \in [0, 2^{\min(i, 10)} - 1]$.
+* Suppose Station A and Station B collide. Both choose from $\{0, 1\}$. Station A picks 0, transmits successfully.
+* Station A's collision counter resets to 0.
+* Station B picks 1, waits, then attempts to transmit. If Station A has another frame, they collide again.
+* Station A is at its first collision ($i = 1$, window $\{0, 1\}$); Station B is at its second collision ($i = 2$, window $\{0, 1, 2, 3\}$).
+* Station A has a much higher probability of winning the channel again!
+* Station A continues to "capture" the physical medium, transmitting consecutive packets while Station B suffers progressive exponential backoff and complete starvation.
+
+#### 16-Collision Hard Abort
+If a packet encounters 16 consecutive collisions, the hardware gives up, discards the packet completely, and reports a fatal error to the network layer.
+
+[Source: Ch 4 MAC Layer.pdf, Slide 21]
+
+---
+
+### Edge Case 4: Wireless Hidden and Exposed Terminal Dilemmas
+
+#### 1. Hidden Terminal Collision
+* **Topology:** Node A $\leftrightarrow$ Node B $\leftrightarrow$ Node C, where A and C cannot detect each other's radio transmissions.
+* **Scenario:** Both A and C sense the channel idle and transmit to B simultaneously.
+* **Result:** Colliding signals destroy data at B, even though neither A nor C detected a collision at their own transmitters.
+* **Solution:** IEEE 802.11 RTS/CTS virtual carrier sensing (NAV).
+
+#### 2. Exposed Terminal Waste
+* **Topology:** Node A $\leftarrow$ Node B and Node C $
+ightarrow$ Node D.
+* **Scenario:** Node B is transmitting to A. Node C wants to transmit to D.
+* **Error:** Node C senses B's carrier and defers transmission, fearing a collision.
+* **Reality:** C transmitting to D would NOT interfere with A receiving from B! The deferral wastes viable radio capacity.
+
+#### 3. RTS Threshold Trade-Off
+For small packets, transmitting RTS (20 bytes) + CTS (14 bytes) + ACK (14 bytes) consumes more airtime than the packet itself. Wireless NICs configure an **RTS Threshold** (typically 2347 bytes): packets below this threshold bypass RTS/CTS and use pure CSMA/CA.
+
+[Source: Ch 4 MAC Layer.pdf, Slide 51]
+
+---
+
+### Edge Case 5: Spanning Tree Protocol (STP) Convergence Transient Loops
+
+#### The Layer 2 Loop Catastrophe
+Unlike IP packets which have a Time-To-Live (TTL) header field that decrements at every hop, Layer 2 Ethernet frames have **no TTL field**.
+If a physical loop exists between transparent bridges:
+* A broadcast frame is flooded onto all ports.
+* The adjacent bridge receives the broadcast and floods it back onto the first bridge.
+* The frame circulates endlessly, multiplying exponentially (**Broadcast Storm**), consuming 100% of link bandwidth and crashing switch CPU processing within seconds.
+
+#### Why STP Listening and Learning States Exist
+When STP converges after a topology change, a disabled port must transition through:
+1. **Blocking $\to$ Listening (15 s):** Port receives BPDUs but transmits no data frames and learns no MAC addresses.
+2. **Listening $\to$ Learning (15 s):** Port learns MAC addresses from incoming frames to populate its forwarding table, but forwards no data frames.
+3. **Forwarding:** Normal frame transmission begins.
+The mandatory $2 \times \text{Forward Delay} = 30\text{ seconds}$ prevents switches with out-of-sync routing databases from forming transient forwarding loops during convergence.
+
+[Source: Ch 4 MAC Layer.pdf, Slides 77–83]
+
+---
+
+### Edge Case 6: IEEE 802.1Q Native VLAN & Double Tagging Hopping Attacks
+
+#### Vulnerability Architecture
+On an IEEE 802.1Q trunk link, the **Native VLAN** carries untagged traffic for backward compatibility with legacy hubs.
+* **Double-Tagging Attack Scenario:**
+  1. An attacker on VLAN 10 crafts a frame with *two* 802.1Q tags: Outer tag = VLAN 10 (native), Inner tag = VLAN 20 (target victim).
+  2. The frame enters the first switch. The switch strips the outer VLAN 10 tag because VLAN 10 is the native VLAN of the outgoing trunk.
+  3. The frame traverses the trunk bearing only the inner VLAN 20 tag.
+  4. The receiving switch inspects the tag, sees VLAN 20, and forwards the packet into the private VLAN 20 broadcast domain!
+
+#### Hardening Rule
+Network security standards mandate setting the native VLAN to an unused dummy VLAN ID and explicitly tagging native VLAN traffic on all trunk ports.
+
+[Source: Ch 4 MAC Layer.pdf, Slides 88–89]
+
+
+---
+
+## 16. Connections Between Concepts
 
 * **Static FDM/TDM $\leftrightarrow$ Dynamic Random Access:** Burstiness of computer data renders static frequency reservation inefficient ($N$-fold delay), leading to dynamic contention and CSMA/CD.
 * **CSMA/CD $\leftrightarrow$ Minimum Frame Sizing:** The physical wave speed in copper ($200\text{ m/}\mu\text{s}$) directly enforces the 64-byte minimum frame size to guarantee collision detection before transmission ends.
@@ -1484,7 +1946,7 @@ Determine the minimum data rate $R$ required between B and C so that B's buffers
 
 ---
 
-## 16. Key Takeaways
+## 17. Key Takeaways
 
 1. The MAC sublayer resolves channel contention across shared broadcast media.
 2. Pure ALOHA achieves $18.4\%$ max throughput ($S = G e^{-2G}$); Slotted ALOHA doubles throughput to $36.8\%$ ($S = G e^{-G}$).
@@ -1497,35 +1959,59 @@ Determine the minimum data rate $R$ required between B and C so that B's buffers
 
 ---
 
-## 17. Formula Sheet
+## 18. Formula Sheet
 
 ### 1. Pure ALOHA Throughput
-$$S = G e^{-2G} \quad (S_{\max} = 18.4\% \text{ at } G = 0.5)$$
+
+$$
+S = G e^{-2G} \quad (S_{\max} = 18.4\% \text{ at } G = 0.5)
+$$
 
 ### 2. Slotted ALOHA Throughput
-$$S = G e^{-G} \quad (S_{\max} = 36.8\% \text{ at } G = 1.0)$$
+
+$$
+S = G e^{-G} \quad (S_{\max} = 36.8\% \text{ at } G = 1.0)
+$$
 
 ### 3. Collision Probability in Slotted Broadcast
-$$P_{\text{collision}} = 1 - n p(1-p)^{n-1} - (1-p)^n$$
+
+$$
+P_{\text{collision}} = 1 - n p(1-p)^{n-1} - (1-p)^n
+$$
 
 ### 4. Optimal Contention Probability
-$$p^* = \frac{1}{k} \implies P_{\max} = \left(1 - \frac{1}{k}\right)^{k-1} \to \frac{1}{e} \approx 36.8\%$$
+
+$$
+p^* = \f\frac{1}{k} \implies P_{\max} = \left(1 - \f\frac{1}{k}\r\right)^{k-1} \to \f\frac{1}{e} \approx 36.8\%
+$$
 
 ### 5. CSMA/CD Minimum Frame Size
-$$L_{\min} = 2 \cdot \tau \cdot B = 2 \cdot \left(\frac{D}{v}\right) \cdot B$$
+
+$$
+L_{\min} = 2 \cdot \tau \cdot B = 2 \cdot \left(\f\frac{D}{v}\r\right) \cdot B
+$$
 
 ### 6. Ethernet Channel Efficiency
-$$\eta = \frac{1}{1 + \frac{2 B L e}{c F}}$$
+
+$$
+\eta = \f\frac{1}{1 + \f\frac{2 B L e}{c F}}
+$$
 
 ### 7. Bit-Map Protocol Overhead & Efficiency
-$$\text{Efficiency}_{\text{low}} = \frac{d}{d + N}, \quad \text{Efficiency}_{\text{high}} = \frac{d}{d + 1}$$
+
+$$
+\text{Efficiency}_{\text{low}} = \f\frac{d}{d + N}, \quad \text{Efficiency}_{\text{high}} = \f\frac{d}{d + 1}
+$$
 
 ### 8. Binary Countdown Overhead & Efficiency
-$$\text{Efficiency} = \frac{d}{d + \log_2 N}$$
+
+$$
+\text{Efficiency} = \f\frac{d}{d + \log_2 N}
+$$
 
 ---
 
-## 18. Definition Sheet
+## 19. Definition Sheet
 
 * **Medium Access Control (MAC):** Lower sublayer of Layer 2 that determines which station transmits on a shared channel.
 * **Collision:** Destructive interference when two or more frames overlap on a broadcast channel.
@@ -1541,7 +2027,7 @@ $$\text{Efficiency} = \frac{d}{d + \log_2 N}$$
 
 ---
 
-## 19. Exam-Oriented Review
+## 20. Exam-Oriented Review
 
 ---
 
@@ -1568,11 +2054,17 @@ $$\text{Efficiency} = \frac{d}{d + \log_2 N}$$
 #### Q3. In CSMA/CD, if propagation delay is $15\,\mu\text{s}$, what is the worst-case time to detect a collision?
 * **Given:** $\tau = 15\,\mu\text{s}$.
 * **Calculation:**
-$$\text{Worst-case Detection Time} = 2\tau = 2 \times 15\,\mu\text{s} = 30\,\mu\text{s}$$
+
+$$
+\text{Worst-case Detection Time} = 2\tau = 2 \times 15\,\mu\text{s} = 30\,\mu\text{s}
+$$
 
 #### Q4. An Ethernet LAN transmits data at $1\text{ Gbps}$. Calculate the amount of data transmitted in 2 seconds.
 * **Calculation:**
-$$\text{Data} = 10^9\text{ bps} \times 2\text{ s} = 2 \times 10^9\text{ bits} = 2\text{ Gb} = 250\text{ MB}$$
+
+$$
+\text{Data} = 10^9\text{ bps} \times 2\text{ s} = 2 \times 10^9\text{ bits} = 2\text{ Gb} = 250\text{ MB}
+$$
 
 #### Q5. A slotted ALOHA system has a $40\%$ probability of successful transmission in a slot. Calculate channel throughput.
 * **Answer:** Throughput $S = 0.40$ ($40\%$ channel capacity utilized).
