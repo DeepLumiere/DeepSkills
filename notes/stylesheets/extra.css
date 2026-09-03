@@ -90,3 +90,32 @@
   border-radius: 10px;
   overflow: hidden;
 }
+
+/* Primary nav dropdown and right pane removal */
+.md-sidebar--secondary {
+  display: none;
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-grid {
+    max-width: 70rem;
+  }
+
+  .md-content {
+    margin-left: 0;
+  }
+}
+
+.left-nav-filter-wrapper {
+  padding: 0.6rem 0.8rem 0.2rem;
+}
+
+.left-nav-filter {
+  width: 100%;
+  border: 1px solid var(--md-default-fg-color--lighter, rgba(148, 163, 184, 0.45));
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.55rem;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  font: inherit;
+}
