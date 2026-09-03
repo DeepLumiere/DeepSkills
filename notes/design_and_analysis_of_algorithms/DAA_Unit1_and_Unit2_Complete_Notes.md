@@ -1217,15 +1217,15 @@ Insertion Sort builds the final sorted array one element at a time. It processes
 
 #### Algorithm & Pseudocode
 
-```python
-def InsertionSort(A):
-    for j in range(1, len(A)):
-        key = A[j]
-        i = j - 1
-        while i >= 0 and A[i] > key:
-            A[i + 1] = A[i]
-            i -= 1
-        A[i + 1] = key
+```mermaid
+flowchart TD
+    Start["InsertionSort(A, n)"] --> Outer["Loop j = 2 to n"]
+    Outer --> Key["Set key = A[j], i = j - 1"]
+    Key --> Inner{"Is i > 0 AND A[i] > key?"}
+    Inner -- Yes --> Shift["Shift A[i+1] = A[i]
+Set i = i - 1"] --> Inner
+    Inner -- No --> Place["Insert A[i+1] = key"] --> Outer
+    Outer -- "j > n" --> Done["Sorted Array A"]
 ```
 
 #### Detailed Execution Trace Example
@@ -1261,15 +1261,15 @@ Selection Sort divides the array into a sorted and an unsorted region. It repeat
 
 #### Algorithm & Pseudocode
 
-```python
-def SelectionSort(A):
-    n = len(A)
-    for i in range(n - 1):
-        min_idx = i
-        for j in range(i + 1, n):
-            if A[j] < A[min_idx]:
-                min_idx = j
-        A[i], A[min_idx] = A[min_idx], A[i] # Swap minimum element into position
+```mermaid
+flowchart TD
+    Start["SelectionSort(A, n)"] --> Outer["Loop i = 1 to n - 1"]
+    Outer --> SetMin["Set min_idx = i, j = i + 1"]
+    SetMin --> Inner{"Loop j = i + 1 to n: Is A[j] < A[min_idx]?"}
+    Inner -- Yes --> UpdateMin["Set min_idx = j"] --> IncJ["j = j + 1"] --> Inner
+    Inner -- No --> IncJ
+    Inner -- "j > n" --> Swap["Swap A[i] with A[min_idx]"] --> Outer
+    Outer -- "i >= n" --> Done["Sorted Array A"]
 ```
 
 #### Detailed Execution Trace Example
@@ -1301,17 +1301,18 @@ Bubble Sort repeatedly steps through the array, compares adjacent elements, and 
 
 #### Algorithm & Pseudocode
 
-```python
-def BubbleSort(A):
-    n = len(A)
-    for i in range(n):
-        swapped = False
-        for j in range(0, n - i - 1):
-            if A[j] > A[j + 1]:
-                A[j], A[j + 1] = A[j + 1], A[j] # Swap
-                swapped = True
-        if not swapped: # No swaps means array is already sorted
-            break
+```mermaid
+flowchart TD
+    Start["BubbleSort(A, n)"] --> Outer["Loop i = 1 to n - 1"]
+    Outer --> SetSwapped["Set swapped = False, j = 1"]
+    SetSwapped --> Inner{"Loop j = 1 to n - i: Is A[j] > A[j+1]?"}
+    Inner -- Yes --> Swap["Swap A[j] and A[j+1]
+Set swapped = True"] --> IncJ["j = j + 1"] --> Inner
+    Inner -- No --> IncJ
+    Inner -- "j > n - i" --> CheckSwapped{"Is swapped == False?"}
+    CheckSwapped -- Yes --> DoneEarly["Array Already Sorted -> Terminate Early"]
+    CheckSwapped -- No --> Outer
+    Outer -- "i >= n" --> Done["Sorted Array A"]
 ```
 
 #### Detailed Execution Trace Example
@@ -1359,28 +1360,16 @@ Heap Sort constructs a **Max-Heap** (a binary tree where parent nodes are greate
 
 #### Algorithm & Pseudocode
 
-```python
-def HeapSort(A):
-    n = len(A)
-    # Step 1: Build Max-Heap
-    for i in range(n // 2 - 1, -1, -1):
-        MaxHeapify(A, n, i)
-    # Step 2: Extract elements from heap one-by-one
-    for i in range(n - 1, 0, -1):
-        A[i], A[0] = A[0], A[i] # Swap root (maximum) with last unsorted element
-        MaxHeapify(A, i, 0)     # Restore max-heap on reduced heap size i
-
-def MaxHeapify(A, heap_size, i):
-    largest = i
-    left = 2 * i + 1
-    right = 2 * i + 2
-    if left < heap_size and A[left] > A[largest]:
-        largest = left
-    if right < heap_size and A[right] > A[largest]:
-        largest = right
-    if largest != i:
-        A[i], A[largest] = A[largest], A[i] # Swap
-        MaxHeapify(A, heap_size, largest)   # Recursively heapify affected subtree
+```mermaid
+flowchart TD
+    Start["HeapSort(A, n)"] --> BuildHeap["1. Build-Max-Heap(A):
+Call Max-Heapify from i = n/2 down to 1"]
+    BuildHeap --> Loop["2. Loop i = n down to 2"]
+    Loop --> Extract["Swap A[1] (Max) with A[i]"]
+    Extract --> Reduce["Reduce Heap Size = i - 1"]
+    Reduce --> Heapify["Call Max-Heapify(A, 1) to restore Max-Heap property"]
+    Heapify --> Loop
+    Loop -- "i < 2" --> Done["Sorted Array A"]
 ```
 
 #### Detailed Execution Trace Example

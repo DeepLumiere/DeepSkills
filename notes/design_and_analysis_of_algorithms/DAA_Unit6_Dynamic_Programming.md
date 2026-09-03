@@ -156,22 +156,22 @@ m[i,j] = \begin{cases} 0 & \text{if } i = j \\ \min_{i \le k < j} \{ m[i,k] + m[
 $$
 
 ### Pseudocode
-```text
-MATRIX-CHAIN-ORDER(p)
-    n = p.length - 1
-    let m[1..n, 1..n] and s[1..n, 1..n] be new tables
-    for i = 1 to n:
-        m[i, i] = 0
-    for l = 2 to n:          // l is the chain length
-        for i = 1 to n - l + 1:
-            j = i + l - 1
-            m[i, j] = infinity
-            for k = i to j - 1:
-                q = m[i, k] + m[k+1, j] + p[i-1]*p[k]*p[j]
-                if q < m[i, j]:
-                    m[i, j] = q
-                    s[i, j] = k   // split point
-    return m, s
+```mermaid
+flowchart TD
+    Start["MATRIX-CHAIN-ORDER(p, n)"] --> Init["Create m[1..n, 1..n] and s[1..n, 1..n]
+Set m[i,i] = 0 for all i = 1..n"]
+    Init --> LenLoop["Loop chain length L = 2 to n"]
+    LenLoop --> InnerI["Loop i = 1 to n - L + 1"]
+    InnerI --> SetJ["Compute j = i + L - 1, Set m[i,j] = Infinity"]
+    SetJ --> KLoop["Loop split point k = i to j - 1"]
+    KLoop --> CalcCost["q = m[i,k] + m[k+1,j] + p[i-1]*p[k]*p[j]"]
+    CalcCost --> CheckMin{"Is q < m[i,j]?"}
+    CheckMin -- Yes --> UpdateMin["Set m[i,j] = q
+Set s[i,j] = k"] --> NextK["k = k + 1"] --> KLoop
+    CheckMin -- No --> NextK
+    KLoop -- "k >= j" --> NextI["i = i + 1"] --> InnerI
+    InnerI -- "Finished level" --> NextL["L = L + 1"] --> LenLoop
+    LenLoop -- "L > n" --> Done["Return Table m (Min Cost) and s (Optimal Split)"]
 ```
 
 ### Complete Worked Example
@@ -345,15 +345,17 @@ D^{(k)}[i,j] = \min(D^{(k-1)}[i,j], D^{(k-1)}[i,k] + D^{(k-1)}[k,j])
 $$
 
 ### Pseudocode
-```text
-FLOYD-WARSHALL(W)
-    n = W.rows
-    D = W
-    for k = 1 to n:
-        for i = 1 to n:
-            for j = 1 to n:
-                D[i,j] = min(D[i,j], D[i,k] + D[k,j])
-    return D
+```mermaid
+flowchart TD
+    Start["FLOYD-WARSHALL(W, n)"] --> Init["Set D^(0) = W (Graph Weight Matrix)"]
+    Init --> KLoop["Loop k = 1 to n (Intermediate Node)"]
+    KLoop --> ILoop["Loop i = 1 to n (Source Node)"]
+    ILoop --> JLoop["Loop j = 1 to n (Destination Node)"]
+    JLoop --> Update["d^(k)[i,j] = min( d^(k-1)[i,j], d^(k-1)[i,k] + d^(k-1)[k,j] )"]
+    Update --> NextJ["j = j + 1"] --> JLoop
+    JLoop -- "j > n" --> NextI["i = i + 1"] --> ILoop
+    ILoop -- "i > n" --> NextK["k = k + 1"] --> KLoop
+    KLoop -- "k > n" --> Done["Return Final All-Pairs Shortest Path Matrix D^(n)"]
 ```
 
 ### Complete Worked Example
