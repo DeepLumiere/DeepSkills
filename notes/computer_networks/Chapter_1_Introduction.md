@@ -169,16 +169,16 @@ To reduce design complexity, computer network software is organized as a stack o
 ```mermaid
 flowchart TD
     subgraph Host_A ["Host A (Source)"]
-        A5[Layer 5: Application] -->|Interface| A4[Layer 4: Transport]
-        A4 -->|Interface| A3[Layer 3: Network]
-        A3 -->|Interface| A2[Layer 2: Data Link]
-        A2 -->|Interface| A1[Layer 1: Physical]
+        A5["Layer 5: Application"] -->|Interface| A4["Layer 4: Transport"]
+        A4 -->|Interface| A3["Layer 3: Network"]
+        A3 -->|Interface| A2["Layer 2: Data Link"]
+        A2 -->|Interface| A1["Layer 1: Physical"]
     end
     subgraph Host_B ["Host B (Destination)"]
-        B1[Layer 1: Physical] -->|Interface| B2[Layer 2: Data Link]
-        B2 -->|Interface| B3[Layer 3: Network]
-        B3 -->|Interface| B4[Layer 4: Transport]
-        B4 -->|Interface| B5[Layer 5: Application]
+        B1["Layer 1: Physical"] -->|Interface| B2["Layer 2: Data Link"]
+        B2 -->|Interface| B3["Layer 3: Network"]
+        B3 -->|Interface| B4["Layer 4: Transport"]
+        B4 -->|Interface| B5["Layer 5: Application"]
     end
     A5 -.->|Layer 5 Protocol (Virtual Communication)| B5
     A4 -.->|Layer 4 Protocol (Virtual Communication)| B4
@@ -253,7 +253,7 @@ sequenceDiagram
     Note over Server: Executes RECEIVE
     Note over Client: Executes SEND
     Client->>Server: Data Packet
-    Note over Server: Processes data & executes SEND
+    Note over Server: Processes data and executes SEND
     Server-->>Client: Reply / ACK Packet
     Note over Client: Executes DISCONNECT
     Client->>Server: Disconnection Request
@@ -364,32 +364,32 @@ For academic instruction and textbook analysis, Tanenbaum and the course curricu
 ```mermaid
 flowchart LR
     subgraph OSI ["OSI Model (7 Layers)"]
-        O7[Application]
-        O6[Presentation]
-        O5[Session]
-        O4[Transport]
-        O3[Network]
-        O2[Data Link]
-        O1[Physical]
+        O7["Application"]
+        O6["Presentation"]
+        O5["Session"]
+        O4["Transport"]
+        O3["Network"]
+        O2["Data Link"]
+        O1["Physical"]
     end
     subgraph HYBRID ["Hybrid Course Model (5 Layers)"]
-        H5[Application Layer]
-        H4[Transport Layer]
-        H3[Network Layer]
-        H2[Data Link Layer]
-        H1[Physical Layer]
+        H5["Application Layer"]
+        H4["Transport Layer"]
+        H3["Network Layer"]
+        H2["Data Link Layer"]
+        H1["Physical Layer"]
     end
     subgraph TCPIP ["TCP/IP Model (4 Layers)"]
-        T4[Application Layer]
-        T3[Transport Layer]
-        T2[Internet Layer]
-        T1[Link Layer]
+        T4["Application Layer"]
+        T3["Transport Layer"]
+        T2["Internet Layer"]
+        T1["Link Layer"]
     end
 
-    O7 & O6 & O5 --> H5 --> T4
+    O7 and O6 and O5 --> H5 --> T4
     O4 --> H4 --> T3
     O3 --> H3 --> T2
-    O2 & O1 --> H2 & H1 --> T1
+    O2 and O1 --> H2 and H1 --> T1
 ```
 
 [Source: Ch 1 Introduction.pdf, Slide 38; Chapter1-Introduction.pdf, Slide 48]

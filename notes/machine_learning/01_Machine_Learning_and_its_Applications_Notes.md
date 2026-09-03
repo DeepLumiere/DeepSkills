@@ -24,19 +24,19 @@ Machine learning algorithms are categorized into four major paradigms:
 
 ```mermaid
 flowchart TD
-    A[Machine Learning Paradigms] --> B[Supervised Learning]
-    A --> C[Unsupervised Learning]
-    A --> D[Semi-Supervised Learning]
-    A --> E[Reinforcement Learning]
+    A["Machine Learning Paradigms"] --> B["Supervised Learning"]
+    A --> C["Unsupervised Learning"]
+    A --> D["Semi-Supervised Learning"]
+    A --> E["Reinforcement Learning"]
 
-    B --> B1[Classification - Discrete Outputs]
-    B --> B2[Regression - Continuous Outputs]
+    B --> B1["Classification - Discrete Outputs"]
+    B --> B2["Regression - Continuous Outputs"]
 
-    C --> C1[Clustering - Grouping Data]
-    C --> C2[Dimensionality Reduction - PCA/TSNE]
-    C --> C3[Density Estimation]
+    C --> C1["Clustering - Grouping Data"]
+    C --> C2["Dimensionality Reduction - PCA/TSNE"]
+    C --> C3["Density Estimation"]
 
-    E --> E1[Agent, Environment, State, Action, Reward]
+    E --> E1["Agent, Environment, State, Action, Reward"]
 ```
 
 ### 2.1 Comparison of ML Paradigms

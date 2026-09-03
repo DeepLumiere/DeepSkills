@@ -134,19 +134,19 @@ However, for any $\lambda > 0$, matrix $\left( X^T X + \lambda L \right)$ is **g
 
 ```mermaid
 flowchart TD
-    A[Train Model with All n Features] --> B[Define Regularized Cost J_theta]
-    B --> C[Set Regularization Parameter Lambda]
-    C --> D{Choose Optimization Algorithm}
-    D -- Gradient Descent --> E[Update theta_0 without penalty]
-    E --> F[Update theta_j with Weight Decay factor 1 - alpha*lambda/m]
-    D -- Normal Equation --> G[Form Regularization Matrix L]
-    G --> H[Compute theta = X^T X + lambda*L ^-1 X^T y]
-    F --> I[Check Generalization Error on Validation Set]
+    A["Train Model with All n Features"] --> B["Define Regularized Cost J_theta"]
+    B --> C["Set Regularization Parameter Lambda"]
+    C --> D{"Choose Optimization Algorithm"}
+    D -- Gradient Descent --> E["Update theta_0 without penalty"]
+    E --> F["Update theta_j with Weight Decay factor 1 - alpha*lambda/m"]
+    D -- Normal Equation --> G["Form Regularization Matrix L"]
+    G --> H["Compute theta = X^T X + lambda*L ^-1 X^T y"]
+    F --> I["Check Generalization Error on Validation Set"]
     H --> I
-    I --> J{Is Model Overfitting or Underfitting?}
-    J -- Overfitting --> K[Increase Lambda]
-    J -- Underfitting --> L[Decrease Lambda]
-    J -- Optimal Fit --> M[Deploy Final Model]
+    I --> J{"Is Model Overfitting or Underfitting?"}
+    J -- Overfitting --> K["Increase Lambda"]
+    J -- Underfitting --> L["Decrease Lambda"]
+    J -- Optimal Fit --> M["Deploy Final Model"]
     K --> C
     L --> C
 ```

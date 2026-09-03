@@ -194,15 +194,15 @@ This algorithm is called **"Batch" Gradient Descent** because each step of gradi
 
 ```mermaid
 flowchart TD
-    A[Input Training Dataset (x, y)] --> B[Initialize Parameters theta_0, theta_1]
-    B --> C[Compute Predictions h_theta(x) = theta_0 + theta_1 * x]
-    C --> D[Calculate Residuals e_i = h_theta(x_i) - y_i]
-    D --> E[Compute MSE Cost J(theta_0, theta_1)]
-    E --> F[Calculate Gradients dJ/dtheta_0 and dJ/dtheta_1]
-    F --> G[Simultaneously Update theta_0 and theta_1]
-    G --> H{Has J(theta) Converged?}
+    A["Input Training Dataset (x, y)"] --> B["Initialize Parameters theta_0, theta_1"]
+    B --> C["Compute Predictions h_theta("x") = theta_0 + theta_1 * x"]
+    C --> D["Calculate Residuals e_i = h_theta("x_i") - y_i"]
+    D --> E["Compute MSE Cost J("theta_0, theta_1")"]
+    E --> F["Calculate Gradients dJ/dtheta_0 and dJ/dtheta_1"]
+    F --> G["Simultaneously Update theta_0 and theta_1"]
+    G --> H{"Has J(&quot;theta&quot;) Converged?"}
     H -- No --> C
-    H -- Yes --> I[Output Optimal Parameters theta_0*, theta_1*]
+    H -- Yes --> I["Output Optimal Parameters theta_0*, theta_1*"]
 ```
 
 ---

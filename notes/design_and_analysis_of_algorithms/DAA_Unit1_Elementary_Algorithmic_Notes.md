@@ -29,8 +29,8 @@ An **algorithm** is any well-defined computational procedure that takes some val
 
 ```mermaid
 flowchart LR
-    A[Input Instance] --> B[Algorithm / Computational Procedure]
-    B --> C[Correct Output]
+    A["Input Instance"] --> B["Algorithm / Computational Procedure"]
+    B --> C["Correct Output"]
 ```
 
 ### 2.2 Problem vs. Instance
@@ -144,10 +144,10 @@ Algorithm performance can be evaluated using two fundamental paradigms:
 
 ```mermaid
 flowchart TD
-    A[Algorithm Analysis Methods] --> B[Empirical / Posteriori]
-    A --> C[Theoretical / Priori]
-    B --> B1[Write Code] --> B2[Run Benchmarks] --> B3[Measure Execution Time]
-    C --> C1[Inspect Pseudocode] --> C2[Count Primitive Steps] --> C3[Derive Asymptotic Growth Rate]
+    A["Algorithm Analysis Methods"] --> B["Empirical / Posteriori"]
+    A --> C["Theoretical / Priori"]
+    B --> B1["Write Code"] --> B2["Run Benchmarks"] --> B3["Measure Execution Time"]
+    C --> C1["Inspect Pseudocode"] --> C2["Count Primitive Steps"] --> C3["Derive Asymptotic Growth Rate"]
 ```
 
 [Source: DAA_Unit1.pptx, Slides 4–5, 19–20]
@@ -160,9 +160,9 @@ An algorithm's execution steps depend not only on input size $n$, but also on th
 
 ```mermaid
 flowchart TD
-    Input[Input Instance of Size n] --> Best[Best-Case: Minimum Steps / Lower Bound]
-    Input --> Avg[Average-Case: Expected Steps / Expected Bound]
-    Input --> Worst[Worst-Case: Maximum Steps / Upper Bound]
+    Input["Input Instance of Size n"] --> Best["Best-Case: Minimum Steps / Lower Bound"]
+    Input --> Avg["Average-Case: Expected Steps / Expected Bound"]
+    Input --> Worst["Worst-Case: Maximum Steps / Upper Bound"]
 ```
 
 ### 6.1 Definitions and Properties
@@ -216,9 +216,9 @@ $$
 
 ```mermaid
 flowchart LR
-    subgraph Big-O Upper Bound
+    subgraph "Big-O Upper Bound"
     direction LR
-    A["f(n) &le; c * g(n) for all n &ge; n0"]
+    A["f("n") &le; c * g("n") for all n &ge; n0"]
     end
 ```
 

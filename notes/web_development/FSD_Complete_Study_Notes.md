@@ -99,10 +99,10 @@ The 3-Tier Architecture cleanly segregates software application code into three 
 
 ```mermaid
 flowchart TD
-    Client["Client / User Interface"] <--> Presentation["Presentation Tier (UI Layer)\n[HTML, CSS, JS, Frameworks]"]
-    Presentation <--> Business["Business Tier (Logic Layer)\n[Node.js, Express, Python, Java]"]
-    Business <--> DataAccess["Data Access Tier (DAL)\n[SQL DDL/DML, ORM, MongoDB Driver]"]
-    DataAccess <--> Database[("Database Tier (DBMS)\n[MySQL, PostgreSQL, MongoDB]")]
+    Client["Client / User Interface"] <--> Presentation["&quot;Presentation Tier (UI Layer)\n[HTML, CSS, JS, Frameworks"]"]
+    Presentation <--> Business["&quot;Business Tier (Logic Layer)\n[Node.js, Express, Python, Java"]"]
+    Business <--> DataAccess["&quot;Data Access Tier (DAL)\n[SQL DDL/DML, ORM, MongoDB Driver"]"]
+    DataAccess <--> Database["(&quot;Database Tier (DBMS)\n[MySQL, PostgreSQL, MongoDB"]")]
 ```
 
 ### 3.2 Rules of 3-Tier Architecture
@@ -365,12 +365,12 @@ REST is an architectural style that defines constraints for building scalable, r
 
 ```mermaid
 flowchart TD
-    C1["1. Client-Server Decoupling\n(UI isolated from Data Storage)"]
-    C2["2. Statelessness\n(No client context saved on server)"]
-    C3["3. Cacheability\n(Explicit response cache headers)"]
-    C4["4. Uniform Interface\n(Resource URIs, Self-descriptive, HATEOAS)"]
-    C5["5. Layered System\n(Client cannot tell if connected to end DB or proxy)"]
-    C6["6. Code on Demand (Optional)\n(Executable code download like JS)"]
+    C1["1. Client-Server Decoupling\n("UI isolated from Data Storage")"]
+    C2["2. Statelessness\n("No client context saved on server")"]
+    C3["3. Cacheability\n("Explicit response cache headers")"]
+    C4["4. Uniform Interface\n("Resource URIs, Self-descriptive, HATEOAS")"]
+    C5["5. Layered System\n("Client cannot tell if connected to end DB or proxy")"]
+    C6["6. Code on Demand (Optional)\n("Executable code download like JS")"]
 ```
 
 1. **Client-Server Separation:** Enforces complete boundary separation. The client handles presentation; the server manages storage and logic. Enables independent platform evolution.
@@ -1284,9 +1284,9 @@ flowchart LR
     Main["Main JS Thread (UI, DOM, User Clicks)"]
     Worker["Background Worker Thread (Heavy Calculation)"]
 
-    Main -->|"1. postMessage(data)"| Worker
+    Main -->|"1. postMessage("data")"| Worker
     Worker -->|"2. onmessage (process data)"| Worker
-    Worker -->|"3. postMessage(result)"| Main
+    Worker -->|"3. postMessage("result")"| Main
     Main -->|"4. onmessage (render result)"| Main
 ```
 
@@ -1792,10 +1792,10 @@ Because JavaScript is single-threaded, it can only execute one task at a time. I
 
 ```mermaid
 flowchart TD
-    JS["JS Engine Call Stack\n(LIFO - Executes Code)"]
-    WebAPI["Web APIs\n(Timers, Fetch, DOM Events)"]
-    Micro["Microtask Queue\n(Promises, queueMicrotask)"]
-    Macrotask["Macrotask / Callback Queue\n(setTimeout, UI Events)"]
+    JS["JS Engine Call Stack\n("LIFO - Executes Code")"]
+    WebAPI["Web APIs\n("Timers, Fetch, DOM Events")"]
+    Micro["Microtask Queue\n("Promises, queueMicrotask")"]
+    Macrotask["Macrotask / Callback Queue\n("setTimeout, UI Events")"]
     Loop["Event Loop Coordinator"]
 
     JS -->|Asynchronous Task| WebAPI

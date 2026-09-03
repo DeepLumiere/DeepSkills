@@ -47,16 +47,16 @@ Data that has already been collected by someone else and is available for use.
 
 ```mermaid
 graph TD
-    DS[Data Sources] --> PDS[Primary Data Sources]
-    DS --> SDS[Secondary Data Sources]
+    DS["Data Sources"] --> PDS["Primary Data Sources"]
+    DS --> SDS["Secondary Data Sources"]
     
-    PDS --> D2D[Door to Door Surveys]
-    PDS --> ST[Student Thesis]
-    PDS --> PI[Personal Interviews]
+    PDS --> D2D["Door to Door Surveys"]
+    PDS --> ST["Student Thesis"]
+    PDS --> PI["Personal Interviews"]
     
-    SDS --> Int[Internet]
-    SDS --> Bks[Books]
-    SDS --> News[Newspaper]
+    SDS --> Int["Internet"]
+    SDS --> Bks["Books"]
+    SDS --> News["Newspaper"]
 ```
 [Source: 2.Types of Data.pdf, Slide 3]
 
@@ -79,10 +79,10 @@ The KDD process outlines how raw data is transformed into useful knowledge.
 
 ```mermaid
 flowchart TD
-    DB[(Databases/Flat files)] --> |Cleaning and integration| DW[(Data Warehouse)]
-    DW --> |Selection and transformation| DM_Data[Data for mining]
-    DM_Data --> |Data mining| Pat[Patterns]
-    Pat --> |Evaluation and presentation| Know[Knowledge]
+    DB["(Databases/Flat files)"] --> |Cleaning and integration| DW["(Data Warehouse)"]
+    DW --> |Selection and transformation| DM_Data["Data for mining"]
+    DM_Data --> |Data mining| Pat["Patterns"]
+    Pat --> |Evaluation and presentation| Know["Knowledge"]
 ```
 [Source: 2.Types of Data.pdf, Slide 4]
 
@@ -92,18 +92,18 @@ flowchart TD
 
 ```mermaid
 graph TD
-    Data[Data Classifications]
-    Data --> Qual[Qualitative / Categorical]
-    Data --> Quant[Quantitative / Numerical]
+    Data["Data Classifications"]
+    Data --> Qual["Qualitative / Categorical"]
+    Data --> Quant["Quantitative / Numerical"]
 
-    Qual --> Nom[Nominal: Unordered]
-    Qual --> Ord[Ordinal: Ordered]
+    Qual --> Nom["Nominal: Unordered"]
+    Qual --> Ord["Ordinal: Ordered"]
 
-    Quant --> Disc[Discrete: Countable]
-    Quant --> Cont[Continuous: Measurable]
+    Quant --> Disc["Discrete: Countable"]
+    Quant --> Cont["Continuous: Measurable"]
 
-    Cont --> Int[Interval: Arbitrary Zero]
-    Cont --> Rat[Ratio: True Zero]
+    Cont --> Int["Interval: Arbitrary Zero"]
+    Cont --> Rat["Ratio: True Zero"]
 ```
 
 ### Definition: Qualitative Data
@@ -245,14 +245,14 @@ Digital data is fundamentally categorized into three types based on how it is fo
 
 ```mermaid
 graph TD
-    Data[Data]
-    Data --> Struc[Structured]
-    Data --> Semi[Semi-structured]
-    Data --> Unstruc[Unstructured]
+    Data["Data"]
+    Data --> Struc["Structured"]
+    Data --> Semi["Semi-structured"]
+    Data --> Unstruc["Unstructured"]
     
-    Struc --> ERP[Enterprise Resource Planning, SQL]
-    Semi --> Call[Logs, JSON, XML]
-    Unstruc --> FB[Facebook, YouTube, Images]
+    Struc --> ERP["Enterprise Resource Planning, SQL"]
+    Semi --> Call["Logs, JSON, XML"]
+    Unstruc --> FB["Facebook, YouTube, Images"]
 ```
 
 ### 1. Structured Data

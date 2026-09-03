@@ -340,15 +340,15 @@ Predicting salary for $10$ years experience: $\hat{y} = 23.6 + 3.5(10) = 58.6 \i
 
 ```mermaid
 flowchart TD
-    A[Multivariate Dataset X, y] --> B{Choose Solution Method}
-    B -- Gradient Descent --> C[Perform Feature Scaling Z-Score / Min-Max]
-    C --> D[Initialize Parameters theta]
-    D --> E[Iteratively Update theta := theta - alpha * grad]
-    E --> F[Check Convergence J_iter - J_prev < 1e-3]
-    F -- Converged --> G[Final Model theta*]
-    B -- Normal Equation --> H{Check if X^T X is Singular?}
-    H -- Non-Singular --> I[Compute theta = X^T X^-1 X^T y]
-    H -- Singular m <= n or Collinear --> J[Use pinv X' X * X' y or Regularization]
+    A["Multivariate Dataset X, y"] --> B{"Choose Solution Method"}
+    B -- Gradient Descent --> C["Perform Feature Scaling Z-Score / Min-Max"]
+    C --> D["Initialize Parameters theta"]
+    D --> E["Iteratively Update theta := theta - alpha * grad"]
+    E --> F["Check Convergence J_iter - J_prev < 1e-3"]
+    F -- Converged --> G["Final Model theta*"]
+    B -- Normal Equation --> H{"Check if X^T X is Singular?"}
+    H -- Non-Singular --> I["Compute theta = X^T X^-1 X^T y"]
+    H -- Singular m <= n or Collinear --> J["Use pinv X' X * X' y or Regularization"]
     I --> G
     J --> G
 ```
