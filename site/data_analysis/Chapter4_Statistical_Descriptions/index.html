@@ -1,0 +1,3835 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="DeepSkills Knowledge Base and Engineering Notes">
+      
+      
+        <meta name="author" content="DeepLumiere">
+      
+      
+        <link rel="canonical" href="https://deeplumiere.github.io/DeepSkills/data_analysis/Chapter4_Statistical_Descriptions/">
+      
+      
+        <link rel="prev" href="../Chapter3_Dataset_and_Attributes/">
+      
+      
+        <link rel="next" href="../Chapter5_Data_Preprocessing/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Chapter4 Statistical Descriptions - DeepSkills</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-301Z6Q0P7W"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-301Z6Q0P7W",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-301Z6Q0P7W",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-4-statistical-descriptions-of-data" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DeepSkills" class="md-header__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DeepSkills
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter4 Statistical Descriptions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DeepSkills" class="md-nav__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    DeepSkills
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Computer networks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Computer networks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_1_Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Introduction to Computer Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_3_Data_Link_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Data Link Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_4_MAC_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Medium Access Control Sublayer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/CompNet_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CompNet ClassTest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data analysis
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data analysis
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter1_Introduction_to_DAV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter1 Introduction to DAV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter2_Types_of_Data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter2 Types of Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter3_Dataset_and_Attributes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter3 Dataset and Attributes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter4 Statistical Descriptions
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter4 Statistical Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-fundamental-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fundamental Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Fundamental Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#central-tendency-vs-dispersion-vs-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Central Tendency vs Dispersion vs Shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Definitions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Definitions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-central-tendency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Central Tendency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-dispersion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Dispersion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-measuring-central-tendency-ungrouped-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Measuring Central Tendency (Ungrouped Data)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Measuring Central Tendency (Ungrouped Data)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arithmetic-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arithmetic Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#weighted-arithmetic-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weighted Arithmetic Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trimmed-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trimmed Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#median" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Median
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-salary-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Salary Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-measuring-central-tendency-grouped-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Measuring Central Tendency (Grouped Data)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Measuring Central Tendency (Grouped Data)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grouped-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouped Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grouped-median" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouped Median
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grouped-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouped Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-running-race" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Running Race
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-baby-carrots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Baby Carrots
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-measuring-dispersion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Measuring Dispersion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Measuring Dispersion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#range" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Range
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantiles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interquartile-range-iqr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interquartile Range (IQR)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variance-and-standard-deviation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variance and Standard Deviation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worked-example-variance-and-sd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked Example: Variance and SD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worked-example-die-roll-variance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked Example: Die Roll Variance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-five-number-summary-and-boxplot-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Five-Number Summary and Boxplot Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Five-Number Summary and Boxplot Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#box-plot-procedure-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Box Plot Procedure &amp; Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-distribution-shape-and-skewness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Distribution Shape and Skewness
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Distribution Shape and Skewness">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#skewness-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Skewness Interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-histograms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Histograms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Histograms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-histogram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Histogram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#components-of-a-histogram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Components of a Histogram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#histogram-vs-bar-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Histogram vs. Bar Graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-visualizations-and-bivariate-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Visualizations and Bivariate Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Visualizations and Bivariate Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normal-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normal Distribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#z-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Z-Scores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantile-plot-q-q-plot-quantile-quantile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantile Plot &amp; Q-Q Plot (Quantile-Quantile)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worked-example-q-q-plot-for-normality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked Example: Q-Q Plot for Normality
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formula-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formula Sheet
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Formula Sheet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ungrouped-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Ungrouped Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-grouped-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Grouped Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-grouped-median" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Grouped Median
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-grouped-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Grouped Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-variance-and-standard-deviation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Variance and Standard Deviation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-actual-z-score" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Actual Z-Score
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-percentile-rank-for-q-q-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Percentile Rank for Q-Q Plot
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definition-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exam-oriented-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exam-Oriented Review
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exam-Oriented Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#important-questions-model-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Questions &amp; Model Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#source-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source map
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter5_Data_Preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter5 Data Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data communication
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data communication
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter10_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10 — Error Detection and Correction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter1_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1 — Introduction to Data Communications and Networking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter2_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — Network Models (OSI &amp; TCP/IP Architecture)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter3_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3 — Data and Signals (Physical Layer Foundations)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter4_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 — Digital Transmission
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter5_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 — Analog Transmission (Modulation Techniques)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter6_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 — Multiplexing &amp; Spreading Spectrum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter7_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 — Transmission Media
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter8_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8 — Switching (Circuit, Packet, &amp; Datagram Networks)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design and analysis of algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design and analysis of algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithmic_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1 — Unit-I: Elementary Algorithmic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1: Complete DAA Notes: Unit 1 — Elementary Algorithms &amp; Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_and_Unit2_Complete_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1: Complete DAA Notes: Unit 1 — Elementary Algorithms &amp; Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit2_Analysis_of_Algorithms_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — Unit-II: Analysis of Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit3_Recurrence_DivideConquer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3: Complete DAA Notes — Recurrence Relations &amp; Divide and Conquer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit4_RedBlackTrees_AdvancedDS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4: Unit 4 — Advanced Data Structures &amp; Amortized Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit5_Greedy_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 5 — Greedy Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit6_Dynamic_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 6 — Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit7_Backtracking_BranchBound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 7 — Backtracking &amp; Branch and Bound
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware and microprocessors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hardware and microprocessors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/01_Directives_In_Depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 — 8086 Assembler Directives, Operators &amp; Storage Allocation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/02_8085_Instruction_Set_Comprehensive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — 8085 Microprocessor Architecture, Interfacing &amp; Complete Instruction Set
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/03_8086_Instruction_Set_Comprehensive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 — 8086 Addressing Modes, Machine Encoding &amp; Complete Instruction Set
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/04_8086_String_Operations_and_Looping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 — 8086 String Operations, Branching &amp; Looping Mechanics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/05_8086_Stack_Operations_and_Modular_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 — 8086 Stack Architecture, Procedures &amp; Modular Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/Microprocessors_and_Interfacing_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microprocessors &amp; Interfacing Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/01_Machine_Learning_and_its_Applications_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Introduction to Machine Learning &amp; Applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/02_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Simple Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/03_Multivariate_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Multivariate Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/04_Regularization_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Regularization and Overfitting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/05_Probability_and_Statistics_for_ML_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Probability &amp; Statistics for Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Web development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../web_development/FSD_Complete_Study_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Stack Web Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-fundamental-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fundamental Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Fundamental Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#central-tendency-vs-dispersion-vs-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Central Tendency vs Dispersion vs Shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Definitions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Definitions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-central-tendency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Central Tendency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-dispersion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Dispersion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-measuring-central-tendency-ungrouped-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Measuring Central Tendency (Ungrouped Data)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Measuring Central Tendency (Ungrouped Data)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arithmetic-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arithmetic Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#weighted-arithmetic-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weighted Arithmetic Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trimmed-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trimmed Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#median" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Median
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-salary-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Salary Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-measuring-central-tendency-grouped-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Measuring Central Tendency (Grouped Data)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Measuring Central Tendency (Grouped Data)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grouped-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouped Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grouped-median" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouped Median
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grouped-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouped Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-running-race" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Running Race
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-baby-carrots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Baby Carrots
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-measuring-dispersion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Measuring Dispersion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Measuring Dispersion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#range" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Range
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantiles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interquartile-range-iqr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interquartile Range (IQR)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variance-and-standard-deviation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variance and Standard Deviation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worked-example-variance-and-sd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked Example: Variance and SD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worked-example-die-roll-variance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked Example: Die Roll Variance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-five-number-summary-and-boxplot-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Five-Number Summary and Boxplot Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Five-Number Summary and Boxplot Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#box-plot-procedure-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Box Plot Procedure &amp; Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-distribution-shape-and-skewness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Distribution Shape and Skewness
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Distribution Shape and Skewness">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#skewness-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Skewness Interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-histograms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Histograms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Histograms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-histogram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Histogram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#components-of-a-histogram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Components of a Histogram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#histogram-vs-bar-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Histogram vs. Bar Graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-visualizations-and-bivariate-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Visualizations and Bivariate Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Visualizations and Bivariate Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normal-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normal Distribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#z-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Z-Scores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantile-plot-q-q-plot-quantile-quantile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantile Plot &amp; Q-Q Plot (Quantile-Quantile)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worked-example-q-q-plot-for-normality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked Example: Q-Q Plot for Normality
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formula-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formula Sheet
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Formula Sheet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ungrouped-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Ungrouped Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-grouped-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Grouped Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-grouped-median" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Grouped Median
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-grouped-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Grouped Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-variance-and-standard-deviation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Variance and Standard Deviation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-actual-z-score" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Actual Z-Score
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-percentile-rank-for-q-q-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Percentile Rank for Q-Q Plot
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definition-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exam-oriented-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exam-Oriented Review
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exam-Oriented Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#important-questions-model-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Questions &amp; Model Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#source-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source map
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/DeepLumiere/DeepSkills/edit/main/notes/data_analysis/Chapter4_Statistical_Descriptions.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<p><Complete DAV Notes: Chapter 4 — Statistical Descriptions of Data></p>
+<blockquote>
+<p>Course: Data Analysis and Visualization
+Primary Source: 4.Statistical Descriptions of Data_new.pdf
+Files Integrated: 4.Statistical Descriptions of Data_new.pdf, ch4_text.txt
+</Complete DAV Notes: Chapter 4 — Statistical Descriptions of Data></p>
+</blockquote>
+<h1 id="chapter-4-statistical-descriptions-of-data">Chapter 4 — Statistical Descriptions of Data<a class="headerlink" href="#chapter-4-statistical-descriptions-of-data" title="Permanent link">&para;</a></h1>
+<h2 id="1-chapter-overview">1. Chapter Overview<a class="headerlink" href="#1-chapter-overview" title="Permanent link">&para;</a></h2>
+<p>Basic statistical descriptions can be used to identify properties of the data and highlight which data values should be treated as noise or outliers. To better understand the data, we look at the central tendency, variation, and spread. This helps in understanding data dispersion characteristics, which can be analyzed with multiple granularities of precision.
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 2-4]</p>
+<hr />
+<h2 id="2-fundamental-concepts">2. Fundamental Concepts<a class="headerlink" href="#2-fundamental-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="central-tendency-vs-dispersion-vs-shape">Central Tendency vs Dispersion vs Shape<a class="headerlink" href="#central-tendency-vs-dispersion-vs-shape" title="Permanent link">&para;</a></h3>
+<p><pre class="mermaid"><code>graph TD
+    Stats[Statistical Descriptions]
+    Stats --&gt; CT[Central Tendency: Center]
+    Stats --&gt; Disp[Dispersion: Spread]
+    Stats --&gt; Shape[Distribution Shape]
+    Stats --&gt; Vis[Data Visualization]
+
+    CT --&gt; Mean[Mean / Weighted / Trimmed]
+    CT --&gt; Med[Median]
+    CT --&gt; Mode[Mode]
+
+    Disp --&gt; Range[Range / IQR]
+    Disp --&gt; Var[Variance &amp; Std Dev]
+    Disp --&gt; Quant[Quantiles]
+
+    Shape --&gt; Skew[Skewness: Asymmetry]
+
+    Vis --&gt; Boxplot[Boxplot]
+    Vis --&gt; Histogram[Histogram]
+    Vis --&gt; QQPlot[Q-Q Plot]
+    Vis --&gt; Scatter[Scatter Plot]</code></pre>
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 3-4, 49]</p>
+<hr />
+<h2 id="3-definitions">3. Definitions<a class="headerlink" href="#3-definitions" title="Permanent link">&para;</a></h2>
+<h3 id="definition-central-tendency">Definition: Central Tendency<a class="headerlink" href="#definition-central-tendency" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> The typical or central value for a probability distribution.
+<strong>Intuition:</strong> If we were to plot the observations for an attribute, where would most of the values fall? This gives an idea of the central tendency. Measures include mean, median, and mode.
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slide 3]</p>
+<h3 id="definition-dispersion">Definition: Dispersion<a class="headerlink" href="#definition-dispersion" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> Measures of variability that describe the spread or dispersion of a set of data.
+<strong>Intuition:</strong> Important for understanding how spread out or clustered the data is, checking reliability of central tendency, and comparing various samples. Measures include range, quantiles, variance, and standard deviation.
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slide 30]</p>
+<h3 id="definition-mode">Definition: Mode<a class="headerlink" href="#definition-mode" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> The value that occurs most frequently in the data set. 
+<strong>Formal definition:</strong> Data sets with one, two, or three modes are respectively called unimodal, bimodal, and trimodal. A dataset with two or more is multimodal. If each value occurs only once, there is no mode.
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slide 15]</p>
+<hr />
+<h2 id="4-measuring-central-tendency-ungrouped-data">4. Measuring Central Tendency (Ungrouped Data)<a class="headerlink" href="#4-measuring-central-tendency-ungrouped-data" title="Permanent link">&para;</a></h2>
+<h3 id="arithmetic-mean">Arithmetic Mean<a class="headerlink" href="#arithmetic-mean" title="Permanent link">&para;</a></h3>
+<p><strong>Formula:</strong>
+Sample Mean:</p>
+<div class="arithmatex">\[
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i
+\]</div>
+<p>Population Mean:</p>
+<div class="arithmatex">\[
+\mu = \frac{1}{N}\sum_{i=1}^{N} x_i
+\]</div>
+<p><strong>Where:</strong>
+* <span class="arithmatex">\(n\)</span> = sample size
+* <span class="arithmatex">\(N\)</span> = population size
+* <span class="arithmatex">\(x_i\)</span> = individual data observation</p>
+<p><strong>Conditions / Assumptions:</strong>
+A major problem with the mean is its sensitivity to extreme (outlier) values. Even a small number of extreme values can corrupt the mean.
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 5, 6, 9]</p>
+<h3 id="weighted-arithmetic-mean">Weighted Arithmetic Mean<a class="headerlink" href="#weighted-arithmetic-mean" title="Permanent link">&para;</a></h3>
+<p>Sometimes each value is associated with a weight reflecting significance, importance, or occurrence frequency.</p>
+<p><strong>Formula:</strong></p>
+<div class="arithmatex">\[
+\bar{x}_w = \frac{\sum_{i=1}^{n} w_i x_i}{\sum_{i=1}^{n} w_i}
+\]</div>
+<p><strong>Where:</strong>
+* <span class="arithmatex">\(w_i\)</span> = weight associated with <span class="arithmatex">\(x_i\)</span>
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 5, 8]</p>
+<h3 id="trimmed-mean">Trimmed Mean<a class="headerlink" href="#trimmed-mean" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> Chopping extreme values (outliers) from the dataset before calculating the mean to reduce sensitivity to extreme outliers.
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slide 5]</p>
+<h3 id="median">Median<a class="headerlink" href="#median" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> The middle value in a dataset when arranged in ascending or descending order.</p>
+<p><strong>Procedure for Ungrouped Data:</strong>
+1. Sort the data.
+2. If the number of values (<span class="arithmatex">\(n\)</span>) is odd: Median = the middle value.
+3. If <span class="arithmatex">\(n\)</span> is even: Median = the average of the two middle values.</p>
+<p><strong>Examples:</strong>
+* Odd Example: Data: <span class="arithmatex">\(3, 5, 7 \rightarrow \text{Median} = 5\)</span>
+* Even Example: Data: <span class="arithmatex">\(4, 6, 8, 10 \rightarrow \text{Median} = \frac{6+8}{2} = 7\)</span>
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 10-11]</p>
+<h3 id="example-salary-mean">Example: Salary Mean<a class="headerlink" href="#example-salary-mean" title="Permanent link">&para;</a></h3>
+<p><strong>Given:</strong>
+Salary values in thousands of dollars, sorted: <span class="arithmatex">\(30, 36, 47, 50, 52, 52, 56, 60, 63, 70, 70, 110\)</span>.</p>
+<p><strong>Solution:</strong>
+Total sum = <span class="arithmatex">\(30 + 36 + 47 + 50 + 52 + 52 + 56 + 60 + 63 + 70 + 70 + 110 = 696\)</span>
+<span class="arithmatex">\(N = 12\)</span>
+Mean <span class="arithmatex">\(\bar{x} = \frac{696}{12} = 58\)</span></p>
+<p>Median: Since <span class="arithmatex">\(N=12\)</span> (even), the median is the average of the 6th and 7th values:
+6th value = 52, 7th value = 56
+Median = <span class="arithmatex">\(\frac{52 + 56}{2} = 54\)</span></p>
+<p>Mode: 52 and 70 both appear twice. The dataset is bimodal.
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slide 7]</p>
+<hr />
+<h2 id="5-measuring-central-tendency-grouped-data">5. Measuring Central Tendency (Grouped Data)<a class="headerlink" href="#5-measuring-central-tendency-grouped-data" title="Permanent link">&para;</a></h2>
+<p>When data are grouped into intervals (classes), we estimate central tendency measures.</p>
+<h3 id="grouped-mean">Grouped Mean<a class="headerlink" href="#grouped-mean" title="Permanent link">&para;</a></h3>
+<p><strong>Formula:</strong></p>
+<div class="arithmatex">\[
+\bar{x} = \frac{\sum f_i x_i}{N}
+\]</div>
+<p><strong>Where:</strong>
+* <span class="arithmatex">\(x_i\)</span> = midpoint of the class interval
+* <span class="arithmatex">\(f_i\)</span> = frequency of the class
+* <span class="arithmatex">\(N\)</span> = sum of all frequencies</p>
+<h3 id="grouped-median">Grouped Median<a class="headerlink" href="#grouped-median" title="Permanent link">&para;</a></h3>
+<p><strong>Formula:</strong></p>
+<div class="arithmatex">\[
+M_e = L + \left[ \frac{\frac{N}{2} - B}{G} \right] \times w
+\]</div>
+<p><strong>Where:</strong>
+* <span class="arithmatex">\(L\)</span> = lower boundary of the median class
+* <span class="arithmatex">\(N\)</span> = total frequency
+* <span class="arithmatex">\(B\)</span> = cumulative frequency of the groups before the median group
+* <span class="arithmatex">\(G\)</span> = frequency of the median group
+* <span class="arithmatex">\(w\)</span> = group width</p>
+<h3 id="grouped-mode">Grouped Mode<a class="headerlink" href="#grouped-mode" title="Permanent link">&para;</a></h3>
+<p><strong>Formula:</strong></p>
+<div class="arithmatex">\[
+M_o = L + \left[ \frac{f_m - f_{m-1}}{(f_m - f_{m-1}) + (f_m - f_{m+1})} \right] \times w
+\]</div>
+<p>Which simplifies to:</p>
+<div class="arithmatex">\[
+M_o = L + \left[ \frac{f_m - f_{m-1}}{2f_m - f_{m-1} - f_{m+1}} \right] \times w
+\]</div>
+<p><strong>Where:</strong>
+* <span class="arithmatex">\(L\)</span> = lower boundary of the modal class
+* <span class="arithmatex">\(f_m\)</span> = frequency of the modal group
+* <span class="arithmatex">\(f_{m-1}\)</span> = frequency of the preceding group
+* <span class="arithmatex">\(f_{m+1}\)</span> = frequency of the succeeding group
+* <span class="arithmatex">\(w\)</span> = group width
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 16-24]</p>
+<h3 id="example-running-race">Example: Running Race<a class="headerlink" href="#example-running-race" title="Permanent link">&para;</a></h3>
+<p><strong>Given:</strong>
+Runners' times grouped in seconds.
+| Class Interval | Midpoint (<span class="arithmatex">\(x_i\)</span>) | Frequency (<span class="arithmatex">\(f_i\)</span>) | <span class="arithmatex">\(f_i \times x_i\)</span> |
+| -------------- | ---------------- | ----------------- | ---------------- |
+| 51 - 55        | 53               | 2                 | 106              |
+| 56 - 60        | 58               | 7                 | 406              |
+| 61 - 65        | 63               | 8                 | 504              |
+| 66 - 70        | 68               | 4                 | 272              |
+| <strong>Total</strong>      |                  | <strong>21</strong>            | <strong>1288</strong>         |</p>
+<p><strong>Solution - Mean:</strong>
+Mean = <span class="arithmatex">\(\frac{1288}{21} \approx 61.33\)</span></p>
+<p><strong>Solution - Median:</strong>
+<span class="arithmatex">\(N = 21\)</span>. <span class="arithmatex">\(\frac{N}{2} = 10.5\)</span>.
+Cumulative frequencies:
+* 51-55: 2
+* 56-60: <span class="arithmatex">\(2+7 = 9\)</span>
+* 61-65: <span class="arithmatex">\(9+8 = 17 \rightarrow\)</span> Median lies here.</p>
+<p>Parameters:
+<span class="arithmatex">\(L = 60.5\)</span> (lower class boundary)
+<span class="arithmatex">\(B = 9\)</span> (cumulative freq before)
+<span class="arithmatex">\(G = 8\)</span> (freq of median class)
+<span class="arithmatex">\(w = 5\)</span> (width)</p>
+<div class="arithmatex">\[
+M_e = 60.5 + \left[ \frac{10.5 - 9}{8} \right] \times 5 = 60.5 + \left( \frac{1.5}{8} \right) \times 5 = 60.5 + 0.9375 = 61.4375
+\]</div>
+<p><strong>Solution - Mode:</strong>
+Highest frequency is 8, so modal class is 61-65.
+Parameters:
+<span class="arithmatex">\(L = 60.5\)</span>
+<span class="arithmatex">\(f_{m-1} = 7\)</span>
+<span class="arithmatex">\(f_m = 8\)</span>
+<span class="arithmatex">\(f_{m+1} = 4\)</span>
+<span class="arithmatex">\(w = 5\)</span></p>
+<div class="arithmatex">\[
+M_o = 60.5 + \left[ \frac{8 - 7}{2(8) - 7 - 4} \right] \times 5 = 60.5 + \left[ \frac{1}{16 - 11} \right] \times 5 = 60.5 + \frac{5}{5} = 61.5
+\]</div>
+<p>[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 16-24]</p>
+<h3 id="example-baby-carrots">Example: Baby Carrots<a class="headerlink" href="#example-baby-carrots" title="Permanent link">&para;</a></h3>
+<p><strong>Given:</strong>
+You grew 50 baby carrots and measured their lengths to group the results. Computing the Mean, Median, Mode uses the same grouped formulas for the frequency of these 50 carrots as the running race above.
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 25-28]</p>
+<hr />
+<h2 id="6-measuring-dispersion">6. Measuring Dispersion<a class="headerlink" href="#6-measuring-dispersion" title="Permanent link">&para;</a></h2>
+<p>We need dispersion measures because even when two datasets have the same mean and median, they can be very different in spread shape.</p>
+<p><strong>Example of why we need SD:</strong>
+* <strong>Dataset 1:</strong> <span class="arithmatex">\(44, 46, 48, 45, 47 \rightarrow\)</span> Mean = 46, Variance = 2.0, SD = 1.41 (low dispersion)
+* <strong>Dataset 2:</strong> <span class="arithmatex">\(34, 46, 59, 39, 52 \rightarrow\)</span> Mean = 46, Variance = 79.6, SD = 8.92 (high dispersion)
+Both have mean and median of 46, but spread is completely different.
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 29, 40]</p>
+<h3 id="range">Range<a class="headerlink" href="#range" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> The spread of data from the lowest to the highest value.
+<strong>Formula:</strong> Maximum value - Minimum value.
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slide 32]</p>
+<h3 id="quantiles">Quantiles<a class="headerlink" href="#quantiles" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> Cut points that divide a dataset into equal-sized intervals based on rank order.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Division</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Quartiles</strong></td>
+<td style="text-align: left;">Divide data into 4 equal parts</td>
+<td style="text-align: left;"><span class="arithmatex">\(Q_1, Q_2, Q_3, Q_4\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Deciles</strong></td>
+<td style="text-align: left;">Divide data into 10 equal parts</td>
+<td style="text-align: left;"><span class="arithmatex">\(D_1, D_2, \dots, D_9\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Percentiles</strong></td>
+<td style="text-align: left;">Divide data into 100 equal parts</td>
+<td style="text-align: left;"><span class="arithmatex">\(P_1, P_2, \dots, P_{99}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Median</strong></td>
+<td style="text-align: left;">Special case of <span class="arithmatex">\(Q_2\)</span> / 50th percentile</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Quartile Formulas:</strong>
+* <span class="arithmatex">\(Q_1\)</span> position = <span class="arithmatex">\(\frac{1}{4}(n+1)\)</span>th term
+* <span class="arithmatex">\(Q_3\)</span> position = <span class="arithmatex">\(\frac{3}{4}(n+1)\)</span>th term</p>
+<p><strong>Example:</strong>
+For <span class="arithmatex">\(n=9\)</span>:
+* <span class="arithmatex">\(Q_1 = \frac{1}{4}(10) = 2.25\)</span>th term
+* <span class="arithmatex">\(Q_2 = \frac{2}{4}(10) = 4.5\)</span>th term
+* <span class="arithmatex">\(Q_3 = \frac{3}{4}(10) = 6.75\)</span>th term
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 33-36]</p>
+<h3 id="interquartile-range-iqr">Interquartile Range (IQR)<a class="headerlink" href="#interquartile-range-iqr" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> The interquartile range gives the spread of the middle half of the distribution.
+<strong>Formula:</strong></p>
+<div class="arithmatex">\[
+IQR = Q_3 - Q_1
+\]</div>
+<p>[Source: 4.Statistical Descriptions of Data_new.pdf, Slide 37]</p>
+<h3 id="variance-and-standard-deviation">Variance and Standard Deviation<a class="headerlink" href="#variance-and-standard-deviation" title="Permanent link">&para;</a></h3>
+<p><strong>Variance (<span class="arithmatex">\(\sigma^2\)</span> or <span class="arithmatex">\(s^2\)</span>):</strong> Average of squared distances from the mean.
+<strong>Standard Deviation (<span class="arithmatex">\(\sigma\)</span> or <span class="arithmatex">\(s\)</span>):</strong> Square root of the variance.</p>
+<h3 id="worked-example-variance-and-sd">Worked Example: Variance and SD<a class="headerlink" href="#worked-example-variance-and-sd" title="Permanent link">&para;</a></h3>
+<p><strong>Given Data:</strong> <span class="arithmatex">\([4, 5, 6, 6, 7, 8]\)</span></p>
+<p><strong>Step 1: Mean</strong></p>
+<div class="arithmatex">\[
+\bar{x} = \frac{4+5+6+6+7+8}{6} = \frac{36}{6} = 6
+\]</div>
+<p><strong>Step 2: Deviations &amp; Squared Deviations</strong>
+| <span class="arithmatex">\(x_i\)</span> | <span class="arithmatex">\((x_i - \text{mean})\)</span> | <span class="arithmatex">\((x_i - \text{mean})^2\)</span> |
+| --- | --- | --- |
+| 4 | -2 | 4 |
+| 5 | -1 | 1 |
+| 6 | 0 | 0 |
+| 6 | 0 | 0 |
+| 7 | 1 | 1 |
+| 8 | 2 | 4 |
+| <strong>Sum</strong> | | <strong>10</strong> |</p>
+<p><strong>Step 3: Variance &amp; SD</strong>
+Variance = <span class="arithmatex">\(\frac{10}{6} = 1.67\)</span>
+SD = <span class="arithmatex">\(\sqrt{1.67} \approx 1.29\)</span>
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 44-47]</p>
+<h3 id="worked-example-die-roll-variance">Worked Example: Die Roll Variance<a class="headerlink" href="#worked-example-die-roll-variance" title="Permanent link">&para;</a></h3>
+<p><strong>Given:</strong> A fair die is rolled. Sample space <span class="arithmatex">\(X = \{1, 2, 3, 4, 5, 6\}\)</span>. <span class="arithmatex">\(n=6\)</span>.
+<strong>Mean:</strong> <span class="arithmatex">\(\frac{1+2+3+4+5+6}{6} = 3.5\)</span>
+<strong>Variance:</strong></p>
+<div class="arithmatex">\[
+\sigma^2 = \frac{1}{6} \left[ (1-3.5)^2 + (2-3.5)^2 + \dots \right] = \frac{1}{6} (6.25 + 2.25 + 0.25 + 0.25 + 2.25 + 6.25) = \frac{17.5}{6} = 2.917
+\]</div>
+<p><strong>Standard Deviation:</strong> <span class="arithmatex">\(\sqrt{2.917} = 1.708\)</span>
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 61-62]</p>
+<hr />
+<h2 id="7-five-number-summary-and-boxplot-analysis">7. Five-Number Summary and Boxplot Analysis<a class="headerlink" href="#7-five-number-summary-and-boxplot-analysis" title="Permanent link">&para;</a></h2>
+<p><strong>Five-number summary:</strong> Minimum, <span class="arithmatex">\(Q_1\)</span>, Median, <span class="arithmatex">\(Q_3\)</span>, Maximum.</p>
+<p><strong>Boxplot Structure:</strong>
+* Data represented with a box. Ends of box are at <span class="arithmatex">\(Q_1\)</span> and <span class="arithmatex">\(Q_3\)</span>.
+* Box height represents IQR.
+* Median is marked by a line inside the box.
+* Whiskers extend outside the box to Minimum and Maximum (excluding outliers).
+* Outliers: Values higher or lower than <span class="arithmatex">\(1.5 \times IQR\)</span> from <span class="arithmatex">\(Q_1\)</span> and <span class="arithmatex">\(Q_3\)</span>.</p>
+<h3 id="box-plot-procedure-example">Box Plot Procedure &amp; Example<a class="headerlink" href="#box-plot-procedure-example" title="Permanent link">&para;</a></h3>
+<p><strong>Step 1: Order data</strong>
+Data: <span class="arithmatex">\(25, 28, 29, 29, 30, 34, 35, 35, 37, 38, 50\)</span> (<span class="arithmatex">\(n=11\)</span>)
+<strong>Step 2: Median</strong>
+Median = 6th term = <span class="arithmatex">\(34\)</span>
+<strong>Step 3: Quartiles</strong>
+<span class="arithmatex">\(Q_1\)</span> = Median of lower half = <span class="arithmatex">\(29\)</span>
+<span class="arithmatex">\(Q_3\)</span> = Median of upper half = <span class="arithmatex">\(37\)</span>
+<strong>Step 4: <span class="arithmatex">\(1.5 \times IQR\)</span></strong>
+<span class="arithmatex">\(IQR = 37 - 29 = 8\)</span>
+<span class="arithmatex">\(1.5 \times IQR = 1.5 \times 8 = 12\)</span>
+<strong>Step 5: Outliers</strong>
+Lower bound = <span class="arithmatex">\(Q_1 - 12 = 29 - 12 = 17\)</span>
+Upper bound = <span class="arithmatex">\(Q_3 + 12 = 37 + 12 = 49\)</span>
+Since <span class="arithmatex">\(50 &gt; 49\)</span>, <span class="arithmatex">\(50\)</span> is an outlier. The maximum non-outlier whisker goes to <span class="arithmatex">\(38\)</span>.
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 54-57]</p>
+<hr />
+<h2 id="8-distribution-shape-and-skewness">8. Distribution Shape and Skewness<a class="headerlink" href="#8-distribution-shape-and-skewness" title="Permanent link">&para;</a></h2>
+<h3 id="skewness-interpretation">Skewness Interpretation<a class="headerlink" href="#skewness-interpretation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Symmetric:</strong> Mean <span class="arithmatex">\(\approx\)</span> Median <span class="arithmatex">\(\approx\)</span> Mode.</li>
+<li><strong>Positively skewed (right-skewed):</strong> Mean <span class="arithmatex">\(&gt;\)</span> Median <span class="arithmatex">\(&gt;\)</span> Mode. Tail extends to right.</li>
+<li><strong>Negatively skewed (left-skewed):</strong> Mean <span class="arithmatex">\(&lt;\)</span> Median <span class="arithmatex">\(&lt;\)</span> Mode. Tail extends to left.</li>
+</ul>
+<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
+<p><strong>Given Dataset:</strong> <span class="arithmatex">\(4, 5, 6, 6, 6, 7, 7, 7, 7, 8\)</span> (<span class="arithmatex">\(n=10\)</span>)
+<strong>Mean:</strong> <span class="arithmatex">\(\frac{63}{10} = 6.3\)</span>
+<strong>Median:</strong> Average of 5th and 6th values = <span class="arithmatex">\(\frac{6+7}{2} = 6.5\)</span>
+<strong>Mode:</strong> <span class="arithmatex">\(7\)</span> appears 4 times.
+<strong>Conclusion:</strong> <span class="arithmatex">\(6.3 &lt; 6.5 &lt; 7 \rightarrow\)</span> Mean <span class="arithmatex">\(&lt;\)</span> Median <span class="arithmatex">\(&lt;\)</span> Mode.
+This data is <strong>negatively skewed (left-skewed)</strong>.
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 50-53]</p>
+<hr />
+<h2 id="9-histograms">9. Histograms<a class="headerlink" href="#9-histograms" title="Permanent link">&para;</a></h2>
+<h3 id="definition-histogram">Definition: Histogram<a class="headerlink" href="#definition-histogram" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> Graphical display of tabulated frequencies, shown as bars. It shows what proportion of cases fall into each category. Unlike a bar chart, the area of the bar denotes the value, not just the height.</p>
+<h3 id="components-of-a-histogram">Components of a Histogram<a class="headerlink" href="#components-of-a-histogram" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Components</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>X-Axis</strong></td>
+<td style="text-align: left;">Horizontal axis, represents range of values, composed of bins.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Y-Axis</strong></td>
+<td style="text-align: left;">Shows how often values appear on the X-axis (frequency).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Bins &amp; Intervals</strong></td>
+<td style="text-align: left;">Divide data into ranges on X-axis. Width determines range of values grouped.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Frequency</strong></td>
+<td style="text-align: left;">Numerical data points falling within each bin. Height of bar.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Density</strong></td>
+<td style="text-align: left;">Frequency divided by bin width. Used to normalize datasets of different sizes.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="histogram-vs-bar-graph">Histogram vs. Bar Graph<a class="headerlink" href="#histogram-vs-bar-graph" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Bar Graph</th>
+<th style="text-align: left;">Histogram</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Dimensionality</strong></td>
+<td style="text-align: left;">One dimension</td>
+<td style="text-align: left;">Two dimensions</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Representation of frequency</strong></td>
+<td style="text-align: left;">Length of the bars</td>
+<td style="text-align: left;">Area of the bar</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Significance of Bar Width</strong></td>
+<td style="text-align: left;">No special significance</td>
+<td style="text-align: left;">Represents interval or bin</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Spacing between bars</strong></td>
+<td style="text-align: left;">Bars separated with equal spaces</td>
+<td style="text-align: left;">Bars touch each other</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 65-72]</p>
+<hr />
+<h2 id="10-visualizations-and-bivariate-data">10. Visualizations and Bivariate Data<a class="headerlink" href="#10-visualizations-and-bivariate-data" title="Permanent link">&para;</a></h2>
+<h3 id="normal-distribution">Normal Distribution<a class="headerlink" href="#normal-distribution" title="Permanent link">&para;</a></h3>
+<p>A continuous probability distribution representing data that is symmetrical, with most values clustered around the mean.
+<strong>Characteristics:</strong>
+1. Bell-shaped curve.
+2. Symmetrical.
+3. Mean = Median = Mode.
+4. Total Area = 1 (100%).
+5. Tails never touch the X-axis.</p>
+<h3 id="z-scores">Z-Scores<a class="headerlink" href="#z-scores" title="Permanent link">&para;</a></h3>
+<p>Z-score measures how many standard deviations a point is from the mean.
+* <span class="arithmatex">\(z=0\)</span>: Data point equals mean.
+* <span class="arithmatex">\(z &gt; 0\)</span>: Above average.
+* <span class="arithmatex">\(z &lt; 0\)</span>: Below average.</p>
+<p><strong>Actual Z-Score Formula:</strong></p>
+<div class="arithmatex">\[
+z = \frac{x - \bar{x}}{s}
+\]</div>
+<p>[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 76-84]</p>
+<h3 id="quantile-plot-q-q-plot-quantile-quantile">Quantile Plot &amp; Q-Q Plot (Quantile-Quantile)<a class="headerlink" href="#quantile-plot-q-q-plot-quantile-quantile" title="Permanent link">&para;</a></h3>
+<p>Graphs quantiles of one distribution against corresponding quantiles of another (or a theoretical normal distribution) to determine if they come from the same population.</p>
+<h3 id="worked-example-q-q-plot-for-normality">Worked Example: Q-Q Plot for Normality<a class="headerlink" href="#worked-example-q-q-plot-for-normality" title="Permanent link">&para;</a></h3>
+<p><strong>Given Data:</strong> <span class="arithmatex">\(7.19, 6.31, 5.89, 4.5, 3.77, 4.25, 5.19, 5.79, 6.79\)</span> (<span class="arithmatex">\(n=9\)</span>)</p>
+<p><strong>Step 1: Sort Data &amp; Rank</strong>
+<span class="arithmatex">\(3.77 (1), 4.25 (2), 4.50 (3), 5.19 (4), 5.79 (5), 5.89 (6), 6.31 (7), 6.79 (8), 7.19 (9)\)</span>.</p>
+<p><strong>Step 2: Mean and SD</strong>
+Mean <span class="arithmatex">\(\bar{x} = 5.52\)</span>. SD <span class="arithmatex">\(s = 1.108\)</span>.</p>
+<p><strong>Step 3: Actual Z-Scores (<span class="arithmatex">\(z = \frac{x - 5.52}{1.108}\)</span>)</strong>
+* <span class="arithmatex">\(3.77 \rightarrow -1.49\)</span>
+* <span class="arithmatex">\(5.79 \rightarrow 0.23\)</span>
+* <span class="arithmatex">\(7.19 \rightarrow 1.42\)</span></p>
+<p><strong>Step 4: Percentile Rank</strong>
+Formula: <span class="arithmatex">\(\frac{i - 0.5}{n}\)</span>
+* Rank 1: <span class="arithmatex">\(0.5/9 = 5.6\%\)</span>
+* Rank 5: <span class="arithmatex">\(4.5/9 = 50\%\)</span>
+* Rank 9: <span class="arithmatex">\(8.5/9 = 94.4\%\)</span></p>
+<p><strong>Step 5: Theoretical Z-Scores (From standard normal table)</strong>
+* <span class="arithmatex">\(5.6\% \approx -1.60\)</span>
+* <span class="arithmatex">\(50\% = 0\)</span>
+* <span class="arithmatex">\(94.4\% \approx 1.58\)</span></p>
+<p><strong>Step 6: Combine for Q-Q Plot</strong>
+Points plotted as <span class="arithmatex">\((Theoretical Z, Actual Z)\)</span>. If data is normal, points align along the <span class="arithmatex">\(y=x\)</span> reference line.
+[Source: 4.Statistical Descriptions of Data_new.pdf, Slides 91-96]</p>
+<hr />
+<h2 id="formula-sheet">Formula Sheet<a class="headerlink" href="#formula-sheet" title="Permanent link">&para;</a></h2>
+<h3 id="1-ungrouped-mean">1. Ungrouped Mean<a class="headerlink" href="#1-ungrouped-mean" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i
+\]</div>
+<h3 id="2-grouped-mean">2. Grouped Mean<a class="headerlink" href="#2-grouped-mean" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\bar{x} = \frac{\sum_{i=1}^{k} f_i x_i}{N}
+\]</div>
+<h3 id="3-grouped-median">3. Grouped Median<a class="headerlink" href="#3-grouped-median" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+M_e = L + \left[ \frac{\frac{N}{2} - B}{G} \right] \times w
+\]</div>
+<h3 id="4-grouped-mode">4. Grouped Mode<a class="headerlink" href="#4-grouped-mode" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+M_o = L + \left[ \frac{f_m - f_{m-1}}{2f_m - f_{m-1} - f_{m+1}} \right] \times w
+\]</div>
+<h3 id="5-variance-and-standard-deviation">5. Variance and Standard Deviation<a class="headerlink" href="#5-variance-and-standard-deviation" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+s^2 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n} \quad (\text{or } n-1 \text{ for sample})
+\]</div>
+<div class="arithmatex">\[
+s = \sqrt{s^2}
+\]</div>
+<h3 id="6-actual-z-score">6. Actual Z-Score<a class="headerlink" href="#6-actual-z-score" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+z = \frac{x - \bar{x}}{s}
+\]</div>
+<h3 id="7-percentile-rank-for-q-q-plot">7. Percentile Rank for Q-Q Plot<a class="headerlink" href="#7-percentile-rank-for-q-q-plot" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\text{Percentile} = \frac{i - 0.5}{n}
+\]</div>
+<hr />
+<h2 id="definition-sheet">Definition Sheet<a class="headerlink" href="#definition-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Central Tendency:</strong> Indicates where most values fall (Mean, Median, Mode).</li>
+<li><strong>Dispersion:</strong> Indicates spread of data (Variance, SD, IQR, Range).</li>
+<li><strong>Quantiles:</strong> Points dividing data into equal probability intervals.</li>
+<li><strong>Interquartile Range (IQR):</strong> Difference between <span class="arithmatex">\(Q_3\)</span> and <span class="arithmatex">\(Q_1\)</span>, spread of the middle 50%.</li>
+<li><strong>Histogram:</strong> Graph of tabulated frequencies using area of adjacent bars.</li>
+<li><strong>Q-Q Plot:</strong> Plot comparing quantiles of two distributions to test similarity or normality.</li>
+<li><strong>Skewness:</strong> Asymmetry of distribution (Positively skewed if Mean <span class="arithmatex">\(&gt;\)</span> Median <span class="arithmatex">\(&gt;\)</span> Mode).</li>
+<li><strong>Normal Distribution:</strong> Bell-shaped, symmetric distribution where Mean = Median = Mode.</li>
+</ul>
+<hr />
+<h2 id="exam-oriented-review">Exam-Oriented Review<a class="headerlink" href="#exam-oriented-review" title="Permanent link">&para;</a></h2>
+<h3 id="important-questions-model-answers">Important Questions &amp; Model Answers<a class="headerlink" href="#important-questions-model-answers" title="Permanent link">&para;</a></h3>
+<p><strong>Q1: Given a dataset <span class="arithmatex">\(\{25, 28, 29, 29, 30, 34, 35, 35, 37, 38, 50\}\)</span>, calculate the five-number summary and identify any outliers.</strong>
+<strong>A:</strong>
+1. Sorted Data (<span class="arithmatex">\(n=11\)</span>): <span class="arithmatex">\(25, 28, 29, 29, 30, 34, 35, 35, 37, 38, 50\)</span>
+2. Minimum = <span class="arithmatex">\(25\)</span>, Maximum = <span class="arithmatex">\(50\)</span>
+3. Median = 6th term = <span class="arithmatex">\(34\)</span>
+4. <span class="arithmatex">\(Q_1\)</span> (lower half median) = <span class="arithmatex">\(29\)</span>, <span class="arithmatex">\(Q_3\)</span> (upper half median) = <span class="arithmatex">\(37\)</span>
+5. <span class="arithmatex">\(IQR = Q_3 - Q_1 = 37 - 29 = 8\)</span>
+6. Upper fence = <span class="arithmatex">\(Q_3 + 1.5 \times IQR = 37 + 12 = 49\)</span>. Since <span class="arithmatex">\(50 &gt; 49\)</span>, <span class="arithmatex">\(50\)</span> is an outlier.
+7. Lower fence = <span class="arithmatex">\(Q_1 - 1.5 \times IQR = 29 - 12 = 17\)</span>. No lower outliers.
+<strong>Five-Number Summary:</strong> Min = <span class="arithmatex">\(25\)</span>, <span class="arithmatex">\(Q_1 = 29\)</span>, Median = <span class="arithmatex">\(34\)</span>, <span class="arithmatex">\(Q_3 = 37\)</span>, Max = <span class="arithmatex">\(50\)</span> (Outlier: <span class="arithmatex">\(50\)</span>).</p>
+<p><strong>Q2: Calculate the variance and standard deviation for a fair die roll (<span class="arithmatex">\(X = \{1, 2, 3, 4, 5, 6\}\)</span>).</strong>
+<strong>A:</strong> Mean <span class="arithmatex">\(\bar{x} = 3.5\)</span>.
+Variance <span class="arithmatex">\(\sigma^2 = \frac{1}{6} \sum (x_i - 3.5)^2 = \frac{1}{6} (6.25 + 2.25 + 0.25 + 0.25 + 2.25 + 6.25) = \frac{17.5}{6} \approx 2.917\)</span>.
+Standard Deviation <span class="arithmatex">\(\sigma = \sqrt{2.917} \approx 1.708\)</span>.</p>
+<p><strong>Q3: If Mean = 6.3, Median = 6.5, and Mode = 7, describe the shape of the distribution.</strong>
+<strong>A:</strong> Since Mean <span class="arithmatex">\(&lt;\)</span> Median <span class="arithmatex">\(&lt;\)</span> Mode, the tail of the distribution extends to the left, which indicates that the data is <strong>negatively skewed (left-skewed)</strong>.</p>
+<p><strong>Q4: Explain the steps to construct a Q-Q Plot and what alignment along the <span class="arithmatex">\(y=x\)</span> line implies.</strong>
+<strong>A:</strong>
+1. Sort data in ascending order and assign ranks <span class="arithmatex">\(i = 1, \dots, n\)</span>.
+2. Calculate empirical percentiles using <span class="arithmatex">\(f_i = \frac{i - 0.5}{n}\)</span>.
+3. Find theoretical z-scores corresponding to these percentiles from standard normal distribution.
+4. Calculate actual z-scores using sample mean and standard deviation.
+5. Plot (Theoretical Z, Actual Z). Points aligning along the <span class="arithmatex">\(y=x\)</span> reference line imply that the sample dataset comes from a normal distribution.</p>
+<hr />
+<h2 id="source-map">Source map<a class="headerlink" href="#source-map" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Section / Topic</th>
+<th style="text-align: left;">Source Document &amp; References</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Chapter Overview &amp; Fundamental Concepts</strong></td>
+<td style="text-align: left;"><code>4.Statistical Descriptions of Data_new.pdf</code>, Slides 2–4</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Central Tendency (Ungrouped &amp; Grouped)</strong></td>
+<td style="text-align: left;"><code>4.Statistical Descriptions of Data_new.pdf</code>, Slides 5–28</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Dispersion (Range, Quantiles, Variance, SD)</strong></td>
+<td style="text-align: left;"><code>4.Statistical Descriptions of Data_new.pdf</code>, Slides 29–48</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Boxplots, Skewness, Histograms</strong></td>
+<td style="text-align: left;"><code>4.Statistical Descriptions of Data_new.pdf</code>, Slides 49–72</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Normal Distribution, Z-Scores, Quantile &amp; Q-Q Plots</strong></td>
+<td style="text-align: left;"><code>4.Statistical Descriptions of Data_new.pdf</code>, Slides 73–99</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../Chapter3_Dataset_and_Attributes/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Chapter3 Dataset and Attributes">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Chapter3 Dataset and Attributes
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../Chapter5_Data_Preprocessing/" class="md-footer__link md-footer__link--next" aria-label="Next: Chapter5 Data Preprocessing">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Chapter5 Data Preprocessing
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/mermaid-init.js"></script>
+      
+    
+  </body>
+</html>

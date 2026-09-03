@@ -1,0 +1,3276 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="DeepSkills Knowledge Base and Engineering Notes">
+      
+      
+        <meta name="author" content="DeepLumiere">
+      
+      
+        <link rel="canonical" href="https://deeplumiere.github.io/DeepSkills/hardware_and_microprocessors/01_Directives_In_Depth/">
+      
+      
+        <link rel="prev" href="../../design_and_analysis_of_algorithms/DAA_Unit7_Backtracking_BranchBound/">
+      
+      
+        <link rel="next" href="../02_8085_Instruction_Set_Comprehensive/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Chapter 4 — 8086 Assembler Directives, Operators & Storage Allocation - DeepSkills</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-301Z6Q0P7W"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-301Z6Q0P7W",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-301Z6Q0P7W",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-4-8086-assembler-directives-operators-storage-allocation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DeepSkills" class="md-header__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DeepSkills
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter 4 — 8086 Assembler Directives, Operators &amp; Storage Allocation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DeepSkills" class="md-nav__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    DeepSkills
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Computer networks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Computer networks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_1_Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Introduction to Computer Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_3_Data_Link_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Data Link Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_4_MAC_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Medium Access Control Sublayer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/CompNet_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CompNet ClassTest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data analysis
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data analysis
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter1_Introduction_to_DAV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter1 Introduction to DAV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter2_Types_of_Data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter2 Types of Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter3_Dataset_and_Attributes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter3 Dataset and Attributes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter4_Statistical_Descriptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter4 Statistical Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter5_Data_Preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter5 Data Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data communication
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data communication
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter10_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10 — Error Detection and Correction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter1_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1 — Introduction to Data Communications and Networking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter2_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — Network Models (OSI &amp; TCP/IP Architecture)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter3_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3 — Data and Signals (Physical Layer Foundations)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter4_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 — Digital Transmission
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter5_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 — Analog Transmission (Modulation Techniques)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter6_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 — Multiplexing &amp; Spreading Spectrum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter7_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 — Transmission Media
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter8_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8 — Switching (Circuit, Packet, &amp; Datagram Networks)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design and analysis of algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design and analysis of algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithmic_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1 — Unit-I: Elementary Algorithmic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1: Complete DAA Notes: Unit 1 — Elementary Algorithms &amp; Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_and_Unit2_Complete_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1: Complete DAA Notes: Unit 1 — Elementary Algorithms &amp; Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit2_Analysis_of_Algorithms_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — Unit-II: Analysis of Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit3_Recurrence_DivideConquer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3: Complete DAA Notes — Recurrence Relations &amp; Divide and Conquer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit4_RedBlackTrees_AdvancedDS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4: Unit 4 — Advanced Data Structures &amp; Amortized Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit5_Greedy_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 5 — Greedy Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit6_Dynamic_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 6 — Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit7_Backtracking_BranchBound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 7 — Backtracking &amp; Branch and Bound
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware and microprocessors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hardware and microprocessors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 — 8086 Assembler Directives, Operators &amp; Storage Allocation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 — 8086 Assembler Directives, Operators &amp; Storage Allocation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-fundamental-directive-concepts-two-tier-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fundamental Directive Concepts &amp; Two-Tier Terminology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Fundamental Directive Concepts &amp; Two-Tier Terminology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-assembler-directive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Assembler Directive
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-directives-dictionary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Directives Dictionary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-data-definition-storage-allocation-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Data Definition &amp; Storage Allocation Directives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Data Definition &amp; Storage Allocation Directives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comprehensive-storage-specification-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprehensive Storage Specification Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-definition-syntax-behavioral-variants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Definition Syntax &amp; Behavioral Variants
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Definition Syntax &amp; Behavioral Variants">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-integer-constant-allocations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Integer &amp; Constant Allocations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-string-allocations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. String Allocations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-uninitialized-memory-reservation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Uninitialized Memory Reservation (?)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-the-duplication-operator-dup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. The Duplication Operator (DUP)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. The Duplication Operator (DUP)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Syntax
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Syntax">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memory-footprint-breakdown-of-array3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Footprint Breakdown of ARRAY3:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-storage-preassignment-pointer-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Storage Preassignment &amp; Pointer Tables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-type-clarification-the-ptr-override-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Type Clarification &amp; The PTR Override Operator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Type Clarification &amp; The PTR Override Operator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ambiguity-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ambiguity Rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolution-via-ptr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resolution via PTR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overriding-mismatched-variable-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overriding Mismatched Variable Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-label-directive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The LABEL Directive
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. The LABEL Directive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syntax_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dual-access-data-buffer-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dual-Access Data Buffer Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-symbolic-equates-equ-vs-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Symbolic Equates: EQU vs = Directives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Symbolic Equates: EQU vs = Directives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparison-matrix-equ-vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Matrix: EQU vs =
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-segment-organization-procedure-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Segment Organization &amp; Procedure Directives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Segment Organization &amp; Procedure Directives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#segment-directives-segment-ends-assume-end" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Segment Directives (SEGMENT, ENDS, ASSUME, END)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#procedure-definition-proc-endp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure Definition (PROC, ENDP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-alignment-location-counter-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Alignment &amp; Location Counter Directives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Alignment &amp; Location Counter Directives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#org-origin-directive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ORG (Origin Directive)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#even-align-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EVEN &amp; ALIGN Directives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-value-returning-attribute-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Value-Returning Attribute Operators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Value-Returning Attribute Operators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comprehensive-worked-demonstration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprehensive Worked Demonstration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-exam-oriented-review-high-frequency-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Exam-Oriented Review &amp; High-Frequency Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_8085_Instruction_Set_Comprehensive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — 8085 Microprocessor Architecture, Interfacing &amp; Complete Instruction Set
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_8086_Instruction_Set_Comprehensive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 — 8086 Addressing Modes, Machine Encoding &amp; Complete Instruction Set
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_8086_String_Operations_and_Looping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 — 8086 String Operations, Branching &amp; Looping Mechanics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_8086_Stack_Operations_and_Modular_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 — 8086 Stack Architecture, Procedures &amp; Modular Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Microprocessors_and_Interfacing_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microprocessors &amp; Interfacing Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/01_Machine_Learning_and_its_Applications_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Introduction to Machine Learning &amp; Applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/02_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Simple Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/03_Multivariate_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Multivariate Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/04_Regularization_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Regularization and Overfitting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/05_Probability_and_Statistics_for_ML_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Probability &amp; Statistics for Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Web development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../web_development/FSD_Complete_Study_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Stack Web Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-fundamental-directive-concepts-two-tier-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fundamental Directive Concepts &amp; Two-Tier Terminology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Fundamental Directive Concepts &amp; Two-Tier Terminology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-assembler-directive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Assembler Directive
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-directives-dictionary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Directives Dictionary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-data-definition-storage-allocation-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Data Definition &amp; Storage Allocation Directives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Data Definition &amp; Storage Allocation Directives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comprehensive-storage-specification-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprehensive Storage Specification Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-definition-syntax-behavioral-variants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Definition Syntax &amp; Behavioral Variants
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Definition Syntax &amp; Behavioral Variants">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-integer-constant-allocations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Integer &amp; Constant Allocations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-string-allocations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. String Allocations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-uninitialized-memory-reservation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Uninitialized Memory Reservation (?)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-the-duplication-operator-dup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. The Duplication Operator (DUP)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. The Duplication Operator (DUP)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Syntax
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Syntax">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memory-footprint-breakdown-of-array3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Footprint Breakdown of ARRAY3:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-storage-preassignment-pointer-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Storage Preassignment &amp; Pointer Tables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-type-clarification-the-ptr-override-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Type Clarification &amp; The PTR Override Operator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Type Clarification &amp; The PTR Override Operator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ambiguity-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ambiguity Rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolution-via-ptr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resolution via PTR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overriding-mismatched-variable-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overriding Mismatched Variable Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-label-directive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The LABEL Directive
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. The LABEL Directive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syntax_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dual-access-data-buffer-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dual-Access Data Buffer Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-symbolic-equates-equ-vs-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Symbolic Equates: EQU vs = Directives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Symbolic Equates: EQU vs = Directives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparison-matrix-equ-vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison Matrix: EQU vs =
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-segment-organization-procedure-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Segment Organization &amp; Procedure Directives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Segment Organization &amp; Procedure Directives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#segment-directives-segment-ends-assume-end" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Segment Directives (SEGMENT, ENDS, ASSUME, END)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#procedure-definition-proc-endp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure Definition (PROC, ENDP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-alignment-location-counter-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Alignment &amp; Location Counter Directives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Alignment &amp; Location Counter Directives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#org-origin-directive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ORG (Origin Directive)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#even-align-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EVEN &amp; ALIGN Directives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-value-returning-attribute-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Value-Returning Attribute Operators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Value-Returning Attribute Operators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comprehensive-worked-demonstration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprehensive Worked Demonstration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-exam-oriented-review-high-frequency-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Exam-Oriented Review &amp; High-Frequency Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/DeepLumiere/DeepSkills/edit/main/notes/hardware_and_microprocessors/01_Directives_In_Depth.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="chapter-4-8086-assembler-directives-operators-storage-allocation">Chapter 4 — 8086 Assembler Directives, Operators &amp; Storage Allocation<a class="headerlink" href="#chapter-4-8086-assembler-directives-operators-storage-allocation" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Course Code:</strong> 3CS526CC23<br />
+<strong>Course Title:</strong> Microprocessor and Interfacing [3 0 2 4]<br />
+<strong>Governing Standard:</strong> <code>notes_maker</code> Skill (Comprehensive Chapter Notes Generator)<br />
+<strong>Primary Source:</strong> Faculty Lecture Presentations (<code>Directives.pdf</code>, <code>8086_instruction_set_Basic.pdf</code>) &amp; University Laboratory Guidelines  </p>
+</blockquote>
+<hr />
+<h2 id="1-chapter-overview">1. Chapter Overview<a class="headerlink" href="#1-chapter-overview" title="Permanent link">&para;</a></h2>
+<p>Assembler directives (also known as pseudo-operations or pseudo-instructions) are directions to the assembler program (such as MASM, TASM, or NASM) rather than instructions executed directly by the 8086 CPU. While CPU instructions (<code>MOV</code>, <code>ADD</code>, <code>JMP</code>) translate into executable binary machine codes, directives govern memory reservation, data format definitions, variable typing, symbol equates, segment structuring, and location counter alignment.</p>
+<p>This chapter details <strong>every assembler directive and attribute operator</strong> encountered in university curricula, including data definitions (<code>DB</code>, <code>DW</code>, <code>DD</code>, <code>DQ</code>, <code>DT</code>), array duplications (<code>DUP</code>), pointer overrides (<code>PTR</code>), symbolic definitions (<code>EQU</code>, <code>=</code>), segment declarations (<code>SEGMENT</code>, <code>ENDS</code>, <code>ASSUME</code>, <code>GROUP</code>), memory alignment (<code>EVEN</code>, <code>ORG</code>), procedure controls (<code>PROC</code>, <code>ENDP</code>), and value-returning attribute operators (<code>LENGTH</code>, <code>SIZE</code>, <code>OFFSET</code>, <code>SEG</code>, <code>TYPE</code>).</p>
+<p>[Source: Directives.pdf, Slides 1–12]</p>
+<hr />
+<h2 id="2-fundamental-directive-concepts-two-tier-terminology">2. Fundamental Directive Concepts &amp; Two-Tier Terminology<a class="headerlink" href="#2-fundamental-directive-concepts-two-tier-terminology" title="Permanent link">&para;</a></h2>
+<h3 id="definition-assembler-directive">Definition: Assembler Directive<a class="headerlink" href="#definition-assembler-directive" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> A command written within an assembly language source file that directs the assembler how to assemble the program, allocate memory, or format the symbol table.<br />
+<strong>Formal Definition:</strong> A non-executable pseudo-operation recognized exclusively during assembly passes that emits no CPU machine opcode but controls code generation, data storage allocation, and segment alignment.<br />
+<strong>Intuition:</strong> While instructions tell the CPU what calculations to execute at runtime, directives tell the assembler how to build and organize the executable binary before it ever runs.<br />
+<strong>Example:</strong> <code>DATA_ARR DW 100 DUP(0)</code> reserves 200 consecutive bytes in the data segment without producing CPU execution instructions.  </p>
+<p>[Source: Directives.pdf, Slide 2]</p>
+<hr />
+<h3 id="core-directives-dictionary">Core Directives Dictionary<a class="headerlink" href="#core-directives-dictionary" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Pseudo-Op (Pseudo-Operation):</strong> Synonymous with directive; a mnemonic that has no direct hardware opcode counterpart.</li>
+<li><strong>Location Counter ($):</strong> An internal assembler counter that tracks the current relative offset within the active segment during assembly.</li>
+<li><strong>Data Allocation Directive:</strong> Directives (<code>DB</code>, <code>DW</code>, <code>DD</code>, <code>DQ</code>, <code>DT</code>) that reserve physical bytes in the object module.</li>
+<li><strong>Type Attribute:</strong> The intrinsic data width associated with a memory label (<code>BYTE</code> = 1, <code>WORD</code> = 2, <code>DWORD</code> = 4).</li>
+<li><strong>Distance Attribute:</strong> The scope of a code label or procedure (<code>NEAR</code> = accessible within current 64 KB code segment; <code>FAR</code> = accessible across different code segments).</li>
+<li><strong>Type Cast Operator (<code>PTR</code>):</strong> A compiler directive that explicitly overrides or clarifies the memory access width of an operand.</li>
+<li><strong>Paragraph Alignment:</strong> Aligning memory to a physical address divisible by 16 (<span class="arithmatex">\(10\text{H}\)</span>), forcing the lowest 4 bits of the address to zero.</li>
+<li><strong>Symbol Table:</strong> An internal table constructed by the assembler during Pass 1 mapping every symbolic identifier to its segment, offset, and type attribute.</li>
+</ol>
+<p>[Source: Directives.pdf, Slides 2, 7, 12]</p>
+<hr />
+<h2 id="3-data-definition-storage-allocation-directives">3. Data Definition &amp; Storage Allocation Directives<a class="headerlink" href="#3-data-definition-storage-allocation-directives" title="Permanent link">&para;</a></h2>
+<p>Data allocation directives allocate memory in bytes, words, doublewords, quadwords, or ten-byte blocks.</p>
+<pre class="mermaid"><code>classDiagram
+    class StorageDirectives {
+        +DB : 1 Byte (8 bits)
+        +DW : 1 Word (16 bits / 2 bytes)
+        +DD : 1 Doubleword (32 bits / 4 bytes)
+        +DQ : 1 Quadword (64 bits / 8 bytes)
+        +DT : 1 Tenbyte (80 bits / 10 bytes)
+    }</code></pre>
+<h3 id="comprehensive-storage-specification-table">Comprehensive Storage Specification Table<a class="headerlink" href="#comprehensive-storage-specification-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Directive</th>
+<th style="text-align: left;">Full Name</th>
+<th style="text-align: center;">Size in Bits</th>
+<th style="text-align: center;">Size in Bytes</th>
+<th style="text-align: center;">Numeric Range (Unsigned)</th>
+<th style="text-align: center;">Numeric Range (Signed 2's Comp)</th>
+<th style="text-align: left;">Common Applications</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>DB</strong></td>
+<td style="text-align: left;">Define Byte</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="arithmatex">\(0\)</span> to <span class="arithmatex">\(255\)</span> (<code>00H</code> to <code>FFH</code>)</td>
+<td style="text-align: center;"><span class="arithmatex">\(-128\)</span> to <span class="arithmatex">\(+127\)</span></td>
+<td style="text-align: left;">ASCII characters, 8-bit integers, byte arrays.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DW</strong></td>
+<td style="text-align: left;">Define Word</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><span class="arithmatex">\(0\)</span> to <span class="arithmatex">\(65,535\)</span> (<code>0000H</code> to <code>FFFFH</code>)</td>
+<td style="text-align: center;"><span class="arithmatex">\(-32,768\)</span> to <span class="arithmatex">\(+32,767\)</span></td>
+<td style="text-align: left;">16-bit integers, near memory pointers (offsets).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DD</strong></td>
+<td style="text-align: left;">Define Doubleword</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="arithmatex">\(0\)</span> to <span class="arithmatex">\(2^{32}-1\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(-2^{31}\)</span> to <span class="arithmatex">\(+2^{31}-1\)</span></td>
+<td style="text-align: left;">32-bit integers, far memory pointers (Segment:Offset).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DQ</strong></td>
+<td style="text-align: left;">Define Quadword</td>
+<td style="text-align: center;">64</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;"><span class="arithmatex">\(0\)</span> to <span class="arithmatex">\(2^{64}-1\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(-2^{63}\)</span> to <span class="arithmatex">\(+2^{63}-1\)</span></td>
+<td style="text-align: left;">64-bit integer values, double-precision floats.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DT</strong></td>
+<td style="text-align: left;">Define Tenbyte</td>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: left;">Packed BCD numbers, 80-bit extended precision floats.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="data-definition-syntax-behavioral-variants">Data Definition Syntax &amp; Behavioral Variants<a class="headerlink" href="#data-definition-syntax-behavioral-variants" title="Permanent link">&para;</a></h3>
+<h4 id="1-integer-constant-allocations">1. Integer &amp; Constant Allocations<a class="headerlink" href="#1-integer-constant-allocations" title="Permanent link">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>DATA_BYTE  DB  10, 4, 10H       ; Allocates 3 bytes: 0AH, 04H, 10H
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>DATA_WORD  DW  100, 100H, -5    ; Allocates 3 words: 0064H, 0100H, FFFBH (2&#39;s complement of 5)
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>DATA_DWORD DD  3*20, 0FFFDH     ; Allocates two 32-bit dwords: 0000003CH (60 decimal), 0000FFFDH
+</span></code></pre></div>
+<h4 id="2-string-allocations">2. String Allocations<a class="headerlink" href="#2-string-allocations" title="Permanent link">&para;</a></h4>
+<p>Strings are stored as sequences of sequential ASCII byte codes.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>MESSAGE1 DB &#39;H&#39;, &#39;E&#39;, &#39;L&#39;, &#39;L&#39;, &#39;O&#39;        ; 5 discrete ASCII bytes: 48H, 45H, 4CH, 4CH, 4FH
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>MESSAGE2 DB &#39;HELLO&#39;                        ; Exact equivalent to MESSAGE1
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>STR1     DB &#39;AB&#39;                           ; Allocates 2 bytes: &#39;A&#39; (41H) then &#39;B&#39; (42H)
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>STR2     DW &#39;AB&#39;                           ; Allocates 1 word: Little-Endian stores &#39;B&#39; (42H) then &#39;A&#39; (41H)
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>DOS_STR  DB &#39;Welcome to 8086$&#39;, 0DH, 0AH   ; Terminated with &#39;$&#39; for INT 21H / AH=09H, followed by CR, LF
+</span></code></pre></div></p>
+<h4 id="3-uninitialized-memory-reservation">3. Uninitialized Memory Reservation (<code>?</code>)<a class="headerlink" href="#3-uninitialized-memory-reservation" title="Permanent link">&para;</a></h4>
+<p>When variables do not require specific initial values, the question mark (<code>?</code>) instructs the assembler to allocate storage without initializing memory, avoiding unnecessary object file overhead.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>TEMP_VAR DB ?              ; Reserves 1 uninitialized byte
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>ABC      DB 0, ?, ?, ?, 0  ; Reserves 5 bytes: byte 0=00H, bytes 1..3=uninitialized, byte 4=00H
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>DEF      DW ?, 52, ?       ; Reserves 3 words: uninitialized, 0034H, uninitialized
+</span></code></pre></div></p>
+<hr />
+<h2 id="4-the-duplication-operator-dup">4. The Duplication Operator (<code>DUP</code>)<a class="headerlink" href="#4-the-duplication-operator-dup" title="Permanent link">&para;</a></h2>
+<p>The <code>DUP</code> (Duplicate) operator initializes or reserves repeating sequences of data elements or structures.</p>
+<h3 id="syntax">Syntax<a class="headerlink" href="#syntax" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\text{Count} \quad \text{DUP} \quad (\text{Operand}_1, \text{Operand}_2, \dots, \text{Operand}_n)
+\]</div>
+<p>Where:
+- <span class="arithmatex">\(\text{Count}\)</span> is an integer constant or evaluated expression specifying the repetition factor.
+- Operands inside parentheses can be constants, uninitialized markers (<code>?</code>), or nested <code>DUP</code> expressions.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ARRAY1 DB 2 DUP(0, 1, 2, ?)              ; Produces: 00, 01, 02, ?, 00, 01, 02, ? (8 bytes total)
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>ARRAY2 DB 100 DUP(?)                     ; Reserves an uninitialized 100-byte buffer
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>STACK_MEM DW 64 DUP(?)                   ; Reserves a 64-word (128-byte) stack frame
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>ARRAY3 DB 10 DUP(0, 2 DUP(1, 2), 0, 3)   ; Nested DUP: creates repeating structured record
+</span></code></pre></div>
+<h4 id="memory-footprint-breakdown-of-array3">Memory Footprint Breakdown of <code>ARRAY3</code>:<a class="headerlink" href="#memory-footprint-breakdown-of-array3" title="Permanent link">&para;</a></h4>
+<p>Each single iteration generates:
+$<span class="arithmatex">\(0, \quad [1, 2, 1, 2], \quad 0, \quad 3 \implies 7 \text{ bytes per group}\)</span>$
+Total bytes allocated for <span class="arithmatex">\(10 \text{ groups} = 10 \times 7 = 70 \text{ bytes}\)</span>.</p>
+<p>[Source: Directives.pdf, Slides 2–4]</p>
+<hr />
+<h2 id="5-storage-preassignment-pointer-tables">5. Storage Preassignment &amp; Pointer Tables<a class="headerlink" href="#5-storage-preassignment-pointer-tables" title="Permanent link">&para;</a></h2>
+<p>Directives can store the memory addresses of other variables or labels directly into pointer lookup tables.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>; Define variables
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>PAR1 DB 10H
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>PAR2 DW 1234H
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>PAR3 DB 20H
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>; Preassign 16-bit Near Pointers (Offset Addresses)
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>PARAMETER_TABLE DW PAR1    ; Stores 16-bit offset of PAR1
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>                DW PAR2    ; Stores 16-bit offset of PAR2
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>                DW PAR3    ; Stores 16-bit offset of PAR3
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>; Preassign 32-bit Far Pointers (Offset + Segment Addresses)
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>INTERSEG_TABLE  DD PAR1    ; Stores 16-bit offset of PAR1 followed by 16-bit segment of PAR1
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>                DD PAR2    ; Stores 16-bit offset of PAR2 followed by 16-bit segment of PAR2
+</span></code></pre></div>
+<p>[Source: Directives.pdf, Slide 5]</p>
+<hr />
+<h2 id="6-type-clarification-the-ptr-override-operator">6. Type Clarification &amp; The <code>PTR</code> Override Operator<a class="headerlink" href="#6-type-clarification-the-ptr-override-operator" title="Permanent link">&para;</a></h2>
+<p>Because the 8086 architecture is strongly typed at the assembler level, instructions referencing memory operands must have an unambiguously resolvable data width (Byte vs Word).</p>
+<h3 id="ambiguity-rule">Ambiguity Rule<a class="headerlink" href="#ambiguity-rule" title="Permanent link">&para;</a></h3>
+<p>If an instruction operates on a memory pointer without an accompanying register operand, the assembler cannot deduce whether to read/write 1 byte or 2 bytes:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>INC [BX]       ; COMPILER ERROR: Undefined operand size!
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>MOV [DI], 0    ; COMPILER ERROR: Is immediate 0 a Byte (00H) or Word (0000H)?
+</span></code></pre></div></p>
+<h3 id="resolution-via-ptr">Resolution via <code>PTR</code><a class="headerlink" href="#resolution-via-ptr" title="Permanent link">&para;</a></h3>
+<p>The <code>PTR</code> (Pointer) operator forces the assembler to treat the target memory address as a specific type:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>INC BYTE PTR [BX]       ; Increments 8-bit memory byte at DS:[BX]
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>INC WORD PTR [BX]       ; Increments 16-bit memory word at DS:[BX]
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>MOV BYTE PTR [DI], 0    ; Writes 8-bit 00H to ES:[DI]
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>MOV WORD PTR [DI], 0    ; Writes 16-bit 0000H to ES:[DI]
+</span></code></pre></div></p>
+<h3 id="overriding-mismatched-variable-types">Overriding Mismatched Variable Types<a class="headerlink" href="#overriding-mismatched-variable-types" title="Permanent link">&para;</a></h3>
+<p>The <code>PTR</code> operator also permits accessing a variable under a different data size than originally declared:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>OPER1 DB 12H, 34H
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>OPER2 DW 5678H
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>; Illegal Type Mismatches:
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>MOV OPER1 + 1, AX       ; ERROR: Cannot move 16-bit AX into 8-bit declared variable OPER1
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>MOV OPER2, AL           ; ERROR: Cannot move 8-bit AL into 16-bit declared variable OPER2
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>; Legal Overrides using PTR:
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>MOV WORD PTR OPER1 + 1, AX   ; Legal: Treats address (OPER1 + 1) as a 16-bit WORD
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>MOV BYTE PTR OPER2, AL       ; Legal: Moves AL into lower byte of OPER2 (stores AL at OPER2)
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>MOV AL, BYTE PTR OPER2 + 1   ; Legal: Loads higher byte of OPER2 into AL
+</span></code></pre></div></p>
+<p>[Source: Directives.pdf, Slide 6; 8086_instruction_set_Basic, Slide 5]</p>
+<hr />
+<h2 id="7-the-label-directive">7. The <code>LABEL</code> Directive<a class="headerlink" href="#7-the-label-directive" title="Permanent link">&para;</a></h2>
+<p>The <code>LABEL</code> directive creates a new symbolic name at the current location counter with a specified type or distance attribute, <strong>without allocating any additional memory</strong>.</p>
+<h3 id="syntax_1">Syntax<a class="headerlink" href="#syntax_1" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\text{Name} \quad \text{LABEL} \quad \text{Type/Distance}
+\]</div>
+<p>Where <span class="arithmatex">\(\text{Type/Distance} \in \{\text{BYTE}, \text{WORD}, \text{DWORD}, \text{NEAR}, \text{FAR}\}\)</span>.</p>
+<h3 id="dual-access-data-buffer-pattern">Dual-Access Data Buffer Pattern<a class="headerlink" href="#dual-access-data-buffer-pattern" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>DATA SEGMENT
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    BYTE_ARRAY LABEL BYTE     ; Creates an 8-bit alias for the upcoming address
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    WORD_ARRAY DW 50 DUP(0)   ; Allocates 50 words (100 bytes) starting at this exact address
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>DATA ENDS
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>CODE SEGMENT
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    ; Accessing the exact same memory location as either a WORD or a BYTE without compiler warnings:
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    MOV WORD_ARRAY + 2, 1234H ; Writes word 1234H starting at byte offset 2
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    MOV BYTE_ARRAY + 2, 55H   ; Writes byte 55H at byte offset 2 (overwrites lower byte 34H)
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>CODE ENDS
+</span></code></pre></div>
+<p>[Source: Directives.pdf, Slide 7]</p>
+<hr />
+<h2 id="8-symbolic-equates-equ-vs-directives">8. Symbolic Equates: <code>EQU</code> vs <code>=</code> Directives<a class="headerlink" href="#8-symbolic-equates-equ-vs-directives" title="Permanent link">&para;</a></h2>
+<p>Equate directives bind symbolic constants or expressions to human-readable identifiers.</p>
+<pre class="mermaid"><code>flowchart TD
+    SymbolicDefs["Symbolic Identifiers"]
+    EQU_Dir["EQU Directive"]
+    EQUAL_Dir["= Directive"]
+
+    SymbolicDefs --&gt; EQU_Dir
+    SymbolicDefs --&gt; EQUAL_Dir
+
+    EQU_Dir --&gt;|"Permanent Definition"| NoRedef["Cannot be redefined later in source"]
+    EQU_Dir --&gt;|"Text/Expression Substitution"| TextSubs["Can represent expressions, registers, or instructions"]
+
+    EQUAL_Dir --&gt;|"Dynamic Numeric Constant"| RedefOk["Can be redefined multiple times"]
+    EQUAL_Dir --&gt;|"Pure Numbers Only"| NumOnly["Restricted to numeric integer values"]</code></pre>
+<h3 id="comparison-matrix-equ-vs">Comparison Matrix: <code>EQU</code> vs <code>=</code><a class="headerlink" href="#comparison-matrix-equ-vs" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;"><code>EQU</code> Directive</th>
+<th style="text-align: left;"><code>=</code> Directive</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Redefinability</strong></td>
+<td style="text-align: left;"><strong>Permanently bound.</strong> Re-declaring throws a compiler error.</td>
+<td style="text-align: left;"><strong>Freely redefinable</strong> anywhere in the code.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Allowed Values</strong></td>
+<td style="text-align: left;">Numbers, addresses, expressions, register names, mnemonics.</td>
+<td style="text-align: left;">Strictly numeric integer expressions.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Memory Allocation</strong></td>
+<td style="text-align: left;">Zero bytes (replaces tokens in symbol table during assembly).</td>
+<td style="text-align: left;">Zero bytes.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Example</strong></td>
+<td style="text-align: left;"><code>BUFFER_SIZE EQU 1024</code><br><code>PORT_DATA EQU DX</code><br><code>INDEX_CHAR EQU ARRAY[SI+5]</code></td>
+<td style="text-align: left;"><code>COUNTER = 0</code><br><code>COUNTER = COUNTER + 1</code></td>
+</tr>
+</tbody>
+</table>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>; EQU Examples
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>INDXD_CHAR EQU CHAR_ARRAY[SI + 10]
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>MOV AL, INDXD_CHAR       ; Translated to: MOV AL, CHAR_ARRAY[SI + 10]
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>NUM EQU 6
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>ADD BX, NUM              ; Translated to: ADD BX, 6
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>; = Examples
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>PORT_VAL = 0FFH
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>MOV AL, PORT_VAL
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>PORT_VAL = 00H           ; Redefined cleanly
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>MOV BL, PORT_VAL
+</span></code></pre></div>
+<p>[Source: Directives.pdf, Slide 8]</p>
+<hr />
+<h2 id="9-segment-organization-procedure-directives">9. Segment Organization &amp; Procedure Directives<a class="headerlink" href="#9-segment-organization-procedure-directives" title="Permanent link">&para;</a></h2>
+<h3 id="segment-directives-segment-ends-assume-end">Segment Directives (<code>SEGMENT</code>, <code>ENDS</code>, <code>ASSUME</code>, <code>END</code>)<a class="headerlink" href="#segment-directives-segment-ends-assume-end" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>DATA SEGMENT                  ; Begins logical segment named &#39;DATA&#39;
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    VAL1 DB 25H
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>DATA ENDS                     ; Terminates logical segment &#39;DATA&#39;
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>CODE SEGMENT                  ; Begins logical segment &#39;CODE&#39;
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    ASSUME CS:CODE, DS:DATA   ; Informs assembler which segment registers map to which segments
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>START:
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    MOV AX, DATA              ; Load segment base address of DATA into AX
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>    MOV DS, AX                ; Initialize DS register (Immediate cannot be moved directly to DS)
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>    ; ... program code ...
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    MOV AH, 4CH               ; DOS terminate function
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    INT 21H
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>CODE ENDS                     ; Terminates logical segment &#39;CODE&#39;
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>END START                     ; Ends source file; declares &#39;START&#39; as execution entry point
+</span></code></pre></div>
+<h3 id="procedure-definition-proc-endp">Procedure Definition (<code>PROC</code>, <code>ENDP</code>)<a class="headerlink" href="#procedure-definition-proc-endp" title="Permanent link">&para;</a></h3>
+<p>Procedures (subroutines) are defined using <code>PROC</code> and ended with <code>ENDP</code>.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>; NEAR procedure: called only from within current code segment (CS unchanged, only IP pushed/popped)
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>CALCULATE_SUM PROC NEAR
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    ADD AX, BX
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    RET                       ; Emits Near RET opcode (Pops 2-byte IP)
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>CALCULATE_SUM ENDP
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>; FAR procedure: callable from other segments (Both CS and IP pushed/popped)
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>DISPLAY_MESSAGE PROC FAR
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    MOV AH, 09H
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    INT 21H
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>    RET                       ; Emits Far RET opcode (Pops 2-byte IP, then 2-byte CS)
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>DISPLAY_MESSAGE ENDP
+</span></code></pre></div></p>
+<p>[Source: Directives.pdf, Slide 9]</p>
+<hr />
+<h2 id="10-alignment-location-counter-directives">10. Alignment &amp; Location Counter Directives<a class="headerlink" href="#10-alignment-location-counter-directives" title="Permanent link">&para;</a></h2>
+<h3 id="org-origin-directive"><code>ORG</code> (Origin Directive)<a class="headerlink" href="#org-origin-directive" title="Permanent link">&para;</a></h3>
+<p>Sets the assembler's internal location counter (<code>$</code>) to a specified offset within the active segment.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>VECTORS SEGMENT
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    ORG 0010H                 ; Force next data to offset 0010H
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    VECT1 DW 1234H            ; Placed at offset 0010H and 0011H
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    ORG 0020H                 ; Force location counter to offset 0020H
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    VECT2 DW 5678H            ; Placed at offset 0020H and 0021H
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>VECTORS ENDS
+</span></code></pre></div></p>
+<h3 id="even-align-directives"><code>EVEN</code> &amp; <code>ALIGN</code> Directives<a class="headerlink" href="#even-align-directives" title="Permanent link">&para;</a></h3>
+<p>The 8086 has a 16-bit external data bus that reads a full 16-bit word in <strong>1 bus cycle (4 T-states)</strong> if the word begins at an <strong>even memory address</strong>. If a word begins at an odd address, the CPU requires <strong>2 bus cycles (8 T-states)</strong> to fetch it.
+- <strong><code>EVEN</code></strong>: Advances the location counter to the next even address by inserting an alignment <code>NOP</code> (in code) or padding byte <code>00H</code> (in data) if currently at an odd address.
+- <strong><code>ALIGN n</code></strong>: Advances location counter to next boundary divisible by <span class="arithmatex">\(n\)</span> (<span class="arithmatex">\(n = 2, 4, 16\)</span>).</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>DATA SEGMENT
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    FLAG_BYTE DB 01H          ; Stored at offset 0000H (Odd offset 0001H is next)
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    EVEN                      ; Location counter advances from 0001H to 0002H
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    WORD_ARR  DW 100 DUP(0)   ; Stored starting at even address 0002H (Optimized bus access!)
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>DATA ENDS
+</span></code></pre></div>
+<p>[Source: Directives.pdf, Slides 10–11]</p>
+<hr />
+<h2 id="11-value-returning-attribute-operators">11. Value-Returning Attribute Operators<a class="headerlink" href="#11-value-returning-attribute-operators" title="Permanent link">&para;</a></h2>
+<p>Attribute operators evaluate meta-properties of variables and symbols during assembly, substituting constant numerical values into the generated machine instruction.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Operator</th>
+<th style="text-align: left;">Evaluated Value Returned</th>
+<th style="text-align: center;">Return Type</th>
+<th style="text-align: left;">Typical Code Example</th>
+<th style="text-align: left;">Evaluated Machine Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><code>LENGTH</code></strong></td>
+<td style="text-align: left;">Returns the repetition count (<span class="arithmatex">\(N\)</span>) defined in the first <code>DUP</code> clause.</td>
+<td style="text-align: center;">16-bit integer</td>
+<td style="text-align: left;"><code>MOV CX, LENGTH ARRAY</code></td>
+<td style="text-align: left;">Loads array count into loop register <code>CX</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>SIZE</code></strong></td>
+<td style="text-align: left;">Total bytes allocated by variable (<code>LENGTH * TYPE</code>).</td>
+<td style="text-align: center;">16-bit integer</td>
+<td style="text-align: left;"><code>MOV CX, SIZE ARRAY</code></td>
+<td style="text-align: left;">Loads total buffer byte count.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>OFFSET</code></strong></td>
+<td style="text-align: left;">The 16-bit offset address of the variable from segment base.</td>
+<td style="text-align: center;">16-bit address</td>
+<td style="text-align: left;"><code>MOV BX, OFFSET ARRAY</code></td>
+<td style="text-align: left;">Loads offset pointer into base register <code>BX</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>SEG</code></strong></td>
+<td style="text-align: left;">The 16-bit base paragraph address of the segment containing variable.</td>
+<td style="text-align: center;">16-bit address</td>
+<td style="text-align: left;"><code>MOV AX, SEG ARRAY</code></td>
+<td style="text-align: left;">Loads segment selector for subsequent <code>DS</code> load.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>TYPE</code></strong></td>
+<td style="text-align: left;">Evaluates byte width of data, or distance of code label: <br> <code>DB</code> = 1, <code>DW</code> = 2, <code>DD</code> = 4, <code>DQ</code> = 8, <code>DT</code> = 10, <code>NEAR</code> = -1, <code>FAR</code> = -2.</td>
+<td style="text-align: center;">Integer</td>
+<td style="text-align: left;"><code>ADD SI, TYPE ARRAY</code></td>
+<td style="text-align: left;">Automatically steps pointer <code>SI</code> by element width.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="comprehensive-worked-demonstration">Comprehensive Worked Demonstration<a class="headerlink" href="#comprehensive-worked-demonstration" title="Permanent link">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>DATA SEGMENT
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>    A DW 100 DUP(0)           ; 100 words (200 bytes total)
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>DATA ENDS
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>CODE SEGMENT
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    ASSUME CS:CODE, DS:DATA
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>START:
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    MOV CX, LENGTH A          ; Assembler replaces with: MOV CX, 100
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>    MOV CX, SIZE A            ; Assembler replaces with: MOV CX, 200 (100 elements * 2 bytes)
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>    MOV BX, OFFSET A          ; Assembler replaces with: MOV BX, 0000H (Offset of A in DATA)
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>    MOV AX, SEG A             ; Assembler replaces with: MOV AX, DATA (Segment address of DATA)
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>    ADD SI, TYPE A            ; Assembler replaces with: ADD SI, 2 (Since A is declared DW)
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>CODE ENDS
+</span></code></pre></div>
+<p>[Source: Directives.pdf, Slide 12]</p>
+<hr />
+<h2 id="12-exam-oriented-review-high-frequency-questions">12. Exam-Oriented Review &amp; High-Frequency Questions<a class="headerlink" href="#12-exam-oriented-review-high-frequency-questions" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Why does <code>MOV DS, 1000H</code> fail to assemble, and how must it be written?</strong><br />
+<em>Answer:</em> The 8086 ISA does not support an immediate-to-segment register addressing mode. The value must be routed through a general-purpose register:
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>MOV AX, 1000H
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>MOV DS, AX
+</span></code></pre></div></li>
+<li><strong>What is the difference between <code>LENGTH</code> and <code>SIZE</code> operators in MASM?</strong><br />
+<em>Answer:</em> <code>LENGTH</code> returns the number of elements specified in the variable's <code>DUP</code> declaration. <code>SIZE</code> returns the total byte allocation, computed as <span class="arithmatex">\(\text{SIZE} = \text{LENGTH} \times \text{TYPE}\)</span>. For <code>A DW 50 DUP(?)</code>, <span class="arithmatex">\(\text{LENGTH A} = 50\)</span>, while <span class="arithmatex">\(\text{SIZE A} = 100\)</span>.</li>
+<li><strong>When is the <code>PTR</code> operator strictly required in assembly programming?</strong><br />
+<em>Answer:</em> <code>PTR</code> is mandatory whenever a memory operand is referenced without an accompanying register operand that establishes the data width (e.g., <code>INC [BX]</code>, <code>MOV [DI], 10H</code>), and when overriding the declared type of a memory variable (e.g., moving an 8-bit byte from a <code>DW</code> variable using <code>MOV AL, BYTE PTR [VAR_DW]</code>).</li>
+</ol>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../design_and_analysis_of_algorithms/DAA_Unit7_Backtracking_BranchBound/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Complete DAA Notes: Unit 7 — Backtracking &amp;amp; Branch and Bound">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Complete DAA Notes: Unit 7 — Backtracking &amp; Branch and Bound
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../02_8085_Instruction_Set_Comprehensive/" class="md-footer__link md-footer__link--next" aria-label="Next: Chapter 2 — 8085 Microprocessor Architecture, Interfacing &amp;amp; Complete Instruction Set">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Chapter 2 — 8085 Microprocessor Architecture, Interfacing &amp; Complete Instruction Set
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/mermaid-init.js"></script>
+      
+    
+  </body>
+</html>

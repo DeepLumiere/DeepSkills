@@ -1,0 +1,3872 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="DeepSkills Knowledge Base and Engineering Notes">
+      
+      
+        <meta name="author" content="DeepLumiere">
+      
+      
+        <link rel="canonical" href="https://deeplumiere.github.io/DeepSkills/hardware_and_microprocessors/02_8085_Instruction_Set_Comprehensive/">
+      
+      
+        <link rel="prev" href="../01_Directives_In_Depth/">
+      
+      
+        <link rel="next" href="../03_8086_Instruction_Set_Comprehensive/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Chapter 2 — 8085 Microprocessor Architecture, Interfacing & Complete Instruction Set - DeepSkills</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-301Z6Q0P7W"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-301Z6Q0P7W",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-301Z6Q0P7W",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-2-8085-microprocessor-architecture-interfacing-complete-instruction-set" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DeepSkills" class="md-header__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DeepSkills
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter 2 — 8085 Microprocessor Architecture, Interfacing &amp; Complete Instruction Set
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DeepSkills" class="md-nav__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    DeepSkills
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Computer networks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Computer networks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_1_Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Introduction to Computer Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_3_Data_Link_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Data Link Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_4_MAC_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Medium Access Control Sublayer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/CompNet_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CompNet ClassTest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data analysis
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data analysis
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter1_Introduction_to_DAV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter1 Introduction to DAV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter2_Types_of_Data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter2 Types of Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter3_Dataset_and_Attributes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter3 Dataset and Attributes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter4_Statistical_Descriptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter4 Statistical Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_analysis/Chapter5_Data_Preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter5 Data Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data communication
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data communication
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter10_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10 — Error Detection and Correction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter1_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1 — Introduction to Data Communications and Networking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter2_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — Network Models (OSI &amp; TCP/IP Architecture)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter3_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3 — Data and Signals (Physical Layer Foundations)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter4_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 — Digital Transmission
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter5_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 — Analog Transmission (Modulation Techniques)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter6_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 — Multiplexing &amp; Spreading Spectrum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter7_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 — Transmission Media
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter8_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8 — Switching (Circuit, Packet, &amp; Datagram Networks)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design and analysis of algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design and analysis of algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithmic_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1 — Unit-I: Elementary Algorithmic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1: Complete DAA Notes: Unit 1 — Elementary Algorithms &amp; Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_and_Unit2_Complete_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1: Complete DAA Notes: Unit 1 — Elementary Algorithms &amp; Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit2_Analysis_of_Algorithms_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — Unit-II: Analysis of Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit3_Recurrence_DivideConquer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3: Complete DAA Notes — Recurrence Relations &amp; Divide and Conquer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit4_RedBlackTrees_AdvancedDS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4: Unit 4 — Advanced Data Structures &amp; Amortized Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit5_Greedy_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 5 — Greedy Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit6_Dynamic_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 6 — Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit7_Backtracking_BranchBound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 7 — Backtracking &amp; Branch and Bound
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware and microprocessors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hardware and microprocessors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_Directives_In_Depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 — 8086 Assembler Directives, Operators &amp; Storage Allocation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — 8085 Microprocessor Architecture, Interfacing &amp; Complete Instruction Set
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — 8085 Microprocessor Architecture, Interfacing &amp; Complete Instruction Set
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-fundamental-architectural-concepts-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fundamental Architectural Concepts &amp; Specifications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Fundamental Architectural Concepts &amp; Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-microprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Microprocessor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-architectural-specifications-of-intel-8085" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Architectural Specifications of Intel 8085
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-internal-functional-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Internal Functional Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Internal Functional Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#figure-21-8085-high-level-block-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 2.1: 8085 High-Level Block Diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-22-8085-detailed-internal-functional-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 2.2: 8085 Detailed Internal Functional Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 2.2: 8085 Detailed Internal Functional Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detailed-written-analysis-of-functional-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detailed Written Analysis of Functional Blocks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-8085-register-configuration-flag-register-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 8085 Register Configuration &amp; Flag Register Details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 8085 Register Configuration &amp; Flag Register Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#figure-23-8085-register-array-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 2.3: 8085 Register Array Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-24-8085-flag-register-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 2.4: 8085 Flag Register Format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 2.4: 8085 Flag Register Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#worked-inline-example-flag-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked Inline Example: Flag Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-pin-diagram-signal-classifications-bus-demultiplexing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Pin Diagram, Signal Classifications &amp; Bus Demultiplexing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Pin Diagram, Signal Classifications &amp; Bus Demultiplexing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#figure-25-8085-pin-out-interrupt-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 2.5: 8085 Pin Out &amp; Interrupt Lines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bus-demultiplexing-mechanism-ale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bus Demultiplexing Mechanism (ALE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-machine-status-signal-decoding-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Machine Status Signal Decoding Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-interrupt-system-8259-pic-interfacing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Interrupt System &amp; 8259 PIC Interfacing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Interrupt System &amp; 8259 PIC Interfacing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8085-hardware-interrupt-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8085 Hardware Interrupt Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-26-8259-interrupt-controller-block-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 2.6: 8259 Interrupt Controller Block Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 2.6: 8259 Interrupt Controller Block Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8259-handshake-execution-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8259 Handshake Execution Sequence
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-complete-8085-instruction-set-exhaustive-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Complete 8085 Instruction Set (Exhaustive Reference)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Complete 8085 Instruction Set (Exhaustive Reference)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-data-transfer-group-13-primary-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Data Transfer Group (13 Primary Instructions)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-arithmetic-group-14-primary-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Arithmetic Group (14 Primary Instructions)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-logical-group-15-primary-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Logical Group (15 Primary Instructions)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-branching-group-jumps-calls-returns-restarts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Branching Group (Jumps, Calls, Returns, Restarts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-stack-io-machine-control-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 Stack, I/O &amp; Machine Control Group
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-practical-worked-assembly-programs-8085" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Practical Worked Assembly Programs (8085)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Practical Worked Assembly Programs (8085)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#program-21-finding-the-maximum-number-in-an-array-of-n-bytes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Program 2.1: Finding the Maximum Number in an Array of \(N\) Bytes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-exam-oriented-review-high-frequency-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Exam-Oriented Review &amp; High-Frequency Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_8086_Instruction_Set_Comprehensive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 — 8086 Addressing Modes, Machine Encoding &amp; Complete Instruction Set
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_8086_String_Operations_and_Looping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 — 8086 String Operations, Branching &amp; Looping Mechanics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_8086_Stack_Operations_and_Modular_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 — 8086 Stack Architecture, Procedures &amp; Modular Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Microprocessors_and_Interfacing_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microprocessors &amp; Interfacing Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/01_Machine_Learning_and_its_Applications_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Introduction to Machine Learning &amp; Applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/02_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Simple Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/03_Multivariate_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Multivariate Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/04_Regularization_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Regularization and Overfitting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/05_Probability_and_Statistics_for_ML_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Probability &amp; Statistics for Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Web development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../web_development/FSD_Complete_Study_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Stack Web Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-fundamental-architectural-concepts-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fundamental Architectural Concepts &amp; Specifications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Fundamental Architectural Concepts &amp; Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-microprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Microprocessor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-architectural-specifications-of-intel-8085" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Architectural Specifications of Intel 8085
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-internal-functional-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Internal Functional Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Internal Functional Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#figure-21-8085-high-level-block-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 2.1: 8085 High-Level Block Diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-22-8085-detailed-internal-functional-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 2.2: 8085 Detailed Internal Functional Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 2.2: 8085 Detailed Internal Functional Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detailed-written-analysis-of-functional-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detailed Written Analysis of Functional Blocks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-8085-register-configuration-flag-register-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 8085 Register Configuration &amp; Flag Register Details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 8085 Register Configuration &amp; Flag Register Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#figure-23-8085-register-array-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 2.3: 8085 Register Array Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-24-8085-flag-register-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 2.4: 8085 Flag Register Format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 2.4: 8085 Flag Register Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#worked-inline-example-flag-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked Inline Example: Flag Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-pin-diagram-signal-classifications-bus-demultiplexing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Pin Diagram, Signal Classifications &amp; Bus Demultiplexing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Pin Diagram, Signal Classifications &amp; Bus Demultiplexing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#figure-25-8085-pin-out-interrupt-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 2.5: 8085 Pin Out &amp; Interrupt Lines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bus-demultiplexing-mechanism-ale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bus Demultiplexing Mechanism (ALE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-machine-status-signal-decoding-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Machine Status Signal Decoding Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-interrupt-system-8259-pic-interfacing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Interrupt System &amp; 8259 PIC Interfacing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Interrupt System &amp; 8259 PIC Interfacing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8085-hardware-interrupt-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8085 Hardware Interrupt Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#figure-26-8259-interrupt-controller-block-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure 2.6: 8259 Interrupt Controller Block Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Figure 2.6: 8259 Interrupt Controller Block Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8259-handshake-execution-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8259 Handshake Execution Sequence
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-complete-8085-instruction-set-exhaustive-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Complete 8085 Instruction Set (Exhaustive Reference)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Complete 8085 Instruction Set (Exhaustive Reference)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-data-transfer-group-13-primary-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Data Transfer Group (13 Primary Instructions)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-arithmetic-group-14-primary-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Arithmetic Group (14 Primary Instructions)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-logical-group-15-primary-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Logical Group (15 Primary Instructions)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-branching-group-jumps-calls-returns-restarts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Branching Group (Jumps, Calls, Returns, Restarts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-stack-io-machine-control-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 Stack, I/O &amp; Machine Control Group
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-practical-worked-assembly-programs-8085" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Practical Worked Assembly Programs (8085)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Practical Worked Assembly Programs (8085)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#program-21-finding-the-maximum-number-in-an-array-of-n-bytes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Program 2.1: Finding the Maximum Number in an Array of \(N\) Bytes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-exam-oriented-review-high-frequency-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Exam-Oriented Review &amp; High-Frequency Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/DeepLumiere/DeepSkills/edit/main/notes/hardware_and_microprocessors/02_8085_Instruction_Set_Comprehensive.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="chapter-2-8085-microprocessor-architecture-interfacing-complete-instruction-set">Chapter 2 — 8085 Microprocessor Architecture, Interfacing &amp; Complete Instruction Set<a class="headerlink" href="#chapter-2-8085-microprocessor-architecture-interfacing-complete-instruction-set" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Course Code:</strong> 3CS526CC23<br />
+<strong>Course Title:</strong> Microprocessor and Interfacing [3 0 2 4]<br />
+<strong>Governing Standard:</strong> <code>notes_maker</code> Skill (Comprehensive Chapter Notes Generator)<br />
+<strong>Primary Source:</strong> Faculty Lecture Presentations (<code>8085 PPT.pdf</code>, <code>3CS526CC23 Introduction.pdf</code>) &amp; Reference Literature (Ramesh Gaonkar, Hall &amp; Rao)  </p>
+</blockquote>
+<hr />
+<h2 id="1-chapter-overview">1. Chapter Overview<a class="headerlink" href="#1-chapter-overview" title="Permanent link">&para;</a></h2>
+<p>This chapter delivers a thorough, university-level examination of the Intel 8085 8-bit microprocessor. It integrates internal architecture, register configuration, flag behaviors, multiplexed bus operations, pin specifications, machine status decoding, interrupt processing, 8259 Programmable Interrupt Controller (PIC) interfacing, and a <strong>fully detailed, instruction-by-instruction reference of the entire 8085 instruction set</strong> (Data Transfer, Arithmetic, Logical, Branching, and Machine Control) with addressing modes, opcode sizes, machine cycles, T-states, flag impacts, and worked assembly routines.</p>
+<p>[Source: 8085 PPT, Slides 1–34]</p>
+<hr />
+<h2 id="2-fundamental-architectural-concepts-specifications">2. Fundamental Architectural Concepts &amp; Specifications<a class="headerlink" href="#2-fundamental-architectural-concepts-specifications" title="Permanent link">&para;</a></h2>
+<h3 id="definition-microprocessor">Definition: Microprocessor<a class="headerlink" href="#definition-microprocessor" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> A digital integrated circuit that functions as the central arithmetic, logical, and control processing unit of a microcomputer system.<br />
+<strong>Formal Definition:</strong> An 8-bit, multipurpose, clock-driven, NMOS/HMOS register-based Central Processing Unit (CPU) capable of fetching, decoding, and executing machine language instructions to manipulate binary data.<br />
+<strong>Intuition:</strong> The electronic "brain" that coordinates memory and input/output peripherals via a synchronized three-bus architecture.<br />
+<strong>Example:</strong> The Intel 8085A operating with a 6.144 MHz crystal to produce a 3.072 MHz internal execution clock.  </p>
+<p>[Source: 8085 PPT, Slide 10]</p>
+<hr />
+<h3 id="key-architectural-specifications-of-intel-8085">Key Architectural Specifications of Intel 8085<a class="headerlink" href="#key-architectural-specifications-of-intel-8085" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Specification</th>
+<th style="text-align: left;">Functional Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Word Length</strong></td>
+<td style="text-align: left;">8 bits</td>
+<td style="text-align: left;">Processes, transfers, and stores data in 8-bit byte increments.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Bus</strong></td>
+<td style="text-align: left;">8 bits (<span class="arithmatex">\(D_7 - D_0\)</span>)</td>
+<td style="text-align: left;">Bidirectional; time-multiplexed with lower address bus (<span class="arithmatex">\(AD_7 - AD_0\)</span>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Address Bus</strong></td>
+<td style="text-align: left;">16 bits (<span class="arithmatex">\(A_{15} - A_0\)</span>)</td>
+<td style="text-align: left;">Unidirectional; directly addresses <span class="arithmatex">\(2^{16} = 65,536\text{ bytes}\)</span> (64 KB).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Clock Frequency</strong></td>
+<td style="text-align: left;">3.0 MHz (8085A) / 5.0 MHz (8085A-2)</td>
+<td style="text-align: left;">Driven by external quartz crystal on <span class="arithmatex">\(X_1, X_2\)</span>; divided by 2 internally.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Power Supply</strong></td>
+<td style="text-align: left;">Single <span class="arithmatex">\(+5\text{V DC}\)</span> (<span class="arithmatex">\(V_{CC}\)</span>), <span class="arithmatex">\(V_{SS}\)</span> (GND)</td>
+<td style="text-align: left;">Major improvement over 8080 (which required <span class="arithmatex">\(+5\text{V}, -5\text{V}, +12\text{V}\)</span>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Packaging</strong></td>
+<td style="text-align: left;">40-pin Plastic / Ceramic DIP</td>
+<td style="text-align: left;">Dual-in-line package.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Internal Registers</strong></td>
+<td style="text-align: left;">12 addressable 8-bit registers</td>
+<td style="text-align: left;">A, B, C, D, E, H, L, Flags, SP (16-bit), PC (16-bit), W, Z (internal).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Interrupt System</strong></td>
+<td style="text-align: left;">5 Hardware Interrupts</td>
+<td style="text-align: left;">TRAP (NMI), RST 7.5, RST 6.5, RST 5.5, INTR.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DMA Controller Support</strong></td>
+<td style="text-align: left;">HOLD and HLDA lines</td>
+<td style="text-align: left;">Provides high-speed direct memory transfer bypassing the CPU.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Serial I/O Lines</strong></td>
+<td style="text-align: left;">Dedicated SID and SOD pins</td>
+<td style="text-align: left;">Software-controlled 1-bit serial communication via <code>RIM</code> / <code>SIM</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Machine Status Pins</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(IO/\overline{\text{M}}\)</span>, <span class="arithmatex">\(S_1\)</span>, <span class="arithmatex">\(S_0\)</span></td>
+<td style="text-align: left;">Explicitly signal active bus transaction type to peripheral decoders.</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: 8085 PPT, Slide 12]</p>
+<hr />
+<h2 id="3-internal-functional-architecture">3. Internal Functional Architecture<a class="headerlink" href="#3-internal-functional-architecture" title="Permanent link">&para;</a></h2>
+<p>The internal organization of the 8085 is partitioned into functional processing units:</p>
+<h3 id="figure-21-8085-high-level-block-diagram">Figure 2.1: 8085 High-Level Block Diagram<a class="headerlink" href="#figure-21-8085-high-level-block-diagram" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 2.1: 8085 High-Level Block Diagram" src="images/8085_block_diagram.png" /></p>
+<h3 id="figure-22-8085-detailed-internal-functional-diagram">Figure 2.2: 8085 Detailed Internal Functional Diagram<a class="headerlink" href="#figure-22-8085-detailed-internal-functional-diagram" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 2.2: 8085 Detailed Internal Functional Diagram" src="images/8085_internal_architecture.png" /></p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph ALU_Subsystem["Arithmetic Logic Unit (ALU) Subsystem"]
+        ACC["Accumulator (Reg A - 8 bit)"]
+        TEMP_REG["Temporary Register (8 bit)"]
+        ALU["8-Bit ALU"]
+        FLAGS["Flag Register (5 Flip-Flops)"]
+        ACC --&gt; ALU
+        TEMP_REG --&gt; ALU
+        ALU --&gt; ACC
+        ALU --&gt; FLAGS
+    end
+
+    subgraph Register_Array["Internal Register Array"]
+        W_Z["Temporary Regs (W, Z - 8 bit each)"]
+        BC["B (8) | C (8)"]
+        DE["D (8) | E (8)"]
+        HL["H (8) | L (8) - Memory Pointer"]
+        SP["Stack Pointer (SP - 16 bit)"]
+        PC["Program Counter (PC - 16 bit)"]
+        ADDR_INC["Incrementer / Decrementer Address Latch"]
+    end
+
+    subgraph Control_Unit["Timing &amp; Control Unit"]
+        CLK_GEN["Clock Generator (X1, X2, CLK OUT)"]
+        CTRL_SIGS["Control Signals: RD#, WR#, ALE"]
+        STATUS_SIGS["Status Signals: IO/M#, S0, S1"]
+        DMA_SIGS["DMA: HOLD, HLDA"]
+        RESET_SIGS["Reset: RESET IN#, RESET OUT"]
+    end
+
+    subgraph Instruction_Unit["Instruction Register &amp; Decoder"]
+        IR["Instruction Register (8 bit)"]
+        ID["Instruction Decoder &amp; Machine Cycle Encoding"]
+        IR --&gt; ID
+        ID --&gt; Control_Unit
+    end
+
+    subgraph Interrupt_Serial["Interrupt &amp; Serial I/O"]
+        INTR_CTRL["Interrupt Control (TRAP, RST 7.5, 6.5, 5.5, INTR, INTA#)"]
+        SERIAL_CTRL["Serial I/O (SID, SOD)"]
+    end
+
+    ExtBus["8-Bit Internal Data Bus"] &lt;--&gt; ALU_Subsystem
+    ExtBus &lt;--&gt; Register_Array
+    ExtBus &lt;--&gt; Instruction_Unit
+    ExtBus &lt;--&gt; Interrupt_Serial
+    Register_Array --&gt; ADDR_INC
+    ADDR_INC --&gt; AddressBus["Address Bus A15-A8 &amp; AD7-AD0"]</code></pre>
+<h4 id="detailed-written-analysis-of-functional-blocks">Detailed Written Analysis of Functional Blocks<a class="headerlink" href="#detailed-written-analysis-of-functional-blocks" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Accumulator (Register A):</strong> An 8-bit register connected directly to the internal data bus and ALU input. It supplies one of the two ALU source operands and receives the result of all arithmetic and logical operations. It also serves as the default register for all memory accumulator loads/stores (<code>LDA</code>, <code>STA</code>) and I/O transfers (<code>IN</code>, <code>OUT</code>).</li>
+<li><strong>Temporary Register:</strong> An 8-bit non-programmable register that holds the second operand for the ALU. When an instruction such as <code>ADD B</code> executes, the contents of register B are transferred into the temporary register before the ALU adds it to the accumulator.</li>
+<li><strong>Flag Register:</strong> Five 1-bit status flip-flops (<span class="arithmatex">\(S, Z, AC, P, CY\)</span>) that record execution status and conditions following ALU operations.</li>
+<li><strong>General-Purpose Registers (B, C, D, E, H, L):</strong> Six 8-bit registers organized as register pairs:</li>
+<li><strong>BC Pair:</strong> Holds 16-bit count values or memory addresses.</li>
+<li><strong>DE Pair:</strong> Holds secondary 16-bit memory addresses or data operands.</li>
+<li><strong>HL Pair:</strong> Functions as the primary 16-bit <strong>Memory Pointer (<span class="arithmatex">\(M\)</span>)</strong>. Whenever an instruction references operand <code>M</code>, the CPU accesses the physical memory location addressed by the 16-bit contents of <span class="arithmatex">\(H\)</span> (high byte) and <span class="arithmatex">\(L\)</span> (low byte).</li>
+<li><strong>Temporary Registers W and Z:</strong> Two internal 8-bit registers utilized strictly by the control unit to hold 16-bit addresses or data operands during two-byte and three-byte instruction executions (e.g., <code>CALL</code>, <code>XCHG</code>, <code>LHLD</code>). Completely inaccessible to programmers.</li>
+<li><strong>Program Counter (PC):</strong> A 16-bit register containing the memory address of the next sequential instruction byte to be fetched. It is automatically incremented after each byte fetch.</li>
+<li><strong>Stack Pointer (SP):</strong> A 16-bit register storing the current memory address of the Top of Stack in Read/Write RAM. The stack grows downward toward lower memory addresses. SP is decremented by 2 during <code>PUSH</code> and <code>CALL</code>, and incremented by 2 during <code>POP</code> and <code>RET</code>.</li>
+<li><strong>Instruction Register (IR) &amp; Decoder:</strong> Holds the 8-bit opcode fetched from memory during the Opcode Fetch machine cycle (<span class="arithmatex">\(M_1\)</span>). The decoder translates this binary opcode into micro-operations that direct internal execution.</li>
+<li><strong>Timing and Control Unit:</strong> Orchestrates all internal CPU operations and drives external control buses (<span class="arithmatex">\(\overline{\text{RD}}\)</span>, <span class="arithmatex">\(\overline{\text{WR}}\)</span>, <span class="arithmatex">\(\text{ALE}\)</span>) in synchrony with the clock oscillator.</li>
+</ol>
+<p>[Source: 8085 PPT, Slides 13, 20–22]</p>
+<hr />
+<h2 id="4-8085-register-configuration-flag-register-details">4. 8085 Register Configuration &amp; Flag Register Details<a class="headerlink" href="#4-8085-register-configuration-flag-register-details" title="Permanent link">&para;</a></h2>
+<h3 id="figure-23-8085-register-array-structure">Figure 2.3: 8085 Register Array Structure<a class="headerlink" href="#figure-23-8085-register-array-structure" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 2.3: 8085 Register Array Structure" src="images/8085_registers_structure.png" /></p>
+<h3 id="figure-24-8085-flag-register-format">Figure 2.4: 8085 Flag Register Format<a class="headerlink" href="#figure-24-8085-flag-register-format" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 2.4: 8085 Flag Register Format" src="images/8085_flag_register.png" /></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Bit Position:   D7   D6   D5   D4   D3   D2   D1   D0
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Flag Bit:     [  S |  Z |  X | AC |  X |  P |  X | CY ]
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>              (X = Unspecified / Undefined)
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Flag Symbol</th>
+<th style="text-align: left;">Flag Name</th>
+<th style="text-align: left;">Set Condition (<span class="arithmatex">\(= 1\)</span>)</th>
+<th style="text-align: left;">Reset Condition (<span class="arithmatex">\(= 0\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>S</strong></td>
+<td style="text-align: left;">Sign Flag</td>
+<td style="text-align: left;">Bit <span class="arithmatex">\(D_7\)</span> of ALU result is <code>1</code> (negative signed number).</td>
+<td style="text-align: left;">Bit <span class="arithmatex">\(D_7\)</span> of ALU result is <code>0</code> (positive signed number).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Z</strong></td>
+<td style="text-align: left;">Zero Flag</td>
+<td style="text-align: left;">ALU result is exactly <code>00H</code> (all 8 bits zero).</td>
+<td style="text-align: left;">ALU result is non-zero (<code>01H</code> to <code>FFH</code>).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>AC</strong></td>
+<td style="text-align: left;">Auxiliary Carry</td>
+<td style="text-align: left;">Carry generated out of bit <span class="arithmatex">\(D_3\)</span> into bit <span class="arithmatex">\(D_4\)</span> (BCD half-carry).</td>
+<td style="text-align: left;">No carry from bit <span class="arithmatex">\(D_3\)</span> to <span class="arithmatex">\(D_4\)</span>.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>P</strong></td>
+<td style="text-align: left;">Parity Flag</td>
+<td style="text-align: left;">Result contains an <strong>even number of 1-bits</strong> (Even Parity).</td>
+<td style="text-align: left;">Result contains an <strong>odd number of 1-bits</strong> (Odd Parity).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>CY</strong></td>
+<td style="text-align: left;">Carry Flag</td>
+<td style="text-align: left;">Carry generated out of MSB (<span class="arithmatex">\(D_7\)</span>) in addition, or borrow in subtraction.</td>
+<td style="text-align: left;">No carry out of <span class="arithmatex">\(D_7\)</span> or borrow required.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="worked-inline-example-flag-calculation">Worked Inline Example: Flag Calculation<a class="headerlink" href="#worked-inline-example-flag-calculation" title="Permanent link">&para;</a></h4>
+<p>Execute <code>ADD B</code> where Accumulator <span class="arithmatex">\(\text{A} = \text{C4H}\)</span> (<span class="arithmatex">\(1100\,0100_2\)</span>) and <span class="arithmatex">\(\text{B} = \text{5CH}\)</span> (<span class="arithmatex">\(0101\,1100_2\)</span>):</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\text{Accumulator (A):} &amp; \quad 1100\,\,\,0100_2 \quad (\text{C}4\text{H}) \\
++ \text{Register B:} &amp; \quad 0101\,\,\,1100_2 \quad (5\text{CH}) \\
+\hline
+\text{Sum Result:} &amp; \quad 1\,\,0010\,\,\,0000_2 \quad (20\text{H with Carry Out } 1)
+\end{aligned}
+\]</div>
+<ul>
+<li><strong>Carry Flag (CY):</strong> <code>1</code> (Carry out of bit <span class="arithmatex">\(D_7\)</span>).</li>
+<li><strong>Zero Flag (Z):</strong> <code>0</code> (Lower 8 bits = <code>20H</code> <span class="arithmatex">\(\neq 0\)</span>).</li>
+<li><strong>Sign Flag (S):</strong> <code>0</code> (Bit <span class="arithmatex">\(D_7\)</span> of result is <code>0</code>).</li>
+<li><strong>Auxiliary Carry (AC):</strong> <code>1</code> (Bit <span class="arithmatex">\(D_3\)</span> sum: <span class="arithmatex">\(0 + 1 + 0 = 0\)</span> with no carry... wait: bit <span class="arithmatex">\(D_2=1, D_2=1 \rightarrow 1+1=0\)</span>, carry to <span class="arithmatex">\(D_3\)</span>; <span class="arithmatex">\(0+1+1=0\)</span>, carry to <span class="arithmatex">\(D_4 \rightarrow AC = 1\)</span>).</li>
+<li><strong>Parity Flag (P):</strong> <code>0</code> (Result <code>0010 0000</code> has only one <code>1</code> bit <span class="arithmatex">\(\rightarrow\)</span> odd parity).</li>
+</ul>
+<p>[Source: 8085 PPT, Slide 23]</p>
+<hr />
+<h2 id="5-pin-diagram-signal-classifications-bus-demultiplexing">5. Pin Diagram, Signal Classifications &amp; Bus Demultiplexing<a class="headerlink" href="#5-pin-diagram-signal-classifications-bus-demultiplexing" title="Permanent link">&para;</a></h2>
+<h3 id="figure-25-8085-pin-out-interrupt-lines">Figure 2.5: 8085 Pin Out &amp; Interrupt Lines<a class="headerlink" href="#figure-25-8085-pin-out-interrupt-lines" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 2.5: 8085 Pin Out &amp; Interrupt Lines" src="images/8085_pin_interrupt_diagram.png" /></p>
+<h3 id="bus-demultiplexing-mechanism-ale">Bus Demultiplexing Mechanism (ALE)<a class="headerlink" href="#bus-demultiplexing-mechanism-ale" title="Permanent link">&para;</a></h3>
+<p>To minimize physical IC pin count to 40, the 8085 time-multiplexes the lower 8 bits of the address bus with the 8-bit bidirectional data bus (<span class="arithmatex">\(AD_7 - AD_0\)</span>).
+- During state <span class="arithmatex">\(T_1\)</span> of every machine cycle, lines <span class="arithmatex">\(AD_7 - AD_0\)</span> emit the lower 8 address bits (<span class="arithmatex">\(A_7 - A_0\)</span>).
+- Simultaneously, the CPU pulses <strong><span class="arithmatex">\(\text{ALE}\)</span> (Address Latch Enable)</strong> HIGH.
+- The falling edge of <span class="arithmatex">\(\text{ALE}\)</span> strobes the address into an external 8-bit D-type latch (such as the 74LS373).
+- During states <span class="arithmatex">\(T_2, T_3, T_4\)</span>, <span class="arithmatex">\(\text{ALE}\)</span> remains LOW, and lines <span class="arithmatex">\(AD_7 - AD_0\)</span> function exclusively as bidirectional data lines (<span class="arithmatex">\(D_7 - D_0\)</span>).</p>
+<pre class="mermaid"><code>sequenceDiagram
+    participant CPU as 8085 CPU
+    participant Latch as 74LS373 Latch
+    participant Mem as Memory / Peripherals
+
+    Note over CPU,Mem: T1 State: Address Transmission &amp; Latching
+    CPU-&gt;&gt;Latch: Assert AD7-AD0 = A7-A0 (Lower Address Byte)
+    CPU-&gt;&gt;Latch: Pulse ALE HIGH -&gt; LOW
+    Latch-&gt;&gt;Mem: Holds Stable Address Lines A7-A0
+
+    Note over CPU,Mem: T2 - T4 States: Data Transfer
+    CPU-&gt;&gt;Mem: Assert RD# or WR# LOW
+    CPU-&gt;&gt;Mem: AD7-AD0 switch to bidirectional Data Bus D7-D0
+    Mem--&gt;&gt;CPU: Data Byte Read / Written</code></pre>
+<hr />
+<h3 id="complete-machine-status-signal-decoding-table">Complete Machine Status Signal Decoding Table<a class="headerlink" href="#complete-machine-status-signal-decoding-table" title="Permanent link">&para;</a></h3>
+<p>The combination of <span class="arithmatex">\(IO/\overline{\text{M}}\)</span>, <span class="arithmatex">\(S_1\)</span>, and <span class="arithmatex">\(S_0\)</span> defines the active machine cycle:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span class="arithmatex">\(IO/\overline{\text{M}}\)</span></th>
+<th style="text-align: center;"><span class="arithmatex">\(S_1\)</span></th>
+<th style="text-align: center;"><span class="arithmatex">\(S_0\)</span></th>
+<th style="text-align: left;">Machine Cycle</th>
+<th style="text-align: center;">Active Control Signal</th>
+<th style="text-align: center;">Typical T-States</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: left;"><strong>Opcode Fetch (OF)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(\overline{\text{RD}} = 0\)</span></td>
+<td style="text-align: center;">4 or 6</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: left;"><strong>Memory Read (MR)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(\overline{\text{RD}} = 0\)</span></td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: left;"><strong>Memory Write (MW)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(\overline{\text{WR}} = 0\)</span></td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: left;"><strong>I/O Read (IOR)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(\overline{\text{RD}} = 0\)</span></td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: left;"><strong>I/O Write (IOW)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(\overline{\text{WR}} = 0\)</span></td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: left;"><strong>Interrupt Acknowledge (INA)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(\overline{\text{INTA}} = 0\)</span></td>
+<td style="text-align: center;">6 or 12</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: left;"><strong>Halt State</strong></td>
+<td style="text-align: center;">None (Buses Tri-Stated)</td>
+<td style="text-align: center;">Infinite</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: 8085 PPT, Slides 15–19]</p>
+<hr />
+<h2 id="6-interrupt-system-8259-pic-interfacing">6. Interrupt System &amp; 8259 PIC Interfacing<a class="headerlink" href="#6-interrupt-system-8259-pic-interfacing" title="Permanent link">&para;</a></h2>
+<h3 id="8085-hardware-interrupt-hierarchy">8085 Hardware Interrupt Hierarchy<a class="headerlink" href="#8085-hardware-interrupt-hierarchy" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Interrupt</th>
+<th style="text-align: center;">Priority</th>
+<th style="text-align: left;">Trigger Mode</th>
+<th style="text-align: left;">Maskability</th>
+<th style="text-align: center;">Vector Address</th>
+<th style="text-align: left;">Vector Calculation Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>TRAP</strong></td>
+<td style="text-align: center;">1 (Highest)</td>
+<td style="text-align: left;">Level &amp; Rising-Edge</td>
+<td style="text-align: left;">Non-Maskable</td>
+<td style="text-align: center;"><code>0024H</code></td>
+<td style="text-align: left;">Fixed vector (<span class="arithmatex">\(4.5 \times 8 = 36_{10} = 24\text{H}\)</span>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RST 7.5</strong></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">Rising-Edge Only</td>
+<td style="text-align: left;">Maskable (<code>SIM</code>)</td>
+<td style="text-align: center;"><code>003CH</code></td>
+<td style="text-align: left;">Fixed vector (<span class="arithmatex">\(7.5 \times 8 = 60_{10} = 3\text{CH}\)</span>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RST 6.5</strong></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">High-Level Only</td>
+<td style="text-align: left;">Maskable (<code>SIM</code>)</td>
+<td style="text-align: center;"><code>0034H</code></td>
+<td style="text-align: left;">Fixed vector (<span class="arithmatex">\(6.5 \times 8 = 52_{10} = 34\text{H}\)</span>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RST 5.5</strong></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">High-Level Only</td>
+<td style="text-align: left;">Maskable (<code>SIM</code>)</td>
+<td style="text-align: center;"><code>0020H</code></td>
+<td style="text-align: left;">Fixed vector (<span class="arithmatex">\(5.5 \times 8 = 44_{10} = 20\text{H}\)</span>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>INTR</strong></td>
+<td style="text-align: center;">5 (Lowest)</td>
+<td style="text-align: left;">High-Level Only</td>
+<td style="text-align: left;">Maskable (<code>EI</code>/<code>DI</code>)</td>
+<td style="text-align: center;">External</td>
+<td style="text-align: left;">Provided by external hardware / 8259 PIC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="figure-26-8259-interrupt-controller-block-diagram">Figure 2.6: 8259 Interrupt Controller Block Diagram<a class="headerlink" href="#figure-26-8259-interrupt-controller-block-diagram" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure 2.6: 8259 Interrupt Controller Block Diagram" src="images/8259_interrupt_controller.png" /></p>
+<h4 id="8259-handshake-execution-sequence">8259 Handshake Execution Sequence<a class="headerlink" href="#8259-handshake-execution-sequence" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Peripheral devices assert interrupt request lines <span class="arithmatex">\(IR_0 - IR_7\)</span> on the 8259 PIC.</li>
+<li>8259 evaluates priority logic against the Interrupt Mask Register (IMR). If unmasked, it raises <code>INTR</code> HIGH to the 8085.</li>
+<li>Upon finishing its current instruction cycle, 8085 issues three negative pulses on <span class="arithmatex">\(\overline{\text{INTA}}\)</span>:</li>
+<li><strong>1st Pulse:</strong> 8259 places the <code>CALL</code> opcode (<code>CDH</code>) onto the data bus.</li>
+<li><strong>2nd Pulse:</strong> 8259 places the lower byte of the Subroutine Call Address onto the data bus.</li>
+<li><strong>3rd Pulse:</strong> 8259 places the higher byte of the Subroutine Call Address onto the data bus.</li>
+<li>The 8085 pushes its 16-bit Program Counter (PC) onto the stack and jumps to the vector address.</li>
+</ol>
+<p>[Source: 8085 PPT, Slides 26–34]</p>
+<hr />
+<h2 id="7-complete-8085-instruction-set-exhaustive-reference">7. Complete 8085 Instruction Set (Exhaustive Reference)<a class="headerlink" href="#7-complete-8085-instruction-set-exhaustive-reference" title="Permanent link">&para;</a></h2>
+<p>The 8085 features <strong>80 basic instructions</strong> that expand into <strong>246 total opcodes</strong>. Instructions are 1, 2, or 3 bytes long.</p>
+<h3 id="71-data-transfer-group-13-primary-instructions">7.1 Data Transfer Group (13 Primary Instructions)<a class="headerlink" href="#71-data-transfer-group-13-primary-instructions" title="Permanent link">&para;</a></h3>
+<p><strong>Rule:</strong> Data transfer instructions <strong>never affect condition flags</strong>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Mnemonic</th>
+<th style="text-align: left;">Operands</th>
+<th style="text-align: center;">Bytes</th>
+<th style="text-align: center;">Machine Cycles</th>
+<th style="text-align: center;">T-States</th>
+<th style="text-align: left;">Addressing Mode</th>
+<th style="text-align: left;">Operation Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>MOV</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(r_1, r_2\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1 (OF)</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">Register</td>
+<td style="text-align: left;"><span class="arithmatex">\((r_1) \leftarrow (r_2)\)</span>. Copies register <span class="arithmatex">\(r_2\)</span> to <span class="arithmatex">\(r_1\)</span>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MOV</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(r, M\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2 (OF, MR)</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">Reg. Indirect</td>
+<td style="text-align: left;"><span class="arithmatex">\((r) \leftarrow ((H)(L))\)</span>. Copies memory byte at address HL to register <span class="arithmatex">\(r\)</span>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MOV</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(M, r\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2 (OF, MW)</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">Reg. Indirect</td>
+<td style="text-align: left;"><span class="arithmatex">\(((H)(L)) \leftarrow (r)\)</span>. Copies register <span class="arithmatex">\(r\)</span> to memory byte at HL.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MVI</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(r, \text{data8}\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2 (OF, MR)</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">Immediate</td>
+<td style="text-align: left;"><span class="arithmatex">\((r) \leftarrow \text{byte 2}\)</span>. Loads immediate 8-bit data into register <span class="arithmatex">\(r\)</span>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MVI</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(M, \text{data8}\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3 (OF, MR, MW)</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: left;">Immediate/Indirect</td>
+<td style="text-align: left;"><span class="arithmatex">\(((H)(L)) \leftarrow \text{byte 2}\)</span>. Stores immediate byte into memory at HL.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>LXI</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(rp, \text{data16}\)</span></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3 (OF, MR, MR)</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: left;">Immediate</td>
+<td style="text-align: left;"><span class="arithmatex">\((rp) \leftarrow \text{bytes 2 \&amp; 3}\)</span>. Loads 16-bit data into register pair <span class="arithmatex">\(rp\)</span> (BC, DE, HL, SP).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>LDA</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{addr16}\)</span></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4 (OF, MR, MR, MR)</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: left;">Direct</td>
+<td style="text-align: left;"><span class="arithmatex">\((A) \leftarrow (\text{addr16})\)</span>. Loads byte from direct 16-bit address into A.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>STA</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{addr16}\)</span></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4 (OF, MR, MR, MW)</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: left;">Direct</td>
+<td style="text-align: left;"><span class="arithmatex">\((\text{addr16}) \leftarrow (A)\)</span>. Stores Accumulator byte into direct 16-bit address.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>LHLD</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{addr16}\)</span></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">5 (OF, 4 MR)</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: left;">Direct</td>
+<td style="text-align: left;"><span class="arithmatex">\((L) \leftarrow (\text{addr})\)</span>, <span class="arithmatex">\((H) \leftarrow (\text{addr}+1)\)</span>. Loads HL from direct address.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SHLD</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{addr16}\)</span></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">5 (OF, 2 MR, 2 MW)</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: left;">Direct</td>
+<td style="text-align: left;"><span class="arithmatex">\((\text{addr}) \leftarrow (L)\)</span>, <span class="arithmatex">\((\text{addr}+1) \leftarrow (H)\)</span>. Stores HL into direct address.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>LDAX</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(rp\)</span> (BC/DE)</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2 (OF, MR)</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">Reg. Indirect</td>
+<td style="text-align: left;"><span class="arithmatex">\((A) \leftarrow ((rp))\)</span>. Loads Accumulator from address in BC or DE.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>STAX</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(rp\)</span> (BC/DE)</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2 (OF, MW)</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">Reg. Indirect</td>
+<td style="text-align: left;"><span class="arithmatex">\(((rp)) \leftarrow (A)\)</span>. Stores Accumulator into address held in BC or DE.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>XCHG</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1 (OF)</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">Register</td>
+<td style="text-align: left;"><span class="arithmatex">\((H) \leftrightarrow (D)\)</span>, <span class="arithmatex">\((L) \leftrightarrow (E)\)</span>. Swaps HL and DE register pairs.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="72-arithmetic-group-14-primary-instructions">7.2 Arithmetic Group (14 Primary Instructions)<a class="headerlink" href="#72-arithmetic-group-14-primary-instructions" title="Permanent link">&para;</a></h3>
+<p><strong>Flag Impact:</strong> All arithmetic instructions update <span class="arithmatex">\(S, Z, AC, P, CY\)</span>, <strong>except <code>INX</code> and <code>DCX</code> (which affect NO flags)</strong>, and <code>DAD</code> (which updates <strong>ONLY the Carry Flag CY</strong>).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Mnemonic</th>
+<th style="text-align: left;">Operands</th>
+<th style="text-align: center;">Bytes</th>
+<th style="text-align: center;">Cycles</th>
+<th style="text-align: center;">T-States</th>
+<th style="text-align: center;">Flags Affected</th>
+<th style="text-align: left;">Operation Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>ADD</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(r\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">All (<span class="arithmatex">\(S,Z,AC,P,CY\)</span>)</td>
+<td style="text-align: left;"><span class="arithmatex">\((A) \leftarrow (A) + (r)\)</span>. Adds register to Accumulator.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ADD</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(M\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;"><span class="arithmatex">\((A) \leftarrow (A) + ((H)(L))\)</span>. Adds memory byte at HL to A.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ADI</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{data8}\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;"><span class="arithmatex">\((A) \leftarrow (A) + \text{data8}\)</span>. Adds immediate byte to A.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ADC</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(r\)</span> / <span class="arithmatex">\(M\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1 / 2</td>
+<td style="text-align: center;">4 / 7</td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;"><span class="arithmatex">\((A) \leftarrow (A) + (r/M) + CY\)</span>. Add with Carry.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ACI</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{data8}\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;"><span class="arithmatex">\((A) \leftarrow (A) + \text{data8} + CY\)</span>. Add immediate with Carry.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SUB</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(r\)</span> / <span class="arithmatex">\(M\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1 / 2</td>
+<td style="text-align: center;">4 / 7</td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;"><span class="arithmatex">\((A) \leftarrow (A) - (r/M)\)</span>. Subtracts register/memory from A.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SUI</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{data8}\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;"><span class="arithmatex">\((A) \leftarrow (A) - \text{data8}\)</span>. Subtracts immediate byte from A.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SBB</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(r\)</span> / <span class="arithmatex">\(M\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1 / 2</td>
+<td style="text-align: center;">4 / 7</td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;"><span class="arithmatex">\((A) \leftarrow (A) - (r/M) - CY\)</span>. Subtract with Borrow.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SBI</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{data8}\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;"><span class="arithmatex">\((A) \leftarrow (A) - \text{data8} - CY\)</span>. Subtract immediate with Borrow.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>INR</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(r\)</span> / <span class="arithmatex">\(M\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1 / 3</td>
+<td style="text-align: center;">4 / 10</td>
+<td style="text-align: center;"><span class="arithmatex">\(S, Z, AC, P\)</span> (<strong>CY NOT affected</strong>)</td>
+<td style="text-align: left;">Increments register or memory byte by 1.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DCR</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(r\)</span> / <span class="arithmatex">\(M\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1 / 3</td>
+<td style="text-align: center;">4 / 10</td>
+<td style="text-align: center;"><span class="arithmatex">\(S, Z, AC, P\)</span> (<strong>CY NOT affected</strong>)</td>
+<td style="text-align: left;">Decrements register or memory byte by 1.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>INX</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(rp\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\((rp) \leftarrow (rp) + 1\)</span>. 16-bit increment of BC, DE, HL, or SP.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DCX</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(rp\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\((rp) \leftarrow (rp) - 1\)</span>. 16-bit decrement of BC, DE, HL, or SP.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DAD</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(rp\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;"><strong>CY Only</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\((HL) \leftarrow (HL) + (rp)\)</span>. 16-bit double addition to HL.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DAA</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;">Decimal Adjust Accumulator. Converts binary sum in A to BCD.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="73-logical-group-15-primary-instructions">7.3 Logical Group (15 Primary Instructions)<a class="headerlink" href="#73-logical-group-15-primary-instructions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Mnemonic</th>
+<th style="text-align: left;">Operands</th>
+<th style="text-align: center;">Bytes</th>
+<th style="text-align: center;">Cycles</th>
+<th style="text-align: center;">T-States</th>
+<th style="text-align: center;">Flags Affected</th>
+<th style="text-align: left;">Operational Mechanics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>ANA</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(r\)</span> / <span class="arithmatex">\(M\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1 / 2</td>
+<td style="text-align: center;">4 / 7</td>
+<td style="text-align: center;"><span class="arithmatex">\(S, Z, P\)</span> updated; <strong><span class="arithmatex">\(CY=0, AC=1\)</span></strong></td>
+<td style="text-align: left;">Bitwise AND with Accumulator.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ANI</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{data8}\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;"><span class="arithmatex">\(S, Z, P\)</span> updated; <strong><span class="arithmatex">\(CY=0, AC=1\)</span></strong></td>
+<td style="text-align: left;">Bitwise AND immediate byte with Accumulator.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ORA</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(r\)</span> / <span class="arithmatex">\(M\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1 / 2</td>
+<td style="text-align: center;">4 / 7</td>
+<td style="text-align: center;"><span class="arithmatex">\(S, Z, P\)</span> updated; <strong><span class="arithmatex">\(CY=0, AC=0\)</span></strong></td>
+<td style="text-align: left;">Bitwise OR with Accumulator.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ORI</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{data8}\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;"><span class="arithmatex">\(S, Z, P\)</span> updated; <strong><span class="arithmatex">\(CY=0, AC=0\)</span></strong></td>
+<td style="text-align: left;">Bitwise OR immediate byte with Accumulator.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>XRA</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(r\)</span> / <span class="arithmatex">\(M\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1 / 2</td>
+<td style="text-align: center;">4 / 7</td>
+<td style="text-align: center;"><span class="arithmatex">\(S, Z, P\)</span> updated; <strong><span class="arithmatex">\(CY=0, AC=0\)</span></strong></td>
+<td style="text-align: left;">Bitwise XOR with Accumulator (<code>XRA A</code> clears A and CY).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>XRI</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{data8}\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;"><span class="arithmatex">\(S, Z, P\)</span> updated; <strong><span class="arithmatex">\(CY=0, AC=0\)</span></strong></td>
+<td style="text-align: left;">Bitwise XOR immediate byte with Accumulator.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CMA</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\((A) \leftarrow \overline{(A)}\)</span>. One's complement of Accumulator.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CMC</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>CY Only</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\((CY) \leftarrow \overline{(CY)}\)</span>. Complements Carry Flag.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>STC</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>CY Only</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\((CY) \leftarrow 1\)</span>. Explicitly sets Carry Flag to 1.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CMP</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(r\)</span> / <span class="arithmatex">\(M\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1 / 2</td>
+<td style="text-align: center;">4 / 7</td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;">Compares register/memory with A (computes <span class="arithmatex">\(A - r\)</span>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CPI</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{data8}\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">All</td>
+<td style="text-align: left;">Compares immediate byte with A.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RLC</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>CY Only</strong></td>
+<td style="text-align: left;">Rotate Left Circular: Bit 7 enters Bit 0 and CY.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RRC</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>CY Only</strong></td>
+<td style="text-align: left;">Rotate Right Circular: Bit 0 enters Bit 7 and CY.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RAL</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>CY Only</strong></td>
+<td style="text-align: left;">Rotate Left Through Carry: 9-bit rotation through CY.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RAR</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>CY Only</strong></td>
+<td style="text-align: left;">Rotate Right Through Carry: 9-bit rotation through CY.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="74-branching-group-jumps-calls-returns-restarts">7.4 Branching Group (Jumps, Calls, Returns, Restarts)<a class="headerlink" href="#74-branching-group-jumps-calls-returns-restarts" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Mnemonic</th>
+<th style="text-align: left;">Condition Tested</th>
+<th style="text-align: center;">Bytes</th>
+<th style="text-align: center;">Cycles (Taken / Untaken)</th>
+<th style="text-align: center;">T-States (Taken / Untaken)</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>JMP</strong></td>
+<td style="text-align: left;">Unconditional</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: left;"><span class="arithmatex">\((PC) \leftarrow \text{addr16}\)</span>. Direct 16-bit jump.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>JC / JNC</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(CY = 1\)</span> / <span class="arithmatex">\(CY = 0\)</span></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3 / 2</td>
+<td style="text-align: center;">10 / 7</td>
+<td style="text-align: left;">Jump on Carry / No Carry.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>JZ / JNZ</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(Z = 1\)</span> / <span class="arithmatex">\(Z = 0\)</span></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3 / 2</td>
+<td style="text-align: center;">10 / 7</td>
+<td style="text-align: left;">Jump on Zero / Not Zero.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>JM / JP</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(S = 1\)</span> / <span class="arithmatex">\(S = 0\)</span></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3 / 2</td>
+<td style="text-align: center;">10 / 7</td>
+<td style="text-align: left;">Jump on Minus (Negative) / Positive.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>JPE / JPO</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(P = 1\)</span> / <span class="arithmatex">\(P = 0\)</span></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3 / 2</td>
+<td style="text-align: center;">10 / 7</td>
+<td style="text-align: left;">Jump on Parity Even / Parity Odd.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>PCHL</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: left;"><span class="arithmatex">\((PC) \leftarrow (HL)\)</span>. Jumps to address held in HL pair.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CALL</strong></td>
+<td style="text-align: left;">Unconditional</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: left;">Pushes <span class="arithmatex">\((PC)\)</span> onto stack, jumps to direct address.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Ccond</strong></td>
+<td style="text-align: left;">Condition True / False</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">5 / 2</td>
+<td style="text-align: center;">18 / 9</td>
+<td style="text-align: left;">Conditional Subroutine Call.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RET</strong></td>
+<td style="text-align: left;">Unconditional</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: left;">Pops 16-bit return address from stack into PC.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Rcond</strong></td>
+<td style="text-align: left;">Condition True / False</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3 / 1</td>
+<td style="text-align: center;">12 / 6</td>
+<td style="text-align: left;">Conditional Subroutine Return.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RST <span class="arithmatex">\(n\)</span></strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(n \in \{0..7\}\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: left;">Software Restart: Calls vector <span class="arithmatex">\((n \times 8_{10})\)</span>.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="75-stack-io-machine-control-group">7.5 Stack, I/O &amp; Machine Control Group<a class="headerlink" href="#75-stack-io-machine-control-group" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Mnemonic</th>
+<th style="text-align: left;">Operands</th>
+<th style="text-align: center;">Bytes</th>
+<th style="text-align: center;">Cycles</th>
+<th style="text-align: center;">T-States</th>
+<th style="text-align: center;">Flags Affected</th>
+<th style="text-align: left;">Operational Mechanics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>PUSH</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(rp\)</span> (BC/DE/HL/PSW)</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\((SP-1) \leftarrow (rp_H)\)</span>, <span class="arithmatex">\((SP-2) \leftarrow (rp_L)\)</span>, <span class="arithmatex">\(SP \leftarrow SP - 2\)</span>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>POP</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(rp\)</span> (BC/DE/HL/PSW)</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">None (PSW updates all)</td>
+<td style="text-align: left;"><span class="arithmatex">\((rp_L) \leftarrow (SP)\)</span>, <span class="arithmatex">\((rp_H) \leftarrow (SP+1)\)</span>, <span class="arithmatex">\(SP \leftarrow SP + 2\)</span>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>XTHL</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Swaps <span class="arithmatex">\(L\)</span> with <span class="arithmatex">\((SP)\)</span>, and <span class="arithmatex">\(H\)</span> with <span class="arithmatex">\((SP+1)\)</span>. Top of stack exchange.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SPHL</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\((SP) \leftarrow (HL)\)</span>. Copies HL address into Stack Pointer.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>IN</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{port8}\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\((A) \leftarrow (\text{port8})\)</span>. Reads byte from 8-bit I/O port into A.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>OUT</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(\text{port8}\)</span></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\((\text{port8}) \leftarrow (A)\)</span>. Writes Accumulator byte to 8-bit I/O port.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>EI / DI</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Enable / Disable maskable hardware interrupts.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>HLT</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Halts CPU execution until interrupt or reset occurs.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NOP</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">No Operation; advances PC by 1.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RIM</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Read Interrupt Mask &amp; serial input bit (SID) into A.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SIM</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>None</strong></td>
+<td style="text-align: left;">Set Interrupt Mask &amp; serial output bit (SOD) from A.</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: 8085 PPT, Slides 24–25; Gaonkar Architecture &amp; Programming]</p>
+<hr />
+<h2 id="8-practical-worked-assembly-programs-8085">8. Practical Worked Assembly Programs (8085)<a class="headerlink" href="#8-practical-worked-assembly-programs-8085" title="Permanent link">&para;</a></h2>
+<h3 id="program-21-finding-the-maximum-number-in-an-array-of-n-bytes">Program 2.1: Finding the Maximum Number in an Array of <span class="arithmatex">\(N\)</span> Bytes<a class="headerlink" href="#program-21-finding-the-maximum-number-in-an-array-of-n-bytes" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>; Task: Find maximum byte in array starting at 2050H of length 0AH. Store max at 2060H.
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>          LXI H, 2050H      ; HL points to array length
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>          MOV C, M          ; Load count into C (Count = 10)
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>          INX H             ; Point to first data element
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>          MOV A, M          ; Assume first element is MAX
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>          DCR C             ; Decrement counter
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>LOOP:     INX H             ; Advance pointer to next element
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>          CMP M             ; Compare A with memory byte (A - M)
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>          JNC SKIP          ; If Carry = 0 (A &gt;= M), existing MAX is larger
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>          MOV A, M          ; If Carry = 1 (A &lt; M), load new larger value into A
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>SKIP:     DCR C             ; Decrement count
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>          JNZ LOOP          ; Repeat until all elements evaluated
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>          STA 2060H         ; Store largest element into 2060H
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>          HLT               ; Halt execution
+</span></code></pre></div>
+<hr />
+<h2 id="9-exam-oriented-review-high-frequency-questions">9. Exam-Oriented Review &amp; High-Frequency Questions<a class="headerlink" href="#9-exam-oriented-review-high-frequency-questions" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Explain the purpose and timing of the <span class="arithmatex">\(\text{ALE}\)</span> pin during an Opcode Fetch machine cycle.</strong><br />
+<em>Answer:</em> <span class="arithmatex">\(\text{ALE}\)</span> pulses HIGH during <span class="arithmatex">\(T_1\)</span> to indicate that <span class="arithmatex">\(AD_7 - AD_0\)</span> carries the memory address (<span class="arithmatex">\(A_7 - A_0\)</span>). The trailing edge of <span class="arithmatex">\(\text{ALE}\)</span> latches this address into an external 74LS373 latch, enabling lines <span class="arithmatex">\(AD_7 - AD_0\)</span> to be reused for data bus transfers during <span class="arithmatex">\(T_2 - T_4\)</span>.</li>
+<li><strong>Why does <code>INX rp</code> not affect any flags while <code>INR r</code> affects four flags?</strong><br />
+<em>Answer:</em> <code>INX</code> is designed for pointer and address arithmetic (such as indexing through memory arrays). It preserves the status flags (specifically Zero and Carry) so that loop counters and comparison outcomes in the ALU are not altered during address increments.</li>
+<li><strong>Compare <code>CALL</code> and <code>JMP</code> in terms of stack interaction and execution states.</strong><br />
+<em>Answer:</em> <code>JMP</code> merely replaces the contents of the Program Counter with a new target address (3 machine cycles, 10 T-states). <code>CALL</code> first pushes the 16-bit return address (PC) onto the stack (<span class="arithmatex">\(M_4, M_5\)</span> Memory Write cycles) before loading PC with the target address (5 machine cycles, 18 T-states).</li>
+</ol>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../01_Directives_In_Depth/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Chapter 4 — 8086 Assembler Directives, Operators &amp;amp; Storage Allocation">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Chapter 4 — 8086 Assembler Directives, Operators &amp; Storage Allocation
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../03_8086_Instruction_Set_Comprehensive/" class="md-footer__link md-footer__link--next" aria-label="Next: Chapter 5 — 8086 Addressing Modes, Machine Encoding &amp;amp; Complete Instruction Set">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Chapter 5 — 8086 Addressing Modes, Machine Encoding &amp; Complete Instruction Set
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/mermaid-init.js"></script>
+      
+    
+  </body>
+</html>

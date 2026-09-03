@@ -1,0 +1,3902 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="DeepSkills Knowledge Base and Engineering Notes">
+      
+      
+        <meta name="author" content="DeepLumiere">
+      
+      
+        <link rel="canonical" href="https://deeplumiere.github.io/DeepSkills/data_analysis/Chapter1_Introduction_to_DAV/">
+      
+      
+        <link rel="prev" href="../../computer_networks/CompNet_ClassTest/">
+      
+      
+        <link rel="next" href="../Chapter2_Types_of_Data/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Chapter1 Introduction to DAV - DeepSkills</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-301Z6Q0P7W"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-301Z6Q0P7W",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-301Z6Q0P7W",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-1-introduction-to-dav" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DeepSkills" class="md-header__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DeepSkills
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter1 Introduction to DAV
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DeepSkills" class="md-nav__button md-logo" aria-label="DeepSkills" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="logo">
+
+    </a>
+    DeepSkills
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DeepLumiere/DeepSkills" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DeepLumiere/DeepSkills
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Computer networks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Computer networks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_1_Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Introduction to Computer Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_3_Data_Link_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Data Link Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/Chapter_4_MAC_Layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Computer Networks Notes: Medium Access Control Sublayer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../computer_networks/CompNet_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CompNet ClassTest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data analysis
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data analysis
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter1 Introduction to DAV
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter1 Introduction to DAV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-course-overview-and-syllabus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Course Overview and Syllabus
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Course Overview and Syllabus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#course-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Outcomes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examination-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examination Scheme
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detailed-syllabus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detailed Syllabus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#laboratory-practical-sessions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Laboratory Practical Sessions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-fundamental-concepts-the-dikw-hierarchy-data-life-cycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Fundamental Concepts: The DIKW Hierarchy &amp; Data Life Cycle
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Fundamental Concepts: The DIKW Hierarchy &amp; Data Life Cycle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-life-cycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Life Cycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Definitions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Definitions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Information
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-knowledge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Knowledge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-wisdom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Wisdom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-data-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Data Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-data-visualisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Data Visualisation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-types-of-data-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Types of Data &amp; Formats
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Types of Data &amp; Formats">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#categories-of-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Categories of Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantitative-vs-qualitative-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantitative vs. Qualitative Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-representation-formats-ungrouped-vs-grouped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Representation Formats: Ungrouped vs Grouped
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-data-analysis-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The Data Analysis Process
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. The Data Analysis Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#big-data-and-frameworks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Big Data and Frameworks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Big Data and Frameworks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-5-vs-of-big-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The 5 V's of Big Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process-pipelines-crisp-dm-vs-kdd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Process Pipelines: CRISP-DM vs KDD
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-analytics-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Analytics Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Analytics Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparison-of-analytics-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison of Analytics Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-data-transformation-visualisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Data Transformation &amp; Visualisation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Data Transformation &amp; Visualisation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Transformation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-visualize-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Visualize Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-tools-ecosystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Tools &amp; Ecosystem
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-industry-applications-case-studies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Industry Applications &amp; Case Studies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-open-data-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Open Data Sources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-edge-cases-practical-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Edge Cases &amp; Practical Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formula-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formula Sheet
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Formula Sheet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-data-aggregation-formula-ungrouped-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Data Aggregation Formula (Ungrouped Mean)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Data Aggregation Formula (Ungrouped Mean)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formula:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meaning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Meaning:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-data-aggregation-formula-grouped-class-table-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Data Aggregation Formula (Grouped Class Table Mean)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Data Aggregation Formula (Grouped Class Table Mean)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formula_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formula:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meaning_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Meaning:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definition-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exam-oriented-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exam-Oriented Review
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exam-Oriented Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-questions-model-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Questions &amp; Model Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#source-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source map
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter2_Types_of_Data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter2 Types of Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter3_Dataset_and_Attributes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter3 Dataset and Attributes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4_Statistical_Descriptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter4 Statistical Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter5_Data_Preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter5 Data Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data communication
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data communication
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter10_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10 — Error Detection and Correction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter1_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1 — Introduction to Data Communications and Networking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter2_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — Network Models (OSI &amp; TCP/IP Architecture)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter3_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3 — Data and Signals (Physical Layer Foundations)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter4_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 — Digital Transmission
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter5_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 — Analog Transmission (Modulation Techniques)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter6_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 — Multiplexing &amp; Spreading Spectrum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter7_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 — Transmission Media
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_communication/DC_Chapter8_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 8 — Switching (Circuit, Packet, &amp; Datagram Networks)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design and analysis of algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design and analysis of algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithmic_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1 — Unit-I: Elementary Algorithmic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_Elementary_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1: Complete DAA Notes: Unit 1 — Elementary Algorithms &amp; Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit1_and_Unit2_Complete_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1: Complete DAA Notes: Unit 1 — Elementary Algorithms &amp; Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit2_Analysis_of_Algorithms_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — Unit-II: Analysis of Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit3_Recurrence_DivideConquer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3: Complete DAA Notes — Recurrence Relations &amp; Divide and Conquer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit4_RedBlackTrees_AdvancedDS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4: Unit 4 — Advanced Data Structures &amp; Amortized Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit5_Greedy_Algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 5 — Greedy Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit6_Dynamic_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 6 — Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_and_analysis_of_algorithms/DAA_Unit7_Backtracking_BranchBound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete DAA Notes: Unit 7 — Backtracking &amp; Branch and Bound
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware and microprocessors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hardware and microprocessors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/01_Directives_In_Depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 — 8086 Assembler Directives, Operators &amp; Storage Allocation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/02_8085_Instruction_Set_Comprehensive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 — 8085 Microprocessor Architecture, Interfacing &amp; Complete Instruction Set
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/03_8086_Instruction_Set_Comprehensive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 5 — 8086 Addressing Modes, Machine Encoding &amp; Complete Instruction Set
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/04_8086_String_Operations_and_Looping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 — 8086 String Operations, Branching &amp; Looping Mechanics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/05_8086_Stack_Operations_and_Modular_Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7 — 8086 Stack Architecture, Procedures &amp; Modular Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware_and_microprocessors/Microprocessors_and_Interfacing_ClassTest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microprocessors &amp; Interfacing Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/01_Machine_Learning_and_its_Applications_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Introduction to Machine Learning &amp; Applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/02_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Simple Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/03_Multivariate_Linear_Regression_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Multivariate Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/04_Regularization_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Regularization and Overfitting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machine_learning/05_Probability_and_Statistics_for_ML_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter: Probability &amp; Statistics for Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Web development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../web_development/FSD_Complete_Study_Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Stack Web Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-course-overview-and-syllabus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Course Overview and Syllabus
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Course Overview and Syllabus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#course-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Outcomes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examination-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examination Scheme
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detailed-syllabus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detailed Syllabus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#laboratory-practical-sessions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Laboratory Practical Sessions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-chapter-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Chapter Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-fundamental-concepts-the-dikw-hierarchy-data-life-cycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Fundamental Concepts: The DIKW Hierarchy &amp; Data Life Cycle
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Fundamental Concepts: The DIKW Hierarchy &amp; Data Life Cycle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-life-cycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Life Cycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Definitions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Definitions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Information
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-knowledge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Knowledge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-wisdom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Wisdom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-data-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Data Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-data-visualisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition: Data Visualisation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-types-of-data-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Types of Data &amp; Formats
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Types of Data &amp; Formats">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#categories-of-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Categories of Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantitative-vs-qualitative-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantitative vs. Qualitative Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-representation-formats-ungrouped-vs-grouped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Representation Formats: Ungrouped vs Grouped
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-data-analysis-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The Data Analysis Process
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. The Data Analysis Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#big-data-and-frameworks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Big Data and Frameworks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Big Data and Frameworks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-5-vs-of-big-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The 5 V's of Big Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process-pipelines-crisp-dm-vs-kdd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Process Pipelines: CRISP-DM vs KDD
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-analytics-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Analytics Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Analytics Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparison-of-analytics-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison of Analytics Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-data-transformation-visualisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Data Transformation &amp; Visualisation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Data Transformation &amp; Visualisation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Transformation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-visualize-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Visualize Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-tools-ecosystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Tools &amp; Ecosystem
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-industry-applications-case-studies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Industry Applications &amp; Case Studies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-open-data-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Open Data Sources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-edge-cases-practical-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Edge Cases &amp; Practical Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formula-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formula Sheet
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Formula Sheet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-data-aggregation-formula-ungrouped-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Data Aggregation Formula (Ungrouped Mean)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Data Aggregation Formula (Ungrouped Mean)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formula:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meaning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Meaning:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-data-aggregation-formula-grouped-class-table-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Data Aggregation Formula (Grouped Class Table Mean)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Data Aggregation Formula (Grouped Class Table Mean)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formula_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formula:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meaning_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Meaning:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definition-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition Sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exam-oriented-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exam-Oriented Review
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exam-Oriented Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-questions-model-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Questions &amp; Model Answers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#source-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source map
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/DeepLumiere/DeepSkills/edit/main/notes/data_analysis/Chapter1_Introduction_to_DAV.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<p><Complete DAV Notes: Chapter 1 — Introduction to DAV></p>
+<blockquote>
+<p><strong>Course:</strong> Data Analysis and Visualisation (3CS103ME24)
+<strong>Programme:</strong> B.Tech (CSE), Integrated B.Tech (CSE)- MBA, and B.Tech (Interdisciplinary Minor in Data Science), Batch 2026-27, Term/Semester: 5th
+<strong>Faculty:</strong> Dr Vrajesh Chawra (Course Coordinator), Dr Jaiprakash Verma, Dr. Preeti Kathiria, Dr. Shivani Pandya, Dr Jigna Patel
+<strong>Primary Sources:</strong> <code>1.Introduction to DAV.pdf</code>, <code>ch1_text.txt</code>
+</Complete DAV Notes: Chapter 1 — Introduction to DAV></p>
+</blockquote>
+<h1 id="chapter-1-introduction-to-dav">Chapter 1 — Introduction to DAV<a class="headerlink" href="#chapter-1-introduction-to-dav" title="Permanent link">&para;</a></h1>
+<h2 id="1-course-overview-and-syllabus">1. Course Overview and Syllabus<a class="headerlink" href="#1-course-overview-and-syllabus" title="Permanent link">&para;</a></h2>
+<h3 id="course-outcomes">Course Outcomes<a class="headerlink" href="#course-outcomes" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Demonstrate data characteristics using visualisation tools (BL2)</li>
+<li>Identify common data types and corresponding analysis approaches (BL3)</li>
+<li>Analyse the data using various statistical tools (BL4)</li>
+<li>Build data visualisation system for interdisciplinary problems (BL6)</li>
+</ol>
+<p>[Source: ch1_text.txt, Slide 3]</p>
+<hr />
+<h3 id="examination-scheme">Examination Scheme<a class="headerlink" href="#examination-scheme" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Exam Duration</th>
+<th style="text-align: left;">Weightage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Continuous Evaluation (CE)</strong></td>
+<td style="text-align: left;">Continuous Evaluation</td>
+<td style="text-align: left;"><span class="arithmatex">\(0.3\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Semester End Exam (SEE)</strong></td>
+<td style="text-align: left;">3 Hrs</td>
+<td style="text-align: left;"><span class="arithmatex">\(0.4\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Laboratory/Practical Work (LPW)</strong></td>
+<td style="text-align: left;">Continuous Evaluation + 2 hrs Semester End LPW Exam</td>
+<td style="text-align: left;"><span class="arithmatex">\(0.3\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>[Source: ch1_text.txt, Slide 6]</p>
+<hr />
+<h3 id="detailed-syllabus">Detailed Syllabus<a class="headerlink" href="#detailed-syllabus" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Unit</th>
+<th style="text-align: left;">Syllabus Content</th>
+<th style="text-align: left;">Teaching Hours</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Unit-I</strong></td>
+<td style="text-align: left;"><strong>Introduction:</strong> Data Understanding types of data, information and uncertainty, classes and attributes, interactions among attributes, relative distributions, summary statistics. <strong>Data Quality:</strong> inaccurate data, sparse data, missing data, insufficient data, imbalanced data</td>
+<td style="text-align: left;"><span class="arithmatex">\(10\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Unit-II</strong></td>
+<td style="text-align: left;">Definition, Purpose, Usage, <strong>Business Data Visualization:</strong> Features of Business Data, Different Visualization fields. Forms of Business Data Visualization. <strong>Social Challenges:</strong> data ownership, data security, ethics and privacy</td>
+<td style="text-align: left;"><span class="arithmatex">\(10\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Unit-III</strong></td>
+<td style="text-align: left;"><strong>The Data:</strong> Data Examination, Data Visualization Patterns, the Categories of Data Visualization. <strong>Data Visualization:</strong> using different tools - refine data and create, edit, alter, and display their visualizations (x-y graph, bar chart, pie chart, cube etc)</td>
+<td style="text-align: left;"><span class="arithmatex">\(10\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Unit-IV</strong></td>
+<td style="text-align: left;"><strong>Data Reduction and Feature Enhancement:</strong> standardizing data, sampling data, using principal components to eliminate attributes, limitations and pitfalls of principal component analysis (PCA), curse of dimensionality</td>
+<td style="text-align: left;"><span class="arithmatex">\(10\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Unit-V</strong></td>
+<td style="text-align: left;"><strong>Showing Complex Data:</strong> Organizational Models, Preattentive Variables, Sorting and Rearranging, Searching and Filtering, Datatips, Data Spotlight, Dynamic Queries, Data Brushing, Local Zooming, Sortable Table, Radial Table, Muti-Y Graphs, Treemap, Small Multiples</td>
+<td style="text-align: left;"><span class="arithmatex">\(5\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Self-study:</strong> Showing Complex Data</p>
+<p>[Source: ch1_text.txt, Slide 4]</p>
+<hr />
+<h3 id="laboratory-practical-sessions">Laboratory Practical Sessions<a class="headerlink" href="#laboratory-practical-sessions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Phase</th>
+<th style="text-align: left;">Practical Title</th>
+<th style="text-align: left;">Hours</th>
+<th style="text-align: left;">CLO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Phase-1: Data Understanding</strong></td>
+<td style="text-align: left;">1. Study domains (Retail, Healthcare, etc.). Identify applications, dataset, importance, challenges.</td>
+<td style="text-align: left;"><span class="arithmatex">\(04\)</span></td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">2. Dataset characteristics, python visualization, insights, data cleaning using pandas.</td>
+<td style="text-align: left;"><span class="arithmatex">\(02\)</span></td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Phase-2: Summary Statistics</strong></td>
+<td style="text-align: left;">3. Five Number Summary, mode, midrange, outlier detection (Quartile method).</td>
+<td style="text-align: left;"><span class="arithmatex">\(02\)</span></td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Phase-3: Business Data Visualization</strong></td>
+<td style="text-align: left;">4. Tableau installation, configuration, features.</td>
+<td style="text-align: left;"><span class="arithmatex">\(02\)</span></td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">5. Case Study: Interactive Dashboard for KPI using Tableau.</td>
+<td style="text-align: left;"><span class="arithmatex">\(02\)</span></td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Phase-4: Data Quality (Preprocessing)</strong></td>
+<td style="text-align: left;">6. Smoothing, normalization, redundancy analysis (Pearson, Chi-Square), Discretization.</td>
+<td style="text-align: left;"><span class="arithmatex">\(04\)</span></td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">7. Data Reduction &amp; Feature Enhancement: Dimensionality reduction, Feature selection.</td>
+<td style="text-align: left;"><span class="arithmatex">\(04\)</span></td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Phase-5: Data Analysis &amp; Visualization</strong></td>
+<td style="text-align: left;">8. Classification Techniques &amp; visualization.</td>
+<td style="text-align: left;"><span class="arithmatex">\(04\)</span></td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">9. Clustering Techniques &amp; visualization.</td>
+<td style="text-align: left;"><span class="arithmatex">\(02\)</span></td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">10. Regression techniques &amp; Tableau visualization.</td>
+<td style="text-align: left;"><span class="arithmatex">\(04\)</span></td>
+<td style="text-align: left;">3</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: ch1_text.txt, Slides 8-12]</p>
+<hr />
+<h3 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Jack G. Zheng, “Data Visualization for Business Intelligence”</li>
+<li>Jiahei Han &amp; Micheline Kamber, <em>Data Mining Concepts and Techniques</em>, Morgan Kaufmann</li>
+<li>Jenifer Tidwell, <em>Designing Interfaces</em>, 2nd Edition, O’reilly Media</li>
+<li>Edward Tufte, <em>The visual Display of Quantitative Information</em>, 2nd Edition, Graphics Press</li>
+<li>Ben Fry, <em>Visualizing Data</em>, O’reilly Media</li>
+<li>Noab Iliinsky, Julie Steele, <em>Designing Data Visualization</em>, O’reilly Media</li>
+<li>Pang-Ning Tan, Michael Steinbach, Vipin Kumar, <em>Introduction to Data Mining</em>, Pearson</li>
+<li>Wes McKinney, <em>Python for Data Analysis</em>, O’reilly</li>
+<li>S. Nagabhushana, <em>Data Warehousing OLAP and Data Mining</em>, New Age publishers</li>
+</ol>
+<p>[Source: ch1_text.txt, Slide 5]</p>
+<hr />
+<h2 id="2-chapter-overview">2. Chapter Overview<a class="headerlink" href="#2-chapter-overview" title="Permanent link">&para;</a></h2>
+<p>This chapter introduces the fundamental concepts of Data Analysis and Visualisation (DAV). It covers the definitions of data, the data lifecycle, types of data, quantitative vs qualitative analysis, and the end-to-end data analysis process. It explores Big Data (5 V's), the DIKW model, process models (CRISP-DM and KDD), analytics types (descriptive, diagnostic, predictive, prescriptive), visualization techniques, standard software tools/libraries, open data sources, and industry case studies.</p>
+<p>[Source: ch1_text.txt, Slides 1-44; 1.Introduction to DAV.pdf]</p>
+<hr />
+<h2 id="3-fundamental-concepts-the-dikw-hierarchy-data-life-cycle">3. Fundamental Concepts: The DIKW Hierarchy &amp; Data Life Cycle<a class="headerlink" href="#3-fundamental-concepts-the-dikw-hierarchy-data-life-cycle" title="Permanent link">&para;</a></h2>
+<p>The <strong>DIKW Model</strong> describes the transformation of raw facts into strategic actions:</p>
+<div class="arithmatex">\[
+\text{Data} \longrightarrow \text{Information} \longrightarrow \text{Knowledge} \longrightarrow \text{Wisdom}
+\]</div>
+<pre class="mermaid"><code>graph BT
+    A["Data: Raw Facts"] --&gt; B["Information: Contextualized Data"]
+    B --&gt; C["Knowledge: Actionable Information"]
+    C --&gt; D["Wisdom: Applied Knowledge"]</code></pre>
+<h3 id="data-life-cycle">Data Life Cycle<a class="headerlink" href="#data-life-cycle" title="Permanent link">&para;</a></h3>
+<p>The data lifecycle represents the sequence of stages that data goes through from its initial generation to its final visualization and analysis. </p>
+<pre class="mermaid"><code>flowchart LR
+    A[Generation/Collection] --&gt; B[Storage]
+    B --&gt; C[Processing/Transformation]
+    C --&gt; D[Analysis]
+    D --&gt; E[Visualization/Communication]</code></pre>
+<p>[Source: 1.Introduction to DAV.pdf, Slide 15; ch1_text.txt, Slide 15]</p>
+<hr />
+<h2 id="4-definitions">4. Definitions<a class="headerlink" href="#4-definitions" title="Permanent link">&para;</a></h2>
+<h3 id="definition-data">Definition: Data<a class="headerlink" href="#definition-data" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> Raw, unprocessed facts, figures, and symbols without context.
+<strong>Formal definition:</strong> Raw facts or figures without any context. It can be numbers, words, measurements, observations, or even just symbols.
+<strong>Intuition:</strong> Before processing, data is just raw material waiting to be evaluated.
+<strong>Example:</strong> Sensor readings: <span class="arithmatex">\(38, 39, 40\)</span>.</p>
+<h3 id="definition-information">Definition: Information<a class="headerlink" href="#definition-information" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> Data that is structured and given meaning.
+<strong>Formal definition:</strong> Data organized and structured to answer "who", "what", "where", and "when".
+<strong>Intuition:</strong> After analysis, data becomes information or knowledge because context is added.
+<strong>Example:</strong> The readings <span class="arithmatex">\(38^\circ\text{C}, 39^\circ\text{C}, 40^\circ\text{C}\)</span> represent daily peak temperatures in July.</p>
+<h3 id="definition-knowledge">Definition: Knowledge<a class="headerlink" href="#definition-knowledge" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> The synthesis of information.
+<strong>Formal definition:</strong> Synthesized information revealing patterns and answering "how".
+<strong>Intuition:</strong> The ability to find actionable trends within the information.
+<strong>Example:</strong> Understanding that temperatures above <span class="arithmatex">\(35^\circ\text{C}\)</span> trigger a <span class="arithmatex">\(40\%\)</span> surge in air conditioner purchases.</p>
+<h3 id="definition-wisdom">Definition: Wisdom<a class="headerlink" href="#definition-wisdom" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> The application of knowledge.
+<strong>Formal definition:</strong> Evaluated knowledge incorporating judgment to answer "why" and guide strategy.
+<strong>Intuition:</strong> Making a strategic business decision based on the generated knowledge.
+<strong>Example:</strong> Pre-emptively increasing regional warehouse inventory of air conditioners in May.</p>
+<h3 id="definition-data-analysis">Definition: Data Analysis<a class="headerlink" href="#definition-data-analysis" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> Asking questions of the data to find actionable insights.
+<strong>Formal definition:</strong> The process of making sense of the data. Analysis means asking questions to the data and finding answers.
+<strong>Intuition:</strong> Extracting useful signals from collected records to aid decision-making.
+<strong>Example:</strong> For a small online shop, analyzing what products people bought, when they bought them, and how much they paid to determine if discounts should be offered on weekends.</p>
+<h3 id="definition-data-visualisation">Definition: Data Visualisation<a class="headerlink" href="#definition-data-visualisation" title="Permanent link">&para;</a></h3>
+<p><strong>Meaning:</strong> Creating visual artifacts of data.
+<strong>Formal definition:</strong> Turning numbers into visuals, like graphs, charts, and dashboards, so people can understand the story behind the data quickly and easily.
+<strong>Intuition:</strong> Because human brains process images faster than raw text or tables, charts can show trends or problems at a glance without reading rows of numbers.
+<strong>Example:</strong> A pie chart showing how sales are split between regions, or a line graph showing revenue changes over time.</p>
+<p>[Source: ch1_text.txt, Slides 14, 18, 24]</p>
+<hr />
+<h2 id="5-types-of-data-formats">5. Types of Data &amp; Formats<a class="headerlink" href="#5-types-of-data-formats" title="Permanent link">&para;</a></h2>
+<h3 id="categories-of-data">Categories of Data<a class="headerlink" href="#categories-of-data" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Example</th>
+<th style="text-align: left;">Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Structured Data</strong></td>
+<td style="text-align: left;">Tables, Excel files, SQL databases</td>
+<td style="text-align: left;">Easy to analyze</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Unstructured Data</strong></td>
+<td style="text-align: left;">Emails, images, videos, social media</td>
+<td style="text-align: left;">Needs preprocessing</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Semi-structured Data</strong></td>
+<td style="text-align: left;">JSON, XML</td>
+<td style="text-align: left;">Has some structure</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Quantitative Data</strong></td>
+<td style="text-align: left;">Numbers (e.g., age, income)</td>
+<td style="text-align: left;">Statistical analysis</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Qualitative Data</strong></td>
+<td style="text-align: left;">Categories (e.g., gender, feedback)</td>
+<td style="text-align: left;">Pattern recognition</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: ch1_text.txt, Slide 16]</p>
+<hr />
+<h3 id="quantitative-vs-qualitative-analysis">Quantitative vs. Qualitative Analysis<a class="headerlink" href="#quantitative-vs-qualitative-analysis" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Quantitative</th>
+<th style="text-align: left;">Qualitative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Nature</strong></td>
+<td style="text-align: left;">Numerical</td>
+<td style="text-align: left;">Descriptive</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Measurability</strong></td>
+<td style="text-align: left;">Can be measured</td>
+<td style="text-align: left;">Cannot be measured directly</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Examples</strong></td>
+<td style="text-align: left;">Age, Salary, Height</td>
+<td style="text-align: left;">Gender, Color, Department, Feedback</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: ch1_text.txt, Slide 17]</p>
+<hr />
+<h3 id="data-representation-formats-ungrouped-vs-grouped">Data Representation Formats: Ungrouped vs Grouped<a class="headerlink" href="#data-representation-formats-ungrouped-vs-grouped" title="Permanent link">&para;</a></h3>
+<p>Data in DAV projects is encountered in two primary structural representations:</p>
+<ol>
+<li><strong>Ungrouped (Raw) Data:</strong> Individual raw observations listed directly.</li>
+<li>Example: <span class="arithmatex">\(X = \{12, 15, 15, 18, 20, 22, 25, 25, 25, 30\}\)</span></li>
+<li><strong>Grouped (Class Table) Data:</strong> Aggregated observations into continuous class intervals with frequencies.</li>
+<li>Example:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Class Interval (CI)</th>
+<th style="text-align: center;">Class Midpoint (<span class="arithmatex">\(x_i\)</span>)</th>
+<th style="text-align: center;">Frequency (<span class="arithmatex">\(f_i\)</span>)</th>
+<th style="text-align: center;">Cumulative Frequency (<span class="arithmatex">\(CF\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><span class="arithmatex">\(10 - 15\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(12.5\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(2\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(2\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;"><span class="arithmatex">\(15 - 20\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(17.5\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(2\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(4\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;"><span class="arithmatex">\(20 - 25\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(22.5\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(3\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(7\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;"><span class="arithmatex">\(25 - 30\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(27.5\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(3\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(10\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Total</strong></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><span class="arithmatex">\(N = \sum f_i = 10\)</span></td>
+<td style="text-align: center;">—</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: 1.Introduction to DAV.pdf, Slide 16]</p>
+<hr />
+<h2 id="6-the-data-analysis-process">6. The Data Analysis Process<a class="headerlink" href="#6-the-data-analysis-process" title="Permanent link">&para;</a></h2>
+<p>Data analysis is a structured process to make sense of information. </p>
+<pre class="mermaid"><code>flowchart TD
+    A[Define the Goal] --&gt; B[Collect Data]
+    B --&gt; C[Clean/Preprocess Data]
+    C --&gt; D[Analyze Data]
+    D --&gt; E[Visualize Results]
+    E --&gt; F[Communicate Findings / Take Action]</code></pre>
+<h3 id="big-data-and-frameworks">Big Data and Frameworks<a class="headerlink" href="#big-data-and-frameworks" title="Permanent link">&para;</a></h3>
+<h4 id="the-5-vs-of-big-data">The 5 V's of Big Data<a class="headerlink" href="#the-5-vs-of-big-data" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Volume:</strong> Scale of data (Gigabytes to Zettabytes).</li>
+<li><strong>Velocity:</strong> Speed of generation and streaming ingestion.</li>
+<li><strong>Variety:</strong> Structural diversity (Structured, Semi-structured, Unstructured).</li>
+<li><strong>Veracity:</strong> Data quality, noise, and trustworthiness.</li>
+<li><strong>Value:</strong> Actionable business utility derived from analysis.</li>
+</ol>
+<h4 id="process-pipelines-crisp-dm-vs-kdd">Process Pipelines: CRISP-DM vs KDD<a class="headerlink" href="#process-pipelines-crisp-dm-vs-kdd" title="Permanent link">&para;</a></h4>
+<pre class="mermaid"><code>flowchart TD
+    subgraph CRISP_DM [CRISP-DM Cycle]
+        A[Business Understanding] &lt;--&gt; B[Data Understanding]
+        B &lt;--&gt; C[Data Preparation]
+        C &lt;--&gt; D[Modeling]
+        D --&gt; E[Evaluation]
+        E --&gt; F[Deployment]
+        E -.-&gt;|Refine| A
+    end</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Framework</th>
+<th style="text-align: left;">Core Focus</th>
+<th style="text-align: left;">Primary Steps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>CRISP-DM</strong></td>
+<td style="text-align: left;">Business-oriented data mining cycle</td>
+<td style="text-align: left;">Business Understanding <span class="arithmatex">\(\rightarrow\)</span> Data Understanding <span class="arithmatex">\(\rightarrow\)</span> Data Prep <span class="arithmatex">\(\rightarrow\)</span> Modeling <span class="arithmatex">\(\rightarrow\)</span> Evaluation <span class="arithmatex">\(\rightarrow\)</span> Deployment</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>KDD Process</strong></td>
+<td style="text-align: left;">Technical knowledge discovery in databases</td>
+<td style="text-align: left;">Selection <span class="arithmatex">\(\rightarrow\)</span> Preprocessing <span class="arithmatex">\(\rightarrow\)</span> Transformation <span class="arithmatex">\(\rightarrow\)</span> Data Mining <span class="arithmatex">\(\rightarrow\)</span> Interpretation/Evaluation</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: ch1_text.txt, Slides 19-22; 1.Introduction to DAV.pdf]</p>
+<hr />
+<h2 id="7-analytics-types">7. Analytics Types<a class="headerlink" href="#7-analytics-types" title="Permanent link">&para;</a></h2>
+<h3 id="comparison-of-analytics-types">Comparison of Analytics Types<a class="headerlink" href="#comparison-of-analytics-types" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A[Descriptive&lt;br&gt;What happened?] --&gt; B[Diagnostic&lt;br&gt;Why did it happen?]
+    B --&gt; C[Predictive&lt;br&gt;What will happen?]
+    C --&gt; D[Prescriptive&lt;br&gt;What to do?]</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Question</th>
+<th style="text-align: left;">Primary Techniques</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Descriptive</strong></td>
+<td style="text-align: left;">What happened?</td>
+<td style="text-align: left;">Summaries, Aggregations, Mean/Median</td>
+<td style="text-align: left;">Monthly sales report</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Diagnostic</strong></td>
+<td style="text-align: left;">Why did it happen?</td>
+<td style="text-align: left;">Drill-downs, Correlation, Root Cause</td>
+<td style="text-align: left;">Investigating a regional sales drop</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Predictive</strong></td>
+<td style="text-align: left;">What will happen?</td>
+<td style="text-align: left;">Regression, Time-series, ML</td>
+<td style="text-align: left;">Sales forecast for Q4</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Prescriptive</strong></td>
+<td style="text-align: left;">What should we do?</td>
+<td style="text-align: left;">Optimization, Monte Carlo, Rules</td>
+<td style="text-align: left;">Automated inventory reordering</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: ch1_text.txt, Slide 23; 1.Introduction to DAV.pdf]</p>
+<hr />
+<h2 id="8-data-transformation-visualisation">8. Data Transformation &amp; Visualisation<a class="headerlink" href="#8-data-transformation-visualisation" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>"Visualization provides a unique perspective on the dataset. Visualization is critical to data analysis. It provides a front line of attack, revealing intricate structure in data that cannot be absorbed in any other way. We discover unimagined effects, and we challenge imagined ones." 
+— <strong>William S. Cleveland</strong>, <em>Visualizing Data</em></p>
+</blockquote>
+<h3 id="data-transformation">Data Transformation<a class="headerlink" href="#data-transformation" title="Permanent link">&para;</a></h3>
+<p>Data transformation is the process of converting data or information from one format to another, usually from the format of a source system into the required format of a new destination system. </p>
+<p>It can be divided into two steps:
+1. <strong>Data mapping:</strong> Maps data elements from the source data system to the destination data system and captures any transformation that must occur.
+2. <strong>Code generation:</strong> Creates the actual transformation program.</p>
+<h3 id="how-to-visualize-data">How to Visualize Data<a class="headerlink" href="#how-to-visualize-data" title="Permanent link">&para;</a></h3>
+<p>Depending on the goal, different visual components are used:
+- <strong>Tables:</strong> Very powerful when dealing with a relatively small number of data points.
+- <strong>Charts:</strong> Allow mapping dimensions in data to visual properties of geometric shapes (e.g., Bar charts, Pie charts).
+- <strong>Maps:</strong> The power of maps is to re-connect the data to our physical world.
+- <strong>Graphs:</strong> Used for showing inter-connections (edges) between data points (nodes).</p>
+<p>[Source: ch1_text.txt, Slides 24-29]</p>
+<hr />
+<h2 id="9-tools-ecosystem">9. Tools &amp; Ecosystem<a class="headerlink" href="#9-tools-ecosystem" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Tool Category</th>
+<th style="text-align: left;">Examples</th>
+<th style="text-align: left;">Strengths/Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Spreadsheets</strong></td>
+<td style="text-align: left;">LibreOffice, Excel, Google Docs</td>
+<td style="text-align: left;">Basic tabular data manipulation and quick charts.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Statistical Programming Frameworks</strong></td>
+<td style="text-align: left;">R (r-project.org), Pandas (pandas.pydata.org), STATA, SPSS</td>
+<td style="text-align: left;">High performance data analysis, cleaning, ETL, EDA.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Geographic Information Systems (GIS)</strong></td>
+<td style="text-align: left;">Quantum GIS, ArcGIS, GRASS</td>
+<td style="text-align: left;">Spatial mapping and geographic analysis.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Visualization Libraries</strong></td>
+<td style="text-align: left;">d3.js, Prefuse, Flare, Matplotlib, Seaborn, Plotly, ggplot2</td>
+<td style="text-align: left;">Custom, interactive, web-ready or statistical graphics.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Wrangling Tools</strong></td>
+<td style="text-align: left;">Google Refine, Datawrangler</td>
+<td style="text-align: left;">Specific tools for cleaning unstructured data.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Non-Programming Visualization / Enterprise BI</strong></td>
+<td style="text-align: left;">ManyEyes, Tableau Public, Power BI</td>
+<td style="text-align: left;">Drag-and-drop UI, rapid interactive dashboarding.</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: ch1_text.txt, Slide 30]</p>
+<hr />
+<h2 id="10-industry-applications-case-studies">10. Industry Applications &amp; Case Studies<a class="headerlink" href="#10-industry-applications-case-studies" title="Permanent link">&para;</a></h2>
+<p>Data visualization and analysis assist almost every company or sector that aims to grow by giving them the vision to increase customer satisfaction.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Industry</th>
+<th style="text-align: left;">Use Case / Benefit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Healthcare</strong></td>
+<td style="text-align: left;">Hospitals use visualizations to track patient wait times and identify bottlenecks in the emergency department, allowing for better resource allocation.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Marketing</strong></td>
+<td style="text-align: left;">Marketers visualize data from social media and website analytics to analyze campaign performance, understand consumer behavior/preferences, and identify trends.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Finance</strong></td>
+<td style="text-align: left;">Professionals interpret complex financial data quickly. Investment firms use interactive charts to visualize stock prices or compare portfolios to spot anomalies impacting decisions.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Manufacturing</strong></td>
+<td style="text-align: left;">Empowers manufacturers to optimize operations by monitoring KPIs. Visual metrics on throughput or defect rates help identify inefficiencies promptly.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Technology</strong></td>
+<td style="text-align: left;">In cybersecurity, visualizations allow analysts to detect patterns in network traffic efficiently and respond swiftly to potential threats.</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: ch1_text.txt, Slide 31, 43]</p>
+<hr />
+<h2 id="11-open-data-sources">11. Open Data Sources<a class="headerlink" href="#11-open-data-sources" title="Permanent link">&para;</a></h2>
+<p>Researchers and practitioners can leverage various public datasets for learning and analysis:
+- <strong>Google Trends</strong> (Curated by Google): E.g., "Cupcake" search results.
+- <strong>National Climatic Data Center</strong> (Curated by NCEI / NOAA): E.g., Local Climatological Data.
+- <strong>Global Health Observatory data</strong> (Curated by WHO): E.g., Universal access to reproductive health.
+- <strong>Data.gov.sg</strong> (Curated by Singaporean government): E.g., Resident demographics.
+- <strong>Earthdata</strong> (Curated by NASA): E.g., Atmospheric Electricity (Lightning).
+- <strong>Amazon Web Services Open Data Registry</strong> (Curated by Amazon): E.g., 1000 Genomes Project.</p>
+<p>[Source: ch1_text.txt, Slide 42]</p>
+<hr />
+<h2 id="12-edge-cases-practical-considerations">12. Edge Cases &amp; Practical Considerations<a class="headerlink" href="#12-edge-cases-practical-considerations" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Scenario / Edge Case</th>
+<th style="text-align: left;">Risk / Problem</th>
+<th style="text-align: left;">Mitigation Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Zero Variance Feature</strong></td>
+<td style="text-align: left;">Constant value column adds zero predictive signal</td>
+<td style="text-align: left;">Drop feature before modeling</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>High Class Imbalance</strong></td>
+<td style="text-align: left;">Predictive models ignore minority class</td>
+<td style="text-align: left;">Resampling (SMOTE) or adjusted loss weights</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Open-Ended Class Intervals</strong></td>
+<td style="text-align: left;">Grouped table with "<span class="arithmatex">\(&gt;50\)</span>" or "<span class="arithmatex">\(&lt;10\)</span>" lacks exact midpoint</td>
+<td style="text-align: left;">Estimate boundary using domain knowledge or adjacent step size</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Conflicting Source Schema</strong></td>
+<td style="text-align: left;">Different column names/units across integrated datasets</td>
+<td style="text-align: left;">Standardization and explicit unit mapping</td>
+</tr>
+</tbody>
+</table>
+<p>[Source: 1.Introduction to DAV.pdf]</p>
+<hr />
+<h2 id="formula-sheet">Formula Sheet<a class="headerlink" href="#formula-sheet" title="Permanent link">&para;</a></h2>
+<h3 id="1-data-aggregation-formula-ungrouped-mean">1. Data Aggregation Formula (Ungrouped Mean)<a class="headerlink" href="#1-data-aggregation-formula-ungrouped-mean" title="Permanent link">&para;</a></h3>
+<h4 id="formula">Formula:<a class="headerlink" href="#formula" title="Permanent link">&para;</a></h4>
+<div class="arithmatex">\[
+\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i
+\]</div>
+<h4 id="where">Where:<a class="headerlink" href="#where" title="Permanent link">&para;</a></h4>
+<ul>
+<li><span class="arithmatex">\(\bar{x}\)</span> = Sample Mean</li>
+<li><span class="arithmatex">\(n\)</span> = Total number of observations in the dataset</li>
+<li><span class="arithmatex">\(x_i\)</span> = <span class="arithmatex">\(i\)</span>-th individual observation</li>
+</ul>
+<h4 id="meaning">Meaning:<a class="headerlink" href="#meaning" title="Permanent link">&para;</a></h4>
+<p>Computes the arithmetic average of a discrete set of unweighted, raw observations.</p>
+<hr />
+<h3 id="2-data-aggregation-formula-grouped-class-table-mean">2. Data Aggregation Formula (Grouped Class Table Mean)<a class="headerlink" href="#2-data-aggregation-formula-grouped-class-table-mean" title="Permanent link">&para;</a></h3>
+<h4 id="formula_1">Formula:<a class="headerlink" href="#formula_1" title="Permanent link">&para;</a></h4>
+<div class="arithmatex">\[
+\bar{x} = \frac{\sum_{i=1}^{k} f_i x_i}{N} \quad \text{where } N = \sum_{i=1}^{k} f_i
+\]</div>
+<h4 id="where_1">Where:<a class="headerlink" href="#where_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li><span class="arithmatex">\(\bar{x}\)</span> = Estimated Mean for grouped data</li>
+<li><span class="arithmatex">\(k\)</span> = Total number of class intervals</li>
+<li><span class="arithmatex">\(f_i\)</span> = Frequency of the <span class="arithmatex">\(i\)</span>-th class interval</li>
+<li><span class="arithmatex">\(x_i\)</span> = Midpoint of the <span class="arithmatex">\(i\)</span>-th class interval, calculated as <span class="arithmatex">\(\frac{\text{Lower Limit} + \text{Upper Limit}}{2}\)</span></li>
+<li><span class="arithmatex">\(N\)</span> = Total frequency across all classes</li>
+</ul>
+<h4 id="meaning_1">Meaning:<a class="headerlink" href="#meaning_1" title="Permanent link">&para;</a></h4>
+<p>Estimates the central location of grouped data when individual values are unknown, assuming observations are evenly distributed within each class interval.</p>
+<hr />
+<h2 id="definition-sheet">Definition Sheet<a class="headerlink" href="#definition-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Data:</strong> Raw, unprocessed facts, figures, and symbols without context.</li>
+<li><strong>Information:</strong> Data organized and structured to answer who, what, where, and when.</li>
+<li><strong>Knowledge:</strong> Synthesized information revealing patterns and answering how.</li>
+<li><strong>Wisdom:</strong> Evaluated knowledge incorporating judgment to answer why and guide strategy.</li>
+<li><strong>Data Analysis:</strong> Process of making sense of data by asking questions and finding answers.</li>
+<li><strong>Data Visualisation:</strong> Turning numbers into visual representations to clearly communicate findings.</li>
+<li><strong>Descriptive Analytics:</strong> Summarizing historical observations (What happened?).</li>
+<li><strong>Diagnostic Analytics:</strong> Determining causes of past events (Why did it happen?).</li>
+<li><strong>Predictive Analytics:</strong> Forecasting future outcomes (What will happen?).</li>
+<li><strong>Prescriptive Analytics:</strong> Optimizing actions based on predictive outcomes (What should we do?).</li>
+<li><strong>CRISP-DM:</strong> Standardized 6-phase data mining lifecycle.</li>
+<li><strong>Data Transformation:</strong> Converting data from a source format to a required destination format via mapping and code generation.</li>
+</ul>
+<hr />
+<h2 id="exam-oriented-review">Exam-Oriented Review<a class="headerlink" href="#exam-oriented-review" title="Permanent link">&para;</a></h2>
+<h3 id="key-questions-model-answers">Key Questions &amp; Model Answers<a class="headerlink" href="#key-questions-model-answers" title="Permanent link">&para;</a></h3>
+<p><strong>Q1: Contrast Descriptive Analytics and Prescriptive Analytics with examples.</strong>
+<strong>A:</strong>
+- <strong>Descriptive Analytics</strong> focuses on summarizing historical data to answer <em>"What happened?"</em>. It uses summary statistics, aggregations, and standard reporting tools. Example: A retail store generating a report showing that total sales revenue last month was <span class="arithmatex">\(\$50,000\)</span>.
+- <strong>Prescriptive Analytics</strong> goes beyond prediction to suggest optimal courses of action to answer <em>"What should we do?"</em>. It uses mathematical optimization, simulation, and decision rules. Example: An automated inventory system recommending the exact reorder quantity of 200 units for Product X now to maximize profit and prevent stockouts.</p>
+<p><strong>Q2: What is the difference between Quantitative and Qualitative data? Provide two examples of each.</strong>
+<strong>A:</strong>
+- <strong>Quantitative Data</strong> consists of numerical values that can be measured or counted objectively.
+  - <em>Examples:</em> Student GPA (<span class="arithmatex">\(3.8\)</span>), Monthly Income (<span class="arithmatex">\(\$4,500\)</span>).
+- <strong>Qualitative Data</strong> consists of non-numerical categorical descriptions that classify attributes based on traits or qualities.
+  - <em>Examples:</em> Customer Feedback ("Excellent"), T-shirt size ("Medium").</p>
+<p><strong>Q3: How does raw ungrouped data differ from grouped class table data? Given raw values <span class="arithmatex">\(\{12, 14, 15, 18, 22, 24\}\)</span>, calculate the mean using both raw form and a grouped frequency table with intervals <span class="arithmatex">\(10-20\)</span> and <span class="arithmatex">\(20-30\)</span>.</strong>
+<strong>A:</strong>
+- <em>Difference:</em> Raw ungrouped data retains every single exact observation. Grouped class table data aggregates individual values into continuous range intervals with frequency counts <span class="arithmatex">\(f_i\)</span>, replacing individual points with class midpoints <span class="arithmatex">\(x_i\)</span>.
+- <em>Calculation:</em>
+  1. <strong>Ungrouped Mean:</strong></p>
+<div class="arithmatex">\[
+\bar{x} = \frac{12 + 14 + 15 + 18 + 22 + 24}{6} = \frac{105}{6} = 17.5
+\]</div>
+<ol>
+<li><strong>Grouped Class Table Mean:</strong><ul>
+<li>Interval <span class="arithmatex">\(10-20\)</span>: Midpoint <span class="arithmatex">\(x_1 = 15\)</span>, Frequency <span class="arithmatex">\(f_1 = 4\)</span> (values: <span class="arithmatex">\(12, 14, 15, 18\)</span>)</li>
+<li>Interval <span class="arithmatex">\(20-30\)</span>: Midpoint <span class="arithmatex">\(x_2 = 25\)</span>, Frequency <span class="arithmatex">\(f_2 = 2\)</span> (values: <span class="arithmatex">\(22, 24\)</span>)</li>
+</ul>
+</li>
+</ol>
+<div class="arithmatex">\[
+\bar{x}_{\text{grouped}} = \frac{(4 \times 15) + (2 \times 25)}{4 + 2} = \frac{60 + 50}{6} = \frac{110}{6} \approx 18.33
+\]</div>
+<p><strong>Q4: List and briefly explain the 6 phases of the CRISP-DM model.</strong>
+<strong>A:</strong>
+1. <strong>Business Understanding:</strong> Define project objectives and requirements from a business perspective.
+2. <strong>Data Understanding:</strong> Collect, explore, and verify data quality to identify initial insights.
+3. <strong>Data Preparation:</strong> Clean, construct, integrate, and format datasets for modeling.
+4. <strong>Modeling:</strong> Select and apply various modeling techniques (e.g., regression, classification).
+5. <strong>Evaluation:</strong> Thoroughly assess models to ensure they meet business goals.
+6. <strong>Deployment:</strong> Integrate models into operational environments for ongoing decision-making.</p>
+<p><strong>Q5: Explain the two steps of Data Transformation.</strong>
+<strong>A:</strong>
+1. <strong>Data mapping:</strong> The process of mapping data elements from the source schema to the target schema, defining rules for data transformation.
+2. <strong>Code generation:</strong> Creating the executable transformation software program or query that carries out the defined mapping logic.</p>
+<hr />
+<h2 id="source-map">Source map<a class="headerlink" href="#source-map" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Section / Topic</th>
+<th style="text-align: left;">Source Document &amp; References</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Course Overview &amp; Syllabus</strong></td>
+<td style="text-align: left;"><code>ch1_text.txt</code>, Slides 3–12</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DIKW Hierarchy &amp; Data Life Cycle</strong></td>
+<td style="text-align: left;"><code>1.Introduction to DAV.pdf</code>, Slide 15; <code>ch1_text.txt</code>, Slide 15</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Definitions (Data, Info, Knowledge, Wisdom, Analysis, Visualization)</strong></td>
+<td style="text-align: left;"><code>ch1_text.txt</code>, Slides 14, 18, 24</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Types &amp; Formats (Ungrouped vs Grouped)</strong></td>
+<td style="text-align: left;"><code>1.Introduction to DAV.pdf</code>, Slide 16; <code>ch1_text.txt</code>, Slides 16–17</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Analysis Process &amp; Big Data 5 V's &amp; CRISP-DM / KDD</strong></td>
+<td style="text-align: left;"><code>ch1_text.txt</code>, Slides 19–22; <code>1.Introduction to DAV.pdf</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Analytics Types (Descriptive, Diagnostic, Predictive, Prescriptive)</strong></td>
+<td style="text-align: left;"><code>ch1_text.txt</code>, Slide 23; <code>1.Introduction to DAV.pdf</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Transformation &amp; Visualisation Techniques</strong></td>
+<td style="text-align: left;"><code>ch1_text.txt</code>, Slides 24–29</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Tools Ecosystem &amp; Industry Applications</strong></td>
+<td style="text-align: left;"><code>ch1_text.txt</code>, Slides 30–31, 42–43</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../computer_networks/CompNet_ClassTest/" class="md-footer__link md-footer__link--prev" aria-label="Previous: CompNet ClassTest">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                CompNet ClassTest
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../Chapter2_Types_of_Data/" class="md-footer__link md-footer__link--next" aria-label="Next: Chapter2 Types of Data">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Chapter2 Types of Data
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/mermaid-init.js"></script>
+      
+    
+  </body>
+</html>
