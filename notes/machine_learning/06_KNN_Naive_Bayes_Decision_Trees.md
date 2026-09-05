@@ -33,7 +33,7 @@ In classification, the system operates in two core phases:
 flowchart LR
     A[Unlabeled Query x*] --> B{Classifier Model}
     B -->|Instance-Based| C[KNN: Nearest Vector Distance]
-    B -->|Generative Probabilistic| D[Naive Bayes: argmax P C | x]
+    B -->|Generative Probabilistic| D["Naive Bayes: argmax P(C | x)"]
     B -->|Recursive Partitioning| E[Decision Tree: Root-to-Leaf Traversal]
     C --> F[Class Label y*]
     D --> F
@@ -934,7 +934,10 @@ $$
   - **Wind:**
     - Weak (D1, D8, D9): $[1+, 2-] \implies H = 0.9183$.
     - Strong (D2, D11): $[1+, 1-] \implies H = 1.0000$.
-    $$IG(S_{\text{Sunny}}, \text{Wind}) = 0.9710 - 0.9510 = 0.0200 \text{ bits}$$.
+
+2885
+$$IG(S_{\text{Sunny}}, \text{Wind}) = 0.9710 - 0.9510 = 0.0200 \text{ bits}$$
+2885
   - **Decision:** Split on **Humidity**. High $\to$ **No**, Normal $\to$ **Yes**.
 
 - **Branch 3: Outlook = Rain ($5$ tuples: D4, D5, D6, D10, D14)**
@@ -1404,7 +1407,10 @@ Calculate Accuracy, Sensitivity, Specificity, Precision, and F1-Score.
 
 **Step 2: Frequency Counts & Laplace-Smoothed Likelihoods**:
 For an attribute with $|V|$ distinct categories, Laplace smoothing adds $1$ to numerator and $|V|$ to denominator:
+
+2885
 $$P(X_j = v \mid Y = c) = \frac{\text{Count}(X_j = v, Y = c) + 1}{\text{Count}(Y = c) + |V|}$$
+2885
 
 Here, both attributes have $|V| = 2$ categories.
 
@@ -1418,15 +1424,30 @@ Here, both attributes have $|V| = 2$ categories.
 
 **Step 3: Posterior Score Calculation for Query $\mathbf{x}^* = (\text{Junior}, \text{MSc})$**:
 - Score($\text{Yes}$) $= P(\text{Yes}) \times P(\text{Junior} \mid \text{Yes}) \times P(\text{MSc} \mid \text{Yes})$
-  $$\text{Score}(\text{Yes}) = 0.5 \times \frac{2}{7} \times \frac{4}{7} = 0.5 \times \frac{8}{49} = \frac{4}{49} \approx \mathbf{0.0816}$$
+
+2885
+$$\text{Score}(\text{Yes}) = 0.5 \times \frac{2}{7} \times \frac{4}{7} = 0.5 \times \frac{8}{49} = \frac{4}{49} \approx \mathbf{0.0816}$$
+2885
 
 - Score($\text{No}$) $= P(\text{No}) \times P(\text{Junior} \mid \text{No}) \times P(\text{MSc} \mid \text{No})$
-  $$\text{Score}(\text{No}) = 0.5 \times \frac{5}{7} \times \frac{2}{7} = 0.5 \times \frac{10}{49} = \frac{5}{49} \approx \mathbf{0.1020}$$
+
+2885
+$$\text{Score}(\text{No}) = 0.5 \times \frac{5}{7} \times \frac{2}{7} = 0.5 \times \frac{10}{49} = \frac{5}{49} \approx \mathbf{0.1020}$$
+2885
 
 **Step 4: Normalized Probabilities & Classification**:
+
+2885
 $$\text{Total Score} = \frac{4}{49} + \frac{5}{49} = \frac{9}{49}$$
+2885
+
+2885
 $$P(\text{Yes} \mid \mathbf{x}^*) = \frac{4/49}{9/49} = \frac{4}{9} \approx \mathbf{44.44\%}$$
+2885
+
+2885
 $$P(\text{No} \mid \mathbf{x}^*) = \frac{5/49}{9/49} = \frac{5}{9} \approx \mathbf{55.56\%}$$
+2885
 
 **Decision:** Since $P(\text{No} \mid \mathbf{x}^*) > P(\text{Yes} \mid \mathbf{x}^*)$, candidate is classified as **Offer = No**.
 
@@ -1452,33 +1473,69 @@ $$P(\text{No} \mid \mathbf{x}^*) = \frac{5/49}{9/49} = \frac{5}{9} \approx \math
 > Total samples $|S| = 8$: $5$ Yes ($+$), $3$ No ($-$).
 
 **Step 1: Calculate Total Dataset Entropy $H(S)$**:
+
+2885
 $$p_+ = \frac{5}{8} = 0.625, \quad p_- = \frac{3}{8} = 0.375$$
+2885
+
+2885
 $$H(S) = -\left[ \frac{5}{8} \log_2\left(\frac{5}{8}\right) + \frac{3}{8} \log_2\left(\frac{3}{8}\right) \right]$$
+2885
+
+2885
 $$H(S) = -[0.625(-0.678) + 0.375(-1.415)] = -[-0.4238 - 0.5306] = \mathbf{0.9544 \text{ bits}}$$
+2885
 
 **Step 2: Information Gain for Attribute "Credit Rating"**:
 Values: $\{\text{Good}, \text{Fair}, \text{Poor}\}$
 - **Credit = Good** ($|S_{\text{Good}}| = 3$): IDs 3, 4, 7 $\implies 3$ Yes, $0$ No.
-  $$H(S_{\text{Good}}) = -\left[1 \log_2 1 + 0\right] = \mathbf{0.0 \text{ (Pure)}}$$
+
+2885
+$$H(S_{\text{Good}}) = -\left[1 \log_2 1 + 0\right] = \mathbf{0.0 \text{ (Pure)}}$$
+2885
 - **Credit = Fair** ($|S_{\text{Fair}}| = 3$): IDs 1, 2, 8 $\implies 2$ Yes, $1$ No.
-  $$H(S_{\text{Fair}}) = -\left[\frac{2}{3} \log_2\left(\frac{2}{3}\right) + \frac{1}{3} \log_2\left(\frac{1}{3}\right)\right] = \mathbf{0.9183 \text{ bits}}$$
+
+2885
+$$H(S_{\text{Fair}}) = -\left[\frac{2}{3} \log_2\left(\frac{2}{3}\right) + \frac{1}{3} \log_2\left(\frac{1}{3}\right)\right] = \mathbf{0.9183 \text{ bits}}$$
+2885
 - **Credit = Poor** ($|S_{\text{Poor}}| = 2$): IDs 5, 6 $\implies 0$ Yes, $2$ No.
-  $$H(S_{\text{Poor}}) = \mathbf{0.0 \text{ (Pure)}}$$
+
+2885
+$$H(S_{\text{Poor}}) = \mathbf{0.0 \text{ (Pure)}}$$
+2885
 
 Weighted Remaining Entropy:
+
+2885
 $$H(S, \text{Credit}) = \frac{3}{8}(0.0) + \frac{3}{8}(0.9183) + \frac{2}{8}(0.0) = \frac{2.7549}{8} = 0.3444 \text{ bits}$$
+2885
+
+2885
 $$IG(S, \text{Credit}) = H(S) - H(S, \text{Credit}) = 0.9544 - 0.3444 = \mathbf{0.6100 \text{ bits}}$$
+2885
 
 **Step 3: Information Gain for Attribute "Income"**:
 Values: $\{\text{High}, \text{Low}\}$
 - **Income = High** ($|S_{\text{High}}| = 5$): IDs 1, 3, 5, 7, 8 $\implies 4$ Yes, $1$ No.
-  $$H(S_{\text{High}}) = -\left[\frac{4}{5}\log_2\left(\frac{4}{5}\right) + \frac{1}{5}\log_2\left(\frac{1}{5}\right)\right] = -[0.8(-0.322) + 0.2(-2.322)] = \mathbf{0.7219 \text{ bits}}$$
+
+2885
+$$H(S_{\text{High}}) = -\left[\frac{4}{5}\log_2\left(\frac{4}{5}\right) + \frac{1}{5}\log_2\left(\frac{1}{5}\right)\right] = -[0.8(-0.322) + 0.2(-2.322)] = \mathbf{0.7219 \text{ bits}}$$
+2885
 - **Income = Low** ($|S_{\text{Low}}| = 3$): IDs 2, 4, 6 $\implies 1$ Yes, $2$ No.
-  $$H(S_{\text{Low}}) = \mathbf{0.9183 \text{ bits}}$$
+
+2885
+$$H(S_{\text{Low}}) = \mathbf{0.9183 \text{ bits}}$$
+2885
 
 Weighted Remaining Entropy:
+
+2885
 $$H(S, \text{Income}) = \frac{5}{8}(0.7219) + \frac{3}{8}(0.9183) = 0.4512 + 0.3444 = 0.7956 \text{ bits}$$
+2885
+
+2885
 $$IG(S, \text{Income}) = 0.9544 - 0.7956 = \mathbf{0.1588 \text{ bits}}$$
+2885
 
 **Step 4: Root Attribute Selection & Sub-tree Expansion**:
 - $IG(S, \text{Credit}) = \mathbf{0.6100 \text{ bits}} > IG(S, \text{Income}) = \mathbf{0.1588 \text{ bits}}$.
@@ -1506,3 +1563,4 @@ flowchart TD
     style L_No1 fill:#f38ba8,stroke:#333,color:#11111b
     style L_No2 fill:#f38ba8,stroke:#333,color:#11111b
 ```
+
