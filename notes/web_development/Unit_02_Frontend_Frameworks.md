@@ -1,3 +1,5 @@
+# Chapter 2: Unit 02 — Frontend Frameworks
+
 # Full Stack Web Development (FSD) — Unit 2: Frontend Frameworks & Responsive Architecture
 
 **Course:** Full Stack Web Development (FSD)  
@@ -713,7 +715,11 @@ Containers provide the foundational responsive wrapper by padding, centering, an
 
 ### 4.4 The 12-Column Grid System & Column Layouts
 The Bootstrap 5 grid engine is constructed with flexbox and operates under strict structural hierarchy rules:
-$$\text{Container} \longrightarrow \text{Row} \longrightarrow \text{Column}$$
+
+$$
+\text{Container} \longrightarrow \text{Row} \longrightarrow \text{Column}
+$$
+
 
 ```html
 <div class="container">
@@ -2243,5 +2249,53 @@ useEffect(() => {
    - **C) $5\text{MB} - 10\text{MB}$** *(Correct)*
    - D) $250\text{MB}$  
    *Explanation: LocalStorage is allocated roughly $5\text{MB}$ to $10\text{MB}$ per origin, whereas cookies are constrained to $4\text{KB}$.*
+
+---
+
+
+---
+
+## 8. Detailed Architectural Execution Flow & Reactivity Deep Dive
+
+### React Virtual DOM Reconciliation & Diffing Algorithm
+React utilizes a Virtual DOM (VDOM)—an in-memory lightweight JS tree representation of the actual DOM. When state changes (`useState`), React executes reconciliation:
+
+```mermaid
+flowchart TD
+    subgraph "React Virtual DOM Reconciliation Loop"
+        StateChange["1. setState() / State Update Triggered"] --> Render["2. Re-render Component Tree to produce New VDOM Tree"]
+        Render --> Diffing["3. Diffing Algorithm compares Old VDOM vs New VDOM O(n) heuristic"]
+        Diffing --> Patch["4. Compute Minimal Patch (Reconciliation)"]
+        Patch --> Commit["5. Commit Phase: Apply targeted batch updates to Real DOM"]
+    end
+```
+
+### Vue 3 Reactive System (Proxy-based Tracking)
+Vue 3 uses JavaScript `Proxy` objects to intercept property access (`get`) for dependency tracking (`track`) and property modification (`set`) for triggering effects (`trigger`):
+
+```mermaid
+flowchart TD
+    subgraph "Vue 3 Reactive Proxy Pipeline"
+        Component["1. Component Render Effect"] --> Read["2. Access reactive state property -&gt; Proxy 'get' Trap"]
+        Read --> Track["3. track(): Register current Effect in dep map for property"]
+        Track --> UserAction["4. State modified: state.count++ -&gt; Proxy 'set' Trap"]
+        UserAction --> Trigger["5. trigger(): Lookup dep map -&gt; Re-run all subscribed Effects"]
+        Trigger --> DOMUpdate["6. Component re-renders &amp; updates DOM"]
+    end
+```
+
+### Angular Change Detection Cycle (Zone.js & Component Tree)
+Angular tracks asynchronous events (clicks, HTTP responses, timers) using **Zone.js**, triggering top-down Change Detection across the component tree:
+
+```mermaid
+flowchart TD
+    subgraph "Angular Change Detection Hierarchy"
+        AsyncEvent["1. Async Event occurs in NgZone"] --> RootCD["2. Trigger Change Detection from Root Component"]
+        RootCD --> Child1["3. Check Child Component 1 (CheckAlways / Default)"]
+        RootCD --> Child2["4. Check Child Component 2 (OnPush)"]
+        Child2 -. "Input Reference Changed?" .-> UpdateChild2["Update Child 2 View"]
+        Child2 -. "Reference Unchanged" .-> SkipChild2["Skip Subtree Check (Optimized)"]
+    end
+```
 
 ---
