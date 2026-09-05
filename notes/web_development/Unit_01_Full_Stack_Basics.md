@@ -1,12 +1,9 @@
-# Full Stack Web Development (FSD) — Complete & Exhaustive Study Notes
+# Chapter 1: Full Stack Development Basics
 
-**Course:** Full Stack Web Development (FSD)  
-**Source Material:** `UNIT-1 Full Stack Development Basics.docx`, `UNIT-1 Full Stack Development Basics.pdf`, `UNIT-2 Frontend Frameworks.docx`  
-**Generated Date:** August 09, 2026  
+> **Course Title:** Full Stack Web Development (FSD)
+> **Source Material:** `UNIT-1 Full Stack Development Basics.docx`, `UNIT-1 Full Stack Development Basics.pdf`, `UNIT-2 Frontend Frameworks.docx`
 
 ---
-
-# Unit 1 — Full Stack Development Basics
 
 ## 1. Chapter Overview
 Unit 1 provides the structural, architectural, and protocol foundation for web application engineering. It spans:
@@ -32,8 +29,6 @@ A **Full Stack Developer** possesses comprehensive domain knowledge across the e
 > 3. Cross-Disciplinary Knowledge: Maintaining currency with emerging frameworks, databases, and DevOps tools.
 > 4. Agile Team Contribution: Serving as versatile, high-velocity engineering nodes in cross-functional Agile environments.
 
-[Source: `UNIT-1 Full Stack Development Basics.docx`, Section 1]
-
 ---
 
 ### 2.2 Role Comparison: Front-End vs. Back-End vs. Full Stack
@@ -44,8 +39,6 @@ A **Full Stack Developer** possesses comprehensive domain knowledge across the e
 | **Core Technologies** | HTML5, CSS3, JavaScript (ES6+), React, Vue, Angular, Bootstrap, Tailwind. | Node.js, Python, Java, Ruby, PHP, C#/.NET, Express, Django, Spring Boot. | Full Stacks (MERN, MEAN, LAMP, RoR, Serverless) spanning front-end & back-end. |
 | **Data Handling** | Manipulates DOM, renders JSON payloads received from server APIs. | Constructs APIs, interacts directly with DBMS (SQL/NoSQL), manages state persistence. | Manages data modeling, API payload construction, and DOM presentation. |
 | **System Visibility** | Client browser engine / web runtime. | Server environment / OS / Cloud container / Database. | Complete application topology. |
-
-[Source: `UNIT-1 Full Stack Development Basics.docx`, Section 1]
 
 ---
 
@@ -82,8 +75,6 @@ flowchart LR
 2. **Key Person Dependency:** Over-reliance on a single developer creates severe single-point-of-failure risks.
 3. **Cognitive Overhead:** Rapid shifts across multiple paradigms (CSS, SQL, Async JS, DevOps) increase defect likelihood.
 
-[Source: `UNIT-1 Full Stack Development Basics.docx`, Section 1]
-
 ---
 
 ## 3. The 3-Tier Enterprise Architecture
@@ -93,10 +84,10 @@ The 3-Tier Architecture cleanly segregates software application code into three 
 
 ```mermaid
 flowchart TD
-    Client["Client / User Interface"] <--> Presentation["Presentation Tier (UI Layer)\n[HTML, CSS, JS, Frameworks]"]
-    Presentation <--> Business["Business Tier (Logic Layer)\n[Node.js, Express, Python, Java]"]
-    Business <--> DataAccess["Data Access Tier (DAL)\n[SQL DDL/DML, ORM, MongoDB Driver]"]
-    DataAccess <--> Database[("Database Tier (DBMS)\n[MySQL, PostgreSQL, MongoDB]")]
+    Client["Client / User Interface"] <--> Presentation["Presentation Tier (UI Layer)<br>[HTML, CSS, JS, Frameworks]"]
+    Presentation <--> Business["Business Tier (Logic Layer)<br>[Node.js, Express, Python, Java]"]
+    Business <--> DataAccess["Data Access Tier (DAL)<br>[SQL DDL/DML, ORM, MongoDB Driver]"]
+    DataAccess <--> Database[("Database Tier (DBMS)<br>[MySQL, PostgreSQL, MongoDB]")]
 ```
 
 ### 3.2 Strict Rules of 3-Tier Architecture
@@ -120,8 +111,6 @@ flowchart TD
 | **Business Tier** | Enforcing business rules, computational algorithms, access validation. | Core Server Languages (Node.js, Python, Java, PHP, C#), API Routing. |
 | **Data Access Tier** | Executing CRUD transactions against persistent storage. | SQL (DDL/DML), Database Schema Design, Indexing, NoSQL Query APIs. |
 
-[Source: `UNIT-1 Full Stack Development Basics.docx`, Section 2]
-
 ---
 
 ## 4. Popular Web Development Stacks & Project Contexts
@@ -138,8 +127,6 @@ flowchart TD
 | **Java / Spring Boot**| Java + Spring Boot Framework | Large-scale, high-concurrency enterprise applications, banking, microservices architectures. | Amazon, Netflix, Google, Ebay, Enterprise Banking |
 | **Serverless** | AWS Lambda / Azure Functions + DynamoDB / Serverless API | Personalized travel planning, event-driven web apps requiring auto-scaling with pay-per-use costing. | Serverless Startups, Cloud Native SaaS |
 | **Flutter / React Native**| Cross-Platform Frameworks (Dart / JS) | Multi-platform on-demand mobile & web applications (food delivery, fitness tracking). | Instagram, Uber Eats, BMW, Alibaba |
-
-[Source: `UNIT-1 Full Stack Development Basics.docx`, Section 3]
 
 ---
 
@@ -173,8 +160,6 @@ flowchart TD
 | **Null** | Literal `null` representing empty value. | `"middleName": null` |
 | **Object** | Unordered collection of key-value pairs wrapped in `{}`. Keys MUST be double-quoted strings. | `{"id": 101, "dept": "CS"}` |
 | **Array** | Ordered sequence of values wrapped in `[]`. | `"grades": [88, 92, 95]` |
-
-[Source: `UNIT-1 Full Stack Development Basics.docx`, Table 1 & Section 4]
 
 ---
 
@@ -222,8 +207,6 @@ JSON standard **does not support native comments** (`//` or `/* */`). To include
 }
 ```
 
-[Source: `UNIT-1 Full Stack Development Basics.docx`, Section 4]
-
 ---
 
 ## 6. REpresentational State Transfer (REST) Architecture
@@ -237,12 +220,12 @@ REST is an architectural style that defines constraints for building scalable, r
 
 ```mermaid
 flowchart TD
-    C1["1. Client-Server Decoupling\n(UI isolated from Data Storage)"]
-    C2["2. Statelessness\n(No client context saved on server)"]
-    C3["3. Cacheability\n(Explicit response cache headers)"]
-    C4["4. Uniform Interface\n(Resource URIs, Self-descriptive, HATEOAS)"]
-    C5["5. Layered System\n(Client cannot tell if connected to end DB or proxy)"]
-    C6["6. Code on Demand (Optional)\n(Executable code download like JS)"]
+    C1["1. Client-Server Decoupling<br>(UI isolated from Data Storage)"]
+    C2["2. Statelessness<br>(No client context saved on server)"]
+    C3["3. Cacheability<br>(Explicit response cache headers)"]
+    C4["4. Uniform Interface<br>(Resource URIs, Self-descriptive, HATEOAS)"]
+    C5["5. Layered System<br>(Client cannot tell if connected to end DB or proxy)"]
+    C6["6. Code on Demand (Optional)<br>(Executable code download like JS)"]
 ```
 
 1. **Client-Server Separation:** Enforces complete boundary separation. The client handles presentation; the server manages storage and logic. Enables independent platform evolution.
@@ -255,8 +238,6 @@ flowchart TD
    - *HATEOAS (Hypermedia as the Engine of Application State):* Responses include dynamic hypermedia links guiding available client state transitions.
 5. **Layered System:** Application topology can include intermediaries (load balancers, cache layers, API gateways) without client awareness.
 6. **Code-on-Demand (Optional):** Servers can temporarily extend client functionality by transferring executable code (e.g., JavaScript scripts).
-
-[Source: `UNIT-1 Full Stack Development Basics.docx`, Section 5]
 
 ---
 
@@ -280,7 +261,7 @@ The request `Accept` header indicates media types acceptable in response. The re
 
 #### MIME Type Structure: `type/subtype`
 
-```
+```text
   application/json
   └───┬───┘   └─┬──┘
     Type     Subtype
@@ -292,25 +273,6 @@ The request `Accept` header indicates media types acceptable in response. The re
 | **Application** | `application/json`, `application/xml`, `application/pdf`, `application/octet-stream` |
 | **Image** | `image/png`, `image/jpeg`, `image/gif`, `image/webp` |
 | **Audio / Video** | `audio/mpeg`, `audio/wav`, `video/mp4`, `video/ogg` |
-
-#### Client-Server Handshake Trace Example:
-- **Client Request:**
-```http
-GET /articles/23 HTTP/1.1
-Host: api.example.com
-Accept: text/html, application/json
-```
-- **Server Response:**
-```http
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-  "id": 23,
-  "title": "REST Architecture Deep Dive",
-  "author": "FSD Expert"
-}
-```
 
 ---
 
@@ -336,8 +298,34 @@ Content-Type: application/json
 | | | `404 NOT FOUND` | Resource URI does not exist or has been deleted. |
 | **5xx** | Server Error | `500 INTERNAL SERVER ERROR` | Unhandled server-side exception or runtime system crash. |
 
-[Source: `UNIT-1 Full Stack Development Basics.docx`, Table 2 & Section 5]
+---
+
+## 8. Formula Sheet
+
+- **REST Idempotency Ratio:**
+  $$
+  f(f(x)) = f(x)
+  $$
+- **API Throughput Overhead Ratio:**
+  $$
+  \text{Overhead} = \frac{\text{Header Size (Bytes)}}{\text{Header Size} + \text{Payload Size}} \times 100\%
+  $$
 
 ---
 
+## 9. Definition Sheet
+
+1. **Full Stack Developer:** A developer who works with both client-side and server-side software, managing UI, APIs, logic, and databases.
+2. **3-Tier Architecture:** A client-server architecture in which functional process logic, data access, user interface, and computer data storage are developed and maintained as independent modules.
+3. **JSON:** A lightweight, text-based data interchange format derived from JavaScript object notation syntax.
+4. **REST:** REpresentational State Transfer; a software architectural style that defines constraints for web service communications.
+5. **HATEOAS:** Hypermedia as the Engine of Application State; a REST constraint where hypermedia links in responses direct clients to available actions.
+
 ---
+
+## 10. Exam-Oriented Review
+
+1. Compare 3-tier architecture with monolithic single-tier applications. Explain the cascade communication rule.
+2. Contrast JSON and XML across verbosity, parsing speed, and data structure support.
+3. List the 6 architectural constraints of REST and define HATEOAS with a JSON example.
+4. Detail the HTTP verbs (GET, POST, PUT, DELETE), their CRUD mappings, idempotency status, and standard return status codes.

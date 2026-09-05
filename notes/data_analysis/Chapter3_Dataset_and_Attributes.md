@@ -94,8 +94,8 @@ graph TD
 ### 3. Ordinal Attributes
 **Meaning:** Ordered categories where the interval or distance between them is unknown. They are treated as categorical, but the numbers have mathematical meaning purely in their ordering.
 **Example:** 
-- Size: Small < Medium < Large
-- Grades: A+ > A > B+
+- Size: Small &lt; Medium &lt; Large
+- Grades: A+ &gt; A &gt; B+
 - Satisfaction Level: 0 = Very Dissatisfied, 1 = Dissatisfied, 2 = Neutral, 3 = Satisfied, 4 = Very Satisfied.
 - Restaurant Rating: Scale from 0 to 4 stars.
 [Source: 3.Dataset and Attributes.pdf, Slide 7, 36]

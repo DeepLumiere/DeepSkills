@@ -703,7 +703,7 @@ flowchart LR
     end
     subgraph Switch ["Learning Bridge / Switch"]
         P1[Port 1]
-        FDB[(Forwarding Table<br>MAC | Port | Age)]
+        FDB[(Forwarding Table<br>MAC &#124; Port &#124; Age)]
         P2[Port 2]
     end
     subgraph LAN2 ["Segment 2"]
@@ -711,9 +711,11 @@ flowchart LR
         D[Host D]
     end
 
-    A & B --- P1
+    A --- P1
+    B --- P1
     P1 --- FDB --- P2
-    P2 --- C & D
+    P2 --- C
+    P2 --- D
 ```
 
 #### The Bridge Learning & Forwarding Procedure

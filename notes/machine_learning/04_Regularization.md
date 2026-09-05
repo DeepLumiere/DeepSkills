@@ -233,18 +233,25 @@ $$
 > [!IMPORTANT]
 > **Comprehensive Worked Problem:**
 > Consider an unregularized Ordinary Least Squares (OLS) model trained on 3 features where the initial unconstrained regression weights are:
-> $$\theta_{OLS} = [\theta_1, \theta_2, \theta_3]^T = [4.0, 1.2, 0.4]^T$$
+>
+$$
+\theta_{OLS} = [\theta_1, \theta_2, \theta_3]^T = [4.0, 1.2, 0.4]^T
+$$
 > We examine the explicit behavior of **Ridge Regression ($L_2$)** vs **Lasso Regression ($L_1$)** as regularization parameter $\lambda$ varies across $\lambda \in \{0.5, 1.0, 2.0\}$.
 
 ### Mathematical Closed-Form Behavior:
 1. **Ridge Regression (Proportional Shrinkage):**
    In orthogonal design space, Ridge scales each coefficient by a shrinkage factor:
-   $$\hat{\theta}_j^{\text{Ridge}} = \frac{1}{1 + \lambda} \theta_j^{\text{OLS}}$$
+$$
+\hat{\theta}_j^{\text{Ridge}} = \frac{1}{1 + \lambda} \theta_j^{\text{OLS}}
+$$
    Notice that as $\lambda \to \infty$, $\hat{\theta}_j \to 0$, but **never reaches exact zero** for finite $\lambda$.
 
 2. **Lasso Regression (Soft-Thresholding Operator):**
    In orthogonal design space, Lasso applies the non-linear soft-thresholding operator $S_\lambda$:
-   $$\hat{\theta}_j^{\text{Lasso}} = S_\lambda(\theta_j^{\text{OLS}}) = \text{sign}(\theta_j^{\text{OLS}}) \cdot \max\left(0, |\theta_j^{\text{OLS}}| - \frac{\lambda}{2}\right)$$
+$$
+\hat{\theta}_j^{\text{Lasso}} = S_\lambda(\theta_j^{\text{OLS}}) = \text{sign}(\theta_j^{\text{OLS}}) \cdot \max\left(0, |\theta_j^{\text{OLS}}| - \frac{\lambda}{2}\right)
+$$
    Notice that when $|\theta_j^{\text{OLS}}| \le \frac{\lambda}{2}$, the coefficient is **driven to EXACT ZERO**, inducing structural sparsity and performing automatic feature selection!
 
 ### Parameter Trajectory Comparison Table:
@@ -269,3 +276,9 @@ $$
 | **Feature Selection** | Retains all features | Automatic feature elimination | Automatic feature elimination |
 | **Collinear Features** | Shrinks correlated weights equally | Arbitrarily picks one, zeroes others | Groups and retains correlated features |
 | **Analytical Solution** | Closed form: $(X^T X + \lambda I)^{-1} X^T Y$ | No closed form; requires Coordinate Descent | Coordinate Descent |
+
+---
+
+## Definition Sheet
+
+1. **Regularization:** A technique used to prevent overfitting by penalizing large weights.

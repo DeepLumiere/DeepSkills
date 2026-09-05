@@ -1,3 +1,5 @@
+# Chapter 0: Computer Networks Class Test
+
 ## 1. Overview & Foundational Definitions
 
 ### 1.1 What is a Computer Network?
@@ -1232,7 +1234,7 @@ accept. [Faculty — Slide 49 / General — Slide
 49]
 ──────
 
-### 6.3 Protocol 4: One-Bit Sliding Window (Wₛ = 1,Wᵣ = 1)
+### 6.3 Protocol 4: One-Bit Sliding Window (Wₛ = 1, = 1$)
 
 • Stop-and-Wait protocol implemented using a 1-bit sequence number (0 or 1).
 • Simultaneous Start Anomaly: If both sender and receiver initiate transmission at the exact same moment, duplicate
@@ -1333,7 +1335,7 @@ W \ge \frac{T_{\text{total}}}{T_{\text{frame}}} = \frac{520 \text{ ms}}{20 \text
 
 #### Key Characteristics:
 
-• Sender Window Wₛ > 1, Receiver Window Wᵣ = 1.
+• Sender Window  &gt; 1$, Receiver Window  = 1$.
 • Receiver discards all out-of-order frames and sends cumulative ACKs for the last correctly received in-order frame.
 • On timeout, sender retransmits ALL unacknowledged outstanding frames starting from the oldest unacked
 frame. [Faculty — Slide
@@ -1360,7 +1362,7 @@ W_s \le \text{MAX_SEQ} = 2^n - 1
 
 #### Key Characteristics:
 
-• Sender Window Wₛ > 1, Receiver Window Wᵣ > 1.
+• Sender Window  &gt; 1$, Receiver Window  &gt; 1$.
 • Receiver accepts and buffers out-of-order frames within its window.
 • Receiver sends a NAK (Negative Acknowledgement) to trigger fast retransmission of only the missing frame.
 • Sender retransmits ONLY the single corrupted/missing frame upon receiving a NAK or timer
@@ -1558,7 +1560,7 @@ $$
 retransmitting (low overhead, clean links).
 • Byte Stuffing vs Bit Stuffing: ESC byte insertion before FLAG/ESC bytes vs single 0 bit insertion after five 1s.
 • Go-Back-N vs Selective Repeat: Receiver window 1 / discards out-of-order / retransmits whole window vs Receiver
-window > 1 /
+window $> 1$ /
 buffers out-of-order / retransmits only missing frame via NAK.
 ──────
 
@@ -1589,3 +1591,10 @@ The notes have also been compiled into comprehensive markdown study files in the
 (All content from both primary Faculty slides and secondary General reference slides has been fully merged and verified
 with
 zero omissions.)
+
+
+---
+
+## Exam-oriented review
+
+- **Review:** Covers key concepts of OSI and TCP/IP models, framing, and sliding window protocols.

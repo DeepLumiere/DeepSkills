@@ -299,8 +299,12 @@ The mandatory practice of computing all parameter updates using current iteratio
 #### Part A: Exact Analytical Solution via Normal Equations
 
 For univariate linear regression, the closed-form solutions for slope $\theta_1$ and intercept $\theta_0$ are:
-$$\theta_1^* = \frac{m \sum xy - (\sum x)(\sum y)}{m \sum x^2 - (\sum x)^2} = \frac{\sum (x - \bar{x})(y - \bar{y})}{\sum (x - \bar{x})^2}$$
-$$\theta_0^* = \bar{y} - \theta_1^* \bar{x}$$
+$$
+\theta_1^* = \frac{m \sum xy - (\sum x)(\sum y)}{m \sum x^2 - (\sum x)^2} = \frac{\sum (x - \bar{x})(y - \bar{y})}{\sum (x - \bar{x})^2}
+$$
+$$
+\theta_0^* = \bar{y} - \theta_1^* \bar{x}
+$$
 
 **Calculation Matrix:**
 
@@ -314,10 +318,16 @@ $$\theta_0^* = \bar{y} - \theta_1^* \bar{x}$$
 | **Mean** | $\bar{x} = 2.5$ | $\bar{y} = 4.25$ | — | — |
 
 **Substitute into Normal Equations:**
-$$\theta_1^* = \frac{4(51) - (10)(17)}{4(30) - (10)^2} = \frac{204 - 170}{120 - 100} = \frac{34}{20} = \mathbf{1.7000}$$
-$$\theta_0^* = 4.25 - 1.7000(2.5) = 4.25 - 4.25 = \mathbf{0.0000}$$
+$$
+\theta_1^* = \frac{4(51) - (10)(17)}{4(30) - (10)^2} = \frac{204 - 170}{120 - 100} = \frac{34}{20} = \mathbf{1.7000}
+$$
+$$
+\theta_0^* = 4.25 - 1.7000(2.5) = 4.25 - 4.25 = \mathbf{0.0000}
+$$
 
-$$\text{Exact Optimal Regression Equation: } \hat{y} = 0.0 + 1.70 x$$
+$$
+\text{Exact Optimal Regression Equation: } \hat{y} = 0.0 + 1.70 x
+$$
 
 ---
 
@@ -333,15 +343,25 @@ Initialize: $\theta_0^{(0)} = 0.0, \theta_1^{(0)} = 0.0$, Learning Rate $\alpha 
    - $h_\theta(x^{(4)}) = 0 + 0(4) = 0 \implies e^{(4)} = 0 - 7 = -7.0$
 
 2. **Compute Cost $J(\theta)$:**
-   $$J(\theta) = \frac{1}{2(4)} [(-2)^2 + (-3)^2 + (-5)^2 + (-7)^2] = \frac{4 + 9 + 25 + 49}{8} = \frac{87}{8} = \mathbf{10.875}$$
+$$
+J(\theta) = \frac{1}{2(4)} [(-2)^2 + (-3)^2 + (-5)^2 + (-7)^2] = \frac{4 + 9 + 25 + 49}{8} = \frac{87}{8} = \mathbf{10.875}
+$$
 
 3. **Compute Gradients:**
-   $$\frac{\partial J}{\partial \theta_0} = \frac{1}{4} [(-2) + (-3) + (-5) + (-7)] = \frac{-17}{4} = -4.250$$
-   $$\frac{\partial J}{\partial \theta_1} = \frac{1}{4} [(-2)(1) + (-3)(2) + (-5)(3) + (-7)(4)] = \frac{-2 - 6 - 15 - 28}{4} = \frac{-51}{4} = -12.750$$
+$$
+\frac{\partial J}{\partial \theta_0} = \frac{1}{4} [(-2) + (-3) + (-5) + (-7)] = \frac{-17}{4} = -4.250
+$$
+$$
+\frac{\partial J}{\partial \theta_1} = \frac{1}{4} [(-2)(1) + (-3)(2) + (-5)(3) + (-7)(4)] = \frac{-2 - 6 - 15 - 28}{4} = \frac{-51}{4} = -12.750
+$$
 
 4. **Simultaneous Parameter Update:**
-   $$\theta_0^{(1)} := 0.0 - 0.05(-4.250) = 0.0 + 0.2125 = \mathbf{0.2125}$$
-   $$\theta_1^{(1)} := 0.0 - 0.05(-12.750) = 0.0 + 0.6375 = \mathbf{0.6375}$$
+$$
+\theta_0^{(1)} := 0.0 - 0.05(-4.250) = 0.0 + 0.2125 = \mathbf{0.2125}
+$$
+$$
+\theta_1^{(1)} := 0.0 - 0.05(-12.750) = 0.0 + 0.6375 = \mathbf{0.6375}
+$$
 
 ##### Iteration 2:
 1. **Compute Predictions & Residuals with $\theta_0 = 0.2125, \theta_1 = 0.6375$:**
@@ -351,15 +371,25 @@ Initialize: $\theta_0^{(0)} = 0.0, \theta_1^{(0)} = 0.0$, Learning Rate $\alpha 
    - $\hat{y}^{(4)} = 0.2125 + 0.6375(4) = 2.7625 \implies e^{(4)} = 2.7625 - 7.0 = -4.2375$
 
 2. **Compute Cost $J(\theta)$:**
-   $$J(\theta) = \frac{1}{8} [(-1.15)^2 + (-1.5125)^2 + (-2.875)^2 + (-4.2375)^2] = \frac{1.3225 + 2.2877 + 8.2656 + 17.9564}{8} = \frac{29.8322}{8} = \mathbf{3.7290}$$
+$$
+J(\theta) = \frac{1}{8} [(-1.15)^2 + (-1.5125)^2 + (-2.875)^2 + (-4.2375)^2] = \frac{1.3225 + 2.2877 + 8.2656 + 17.9564}{8} = \frac{29.8322}{8} = \mathbf{3.7290}
+$$
 
 3. **Compute Gradients:**
-   $$\frac{\partial J}{\partial \theta_0} = \frac{-1.1500 - 1.5125 - 2.8750 - 4.2375}{4} = \frac{-9.7750}{4} = -2.4438$$
-   $$\frac{\partial J}{\partial \theta_1} = \frac{-1.15(1) - 1.5125(2) - 2.875(3) - 4.2375(4)}{4} = \frac{-1.15 - 3.025 - 8.625 - 16.95}{4} = \frac{-29.75}{4} = -7.4375$$
+$$
+\frac{\partial J}{\partial \theta_0} = \frac{-1.1500 - 1.5125 - 2.8750 - 4.2375}{4} = \frac{-9.7750}{4} = -2.4438
+$$
+$$
+\frac{\partial J}{\partial \theta_1} = \frac{-1.15(1) - 1.5125(2) - 2.875(3) - 4.2375(4)}{4} = \frac{-1.15 - 3.025 - 8.625 - 16.95}{4} = \frac{-29.75}{4} = -7.4375
+$$
 
 4. **Simultaneous Parameter Update:**
-   $$\theta_0^{(2)} := 0.2125 - 0.05(-2.4438) = 0.2125 + 0.1222 = \mathbf{0.3347}$$
-   $$\theta_1^{(2)} := 0.6375 - 0.05(-7.4375) = 0.6375 + 0.3719 = \mathbf{1.0094}$$
+$$
+\theta_0^{(2)} := 0.2125 - 0.05(-2.4438) = 0.2125 + 0.1222 = \mathbf{0.3347}
+$$
+$$
+\theta_1^{(2)} := 0.6375 - 0.05(-7.4375) = 0.6375 + 0.3719 = \mathbf{1.0094}
+$$
 
 ---
 
