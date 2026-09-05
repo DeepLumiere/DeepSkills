@@ -12,11 +12,11 @@
 
 | Source File | Content / Role | Chapter Integration |
 | :--- | :--- | :--- |
-| `Ch 4 MAC Layer.pdf` (92 slides) | Primary faculty lecture presentation covering static vs dynamic channel allocation, ALOHA, CSMA/CD, BEB, Collision-Free protocols, Limited Contention, Classic & Switched Ethernet, Wireless 802.11 MAC, Transparent Learning Bridges, STP, and VLANs. | Core text, mathematical derivations, protocols, and 21 curated diagram analyses. |
+| `Ch 4 MAC Layer.pdf` (92 slides) | Primary faculty lecture presentation covering static vs dynamic channel allocation, ALOHA, CSMA/CD, BEB, Collision-Free protocols, Limited Contention, Classic & Switched Ethernet, Wireless 802.11 MAC, Transparent Learning Bridges, STP, and VLANs. | Core text, mathematical derivations, protocols, and 25 curated diagram analyses. |
 | `Chapter4-Medium Access Control SubLayer.pdf` (98 slides) | Supplementary presentation with extended bridge learning walkthroughs, STP port state transitions, and 802.11 IFS calculations. | Enhanced protocol flows and bridge forwarding tables. |
 | `CN_Numericals_MAC_Layer.pdf` (19 pages) | Dedicated problem set covering ALOHA throughput/delay, CSMA/CD slot sizing, minimum frame length, Adaptive Tree Walk slots, MACA wireless scenarios, Bluetooth dwell time, bridge forwarding traces, and buffer rate matching. | Section 14 (Worked Numerical Problems) & Section 10 (Mathematical Foundations). |
-| `cn_tutorial.pdf` (Tutorial 4) | Course tutorial covering contention slot sizing in fiber/copper, bitmap worst-case delays, IP packet Ethernet padding, and CSMA/CD LAN acknowledgments. | Section 14 (Worked Problems) & Section 19 (Exam Review). |
-| `Computer_Networks_Question_Bank.pdf` (Unit 3) | Official question bank containing Unit 3 MCQs, CSMA/CD vs CSMA/CA comparisons, bridge learning, and VLAN questions. | Section 19 (Exam-Oriented Review). |
+| `cn_tutorial.pdf` (Tutorial 4) | Course tutorial covering contention slot sizing in fiber/copper, bitmap worst-case delays, IP packet Ethernet padding, and CSMA/CD LAN acknowledgments. | Section 14 (Worked Problems) & Section 20 (Exam Review). |
+| `Computer_Networks_Question_Bank.pdf` (Unit 3) | Official question bank containing Unit 3 MCQs, CSMA/CD vs CSMA/CA comparisons, bridge learning, and VLAN questions. | Section 20 (Exam-Oriented Review). |
 
 ---
 
@@ -26,9 +26,9 @@
 
 ## 1. Chapter Overview & Channel Allocation Problem
 
-On point-to-point links (studied in Chapter 3), a dedicated channel connects exactly two communicating nodes. However, on broadcast networks (such as Ethernet LANs, satellite downlinks, and Wi-Fi networks), multiple communicating stations share a single common physical transmission channel.
+On point-to-point links, a dedicated channel connects exactly two communicating nodes. However, on broadcast networks (such as Ethernet LANs, satellite links, and Wi-Fi networks), multiple communicating stations share a single common physical transmission channel.
 
-The fundamental problem on shared broadcast channels is: **When multiple stations are ready to transmit simultaneously, which station gets the channel?**
+The fundamental design challenge on shared broadcast channels is: **When multiple stations contend for access simultaneously, which station gets to transmit, and how are collisions resolved?**
 
 To manage access to shared channels, the Data Link Layer (Layer 2) of the OSI model is divided into two distinct sublayers (standardized by the IEEE 802 committee):
 1. **Logical Link Control (LLC) Sublayer (Upper Sublayer — IEEE 802.2):** Provides framing, flow control, error checking, and a uniform service interface to the Network Layer (Layer 3), hiding physical transmission technology differences.
@@ -61,7 +61,7 @@ $$
 T_{\text{FDM}} = \frac{1}{\mu \left(\frac{C}{N}\right) - \left(\frac{\lambda}{N}\right)} = \frac{N}{\mu C - \lambda} = N \cdot T_{\text{single}}
 $$
 
-* If $N = 10$ and traffic is bursty (with a high peak-to-average ratio of $1000:1$, typical of web browsing and file downloads), each station is idle for $99\%$ of the time. When a station does generate a burst, it is constrained to a tiny fraction $\frac{1}{N}$ of the bandwidth, causing average delay to increase **$N$-fold**, while all other $(N-1)$ subchannels sit completely idle and wasted!
+* If $N = 10$ and traffic is bursty (with a high peak-to-average ratio of $1000:1$, typical of web browsing and file downloads), each station is idle for $99\%$ of the time. When a station does generate a burst, it is constrained to a tiny fraction $\frac{1}{N}$ of the bandwidth, causing average delay to increase **$N$-fold**, while all other $(N-1)$ subchannels sit completely idle and wasted.
 
 #### 2. Dynamic Channel Allocation
 Dynamic channel allocation shares the entire capacity $C$ on demand among all active stations. Key design assumptions:
@@ -141,13 +141,13 @@ Let $T_f$ be the frame transmission time.
 Let $G$ be the offered load (mean frame generation attempts per frame time $T_f$). Assuming frame generation follows a Poisson distribution:
 
 $$
-P(k \text{ frames in time } t) = \frac{(G \cdot t / T_f)^k e^{-G \cdot t / T_f}}{k!}
+P(k \text{ frames in time } t) = \frac{\left(G \cdot \frac{t}{T_f}\right)^k e^{-G \cdot \frac{t}{T_f}}}{k!}
 $$
 
 Over the vulnerable period $t = 2 T_f$, the probability of zero other transmissions ($k = 0$) is:
 
 $$
-P(0) = e^{-G \cdot (2 T_f) / T_f} = e^{-2G}
+P(0) = e^{-G \cdot \frac{2 T_f}{T_f}} = e^{-2G}
 $$
 
 The throughput $S$ (rate of successful transmissions per frame time) is:
@@ -327,7 +327,7 @@ After a collision, stations randomize their retransmission timing using BEB:
    * The station randomly chooses an integer backoff delay $r$ uniformly distributed in the range:
 
 $$
-r \in \left[0, \; 2^k - 1\right]
+r \in [0, \; 2^k - 1]
 $$
 
    * The station waits $r \times 51.2\,\mu\text{s}$ before attempting to sense the channel and retransmit.
@@ -433,7 +433,7 @@ $$
 1 - p - kp + p = 0 \implies 1 - kp = 0 \implies p^* = \frac{1}{k}
 $$
 
-Substituting $p = 1/k$ gives the maximum success probability:
+Substituting $p = \frac{1}{k}$ gives the maximum success probability:
 
 $$
 P_{\text{success, max}} = k \left(\frac{1}{k}\right) \left(1 - \frac{1}{k}\right)^{k-1} = \left(1 - \frac{1}{k}\right)^{k-1}
@@ -522,13 +522,13 @@ Ethernet was invented by Robert Metcalfe and David Boggs at Xerox PARC in 1973 a
 
 ### Ethernet Performance & Channel Efficiency Derivation
 
-Let $F$ be the frame size in bits, $B$ be network bandwidth in bps, $L$ be cable length in meters, $c$ be propagation speed, and $\tau = L/c$.
+Let $F$ be the frame size in bits, $B$ be network bandwidth in bps, $L$ be cable length in meters, $c$ be propagation speed, and $\tau = \frac{L}{c}$.
 * Each contention slot has duration $2\tau$.
-* With $k$ stations contending with optimal probability $p = 1/k$, the probability that a slot acquires the channel successfully is $A = (1 - 1/k)^{k-1} \to 1/e \approx 0.368$.
+* With $k$ stations contending with optimal probability $p = \frac{1}{k}$, the probability that a slot acquires the channel successfully is $A = \left(1 - \frac{1}{k}\right)^{k-1} \to \frac{1}{e} \approx 0.368$.
 * The mean number of contention slots before a successful transmission is:
 
 $$
-\text{Mean Contention Slots} = \sum_{j=0}^{\infty} j A(1-A)^{j-1} = \frac{1 - A}{A} = \frac{1 - 1/e}{1/e} = e - 1 \approx 1.718
+\text{Mean Contention Slots} = \sum_{j=0}^{\infty} j A(1-A)^{j-1} = \frac{1 - A}{A} = \frac{1 - \frac{1}{e}}{\frac{1}{e}} = e - 1 \approx 1.718
 $$
 
 * The mean length of the contention interval is $T_{\text{contention}} = 2\tau (e - 1) \approx 2\tau e$.
@@ -559,7 +559,7 @@ $$
 
 ## 7. Wireless LANs (IEEE 802.11 / Wi-Fi)
 
-Wireless transmission differs fundamentally from wired Ethernet because radios have limited transmission ranges, signal strength drops as $1/r^2$ or $1/r^4$, and a wireless transceiver cannot transmit and receive simultaneously on the same channel (a station's own transmit power drowns out any incoming collision signal). Consequently, **CSMA/CD cannot be used in wireless LANs; IEEE 802.11 uses CSMA/CA (Collision Avoidance)**.
+Wireless transmission differs fundamentally from wired Ethernet because radios have limited transmission ranges, signal strength drops as $\frac{1}{r^2}$ or $\frac{1}{r^4}$, and a wireless transceiver cannot transmit and receive simultaneously on the same channel (a station's own transmit power drowns out any incoming collision signal). Consequently, **CSMA/CD cannot be used in wireless LANs; IEEE 802.11 uses CSMA/CA (Collision Avoidance)**.
 
 ---
 
@@ -888,7 +888,7 @@ L_{\min} = 2 \cdot \tau \cdot B = 2 \cdot \left(\frac{D}{v}\right) \cdot B
 $$
 
 * $L_{\min}$ = Minimum frame length in bits.
-* $\tau = D/v$ = Maximum one-way propagation delay.
+* $\tau = \frac{D}{v}$ = Maximum one-way propagation delay.
 * $B$ = Channel transmission bit rate in bps.
 
 ### 5. Ethernet Channel Efficiency
@@ -934,57 +934,53 @@ $$
 #### Step-by-Step Derivation
 1. **Index Adjustment:**
    Since the term evaluates to 0 when $j = 0$, we start the summation index at $j = 1$ without altering the sum:
+
 $$
 \text{Mean} = \sum_{j=1}^{\infty} j \cdot A (1 - A)^{j - 1}
 $$
 
 2. **Factoring Constant:**
    Factor the constant probability $A$ outside the summation:
+
 $$
 \text{Mean} = A \sum_{j=1}^{\infty} j (1 - A)^{j - 1}
 $$
 
 3. **Geometric Series Differentiability:**
    Let $x = 1 - A$. Since $0 < A < 1$, $|x| < 1$. Recall the standard infinite geometric series:
+
 $$
-\sum_{j=0}^{\infty} x^j =
-\frac{1}{1 - x} \quad \text{for } |x| < 1
+\sum_{j=0}^{\infty} x^j = \frac{1}{1 - x} \quad \text{for } |x| < 1
 $$
 
 4. **Differentiating with Respect to $x$:**
    Differentiating term-by-term on both sides:
-$$
 
-\frac{d}{dx}\left(\sum_{j=0}^{\infty} x^j
-\right) = \sum_{j=1}^{\infty} j x^{j - 1} =
-\frac{d}{dx}\left(
-\frac{1}{1 - x}
-\right) =
-\frac{1}{(1 - x)^2}
+$$
+\frac{d}{dx}\left(\sum_{j=0}^{\infty} x^j\right) = \sum_{j=1}^{\infty} j x^{j - 1} = \frac{d}{dx}\left(\frac{1}{1 - x}\right) = \frac{1}{(1 - x)^2}
 $$
 
 5. **Back-Substitution of $x = 1 - A$:**
    Substitute $x = 1 - A$ into the derivative identity:
+
 $$
-\sum_{j=1}^{\infty} j (1 - A)^{j - 1} =
-\frac{1}{(1 - (1 - A))^2} =
-\frac{1}{A^2}
+\sum_{j=1}^{\infty} j (1 - A)^{j - 1} = \frac{1}{(1 - (1 - A))^2} = \frac{1}{A^2}
 $$
 
 6. **Final Result:**
    Multiply by the pre-factored scalar $A$:
+
 $$
-\text{Mean} = A \cdot
-\frac{1}{A^2} =
-\frac{1}{A}
+\text{Mean} = A \cdot \frac{1}{A^2} = \frac{1}{A}
 $$
 
 #### Engineering Significance
-Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contention waste time is $\dfrac{2\tau}{A}$. When optimal transmission probability $p = \dfrac{1}{k}$ is chosen, $A \to \dfrac{1}{e} \approx 0.368$ as $k \to \infty$, which means an average of $e \approx 2.718$ contention slots precede every successful frame transmission.
+Because the mean number of contention slots is $\frac{1}{A}$, the mean contention waste time is $\frac{2\tau}{A}$. When optimal transmission probability $p = \frac{1}{k}$ is chosen, $A \to \frac{1}{e} \approx 0.368$ as $k \to \infty$, which means an average of $e \approx 2.718$ contention slots precede every successful frame transmission.
 
 [Source: Ch 4 MAC Layer.pdf, Slide 91]
 
 ---
+
 ## 11. Algorithms and Procedures
 
 ---
@@ -1292,10 +1288,8 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 **What it shows:**
 Slide 91's formal mathematical proof establishing the mean number of contention slots in IEEE 802.3 CSMA/CD using the derivative of a standard geometric series.
 * Evaluates $\sum_{j=0}^{\infty} j A (1-A)^{j-1}$.
-* Substitutes $x = 1-A$ into $
-\frac{d}{dx}(1-x)^{-1} = (1-x)^{-2} = A^{-2}$.
-* Proves that the expected number of slots consumed per transmission is exactly $
-\frac{1}{A}$.
+* Substitutes $x = 1-A$ into $\frac{d}{dx}(1-x)^{-1} = (1-x)^{-2} = A^{-2}$.
+* Proves that the expected number of slots consumed per transmission is exactly $\frac{1}{A}$.
 
 [Source: Ch 4 MAC Layer.pdf, Slide 91]
 
@@ -1347,6 +1341,7 @@ The Point Coordination Function (PCF) centralized polling architecture operating
 [Source: Ch 4 MAC Layer.pdf, Slide 65]
 
 ---
+
 ## 13. Tables and Comprehensive Comparisons
 
 ---
@@ -1446,8 +1441,7 @@ $$
 T_{\text{Pure}} = T_f
 $$
 
-2. In **Slotted ALOHA**, a station generating a frame at a random time must wait for the start of the next slot. On average, this waiting time is half a slot ($
-\frac{1}{2} T_f$). The total delay is:
+2. In **Slotted ALOHA**, a station generating a frame at a random time must wait for the start of the next slot. On average, this waiting time is half a slot ($\frac{1}{2} T_f$). The total delay is:
 
 $$
 T_{\text{Slotted}} = T_f + 0.5 T_f = 1.5 T_f
@@ -1545,8 +1539,6 @@ How long does a station $s$ have to wait in the worst case before it can start t
 $$
 T_{\text{wait, worst}} = N + N \cdot d = N(d + 1)\text{ bit times}
 $$
-
-   (Or in terms of bitmap slots before reservation: $N$ contention bits).
 
 #### Final Answer
 * **Worst-case Waiting Time:** $N(d + 1)\text{ bit times}$ (or $N$ reservation slots).
@@ -1837,8 +1829,6 @@ $$
 
 ---
 
----
-
 ## 15. Edge Cases, Critical Boundary Conditions & Protocol Anomalies
 
 ---
@@ -1846,10 +1836,10 @@ $$
 ### Edge Case 1: Pure ALOHA Boundary Collisions & Overload Bistability
 
 #### Boundary Overlap Condition
-In pure ALOHA, a frame transmitted at time $t$ has duration $T_{fr}$.
-* If another station initiates transmission at $t - T_{fr} + \epsilon$ (where $\epsilon > 0$), its trailing bits collide with the start of the current frame.
-* If another station initiates transmission at $t + T_{fr} - \epsilon$, its leading bits collide with the tail of the current frame.
-* **Vulnerable Period:** Exactly $2 T_{fr}$. Even a single bit overlap corrupts both frames entirely due to packet CRC invalidation.
+In pure ALOHA, a frame transmitted at time $t$ has duration $T_f$.
+* If another station initiates transmission at $t - T_f + \epsilon$ (where $\epsilon > 0$), its trailing bits collide with the start of the current frame.
+* If another station initiates transmission at $t + T_f - \epsilon$, its leading bits collide with the tail of the current frame.
+* **Vulnerable Period:** Exactly $2 T_f$. Even a single bit overlap corrupts both frames entirely due to packet CRC invalidation.
 
 #### The ALOHA Bistability Collapse
 Under Poisson arrivals with offered load $G$:
@@ -1882,8 +1872,7 @@ Consider two stations A and B separated by maximum propagation delay $\tau$:
 Station A can only detect collisions while it is **actively transmitting bits onto the cable**. Therefore:
 
 $$
-T_{\text{trans}} \ge 2\tau \implies
-\frac{L_{\min}}{R} \ge 2\tau \implies L_{\min} \ge 2\tau \cdot R
+T_{\text{trans}} \ge 2\tau \implies \frac{L_{\min}}{B} \ge 2\tau \implies L_{\min} \ge 2\tau \cdot B
 $$
 
 #### The Runt Frame Disaster
@@ -1923,8 +1912,7 @@ If a packet encounters 16 consecutive collisions, the hardware gives up, discard
 * **Solution:** IEEE 802.11 RTS/CTS virtual carrier sensing (NAV).
 
 #### 2. Exposed Terminal Waste
-* **Topology:** Node A $\leftarrow$ Node B and Node C $
-ightarrow$ Node D.
+* **Topology:** Node A $\leftarrow$ Node B and Node C $\to$ Node D.
 * **Scenario:** Node B is transmitting to A. Node C wants to transmit to D.
 * **Error:** Node C senses B's carrier and defers transmission, fearing a collision.
 * **Reality:** C transmitting to D would NOT interfere with A receiving from B! The deferral wastes viable radio capacity.
