@@ -334,3 +334,80 @@ flowchart TD
 5. Explain how Fibonacci Heaps achieve $O(1)$ amortized time for `Decrease-Key` using Cascading Cuts.
 6. Describe Union by Rank and Path Compression in Disjoint Sets. Derive the $O(\alpha(n))$ time complexity.
 7. Compare Binary Heap, Binomial Heap, and Fibonacci Heap across all priority queue operations.
+
+---
+
+Algorithm LINK(x, y)
+    if x.rank > y.rank then
+        y.parent = x
+    else
+        x.parent = y
+        if x.rank == y.rank then
+            y.rank = y.rank + 1
+```
+
+```mermaid
+flowchart TD
+    subgraph "Path Compression Visualization"
+        direction LR
+        subgraph "Before Find(4)"
+            A1[1] --> A2[2] --> A3[3] --> A4[4]
+        end
+        subgraph "After Find(4)"
+            B1[1] --> B2[2]
+            B1 --> B3[3]
+            B1 --> B4[4]
+        end
+    end
+```
+
+### Amortized Complexity
+Using **Union by Rank** and **Path Compression**, a sequence of $m$ operations on $n$ elements takes $O(m \cdot \alpha(n))$ time, where $\alpha(n) \le 4$ is the Inverse Ackermann function. Amortized cost per operation is $\Theta(1)$.
+
+---
+
+## 7. Amortized Analysis Methods
+
+```mermaid
+flowchart TD
+    A["Amortized Analysis Methods"] --> B["1. Aggregate Method"]
+    A --> C["2. Accounting Method (Banker's)"]
+    A --> D["3. Potential Method (Physicist's)"]
+
+    B --> B1["Amortized Cost = Total Cost T(n) / n"]
+    C --> C1["Assign Amortized Charge c_hat_i.<br>Store credit when c_hat_i > c_i; use credit when c_hat_i < c_i."]
+    D --> D1["Define Potential Function Phi(D_i).<br>Amortized Cost c_hat_i = c_i + Phi(D_i) - Phi(D_i-1)."]
+```
+
+---
+
+## 8. Formula Sheet
+
+- **Red-Black Tree Height:** $h \le 2 \log_2(n + 1)$.
+- **Binomial Tree $B_k$:** Nodes $= 2^k$, Height $= k$, Root Degree $= k$.
+- **Fibonacci Heap Potential Function:** $\Phi(H) = t(H) + 2 m(H)$ (where $t(H)$ is root count, $m(H)$ is marked node count).
+- **Disjoint Set Operations Amortized Cost:** $O(\alpha(n)) \approx \Theta(1)$.
+- **Interval Overlap Condition:** $i.low \le i'.high \text{ and } i'.low \le i.high$.
+
+---
+
+## 9. Definition Sheet
+
+1. **Red-Black Tree:** A self-balancing binary search tree with colored nodes that guarantees $O(\log n)$ height.
+2. **Interval Tree:** An augmented search tree for storing intervals and performing overlap queries in $O(\log n)$ time.
+3. **Binomial Heap:** A collection of binomial trees satisfying min-heap property and unique degrees.
+4. **Fibonacci Heap:** A min-heap structure achieving $O(1)$ amortized insertion, union, and decrease-key via lazy consolidation.
+5. **Path Compression:** A technique in Union-Find that points all visited nodes directly to the root during `FIND-SET`.
+6. **Inverse Ackermann Function ($\alpha(n)$):** An extremely slow-growing function ($\alpha(n) \le 4$ for all practical inputs) describing Disjoint Set efficiency.
+
+---
+
+## 10. Exam-Oriented Review
+
+1. List the 5 Red-Black Tree properties and prove why the maximum height is $2 \log_2(n+1)$.
+2. Trace Red-Black Tree insertion for keys $[15, 32, 20, 4, 12, 25, 7]$. Show all rotations and recoloring steps.
+3. Explain the node structure of an Interval Tree. How is `x.max` updated during tree rotations?
+4. Write the algorithm for `Interval-Search(T, i)` and prove why going left when `x.left.max >= i.low` is correct.
+5. Explain how Fibonacci Heaps achieve $O(1)$ amortized time for `Decrease-Key` using Cascading Cuts.
+6. Describe Union by Rank and Path Compression in Disjoint Sets. Derive the $O(\alpha(n))$ time complexity.
+7. Compare Binary Heap, Binomial Heap, and Fibonacci Heap across all priority queue operations.

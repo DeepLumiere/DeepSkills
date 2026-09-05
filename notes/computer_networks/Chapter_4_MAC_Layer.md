@@ -114,6 +114,8 @@ Dynamic channel allocation shares the entire capacity $C$ on demand among all ac
 
 ### Pure ALOHA
 
+![Figure 4.1: Pure ALOHA Vulnerable Period](../images/chapter4/ch4_pure_aloha_vulnerable_period.png)
+
 Developed by Norman Abramson at the University of Hawaii in 1970 for island communication.
 
 #### Operation
@@ -170,6 +172,9 @@ $$
 
 ### Slotted ALOHA
 
+![Figure 4.2: ALOHA Vulnerable Period Comparison](../images/chapter4/ch4_aloha_vulnerable_comparison.png)
+![Figure 4.3: ALOHA Throughput Curves](../images/chapter4/ch4_aloha_throughput_curves.png)
+
 Proposed by Lawrence Roberts in 1972 to double the capacity of Pure ALOHA.
 
 #### Operation
@@ -217,6 +222,8 @@ flowchart LR
 
 ### Carrier Sense Multiple Access (CSMA) Protocols
 
+![Figure 4.4: CSMA Persistence Comparison](../images/chapter4/ch4_csma_persistence_comparison.png)
+
 In local area networks where propagation delay $\tau$ is very short compared to frame transmission time $T_f$, stations can listen to the channel before transmitting (**Carrier Sensing**).
 
 ```mermaid
@@ -248,6 +255,10 @@ flowchart TD
 ---
 
 ### CSMA with Collision Detection (CSMA/CD — IEEE 802.3)
+
+![Figure 4.5: CSMA/CD Collision Timeline](../images/chapter4/ch4_csmacd_collision_timeline.png)
+![Figure 4.10: Ethernet Collision Window](../images/chapter4/ch4_ethernet_collision_window.png)
+![Figure 4.22: CSMA/CD Contention Slot Infinite Geometric Series Derivation](../images/chapter4/ch4_contention_derivation.png)
 
 CSMA/CD improves upon CSMA by adding the ability to **listen while transmitting**. If two stations sense idle and transmit simultaneously, their signals collide. Stations detect the collision within time $2\tau$, immediately abort their transmissions, send a jamming signal, and schedule retransmissions using backoff.
 
@@ -340,6 +351,8 @@ Collision-free protocols eliminate contention completely during data transfer th
 
 ### Basic Bit-Map (Reservation) Protocol
 
+![Figure 4.6: Basic Bit-Map Protocol](../images/chapter4/ch4_bitmap_protocol.png)
+
 * **Mechanism:** If there are $N$ stations (numbered $0$ to $N-1$), each contention period consists of exactly **$N$ small 1-bit reservation slots**.
 * If station $j$ has a frame queued to transmit, it transmits a `1` bit during contention slot $j$. Stations with no frames remain silent (transmitting `0`).
 * By the end of $N$ slots, every station knows exactly which stations want to transmit.
@@ -371,6 +384,8 @@ $$
 ---
 
 ### Binary Countdown Protocol
+
+![Figure 4.7: Binary Countdown Protocol](../images/chapter4/ch4_binary_countdown.png)
 
 * **Mechanism:** Overcomes the $O(N)$ overhead of the Bit-Map protocol by assigning each station a binary address (e.g., $4\text{ bits}$ for 16 stations).
 * In the contention period, stations broadcast their binary addresses **bit-by-bit from most significant bit (MSB) to least significant bit (LSB)**.
@@ -436,6 +451,8 @@ $$
 
 ### The Adaptive Tree Walk Protocol
 
+![Figure 4.8: Adaptive Tree Walk](../images/chapter4/ch4_adaptive_tree_walk.png)
+
 The Adaptive Tree Walk protocol uses a binary tree structure to dynamically partition contending stations:
 
 ```mermaid
@@ -477,6 +494,8 @@ Ethernet was invented by Robert Metcalfe and David Boggs at Xerox PARC in 1973 a
 ---
 
 ### IEEE 802.3 Classic Ethernet Frame Format
+
+![Figure 4.9: Classic Ethernet Frame Format](../images/chapter4/ch4_ethernet_frame_format.png)
 
 ```text
 +-------------------+-----+-------------+------------+-------------+------------------+---------+
@@ -546,6 +565,9 @@ Wireless transmission differs fundamentally from wired Ethernet because radios h
 
 ### The Hidden & Exposed Terminal Problems
 
+![Figure 4.11: Hidden and Exposed Terminals](../images/chapter4/ch4_hidden_exposed_terminals.png)
+![Figure 4.12: IEEE 802.11 Architecture](../images/chapter4/ch4_ieee_80211_architecture.png)
+
 ```mermaid
 flowchart LR
     subgraph Hidden ["Hidden Terminal Problem"]
@@ -571,6 +593,10 @@ flowchart LR
 ---
 
 ### CSMA/CA Protocol with RTS/CTS & NAV
+
+![Figure 4.15: IEEE 802.11 RTS/CTS with NAV](../images/chapter4/ch4_ieee_80211_rts_cts_nav.png)
+![Figure 4.14: IEEE 802.11 CSMA/CA Timeline](../images/chapter4/ch4_ieee_80211_csmaca_timeline.png)
+![Figure 4.23: IEEE 802.11 Competing Stations Backoff and Contention Window](../images/chapter4/ch4_ieee_80211_competing_stations.png)
 
 To solve the hidden terminal problem, IEEE 802.11 provides an optional **MACA four-way handshake**:
 
@@ -604,6 +630,10 @@ sequenceDiagram
 
 ### Inter-Frame Spacing (IFS) Priorities
 
+![Figure 4.13: IEEE 802.11 IFS Priorities](../images/chapter4/ch4_ieee_80211_ifs_priorities.png)
+![Figure 4.24: IEEE 802.11 MAC Frame Fragmentation Mechanism](../images/chapter4/ch4_ieee_80211_fragmentation.png)
+![Figure 4.25: IEEE 802.11 PCF Superframe and Contention-Free Period](../images/chapter4/ch4_ieee_80211_pcf_superframe.png)
+
 IEEE 802.11 defines distinct inter-frame gap durations to enforce traffic priorities:
 
 ```mermaid
@@ -630,6 +660,8 @@ $$
 ---
 
 ### IEEE 802.11 MAC Frame Format & 4-Address Scheme
+
+![Figure 4.16: IEEE 802.11 MAC Frame Format](../images/chapter4/ch4_ieee_80211_mac_frame.png)
 
 ```text
 +----------+----------+-----------+-----------+-----------+-----------+----------+---------------+-------+
@@ -658,6 +690,8 @@ Bridges and Layer 2 Switches connect multiple distinct physical LAN segments int
 ---
 
 ### Transparent Learning Bridge Algorithm
+
+![Figure 4.17: Learning Bridge Operation](../images/chapter4/ch4_learning_bridge_operation.png)
 
 A transparent bridge is plug-and-play; when connected, it learns network topology automatically using **Backward Learning**.
 
@@ -702,6 +736,9 @@ $$
 
 ### Spanning Tree Protocol (STP — IEEE 802.1D)
 
+![Figure 4.18: STP Loop Problem](../images/chapter4/ch4_stp_loop_problem.png)
+![Figure 4.19: STP Port Roles](../images/chapter4/ch4_stp_port_roles.png)
+
 To provide fault tolerance, network engineers build redundant physical links between bridges. However, redundant Layer 2 loops cause catastrophic failure:
 
 1. **Broadcast Storms:** Broadcast frames (such as ARP requests) circulate indefinitely in loops, being endlessly replicated and consuming $100\%$ of bandwidth.
@@ -733,6 +770,8 @@ Bridges exchange **Bridge Protocol Data Units (BPDUs)** containing `(Root BID, R
 ---
 
 ### Network Devices Interconnection Hierarchy
+
+![Figure 4.20: Network Devices Stack](../images/chapter4/ch4_network_devices_stack.png)
 
 ```mermaid
 flowchart TD
@@ -779,6 +818,8 @@ A **Virtual Local Area Network (VLAN)** is a logical broadcast domain created by
 ---
 
 ### VLAN Port Modes & IEEE 802.1Q Frame Tagging
+
+![Figure 4.21: IEEE 802.1Q VLAN Tagging](../images/chapter4/ch4_vlan_8021q_tagging.png)
 
 ```mermaid
 flowchart LR
