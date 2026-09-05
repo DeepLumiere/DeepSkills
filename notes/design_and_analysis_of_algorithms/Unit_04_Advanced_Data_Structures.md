@@ -577,7 +577,8 @@ flowchart TD
 > [!IMPORTANT]
 > **Unified Exam Problem:**
 > Given the input array of keys:
-> $$A = [15, 32, 20, 4, 12, 25, 7]$$
+> **Keys:**  = [15, 32, 20, 4, 12, 25, 7]$
+
 > Construct and demonstrate the complete step-by-step algorithmic procedures, state transitions, case resolutions, and final structures for:
 > 1. **Red-Black Tree** (with Black-Height verification and Deletion Fixup)
 > 2. **Binomial Heap** (with Binary Counter Analogy and Extract-Min)
@@ -741,7 +742,11 @@ flowchart TD
 We insert the same array $A = [15, 32, 20, 4, 12, 25, 7]$.
 A Binomial Heap maintains a collection of binomial trees where no two trees share the same degree. Insertion is isomorphic to **binary addition**:
 
-$$	ext{Count } n = 7_{10} = 111_2 \implies 	ext{Final Heap must contain } B_2 + B_1 + B_0$$
+
+2885
+	ext{Count } n = 7_{10} = 111_2 \implies 	ext{Final Heap must contain } B_2 + B_1 + B_0
+2885
+
 
 #### Step-by-Step State Transitions:
 
@@ -835,7 +840,11 @@ Fibonacci Heaps use **lazy insertion**: new nodes are simply spliced into the ci
 
 #### Step 1: Sequential Insertion
 - All 7 nodes are added directly to the circular root list:
-  $$	ext{Root List: } [15 \leftrightarrow 32 \leftrightarrow 20 \leftrightarrow 4 \leftrightarrow 12 \leftrightarrow 25 \leftrightarrow 7]$$
+
+2885
+	ext{Root List: } [15 \leftrightarrow 32 \leftrightarrow 20 \leftrightarrow 4 \leftrightarrow 12 \leftrightarrow 25 \leftrightarrow 7]
+2885
+
 - The pointer `H.min` is updated on each insert:
   `H.min` points to **Node 4**.
 - All node degrees $= 0$, `mark = FALSE`.
