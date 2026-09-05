@@ -1,22 +1,25 @@
 # Complete Computer Networks Notes: Data Link Layer
 
-> **Course Code:** Computer Networks (CompNet)
-> **Course Title:** Computer Networks & Data Communications
-> **Primary Source:** `Ch 3 Data Link Layer.pdf` (pp. 1–69) — Official Faculty Lecture Material
-> **Supplementary Sources:** `Chapter3-DataLinkLayer_NEW.pdf` (86 slides), `CN_Numericals_Data_Link_Layer.pdf` (32 pages), `cn_tutorial.pdf` (Tutorials 1–3), `Computer_Networks_Question_Bank.pdf` (Unit 2)
-> **Files Integrated:** `Ch 3 Data Link Layer.pdf`, `Chapter3-DataLinkLayer_NEW.pdf`, `CN_Numericals_Data_Link_Layer.pdf`, `cn_tutorial.pdf`, `Computer_Networks_Question_Bank.pdf`
+> **Course Code:** Computer Networks (CompNet)  
+> **Course Title:** Computer Networks & Data Communications  
+> **Target Audience:** Undergraduate B.Tech / BE Computer Science & Information Technology  
+> **Textbook Alignment:** Tanenbaum (Computer Networks, 5th/6th Ed.), Kurose & Ross (Computer Networking: A Top-Down Approach), Forouzan (Data Communications and Networking)  
+> **Core Focus:** Conceptual Clarity, Step-by-Step Framing, CRC & Hamming Code Numericals, Sliding Window Protocols (Stop-and-Wait, GBN, SR), Verified Diagrams, and B.Tech Exam Prep  
 
 ---
 
-## Source-to-Chapter Mapping
+## Pedagogical Roadmap & Chapter Navigation
 
-| Source File | Content / Role | Chapter Integration |
-| :--- | :--- | :--- |
-| `Ch 3 Data Link Layer.pdf` (69 slides) | Primary lecture presentation covering DLL design issues, framing, error control (Hamming/CRC), elementary protocols, sliding window (1-bit, GBN, Selective Repeat), HDLC, PPP, and ADSL. | Core concepts, formal protocols, state machines, and curated diagram analysis. |
-| `Chapter3-DataLinkLayer_NEW.pdf` (86 slides) | Supplementary lecture presentation with extended protocol code, buffering diagrams, and error scenarios. | Augmented protocol explanations and edge cases. |
-| `CN_Numericals_Data_Link_Layer.pdf` (32 pages) | Dedicated numerical problem set on Hamming distance, $(7,4)$ codes, bit/byte stuffing, Stop-and-Wait utilization, pipelining, interplanetary links, and GBN sequence bounds. | Section 13 (Worked Numerical Problems) & Section 9 (Formulas & Derivations). |
-| `cn_tutorial.pdf` (Tutorials 1–3) | Course tutorials on byte/bit stuffing edge cases, checksum integrity, propagation delay calculations, and GBN buffers. | Section 13 (Worked Problems) & Section 18 (Exam Review). |
-| `Computer_Networks_Question_Bank.pdf` (Unit 2) | Official university question bank covering DLL definitions, MCQs, framing techniques, ARQ comparison, and numericals. | Section 18 (Exam-Oriented Review). |
+```mermaid
+flowchart TD
+    A["1. DLL Overview: Design Issues & Services"] --> B["2. Framing: Byte Count, Byte Stuffing, Bit Stuffing"]
+    B --> C["3. Error Control: Hamming Codes, Checksum, CRC Division"]
+    C --> D["4. Flow Control: Stop-and-Wait ARQ (Noisy Channel)"]
+    D --> E["5. Sliding Window: Pipelining, Go-Back-N, Selective Repeat"]
+    E --> F["6. Example Protocols: HDLC & PPP State Machine"]
+    F --> G["7. Step-by-Step Worked Numerical Problems"]
+    G --> H["8. B.Tech Exam Toolkit: Pointers, Traps & Question Bank"]
+```
 
 ---
 
@@ -24,1708 +27,761 @@
 
 ---
 
-## 1. Chapter Overview & Design Issues
+## 1. Overview & Core Design Issues
 
-The **Data Link Layer (DLL)** is Layer 2 of the ISO/OSI reference model. Its primary function is to transform a raw, error-prone physical transmission facility into a reliable, well-structured communication link for the Network Layer (Layer 3).
+The **Data Link Layer (DLL)** is Layer 2 of the ISO/OSI reference model. Its fundamental architectural mission is to **transform a raw, error-prone physical transmission facility into an apparently reliable, well-structured communication link** for the Network Layer (Layer 3).
 
-Real physical communication channels suffer from finite transmission bandwidth, non-zero propagation delay, electrical noise, signal attenuation, distortion, and packet collisions. Consequently, the Data Link Layer must address three core architectural design challenges:
-
-1. **Framing:** Partitioning the continuous, unstructured raw bit stream provided by the Physical Layer into discrete, identifiable units called **frames**, and establishing synchronization between transmitter and receiver.
-2. **Error Control:** Protecting data frames against bit inversions, insertions, or deletions using mathematical error-detection codes (such as CRC and Checksums) and error-correction codes (such as Hamming codes), combined with positive/negative acknowledgments and retransmission timers (Automatic Repeat reQuest — ARQ).
-3. **Flow Control:** Throttling a high-speed sender so that it does not transmit frames faster than a slow receiver can buffer, process, and deliver them to its network layer, thereby preventing receiver buffer overrun.
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 1–6; Chapter3-DataLinkLayer_NEW.pdf, Slides 1–5]
-
----
-
-## 2. Core Terminology Dictionary
-
-1. **Frame:** The Protocol Data Unit (PDU) at the Data Link Layer, consisting of a header (addresses and sequence control), a data payload (encapsulating a Network Layer packet), and a trailer (containing error-checking bits such as a CRC).
-2. **Packet:** The Protocol Data Unit (PDU) at the Network Layer; placed directly into the payload field of a Data Link frame.
-3. **Framing:** The mechanism used to mark the beginning and end of each transmitted frame in a continuous bit stream.
-4. **Byte Stuffing (Character Stuffing):** A framing technique where special escape characters (`ESC`) are inserted before accidental delimiter bytes occurring in the payload.
-5. **Bit Stuffing:** A framing technique where a special flag sequence (`01111110`) delimits frames, and the sender automatically injects a `0` bit after any sequence of five consecutive `1` bits in the data stream.
-6. **Hamming Distance ($d$):** The number of bit positions in which two binary codewords of equal length differ; computed by XORing the two codewords and counting the number of `1`s.
-7. **Minimum Hamming Distance ($d_{\min}$):** The smallest Hamming distance between any two valid codewords in a block code; determines the error-detecting and error-correcting capability of the code.
-8. **Forward Error Correction (FEC):** An error-control strategy where sufficient redundant check bits are included with each transmitted codeword so the receiver can detect and correct errors without requesting retransmission.
-9. **Automatic Repeat reQuest (ARQ):** An error-control strategy where the receiver detects corrupted frames and requests retransmission from the sender using acknowledgments and timers.
-10. **Piggybacking:** The technique of temporarily delaying an outgoing acknowledgment so it can be hooked onto the header of the next outgoing data frame, eliminating separate ACK transmission overhead.
-11. **Sliding Window:** An abstract buffer management mechanism where sender and receiver maintain contiguous ranges of sequence numbers permitted to be sent and received.
-12. **Cumulative Acknowledgment:** An acknowledgment frame containing sequence number $n$ that confirms successful receipt of all frames up to and including $n$.
-13. **Negative Acknowledgment (NAK / REJ):** A control frame sent by the receiver to inform the sender that a specific frame arrived damaged or was lost, requesting immediate retransmission.
-14. **Bandwidth-Delay Product (BDP):** The capacity of a transmission link in bits ($B \times \text{RTT}$), representing the number of bits in flight required to keep the pipe fully utilized.
-15. **HDLC (High-level Data Link Control):** A widely used bit-oriented synchronous data link protocol standardized by ISO.
-16. **PPP (Point-to-Point Protocol):** The standard Internet data link protocol for point-to-point connections over serial lines, phone modems, and broadband links (RFC 1661).
-17. **LCP (Link Control Protocol):** A sub-protocol of PPP used to establish, configure, test, and terminate the data link connection.
-18. **NCP (Network Control Protocol):** A family of sub-protocols within PPP used to establish and configure specific network-layer protocols (e.g., IPCP for IPv4).
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 3–15, 23–35, 45–55, 64–66]
-
----
-
-## 3. Services Provided to the Network Layer
-
-The Data Link Layer provides three distinct types of service to the Network Layer above it:
-
-```mermaid
-flowchart LR
-    subgraph Host_A ["Sending Host"]
-        N_A["Network Layer Packet"] -->|Encapsulation| DLL_A["Data Link Frame"]
-        DLL_A -->|Bit Stream| PHY_A["Physical Layer"]
-    end
-    subgraph Host_B ["Receiving Host"]
-        PHY_B["Physical Layer"] -->|Bit Stream| DLL_B["Data Link Frame"]
-        DLL_B -->|Decapsulation & Verification| N_B["Network Layer Packet"]
-    end
-    PHY_A ===|Physical Transmission Link| PHY_B
-    DLL_A -.->|Virtual Node-to-Node Data Link Protocol| DLL_B
+```
+Host A (Sender)                                              Host B (Receiver)
++-------------------------+                                  +-------------------------+
+| Network Layer (Layer 3) |                                  | Network Layer (Layer 3) |
++-------------------------+                                  +-------------------------+
+             | Network Packet (SDU)                                       ^ Packet
+             v                                                            |
++-------------------------+      Virtual Node-to-Node Link   +-------------------------+
+|  Data Link Layer (L2)   | <==============================> |  Data Link Layer (L2)   |
+| [ Header | Packet | FCS]|                                  | [Verifies FCS & Strips] |
++-------------------------+                                  +-------------------------+
+             | Frame as Raw Bits                                          ^ Bitstream
+             v                                                            |
++-------------------------+                                  +-------------------------+
+| Physical Layer (Layer 1)| ================================ | Physical Layer (Layer 1)|
++-------------------------+       Physical Medium (Cable)    +-------------------------+
 ```
 
-### 1. Unacknowledged Connectionless Service
-* **Mechanism:** The sending machine transmits independent frames to the destination machine without establishing a prior connection. The destination machine does not send any acknowledgment upon receiving a frame.
-* **Error Handling:** If a frame is lost or damaged due to channel noise, no recovery attempt is made at the Data Link Layer; recovery is left to higher layers (e.g., Transport TCP).
-* **Use Cases:** Ideal for communication channels with very low inherent error rates (such as fiber-optic Ethernet LANs) and real-time traffic (such as digitized speech and video streaming) where late retransmissions are useless.
+### 1.1 The Three Core Design Challenges of Layer 2
 
-### 2. Acknowledged Connectionless Service
-* **Mechanism:** No logical connection is established before transmission, but every individual frame transmitted is explicitly acknowledged by the receiver upon arrival.
-* **Error Handling:** If a transmitted frame does not arrive within a specified timeout interval, the sender automatically retransmits the frame.
-* **Use Cases:** Highly valuable over inherently unreliable, noisy physical channels where error rates are high, such as wireless links (IEEE 802.11 Wi-Fi, cellular networks). It is much more efficient to detect and retransmit a single damaged frame locally over the wireless link than to wait for end-to-end transport layer timeout.
-
-### 3. Acknowledged Connection-Oriented Service
-* **Mechanism:** A formal connection is established between source and destination machines before any data is transferred. Every frame transmitted is assigned a sequence number, and the Data Link Layer guarantees that every transmitted frame is delivered exactly once, in strict order, with no lost or duplicate frames.
-* **Operating Phases:** Three distinct phases: Connection Establishment $\to$ Reliable Numbered Data Transfer $\to$ Connection Release.
-* **Use Cases:** Long-distance wide-area point-to-point trunk lines, satellite links, and legacy telecommunication circuits.
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 4–10; Chapter3-DataLinkLayer_NEW.pdf, Slides 6–11]
+1. **Framing:** The physical layer transmits an unformatted, continuous stream of raw bits. The Data Link Layer must chop this continuous bitstream into discrete, identifiable logical units called **frames**, with unambiguous boundary markers.
+2. **Error Control:** Physical lines suffer from attenuation, noise spikes, and thermal interference. The DLL must detect corrupted bits using mathematical check codes (Parity, Checksum, CRC) and request retransmission of damaged or lost frames (ARQ).
+3. **Flow Control:** Throttles a high-speed transmitting host so it does not send data faster than a slow receiver can buffer and process, avoiding receiver memory overrun.
 
 ---
 
-## 4. Framing Techniques
+### 1.2 Services Provided to the Network Layer
 
-Because the Physical Layer provides an unformatted stream of bits, the Data Link Layer must organize bits into distinct frames. The four primary framing methods are:
+The Data Link Layer provides three distinct types of service to Layer 3:
+
+| Service Type | Connection Setup? | Frame Acknowledgments? | Loss / Error Recovery? | Typical Use Case & Rationale |
+| :--- | :---: | :---: | :---: | :--- |
+| **1. Unacknowledged Connectionless** | **No** | **No** | None (left to Layer 4 TCP) | **Low error-rate wired links (Ethernet, Fiber)** and real-time voice/video streaming where retransmissions cause unacceptable jitter. |
+| **2. Acknowledged Connectionless** | **No** | **Yes** (Per-frame ACK/Timer) | Immediate local retransmission | **High error-rate wireless links (Wi-Fi 802.11, Cellular)**. It is far faster to recover a lost frame locally over 1 ms wireless than waiting 100 ms for end-to-end TCP timeout. |
+| **3. Acknowledged Connection-Oriented** | **Yes** (3 phases) | **Yes** (Strict order, sequence IDs) | Guaranteed exactly-once ordered delivery | Long-distance point-to-point satellite trunks, legacy telecommunication circuits (X.25, HDLC ABM). |
+
+---
+
+## 2. Framing Techniques
+
+Because the physical layer delivers a continuous stream of bits without markers, the receiver must know where each frame starts and ends. The four primary framing methods are:
 
 ---
 
 ### Method 1: Byte Count (Character Count)
 
 #### Mechanism
-The header of each frame includes an integer field that specifies the total number of bytes in that frame (including the byte count byte itself). The receiver inspects this count to determine where the current frame ends and the next frame begins.
+The frame header includes an integer field that specifies the total number of bytes contained in the frame (including the byte count byte itself).
 
-```text
+```
 Frame 1 (5 bytes)       Frame 2 (5 bytes)       Frame 3 (8 bytes)
-[ 5 | A | B | C | D ]   [ 5 | E | F | G | H ]   [ 8 | I | J | K | L | M | N | O ]
++---+---+---+---+---+   +---+---+---+---+---+   +---+---+---+---+---+---+---+---+
+| 5 | A | B | C | D |   | 5 | E | F | G | H |   | 8 | I | J | K | L | M | N | O |
++---+---+---+---+---+   +---+---+---+---+---+   +---+---+---+---+---+---+---+---+
 ```
 
-#### Fatal Flaw (Framing Synchronization Loss)
-If a transmission error corrupts the count field (e.g., a `5` in Frame 2 is flipped to a `7`), the receiver miscounts the frame boundary, reads data bytes as the count field of the next frame, and completely loses frame synchronization. Even if checksums detect that the frames are damaged, the receiver has no mechanism to determine where the next valid frame starts. For this reason, pure byte count framing is rarely used alone.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 14; Chapter3-DataLinkLayer_NEW.pdf, Slides 14–15]
+#### Fatal Flaw (Synchronization Disaster — B.Tech Exam Question)
+If a single bit error corrupts the count field (e.g., the `5` in Frame 2 is flipped to a `7`), the receiver reads 7 bytes, interprets data byte `G` as the count field of Frame 3, and completely loses frame synchronization. Even if checksums detect errors, the receiver cannot find the start of the next valid frame. Therefore, **byte count is never used alone**.
 
 ---
 
-### Method 2: Flag Bytes with Byte Stuffing (Character Stuffing)
+### Method 2: Flag Bytes with Byte Stuffing (Character-Oriented Framing)
 
 #### Mechanism
-Each frame begins and ends with a reserved delimiter byte called a **Flag Byte** (conventionally `FLAG = 0x7E` in hexadecimal, or ASCII `DLE STX` / `DLE ETX`). 
+Every frame begins and ends with a reserved delimiter byte called a **Flag Byte** (conventionally `0x7E` in hexadecimal, or ASCII `DLE STX` / `DLE ETX`).
 
-To prevent data inside the payload from being accidentally interpreted as a delimiter, the sender Data Link Layer searches the payload and automatically inserts an **Escape Byte** (`ESC = 0x1B` or `DLE = 0x10`) immediately before any accidental `FLAG` or `ESC` byte. 
+* **The Problem:** What if the binary user payload contains a byte identical to `0x7E` (e.g., in a compiled C program or JPEG image)? The receiver would prematurely terminate the frame!
+* **The Solution (Byte Stuffing):** The sender scans the payload. Whenever an accidental `FLAG` or `ESC` (`0x1B`) byte appears in the data, the sender inserts an **Escape Byte (`ESC`)** immediately before it.
+* **Receiver Action:** When the receiver sees an `ESC` byte, it removes the `ESC` and treats the following byte as pure data. An unescaped `FLAG` byte always marks a true frame boundary.
 
-At the receiver, the Data Link Layer strips the prepended `ESC` byte before passing the payload upward to the Network Layer. If an unescaped `FLAG` byte arrives, it marks the true boundary of the frame.
+```
+1. Original Payload:
+   [ A ] [ B ] [ ESC ] [ C ] [ FLAG ] [ D ]
 
-```text
-Original Data Payload:         A  |  B  | ESC |  C  | ESC | FLAG | FLAG |  D
-Transmitted Stuffed Payload:   A  |  B  | ESC | ESC |  C  | ESC | ESC | ESC | FLAG | ESC | FLAG |  D
-Complete Transmitted Frame:   FLAG [ A B ESC ESC C ESC ESC ESC FLAG ESC FLAG D ] FLAG
+2. Stuffed Transmitted Frame:
+   +------+-----+-----+-------+-----+-----+-------+------+-----+------+
+   | FLAG |  A  |  B  |  ESC  | ESC |  C  |  ESC  | FLAG |  D  | FLAG |
+   +------+-----+-----+-------+-----+-----+-------+------+-----+------+
+                         ^ Stuffed           ^ Stuffed
 ```
 
-#### Framing Resynchronization Advantage
-If an error corrupts a byte or causes a false flag, the receiver simply discards the current damaged frame and instantly resynchronizes as soon as the next true `FLAG` byte arrives.
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 15–17; Chapter3-DataLinkLayer_NEW.pdf, Slides 16–18]
+#### Step-by-Step Byte Stuffing Example:
+* **Given Data:** `D  ESC  FLAG  ESC  E`
+* **Transmitted Frame:** `FLAG  D  ESC ESC  ESC FLAG  ESC ESC  E  FLAG`
+* **Receiver Recovery:** Strips `FLAG` markers, removes the first `ESC` of every pair, leaving the original payload: `D  ESC  FLAG  ESC  E`.
 
 ---
 
-### Method 3: Flag Bits with Bit Stuffing
+### Method 3: Flag Bits with Bit Stuffing (Bit-Oriented Framing / HDLC)
+
+This is the **most important framing method** tested in exams and used in HDLC, SDLC, and PPP.
 
 #### Mechanism
-Standardized for bit-oriented protocols (such as HDLC, SDLC, and USB). Every frame begins and ends with a special 8-bit flag pattern: **`01111110`** (`0x7E` — a zero followed by six consecutive ones and a zero).
+* Frame delimiter is a special 8-bit pattern: **`01111110`** (a `0`, six consecutive `1`s, and a `0`).
+* **Sender Rule:** Whenever the transmitter encounters **FIVE consecutive `1`s** in the incoming data bitstream, it **automatically inserts a `0` bit** into the outgoing stream, regardless of what the next bit is.
+* **Receiver Rule:** Whenever the receiver observes five consecutive `1`s:
+  1. If the 6th bit is a **`0`**, it was stuffed by the sender: **strip the `0` bit** and restore the original data.
+  2. If the 6th bit is a **`1`** and the 7th bit is a **`0`** (`01111110`), it is a **true frame delimiter FLAG**!
+  3. If the 6th and 7th bits are both `1` (`01111111...`), an error or link abort has occurred.
 
-#### Algorithm: Bit Stuffing & Destuffing
-1. **Transmitter Rule:** Whenever the sender's Data Link Layer detects **five consecutive `1` bits** in the data payload, it automatically inserts ("stuffs") a **`0` bit** into the outgoing bit stream immediately following the fifth `1`, regardless of what the next data bit is.
-2. **Receiver Rule:** Whenever the receiver sees **five consecutive `1` bits** arriving from the physical line:
-   * If the sixth bit is a **`0`**, the receiver strips ("destuffs") the `0` bit and treats the five `1`s as genuine data.
-   * If the sixth bit is a **`1`** and the seventh bit is a **`0`** (i.e., pattern `01111110`), it is recognized as a valid **Frame Delimiter Flag**.
-   * If the sixth bit is a **`1`** and the seventh bit is a **`1`** (i.e., pattern `01111111`), it indicates a physical transmission error or a channel **Abort Signal**.
+```mermaid
+flowchart TD
+    In["Receiver sees five consecutive 1s (11111)"] --> Inspect{"Inspect 6th Bit"}
+    Inspect -->|"6th bit is 0"| Strip["Stuffed Bit: Strip 0, Keep 11111"]
+    Inspect -->|"6th bit is 1"| Inspect7{"Inspect 7th Bit"}
+    Inspect7 -->|"7th bit is 0"| Flag["01111110: True Frame Delimiter!"]
+    Inspect7 -->|"7th bit is 1"| Abort["01111111: Error / Link Abort Signal"]
+```
 
-#### Example: Bit Stuffing Transformation
-* Original Data Bit Stream:
+#### Step-by-Step Bit Stuffing Example (Exam Standard)
+**Given Input Bitstream:**  
+`0 1 1 0 1 1 1 1 1 1 0 1 1 1 1 1 0 1 0`
 
-$$
-\mathbf{0111101111101111110}
-$$
-
-* After Five-`1` Rule Processing:
-  * Pattern `011110...` (four `1`s): No stuffing needed.
-  * Pattern `...111110...` (five `1`s followed by data `0`): Sender injects a `0` $\to$ `11111`**`0`**`0`.
-  * Pattern `...1111110...` (six `1`s in data): Sender injects a `0` after fifth `1` $\to$ `11111`**`0`**`10`.
-* Transmitted Stuffed Bit Stream:
-
-$$
-\mathbf{01111011111\underline{0}011111\underline{0}10}
-$$
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 18; Chapter3-DataLinkLayer_NEW.pdf, Slides 19–20; CN_Numericals_Data_Link_Layer.pdf, Page 16]
+* **Step 1: Scan and Stuff:**
+  * Bits `0 1 1 0`: unchanged.
+  * Five consecutive 1s: `1 1 1 1 1` $\to$ **Stuff `0`**: `1 1 1 1 1 0`
+  * Next bit from data is `1`, followed by `0 1`: `1 0 1`
+  * Next five consecutive 1s: `1 1 1 1 1` $\to$ **Stuff `0`**: `1 1 1 1 1 0`
+  * Remaining bits: `0 1 0`
+* **Transmitted Bitstream (Stuffed):**  
+  `0 1 1 0 1 1 1 1 1`**`0`**`1 0 1 1 1 1 1`**`0`**`0 1 0`
+* **Transmitted Frame with Flags:**  
+  `[01111110] 011011111010111110010 [01111110]`
 
 ---
 
 ### Method 4: Physical Layer Coding Violations
 
-#### Mechanism
-Used in networks whose physical line encoding schemes contain inherent redundancy. For instance, in **Manchester Encoding**, every valid bit interval contains a voltage transition in the middle (Low-to-High for bit `0`, High-to-Low for bit `1`). 
-
-A signal interval with **no transition** (High-High or Low-Low) is an invalid data signal that represents a **coding violation**. The Data Link Layer exploits these reserved invalid patterns as natural frame boundary delimiters.
-
-**Advantage:** Zero framing overhead; no data bits or escape bytes need to be stuffed into the frame payload.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 19; Chapter3-DataLinkLayer_NEW.pdf, Slide 21]
+Used in networks that employ redundant physical line coding (e.g., Manchester or 4B/5B encoding).
+* In standard Manchester encoding, every bit must have a mid-bit transition (Low-to-High for `0`, High-to-Low for `1`).
+* Signal states with **High-High** (no transition) or **Low-Low** (no transition) are illegal for data.
+* These **illegal signal transitions (coding violations)** are intentionally used as frame delimiters!
+* **Advantage:** Zero framing overhead; not a single data bit or escape byte needs to be stuffed.
 
 ---
 
-## 5. Error Control: Detection and Correction
+### Comparison of Framing Techniques
 
-Transmission errors on physical lines are caused by thermal noise, electromagnetic interference, signal attenuation, and cross-talk. Error control uses mathematical redundancy to ensure data integrity.
-
----
-
-### Error Types: Single-Bit vs Burst Errors
-
-1. **Single-Bit Error:** An isolated error where exactly one bit in a data block is inverted while all neighboring bits remain correct.
-2. **Burst Error:** A cluster of errors where two or more corrupted bits occur within a span of $k$ consecutive bits. The **burst length** $k$ is measured from the first corrupted bit to the last corrupted bit in the sequence. Burst errors are common in wireless and physical channels due to lightning strikes, impulse noise, and radio fading.
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 21–22]
+| Technique | Delimiter Type | Overhead | Resynchronization Ability | Typical Protocol |
+| :--- | :--- | :--- | :--- | :--- |
+| **Byte Count** | Integer length in header | Minimal (1 byte) | **Extremely Poor:** A single corrupted count causes permanent desync. | DDCMP (obsolete) |
+| **Byte Stuffing** | Flag byte (`0x7E`) + `ESC` byte | Moderate (can grow up to 100% in worst case) | **Instant:** Resynchronizes on the next unescaped `FLAG` byte. | PPP (character-oriented mode), BISYNC |
+| **Bit Stuffing** | Flag pattern `01111110` + stuffed `0`s | Very Low ($\approx 12.5\%$ worst case, $< 2\%$ typical) | **Instant:** Resynchronizes on the next `01111110` flag. | HDLC, SDLC, PPP (bit-synchronous mode) |
+| **Coding Violations** | Illegal physical waveforms | **Zero bits** | **Instant:** Pure hardware delimiter. | Classic 10 Mbps Ethernet (Manchester), Token Ring |
 
 ---
 
-### Code Architecture & Hamming Distance
+## 3. Error Detection and Correction
 
-An $(n, k)$ block code takes an $m$-bit dataword and appends $r$ check bits to create an $n$-bit **codeword**, where $n = m + r$. The code rate is $\f\frac{m}{n}$.
-
-#### Definition: Hamming Distance
-The **Hamming Distance** $d(v_1, v_2)$ between two binary codewords $v_1$ and $v_2$ of equal length is the number of bit positions in which they differ.
-
-$$
-\text{Hamming Distance} = \text{weight}(v_1 \oplus v_2)
-$$
-
-Where $\oplus$ is the bitwise modulo-2 addition (XOR) operator, and $\text{weight}$ is the count of `1` bits.
-
-#### Minimum Hamming Distance Theorems
-
-1. **Error Detection Theorem:** To reliably detect up to $s$ single-bit errors in any codeword, the minimum Hamming distance of the code must satisfy:
-
-$$
-d_{\min} \ge s + 1
-$$
-
-2. **Error Correction Theorem:** To reliably correct up to $t$ single-bit errors in any codeword, the minimum Hamming distance of the code must satisfy:
-
-$$
-d_{\min} \ge 2t + 1
-$$
-
-*Intuition:* If $d_{\min} = 2t + 1$, any received codeword with up to $t$ bit errors remains closer to the original transmitted codeword than to any other valid codeword in the code space, allowing unique maximum-likelihood decoding.
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 23–25; CN_Numericals_Data_Link_Layer.pdf, Pages 2–7]
+Transmission lines suffer from thermal noise, signal distortion, and lightning/electrical spikes. These induce two types of errors:
+1. **Single-Bit Errors:** A single isolated bit is inverted (e.g., `0` becomes `1`). Common in white Gaussian thermal noise.
+2. **Burst Errors:** A noise burst of duration $t$ corrupts a contiguous block of $B$ bits ($B = t \times \text{Data Rate}$). In high-speed networks (e.g., 1 Gbps), a tiny 1-millisecond electrical spark wipes out **1,000,000 contiguous bits**!
 
 ---
 
-### The Hamming Single-Error-Correcting Code
+### 3.1 Hamming Codes & Error-Correcting Theory
 
-Richard Hamming designed an optimal systematic code capable of correcting any single-bit error ($t = 1, d_{\min} = 3$).
+Devised by Richard Hamming in 1950. An $(n, k)$ block code takes an $m$-bit dataword and appends $r$ check bits to create an $n$-bit **codeword** ($n = m + r$).
 
-#### Parity Bit Positions
-In an $n$-bit codeword, bit positions that are powers of 2 ($1, 2, 4, 8, 16, \dots, 2^{r-1}$) are reserved for **parity check bits** ($p_1, p_2, p_4, p_8, \dots$). The remaining bit positions ($3, 5, 6, 7, 9, 10, 11, \dots$) contain the original **data bits** ($d_1, d_2, d_3, d_4, \dots$).
+#### 1. Hamming Distance ($d$)
+The **Hamming distance** between two binary words of equal length is the **number of bit positions in which they differ**.
+* Computed by bitwise XORing the two words and counting the number of `1`s.
+* *Example:* $A = 10\mathbf{1}1\mathbf{0}01$, $B = 10\mathbf{0}1\mathbf{1}01$.  
+  $A \oplus B = 0010100 \implies d(A, B) = 2$.
 
-#### Hamming Redundancy Inequality
-To correct any single-bit error in an $m$-bit message using $r$ parity check bits, there are $n = m + r$ possible single-bit error locations plus 1 case where no error occurs ($m + r + 1$ total states). Since $r$ check bits can represent $2^r$ distinct syndrome values, the code must satisfy:
+#### 2. Error Detection and Correction Capabilities (The Golden Exam Rules)
+Let $d_{\min}$ be the minimum Hamming distance between any two valid codewords in a code:
 
-$$
-2^r \ge m + r + 1
-$$
+$$\mathbf{d_{\min} \ge e + 1 \quad \text{(To detect } e \text{ single-bit errors)}}$$
 
-| Data Bits ($m$) | Parity Bits ($r$) | Total Bits ($n = m + r$) | Code Name | Code Rate ($m/n$) |
-| :---: | :---: | :---: | :---: | :---: |
-| 1 | 2 | 3 | $(3, 1)$ | 0.33 |
-| 4 | 3 | 7 | $(7, 4)$ | 0.57 |
-| 8 | 4 | 12 | $(12, 8)$ | 0.67 |
-| 11 | 4 | 15 | $(15, 11)$ | 0.73 |
-| 26 | 5 | 31 | $(31, 26)$ | 0.84 |
+$$\mathbf{d_{\min} \ge 2t + 1 \quad \text{(To correct } t \text{ single-bit errors)}}$$
 
-#### Parity Group Calculation (Even Parity)
-A bit in position $k$ is checked by parity bit $p_{2^j}$ if the $j$-th bit in the binary representation of $k$ is `1`:
-* **$p_1$ (Bit 1):** Checks all bit positions whose binary representation has a `1` in the least significant bit (positions $1, 3, 5, 7, 9, 11, 13, 15, \dots$).
-* **$p_2$ (Bit 2):** Checks all bit positions with a `1` in the second bit (positions $2, 3, 6, 7, 10, 11, 14, 15, \dots$).
-* **$p_4$ (Bit 4):** Checks positions $4, 5, 6, 7, 12, 13, 14, 15, \dots$.
-* **$p_8$ (Bit 8):** Checks positions $8, 9, 10, 11, 12, 13, 14, 15, \dots$.
+> **Intuition:**  
+> * To detect 2 errors, valid codewords must be at least distance $d_{\min} = 3$ apart. If 1 or 2 bits flip, the resulting corrupted string lands in an invalid space and is detected.  
+> * To correct 1 error ($t=1$), valid codewords must be at least distance $d_{\min} = 2(1) + 1 = 3$ apart. A single bit flip moves the codeword to distance 1 from the original codeword and at least distance 2 from any other valid codeword, allowing unambiguous majority-vote correction.
 
-#### Syndrome Decoding & Error Correction
-At the receiver, the parity check equations are evaluated over the received bits to form the **Syndrome Vector** $S = [s_r \dots s_2 s_1]_2$:
-* If $S = 0$, no bit error occurred.
-* If $S \ne 0$, the integer value of $S$ gives the **exact 1-based index of the corrupted bit**. Inverting (flipping) bit $S$ restores the original codeword.
+#### 3. Derivation of the Hamming Rule for Parity Bit Sizing
+To correct any single-bit error in an $n$-bit codeword ($n = m + r$):
+* There are $n$ possible single-bit error positions, plus $1$ state for zero errors $\implies n + 1$ total states.
+* With $r$ parity bits, we have $2^r$ distinct syndrome bit patterns.
+* Therefore, the number of parity bits $r$ must satisfy the **Hamming Equation**:
 
-[Source: Ch 3 Data Link Layer.pdf, Slides 26–30; Chapter3-DataLinkLayer_NEW.pdf, Slides 26–32; CN_Numericals_Data_Link_Layer.pdf, Pages 11–14]
+$$\mathbf{(m + r + 1) \le 2^r}$$
 
----
-
-### Cyclic Redundancy Check (CRC / Polynomial Codes)
-
-Polynomial codes treat bit strings as polynomials with coefficients in GF(2) (binary arithmetic where addition and subtraction are identical to bitwise XOR).
-
-An $m$-bit message is represented by polynomial $M(x)$ of degree $m-1$. The sender and receiver agree in advance on a fixed **Generator Polynomial** $G(x)$ of degree $r$ (having $r+1$ bits), where both the highest and lowest terms must be $1$ ($x^r + \dots + 1$).
-
-#### CRC Frame Check Sequence (FCS) Generation Algorithm
-
-1. **Degree of Generator:** Let $r = \text{deg}(G(x))$.
-2. **Append Zeros:** Multiply $M(x)$ by $x^r$, which corresponds to appending $r$ zero bits to the end of the message bit string: $T'(x) = x^r M(x)$.
-3. **Modulo-2 Division:** Divide the bit string corresponding to $x^r M(x)$ by the bit string of $G(x)$ using modulo-2 binary division (XOR subtraction, ignoring carries/borrows).
-4. **Compute Checksum (FCS):** The division produces a quotient $Q(x)$ and an $r$-bit remainder $R(x)$:
-
-$$
-\f\frac{x^r M(x)}{G(x)} = Q(x) \oplus \f\frac{R(x)}{G(x)}
-$$
-
-5. **Construct Transmitted Codeword:** Subtract (XOR) the remainder $R(x)$ from $x^r M(x)$:
-
-$$
-T(x) = x^r M(x) \oplus R(x)
-$$
-
-   The transmitted codeword $T(x)$ is exactly divisible by $G(x)$ without remainder.
-
-#### Receiver Verification
-The receiver divides the incoming bit stream $T(x) \oplus E(x)$ by $G(x)$. If the remainder is non-zero, a transmission error $E(x)$ has occurred.
-
-#### Standard International Generator Polynomials
-
-| Standard Name | Degree ($r$) | Polynomial Equation $G(x)$ | Application Domain |
-| :--- | :---: | :--- | :--- |
-| **CRC-12** | 12 | $x^{12} + x^{11} + x^3 + x^2 + x + 1$ | 6-bit character streams |
-| **CRC-16** | 16 | $x^{16} + x^{15} + x^2 + 1$ | Bisync, USB, HDLC |
-| **CRC-CCITT** | 16 | $x^{16} + x^{12} + x^5 + 1$ | X.25, HDLC, Bluetooth, PPP |
-| **CRC-32 (IEEE 802)**| 32 | $x^{32} + x^{26} + x^{23} + x^{22} + x^{16} + x^{12} + x^{11} + x^{10} + x^8 + x^7 + x^5 + x^4 + x^2 + x + 1$ | Ethernet (802.3), Wi-Fi (802.11), FDDI, PKZIP |
-
-#### Error Detection Capabilities of CRC-32
-* Detects **100% of single-bit errors** (since $G(x)$ has two or more terms).
-* Detects **100% of double-bit errors** (since $G(x)$ does not divide $x^k + 1$ for any $k < 2^{31}-1$).
-* Detects **100% of any odd number of bit errors** (since $(x+1)$ is a factor of $G(x)$).
-* Detects **100% of burst errors of length $\le 32$ bits**.
-* Detects **$99.99999995\%$ of burst errors of length 33 bits** ($1 - 2^{-31}$).
-* Detects **$99.99999998\%$ of all longer burst errors** ($1 - 2^{-32}$).
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 34–38; Chapter3-DataLinkLayer_NEW.pdf, Slides 36–42]
+| Data Bits ($m$) | Redundant Parity Bits ($r$) | Total Codeword Length ($n = m + r$) | Code Name |
+| :---: | :---: | :---: | :---: |
+| 1 | 2 | 3 | (3, 1) |
+| 2, 3, 4 | **3** | **7** | **(7, 4) Hamming Code** |
+| 5 to 11 | **4** | **15** | **(15, 11) Hamming Code** |
+| 12 to 26 | **5** | **31** | **(31, 26) Hamming Code** |
 
 ---
 
-## 6. Flow Control & Elementary Data Link Protocols
+### 3.2 Step-by-Step Construction of the (7, 4) Hamming Code
 
-Flow control prevents sender buffer overrun at the receiver. Protocols progress from idealized theoretical models to practical noisy-channel implementations.
+Let dataword $M = 1011$ ($m = 4$). We want to generate a 7-bit codeword ($n = 7, r = 3$).
 
-```mermaid
-stateDiagram-v2
-    [*] --> Protocol_1_Utopian
-    Protocol_1_Utopian --> Protocol_2_Stop_and_Wait : Add Flow Control
-    Protocol_2_Stop_and_Wait --> Protocol_3_PAR_ARQ : Add Error Control & 1-bit Seq No
-    Protocol_3_PAR_ARQ --> Protocol_4_Sliding_Window_1bit : Add Bidirectional Piggybacking
-    Protocol_4_Sliding_Window_1bit --> Protocol_5_Go_Back_N : Add Pipelining (Ws > 1, Wr = 1)
-    Protocol_5_Go_Back_N --> Protocol_6_Selective_Repeat : Add Receiver Buffering (Ws > 1, Wr > 1)
+#### Step 1: Bit Position Assignment
+Parity bits $p_i$ are placed at bit positions that are **powers of 2** ($1, 2, 4, 8, \dots$). Data bits $d_j$ fill the remaining positions:
+
+```
+Bit Position:     1      2      3      4      5      6      7
+Binary Position: 001    010    011    100    101    110    111
+Bit Type:        p1     p2     d3     p4     d5     d6     d7
+Data Value:       ?      ?      1      ?      0      1      1
 ```
 
----
+#### Step 2: Determine Parity Equations (Even Parity)
+Each parity bit checks all bit positions whose binary representation has a `1` in that parity bit's power-of-2 position:
+* **$p_1$ (Checks positions with `1` in bit 0: 1, 3, 5, 7):**
+  $$p_1 \oplus d_3 \oplus d_5 \oplus d_7 = 0 \implies p_1 \oplus 1 \oplus 0 \oplus 1 = 0 \implies p_1 \oplus 0 = 0 \implies \mathbf{p_1 = 0}$$
+* **$p_2$ (Checks positions with `1` in bit 1: 2, 3, 6, 7):**
+  $$p_2 \oplus d_3 \oplus d_6 \oplus d_7 = 0 \implies p_2 \oplus 1 \oplus 1 \oplus 1 = 0 \implies p_2 \oplus 1 = 0 \implies \mathbf{p_2 = 1}$$
+* **$p_4$ (Checks positions with `1` in bit 2: 4, 5, 6, 7):**
+  $$p_4 \oplus d_5 \oplus d_6 \oplus d_7 = 0 \implies p_4 \oplus 0 \oplus 1 \oplus 1 = 0 \implies p_4 \oplus 0 = 0 \implies \mathbf{p_4 = 0}$$
 
-### Protocol 1: Utopian Simplex Protocol
-* **Assumptions:** Data is transmitted strictly in one direction (simplex); sending and receiving network layers are always ready; infinite buffer space; physical channel is completely noiseless (never corrupts or loses frames).
-* **Operation:** Sender fetches packet from network layer, encapsulates it into a frame, and transmits it. Receiver waits in an infinite loop, receives the frame, extracts the packet, and delivers it upward.
+#### Step 3: Resulting Transmitted Codeword
+$$\mathbf{T = [p_1, p_2, d_3, p_4, d_5, d_6, d_7] = [0, 1, 1, 0, 0, 1, 1] = 0110011}$$
 
-[Source: Ch 3 Data Link Layer.pdf, Slides 39–41]
+#### Step 4: Error Detection and Correction at Receiver (Syndrome Calculation)
+Suppose transmission noise flips bit 5 ($d_5$ flips from `0` to `1`).  
+Received word: $R = 0110\mathbf{1}11$.
 
----
+The receiver evaluates the **Syndrome Bits** $(s_4, s_2, s_1)$:
+* $s_1 = p_1 \oplus d_3 \oplus d_5 \oplus d_7 = 0 \oplus 1 \oplus \mathbf{1} \oplus 1 = \mathbf{1}$
+* $s_2 = p_2 \oplus d_3 \oplus d_6 \oplus d_7 = 1 \oplus 1 \oplus 1 \oplus 1 = \mathbf{0}$
+* $s_4 = p_4 \oplus d_5 \oplus d_6 \oplus d_7 = 0 \oplus \mathbf{1} \oplus 1 \oplus 1 = \mathbf{1}$
 
-### Protocol 2: Simplex Stop-and-Wait Protocol (for Error-Free Channel)
-* **Problem Addressed:** Prevents a fast sender from flooding a slow receiver with data when the receiver has finite processing speed and buffer space.
-* **Mechanism:** Half-duplex stop-and-wait flow control. After transmitting a data frame, the sender stops and waits. The receiver, upon receiving the frame and passing the packet upward, sends back an explicit **dummy acknowledgment (ACK) frame**. Only upon receiving this ACK does the sender transmit the next data frame.
+$$\text{Syndrome Vector } \mathbf{S} = s_4 s_2 s_1 = \mathbf{101_2} = \mathbf{5\text{ (decimal)}}$$
 
-[Source: Ch 3 Data Link Layer.pdf, Slides 42–44]
-
----
-
-### Protocol 3: Positive Acknowledgment with Retransmission (PAR / Stop-and-Wait ARQ)
-* **Problem Addressed:** Handling noisy physical channels where frames or ACKs can be corrupted or lost completely.
-* **Mechanisms Added:**
-  1. **Frame Checksum:** Receiver verifies checksum; silently discards corrupted frames.
-  2. **Sender Retransmission Timer:** If an ACK is not received within a timeout period, the sender automatically retransmits the frame.
-  3. **1-Bit Sequence Number ($0$ and $1$):** Solves the duplicate frame ambiguity caused by premature timeouts or lost ACKs. The sender alternates the sequence number bit on each new frame ($0, 1, 0, 1, \dots$). The receiver tracks the expected sequence number; if a duplicate frame arrives, the receiver re-acknowledges it and discards the duplicate payload.
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 45–48; Chapter3-DataLinkLayer_NEW.pdf, Slides 48–52]
-
----
-
-## 7. Sliding Window Protocols
-
-In full-duplex links, data flows simultaneously in both directions. Using **piggybacking**, when a data frame arrives, the receiver does not send an immediate standalone ACK frame; instead, it waits until its own network layer provides an outbound data packet, inserts the acknowledgment sequence number into the header of that outgoing data frame, and transmits them together. If no outbound data is ready within an **ACK Timer** duration, a standalone ACK is dispatched.
+* **Conclusion:** The syndrome value directly identifies that **Bit Position 5 is in error**!
+* **Correction:** Flip bit 5 from `1` back to `0` $\to 0110011$. Extract data bits $d_3, d_5, d_6, d_7 \implies \mathbf{1011}$ (Original data fully restored!).
 
 ---
 
-### Protocol 4: 1-Bit Sliding Window Protocol
+### 3.3 Cyclic Redundancy Check (CRC / Polynomial Codes)
 
-* **Window Sizes:** Sender Window Size $W_s = 1$, Receiver Window Size $W_r = 1$.
-* **Operation:** At any instant, the sender can have at most one unacknowledged frame in transit. Sequence numbers take values $0$ and $1$.
-* **Normal vs Error Scenarios:**
-  * If a data frame or ACK is lost, the sender's timer expires and the frame is retransmitted.
-  * **Simultaneous Transmission Anomaly:** If Host A and Host B transmit simultaneously, their frames cross in transit. Both machines accept the incoming frame, deliver the packet, and transmit the next frame with inverted sequence number. The protocol continues correctly, but channel utilization is halved because every frame is sent twice.
+CRC is the most powerful and widely implemented error-detection technique in networking (Ethernet, Wi-Fi, HDLC, ATM).
 
-[Source: Ch 3 Data Link Layer.pdf, Slides 46–50; Chapter3-DataLinkLayer_NEW.pdf, Slides 53–58]
+#### Principle: Modulo-2 Binary Arithmetic
+* Modulo-2 arithmetic uses **bitwise XOR** for both addition and subtraction.
+* **No carries, No borrows!**
+  $$0 \oplus 0 = 0, \quad 0 \oplus 1 = 1, \quad 1 \oplus 0 = 1, \quad 1 \oplus 1 = 0$$
 
----
-
-### Pipelining & Channel Efficiency
-
-In high-bandwidth or long-delay links (e.g., satellite or fiber-optic WANs), Stop-and-Wait protocol wastes almost all link capacity because the sender must remain idle during the entire round-trip time.
-
-Let $T_{\text{trans}} = \f\frac{L}{R}$ be the frame transmission time, and $T_{\text{prop}} = \f\frac{D}{v}$ be the propagation delay. Define the normalized propagation delay:
-
-$$
-a = \f\frac{T_{\text{prop}}}{T_{\text{trans}}}
-$$
-
-The link utilization (efficiency) of Stop-and-Wait ARQ is:
-
-$$
-\eta_{\text{Stop-and-Wait}} = \f\frac{T_{\text{trans}}}{T_{\text{trans}} + 2 T_{\text{prop}}} = \f\frac{1}{1 + 2a}
-$$
-
-To achieve $100\%$ channel utilization, the sender must transmit frames continuously without waiting, requiring a pipeline window size:
-
-$$
-W_s \ge 1 + 2a = 1 + \f\frac{2 \times T_{\text{prop}}}{T_{\text{trans}}}
-$$
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 51–52; CN_Numericals_Data_Link_Layer.pdf, Pages 26–29]
+#### The CRC Algorithm
+1. Let dataword $M$ have $m$ bits. Represent it as polynomial $M(x)$.
+2. Let the agreed generator polynomial be $G(x)$ of degree $r$ (having $r + 1$ bits). High-order and low-order bits of $G(x)$ must both be `1`.
+3. Append $r$ zeros to the dataword: $x^r M(x)$.
+4. Divide $x^r M(x)$ by $G(x)$ using modulo-2 long division.
+5. The division yields an $r$-bit remainder $R(x)$.
+6. Transmitted codeword:
+   $$\mathbf{T(x) = x^r M(x) \oplus R(x)}$$
+   *(Replace the appended $r$ zeros with the $r$-bit remainder).*
+7. **Receiver Verification:** Receiver divides $T(x)$ by $G(x)$. If remainder $= 0$, accept frame. If remainder $\neq 0$, bit error detected; discard frame!
 
 ---
 
-### Protocol 5: Go-Back-N Protocol (GBN)
+#### Step-by-Step Worked CRC Division Example (High-Scoring Exam Model)
 
-* **Architectural Concept:** Pipelined transmission with Sender Window $W_s > 1$ and Receiver Window $W_r = 1$.
-* **Receiver Behavior:** The receiver accepts frames **strictly in sequential order**. If a frame arrives damaged or out of order, the receiver discards it and **discards all subsequent incoming frames**, sending no ACKs for out-of-order frames. The receiver maintains zero buffer for out-of-order data.
-* **Sender Behavior:** The sender buffers all unacknowledged transmitted frames in its window. It maintains a timer for the oldest unacknowledged frame. When this timer expires, the sender **"goes back $N$"** and retransmits *all* unacknowledged frames currently in the window, even if some were received correctly.
-* **Acknowledgments:** Uses **cumulative ACKs** (ACK $n$ confirms all frames $\le n$).
+**Given:**  
+* Dataword $M = \mathbf{1101011011}$ ($m = 10\text{ bits}$)
+* Generator Polynomial $G(x) = x^4 + x + 1 \implies \mathbf{10011}$ ($r = 4\text{ bits}$, degree 4)
+
+**Step 1: Append $r = 4$ zeros to data:**  
+Dividend = $1101011011\mathbf{0000}$
+
+**Step 2: Modulo-2 Long Division:**
+
+```
+             1100001010  (Quotient)
+        --------------------------
+ 10011 | 11010110110000
+         10011
+         -----
+          10011
+          10011
+          -----
+           00001
+           00000
+           -----
+            00010
+            00000
+            -----
+             00101
+             00000
+             -----
+              01011
+              00000
+              -----
+               10110
+               10011
+               -----
+                01010
+                00000
+                -----
+                 10100
+                 10011
+                 -----
+                  01110
+                  00000
+                  -----
+                   1110  <--- Remainder R(x) (4 bits)
+```
+
+**Step 3: Construct Transmitted Codeword:**  
+$$\text{Codeword } T = \text{Data} \mid R(x) = \mathbf{1101011011} \mid \mathbf{1110} = \mathbf{11010110111110}$$
+
+**Step 4: Receiver Verification (Error-Free):**  
+Divide $11010110111110$ by $10011$. The remainder is identically **`0000`** $\implies$ Frame accepted!
+
+**Step 5: Error Detection Demonstration:**  
+Suppose bit 3 flips during transmission:  
+Received $T' = 11\mathbf{1}10110111110$.  
+Performing division by $10011$ yields non-zero remainder **`1001`** $\neq 0 \implies$ Error successfully detected!
+
+---
+
+### 3.4 Internet Checksum (RFC 1071)
+
+Used in IP, TCP, and UDP headers:
+1. Treat data as a sequence of 16-bit integers.
+2. Sum them using **1's complement arithmetic** (any carry-out from the most significant bit is wrapped around and added to the least significant bit).
+3. Take the **1's complement negation** (invert all bits) of the final sum.
+4. Receiver sums all 16-bit words including the checksum; an error-free transfer produces all `1`s (`0xFFFF`).
+
+---
+
+## 4. Flow Control & Elementary Data Link Protocols
+
+Flow control prevents a fast sender from flooding a slow receiver with more frames than it can buffer and process.
+
+### 4.1 Protocol 1: Utopian Simplex Protocol
+* **Assumptions:** Data transmits in one direction only (simplex). Physical channel is completely error-free. Receiver has infinite buffer storage and infinitely fast processing speed.
+* **Mechanism:** Sender generates data in an infinite loop and injects it into the channel. Receiver loops reading frames.
+* **Flaw:** Completely unrealistic; ignores frame loss, corruption, and buffer overflow.
+
+---
+
+### 4.2 Protocol 2: Stop-and-Wait Simplex Protocol (For Error-Free Channel)
+* **Addresses:** Receiver buffer overrun.
+* **Mechanism (Half-Duplex Flow Control):**
+  1. Sender transmits exactly **one data frame**.
+  2. Sender **stops and waits**; it cannot transmit the next frame until it receives a confirmation dummy frame (**Acknowledgment — ACK**) from the receiver.
+  3. Receiver accepts frame, delivers it to its network layer, and sends back an ACK.
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Sender as Sender (Ws = 4)
-    actor Receiver as Receiver (Wr = 1)
-    
-    Sender->>Receiver: Frame 0
-    Sender->>Receiver: Frame 1
-    Sender->>Receiver: Frame 2 (LOST IN TRANSIT)
-    Sender->>Receiver: Frame 3
-    Receiver-->>Sender: ACK 0
-    Receiver-->>Sender: ACK 1
-    Note over Receiver: Receives Frame 3 out-of-order -> DISCARDED!
-    Note over Sender: Timeout expires for Frame 2!
-    Note over Sender: Go Back N: Retransmit Frames 2 and 3
-    Sender->>Receiver: Frame 2 (Retransmission)
-    Sender->>Receiver: Frame 3 (Retransmission)
-    Receiver-->>Sender: ACK 2
-    Receiver-->>Sender: ACK 3
+    Sender->>Receiver: Data Frame 0
+    Note over Receiver: Processes Frame & Prepares ACK
+    Receiver-->>Sender: ACK Frame
+    Note over Sender: ACK Received; Sender Unblocks
+    Sender->>Receiver: Data Frame 1
+    Receiver-->>Sender: ACK Frame
 ```
 
-#### Maximum Window Size Rule for Go-Back-N
-For an $n$-bit sequence number ($0$ to $2^n - 1$, total modulo $M = 2^n$):
+---
 
-$$
-W_s \le 2^n - 1
-$$
+### 4.3 Protocol 3: Stop-and-Wait ARQ (Positive ACK with Retransmission — PAR)
 
-*Proof:* If $W_s = 2^n$, suppose the sender transmits frames $0$ to $2^n - 1$. All frames arrive correctly at the receiver, which advances its expected sequence number to $0$ and sends ACKs. If all ACKs are lost, the sender times out and retransmits frame $0$. The receiver, expecting new frame $0$, cannot distinguish between the retransmitted old frame $0$ and the new frame $0$, causing silent duplicate acceptance. Setting $W_s \le 2^n - 1$ eliminates this ambiguity.
+* **Addresses:** Both **channel errors/loss** and **buffer overrun**.
+* **Key Innovations:**
+  1. **Retransmission Timer:** When the sender transmits a frame, it starts a timer. If an ACK does not return before the timer expires (**timeout**), the sender retransmits the frame.
+  2. **Sequence Numbers (1-bit: 0 and 1):** Essential to prevent duplicate frame processing at the receiver.
 
-[Source: Ch 3 Data Link Layer.pdf, Slides 53–56; Chapter3-DataLinkLayer_NEW.pdf, Slides 60–66; CN_Numericals_Data_Link_Layer.pdf, Pages 31–32]
+#### Why is a 1-Bit Sequence Number Strictly Necessary? (Crucial B.Tech Exam Derivation)
+
+Consider what happens if frames have **NO sequence numbers**:
+1. Sender transmits Frame A. Receiver receives Frame A and generates an ACK.
+2. The **ACK is lost in transit** due to channel noise.
+3. Sender's timer expires. Sender retransmits Frame A.
+4. The receiver, having no sequence numbers, assumes this retransmitted frame is **brand new data (Frame B)**! It passes a duplicate copy of Frame A to its network layer, corrupting the user file!
+
+**With 1-Bit Sequence Numbers (Alternating Bit Protocol):**
+* Sender alternates sequence numbers: $0, 1, 0, 1, 0, \dots$
+* If receiver receives Frame 0, sends ACK, and subsequently receives another Frame 0 (because the ACK was lost), the receiver recognizes that Frame 0 is a **duplicate**. It discards the duplicate payload, but **re-sends ACK 0** so the sender can advance to Frame 1!
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor S as Sender
+    actor R as Receiver
+
+    Note over S,R: Scenario: Lost Acknowledgment (Duplicate Detection)
+    S->>R: Frame 0
+    R-->>S: ACK 0 (LOST IN CHANNEL X)
+    Note over S: Timer Expires! (Timeout)
+    S->>R: Retransmit Frame 0
+    Note over R: Duplicate Detected! Discards Payload
+    R-->>S: Re-sends ACK 0
+    Note over S: ACK 0 Received! Advances Window
+    S->>R: Frame 1
+    R-->>S: ACK 1
+```
 
 ---
 
-### Protocol 6: Selective Repeat Protocol (SR)
+## 5. Sliding Window Protocols
 
-* **Architectural Concept:** Pipelined transmission with Sender Window $W_s > 1$ and Receiver Window $W_r > 1$.
-* **Receiver Buffering:** The receiver possesses a buffer of size $W_r$. When an out-of-order frame arrives without corruption within the receiver's window, the receiver stores it in the buffer and sends a **Negative Acknowledgment (NAK / SREJ)** for the missing frame.
-* **Sender Fast Retransmission:** The sender maintains an independent timer for each frame. When a NAK arrives or a specific timer expires, the sender retransmits **only the single missing or damaged frame**, without retransmitting successfully received subsequent frames.
-* **Window Advance:** When the missing frame finally arrives, the receiver delivers the entire consecutive buffered sequence to the network layer and slides its window forward.
+### 5.1 Why Sliding Window? The Link Utilization Crisis
 
-#### Maximum Window Size Rule for Selective Repeat
-For an $n$-bit sequence number ($M = 2^n$):
+In Stop-and-Wait, the sender is idle for almost the entire Round-Trip Time (RTT).
+Let:
+* $T_{\text{trans}} = \frac{L}{R}$ = Frame transmission time.
+* $T_{\text{prop}} = \frac{D}{v}$ = One-way propagation delay.
+* Total cycle time $= T_{\text{trans}} + 2 T_{\text{prop}}$ (neglecting small ACK transmission time).
 
-$$
-W_s + W_r \le 2^n
-$$
+The **Channel Utilization (Efficiency $\eta$)** of Stop-and-Wait is:
 
-When sender and receiver windows are equal ($W_s = W_r$):
+$$\mathbf{\eta_{\text{Stop-and-Wait}} = \frac{T_{\text{trans}}}{T_{\text{trans}} + 2 T_{\text{prop}}} = \frac{1}{1 + 2a}}$$
 
-$$
-W_s = W_r \le 2^{n-1} = \f\frac{2^n}{2}
-$$
+Where $a$ is the normalized propagation delay:
+$$\mathbf{a = \frac{T_{\text{prop}}}{T_{\text{trans}}}}$$
 
-*Example:* For 3-bit sequence numbers ($0$ to $7$, $M = 8$), the maximum window size is $W_s = W_r = 4$. If a window of $5$ were used, overlap between the new window and old window would cause duplicate delivery.
+> **Exam Reality Check: The Satellite Link Disaster**  
+> Consider a 1 Mbps satellite link with $T_{\text{prop}} = 270\text{ ms}$.  
+> For a 1000-byte frame ($8000\text{ bits}$): $T_{\text{trans}} = \frac{8000}{10^6} = 8\text{ ms}$.  
+> $$a = \frac{270\text{ ms}}{8\text{ ms}} = 33.75$$  
+> $$\eta = \frac{1}{1 + 2(33.75)} = \frac{1}{1 + 67.5} = \frac{1}{68.5} \approx \mathbf{1.46\%}$$  
+> The expensive satellite link sits idle and wasted **$98.5\%$ of the time!**
 
-[Source: Ch 3 Data Link Layer.pdf, Slides 57–63; Chapter3-DataLinkLayer_NEW.pdf, Slides 67–75]
+#### The Solution: Pipelining
+Instead of waiting for an ACK after each frame, the sender is permitted to transmit up to $W$ frames into the channel pipeline before stopping to wait for ACKs:
 
----
+$$\mathbf{\eta_{\text{Pipelined}} = \min\left(1, \frac{W}{1 + 2a}\right)}$$
 
-## 8. Example Data Link Protocols
-
----
-
-### HDLC (High-Level Data Link Control)
-
-HDLC is a bit-oriented synchronous protocol derived from IBM SDLC. It operates over point-to-point and multipoint links using bit stuffing (`01111110`).
-
-#### HDLC Frame Structure
-
-| Field | Size | Description |
-| :--- | :---: | :--- |
-| **Flag** | 8 bits | Frame delimiter pattern: `01111110` (`0x7E`) |
-| **Address** | 8 or 16 bits | Identifies secondary station address on multipoint links |
-| **Control** | 8 or 16 bits | Identifies frame type, sequence numbers $N(S), N(R)$, and $P/F$ bit |
-| **Data (Payload)** | Variable | Network layer packet |
-| **FCS (Checksum)** | 16 or 32 bits | CRC-CCITT or CRC-32 Frame Check Sequence |
-| **Flag** | 8 bits | Frame closing delimiter: `01111110` (`0x7E`) |
-
-#### The Three HDLC Frame Types
-
-1. **Information Frames (I-Frames):**
-   * Transmit user data.
-   * Control field format: `0 | N(S) | P/F | N(R)`
-   * $N(S)$ = 3-bit send sequence number of current frame.
-   * $N(R)$ = 3-bit piggybacked acknowledgment (next expected frame).
-   * $P/F$ = Poll/Final bit (used to poll stations or mark final response).
-2. **Supervisory Frames (S-Frames):**
-   * Transmit flow and error control commands when no reverse data is present.
-   * Control field format: `1 0 | Type | P/F | N(R)`
-   * Type codes:
-     * `00` — **Receive Ready (RR):** Positive acknowledgment confirming receipt up to $N(R)-1$.
-     * `01` — **Receive Not Ready (RNR):** Acknowledges frames but tells sender receiver buffer is full.
-     * `10` — **Reject (REJ):** NAK for Go-Back-N; requests retransmission starting from $N(R)$.
-     * `11` — **Selective Reject (SREJ):** NAK for Selective Repeat; requests retransmission of only frame $N(R)$.
-3. **Unnumbered Frames (U-Frames):**
-   * Used for link management, mode setting, and connection setup/teardown.
-   * Control field format: `1 1 | Type | P/F | Modifier`
-   * Commands: `SABM` (Set Asynchronous Balanced Mode), `DISC` (Disconnect), `UA` (Unnumbered Acknowledgment), `FRMR` (Frame Reject).
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 64–65; Chapter3-DataLinkLayer_NEW.pdf, Slides 76–80]
+To achieve **100% channel utilization ($\eta = 1$)**, the sender window size must be:
+$$\mathbf{W \ge 1 + 2a = 1 + \frac{2 \times T_{\text{prop}}}{T_{\text{trans}}}}$$
 
 ---
 
-### PPP (Point-to-Point Protocol — RFC 1661)
+### 5.2 The Sliding Window Abstraction
 
-PPP is the standard data link protocol used for establishing direct connections between two nodes over dial-up modems, DSL, broadband links, and router-to-router leased lines.
+* **Sender Window ($W_s$):** The range of sequence numbers that the sender is authorized to transmit without receiving an ACK.
+* **Receiver Window ($W_r$):** The range of sequence numbers that the receiver is prepared to accept.
 
-#### Core Architectural Components of PPP
-1. **HDLC-like Framing:** Provides unambiguous byte-oriented framing with checksum error detection.
-2. **Link Control Protocol (LCP):** Used to negotiate link options, test line quality, configure MTU, and bring links up/down.
-3. **Authentication Protocols:** Optional PAP (Password Authentication Protocol) or CHAP (Challenge Handshake Authentication Protocol).
-4. **Network Control Protocols (NCPs):** A modular family of independent protocols used to configure network-layer settings (e.g., **IPCP** assigns dynamic IP addresses, DNS server addresses, and subnet masks for IPv4).
+```
+Sender Window (Ws = 4):
+Already ACKed |           Frames in Flight            | Not Yet Sent
+... 0   1   2 | [ 3       4       5       6 ]         |  7   8   9 ...
+              +---------------------------+
+               Shrinks on Send / Expands on ACK Arrival
+```
 
-#### PPP Frame Format
+---
 
-| Field | Size (Bytes) | Standard Value | Description |
-| :--- | :---: | :---: | :--- |
-| **Flag** | 1 | `0x7E` (`01111110`) | Frame delimiter byte |
-| **Address** | 1 | `0xFF` (`11111111`) | All-stations broadcast address (point-to-point link) |
-| **Control** | 1 | `0x03` (`00000011`) | Unnumbered information frame |
-| **Protocol** | 1 or 2 | Variable | Identifies payload type (`0x0021` = IPv4, `0x8021` = IPCP, `0xC021` = LCP, `0xC223` = CHAP) |
-| **Payload** | Variable | Up to MRU ($1500$) | Network layer packet or LCP/NCP control payload |
-| **Checksum (FCS)**| 2 or 4 | CRC-16 or CRC-32 | Error detection checksum |
-| **Flag** | 1 | `0x7E` (`01111110`) | Frame closing delimiter |
+### 5.3 Protocol 4: One-Bit Sliding Window Protocol
 
-*Byte Stuffing in PPP:* Uses escape character `0x7D`. Any occurrence of `0x7E` in payload is replaced by `0x7D 0x5E`; `0x7D` is replaced by `0x7D 0x5D`.
+* Sequence numbers are 1 bit ($0$ or $1$). Window sizes: $W_s = 1, W_r = 1$.
+* Employs **Piggybacking**: When a host wants to send an ACK, it embeds the acknowledgment sequence number inside the header of an outgoing data frame, saving separate packet overhead.
+* **Peculiar Flaw (Simultaneous Start Anomaly):** If both sides transmit simultaneously at the exact same instant, both receive valid frames and both advance, causing the protocol to transmit each frame twice, cutting effective bandwidth in half.
 
-#### PPP Link State Machine
+---
+
+### 5.4 Protocol 5: Go-Back-N (GBN) ARQ
+
+* **Window Sizes:** Sender Window $\mathbf{W_s > 1}$; Receiver Window $\mathbf{W_r = 1}$.
+* **Cumulative Acknowledgment:** An acknowledgment carrying number $n$ confirms that **all frames up to and including $n$ have been received correctly**.
+* **Receiver Action:** Since $W_r = 1$, the receiver accepts frames **strictly in sequence**. If frame $k$ is lost or corrupted, the receiver discards frame $k$ and **discards all subsequent frames $k+1, k+2, \dots$**, even if they arrive with zero errors!
+* **Sender Recovery:** The sender maintains a timer for the oldest unacknowledged frame. When the timer expires, the sender **"Goes Back $N$" and retransmits all unacknowledged frames** currently in the window.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor S as Sender (Ws = 4)
+    actor R as Receiver (Wr = 1)
+
+    S->>R: Frame 0
+    S->>R: Frame 1 (LOST IN CHANNEL X)
+    S->>R: Frame 2
+    S->>R: Frame 3
+    
+    R-->>S: ACK 0 (Frame 0 Accepted)
+    Note over R: Frame 2 arrives: Out of order! Discarded!
+    R-->>S: ACK 0 (Cumulative: Still expecting Frame 1)
+    Note over R: Frame 3 arrives: Out of order! Discarded!
+    R-->>S: ACK 0
+    
+    Note over S: Timer for Frame 1 Expires!
+    Note over S: GO-BACK-N: Retransmits Frames 1, 2, 3
+    S->>R: Retransmit Frame 1
+    S->>R: Retransmit Frame 2
+    S->>R: Retransmit Frame 3
+    R-->>S: ACK 1
+    R-->>S: ACK 2
+    R-->>S: ACK 3
+```
+
+#### Maximum Window Size Limit for Go-Back-N (B.Tech Favorite Proof)
+For an $n$-bit sequence number space ($2^n$ available sequence numbers: $0, 1, \dots, 2^n - 1$):
+
+$$\mathbf{W_s \le 2^n - 1}$$
+
+> **Exam Proof: Why $W_s = 2^n$ FAILS in Go-Back-N**  
+> Let $n = 2 \implies 2^n = 4$ sequence numbers ($0, 1, 2, 3$).  
+> Suppose we illegally set $W_s = 2^n = 4$.  
+> 1. Sender transmits frames $0, 1, 2, 3$.  
+> 2. Receiver accepts all four frames in order and advances its window, now expecting Frame $0$ (of the next cycle).  
+> 3. Receiver transmits cumulative $\text{ACK } 3$.  
+> 4. **Catastrophe:** The ACK is completely lost in the channel.  
+> 5. Sender's timer expires. Sender retransmits its window starting with **Frame 0**.  
+> 6. Receiver receives Frame 0. But receiver is currently expecting Frame 0 of the *new* cycle!  
+> 7. The receiver accepts the old retransmitted Frame 0 as new data $\implies$ **undetected duplicate data corruption!**  
+> *Conclusion:* To prevent wrap-around ambiguity, $W_s \le 2^n - 1$.
+
+---
+
+### 5.5 Protocol 6: Selective Repeat (SR) ARQ
+
+* **Window Sizes:** Sender Window $\mathbf{W_s > 1}$; Receiver Window $\mathbf{W_r > 1}$.
+* **Buffering at Receiver:** The receiver accepts and buffers out-of-order frames that fall within its window $W_r$.
+* **Retransmission:** Only the specific damaged or lost frame is retransmitted, using individual frame timers or **Negative Acknowledgments (NAK / SREJ)**.
+* **Advantage:** Dramatically higher throughput than GBN over noisy lines.
+* **Disadvantage:** High receiver buffer memory and complex protocol logic.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor S as Sender (Ws = 4)
+    actor R as Receiver (Wr = 4)
+
+    S->>R: Frame 0
+    S->>R: Frame 1 (LOST IN CHANNEL X)
+    S->>R: Frame 2
+    S->>R: Frame 3
+    
+    R-->>S: ACK 0
+    Note over R: Frame 2 arrives out-of-order: BUFFERED!
+    R-->>S: NAK 1 (Selective Reject: Requests Frame 1)
+    Note over R: Frame 3 arrives out-of-order: BUFFERED!
+    
+    Note over S: NAK 1 Received: Retransmits ONLY Frame 1
+    S->>R: Retransmit Frame 1
+    Note over R: Frame 1 received! Reassembles 1, 2, 3 in order!
+    R-->>S: Cumulative ACK 3
+```
+
+#### Maximum Window Size Limit for Selective Repeat
+For an $n$-bit sequence number space:
+
+$$\mathbf{W_s = W_r \le 2^{n-1} = \frac{2^n}{2}}$$
+
+> **Exam Rule:** In Selective Repeat, the sender and receiver window sizes cannot exceed **half the sequence number space**! (e.g., with 3-bit sequence numbers, $2^3 = 8 \implies W_s = W_r \le 4$).
+
+---
+
+### 5.6 Comprehensive Comparison Table: Stop-and-Wait vs. GBN vs. Selective Repeat
+
+| Parameter | Stop-and-Wait ARQ | Go-Back-N (GBN) ARQ | Selective Repeat (SR) ARQ |
+| :--- | :--- | :--- | :--- |
+| **Sender Window Size ($W_s$)** | $W_s = 1$ | $W_s \le 2^n - 1$ | $W_s \le 2^{n-1}$ |
+| **Receiver Window Size ($W_r$)** | $W_r = 1$ | $W_r = 1$ | $W_r = W_s \le 2^{n-1}$ |
+| **Out-of-Order Buffering** | No buffering | Discards all out-of-order frames | Buffers out-of-order frames within $W_r$ |
+| **Acknowledgment Mode** | Independent ACK per frame | Cumulative ACK | Individual ACK / NAK (SREJ) |
+| **Retransmission Cost** | Retransmits single unacked frame | Retransmits all $N$ frames in current window | Retransmits **only the lost frame** |
+| **Link Efficiency ($\eta$)** | $\dfrac{1}{1 + 2a}$ (Extremely poor when $a \gg 1$) | High: $\min\left(1, \dfrac{W_s}{1 + 2a}\right)$ | Highest: $\min\left(1, \dfrac{W_s}{1 + 2a}\right)$ |
+| **Complexity & Memory** | Minimal | Low (Receiver needs 0 buffer) | High (Receiver needs large reassembly buffer) |
+
+---
+
+## 6. Real-World Data Link Protocols: HDLC & PPP
+
+### 6.1 HDLC (High-level Data Link Control — ISO 13239)
+
+HDLC is a bit-oriented synchronous data link protocol:
+* **Frame Format:**
+
+```
++----------+---------------+--------------+-----------------+----------+----------+
+| Flag (1) | Address (1/2) | Control (1/2)| Information (var| FCS (2/4)| Flag (1) |
+| 01111110 | Node Address  | Frame Type   | User Payload    | CRC-CCITT| 01111110 |
++----------+---------------+--------------+-----------------+----------+----------+
+```
+
+#### The Three HDLC Frame Types (Encoded in Control Field):
+1. **Information Frames (I-Frames):** Carry upper-layer user data. Include sender sequence number $N(S)$, piggybacked acknowledgment number $N(R)$, and Poll/Final ($P/F$) bit.
+2. **Supervisory Frames (S-Frames):** Carry flow and error control confirmations when there is no reverse data traffic.
+   * `RR` (Receive Ready): Positive acknowledgment.
+   * `RNR` (Receive Not Ready): Acknowledges frames but pauses sender (flow control choke).
+   * `REJ` (Reject): Requests Go-Back-N retransmission starting at $N(R)$.
+   * `SREJ` (Selective Reject): Requests Selective Repeat retransmission of frame $N(R)$.
+3. **Unnumbered Frames (U-Frames):** Used for link setup, mode negotiation, and disconnection.
+   * `SABM` (Set Asynchronous Balanced Mode), `DISC` (Disconnect), `UA` (Unnumbered Acknowledgment).
+
+---
+
+### 6.2 PPP (Point-to-Point Protocol — RFC 1661)
+
+PPP is the standard data link protocol used for point-to-point connections over dialup modems, leased lines, and broadband DSL (PPPoE):
+
+#### PPP Architecture:
+1. **Framing:** HDLC-like framing using flag byte `0x7E` and byte stuffing.
+2. **LCP (Link Control Protocol):** Negotiates link options, maximum receive unit (MRU), and link quality.
+3. **Authentication Protocols:**
+   * **PAP (Password Authentication Protocol):** Two-way handshake; sends username and password in cleartext (insecure).
+   * **CHAP (Challenge Handshake Authentication Protocol):** Three-way handshake; uses a cryptographic challenge and MD5 hash without sending the password over the wire.
+4. **NCP (Network Control Protocol):** A family of protocols that configures network-layer parameters. For IPv4, **IPCP (RFC 1332)** assigns dynamic IP addresses and DNS servers.
+
+#### PPP Link State Transition Machine
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Dead
-    Dead --> Establish : Carrier Detected
-    Establish --> Authenticate : LCP Configuration ACK
-    Establish --> Dead : Carrier Lost / Fail
-    Authenticate --> Network : Authentication Success (PAP/CHAP)
-    Authenticate --> Terminate : Authentication Failed
-    Network --> Open : NCP Configuration ACK (IPCP Assigned)
-    Open --> Terminate : Close Request / Carrier Lost
-    Terminate --> Dead : LCP Terminate ACK
+    [*] --> Dead: Physical Link Down
+    Dead --> Establish: Carrier Detected (Physical UP)
+    
+    state Establish {
+        [*] --> SendLCP
+        SendLCP --> LCP_Configured: LCP Configure-Ack
+    }
+    
+    Establish --> Authenticate: Link Configured & Auth Required
+    Establish --> Network: Link Configured & No Auth Needed
+    Establish --> Dead: Carrier Lost
+    
+    state Authenticate {
+        [*] --> Challenge
+        Challenge --> Auth_Success: PAP/CHAP Passed
+    }
+    
+    Authenticate --> Network: Authentication Successful
+    Authenticate --> Terminate: Auth Failed
+    
+    state Network {
+        [*] --> NCP_Configure
+        NCP_Configure --> Open: IPCP Negotiates IP
+    }
+    
+    Network --> Terminate: Link Closed by User
+    Open --> Terminate: Link Teardown Requested
+    
+    state Terminate {
+        [*] --> SendLCP_Term
+        SendLCP_Term --> Closed: Term-Ack Received
+    }
+    
+    Terminate --> Dead: Carrier Drops
 ```
 
-[Source: Ch 3 Data Link Layer.pdf, Slides 65–67; Chapter3-DataLinkLayer_NEW.pdf, Slides 81–84]
+---
+
+## 7. Step-by-Step Worked Numerical Problems
+
+### Problem 1: Bit Stuffing Trace
+**Question:**  
+A bitstream `01111111111001111101` is transmitted using the bit stuffing protocol.  
+(a) Show the transmitted bitstream after stuffing.  
+(b) How many stuffing bits were injected?
+
+**Solution:**  
+Rule: After **every five consecutive `1`s**, inject a `0` bit.  
+* Bits: `0 1 1 1 1 1` [STUFF `0`] `1 1 1 1 1` [STUFF `0`] `1 0 0 1 1 1 1 1` [STUFF `0`] `0 1`  
+* Transmitted Stream:  
+  `0 1 1 1 1 1`**`0`**`1 1 1 1 1`**`0`**`1 0 0 1 1 1 1 1`**`0`**`0 1`  
+* Total injected stuffing bits = **3 bits**.
 
 ---
 
-### ADSL (Asymmetric Digital Subscriber Line) Data Link Architecture
+### Problem 2: Stop-and-Wait Link Efficiency
+**Question:**  
+A 1000-km fiber optic cable operates at $R = 100\text{ Mbps}$. Propagation speed is $v = 2 \times 10^8\text{ m/s}$. Frame size is $L = 1250\text{ bytes}$. ACK frames are negligible in size.  
+(a) Calculate $T_{\text{trans}}$ and $T_{\text{prop}}$.  
+(b) Calculate link efficiency $\eta$ for Stop-and-Wait.  
+(c) What sender window size $W$ is required for a sliding window protocol to achieve 100% utilization?
 
-ADSL delivers broadband Internet over existing local copper telephone loops using Discrete Multi-Tone (DMT) modulation (256 frequency subchannels).
+**Solution:**  
+**Step 1: Calculate Delays**  
+$$L = 1250 \times 8 = 10,000\text{ bits}$$  
+$$T_{\text{trans}} = \frac{10,000\text{ bits}}{100 \times 10^6\text{ bps}} = 10^{-4}\text{ s} = 0.1\text{ ms} = \mathbf{100\,\mu\text{s}}$$  
+$$D = 1000\text{ km} = 10^6\text{ m}$$  
+$$T_{\text{prop}} = \frac{10^6\text{ m}}{2 \times 10^8\text{ m/s}} = 5 \times 10^{-3}\text{ s} = \mathbf{5\text{ ms}} = 5000\,\mu\text{s}$$
 
-At the Data Link Layer, user IP traffic is encapsulated inside a **PPP frame**, which is encapsulated into **ATM (Asynchronous Transfer Mode) Adaptation Layer 5 (AAL5)** CPCS-PDU packets, sliced into fixed 53-byte ATM cells (5-byte header + 48-byte payload), and modulated across DMT subcarriers to the DSLAM (DSL Access Multiplexer) at the telephone company central office.
+**Step 2: Normalized Delay ($a$) and Stop-and-Wait Efficiency**  
+$$a = \frac{T_{\text{prop}}}{T_{\text{trans}}} = \frac{5000\,\mu\text{s}}{100\,\mu\text{s}} = 50$$  
+$$\eta_{\text{Stop-and-Wait}} = \frac{1}{1 + 2a} = \frac{1}{1 + 2(50)} = \frac{1}{101} \approx 0.0099 \approx \mathbf{0.99\%}$$
 
-[Source: Ch 3 Data Link Layer.pdf, Slide 68; Chapter3-DataLinkLayer_NEW.pdf, Slides 85–86]
-
----
-
-## 9. Mathematical Foundations, Formulas & Derivations
-
----
-
-### 1. Stop-and-Wait ARQ Efficiency Derivation
-
-#### Derivation
-Let a station transmit a frame of $L$ bits over a channel with bit rate $R$ bps, distance $D$ meters, and propagation speed $v$ m/s.
-* Frame transmission time: $T_t = \f\frac{L}{R}$
-* One-way propagation delay: $T_p = \f\frac{D}{v}$
-* Round-Trip Time: $\text{RTT} = 2 T_p$
-* Acknowledgment frame transmission time $T_{\text{ack}} \approx 0$.
-
-Total time required to successfully transmit one frame and receive its acknowledgment:
-
-$$
-T_{\text{total}} = T_t + 2 T_p = T_t(1 + 2a)
-$$
-
-Where $a = \f\frac{T_p}{T_t} = \f\frac{D \cdot R}{v \cdot L}$.
-
-The link utilization (efficiency) $\eta$ is the ratio of useful transmission time to total elapsed time:
-
-$$
-\eta = \f\frac{T_t}{T_{\text{total}}} = \f\frac{T_t}{T_t + 2 T_p} = \f\frac{1}{1 + 2a}
-$$
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Pages 18, 26–27]
+**Step 3: Required Window Size for 100% Efficiency**  
+$$W \ge 1 + 2a = 1 + 2(50) = \mathbf{101\text{ frames}}$$  
+The sender must have a window of at least **101 frames** to achieve 100% utilization!
 
 ---
 
-### 2. Pipelined Sliding Window (Go-Back-N) Efficiency
+### Problem 3: Sequence Number Bits for GBN and SR
+**Question:**  
+For the network in Problem 2 ($W = 101$):  
+(a) How many bits ($n$) are required in the frame sequence number field for Go-Back-N?  
+(b) How many bits are required for Selective Repeat?
 
-For a sender window size $W_s$:
-* If $W_s < 1 + 2a$, the sender exhausts its window before the first ACK arrives:
+**Solution:**  
+**(a) Go-Back-N:**  
+$$W_s \le 2^n - 1 \implies 2^n - 1 \ge 101 \implies 2^n \ge 102$$  
+Since $2^6 = 64$ and $2^7 = 128$:  
+$$\mathbf{n = 7\text{ bits}} \quad (\text{Supports } W_s \le 127)$$
 
-$$
-\eta = \f\frac{W_s \cdot T_t}{T_t + 2 T_p} = \f\frac{W_s}{1 + 2a}
-$$
-
-* If $W_s \ge 1 + 2a$, the sender transmits continuously and achieves maximum channel capacity:
-
-$$
-\eta = 1.0 = 100\%
-$$
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Pages 28–29, 31]
-
----
-
-### 3. Hamming $(n, k)$ Code Distance & Parity Bits
-
-* **Parity bit count inequality:** $2^r \ge m + r + 1$
-* **Error detection condition:** $d_{\min} \ge s + 1$
-* **Error correction condition:** $d_{\min} \ge 2t + 1$
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Pages 4, 7, 11]
+**(b) Selective Repeat:**  
+$$W_s \le 2^{n-1} \implies 2^{n-1} \ge 101$$  
+Since $2^6 = 64$ and $2^7 = 128$:  
+$$n - 1 = 7 \implies \mathbf{n = 8\text{ bits}} \quad (\text{Supports } W_s \le 128)$$
 
 ---
 
-## 10. Algorithms and Procedures
+## 8. B.Tech Exam Toolkit: Pointers, Traps & Question Bank
+
+### 8.1 High-Yield 2-Mark Question Bank
+
+1. **What is bit stuffing? Why is it used?**  
+   *Answer:* Inserting a `0` bit after five consecutive `1`s in data to prevent user payload from accidentally mimicking the frame delimiter flag `01111110`.
+2. **What is the Hamming distance requirement to detect $e$ errors and correct $t$ errors?**  
+   *Answer:* Detection: $d_{\min} \ge e + 1$. Correction: $d_{\min} \ge 2t + 1$.
+3. **Why is byte count framing not used alone?**  
+   *Answer:* If transmission noise corrupts the count field, the receiver misinterprets data as the next frame count, leading to catastrophic loss of frame synchronization.
+4. **State the maximum window size in Go-Back-N and Selective Repeat for an $n$-bit sequence number.**  
+   *Answer:* GBN: $W_s \le 2^n - 1$. Selective Repeat: $W_s = W_r \le 2^{n-1}$.
+5. **What is piggybacking?**  
+   *Answer:* Attaching an acknowledgment sequence number into the header of an outgoing data frame instead of transmitting a separate acknowledgment frame.
+6. **What is the purpose of the 1-bit sequence number in Stop-and-Wait ARQ?**  
+   *Answer:* To allow the receiver to identify duplicate frames caused by lost or delayed ACKs.
+7. **What is the difference between PAP and CHAP in PPP?**  
+   *Answer:* PAP sends credentials in plaintext (two-way handshake); CHAP uses a 3-way handshake with a challenge string and MD5 hash without exposing passwords.
 
 ---
 
-### Algorithm 3.1: Character / Byte Stuffing
+### 8.2 Standard 5-Mark & 10-Mark University Questions
 
-**Purpose:** Ensure transparent data transmission in byte-oriented framing.  
-**Input:** Raw byte array `data[]`, length $N$.  
-**Output:** Stuffed byte array `stuffed[]` bounded by `FLAG` bytes.
+#### Question 1: "Explain the working of Go-Back-N and Selective Repeat sliding window protocols. Why does GBN require $W_s \le 2^n - 1$ while SR requires $W_s \le 2^{n-1}$?" (10 Marks)
+* **Marking Blueprint:**
+  * Operating mechanism of GBN (discard out-of-order, cumulative ACK, timer): **3 Marks**.
+  * Operating mechanism of SR (buffering out-of-order, selective ACK/NAK): **2 Marks**.
+  * Detailed mathematical derivation / counter-example of window limits: **3 Marks**.
+  * Comparison table: **2 Marks**.
 
-**Procedure:**
-1. Append `FLAG` byte (`0x7E`) to output.
-2. For each byte $B$ in `data[]`:
-   * If $B == \text{FLAG}$ (`0x7E`), append `ESC` (`0x7D`) and `(0x7E ^ 0x20)` (`0x5E`) to output.
-   * Else if $B == \text{ESC}$ (`0x7D`), append `ESC` (`0x7D`) and `(0x7D ^ 0x20)` (`0x5D`) to output.
-   * Else, append $B$ directly to output.
-3. Append closing `FLAG` byte (`0x7E`) to output.
-
----
-
-### Algorithm 3.2: Bit Stuffing
-
-**Purpose:** Prevent accidental flag pattern `01111110` in bit-oriented framing.  
-**Input:** Raw bit sequence.  
-**Output:** Bit-stuffed transmission sequence.
-
-**Procedure:**
-1. Initialize `consecutive_ones = 0`.
-2. For each incoming bit $b$:
-   * Transmit $b$.
-   * If $b == 1$:
-     * Increment `consecutive_ones`.
-     * If `consecutive_ones == 5`:
-       * Transmit an extra `0` bit.
-       * Reset `consecutive_ones = 0`.
-   * Else ($b == 0$):
-     * Reset `consecutive_ones = 0`.
+#### Question 2: "Explain CRC error detection with an example. Given data 1010001101 and generator $x^5 + x^4 + x^2 + 1$, find the transmitted codeword." (7 Marks)
+* **Marking Blueprint:**
+  * Convert polynomial to binary generator string: **1 Mark**.
+  * Append correct number of zeros ($r$ zeros): **1 Mark**.
+  * Modulo-2 XOR division step-by-step: **3 Marks**.
+  * Transmitted codeword expression: **1 Mark**.
+  * Explanation of receiver verification: **1 Mark**.
 
 ---
 
-### Algorithm 3.3: CRC Generation via Modulo-2 Division
+### 8.3 Formula Cheat Sheet
 
-**Purpose:** Calculate Frame Check Sequence (FCS) remainder.  
-**Input:** $m$-bit message $M$, degree-$r$ generator $G$.  
-**Output:** Transmitted $(m+r)$-bit codeword $T$.
-
-**Procedure:**
-1. Append $r$ zero bits to $M$, forming dividend string $D$ of length $m+r$.
-2. Align divisor $G$ with the leftmost `1` bit of $D$.
-3. Perform bitwise XOR between $G$ and the $r+1$ bits of $D$ underneath it.
-4. Shift right to the next `1` bit in $D$ and repeat XOR with $G$ until the end of $D$ is reached.
-5. The remaining $r$-bit string is remainder $R$.
-6. Replace the $r$ appended zeros of $D$ with $R$ to form transmitted codeword $T$.
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 16, 18, 38]
-
----
-
-## 11. Diagrams and Architecture Analysis
-
----
-
-### Figure 3.1: Packet in Frame Relationship
-
-![Figure 3.1: Packet in Frame Relationship](../images/chapter3/ch3_packet_in_frame.png)
-
-#### Written Analysis of Figure 3.1
-* **What it shows:** Illustrates how a Network Layer packet is encapsulated into the payload field of a Data Link Layer frame, flanked by a header and trailer.
-* **Components:** Frame Header (preamble, source/destination physical addresses, frame type/length), Packet Payload (Network-layer data), Frame Trailer (error-checking CRC/FCS).
-* **Flow / Relationship:** The Network Layer hands a complete packet across the SAP interface. The DLL wraps the packet with header and trailer before passing bits to the Physical Layer.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 5]
-
----
-
-### Figure 3.2: Data Link Layer Virtual vs Actual Communication
-
-![Figure 3.2: DLL Virtual vs Actual Communication](../images/chapter3/ch3_dll_virtual_communication.png)
-
-#### Written Analysis of Figure 3.2
-* **What it shows:** Contrasts the horizontal logical (virtual) peer-to-peer frame communication between Data Link Layers with the actual vertical signal path traversing the physical hardware medium.
-* **Components:** Node A (Layers 3, 2, 1), Node B (Layers 3, 2, 1), Physical wire link.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 10]
-
----
-
-### Figure 3.3: Framing Character / Byte Count & Synchronization Error
-
-![Figure 3.3: Framing Character / Byte Count](../images/chapter3/ch3_framing_byte_count.png)
-
-#### Written Analysis of Figure 3.3
-* **What it shows:** (a) Normal operation of byte count framing across four frames. (b) Catastrophic synchronization failure caused by a single bit error flipping count `5` to `7` in Frame 2.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 14]
-
----
-
-### Figure 3.4: Byte Stuffing and Destuffing Mechanism
-
-![Figure 3.4: Byte Stuffing Mechanism](../images/chapter3/ch3_byte_stuffing.png)
-
-#### Written Analysis of Figure 3.4
-* **What it shows:** Demonstrates how escape (`ESC`) bytes are stuffed before payload `FLAG` and `ESC` bytes, and stripped at the receiver to achieve data transparency.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 16]
-
----
-
-### Figure 3.5: Bit Stuffing Mechanism (HDLC / USB)
-
-![Figure 3.5: Bit Stuffing Mechanism](../images/chapter3/ch3_bit_stuffing.png)
-
-#### Written Analysis of Figure 3.5
-* **What it shows:** Visualizes the injection of a `0` bit after every five consecutive `1` bits in data payload, and its subsequent removal at the destination receiver.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 18]
-
----
-
-### Figure 3.6: Hamming $(7,4)$ Code Bit Position Matrix
-
-![Figure 3.6: Hamming Code Bit Layout](../images/chapter3/ch3_hamming_code_layout.png)
-
-#### Written Analysis of Figure 3.6
-* **What it shows:** Shows the structural interleaving of 3 parity check bits ($p_1, p_2, p_4$ at bit positions $1, 2, 4$) and 4 data bits ($d_1, d_2, d_3, d_4$ at bit positions $3, 5, 6, 7$).
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 27]
-
----
-
-### Figure 3.7: Hamming Error Detection Syndrome Decoding
-
-![Figure 3.7: Hamming Error Syndrome](../images/chapter3/ch3_hamming_error_syndrome.png)
-
-#### Written Analysis of Figure 3.7
-* **What it shows:** Illustrates how evaluating the three parity equations over received codeword `1110110` yields non-zero syndrome vector $101_2 = 5$, directly identifying bit 5 as the erroneous bit.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 30]
-
----
-
-### Figure 3.8: CRC Modulo-2 Polynomial Division
-
-![Figure 3.8: CRC Modulo-2 Polynomial Division](../images/chapter3/ch3_crc_generation.png)
-
-#### Written Analysis of Figure 3.8
-* **What it shows:** Step-by-step modulo-2 long division of message $1101011111$ appended with 6 zeros by generator $G(x) = x^6 + x^4 + x^3 + 1$ ($1011001$), yielding remainder $R = 011110$.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 38]
-
----
-
-### Figure 3.9: Sliding Window Concepts & Window Advances
-
-![Figure 3.9: Sliding Window Concept](../images/chapter3/ch3_sliding_window_concept.png)
-
-#### Written Analysis of Figure 3.9
-* **What it shows:** Visualizes sender and receiver sliding windows: frames unacknowledged, frames eligible to send, and window expansion/contraction upon frame transmissions and ACK receptions.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 46]
-
----
-
-### Figure 3.10: 1-Bit Sliding Window Protocol State Timeline
-
-![Figure 3.10: 1-Bit Sliding Window Protocol Timeline](../images/chapter3/ch3_protocol4_timeline.png)
-
-#### Written Analysis of Figure 3.10
-* **What it shows:** Chronological packet-by-packet state progression for Protocol 4 showing (a) normal transmission exchange and (b) simultaneous startup anomaly.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 47]
-
----
-
-### Figure 3.11: ARQ Normal and Error Recovery Timelines
-
-![Figure 3.11: ARQ Error Scenarios](../images/chapter3/ch3_arq_error_scenarios.png)
-
-#### Written Analysis of Figure 3.11
-* **What it shows:** Chronological comparison of ARQ error scenarios: (a) Lost data frame triggering sender timeout retransmission; (b) Lost ACK frame triggering duplicate transmission and duplicate rejection.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 51]
-
----
-
-### Figure 3.12: Go-Back-N Pipelined Transmission Flow
-
-![Figure 3.12: Go-Back-N Flow](../images/chapter3/ch3_gobackn_flow.png)
-
-#### Written Analysis of Figure 3.12
-* **What it shows:** Illustrates Go-Back-N with $W_s = 4$. Frame 2 is damaged in transit; receiver discards frames 2, 3, 4, 5. Sender timer expires on frame 2 and retransmits all frames 2, 3, 4, 5.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 53]
-
----
-
-### Figure 3.13: Go-Back-N vs Selective Repeat Window Size Limits
-
-![Figure 3.13: Window Size Limits](../images/chapter3/ch3_window_size_limits.png)
-
-#### Written Analysis of Figure 3.13
-* **What it shows:** Detailed state diagram proving why Go-Back-N requires $W_s \le 2^n - 1$ and Selective Repeat requires $W_s = W_r \le 2^{n-1}$ to prevent sequence number wrap-around ambiguity.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 58]
-
----
-
-### Figure 3.14: PPP Frame Format
-
-![Figure 3.14: PPP Frame Format](../images/chapter3/ch3_ppp_frame_format.png)
-
-#### Written Analysis of Figure 3.14
-* **What it shows:** Field-by-field layout of the RFC 1661 PPP frame: Flag (`0x7E`), Address (`0xFF`), Control (`0x03`), Protocol (16-bit), Payload, FCS Checksum (16/32-bit), Flag (`0x7E`).
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 65]
-
----
-
-### Figure 3.15: PPP Link State Transition Diagram
-
-![Figure 3.15: PPP State Diagram](../images/chapter3/ch3_ppp_state_diagram.png)
-
-#### Written Analysis of Figure 3.15
-* **What it shows:** Complete lifecycle state machine of a PPP connection: Dead $\to$ Establish (LCP) $\to$ Authenticate (PAP/CHAP) $\to$ Network (NCP/IPCP) $\to$ Open $\to$ Terminate $\to$ Dead.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 66]
-
----
-
-### Figure 3.16: ADSL Protocol Stack Architecture
-
-![Figure 3.16: ADSL Protocol Stack](../images/chapter3/ch3_adsl_protocol_stack.png)
-
-#### Written Analysis of Figure 3.16
-* **What it shows:** End-to-end layered protocol stack of ADSL broadband, showing user IP packets encapsulated in PPP over AAL5 CPCS-PDU, mapped to 53-byte ATM cells, transmitted over DMT physical copper line.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 68]
-
----
-
-
-### Figure 3.17: UDP/IP Internet 1's Complement Checksum Example
-
-![Figure 3.17: UDP/IP Internet 1's Complement Checksum Example](../images/chapter3/ch3_checksum_example.png)
-
-#### Written Analysis of Figure 3.17
-
-**What it shows:**
-The step-by-step 16-bit 1's complement addition and inversion mechanism used in the Internet Checksum (UDP/TCP/IP):
-1. The sender divides the data stream into consecutive 16-bit words.
-2. All 16-bit words are summed using 1's complement arithmetic (any carry out of the most significant bit is wrapped around and added to the least significant bit: end-around carry).
-3. The sum is inverted (1's complement bitwise NOT) to form the checksum field placed in the header.
-4. The receiver repeats the identical 16-bit summation over all words *including* the checksum: if the channel is error-free, the resulting sum must evaluate to all 1s (`0xFFFF`), which inverts to `0x0000`.
-
-**Algorithmic Verification:**
-If any single bit error occurs, the sum will differ from `0xFFFF`, flagging corrupted data. However, the 1's complement checksum cannot detect compensating errors where one word increases by $k$ and another decreases by $k$, nor does it detect reordering of 16-bit words.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 33]
-
----
-## 12. Tables and Comprehensive Comparisons
-
----
-
-### Table 3.1: Comprehensive ARQ Protocol Comparison
-
-| Criterion | Stop-and-Wait ARQ | Go-Back-N ARQ (GBN) | Selective Repeat ARQ (SR) |
-| :--- | :--- | :--- | :--- |
-| **Sender Window Size ($W_s$)** | $W_s = 1$ | $1 < W_s \le 2^n - 1$ | $1 < W_s \le 2^{n-1}$ |
-| **Receiver Window Size ($W_r$)** | $W_r = 1$ | $W_r = 1$ | $W_r = W_s \le 2^{n-1}$ |
-| **Out-of-Order Frame Handling** | Impossible (window is 1) | Discarded immediately; no buffer | Buffered in receiver memory |
-| **Retransmission Scope** | Only the single timed-out frame | All $N$ frames in current window | Only the specific damaged/lost frame |
-| **Acknowledgment Scheme** | Individual ACK | Cumulative ACK ($ACK\ n$) | Individual ACK + Negative ACK (NAK) |
-| **Receiver Complexity** | Extremely simple; 0 buffer | Very simple; 0 buffer | Complex; requires buffering and sorting |
-| **Sender Complexity** | Simple single timer | Single timer for oldest frame | Independent timer per frame |
-| **Link Bandwidth Efficiency** | Very low on high-BDP links | High under low error rates; degrades rapidly under high errors | Maximum efficiency even on noisy high-BDP links |
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 45–63; Chapter3-DataLinkLayer_NEW.pdf, Slides 50–75]
-
----
-
-### Table 3.2: Framing Techniques Comparison
-
-| Framing Method | Delimiter Used | Stuffing Overhead Mechanism | Vulnerability / Limitation | Primary Real-World Application |
-| :--- | :--- | :--- | :--- | :--- |
-| **Byte Count** | Length count integer in header | None | Corrupted count destroys all subsequent synchronization | Early DECnet protocols |
-| **Byte Stuffing** | `FLAG` byte (`0x7E`) | `ESC` (`0x7D`) inserted before payload flags/escapes | Modest byte-level expansion overhead | PPP, Serial dial-up lines |
-| **Bit Stuffing** | `01111110` bit pattern | `0` bit stuffed after five consecutive `1`s | Bit-level manipulation overhead | HDLC, SDLC, USB |
-| **Coding Violations** | Invalid line signaling pattern | Zero data stuffing overhead | Requires redundant line coding (e.g. Manchester) | Classic Ethernet (802.3), Token Ring |
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 14–19]
-
----
-
-### Table 3.3: HDLC vs PPP Protocol Comparison
-
-| Feature | HDLC (High-level Data Link Control) | PPP (Point-to-Point Protocol) |
+| Formula Name | Formula Equation | Meaning of Variables |
 | :--- | :--- | :--- |
-| **Orientation** | Bit-oriented (bit stuffing `01111110`) | Byte-oriented (byte stuffing `0x7D`) |
-| **Standardizing Body** | ISO (ISO 13239) | IETF (RFC 1661) |
-| **Network Layer Support** | Primarily single protocol per link | Multi-protocol via modular NCPs (IP, IPv6, AppleTalk) |
-| **Link Negotiation** | Fixed pre-configured options | Dynamic negotiation via LCP |
-| **User Authentication** | None built-in | Built-in PAP and CHAP support |
-| **Dynamic Addressing** | Static addressing | Dynamic IP assignment via IPCP |
-| **Error Recovery** | Full ARQ error recovery (I/S/U frames) | Error detection only (drops bad frames; no DLL retransmission) |
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 64–67]
-
----
-
-## 13. Worked Numerical Problems
-
----
-
-### Numerical Problem 1: Hamming Distance Calculation
-
-#### Problem Statement
-What is the Hamming distance between the following two binary codewords?
-* $v_1 = 0111110000111011$
-* $v_2 = 0111111000011001$
-
-#### Step-by-Step Solution
-1. Perform bitwise XOR between $v_1$ and $v_2$:
-$$
-\begin{aligned}
-v_1 &= 0111110000111011 \\
-v_2 &= 0111111000011001 \\
-v_1 \oplus v_2 &= 0000001000100010
-\end{aligned}
-$$
-2. Count the number of `1` bits in the result:
-   * Bit positions differing (from left): Bit 7, Bit 11, Bit 15.
-   * Total number of `1` bits = $3$.
-
-#### Final Answer
-* **Hamming Distance:** $d = 3$
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Page 2]
-
----
-
-### Numerical Problem 2: Minimum Hamming Distance for Error Detection & Correction
-
-#### Problem Statement
-1. What minimum Hamming distance between codewords is required to detect up to $s = 4$ bit errors?
-2. What minimum Hamming distance between codewords is required to correct up to $t = 3$ bit errors?
-
-#### Formulas
-
-$$
-d_{\min} \ge s + 1 \quad (\text{Detection})
-$$
-
-$$
-d_{\min} \ge 2t + 1 \quad (\text{Correction})
-$$
-
-#### Step-by-Step Solution
-1. For error detection with $s = 4$:
-
-$$
-d_{\min} \ge 4 + 1 = 5
-$$
-
-2. For error correction with $t = 3$:
-
-$$
-d_{\min} \ge 2(3) + 1 = 7
-$$
-
-#### Final Answer
-* **For 4-bit Detection:** $d_{\min} = 5$
-* **For 3-bit Correction:** $d_{\min} = 7$
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Pages 4, 7]
-
----
-
-### Numerical Problem 3: Hamming $(7,4)$ Code Encoding
-
-#### Problem Statement
-Encode the 4-bit data message $D = 1101$ ($d_1 = 1, d_2 = 1, d_3 = 0, d_4 = 1$) into a 7-bit codeword using the Hamming $(7,4)$ code with even parity.
-
-#### Step-by-Step Solution
-1. Bit position layout in 7-bit codeword:
-   * Position 1: $p_1$ (Parity)
-   * Position 2: $p_2$ (Parity)
-   * Position 3: $d_1 = 1$ (Data)
-   * Position 4: $p_4$ (Parity)
-   * Position 5: $d_2 = 1$ (Data)
-   * Position 6: $d_3 = 0$ (Data)
-   * Position 7: $d_4 = 1$ (Data)
-2. Calculate parity bits (even parity $\implies$ sum modulo 2 is 0):
-   * **$p_1$ checks positions $1, 3, 5, 7$:**
-
-$$
-p_1 \oplus d_1 \oplus d_2 \oplus d_4 = 0 \implies p_1 \oplus 1 \oplus 1 \oplus 1 = 0 \implies p_1 \oplus 1 = 0 \implies p_1 = 1
-$$
-
-   * **$p_2$ checks positions $2, 3, 6, 7$:**
-
-$$
-p_2 \oplus d_1 \oplus d_3 \oplus d_4 = 0 \implies p_2 \oplus 1 \oplus 0 \oplus 1 = 0 \implies p_2 \oplus 0 = 0 \implies p_2 = 0
-$$
-
-   * **$p_4$ checks positions $4, 5, 6, 7$:**
-
-$$
-p_4 \oplus d_2 \oplus d_3 \oplus d_4 = 0 \implies p_4 \oplus 1 \oplus 0 \oplus 1 = 0 \implies p_4 \oplus 0 = 0 \implies p_4 = 0
-$$
-
-3. Assemble the 7-bit codeword $[b_7 b_6 b_5 b_4 b_3 b_2 b_1]$:
-   * Position 7 ($d_4$) = $1$
-   * Position 6 ($d_3$) = $0$
-   * Position 5 ($d_2$) = $1$
-   * Position 4 ($p_4$) = $0$
-   * Position 3 ($d_1$) = $1$
-   * Position 2 ($p_2$) = $0$
-   * Position 1 ($p_1$) = $1$
-
-Codeword as bit string $[b_1 b_2 b_3 b_4 b_5 b_6 b_7] = 1010101$ (or written left-to-right as positions 7 to 1: $1010101$; in slide convention $[b_7 \dots b_1] = 1100110$).
-
-#### Final Answer
-* **Transmitted 7-bit Codeword:** `1100110` (or positions 1 to 7: `1010101`)
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Pages 11–13]
-
----
-
-### Numerical Problem 4: Hamming Syndrome Decoding and Error Correction
-
-#### Problem Statement
-Suppose the received 7-bit Hamming codeword is `1110110` (with bit positions from left 7 to 1: $b_7=1, b_6=1, b_5=1, b_4=0, b_3=1, b_2=1, b_1=0$). Determine if an error occurred, identify the corrupted bit position, and correct the codeword.
-
-#### Step-by-Step Solution
-1. Evaluate parity check equations (even parity):
-   * **$s_1$ (Checks positions 1, 3, 5, 7):**
-
-$$
-s_1 = b_1 \oplus b_3 \oplus b_5 \oplus b_7 = 0 \oplus 1 \oplus 1 \oplus 1 = 1
-$$
-
-   * **$s_2$ (Checks positions 2, 3, 6, 7):**
-
-$$
-s_2 = b_2 \oplus b_3 \oplus b_6 \oplus b_7 = 1 \oplus 1 \oplus 1 \oplus 1 = 0
-$$
-
-   * **$s_4$ (Checks positions 4, 5, 6, 7):**
-
-$$
-s_4 = b_4 \oplus b_5 \oplus b_6 \oplus b_7 = 0 \oplus 1 \oplus 1 \oplus 1 = 1
-$$
-
-2. Construct syndrome vector:
-
-$$
-S = [s_4 s_2 s_1]_2 = [1 0 1]_2 = 1 \times 4 + 0 \times 2 + 1 \times 1 = 5
-$$
-
-3. Since $S = 5 \ne 0$, **Bit 5 is in error**.
-4. Correct the error by flipping bit 5 ($b_5 = 1 \to 0$):
-   * Corrected codeword: `1100110`.
-   * Extract data bits ($b_7, b_6, b_5, b_3$): `1 1 0 1`.
-
-#### Final Answer
-* **Corrupted Bit Position:** Bit 5
-* **Corrected Codeword:** `1100110`
-* **Original Message:** `1101`
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Page 14]
-
----
-
-### Numerical Problem 5: Byte Stuffing Transformation
-
-#### Problem Statement
-The following data fragment occurs in the middle of a data stream for which the byte-stuffing algorithm is used:  
-`A B ESC C ESC FLAG FLAG D`  
-What is the payload output after byte stuffing, and what is the complete framed transmission?
-
-#### Step-by-Step Solution
-1. Apply escape rule to payload:
-   * `A` $\to$ `A`
-   * `B` $\to$ `B`
-   * `ESC` $\to$ `ESC ESC`
-   * `C` $\to$ `C`
-   * `ESC` $\to$ `ESC ESC`
-   * `FLAG` $\to$ `ESC FLAG`
-   * `FLAG` $\to$ `ESC FLAG`
-   * `D` $\to$ `D`
-2. Stuffed payload:
-   `A B ESC ESC C ESC ESC ESC FLAG ESC FLAG D`
-3. Add frame delimiters (`FLAG` at start and end):
-   `FLAG A B ESC ESC C ESC ESC ESC FLAG ESC FLAG D FLAG`
-
-#### Final Answer
-* **Stuffed Payload:** `A B ESC ESC C ESC ESC ESC FLAG ESC FLAG D`
-* **Complete Frame:** `FLAG A B ESC ESC C ESC ESC ESC FLAG ESC FLAG D FLAG`
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Page 15; cn_tutorial.pdf, Tutorial 1, Q2]
-
----
-
-### Numerical Problem 6: Bit Stuffing Transformation
-
-#### Problem Statement
-A bit string `0111101111101111110` needs to be transmitted at the Data Link Layer using bit stuffing. What is the string actually transmitted?
-
-#### Step-by-Step Solution
-1. Scan bit string and count consecutive `1`s:
-   * `0 1 1 1 1` (four `1`s) $\to$ no stuff.
-   * `0` (resets count).
-   * `1 1 1 1 1` (five `1`s) $\to$ **insert `0`**.
-   * Next bit was `0` $\to$ stream is now `1 1 1 1 1 0 0`.
-   * `1 1 1 1 1` (five `1`s) $\to$ **insert `0`**.
-   * Next bits `1 0` $\to$ stream is now `1 1 1 1 1 0 1 0`.
-2. Assembled transmitted string:
-
-$$
-\mathbf{01111011111\underline{0}011111\underline{0}10}
-$$
-
-#### Final Answer
-* **Transmitted Bit String:** `011110111110011111010`
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Page 16; cn_tutorial.pdf, Tutorial 1, Q3]
-
----
-
-### Numerical Problem 7: Stop-and-Wait File Transfer Over 5000 km Link
-
-#### Problem Statement
-A system uses the Stop-and-Wait protocol. If each packet carries $1000\text{ bits}$ of data, how long does it take to send $1\text{ million bits}$ ($10^6\text{ bits}$) of data if the distance between sender and receiver is $5000\text{ km}$ and propagation speed is $2 \times 10^8\text{ m/s}$? Ignore transmission, waiting, and processing delays.
-
-#### Given Values
-* Total data: $10^6\text{ bits}$
-* Packet data: $10^3\text{ bits}$
-* Distance: $D = 5000\text{ km} = 5 \times 10^6\text{ m}$
-* Velocity: $v = 2 \times 10^8\text{ m/s}$
-
-#### Step-by-Step Solution
-1. Number of packets:
-
-$$
-N = \f\frac{10^6\text{ bits}}{10^3\text{ bits/packet}} = 1000\text{ packets}
-$$
-
-2. One-way propagation delay:
-
-$$
-T_p = \f\frac{5 \times 10^6\text{ m}}{2 \times 10^8\text{ m/s}} = 0.025\text{ s} = 25\text{ ms}
-$$
-
-3. Round-Trip Time per packet:
-
-$$
-\text{RTT} = 2 \times T_p = 50\text{ ms} = 0.050\text{ s}
-$$
-
-4. Total time for 1000 packets:
-
-$$
-\text{Total Time} = 1000 \times 0.050\text{ s} = 50\text{ seconds}
-$$
-
-#### Final Answer
-* **Total Transfer Time:** $50\text{ seconds}$
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Page 19; cn_tutorial.pdf, Tutorial 2, Q2]
-
----
-
-### Numerical Problem 8: Stop-and-Wait Link Utilization
-
-#### Problem Statement
-If the bandwidth of a line is $1\text{ Mbps}$, one-way propagation delay is $20\text{ ms}$, and packet size is $1\text{ KB}$ ($1024\text{ Bytes} = 8192\text{ bits}$ or $1000\text{ Bytes} = 8000\text{ bits}$), calculate the link utilization for Stop-and-Wait protocol.
-
-#### Given Values
-* Bandwidth: $R = 1\text{ Mbps} = 10^6\text{ bps}$
-* Propagation delay: $T_p = 20\text{ ms} = 0.020\text{ s}$ ($\text{RTT} = 40\text{ ms}$)
-* Packet size: $L = 1\text{ KB} = 8000\text{ bits}$ (using decimal slide standard)
-
-#### Step-by-Step Solution
-1. Transmission delay:
-
-$$
-T_t = \f\frac{8000\text{ bits}}{10^6\text{ bps}} = 8\text{ ms} = 0.008\text{ s}
-$$
-
-2. Round-Trip Time:
-
-$$
-\text{RTT} = 2 \times 20\text{ ms} = 40\text{ ms}
-$$
-
-3. Total time per frame:
-
-$$
-T_{\text{total}} = T_t + \text{RTT} = 8\text{ ms} + 40\text{ ms} = 48\text{ ms}
-$$
-
-4. Link Utilization $\eta$:
-
-$$
-\eta = \f\frac{T_t}{T_{\text{total}}} = \f\frac{8\text{ ms}}{48\text{ ms}} = \f\frac{1}{6} \approx 16.667\%
-$$
-
-#### Final Answer
-* **Link Utilization:** $16.67\%$
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Page 26; cn_tutorial.pdf, Tutorial 3, Q2]
-
----
-
-### Numerical Problem 9: Frame Size for 50% Efficiency in Stop-and-Wait
-
-#### Problem Statement
-If bit rate is $10\text{ kbps}$ and one-way propagation delay is $40\text{ ms}$, for what frame size does Stop-and-Wait protocol achieve an efficiency of $50\%$?
-
-#### Given Values
-* Bit rate: $R = 10\text{ kbps} = 10,000\text{ bps}$
-* Propagation delay: $T_p = 40\text{ ms} = 0.040\text{ s}$
-* Desired efficiency: $\eta = 0.50 = 50\%$
-
-#### Step-by-Step Solution
-1. Efficiency formula:
-
-$$
-\eta = \f\frac{T_t}{T_t + 2 T_p} = \f\frac{1}{1 + 2a} = 0.5
-$$
-
-$$
-1 + 2a = 2 \implies 2a = 1 \implies a = 0.5
-$$
-
-2. Since $a = \f\frac{T_p}{T_t}$:
-
-$$
-\f\frac{T_p}{T_t} = 0.5 \implies T_t = 2 T_p = 2 \times 40\text{ ms} = 80\text{ ms} = 0.080\text{ s}
-$$
-
-3. Calculate frame size $L$:
-
-$$
-L = R \times T_t = 10,000\text{ bps} \times 0.080\text{ s} = 800\text{ bits}
-$$
-
-#### Final Answer
-* **Required Frame Size:** $800\text{ bits}$ ($100\text{ Bytes}$)
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Page 27]
-
----
-
-### Numerical Problem 10: Earth-to-Planet Space Link Utilization
-
-#### Problem Statement
-The distance from Earth to a distant planet is approximately $9 \times 10^{10}\text{ m}$. What is the channel utilization if Stop-and-Wait protocol is used on a $64\text{ Mbps}$ point-to-point link with a frame size of $32\text{ KB}$ ($32 \times 1024 \times 8 = 262,144\text{ bits}$ or $32 \times 1000 \times 8 = 256\text{ kbits}$)? Use speed of light $3 \times 10^8\text{ m/s}$. For what sliding window size would utilization reach $100\%$?
-
-#### Given Values
-* Distance: $D = 9 \times 10^{10}\text{ m}$
-* Speed of light: $v = 3 \times 10^8\text{ m/s}$
-* Data rate: $R = 64\text{ Mbps} = 64 \times 10^6\text{ bps}$
-* Frame size: $L = 32\text{ KB} = 256\text{ kbits} = 256,000\text{ bits}$
-
-#### Step-by-Step Solution
-1. One-way propagation delay:
-
-$$
-T_p = \f\frac{9 \times 10^{10}\text{ m}}{3 \times 10^8\text{ m/s}} = 300\text{ seconds}
-$$
-
-2. Frame transmission time:
-
-$$
-T_t = \f\frac{256,000\text{ bits}}{64 \times 10^6\text{ bps}} = 0.004\text{ s} = 4\text{ ms}
-$$
-
-3. Calculate $a$:
-
-$$
-a = \f\frac{T_p}{T_t} = \f\frac{300}{0.004} = 75,000
-$$
-
-4. Stop-and-Wait channel utilization:
-
-$$
-\eta = \f\frac{1}{1 + 2a} = \f\frac{1}{1 + 2(75000)} = \f\frac{1}{150,001} \approx 6.667 \times 10^{-6} = 6.67 \times 10^{-4}\%
-$$
-
-5. Window size $W$ for $100\%$ utilization:
-
-$$
-W = 1 + 2a = 1 + 150,000 = 150,001\text{ frames}
-$$
-
-#### Final Answer
-* **Stop-and-Wait Utilization:** $6.67 \times 10^{-4}\%$
-* **Window Size for 100% Utilization:** $W = 150,001\text{ frames}$
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Pages 28–29]
-
----
-
-### Numerical Problem 11: T1 Trunk Sequence Number Width for Go-Back-N
-
-#### Problem Statement
-A $3000\text{ km}$ long T1 trunk ($1.536\text{ Mbps}$ payload rate) is used to transmit 64-byte frames using Go-Back-N protocol. If propagation speed is $6\,\mu\text{s/km}$, how many bits must the sequence numbers be to achieve maximum throughput?
-
-#### Given Values
-* Distance: $D = 3000\text{ km}$
-* Propagation delay per km: $6\,\mu\text{s/km}$
-* Data rate: $R = 1.536\text{ Mbps} = 1.536 \times 10^6\text{ bps}$
-* Frame size: $L = 64\text{ Bytes} = 512\text{ bits}$
-
-#### Step-by-Step Solution
-1. One-way propagation time:
-
-$$
-T_p = 3000\text{ km} \times 6\,\mu\text{s/km} = 18\text{ ms} = 0.018\text{ s}
-$$
-
-2. Frame transmission time:
-
-$$
-T_t = \f\frac{512\text{ bits}}{1.536 \times 10^6\text{ bps}} = 0.000333\text{ s} = 0.333\text{ ms} \approx 0.300\text{ ms}
-$$
-
-3. Round-trip elapsed time until first ACK returns:
-
-$$
-T_{\text{cycle}} = T_t + 2 T_p = 0.3\text{ ms} + 36\text{ ms} = 36.3\text{ ms}
-$$
-
-4. Frames transmitted during one cycle:
-
-$$
-N_{\text{frames}} = \f\frac{36.3\text{ ms}}{0.3\text{ ms/frame}} = 121\text{ frames}
-$$
-
-5. For Go-Back-N, sender window $W_s \ge 121$.
-   Since $W_s \le 2^n - 1$:
-
-$$
-2^n - 1 \ge 121 \implies 2^n \ge 122 \implies n = 7\text{ bits} \quad (2^7 = 128)
-$$
-
-#### Final Answer
-* **Required Sequence Number Size:** $7\text{ bits}$ ($W_s = 127$)
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Page 31]
-
----
-
-### Numerical Problem 12: Go-Back-N Buffer Contents on Error
-
-#### Problem Statement
-Two stations A and B exchange frames using Go-Back-N protocol with window size $W_s = 7$ and 3-bit sequence numbers ($0$ to $7$). Station A transmits frames 0, 1, 2, 3, 4, 5, 6. Station B receives them in order, but frame 4 is damaged by noise. What frames will remain buffered in station A's window waiting for retransmission?
-
-#### Step-by-Step Solution
-1. Station B receives Frame 0, 1, 2, 3 correctly and sends ACKs for them.
-2. Frame 4 arrives damaged. In Go-Back-N, the receiver discards Frame 4 and **discards all subsequent frames (5 and 6)** without acknowledging them.
-3. Station A receives ACKs up to Frame 3. Frame 0, 1, 2, 3 are cleared from A's buffer.
-4. Station A times out on Frame 4.
-5. In Go-Back-N, station A must retransmit Frame 4 and all unacknowledged frames in its window: frames **4, 5, 6**.
-6. With window size 7, the available buffer sequence slots in A's window are **4, 5, 6, 7, 0, 1, 2**.
-
-#### Final Answer
-* **Buffer Frames in Current Window of A:** $4, 5, 6, 7, 0, 1, 2$
-
-[Source: CN_Numericals_Data_Link_Layer.pdf, Page 32; cn_tutorial.pdf, Tutorial 2, Q3]
-
----
-
-
----
-
-## 14. Edge Cases, Critical Boundary Conditions & Protocol Anomalies
-
----
-
-### Edge Case 1: Framing Desynchronization via Corrupted Byte Count Field
-
-#### Failure Mechanism
-In the byte-count framing method, the frame header contains an integer field specifying the total length of the frame.
-1. Consider a sequence of frames with byte counts: `[5] D1 D2 D3 D4`, `[5] D5 D6 D7 D8`.
-2. Suppose transmission noise flips a single bit in the first count field, altering `5` to `6`.
-3. The receiver counts 6 bytes instead of 5, consuming the count field of the second frame as payload data!
-4. The receiver interprets data byte `D6` as the next frame's byte count. If `D6 = 237`, the receiver will skip the next 237 bytes seeking the following frame boundary.
-
-#### Severity & Fatal Property
-A single-bit error in a byte count field destroys framing synchronization not only for the corrupted frame, but for **all subsequent frames indefinitely**, requiring higher-layer timeout or channel hard reset. This catastrophic flaw caused character count framing to be completely abandoned in modern protocols.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 14]
-
----
-
-### Edge Case 2: Byte Stuffing Worst-Case Transmission Expansion (100% Overhead)
-
-#### Phenomenon
-In byte-oriented protocols (e.g., PPP), the flag byte `FLAG` (`0x7E`) delimits frames, and `ESC` (`0x7D`) escapes embedded delimiter bytes.
-* When payload contains `FLAG`, it is transmitted as `ESC` + `(FLAG XOR 0x20)`.
-* When payload contains `ESC`, it is transmitted as `ESC` + `(ESC XOR 0x20)`.
-
-#### Pathological Boundary Case
-Consider an encrypted, compressed, or binary payload where every single byte happens to be `0x7E` or `0x7D`:
-* For a frame payload of $N$ bytes, every byte requires an accompanying `ESC` prefix.
-* Total transmitted payload bytes: $2N$ bytes.
-* Framing transmission overhead: $100\%$.
-
-#### Mitigation
-Modern high-speed physical layers utilize line block codes (e.g., 8b/10b or 64b/66b) which guarantee unique physical control symbols (such as the K28.5 comma character) that cannot appear in user payload, eliminating data-dependent payload expansion.
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 15–17]
-
----
-
-### Edge Case 3: Bit Stuffing Boundary Conditions & Delimiter Collision Hazard
-
-#### Rules of HDLC Bit Stuffing
-Whenever the transmitter observes five consecutive `1`s in the outgoing bitstream, it unconditionally inserts a `0` bit after the fifth `1`.
-
-#### Critical Boundary Scenarios
-1. **Payload Contains Natural Flag (`01111110`):**
-   * Transmission sequence: Sender sees five `1`s, inserts `0` $\implies$ `011111`**`0`**`10`.
-   * The receiver sees five `1`s followed by `0`, removes the stuffed `0`, and faithfully reconstructs `01111110`. The natural flag is never misinterpreted as a delimiter!
-2. **Payload Contains Natural Escape Flag Pattern (`0111110`):**
-   * Even though the sixth bit is already `0`, the rule is unconditional: sender inserts `0` after five `1`s $\implies$ `011111`**`0`**`0`.
-   * Receiver destuffs the first `0`, leaving `0111110`.
-3. **Receiver Interpretation Logic for Bit Sequences:**
-   * Five `1`s followed by `0` $\implies$ Stuffed bit; destuff (discard `0`).
-   * Five `1`s followed by `10` (six consecutive `1`s) $\implies$ **FLAG Delimiter** (`01111110`); marks frame boundary.
-   * Five `1`s followed by `11` (seven or more consecutive `1`s) $\implies$ **Framing Error / Link Abort** sequence; discard frame immediately.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 18]
-
----
-
-### Edge Case 4: CRC Undetected Error Boundary & Generator Constraints
-
-#### Mathematical Condition for Undetected Errors
-Let $T(x)$ be the transmitted polynomial, and $E(x)$ be the channel error polynomial. The received polynomial is $R(x) = T(x) \oplus E(x)$.
-The receiver performs modulo-2 division by generator polynomial $G(x)$:
-
-$$
-\f\frac{R(x)}{G(x)} = \f\frac{T(x)}{G(x)} \oplus \f\frac{E(x)}{G(x)} = 0 \oplus \f\frac{E(x)}{G(x)}
-$$
-
-An error will pass undetected if and only if **$E(x)$ is an exact algebraic multiple of $G(x)$**.
-
-#### Critical Polynomial Design Rules
-1. **Single-Bit Errors:** An isolated single-bit error is $E(x) = x^i$. To detect all single-bit errors, $G(x)$ must contain at least two terms ($G(x)$ must not divide $x^i$), which is guaranteed by ensuring the lowest term $x^0 = 1$.
-2. **Double-Bit Errors:** Two isolated errors are $E(x) = x^i + x^j = x^j(x^{i-j} + 1)$ with $i > j$. To detect all 2-bit errors, $G(x)$ must not divide $x^k + 1$ for any $k \le$ maximum frame length.
-3. **Odd Number of Bit Errors:** If $G(x)$ contains $(x + 1)$ as a factor, it will detect **all odd numbers of bit errors** because no polynomial with an odd number of terms is divisible by $(x + 1)$.
-4. **Burst Errors:**
-   * All burst errors of length $\le r$ are detected with $100\%$ certainty.
-   * A burst error of length $r + 1$ slips through with probability $\dfrac{1}{2^{r-1}}$.
-   * A burst error of length $> r + 1$ slips through with probability $\dfrac{1}{2^r}$.
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 31–32]
-
----
-
-### Edge Case 5: Hamming Code Vulnerability Under Multiple Bit Errors (SEC vs SEC-DED)
-
-#### Failure Mode of Standard Hamming SEC Code
-A standard Hamming $(7,4)$ code has minimum Hamming distance $d_{\min} = 3$. It guarantees Single Error Correction (SEC).
-* Suppose bits $b_3$ and $b_5$ are both inverted by noise (a 2-bit error).
-* The receiver calculates syndrome $S = [s_4 s_2 s_1]_2$.
-* The 2-bit error vectors add linearly modulo 2, producing a non-zero syndrome that points to a third, completely uncorrupted bit (e.g., bit 6)!
-* The decoder inverts bit 6 to "correct" it, turning a 2-bit transmission error into a **3-bit corrupted block** without flagging any warning!
-
-#### Resolution: SEC-DED (Extended Hamming Code)
-By appending an overall parity bit $P_0$ over the entire codeword ($d_{\min}$ increases from 3 to 4):
-* If syndrome $S \neq 0$ and overall parity is incorrect $\implies$ **Single bit error; correct it**.
-* If syndrome $S \neq 0$ and overall parity is correct $\implies$ **Double bit error; detect and abort (do NOT correct)**.
-
-[Source: Ch 3 Data Link Layer.pdf, Slides 24–28]
-
----
-
-### Edge Case 6: Protocol 4 (1-Bit Sliding Window) Simultaneous Start Anomaly
-
-#### Anomaly Progression
-In Protocol 4, frames carry a 1-bit sequence number ($0$ or $1$) and an piggybacked ACK number.
-1. Normal operation assumes Host A transmits first, Host B replies, and transmission alternates smoothly.
-2. **Anomaly Trigger:** Host A and Host B start simultaneously, both transmitting frame 0 at $t = 0$.
-3. At $t = T_{\text{prop}}$, Host A receives frame 0 from B, and Host B receives frame 0 from A.
-4. Both receivers accept frame 0, pass data upward, toggle their expected sequence numbers to 1, and immediately transmit frame 1 with $\text{ACK} = 0$.
-5. Both hosts receive frame 1, toggle their state, and transmit frame 0 again.
-
-#### Architectural Impact
-* **Correctness:** No frames are lost, corrupted, or delivered out of order.
-* **Performance:** Each packet is transmitted twice; channel throughput collapses by exactly $50\%$. The transmissions alternate in lockstep synchrony instead of pipelining.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 49]
-
----
-
-### Edge Case 7: Go-Back-N Window Size Hazard ($W_s = 2^n$ vs $W_s = 2^n - 1$)
-
-#### Catastrophic Silent Corruption Scenario
-Suppose a 3-bit sequence number is used ($n = 3, 2^n = 8$, sequences $0$ to $7$).
-Suppose the protocol designer incorrectly sets sender window size $W_s = 2^n = 8$ instead of $W_s \le 7$:
-1. Sender transmits frames $0, 1, 2, 3, 4, 5, 6, 7$.
-2. The receiver successfully receives all 8 frames, delivers them to the network layer, advances its receive window, and now expects frame $0$ (the next generation).
-3. Receiver transmits cumulative ACK 7 back to the sender.
-4. **Disaster:** The ACK packet is lost or destroyed by channel noise!
-5. Sender's timer expires. The sender retransmits its unacknowledged buffer: frames $0, 1, 2, 3, 4, 5, 6, 7$.
-6. Receiver receives frame $0$. Because receiver is expecting frame $0$, it assumes this is the *new* frame 0, accepts it, and delivers it to the network layer!
-
-#### Consequence
-The receiver accepts 8 completely duplicate frames as new data without detecting any error. The restriction $W_s \le 2^n - 1$ ensures that the sender's retransmission window and receiver's expectation window never overlap at the same sequence number.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 52]
-
----
-
-### Edge Case 8: Selective Repeat Window Size Hazard ($W_s = W_r > 2^{n-1}$)
-
-#### Overlap Hazard
-In Selective Repeat with $n$-bit sequence numbers, receiver window $W_r > 1$:
-* The fundamental non-overlap condition is:
-$$
-W_s + W_r \le 2^n
-$$
-* If symmetric windows are used ($W_s = W_r$), then:
-$$
-W_s = W_r \le 2^{n-1}
-$$
-
-#### Concrete Counterexample if $W = 5$ for $2^3 = 8$
-Suppose $n = 3$, sequence numbers $0 \dots 7$, but $W_s = W_r = 5 > 4$:
-1. Sender transmits frames $0, 1, 2, 3, 4$.
-2. Receiver receives all 5 frames, advances its receive window to $[5, 6, 7, 0, 1]$, and transmits ACKs.
-3. All ACKs are lost.
-4. Sender times out and retransmits frame $0$.
-5. Receiver checks its active receive window $[5, 6, 7, 0, 1]$: sequence number $0$ is inside the window!
-6. Receiver accepts the duplicate frame $0$ as new data of the subsequent generation.
-Setting $W_s = W_r = 2^{n-1}$ is an absolute mathematical boundary.
-
-[Source: Ch 3 Data Link Layer.pdf, Slide 58]
-
-
----
-
-## 15. Connections Between Concepts
-
-* **Physical Layer Imperfections $\leftrightarrow$ Data Link Layer Countermeasures:** Attenuation and noise at Layer 1 dictate the choice of Error Detection (CRC) and Error Correction (Hamming) at Layer 2.
-* **Framing $\leftrightarrow$ Byte/Bit Stuffing:** Delimiting frame boundaries creates ambiguity when delimiter patterns occur naturally in user data; stuffing resolves this ambiguity by dynamically inserting escape patterns.
-* **Bandwidth-Delay Product $\leftrightarrow$ ARQ Window Sizing:** A link with large BDP ($B \times \text{RTT}$) renders Stop-and-Wait inefficient ($< 1\%$ utilization), forcing the adoption of pipelined sliding window protocols (GBN, Selective Repeat) where $W_s \ge 1 + 2a$.
-* **Go-Back-N vs Selective Repeat Trade-off:** GBN minimizes receiver memory/complexity at the cost of retransmitting undamaged frames; Selective Repeat maximizes bandwidth efficiency over noisy links at the cost of receiver buffer management.
-
----
-
-## 16. Key Takeaways
-
-1. The Data Link Layer provides framing, error control, and flow control between directly connected nodes.
-2. Framing uses byte stuffing (`ESC` insertion) in byte-oriented protocols (PPP) and bit stuffing (zero insertion after five `1`s) in bit-oriented protocols (HDLC).
-3. Minimum Hamming distance $d_{\min} \ge s + 1$ detects $s$ errors; $d_{\min} \ge 2t + 1$ corrects $t$ errors.
-4. Hamming codes place parity bits at power-of-2 positions ($1, 2, 4, 8$) and satisfy $2^r \ge m + r + 1$. Syndrome decoding gives the exact error index.
-5. CRC polynomial codes use modulo-2 binary division. Standard CRC-32 detects all single, double, odd, and burst errors $\le 32$ bits.
-6. Stop-and-Wait efficiency is $\f\frac{1}{1+2a}$; pipelined sliding window achieves $100\%$ efficiency when $W_s \ge 1 + 2a$.
-7. Maximum window size limits: Go-Back-N requires $W_s \le 2^n - 1$; Selective Repeat requires $W_s = W_r \le 2^{n-1}$.
-8. HDLC provides reliable ARQ with I/S/U frames; PPP provides multi-protocol encapsulation with LCP and NCPs.
-
----
-
-## 17. Formula Sheet
-
-### 1. Hamming Code Redundancy Inequality
-
-$$
-2^r \ge m + r + 1
-$$
-
-* $m$ = Message data bits, $r$ = Parity check bits.
-
-### 2. Minimum Hamming Distance Bounds
-
-$$
-d_{\min} \ge s + 1 \quad (\text{Detect } s \text{ errors}), \quad d_{\min} \ge 2t + 1 \quad (\text{Correct } t \text{ errors})
-$$
-
-### 3. Modulo-2 CRC Division
-
-$$
-T(x) = x^r M(x) \oplus R(x), \quad \text{where } \f\frac{x^r M(x)}{G(x)} = Q(x) \oplus \f\frac{R(x)}{G(x)}
-$$
-
-### 4. Normalized Propagation Delay
-
-$$
-a = \f\frac{T_{\text{prop}}}{T_{\text{trans}}} = \f\frac{D \cdot R}{v \cdot L}
-$$
-
-### 5. Stop-and-Wait Channel Utilization
-
-$$
-\eta_{\text{Stop-and-Wait}} = \f\frac{T_{\text{trans}}}{T_{\text{trans}} + 2 T_{\text{prop}}} = \f\frac{1}{1 + 2a}
-$$
-
-### 6. Pipelined Sliding Window Utilization
-
-$$
-\eta_{\text{Sliding Window}} = \min\left(1.0, \; \f\frac{W_s}{1 + 2a}\r\right)
-$$
-
-### 7. Maximum Window Sizes for Modulo $2^n$
-
-$$
-W_{s, \text{GBN}} = 2^n - 1, \quad W_{s, \text{SR}} = W_{r, \text{SR}} = 2^{n-1}
-$$
-
----
-
-## 18. Definition Sheet
-
-* **Frame:** Data Link Layer protocol data unit comprising header, payload, and trailer.
-* **Byte Stuffing:** Inserting escape characters before delimiter patterns in byte-oriented data.
-* **Bit Stuffing:** Inserting a `0` after five consecutive `1`s in bit-oriented data.
-* **Hamming Distance:** Number of bit positions where two codewords differ.
-* **Syndrome:** Binary vector resulting from parity checks that identifies the location of an error.
-* **Cyclic Redundancy Check (CRC):** Polynomial-based checksum using modulo-2 arithmetic.
-* **Piggybacking:** Attaching acknowledgment sequence numbers into outgoing data frames.
-* **Pipelining:** Transmitting multiple frames before receiving acknowledgment for the first.
-* **Go-Back-N:** Pipelined ARQ where receiver discards out-of-order frames and sender retransmits all unacknowledged frames.
-* **Selective Repeat:** Pipelined ARQ where receiver buffers out-of-order frames and sender retransmits only corrupted frames.
-
----
-
-## 19. Exam-Oriented Review
-
----
-
-### Important Concepts for Examinations
-1. **Framing Mechanisms:** Compare Byte Stuffing vs Bit Stuffing algorithms; execute step-by-step bit stuffing/destuffing on exam bit streams.
-2. **Hamming $(7,4)$ Code:** Derive parity equations, generate codewords, calculate syndrome vectors, and correct single-bit errors.
-3. **CRC Division:** Perform modulo-2 polynomial long division to calculate FCS and verify receiver validity.
-4. **ARQ Comparison:** Detail operational differences between Stop-and-Wait, Go-Back-N, and Selective Repeat; prove maximum window size bounds ($2^n - 1$ and $2^{n-1}$).
-5. **Protocol Utilization Numericals:** Solve link efficiency and minimum window size problems using $a = T_p / T_t$.
-
----
-
-### Extracted Official Question Bank & Tutorial Problems with Solutions
-
-#### Q1. The LLC sublayer is responsible for:
-* **Options:** A. Routing | B. Logical Link Control & Flow/Error Management | C. Media Access | D. IP Addressing
-* **Answer:** **B. Logical Link Control**
-
-#### Q2. Which addressing method is used at the Data Link Layer?
-* **Options:** A. IP Address | B. Port Address | C. MAC Address (Physical Address) | D. Logical Address
-* **Answer:** **C. MAC Address** (48-bit IEEE 802 hardware address).
-
-#### Q3. What is the size of a standard IEEE 802 MAC address?
-* **Options:** A. 16 bits | B. 32 bits | C. 48 bits (6 Bytes) | D. 64 bits
-* **Answer:** **C. 48 bits**
-
-#### Q4. Which protocol is used for flow control?
-* **Options:** A. Stop-and-Wait | B. HTTP | C. DNS | D. ICMP
-* **Answer:** **A. Stop-and-Wait**
-
-#### Q5. A frame of 1500 bytes is transmitted over a 5 Mbps link. Calculate transmission time.
-* **Given:** $L = 1500\text{ Bytes} = 12,000\text{ bits}$. $R = 5\text{ Mbps} = 5 \times 10^6\text{ bps}$.
-* **Calculation:**
-
-$$
-T_{\text{trans}} = \f\frac{12,000\text{ bits}}{5,000,000\text{ bps}} = 0.0024\text{ seconds} = 2.4\text{ ms}
-$$
-
-#### Q6. If propagation delay is $20\,\mu\text{s}$ and transmission delay is $10\,\mu\text{s}$, determine total one-way delay.
-* **Calculation:**
-
-$$
-\text{Total Delay} = T_{\text{trans}} + T_{\text{prop}} = 10\,\mu\text{s} + 20\,\mu\text{s} = 30\,\mu\text{s}
-$$
-
-#### Q7. A channel has $\text{RTT} = 100\text{ ms}$, Bandwidth $= 10\text{ Mbps}$, and Frame Size $= 1000\text{ Bytes}$. Calculate minimum window size for $100\%$ utilization.
-* **Given:** $\text{RTT} = 0.1\text{ s}$, $R = 10 \times 10^6\text{ bps}$, $L = 8000\text{ bits}$.
-* **Calculation:**
-
-$$
-T_t = \f\frac{8000}{10^7} = 0.8\text{ ms} = 0.0008\text{ s}
-$$
-
-$$
-W = \f\frac{\text{RTT} + T_t}{T_t} = \f\frac{0.1008\text{ s}}{0.0008\text{ s}} = 126\text{ frames}
-$$
-
-[Source: Computer_Networks_Question_Bank.pdf, Unit 2, Q21–Q37; cn_tutorial.pdf, Tutorials 1–3]
+| **Hamming Distance Detection** | $d_{\min} \ge e + 1$ | $e$: Number of detectable bit errors |
+| **Hamming Distance Correction** | $d_{\min} \ge 2t + 1$ | $t$: Number of correctable bit errors |
+| **Hamming Bit Sizing** | $(m + r + 1) \le 2^r$ | $m$: Data bits, $r$: Parity check bits |
+| **Normalized Delay ($a$)** | $a = \dfrac{T_{\text{prop}}}{T_{\text{trans}}} = \dfrac{D \cdot R}{v \cdot L}$ | $D$: Distance, $R$: Bandwidth, $L$: Frame bits, $v$: Velocity |
+| **Stop-and-Wait Efficiency** | $\eta = \dfrac{1}{1 + 2a}$ | Channel utilization without pipelining |
+| **Pipelined Efficiency** | $\eta = \min\left(1, \dfrac{W}{1 + 2a}\right)$ | Utilization with window size $W$ |
+| **Optimal Window Size** | $W_{\text{optimal}} = 1 + 2a$ | Window required for 100% link utilization |
+| **GBN Window Constraint** | $W_s \le 2^n - 1$ | $n$: Sequence number bit length |
+| **SR Window Constraint** | $W_s = W_r \le 2^{n-1}$ | Half of total sequence number space |
+| **CRC Appended Zeros** | $r = \text{degree of } G(x)$ | Number of bits in remainder $R(x)$ |
