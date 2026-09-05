@@ -122,7 +122,11 @@ ARRAY3 DB 10 DUP(0, 2 DUP(1, 2), 0, 3)   ; Nested DUP: creates repeating structu
 
 #### Memory Footprint Breakdown of `ARRAY3`:
 Each single iteration generates:
-$$0, \quad [1, 2, 1, 2], \quad 0, \quad 3 \implies 7 \text{ bytes per group}$$
+
+2885
+0, \quad [1, 2, 1, 2], \quad 0, \quad 3 \implies 7 	ext{ bytes per group}
+2885
+
 Total bytes allocated for $10 \text{ groups} = 10 \times 7 = 70 \text{ bytes}$.
 
 [Source: Directives.pdf, Slides 2–4]
@@ -387,3 +391,7 @@ CODE ENDS
    *Answer:* `LENGTH` returns the number of elements specified in the variable's `DUP` declaration. `SIZE` returns the total byte allocation, computed as $\text{SIZE} = \text{LENGTH} \times \text{TYPE}$. For `A DW 50 DUP(?)`, $\text{LENGTH A} = 50$, while $\text{SIZE A} = 100$.
 3. **When is the `PTR` operator strictly required in assembly programming?**  
    *Answer:* `PTR` is mandatory whenever a memory operand is referenced without an accompanying register operand that establishes the data width (e.g., `INC [BX]`, `MOV [DI], 10H`), and when overriding the declared type of a memory variable (e.g., moving an 8-bit byte from a `DW` variable using `MOV AL, BYTE PTR [VAR_DW]`).
+
+
+## Summary Formula
+- **Physical Address Formula:** $	ext{Physical Address} = (	ext{Segment} 	imes 16) + 	ext{Offset}$.

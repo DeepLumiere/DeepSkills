@@ -71,7 +71,10 @@ The 16-bit effective address ($EA$) is explicitly specified as a constant displa
 ![Figure 3.7: Direct Addressing Mode](../images/8086_addressing_direct.png)
 - **Formula:** $\text{Physical Address} = \text{DS} \times 10\text{H} + \text{Disp16}$
 - **Worked Example:** If $\text{DS} = 2000\text{H}$ and instruction is `MOV DL, [2440H]`:
-  $$\text{Physical Address} = 20000\text{H} + 2440\text{H} = 22440\text{H}$$
+
+2885
+\text{Physical Address} = 20000\text{H} + 2440\text{H} = 22440\text{H}
+2885
 
 ---
 
@@ -83,7 +86,10 @@ The effective address of the operand in memory is held in a base register (`BX`,
   - `BX`, `SI`, `DI` default to **Data Segment (DS)**.
   - `BP` defaults to **Stack Segment (SS)**.
 - **Worked Example:** If $\text{SS} = 2000\text{H}$, $\text{BP} = 0111\text{H}$, instruction is `MOV [BP], DL`:
-  $$\text{Physical Address} = 20000\text{H} + 0111\text{H} = 20111\text{H}$$
+
+2885
+\text{Physical Address} = 20000\text{H} + 0111\text{H} = 20111\text{H}
+2885
 
 ---
 
@@ -94,8 +100,14 @@ The effective address is computed by adding an 8-bit or 16-bit signed displaceme
 - **Formula:** $EA = [\text{BX/BP}] + \text{Displacement}$
 - **Displacement Ranges:** 8-bit signed ($-128$ to $+127$) or 16-bit signed ($-32,768$ to $+32,767$).
 - **Worked Example:** If $\text{DS} = 4000\text{H}$, $\text{BX} = 2000\text{H}$, and instruction is `MOV AX, [BX + 10H]`:
-  $$EA = 2000\text{H} + 0010\text{H} = 2010\text{H}$$
-  $$\text{Physical Address} = 40000\text{H} + 2010\text{H} = 42010\text{H} \quad (\text{Word accessed at } 42010\text{H} \text{ and } 42011\text{H})$$
+
+2885
+EA = 2000\text{H} + 0010\text{H} = 2010\text{H}
+2885
+
+2885
+\text{Physical Address} = 40000\text{H} + 2010\text{H} = 42010\text{H} \quad (\text{Word accessed at } 42010\text{H} \text{ and } 42011\text{H})
+2885
 
 ---
 
@@ -105,8 +117,14 @@ The effective address is computed by adding a signed displacement to an Index re
 ![Figure 3.10: Indexed Relative Addressing Mode](../images/8086_addressing_indexed_relative.png)
 - **Formula:** $EA = [\text{SI/DI}] + \text{Displacement}$ (Default segment: **DS**).
 - **Worked Example:** If $\text{DS} = 2000\text{H}$, $\text{SI} = 5000\text{H}$, and $\text{ARRAY} = 1234\text{H}$, instruction `MOV DX, ARRAY[SI]`:
-  $$EA = 5000\text{H} + 1234\text{H} = 6234\text{H}$$
-  $$\text{Physical Address} = 20000\text{H} + 6234\text{H} = 26234\text{H}$$
+
+2885
+EA = 5000\text{H} + 1234\text{H} = 6234\text{H}
+2885
+
+2885
+\text{Physical Address} = 20000\text{H} + 6234\text{H} = 26234\text{H}
+2885
 
 ---
 
@@ -117,8 +135,14 @@ Combines one base register (`BX` or `BP`), one index register (`SI` or `DI`), an
 - **Formula:** $EA = [\text{BX/BP}] + [\text{SI/DI}] + \text{Displacement}$
   - Default Segment is **SS** if `BP` is used; otherwise defaults to **DS**.
 - **Worked Example:** If $\text{DS} = 1200\text{H}$, $\text{BX} = 1000\text{H}$, $\text{SI} = 2000\text{H}$, $\text{BETA} = 1234\text{H}$:
-  $$EA = 1000\text{H} + 2000\text{H} + 1234\text{H} = 4234\text{H}$$
-  $$\text{Physical Address} = 12000\text{H} + 4234\text{H} = 16234\text{H}$$
+
+2885
+EA = 1000\text{H} + 2000\text{H} + 1234\text{H} = 4234\text{H}
+2885
+
+2885
+\text{Physical Address} = 12000\text{H} + 4234\text{H} = 16234\text{H}
+2885
 
 [Source: 3CS526CC23 8086 Architecture, Slides 34–54]
 
@@ -323,6 +347,52 @@ flowchart LR
 
 ---
 
+
+
+### Detailed Execution Walkthrough & Code Examples for Logical Instructions
+
+#### 1. Bitwise Logical Operations (, , , , )
+- ** Example (Bit Masking):**
+  
+
+- ** Example (Bit Setting):**
+  
+
+- ** Example (Register Clearing & Bit Inversion):**
+  
+
+- ** Example (Non-Destructive Bit Inspection):**
+  
+
+#### 2. Shift & Rotate Instructions (, , , , , , )
+
+
+- ** (Arithmetic Right Shift for Signed Integers):**
+  
+
+---
+
+### 4.5 String Manipulation Instructions (, , , , )
+
+String operations automatically utilize source index  (relative to ) and destination index  (relative to ). The Direction Flag () controls pointer auto-increment ( via ) or auto-decrement ( via ).
+
+| Instruction | Mnemonic / Syntax | Bit Width | Operation & Pointer Behavior |
+| :--- | :--- | :--- | :--- |
+| **Move String** |  /  | Byte / Word | ; Increment/decrement  and  by 1 or 2. |
+| **Compare String** |  /  | Byte / Word | Subtract  from  to set flags; update  and . |
+| **Scan String** |  /  | Byte / Word | Subtract  from / to set flags; update . |
+| **Load String** |  /  | Byte / Word | /; update . |
+| **Store String** |  /  | Byte / Word | /; update . |
+
+#### Repeat Prefixes (, /, /)
+- **:** Repeat while . (Used with , ).
+- ** / :** Repeat while  AND  (equal).
+- ** / :** Repeat while  AND  (not equal).
+
+#### Complete Assembly Example: Block Memory Copy with String Instructions
+
+
+---
 ## 5. Exam-Oriented Review & High-Frequency Questions
 
 1. **Calculate the execution time for `ADD AX, [BX+SI+0100H]` on a 5 MHz 8086.**  
@@ -338,3 +408,11 @@ flowchart LR
 
 3. **Why are `CBW` and `CWD` necessary before executing `IDIV`?**  
    *Answer:* `IDIV` requires the dividend to be twice the bit-width of the divisor ($16\text{-bit AX} \div 8\text{-bit divisor}$, or $32\text{-bit DX:AX} \div 16\text{-bit divisor}$). `CBW` properly sign-extends a signed 8-bit dividend into 16-bit AX, and `CWD` extends a 16-bit signed dividend in AX into 32-bit DX:AX, preventing arithmetic errors from garbage bits in AH or DX.
+
+
+## 6. Definition Sheet
+
+1. **Addressing Mode:** The technique or specification used by an instruction to identify the location of an operand.
+2. **Effective Address (EA):** The 16-bit offset of a memory operand relative to its segment register.
+
+
