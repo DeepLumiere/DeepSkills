@@ -1,803 +1,845 @@
-# Chapter 3: Complete DAA Notes — Recurrence Relations & Divide and Conquer
+# Chapter 3: Recurrence Relations, Divide & Conquer, and Advanced Structures
 
 > **Course Code:** 3CS501CC24
-> **Primary Source:** DAA_Unit3(a).pptx, DAA_Unit3(b).pptx
+> **Focus:** Unit-III — Recurrence Solving Techniques, Divide & Conquer Paradigm, Sorting & Selection, Exponentiation, Interval Trees & Disjoint Sets
 
 ---
 
 ## 1. Chapter Overview
 
-Many algorithms, particularly those based on the Divide and Conquer strategy, are recursive in nature. To analyze their time complexity, we formulate a recurrence relation—an equation or inequality that describes a function in terms of its values on smaller inputs. This unit focuses on methods to solve these recurrences and the application of the Divide and Conquer paradigm to design efficient algorithms such as Binary Search, Merge Sort, Quick Sort, Strassen’s Matrix Multiplication, and Large Integer Multiplication.
+Many algorithms, particularly those based on the Divide and Conquer strategy, are recursive in nature. To analyze their time complexity, we formulate a recurrence relation—an equation or inequality that describes a function in terms of its values on smaller inputs. This unit focuses on comprehensive methods to solve recurrences (Substitution/Guesswork, Homogeneous, Non-Homogeneous, Change of Variable, Range Transformations, Master Theorem, and Recurrence Tree) and the application of Divide and Conquer to design efficient algorithms such as Large Integer Multiplication, Merge Sort, Quick Sort, Median-of-Medians Deterministic Selection, Strassen’s Matrix Multiplication, and Binary/Modular Exponentiation. Furthermore, it incorporates advanced structures like Interval Trees and Disjoint Set Structures.
 
 ---
-[Source: DAA_Unit3_a, Slide 3; DAA_Unit3_b, Slide 2]
 
 ## 2. Recurrence Relations — Introduction
 
 ### What is a recurrence relation?
-A **recurrence relation** is an equation that defines a sequence based on a rule that gives the next term as a function of the previous term(s). In the context of algorithms, it is a recursive description of a function (often representing running time or space complexity).
+A **recurrence relation** is an equation or inequality that defines a sequence recursively: each term of the sequence is defined as a function of preceding terms. In algorithm analysis, $T(n)$ denotes the running time of an algorithm on an input of size $n$.
 
-### Why recursive algorithms lead to recurrences
-When an algorithm calls itself on a smaller portion of the input, its total running time $T(n)$ for an input of size $n$ is equal to the time spent dividing the problem, plus the time spent solving the sub-problems recursively, plus the time spent combining the results.
+### Setting up a recurrence from recursive pseudocode
+For a Divide and Conquer algorithm that breaks a problem of size $n$ into $a$ subproblems, each of size $n/b$, and takes $f(n)$ time to divide the problem and combine the subproblem solutions:
 
-### Setting up a recurrence from pseudocode
-For a divide-and-conquer algorithm that divides a problem of size $n$ into $a$ sub-problems, each of size $n/b$, and takes $f(n)$ time to divide and combine:
 $$
-T(n) = aT(n/b) + f(n)
+T(n) = aT\left(\frac{n}{b}\right) + f(n)
+$$
+
+For a Subtract and Conquer algorithm that reduces problem size by a constant amount $b$:
+
+$$
+T(n) = aT(n-b) + f(n)
 $$
 
 ---
-[Source: DAA_Unit3_a, Slide 3 & 28]
 
-## 3. Method 1 — Substitution Method
+## 3. Method 1 — Intelligent Guesswork & Substitution Method
 
 ### Procedure
 1. **Guess** the form of the solution (e.g., $O(n \log n)$, $O(n^2)$).
 2. **Substitute** the guessed solution into the recurrence.
-3. **Prove** by mathematical induction that the guess is correct (i.e., show that $T(n) \le c \cdot f(n)$ for some constant $c > 0$ and $n \ge n_0$).
+3. **Prove** by mathematical induction that the guess is correct (show $T(n) \le c \cdot g(n)$ for a chosen constant $c > 0$ and $n \ge n_0$).
 
-### Rules for making a good guess
-- Analyze the base cases and first few terms.
-- Try to recognize patterns similar to known recurrences.
-- If a guess fails by a lower-order term (e.g., you guess $c \cdot n$ but end up needing $c \cdot n - b$), subtract a lower-order term from your guess.
+### Rules for Making a Good Guess
+- Compute the first few terms to observe patterns.
+- Compare with standard recurrence structures.
+- If a guess fails because of a lower-order term (e.g., trying to prove $T(n) \le c \cdot n$ yields $T(n) \le c \cdot n + b$), **subtract a lower-order term** from the guess (e.g., guess $T(n) \le c \cdot n - d$).
 
 ### Worked Examples
 
-**Example 1: Solving $T(n) = T(n-1) + n$**
-Using repeated substitution:
+#### Example 1: Solving $T(n) = T(n-1) + n$
+Using repeated substitution (expansion):
+
 $$
 T(n) = T(n-1) + n
 $$
-Substitute $T(n-1) = T(n-2) + (n-1)$:
+
 $$
-T(n) = (T(n-2) + n - 1) + n = T(n-2) + n + (n-1)
-$$
-Continuing this pattern for $k$ steps:
-$$
-T(n) = T(n-k) + n + (n-1) + \dots + (n-k+1)
-$$
-Assume the base case is $T(0) = 0$. The recursion bottoms out when $n-k = 0 \implies k = n$:
-$$
-T(n) = T(0) + n + (n-1) + \dots + 1
-$$
-$$
-T(n) = 0 + \frac{n(n+1)}{2} = O(n^2)
+T(n) = (T(n-2) + n - 1) + n = T(n-2) + (n-1) + n
 $$
 
-**Exercise 1: $T(n) = T(n/2) + 1$**
-Using repeated substitution:
-$$
-T(n) = T(n/2) + 1
-$$
-$$
-T(n) = (T(n/4) + 1) + 1 = T(n/4) + 2
-$$
 After $k$ steps:
+
 $$
-T(n) = T(n/2^k) + k
-$$
-Base case $T(1) = 1$ when $n/2^k = 1 \implies k = \log_2 n$:
-$$
-T(n) = T(1) + \log_2 n = 1 + \log_2 n = O(\log n)
+T(n) = T(n-k) + \sum_{j=0}^{k-1} (n - j)
 $$
 
-**Exercise 2: $T(n) = 2T(n/2) + n$**
+Setting base case $T(0) = 0$ at $k = n$:
+
 $$
-T(n) = 2T(n/2) + n
+T(n) = T(0) + \sum_{j=1}^n j = \frac{n(n+1)}{2} = \Theta(n^2)
 $$
+
+#### Example 2: Proving $T(n) = 2T(\lfloor n/2 \rfloor) + n \implies T(n) = O(n \log n)$
+- **Guess:** $T(n) \le c n \log_2 n$ for $c > 0$.
+- **Inductive Step:** Assume $T(\lfloor n/2 \rfloor) \le c \lfloor n/2 \rfloor \log_2(\lfloor n/2 \rfloor)$.
+- **Substitute:**
+
 $$
-T(n) = 2(2T(n/4) + n/2) + n = 4T(n/4) + 2n
+T(n) \le 2 \left(c \frac{n}{2} \log_2\left(\frac{n}{2}\right)\right) + n
 $$
-After $k$ steps:
+
 $$
-T(n) = 2^k T(n/2^k) + k \cdot n
+T(n) \le c n (\log_2 n - \log_2 2) + n = c n \log_2 n - c n + n
 $$
-For base case $T(1) = 1$, let $k = \log_2 n$:
-$$
-T(n) = 2^{\log_2 n} T(1) + (\log_2 n)n = n + n \log_2 n = O(n \log n)
-$$
+
+For $T(n) \le c n \log_2 n$, we need $-c n + n \le 0 \implies c \ge 1$.
+Thus, $T(n) = O(n \log n)$ holds for $c \ge 1$ and $n \ge 2$.
 
 ---
-[Source: DAA_Unit3_a, Slides 5-8]
 
-## 4. Method 2 — Homogeneous Method (Characteristic Equation)
+## 4. Method 2 — Homogeneous Recurrences (Characteristic Equation)
 
-### Procedure for linear homogeneous recurrences
-A linear homogeneous recurrence of order $k$ has the form:
+A linear homogeneous recurrence with constant coefficients has the form:
+
 $$
 a_0 T(n) + a_1 T(n-1) + a_2 T(n-2) + \dots + a_k T(n-k) = 0
 $$
-1. Write the **Characteristic Equation** by substituting $T(n) = r^n$:
-$$
-a_0 r^k + a_1 r^{k-1} + \dots + a_k = 0
-$$
-2. Solve for the roots $r_1, r_2, \dots, r_k$.
-3. Form the general solution based on the roots.
 
-### Case 1: Distinct Roots
-If all roots $r_1, r_2, \dots, r_k$ are distinct:
+### Procedure
+1. Substitute $T(n) = r^n$ to get the **Characteristic Equation**:
+
+$$
+a_0 r^k + a_1 r^{k-1} + a_2 r^{k-2} + \dots + a_k = 0
+$$
+
+2. Find the roots $r_1, r_2, \dots, r_k$.
+3. Write the general solution based on root multiplicities.
+
+### Case Rules:
+- **Distinct Real Roots ($r_1 \neq r_2 \dots \neq r_k$):**
+
 $$
 T(n) = c_1 r_1^n + c_2 r_2^n + \dots + c_k r_k^n
 $$
 
-### Case 2: Repeated Roots
-If a root $r_1$ is repeated $m$ times, its contribution to the solution is:
+- **Repeated Root ($r_1$ with multiplicity $m$):**
+
 $$
 (c_1 + c_2 n + c_3 n^2 + \dots + c_m n^{m-1}) r_1^n
 $$
 
-### Worked Examples
+### Worked Example: Fibonacci Recurrence $T(n) = T(n-1) + T(n-2)$, $T(0)=0, T(1)=1$
+1. Equation: $T(n) - T(n-1) - T(n-2) = 0$.
+2. Characteristic Equation: $r^2 - r - 1 = 0$.
+3. Roots using quadratic formula:
 
-**Example 1: $T(n) = T(n-1) + 2T(n-2)$, $T(0)=0, T(1)=1$**
-1. Rewrite: $T(n) - T(n-1) - 2T(n-2) = 0$
-2. Characteristic equation: $r^2 - r - 2 = 0$
-3. Roots: $(r-2)(r+1) = 0 \implies r = 2, -1$
-4. General form: $T(n) = c_1(2)^n + c_2(-1)^n$
-5. Use initial conditions:
-   $T(0) = c_1 + c_2 = 0$
-   $T(1) = 2c_1 - c_2 = 1$
-   Solving yields $c_1 = 1/3, c_2 = -1/3$.
-6. Solution: $T(n) = \frac{1}{3} 2^n - \frac{1}{3} (-1)^n$
+$$
+r_1 = \frac{1 + \sqrt{5}}{2} \quad (\phi \approx 1.618), \quad r_2 = \frac{1 - \sqrt{5}}{2} \quad (\psi \approx -0.618)
+$$
 
-**Example 2: Fibonacci Sequence $T(n) = T(n-1) + T(n-2)$**
-1. Char equation: $r^2 - r - 1 = 0$
-2. Roots: $r_1 = \frac{1 + \sqrt{5}}{2}$, $r_2 = \frac{1 - \sqrt{5}}{2}$
-3. Solution format: $T(n) = c_1 r_1^n + c_2 r_2^n$. The time complexity grows exponentially.
+4. General solution: $T(n) = c_1 \left(\frac{1+\sqrt{5}}{2}\right)^n + c_2 \left(\frac{1-\sqrt{5}}{2}\right)^n$.
+5. Using initial conditions $T(0)=0 \implies c_1 + c_2 = 0 \implies c_2 = -c_1$.
+   $T(1)=1 \implies c_1 r_1 + c_2 r_2 = 1 \implies c_1(r_1 - r_2) = 1 \implies c_1 = \frac{1}{\sqrt{5}}$.
+6. Final Binet's Formula:
 
-**Example 3: Tower of Hanoi $T(n) = 2T(n-1) + 1$**
-This is non-homogeneous. To convert to homogeneous:
-$T(n) - 2T(n-1) = 1$ (eq 1)
-$T(n-1) - 2T(n-2) = 1$ (eq 2)
-Subtracting eq 2 from eq 1:
-$T(n) - 3T(n-1) + 2T(n-2) = 0$
-Characteristic equation: $r^2 - 3r + 2 = 0 \implies (r-2)(r-1) = 0 \implies r=2, 1$
-$T(n) = c_1 2^n + c_2 1^n$
+$$
+T(n) = \frac{1}{\sqrt{5}} \left[\left(\frac{1+\sqrt{5}}{2}\right)^n - \left(\frac{1-\sqrt{5}}{2}\right)^n\right] = \Theta(\phi^n)
+$$
 
 ---
-[Source: DAA_Unit3_a, Slides 10-20]
 
-## 5. Method 3 — Non-Homogeneous Method
+## 5. Method 3 — Non-Homogeneous Recurrences
 
-A non-homogeneous recurrence has the form $a_0 T(n) + \dots + a_k T(n-k) = f(n)$, where $f(n) \neq 0$.
+A non-homogeneous recurrence has the form:
 
-Total Solution $T(n) = T(n)_h + T(n)_p$
-- **$T(n)_h$ (Homogeneous solution):** Set $f(n) = 0$ and solve.
-- **$T(n)_p$ (Particular solution):** Depends on $f(n)$.
+$$
+a_0 T(n) + a_1 T(n-1) + \dots + a_k T(n-k) = f(n) \quad (f(n) \neq 0)
+$$
 
-**Rules for $T(n)_p$:**
-1. **$f(n)$ is a constant $C$**: Guess $T(n)_p = P$. If 1 is a characteristic root of multiplicity $m$, guess $T(n)_p = n^m P$.
-2. **$f(n)$ is a polynomial of degree $d$**: Guess $T(n)_p = P_0 + P_1 n + \dots + P_d n^d$. If 1 is a root of multiplicity $m$, multiply the guess by $n^m$.
-3. **$f(n)$ is exponential $C \cdot a^n$**:
-   - If $a$ is NOT a characteristic root: Guess $T(n)_p = P \cdot a^n$.
-   - If $a$ IS a characteristic root of multiplicity $m$: Guess $T(n)_p = n^m P \cdot a^n$.
+The total solution is:
 
-### Worked Examples
+$$
+T(n) = T_h(n) + T_p(n)
+$$
 
-**Example 1: $T(n) - 2T(n-1) + T(n-2) = 1$**
-1. Homogeneous: $r^2 - 2r + 1 = 0 \implies (r-1)^2 = 0 \implies r=1, 1$. (Multiplicity 2 for root 1).
-2. $T(n)_h = (c_1 + c_2 n)(1)^n = c_1 + c_2 n$
-3. Particular: Since $f(n) = 1$ (constant) and root 1 has multiplicity 2, guess $T(n)_p = n^2 P$.
-   Substitute into eq: $n^2 P - 2(n-1)^2 P + (n-2)^2 P = 1$
-   $P [n^2 - 2(n^2 - 2n + 1) + (n^2 - 4n + 4)] = 1$
-   $P [2] = 1 \implies P = 1/2$.
-   $T(n)_p = \frac{1}{2} n^2$.
-4. Total: $T(n) = c_1 + c_2 n + \frac{1}{2} n^2$.
+where $T_h(n)$ is the solution to the homogeneous equation ($f(n)=0$), and $T_p(n)$ is the **particular solution** depending on $f(n)$.
 
-**Example 2: $T(n) - 8T(n-1) = 14n + 5$**
-1. Homogeneous: $r - 8 = 0 \implies r = 8$. $T(n)_h = c_1 8^n$.
-2. Particular: $f(n)$ is polynomial degree 1. Guess $T(n)_p = d_0 + d_1 n$.
-   Substitute: $(d_0 + d_1 n) - 8(d_0 + d_1(n-1)) = 14n + 5$.
-   $-7d_0 + 8d_1 - 7d_1 n = 14n + 5$.
-   Equate coefficients: $-7d_1 = 14 \implies d_1 = -2$.
-   $-7d_0 + 8(-2) = 5 \implies -7d_0 = 21 \implies d_0 = -3$.
-   $T(n)_p = -3 - 2n$.
-3. Total: $T(n) = c_1 8^n - 3 - 2n$.
+### Rules for Guessing $T_p(n)$:
 
-**Example 3: $T(n) - 8T(n-1) = 5 \cdot 2^n$**
-1. Homogeneous: $r = 8$.
-2. Particular: $f(n) = 5 \cdot 2^n$. Root $a=2$ is not a char root. Guess $T(n)_p = d \cdot 2^n$.
-   Substitute: $d \cdot 2^n - 8 \cdot d \cdot 2^{n-1} = 5 \cdot 2^n$.
-   $d \cdot 2^n - 4d \cdot 2^n = 5 \cdot 2^n$.
-   $-3d = 5 \implies d = -5/3$.
-3. Total: $T(n) = c_1 8^n - \frac{5}{3} 2^n$.
+| Form of $f(n)$ | Condition on Characteristic Root $a$ | Particular Solution $T_p(n)$ Guess |
+| :--- | :--- | :--- |
+| Constant $C$ | $1$ is NOT a root | $P$ |
+| Constant $C$ | $1$ IS a root of multiplicity $m$ | $n^m P$ |
+| Polynomial $\sum_{j=0}^d b_j n^j$ | $1$ is NOT a root | $P_0 + P_1 n + \dots + P_d n^d$ |
+| Polynomial $\sum_{j=0}^d b_j n^j$ | $1$ IS a root of multiplicity $m$ | $n^m (P_0 + P_1 n + \dots + P_d n^d)$ |
+| Exponential $C \cdot a^n$ | $a$ is NOT a root | $P \cdot a^n$ |
+| Exponential $C \cdot a^n$ | $a$ IS a root of multiplicity $m$ | $n^m P \cdot a^n$ |
+
+### Worked Example: $T(n) - 2T(n-1) = 3^n$, $T(0) = 1$
+1. **Homogeneous Part:** $r - 2 = 0 \implies r = 2 \implies T_h(n) = c_1 2^n$.
+2. **Particular Part:** $f(n) = 3^n$. Since base $a=3$ is NOT a characteristic root ($3 \neq 2$), guess $T_p(n) = P \cdot 3^n$.
+3. Substitute $T_p(n)$ into original recurrence:
+
+$$
+P \cdot 3^n - 2 (P \cdot 3^{n-1}) = 3^n
+$$
+
+$$
+P \cdot 3^n - \frac{2}{3} P \cdot 3^n = 3^n \implies \frac{1}{3} P = 1 \implies P = 3
+$$
+
+So $T_p(n) = 3 \cdot 3^n = 3^{n+1}$.
+4. **Total Solution:** $T(n) = c_1 2^n + 3^{n+1}$.
+5. Initial condition $T(0) = 1 \implies c_1 (2^0) + 3^1 = 1 \implies c_1 + 3 = 1 \implies c_1 = -2$.
+6. Solution: $T(n) = 3^{n+1} - 2^{n+1} = \Theta(3^n)$.
 
 ---
-[Source: DAA_Unit3_a, Slides 21-27]
 
-## 6. Method 4 — Master Method ★ (MOST IMPORTANT)
+## 6. Method 4 — Change of Variable & Domain Transformations
 
-The Master Method is a cookbook approach for solving divide and conquer recurrences.
+When the input argument inside $T(\cdot)$ is non-linear (e.g. $\sqrt{n}$, $\log n$), we perform a change of variable to map the recurrence into a standard linear form.
 
-### Master Theorem (Formal Statement)
-For a recurrence of the form:
+### Worked Example: $T(n) = 2 T(\lfloor \sqrt{n} \rfloor) + \log_2 n$
+1. Let $n = 2^m \implies m = \log_2 n$.
+2. Substitute into equation:
+
 $$
-T(n) = aT\left(\frac{n}{b}\right) + f(n)
-$$
-where $a \ge 1$ is the number of sub-problems, $b > 1$ is the factor by which the problem size is divided, and $f(n)$ is the cost of dividing and combining. Let $c_{crit} = \log_b(a)$. We compare $f(n)$ to $n^{c_{crit}}$:
-
-**Case 1:** If $f(n) = O(n^{\log_b(a) - \epsilon})$ for some constant $\epsilon > 0$.
-(Cost is dominated by the leaves).
-$$
-T(n) = \Theta(n^{\log_b(a)})
+T(2^m) = 2 T(2^{m/2}) + m
 $$
 
-**Case 2:** If $f(n) = \Theta(n^{\log_b(a)})$.
-(Cost is evenly distributed across levels).
-$$
-T(n) = \Theta(n^{\log_b(a)} \cdot \log n)
-$$
-*(Note: More generally, if $f(n) = \Theta(n^{\log_b(a)} \log^k n)$ for $k \ge 0$, then $T(n) = \Theta(n^{\log_b(a)} \log^{k+1} n)$).*
+3. Rename function $S(m) = T(2^m)$:
 
-**Case 3:** If $f(n) = \Omega(n^{\log_b(a) + \epsilon})$ for some constant $\epsilon > 0$, AND the regularity condition holds: $a \cdot f(n/b) \le c \cdot f(n)$ for some constant $c < 1$ and sufficiently large $n$.
-(Cost is dominated by the root).
+$$
+S(m) = 2 S\left(\frac{m}{2}\right) + m
+$$
+
+4. Solve $S(m)$ using Master Theorem ($a=2, b=2, f(m)=m \implies m^{\log_2 2} = m$):
+   Applies Case 2 of Master Theorem $\implies S(m) = \Theta(m \log_2 m)$.
+5. Substitute back $m = \log_2 n$:
+
+$$
+T(n) = \Theta(\log_2 n \cdot \log_2(\log_2 n))
+$$
+
+---
+
+## 7. Method 5 — Range Transformations
+
+When the function value $T(n)$ itself is transformed (e.g., squared or multiplied by $n$), we transform the range using logarithms or division.
+
+### Worked Example: $T(n) = n \cdot [T(n/2)]^2$ with $T(1) = 2$
+1. Divide both sides by $n$ or take logarithms. Taking $\log_2$ on both sides:
+
+$$
+\log_2 T(n) = \log_2 n + 2 \log_2 T(n/2)
+$$
+
+2. Let $U(n) = \log_2 T(n)$:
+
+$$
+U(n) = 2 U(n/2) + \log_2 n
+$$
+
+3. Apply Master Theorem on $U(n)$ ($a=2, b=2, f(n)=\log_2 n$, $n^{\log_2 2} = n$):
+   Since $f(n) = O(n^{1-\epsilon})$ for $\epsilon = 0.5$, Case 1 applies $\implies U(n) = \Theta(n)$.
+4. Substitute back:
+
+$$
+\log_2 T(n) = c \cdot n \implies T(n) = 2^{c \cdot n} = \Theta(2^{\Theta(n)})
+$$
+
+---
+
+## 8. Method 6 — Master Theorem (Divide-and-Conquer & Subtract-and-Conquer)
+
+### Part A: Master Theorem for Divide and Conquer
+For recurrences of the form:
+
+$$
+T(n) = a T\left(\frac{n}{b}\right) + f(n) \quad (a \ge 1, b > 1)
+$$
+
+Let $c_{crit} = \log_b a$. Compare $f(n)$ with $n^{c_{crit}}$:
+
+**Case 1 (Leaf Dominated):**
+If $f(n) = O(n^{\log_b a - \epsilon})$ for some constant $\epsilon > 0$:
+
+$$
+T(n) = \Theta\left(n^{\log_b a}\right)
+$$
+
+**Case 2 (Balanced Across Levels):**
+If $f(n) = \Theta(n^{\log_b a} \log^k n)$ for $k \ge 0$:
+
+$$
+T(n) = \Theta\left(n^{\log_b a} \log^{k+1} n\right)
+$$
+
+*(Standard Case 2 with $k=0$ gives $T(n) = \Theta(n^{\log_b a} \log n)$).*
+
+**Case 3 (Root Dominated):**
+If $f(n) = \Omega(n^{\log_b a + \epsilon})$ for some constant $\epsilon > 0$, AND the regularity condition holds ($a f(n/b) \le c f(n)$ for some $c < 1$ and large $n$):
+
 $$
 T(n) = \Theta(f(n))
 $$
 
-### Intuition for each case
-- **Case 1:** The work grows geometrically as you go down the recursion tree. The vast majority of work is done at the leaves, so the time complexity is proportional to the number of leaves: $n^{\log_b(a)}$.
-- **Case 2:** The work done at each level of the tree is roughly the same. Since there are $\log_b n$ levels, we multiply the work at the root $f(n) \approx n^{\log_b a}$ by $\log n$.
-- **Case 3:** The work decreases geometrically as you go down the tree. The vast majority of work is done at the root, so the time complexity is proportional to $f(n)$.
-
-### When Master Method does NOT apply
-- $T(n)$ is not monotonic (e.g., $T(n) = \sin(n)$).
-- $f(n)$ is not a polynomial (e.g., $f(n) = 2^n$).
-- $a$ is not a constant or $a < 1$.
-- The ratio $f(n) / n^{\log_b(a)}$ is not bounded by a polynomial factor $n^\epsilon$. For example, if $f(n) = n^{\log_b a} / \log n$, it falls into the gap between Case 1 and Case 2.
-
-### Master Theorem for Subtract and Conquer Recurrences
-For $T(n) = aT(n-b) + f(n)$ where $a > 0, b \ge 0$, and $f(n) \in O(n^k)$:
-- If $a < 1 \implies T(n) = O(n^k)$
-- If $a = 1 \implies T(n) = O(n^{k+1})$
-- If $a > 1 \implies T(n) = O(a^{n/b} \cdot f(n))$
-
-### Worked Examples
-
-1. **$T(n) = 9T(n/3) + n$**
-   - $a = 9$, $b = 3$, $f(n) = n$.
-   - $n^{\log_b(a)} = n^{\log_3(9)} = n^2$.
-   - Compare $f(n) = n$ with $n^2$. $f(n) = O(n^{2 - 1})$ so $\epsilon = 1 > 0$.
-   - Applies to **Case 1**.
-   - Result: $T(n) = \Theta(n^2)$.
-
-2. **$T(n) = T(2n/3) + 1$**
-   - $a = 1$, $b = 3/2$, $f(n) = 1$.
-   - $n^{\log_b(a)} = n^{\log_{1.5}(1)} = n^0 = 1$.
-   - Compare $f(n) = 1$ with $1$. $f(n) = \Theta(1)$.
-   - Applies to **Case 2**.
-   - Result: $T(n) = \Theta(1 \cdot \log n) = \Theta(\log n)$.
-
-3. **$T(n) = 3T(n/4) + n \log n$**
-   - $a = 3$, $b = 4$, $f(n) = n \log n$.
-   - $n^{\log_b(a)} = n^{\log_4(3)} \approx n^{0.793}$.
-   - Compare $f(n) = n \log n$ with $n^{0.793}$. $f(n) = \Omega(n^{0.793 + \epsilon})$.
-   - Regularity check: $3(n/4) \log(n/4) \le c n \log n$. True for $c = 3/4$.
-   - Applies to **Case 3**.
-   - Result: $T(n) = \Theta(n \log n)$.
-
-4. **$T(n) = 2T(n/2) + n \log n$**
-   - $a = 2$, $b = 2$, $f(n) = n \log n$.
-   - $n^{\log_b(a)} = n^{\log_2(2)} = n^1 = n$.
-   - Compare $f(n) = n \log n$ with $n$. The ratio is $\log n$, which is asymptotically smaller than any polynomial $n^\epsilon$.
-   - **Doesn't apply** directly via the basic 3 cases (falls into the polynomial gap between Case 2 and 3). *(Note: Using the generalized Case 2, it is $T(n) = \Theta(n \log^2 n)$).*
-
 ---
-[Source: DAA_Unit3_a, Slides 28-42]
 
-## 7. Method 5 — Recurrence Tree Method
+### Part B: Master Theorem for Subtract and Conquer
+For recurrences of the form:
 
-A recursion tree is a visual representation of a divide-and-conquer algorithm.
-
-### Steps to solve using Recurrence Tree
-1. **Draw the tree:** Root represents $f(n)$, children represent the cost of sub-problems.
-2. **Determine cost of each level:** Sum the costs of all nodes at that level.
-3. **Determine total number of levels:** Find depth $x$ such that sub-problem size becomes 1. For size $n/b^x = 1 \implies x = \log_b n$. Total levels = $\log_b n + 1$.
-4. **Determine number of nodes at last level:** $a^{\log_b n} = n^{\log_b a}$.
-5. **Cost of last level:** $n^{\log_b a} \times T(1) = \Theta(n^{\log_b a})$.
-6. **Total cost:** Add the costs across all levels (often forming a geometric series) plus the cost of the leaf level.
-
-### Worked Example: $T(n) = 2T(n/2) + n$
-**Step 1:** Draw tree.
-Root = $n$. Level 1 nodes = $n/2, n/2$. Level 2 nodes = $n/4, n/4, n/4, n/4$.
-```mermaid
-graph TD
-    A[n] --> B["n/2"]
-    A --> C["n/2"]
-    B --> D["n/4"]
-    B --> E["n/4"]
-    C --> F["n/4"]
-    C --> G["n/4"]
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-```
-**Step 2:** Cost at each level.
-- Level 0: $n$
-- Level 1: $n/2 + n/2 = n$
-- Level 2: $4 \times (n/4) = n$
-Each internal level costs exactly $n$.
-
-**Step 3:** Total number of levels.
-Size decreases by a factor of 2. $n/2^x = 1 \implies x = \log_2 n$.
-Number of levels = $\log_2 n + 1$.
-
-**Step 4 & 5:** Last level nodes and cost.
-At level $\log_2 n$, there are $2^{\log_2 n} = n$ nodes, each of size 1.
-Cost of last level = $n \times T(1) = \Theta(n)$.
-
-**Step 6:** Total Cost.
-Total cost = (Cost per level) $\times$ (Number of internal levels) + Cost of leaves
-Total cost = $n \cdot \log_2 n + \Theta(n) = \Theta(n \log n)$.
-
----
-[Source: DAA_Unit3_a, Slides 43-55]
-
-## 8. Method 6 — Intelligent Guesswork (and Variable Transformation)
-
-### Intelligent Guesswork
-Guess an upper bound and prove it via mathematical induction.
-**Example:** Guess $T(n) \le c n \log n$ for $T(n) = 2T(n/2) + n$.
-Assume $T(n/2) \le c (n/2) \log(n/2)$.
-$T(n) \le 2[c(n/2)\log(n/2)] + n$
-$T(n) \le cn(\log n - \log 2) + n = cn\log n - cn + n$.
-For $T(n) \le cn\log n$ to hold, we need $-cn + n \le 0 \implies c \ge 1$. Thus, the guess is correct.
-
-### Change of Variable
-Domain transformations substitute a function for the argument to make it easier to solve.
-**Example: $T(n) = 2T(\sqrt{n}) + \log n$**
-1. Let $n = 2^m \implies m = \log_2 n$.
-   $T(2^m) = 2T(2^{m/2}) + m$
-2. Define a new function $S(m) = T(2^m)$.
-   $S(m) = 2S(m/2) + m$
-3. Use Master Method on $S(m)$: $a=2, b=2, f(m)=m$. Case 2 applies.
-   $S(m) = O(m \log m)$.
-4. Substitute back $m = \log_2 n$:
-   $T(n) = O(\log n \cdot \log(\log n))$.
-
-### Range Transformation
-Sometimes we transform the range.
-**Example: $T(n) = n \cdot T^2(n/2)$**
-1. Change variable $n = 2^m$, let $S(m) = T(2^m)$:
-   $S(m) = 2^m \cdot S^2(m-1)$
-2. Take log base 2 on both sides. Let $U(m) = \log_2 S(m)$:
-   $\log_2 S(m) = \log_2(2^m) + \log_2(S^2(m-1))$
-   $U(m) = m + 2 \cdot U(m-1)$
-3. Now solve linear non-homogeneous recurrence $U(m) - 2U(m-1) = m$, and substitute back.
-
----
-[Source: DAA_Unit3_a, Slides 56-63]
-
-## 9. Comparison Table: Recurrence Solving Methods
-
-| Method | When to Use | Difficulty / Nature | Example Use Case |
-| :--- | :--- | :--- | :--- |
-| **Substitution** | When a good guess can be made. | Can be tricky to guess exact form; requires rigorous induction proof. | Proving bounds for unusual recurrences. |
-| **Homogeneous / Char Eq** | Linear recurrences with constant coefficients ($f(n)=0$). | Straightforward algebraic method. | Fibonacci sequence: $T(n)=T(n-1)+T(n-2)$. |
-| **Non-Homogeneous** | Linear recurrences where $f(n)$ is polynomial, const, or exp. | Systematic but requires finding both homogeneous and particular parts. | Tower of Hanoi. |
-| **Master Method** | Recurrences of form $aT(n/b) + f(n)$. | Very easy and direct; essentially a cookbook. | Merge Sort, Quick Sort (best case). |
-| **Recursion Tree** | Complex divide-and-conquer where Master fails. | Intuitive and visual, good for finding a guess for substitution. | $T(n) = T(n/3) + T(2n/3) + O(n)$. |
-| **Variable Transformation** | Domain involves powers, roots (e.g. $\sqrt{n}$). | Algebraic manipulation to map into a form for Master Theorem. | $T(n) = 2T(\sqrt{n}) + \log n$. |
-
----
-[Source: Derived Summary from DAA_Unit3_a]
-
-## 10. Divide & Conquer Paradigm
-
-Many useful algorithms are recursive in structure: they call themselves recursively one or more times to solve a closely related sub-problem. This typically follows the **Divide and Conquer (D&C)** approach, which involves three steps at each level of recursion:
-
-1. **Divide:** Break the problem into several sub-problems that are similar to the original problem but smaller in size.
-2. **Conquer:** Solve the sub-problems recursively. If the sizes are small enough (base case), solve them in a straightforward manner.
-3. **Combine:** Combine these solutions to create a solution to the original problem.
-
-### General Recurrence
-Let $T(n)$ be the time required by a D&C algorithm on an instance of size $n$.
 $$
-T(n) = a T\left(\frac{n}{b}\right) + f(n)
-$$
-where $a$ is the number of subproblems, $n/b$ is the size of each, and $f(n)$ is the cost of dividing and combining.
-
-### When D&C Helps vs Hurts
-- **Helps:** When dividing effectively reduces the problem size (e.g., $n \to n/2$) and subproblems do not overlap.
-- **Hurts:** If we repeatedly solve overlapping subproblems (e.g., naive recursive Fibonacci), D&C leads to exponential time. (Dynamic programming is better here).
-
----
-[Source: DAA_Unit3_b, Slides 2-3]
-
-## 11. Algorithm: Binary Search
-
-### Problem Statement
-Given an array $A$ of $n$ elements sorted in increasing order, and a target key $x$. Find the index of $x$ in $A$, or return an indication that it is not present.
-
-### Pseudocode (Iterative & Recursive)
-
-**Iterative Approach:**
-```text
-Algorithm: BinarySearch(A[1...n], x)
-    i = 1
-    j = n
-    while i <= j do
-        k = (i + j) / 2
-        if x == A[k] then
-            return k
-        else if x < A[k] then
-            j = k - 1
-        else
-            i = k + 1
-    return -1 (Not found)
-```
-
-**Recursive Approach:**
-```mermaid
-flowchart TD
-    Start["binrec(A, x, beg, end)"] --> Base{"Is beg > end?"}
-    Base -- Yes --> NotFound["Return -1 (Not Found)"]
-    Base -- No --> CalcMid["mid = (beg + end) / 2"]
-    CalcMid --> Compare{"Compare A[mid] with x"}
-    Compare -- "A[mid] == x" --> Found["Return mid"]
-    Compare -- "A[mid] < x" --> RecRight["Return binrec(A, x, mid + 1, end)"]
-    Compare -- "A[mid] > x" --> RecLeft["Return binrec(A, x, beg, mid - 1)"]
-```
-
-### Recurrence & Solution
-In the worst case, binary search makes one recursive call on an array half the size, plus $O(1)$ work to find the midpoint and compare.
-$$
-T(n) = T(n/2) + O(1)
-$$
-Applying Master Theorem (Case 2: $a=1, b=2, f(n)=1 \implies n^{\log_2 1} = 1$):
-$$
-T(n) = \Theta(\log n)
+T(n) = a T(n-b) + f(n) \quad (a > 0, b > 0, f(n) = O(n^k) \text{ where } k \ge 0)
 $$
 
-### Best/Worst Case
-- **Best Case:** The element is exactly at the middle on the first check $\implies O(1)$.
-- **Worst Case:** The element is not present or at the ends $\implies O(\log n)$.
+1. **If $a < 1$:** $T(n) = O(f(n)) = O(n^k)$
+2. **If $a = 1$:** $T(n) = O(n \cdot f(n)) = O(n^{k+1})$
+3. **If $a > 1$:** $T(n) = O(a^{n/b} \cdot f(n)) = O(a^{n/b} \cdot n^k)$
 
 ---
-[Source: DAA_Unit3_b, Slides 4-13]
 
-## 12. Algorithm: Merge Sort
+## 9. Method 7 — Recurrence Tree Method
 
-### Procedure
-1. **Divide** the unsorted list into two sub-lists of about half the size.
-2. **Conquer:** Sort each of the two sub-lists recursively until they have size 1.
-3. **Combine:** Merge the two sorted sub-lists back into one sorted list.
+A Recurrence Tree visualizes recursive calls, where nodes represent work done at each level of recursion.
 
-### Pseudocode
-```mermaid
-flowchart TD
-    Start["MergeSort(A, p, r)"] --> Base{"Is p < r?"}
-    Base -- No --> Done["Base Case: 1 element -> Return"]
-    Base -- Yes --> Mid["Compute q = (p + r) / 2"]
-    Mid --> Left["Recursively call MergeSort(A, p, q)"]
-    Left --> Right["Recursively call MergeSort(A, q + 1, r)"]
-    Right --> Merge["Call Merge(A, p, q, r) to combine sorted halves"]
-```
+### Step-by-Step Execution: $T(n) = 3 T(n/4) + c n^2$
 
 ```mermaid
 flowchart TD
-    Start["Merge(A, p, q, r)"] --> Init["Copy A[p..q] to Left Array L[], A[q+1..r] to Right Array R[]"]
-    Init --> Pointers["Set i = 1, j = 1, k = p"]
-    Pointers --> Loop{"Is i <= n1 AND j <= n2?"}
-    Loop -- Yes --> Comp{"Is L[i] <= R[j]?"}
-    Comp -- Yes --> TakeL["Set A[k] = L[i], i = i + 1"]
-    Comp -- No --> TakeR["Set A[k] = R[j], j = j + 1"]
-    TakeL & TakeR --> IncK["Set k = k + 1"] --> Loop
-    Loop -- No --> CopyRem["Copy remaining elements of L and R into A"]
+    Root["Level 0: c*n^2"] --> Child1["Level 1: c*(n/4)^2"]
+    Root --> Child2["Level 1: c*(n/4)^2"]
+    Root --> Child3["Level 1: c*(n/4)^2"]
+    Child1 --> L2_1["..."]
+    Child2 --> L2_2["..."]
+    Child3 --> L2_3["..."]
 ```
 
-### Recurrence & Solution
-Dividing takes $O(1)$. Merging takes $\Theta(n)$.
+1. **Cost at Level $j$:** Number of nodes $= 3^j$. Problem size at level $j = n / 4^j$.
+   Work per node at level $j = c (n / 4^j)^2$.
+   Total work at level $j = 3^j \cdot c \cdot \frac{n^2}{16^j} = c n^2 \left(\frac{3}{16}\right)^j$.
+2. **Tree Depth:** Recursion stops when $n / 4^h = 1 \implies h = \log_4 n$.
+3. **Number of Leaves:** $3^{\log_4 n} = n^{\log_4 3} \approx n^{0.793}$.
+4. **Total Cost Sum:**
+
 $$
-T(n) = 2T(n/2) + \Theta(n)
-$$
-By Master Theorem (Case 2, $a=2, b=2, f(n)=n \implies n^{\log_2 2} = n$):
-$$
-T(n) = \Theta(n \log n)
-$$
-
-### Example Trace on Array [38, 27, 43, 3, 9, 82, 10]
-```mermaid
-flowchart TD
-    A["(38, 27, 43, 3, 9, 82, 10)"] --> B["(38, 27, 43, 3)"]
-    A --> C["(9, 82, 10)"]
-    B --> D["(38, 27)"]
-    B --> E["(43, 3)"]
-    C --> F["(9, 82)"]
-    C --> G["10"]
-    
-    D --> D1["38"]
-    D --> D2["27"]
-    D1 -.Merge.-> D_Merged["(27, 38)"]
-    D2 -.Merge.-> D_Merged
-    
-    E --> E1["43"]
-    E --> E2["3"]
-    E1 -.Merge.-> E_Merged["(3, 43)"]
-    E2 -.Merge.-> E_Merged
-    
-    D_Merged -.Merge.-> B_Merged["(3, 27, 38, 43)"]
-    E_Merged -.Merge.-> B_Merged
-    
-    F --> F1["9"]
-    F --> F2["82"]
-    F1 -.Merge.-> F_Merged["(9, 82)"]
-    F2 -.Merge.-> F_Merged
-    
-    F_Merged -.Merge.-> C_Merged["(9, 10, 82)"]
-    G -.Merge.-> C_Merged
-    
-    B_Merged -.Merge.-> A_Merged["(3, 9, 10, 27, 38, 43, 82)"]
-    C_Merged -.Merge.-> A_Merged
-```
-
-### Stability & Space
-- **Stability:** It is stable (preserves the relative order of equal elements) due to `L[i] <= R[j]`.
-- **Space Complexity:** $O(n)$ auxiliary space is required for the temporary arrays `L` and `R` during the Merge step.
-
----
-[Source: DAA_Unit3_b, Slides 14-20]
-
-## 13. Algorithm: Quick Sort
-
-Quick Sort is an in-place, divide-and-conquer sorting algorithm.
-
-### Procedure
-1. Choose a **pivot** element.
-2. **Partition** the array so that elements smaller than the pivot go to its left, and elements larger go to its right.
-3. Recursively apply Quick Sort to the left and right sub-arrays.
-
-### Hoare's Partition Pseudocode (From Slides)
-```mermaid
-flowchart TD
-    Start["pivot(T, i, j)"] --> Choose["Pivot Key p = T[i], Set k = i + 1, l = j"]
-    Choose --> Loop{"Scan Array: Is k <= l?"}
-    Loop -- Yes --> ScanK["Advance k while T[k] <= p"]
-    ScanK --> ScanL["Decrement l while T[l] > p"]
-    ScanL --> CheckCross{"Is k < l?"}
-    CheckCross -- Yes --> SwapKL["Swap T[k] and T[l]"] --> Loop
-    CheckCross -- No --> Loop
-    Loop -- No --> SwapPivot["Swap Pivot T[i] with T[l]"]
-    SwapPivot --> Return["Return Pivot Index l"]
-```
-```mermaid
-flowchart TD
-    Start["QuickSort(T, p, r)"] --> Check{"Is p < r?"}
-    Check -- No --> Done["Base Case -> Return"]
-    Check -- Yes --> Partition["Call pivot(T, p, r) -> Returns Pivot Index l"]
-    Partition --> RecL["Recursively call QuickSort(T, p, l - 1)"]
-    RecL --> RecR["Recursively call QuickSort(T, l + 1, r)"]
-```
-
-### Complexity Analysis
-**Worst Case:** Occurs when the array is already sorted or reverse sorted, and we always pick the first element as the pivot. The partition creates one sub-problem of size $n-1$ and one of size $0$.
-$$
-T(n) = T(n-1) + \Theta(n) \implies T(n) = \Theta(n^2)
+T(n) = \sum_{j=0}^{\log_4 n - 1} c n^2 \left(\frac{3}{16}\right)^j + \Theta(n^{\log_4 3})
 $$
 
-**Best Case:** Occurs when the partition exactly divides the array in half (size $n/2$).
+Since $\frac{3}{16} < 1$, this is a decreasing geometric series bounded by its first term:
+
 $$
-T(n) = 2T(n/2) + \Theta(n) \implies T(n) = \Theta(n \log n)
+T(n) \le c n^2 \sum_{j=0}^{\infty} \left(\frac{3}{16}\right)^j = c n^2 \left(\frac{1}{1 - 3/16}\right) = \frac{16}{13} c n^2 = \Theta(n^2)
 $$
-
-**Average Case:** Assume a 9:1 proportional split at each step.
-$$
-T(n) = T(9n/10) + T(n/10) + \Theta(n) \implies T(n) = \Theta(n \log n)
-$$
-
-### Randomized Quick Sort
-To prevent worst-case scenarios on sorted inputs, pick a random element as the pivot instead of always picking the first element. The expected running time becomes $O(n \log n)$ universally.
-
----
-[Source: DAA_Unit3_b, Slides 21-30]
-
-## 14. Algorithm: Finding Maximum & Minimum
-
-*(Based on standard DAA Divide & Conquer syllabus)*
-
-### Problem Statement
-Find the maximum and minimum elements in an array $A$ of size $n$.
-
-### Naive Approach
-Iterate through the array, comparing each element to the current max and min.
-Total comparisons = $2(n-1)$. (Or $3n/2$ if checking pairs sequentially).
-
-### Divide and Conquer Approach
-1. Divide array into two halves.
-2. Recursively find $(max, min)$ in both halves.
-3. Combine: Final $max = \max(max_{left}, max_{right})$, Final $min = \min(min_{left}, min_{right})$.
-
-### Pseudocode
-```mermaid
-flowchart TD
-    Start["MaxMin(A, i, j)"] --> Base1{"Is i == j? (1 Element)"}
-    Base1 -- Yes --> Ret1["max = A[i], min = A[i]"]
-    Base1 -- No --> Base2{"Is i == j - 1? (2 Elements)"}
-    Base2 -- Yes --> Comp2{"Compare A[i] and A[j]"}
-    Comp2 -- "A[i] < A[j]" --> Set2A["max = A[j], min = A[i]"]
-    Comp2 -- "A[i] >= A[j]" --> Set2B["max = A[i], min = A[j]"]
-    Base2 -- No --> Divide["mid = (i + j) / 2"]
-    Divide --> RecL["MaxMin(A, i, mid) -> (max1, min1)"]
-    RecL --> RecR["MaxMin(A, mid + 1, j) -> (max2, min2)"]
-    RecR --> Combine["max = max(max1, max2), min = min(min1, min2)"]
-```
-
-### Recurrence & Solution for Comparisons
-Let $T(n)$ be the number of comparisons:
-$$
-T(n) = 2T(n/2) + 2
-$$
-Base cases: $T(1) = 0, T(2) = 1$.
-Solving the recurrence gives $T(n) = \lceil \frac{3n}{2} \rceil - 2$.
-This requires 25% fewer comparisons than the naive $2n$ method.
 
 ---
 
-## 15. Algorithm: Strassen's Matrix Multiplication
+## 10. Divide & Conquer Algorithms
 
-### Naive Matrix Multiplication
-Multiplying two $n \times n$ matrices requires $n^3$ multiplications.
-$C_{i,j} = \sum_{k=1}^n A_{i,k} \cdot B_{k,j}$
-Time Complexity: $O(n^3)$.
+The Divide and Conquer paradigm consists of three steps:
+1. **Divide:** Break problem into independent smaller subproblems of the same type.
+2. **Conquer:** Solve subproblems recursively (base cases solved directly).
+3. **Combine:** Merge subproblem solutions to form the global solution.
 
-### Simple Divide & Conquer
-Divide each matrix into four $n/2 \times n/2$ quadrants.
-$$
-\begin{bmatrix} C_{11} & C_{12} \\ C_{21} & C_{22} \end{bmatrix} =
-\begin{bmatrix} A_{11} & A_{12} \\ A_{21} & A_{22} \end{bmatrix} \times
-\begin{bmatrix} B_{11} & B_{12} \\ B_{21} & B_{22} \end{bmatrix}
-$$
-Requires 8 recursive multiplications of size $n/2$.
-$$
-T(n) = 8T(n/2) + O(n^2) \implies O(n^3)
-$$
-(No improvement over naive algorithm).
+---
 
-### Strassen's Idea
-Volker Strassen discovered a way to compute the matrix product using only **7 recursive multiplications** instead of 8, by doing more additions/subtractions (which are cheaper, $O(n^2)$).
+### Algorithm 1: Multiplying Large Integers (Karatsuba Algorithm)
 
-### The 7 Formulas
-Compute 7 matrices $M_1 \dots M_7$:
+#### Problem
+Multiply two $n$-digit integers $X$ and $Y$. Naive grade-school multiplication takes $O(n^2)$ operations.
+
+#### Karatsuba Strategy
+Split $X$ and $Y$ into $n/2$-digit halves:
+$X = X_L \cdot 10^{n/2} + X_R$, $\quad Y = Y_L \cdot 10^{n/2} + Y_R$
+
+$$
+X \cdot Y = (X_L Y_L) 10^n + (X_L Y_R + X_R Y_L) 10^{n/2} + X_R Y_R
+$$
+
+Instead of 4 multiplications ($X_L Y_L, X_L Y_R, X_R Y_L, X_R Y_R$), compute **3 multiplications**:
+1. $P_1 = X_L \cdot Y_L$
+2. $P_2 = X_R \cdot Y_R$
+3. $P_3 = (X_L + X_R) \cdot (Y_L + Y_R)$
+
+Then middle term $X_L Y_R + X_R Y_L = P_3 - P_1 - P_2$.
+
+#### Recurrence & Complexity
+
+$$
+T(n) = 3 T(n/2) + O(n)
+$$
+
+By Master Theorem Case 1 ($a=3, b=2 \implies n^{\log_2 3} \approx n^{1.585}$):
+
+$$
+T(n) = \Theta\left(n^{\log_2 3}\right) \approx \Theta\left(n^{1.585}\right)
+$$
+
+---
+
+### Algorithm 2: Merge Sort
+
+#### Pseudocode & Flowchart
+
+```mermaid
+flowchart TD
+    Start["MergeSort(A, low, high)"] --> Check{"low < high?"}
+    Check -- No --> Ret["Return (Base Case)"]
+    Check -- Yes --> Mid["mid = (low + high) / 2"]
+    Mid --> RecL["MergeSort(A, low, mid)"]
+    RecL --> RecR["MergeSort(A, mid + 1, high)"]
+    RecR --> Combine["Merge(A, low, mid, high)"]
+```
+
+#### Recurrence & Analysis
+Dividing takes $O(1)$, merging two sorted halves takes $\Theta(n)$ time and $O(n)$ extra space.
+
+$$
+T(n) = 2 T(n/2) + \Theta(n) \implies T(n) = \Theta(n \log n) \quad (\text{All cases})
+$$
+
+---
+
+### Algorithm 3: Quick Sort
+
+#### Pseudocode & Partition Flowchart
+
+```mermaid
+flowchart TD
+    Start["QuickSort(A, low, high)"] --> Check{"low < high?"}
+    Check -- No --> Ret["Return"]
+    Check -- Yes --> Part["p = Partition(A, low, high)"]
+    Part --> RecL["QuickSort(A, low, p - 1)"]
+    RecL --> RecR["QuickSort(A, p + 1, high)"]
+```
+
+#### Complexity Analysis
+- **Worst Case (Already sorted/Reverse sorted with first element pivot):**
+
+$$
+T(n) = T(n-1) + \Theta(n) \implies \Theta(n^2)
+$$
+
+- **Best & Average Case (Balanced splits):**
+
+$$
+T(n) = 2 T(n/2) + \Theta(n) \implies \Theta(n \log n)
+$$
+
+- **Randomized Quick Sort:** Picking a random pivot guarantees expected $O(n \log n)$ time.
+
+---
+
+### Algorithm 4: Deterministic Linear-Time Selection (Median-of-Medians)
+
+#### Problem
+Find the $k$-th smallest element in an unsorted array of size $n$ in **guaranteed worst-case $O(n)$ time**.
+
+#### Algorithm Steps (`Select(A, k)`):
+1. **Group:** Divide the $n$ elements into $\lceil n/5 \rceil$ groups of 5 elements each (last group has $n \bmod 5$ elements).
+2. **Find Medians:** Sort each group of 5 elements (takes $O(1)$ time per group) and pick its median. This yields a set $M$ of $\lceil n/5 \rceil$ medians.
+3. **Pivot Selection:** Recursively call `Select(M, |M|/2)` to find the median of medians, $x$.
+4. **Partition:** Partition array $A$ around pivot $x$. Let $x$ end up at index $q$.
+5. **Recurse:**
+   - If $k == q$, return $x$.
+   - If $k < q$, call `Select(A[1...q-1], k)`.
+   - If $k > q$, call `Select(A[q+1...n], k - q)`.
+
+```mermaid
+flowchart TD
+    Start["Select(A, k)"] --> Group["Divide n elements into n/5 groups of 5"]
+    Group --> SortMed["Sort each group & collect n/5 medians"]
+    SortMed --> RecPivot["x = Select(Medians, n/10) <br>(Find Median-of-Medians x)"]
+    RecPivot --> Part["Partition A around x"]
+    Part --> CheckK{"Compare k with pivot index q"}
+    CheckK -- "k == q" --> Found["Return x"]
+    CheckK -- "k < q" --> Left["Select(Left Subarray, k)"]
+    CheckK -- "k > q" --> Right["Select(Right Subarray, k - q)"]
+```
+
+#### Proof of $O(n)$ Bound
+At least half of the $\lceil n/5 \rceil$ medians are $\le x$. Thus, at least $\frac{1}{2} \cdot \frac{n}{5} = \frac{n}{10}$ groups contribute at least 3 elements that are $\le x$ (except the group containing $x$ and the last incomplete group).
+Total elements $\le x$ is at least $3 \left(\frac{n}{10}\right) = \frac{3n}{10}$.
+Hence, the recursive call on either subarray processes at most $n - \frac{3n}{10} = \frac{7n}{10}$ elements.
+
+#### Recurrence Equation
+
+$$
+T(n) \le T\left(\frac{n}{5}\right) + T\left(\frac{7n}{10}\right) + O(n)
+$$
+
+Using substitution $T(n) \le c n$:
+
+$$
+T(n) \le c \frac{n}{5} + c \frac{7n}{10} + d n = c n \left(\frac{9}{10}\right) + d n = c n - \left(\frac{c}{10} - d\right) n
+$$
+
+For $c \ge 10 d$, $T(n) \le c n \implies T(n) = \Theta(n)$.
+
+---
+
+### Algorithm 5: Strassen's Matrix Multiplication
+
+#### Problem
+Multiply two $n \times n$ matrices $A$ and $B$. Standard method takes $O(n^3)$ operations.
+
+#### Strassen's Formulas
+Divide each matrix into four $n/2 \times n/2$ submatrices. Strassen computes **7 matrix multiplications** instead of 8:
+
 $$
 M_1 = (A_{11} + A_{22})(B_{11} + B_{22})
 $$
+
 $$
-M_2 = (A_{21} + A_{22})B_{11}
+M_2 = (A_{21} + A_{22}) B_{11}
 $$
+
 $$
 M_3 = A_{11}(B_{12} - B_{22})
 $$
+
 $$
 M_4 = A_{22}(B_{21} - B_{11})
 $$
+
 $$
-M_5 = (A_{11} + A_{12})B_{22}
+M_5 = (A_{11} + A_{12}) B_{22}
 $$
+
 $$
 M_6 = (A_{21} - A_{11})(B_{11} + B_{12})
 $$
+
 $$
 M_7 = (A_{12} - A_{22})(B_{21} + B_{22})
 $$
 
-Then combine them:
-$$
-C_{11} = M_1 + M_4 - M_5 + M_7
-$$
-$$
-C_{12} = M_3 + M_5
-$$
-$$
-C_{21} = M_2 + M_4
-$$
-$$
-C_{22} = M_1 - M_2 + M_3 + M_6
-$$
+Combine results:
+- $C_{11} = M_1 + M_4 - M_5 + M_7$
+- $C_{12} = M_3 + M_5$
+- $C_{21} = M_2 + M_4$
+- $C_{22} = M_1 - M_2 + M_3 + M_6$
 
-### Recurrence & Time Complexity
+#### Recurrence & Complexity
+
 $$
-T(n) = 7T(n/2) + \Theta(n^2)
-$$
-Using Master Theorem (Case 1: $a=7, b=2, f(n)=n^2$. Since $n^{\log_2 7} \approx n^{2.81} > n^2$):
-$$
-T(n) = O(n^{\log_2 7}) \approx O(n^{2.81})
+T(n) = 7 T(n/2) + \Theta(n^2) \implies T(n) = \Theta\left(n^{\log_2 7}\right) \approx \Theta(n^{2.807})
 $$
 
 ---
-[Source: DAA_Unit3_b, Slides 39-51]
 
-## 16. Algorithm: Large Integer Multiplication
+### Algorithm 6: Binary & Modular Exponentiation
 
-### Problem Statement
-Multiply two $n$-digit large integers $X$ and $Y$.
+#### Binary Exponentiation (Powering $a^n$)
+Computes $a^n$ in $O(\log n)$ multiplications instead of $O(n)$ using Divide & Conquer:
 
-### Naive Approach
-Grade-school multiplication takes $O(n^2)$ digit multiplications.
-
-### Divide & Conquer (Karatsuba's Idea)
-Split $X$ and $Y$ into two halves of size $n/2$:
-$X = X_L \cdot 10^{n/2} + X_R$
-$Y = Y_L \cdot 10^{n/2} + Y_R$
-
-Product $X \cdot Y = X_L Y_L \cdot 10^n + (X_L Y_R + X_R Y_L) \cdot 10^{n/2} + X_R Y_R$
-This directly requires 4 multiplications of size $n/2$.
-
-**Optimization:**
-We can compute the middle term using only one multiplication instead of two:
-$(X_L Y_R + X_R Y_L) = (X_L + X_R)(Y_L + Y_R) - X_L Y_L - X_R Y_R$
-
-So we only need 3 recursive multiplications:
-1. $P = X_L \times Y_L$
-2. $Q = X_R \times Y_R$
-3. $R = (X_L + X_R) \times (Y_L + Y_R)$
-
-### Recurrence & Solution
 $$
-T(n) = 3T(n/2) + O(n)
+a^n = \begin{cases} 1 & \text{if } n = 0 \\ \left(a^{n/2}\right)^2 & \text{if } n \text{ is even} \\ a \cdot \left(a^{(n-1)/2}\right)^2 & \text{if } n \text{ is odd} \end{cases}
 $$
-Using Master Theorem: $a=3, b=2, f(n)=n$. $n^{\log_2 3} \approx n^{1.58} > n$.
+
+#### Pseudocode
+```text
+Algorithm Power(a, n):
+    if n == 0 then return 1
+    temp = Power(a, floor(n / 2))
+    if n is even then
+        return temp * temp
+    else
+        return a * temp * temp
+```
+
+#### Modular Exponentiation ($(a^n) \bmod m$)
+To prevent integer overflow during calculation, apply modulo at every step:
+
 $$
-T(n) = O(n^{\log_2 3}) \approx O(n^{1.58})
+\text{ModPower}(a, n, m) = \begin{cases} 1 & \text{if } n = 0 \\ (\text{temp}^2) \bmod m & \text{if } n \text{ is even} \\ (a \cdot \text{temp}^2) \bmod m & \text{if } n \text{ is odd} \end{cases}
 $$
-This reduces 25% of the computing time required for large multiplications.
 
----
-[Source: DAA_Unit3_b, Slides 31-38]
-
-## 17. Comparison Table: Sorting Algorithms
-
-| Algorithm | Best Case | Average Case | Worst Case | Space Complexity | Stable | In-Place |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Merge Sort** | $O(n \log n)$ | $O(n \log n)$ | $O(n \log n)$ | $O(n)$ | Yes | No |
-| **Quick Sort** | $O(n \log n)$ | $O(n \log n)$ | $O(n^2)$ | $O(\log n)$ (call stack) | No | Yes |
-| **Binary Search** | $O(1)$ | $O(\log n)$ | $O(\log n)$ | $O(1)$ | N/A | N/A |
+Time Complexity: $\Theta(\log n)$, Space Complexity: $O(\log n)$ call stack space.
 
 ---
 
-## 18. Formula Sheet
+## 11. Advanced Data Structures
 
-**Master Theorem for $T(n) = aT(n/b) + f(n)$:**
-1. $f(n) = O(n^{\log_b a - \epsilon}) \implies T(n) = \Theta(n^{\log_b a})$
-2. $f(n) = \Theta(n^{\log_b a}) \implies T(n) = \Theta(n^{\log_b a} \log n)$
-3. $f(n) = \Omega(n^{\log_b a + \epsilon}) \implies T(n) = \Theta(f(n))$
+### Structure 1: Interval Trees
 
-**Homogeneous Characteristic Roots:**
-- Distinct roots $r_1, r_2$: $c_1 r_1^n + c_2 r_2^n$
-- Repeated root $r_1$ twice: $(c_1 + c_2 n)r_1^n$
+#### Concept
+An **Interval Tree** is an augmented Red-Black Tree (or self-balancing BST) designed to hold a dynamic set of intervals $[i.low, i.high]$ and perform efficient interval query operations.
 
-**Algorithm Recurrences:**
-- Binary Search: $T(n) = T(n/2) + 1 \implies O(\log n)$
-- Merge Sort: $T(n) = 2T(n/2) + n \implies O(n \log n)$
-- Quick Sort (Best/Avg): $T(n) = 2T(n/2) + n \implies O(n \log n)$
-- Quick Sort (Worst): $T(n) = T(n-1) + n \implies O(n^2)$
-- Strassen's Matrix: $T(n) = 7T(n/2) + n^2 \implies O(n^{2.81})$
-- Large Integer Multi: $T(n) = 3T(n/2) + n \implies O(n^{1.58})$
+#### Node Structure
+Each node $x$ contains:
+- $x.interval = [x.low, x.high]$
+- $x.key = x.interval.low$ (Ordered by low endpoint)
+- $x.max = \max(x.interval.high, x.left.max, x.right.max)$ (Maximum high endpoint in $x$'s subtree)
+
+```mermaid
+flowchart TD
+    N16["[16, 21] | max=30"] --- N8["[8, 9] | max=23"]
+    N16 --- N25["[25, 30] | max=30"]
+    N8 --- N5["[5, 8] | max=8"]
+    N8 --- N15["[15, 23] | max=23"]
+    N25 --- N17["[17, 19] | max=19"]
+    N25 --- N26["[26, 26] | max=26"]
+```
+
+#### Operations & Algorithms
+
+1. **Interval Overlap Check:** Two intervals $i$ and $i'$ overlap if:
+
+$$
+i.low \le i'.high \quad \text{and} \quad i'.low \le i.high
+$$
+
+2. **Interval Search (`Interval-Search(T, i)`):**
+   Searches for any interval in tree $T$ that overlaps with target interval $i$.
+
+```text
+Algorithm Interval-Search(T, i):
+    x = T.root
+    while x != NIL and not Overlap(x.interval, i) do
+        if x.left != NIL and x.left.max >= i.low then
+            x = x.left
+        else
+            x = x.right
+    return x
+```
+
+#### Correctness of Search Logic
+- If `x.left.max >= i.low`, there is guaranteed to be an overlapping interval in $x$'s left subtree, OR no overlapping interval exists anywhere in the tree. Thus, going left is safe.
+- If `x.left.max` $< i.low$, no interval in $x$'s left subtree can possibly overlap $i$ because every high endpoint in the left subtree is $< i.low$. Thus, going right is necessary.
+
+3. **Insertion & Rotation Maintenance:**
+   Standard BST insertion using $interval.low$ as key, followed by updating $x.max = \max(x.interval.high, x.left.max, x.right.max)$ on the path up to the root during rotations.
+   - **Time Complexity:** Search: $O(\log n)$, Insertion: $O(\log n)$, Deletion: $O(\log n)$.
 
 ---
 
-## 19. Definition Sheet
+### Structure 2: Disjoint Set Structures (Union-Find)
 
-1. **Recurrence Relation:** An equation that describes a function in terms of its value on smaller inputs.
-2. **Divide and Conquer:** An algorithmic paradigm that divides a problem into smaller identical sub-problems, solves them recursively, and combines the results.
-3. **Homogeneous Recurrence:** A linear recurrence relation where the right-hand side is zero ($f(n) = 0$).
-4. **Characteristic Equation:** An algebraic equation obtained by substituting $T(n) = r^n$ into a homogeneous recurrence relation, used to find its roots.
-5. **Strassen's Algorithm:** A D&C algorithm for matrix multiplication that reduces the number of recursive multiplications from 8 to 7, bringing time complexity below $O(n^3)$.
-6. **In-place Algorithm:** An algorithm that uses only a small, constant amount of extra memory space (e.g., Quick Sort).
-7. **Stable Sort:** A sorting algorithm that preserves the relative order of elements with equal keys (e.g., Merge Sort).
+#### Concept
+Maintains a collection $\mathcal{S} = \{S_1, S_2, \dots, S_k\}$ of disjoint dynamic sets. Each set is identified by a representative element.
+
+#### Core Operations:
+1. `MAKE-SET(x)`: Creates a new set containing single element $x$.
+2. `FIND-SET(x)`: Returns pointer to representative of set containing $x$.
+3. `UNION(x, y)`: Merges sets containing $x$ and $y$.
+
+#### Optimizations:
+1. **Union by Rank:** Always attach the root of the smaller rank tree under the root of the larger rank tree.
+2. **Path Compression:** During `FIND-SET(x)`, make every node on the lookup path point directly to the root.
+
+```mermaid
+flowchart TD
+    subgraph "Before Path Compression Find(4)"
+        R1[1] --> N2[2] --> N3[3] --> N4[4]
+    end
+    subgraph "After Path Compression Find(4)"
+        R2[1] --> N2_2[2]
+        R2 --> N3_2[3]
+        R2 --> N4_2[4]
+    end
+```
+
+#### Pseudocode
+```text
+Algorithm MAKE-SET(x):
+    x.parent = x
+    x.rank = 0
+
+Algorithm FIND-SET(x):
+    if x != x.parent then
+        x.parent = FIND-SET(x.parent)  // Path Compression
+    return x.parent
+
+Algorithm UNION(x, y):
+    LINK(FIND-SET(x), FIND-SET(y))
+
+Algorithm LINK(x, y):
+    if x.rank > y.rank then
+        y.parent = x
+    else
+        x.parent = y
+        if x.rank == y.rank then
+            y.rank = y.rank + 1
+```
+
+#### Time Complexity
+A sequence of $m$ operations on $n$ elements takes $O(m \cdot \alpha(n))$ time, where $\alpha(n)$ is the extremely slow-growing **Inverse Ackermann Function** ($\alpha(n) \le 4$ for all practical universe sizes $n \le 10^{80}$). Amortized cost per operation is $\Theta(1)$.
 
 ---
 
-## 20. Exam-Oriented Review
+## 12. Interactive Sorting & Algorithm Visualizer Widget
 
-1. Explain the Divide and Conquer strategy and write down its general time recurrence template.
-2. Solve the recurrence $T(n) = 9T(n/3) + n$ using the Master Method. Show all steps.
-3. Define the three cases of the Master Theorem formally.
-4. Solve the homogeneous recurrence $T(n) = T(n-1) + 2T(n-2)$ given $T(0)=0, T(1)=1$.
-5. When does the worst-case scenario occur in Quick Sort, and what is its recurrence relation?
-6. Compare Merge Sort and Quick Sort in terms of time complexity, space complexity, and stability.
-7. Explain the steps of the Substitution Method. Verify that $T(n) \le c n \log n$ is a solution for $T(n) = 2T(n/2) + n$.
-8. How does Strassen’s Matrix Multiplication improve upon the simple divide-and-conquer approach? Provide its recurrence and time complexity.
-9. Explain Karatsuba's Large Integer Multiplication algorithm. Why is it faster than the traditional method?
-10. Apply the Recurrence Tree method to solve $T(n) = 2T(n/2) + n$. Show the sum of costs at all levels.
-11. Solve the non-homogeneous recurrence $T(n) - 2T(n-1) + T(n-2) = 1$.
-12. Why can't the Master Method be applied to $T(n) = 2T(n/2) + n \log n$? Explain the gap.
-13. Write the pseudocode for Binary Search (recursive). Derive its time complexity.
-14. Explain Hoare's partition algorithm for Quick Sort with a step-by-step trace on an example array.
-15. By changing variables, solve $T(n) = 2T(\sqrt{n}) + \log n$.
+<iframe srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<style>
+  body { font-family: system-ui, sans-serif; background: #181825; color: #cdd6f4; margin: 0; padding: 15px; }
+  h3 { color: #89b4fa; margin-top: 0; }
+  .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; align-items: center; }
+  input, button, select { background: #313244; color: #cdd6f4; border: 1px solid #45475a; padding: 8px 12px; border-radius: 6px; font-size: 14px; }
+  button { background: #89b4fa; color: #11111b; font-weight: bold; cursor: pointer; border: none; }
+  button:hover { background: #b4befe; }
+  .bar-container { display: flex; align-items: flex-end; height: 180px; gap: 4px; background: #1e1e2e; padding: 10px; border-radius: 8px; border: 1px solid #313244; }
+  .bar { flex: 1; background: #89b4fa; text-align: center; font-size: 10px; color: #11111b; border-radius: 4px 4px 0 0; transition: height 0.2s, background 0.2s; }
+  .active { background: #f38ba8 !important; }
+  .sorted { background: #a6e3a1 !important; }
+  .log { margin-top: 10px; font-family: monospace; font-size: 12px; color: #fab387; background: #11111b; padding: 8px; border-radius: 6px; height: 40px; overflow-y: auto; }
+</style>
+</head>
+<body>
+<h3>Interactive Divide & Conquer Sorting Visualizer</h3>
+<div class='controls'>
+  <label>Array: <input type='text' id='arrayInput' value='38, 27, 43, 3, 9, 82, 10' style='width: 180px;'></label>
+  <button onclick='resetArray()'>Reset</button>
+  <button onclick='runMergeSort()'>Merge Sort</button>
+  <button onclick='runQuickSort()'>Quick Sort</button>
+</div>
+<div class='bar-container' id='bars'></div>
+<div class='log' id='logBox'>Status: Ready to visualize.</div>
+
+<script>
+let array = [];
+function log(msg) { document.getElementById('logBox').innerText = msg; }
+
+function resetArray() {
+  let val = document.getElementById('arrayInput').value;
+  array = val.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  renderBars();
+  log('Array reset successfully.');
+}
+
+function renderBars(activeIndices = [], sortedIndices = []) {
+  const container = document.getElementById('bars');
+  container.innerHTML = '';
+  let max = Math.max(...array, 1);
+  array.forEach((val, idx) => {
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.height = (val / max * 100) + '%';
+    bar.innerText = val;
+    if (activeIndices.includes(idx)) bar.classList.add('active');
+    if (sortedIndices.includes(idx)) bar.classList.add('sorted');
+    container.appendChild(bar);
+  });
+}
+
+function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+async function runMergeSort() {
+  log('Starting Merge Sort...');
+  await mergeSortHelper(0, array.length - 1);
+  renderBars([], array.map((_, i) => i));
+  log('Merge Sort Complete!');
+}
+
+async function mergeSortHelper(l, r) {
+  if (l >= r) return;
+  let m = Math.floor((l + r) / 2);
+  await mergeSortHelper(l, m);
+  await mergeSortHelper(m + 1, r);
+  await merge(l, m, r);
+}
+
+async function merge(l, m, r) {
+  let left = array.slice(l, m + 1);
+  let right = array.slice(m + 1, r + 1);
+  let i = 0, j = 0, k = l;
+  while (i &lt; left.length && j &lt; right.length) {
+    renderBars([k]);
+    await sleep(250);
+    if (left[i] &lt;= right[j]) { array[k] = left[i++]; }
+    else { array[k] = right[j++]; }
+    k++;
+  }
+  while (i &lt; left.length) { array[k++] = left[i++]; }
+  while (j &lt; right.length) { array[k++] = right[j++]; }
+  renderBars([l, r]);
+  await sleep(200);
+}
+
+async function runQuickSort() {
+  log('Starting Quick Sort...');
+  await quickSortHelper(0, array.length - 1);
+  renderBars([], array.map((_, i) => i));
+  log('Quick Sort Complete!');
+}
+
+async function quickSortHelper(low, high) {
+  if (low &lt; high) {
+    let pi = await partition(low, high);
+    await quickSortHelper(low, pi - 1);
+    await quickSortHelper(pi + 1, high);
+  }
+}
+
+async function partition(low, high) {
+  let pivot = array[high];
+  let i = low - 1;
+  for (let j = low; j &lt; high; j++) {
+    renderBars([j, high]);
+    await sleep(250);
+    if (array[j] &lt; pivot) {
+      i++;
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  [array[i + 1], array[high]] = [array[high], array[i + 1]];
+  renderBars([i + 1]);
+  await sleep(250);
+  return i + 1;
+}
+
+resetArray();
+</script>
+</body>
+</html>
+" width="100%" height="320" style="border:1px solid #45475a; border-radius:8px; margin-top:15px;"></iframe>
+
+---
+
+## 13. Comparison Table: Recurrence Solving Methods
+
+| Method | Applicable Recurrence Types | Key Strength | Limitation / Drawback |
+| :--- | :--- | :--- | :--- |
+| **Substitution** | Any recurrence | Rigorous formal inductive proof | Requires an accurate initial guess |
+| **Homogeneous** | $a_0 T(n) + \dots + a_k T(n-k) = 0$ | Exact closed-form solution via roots | Restricted to $f(n) = 0$ and constant steps |
+| **Non-Homogeneous** | $a_0 T(n) + \dots + a_k T(n-k) = f(n)$ | Handles polynomial and exponential $f(n)$ | Finding particular solution guess can be tedious |
+| **Change of Variable** | Non-linear terms like $T(\sqrt{n})$ | Converts non-linear inputs to linear | Requires algebraic ingenuity |
+| **Master Theorem (D&C)** | $T(n) = a T(n/b) + f(n)$ | Cookbook solution for D&C algorithms | Does not apply if $f(n)$ falls in gap or non-polynomial |
+| **Master Theorem (S&C)** | $T(n) = a T(n-b) + f(n)$ | Instant bounds for subtract recurrences | Only linear step reduction |
+| **Recurrence Tree** | Any D&C recurrence | Highly intuitive visual summation | Requires careful geometric series summation |
+
+---
+
+## 14. Formula Sheet
+
+- **Master Theorem (Divide & Conquer):** $T(n) = a T(n/b) + f(n)$
+  - Case 1: $f(n) = O(n^{\log_b a - \epsilon}) \implies T(n) = \Theta(n^{\log_b a})$
+  - Case 2: $f(n) = \Theta(n^{\log_b a} \log^k n) \implies T(n) = \Theta(n^{\log_b a} \log^{k+1} n)$
+  - Case 3: $f(n) = \Omega(n^{\log_b a + \epsilon}) \text{ and } a f(n/b) \le c f(n) \implies T(n) = \Theta(f(n))$
+- **Karatsuba Integer Multiplication:** $T(n) = 3 T(n/2) + O(n) \implies \Theta(n^{\log_2 3}) \approx \Theta(n^{1.585})$
+- **Strassen's Matrix Multiplication:** $T(n) = 7 T(n/2) + \Theta(n^2) \implies \Theta(n^{\log_2 7}) \approx \Theta(n^{2.807})$
+- **Median-of-Medians Selection:** $T(n) \le T(n/5) + T(7n/10) + O(n) \implies \Theta(n)$
+- **Binary Powering:** $T(n) = T(n/2) + O(1) \implies \Theta(\log n)$
+- **Union-Find with Rank & Path Compression:** $O(m \cdot \alpha(n)) \approx \Theta(1)$ amortized per operation.
+
+---
+
+## 15. Definition Sheet
+
+1. **Recurrence Relation:** An equation or inequality that defines a function in terms of its values on smaller inputs.
+2. **Homogeneous Recurrence:** A linear recurrence relation with no external non-recursive forcing function ($f(n) = 0$).
+3. **Master Theorem:** A cookbook method for determining asymptotic bounds for recurrences arising in divide-and-conquer and subtract-and-conquer algorithms.
+4. **Interval Tree:** A self-balancing search tree data structure augmented to store intervals and efficiently query overlapping intervals in $O(\log n)$ time.
+5. **Disjoint Set Structure (Union-Find):** A data structure that maintains non-overlapping sets supporting `FIND-SET` with path compression and `UNION` by rank in near-constant amortized time.
+6. **Median-of-Medians:** A deterministic algorithm that selects the $k$-th smallest element in an array in guaranteed worst-case $O(n)$ time.
+7. **Modular Exponentiation:** An algorithm to efficiently compute $(a^n) \bmod m$ in $O(\log n)$ steps using successive squaring while avoiding numerical overflow.
+
+---
+
+## 16. Exam-Oriented Review
+
+1. **Solve by Substitution:** Prove that $T(n) = 2 T(\lfloor n/2 \rfloor) + n$ has solution $T(n) = O(n \log n)$.
+2. **Characteristic Roots:** Solve $T(n) - 5 T(n-1) + 6 T(n-2) = 0$ given $T(0) = 1, T(1) = 4$.
+3. **Non-Homogeneous Solution:** Find the general solution for $T(n) - 2 T(n-1) = 3^n$.
+4. **Change of Variable:** Solve $T(n) = 2 T(\sqrt{n}) + \log_2 n$ step-by-step.
+5. **Master Theorem Application:** Solve (a) $T(n) = 4 T(n/2) + n$, (b) $T(n) = 4 T(n/2) + n^2$, (c) $T(n) = 4 T(n/2) + n^3$.
+6. **Recurrence Tree Trace:** Draw the recurrence tree and evaluate the total cost for $T(n) = 3 T(n/4) + c n^2$.
+7. **Karatsuba Algorithm:** Explain how Karatsuba's algorithm multiplies two 4-digit numbers with only 3 recursive multiplications.
+8. **Median-of-Medians:** Why are elements divided into groups of 5 rather than groups of 3 in the deterministic linear selection algorithm? Show the derivation of the $T(n/5) + T(7n/10) + O(n)$ recurrence.
+9. **Strassen's Algorithm:** Write down the 7 formulas $M_1 \dots M_7$ for Strassen's matrix multiplication and show how $C_{11}, C_{12}, C_{21}, C_{22}$ are reconstructed.
+10. **Modular Exponentiation:** Compute $(3^{13}) \bmod 7$ using Divide & Conquer binary exponentiation.
+11. **Interval Tree Query:** Given an Interval Tree, explain the condition under which `Interval-Search` safely branches to the left child.
+12. **Disjoint Sets Optimization:** Explain how Path Compression and Union by Rank achieve near $O(1)$ amortized time per operation.

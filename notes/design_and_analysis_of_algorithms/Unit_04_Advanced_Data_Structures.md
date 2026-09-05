@@ -1,16 +1,19 @@
-# Chapter 4: Unit 4 — Advanced Data Structures & Amortized Analysis
+# Chapter 4: Advanced Data Structures & Amortized Analysis
 
 > **Course Code:** 3CS501CC24
-> **Focus:** Red-Black Trees, Binomial Heaps, Fibonacci Heaps & Amortized Analysis (Comprehensive Exam & Problem-Solving Master Guide with Colorful Mermaid Diagrams)
+> **Focus:** Red-Black Trees, Interval Trees, Binomial Heaps, Fibonacci Heaps, Disjoint Set Structures & Amortized Analysis
 
 ---
 
 ## 1. Chapter Overview
+
 This unit covers advanced data structures that guarantee logarithmic or constant amortized time complexities:
 1. **Red-Black Trees (RBT):** Self-balancing binary search trees ensuring $O(\log n)$ worst-case bounds on search, insertion, and deletion.
-2. **Binomial Heaps:** Forest of Binomial Trees supporting $O(\log n)$ worst-case merge/union operations.
-3. **Fibonacci Heaps:** Lazy mergeable heaps supporting $O(1)$ amortized insertion, union, and decrease-key operations.
-4. **Amortized Analysis:** Evaluating the average cost per operation over a sequence using Aggregate, Accounting, and Potential methods.
+2. **Interval Trees:** Augmented self-balancing search trees for dynamic interval management and overlap queries in $O(\log n)$ time.
+3. **Binomial Heaps:** Forest of Binomial Trees supporting $O(\log n)$ worst-case merge/union operations.
+4. **Fibonacci Heaps:** Lazy mergeable heaps supporting $O(1)$ amortized insertion, union, and decrease-key operations.
+5. **Disjoint Set Structures:** Union-Find data structures with Path Compression and Union by Rank achieving $O(\alpha(n))$ amortized time.
+6. **Amortized Analysis:** Evaluating average cost per operation over a sequence using Aggregate, Accounting, and Potential methods.
 
 ---
 
@@ -81,494 +84,256 @@ flowchart TD
 
 ---
 
-### Red-Black Tree Insertion: All 3 Cases with Diagrams
+### Red-Black Tree Insertion: All 3 Cases
 
 When inserting node $Z$:
 1. Insert $Z$ using standard BST insertion and color $Z$ **RED**.
-2. If $Z$ is root $\to$ Recolor $Z$ to **BLACK**.
-3. If $Z$'s parent $P$ is **RED** $\to$ Red-Red Conflict! Look at $Z$'s **Uncle $U$** (sibling of $P$):
+2. If $Z$ is root $\implies$ Recolor $Z$ to **BLACK**.
+3. If $Z$'s parent $P$ is **RED** $\implies$ Red-Red Conflict! Look at $Z$'s **Uncle $U$**:
 
 #### Case 1: Uncle $U$ is RED (Recoloring)
-- **Condition:** Both Parent $P$ and Uncle $U$ are RED.
-- **Steps:**
-  1. Recolor Parent $P \to$ **BLACK**.
-  2. Recolor Uncle $U \to$ **BLACK**.
-  3. Recolor Grandparent $G \to$ **RED**.
-  4. Set $Z = G$ and repeat check up the tree.
+- **Steps:** Recolor Parent $P \to$ **BLACK**, Uncle $U \to$ **BLACK**, Grandparent $G \to$ **RED**. Set $Z = G$ and repeat checks.
 
-```mermaid
-flowchart TD
-    subgraph "Case 1 Before: Uncle U is RED"
-        G1["G (BLACK)"] --- P1["P (RED)"]
-        G1 --- U1["U (RED)"]
-        P1 --- Z1["Z (RED)"]
+#### Case 2: Uncle $U$ is BLACK/NIL & $Z$ is Triangle Child (Rotation to Line)
+- **Steps:** Rotate Parent $P$ away from $Z$ (e.g., Left-Rotate around $P$). Converts into Case 3 (Line).
 
-        style G1 fill:#1e1e2e,stroke:#333,color:#fff
-        style P1 fill:#f38ba8,stroke:#333,color:#11111b
-        style U1 fill:#f38ba8,stroke:#333,color:#11111b
-        style Z1 fill:#f38ba8,stroke:#333,color:#11111b
-    end
-
-    subgraph "Case 1 After: Recolored"
-        G2["G (RED)"] --- P2["P (BLACK)"]
-        G2 --- U2["U (BLACK)"]
-        P2 --- Z2["Z (RED)"]
-
-        style G2 fill:#f38ba8,stroke:#333,color:#11111b
-        style P2 fill:#1e1e2e,stroke:#333,color:#fff
-        style U2 fill:#1e1e2e,stroke:#333,color:#fff
-        style Z2 fill:#f38ba8,stroke:#333,color:#11111b
-    end
-```
-
-#### Case 2: Uncle $U$ is BLACK/NIL & $Z$ is a Triangle Child (Rotation to Line)
-- **Condition:** Uncle $U$ is BLACK or NIL, $P$ is Left Child of $G$, and $Z$ is Right Child of $P$ (or vice-versa).
-- **Steps:**
-  1. Rotate Parent $P$ away from $Z$ (e.g. Left-Rotate around $P$).
-  2. Set $Z = P$. $Z$ and $P$ are now in **Case 3 (Line)** shape.
-
-```mermaid
-flowchart TD
-    subgraph "Case 2 Before: Triangle Shape (Uncle BLACK/NIL)"
-        G1["G (BLACK)"] --- P1["P (RED)"]
-        G1 --- U1["U (NIL BLACK)"]
-        P1 --- Z1["Z (RED)"]
-
-        style G1 fill:#1e1e2e,stroke:#333,color:#fff
-        style P1 fill:#f38ba8,stroke:#333,color:#11111b
-        style U1 fill:#1e1e2e,stroke:#333,color:#fff
-        style Z1 fill:#f38ba8,stroke:#333,color:#11111b
-    end
-
-    subgraph "Case 2 After: Rotated P to Line Shape (Case 3)"
-        G2["G (BLACK)"] --- Z2["Z (RED)"]
-        G2 --- U2["U (NIL BLACK)"]
-        Z2 --- P2["P (RED)"]
-
-        style G2 fill:#1e1e2e,stroke:#333,color:#fff
-        style Z2 fill:#f38ba8,stroke:#333,color:#11111b
-        style U2 fill:#1e1e2e,stroke:#333,color:#fff
-        style P2 fill:#f38ba8,stroke:#333,color:#11111b
-    end
-```
-
-#### Case 3: Uncle $U$ is BLACK/NIL & $Z$ is a Line Child (Rotation & Recoloring)
-- **Condition:** Uncle $U$ is BLACK or NIL, $P$ is Left Child of $G$, and $Z$ is Left Child of $P$ (or vice-versa).
-- **Steps:**
-  1. Rotate Grandparent $G$ away from $P$ (e.g. Right-Rotate around $G$).
-  2. Recolor Parent $P \to$ **BLACK**.
-  3. Recolor Grandparent $G \to$ **RED**.
-  4. Red-Red conflict is fully resolved!
-
-```mermaid
-flowchart TD
-    subgraph "Case 3 Before: Line Shape (Uncle BLACK/NIL)"
-        G1["G (BLACK)"] --- P1["P (RED)"]
-        G1 --- U1["U (NIL BLACK)"]
-        P1 --- Z1["Z (RED)"]
-
-        style G1 fill:#1e1e2e,stroke:#333,color:#fff
-        style P1 fill:#f38ba8,stroke:#333,color:#11111b
-        style U1 fill:#1e1e2e,stroke:#333,color:#fff
-        style Z1 fill:#f38ba8,stroke:#333,color:#11111b
-    end
-
-    subgraph "Case 3 After: Right-Rotate G & Recolor"
-        P2["P (BLACK)"] --- Z2["Z (RED)"]
-        P2 --- G2["G (RED)"]
-        G2 --- U2["U (NIL BLACK)"]
-
-        style P2 fill:#1e1e2e,stroke:#333,color:#fff
-        style Z2 fill:#f38ba8,stroke:#333,color:#11111b
-        style G2 fill:#f38ba8,stroke:#333,color:#11111b
-        style U2 fill:#1e1e2e,stroke:#333,color:#fff
-    end
-```
+#### Case 3: Uncle $U$ is BLACK/NIL & $Z$ is Line Child (Rotation & Recoloring)
+- **Steps:** Rotate Grandparent $G$ away from $P$ (e.g., Right-Rotate around $G$). Recolor Parent $P \to$ **BLACK**, Grandparent $G \to$ **RED**.
 
 ---
 
-### Red-Black Tree Deletion: All 4 Cases (`RB-DELETE-FIXUP`)
-
+### Red-Black Tree Deletion (`RB-DELETE-FIXUP`)
 When a BLACK node is deleted, its path loses 1 black node, creating a **Double Black** on replacement $X$. Let $W$ be $X$'s Sibling:
-
-#### Case 1: Sibling $W$ is RED
-- **Condition:** $W.\text{color} == \text{RED}$.
-- **Steps:**
-  1. Recolor Sibling $W \to$ **BLACK**.
-  2. Recolor Parent $X.p \to$ **RED**.
-  3. Left-Rotate($X.p$).
-  4. New sibling is now BLACK $\to$ Proceed to Case 2, 3, or 4.
-
-```mermaid
-flowchart TD
-    subgraph "Case 1 Before: Sibling W is RED"
-        P1["X.p (BLACK)"] --- X1["X (Double Black)"]
-        P1 --- W1["W (RED)"]
-        W1 --- C1["Subtree A (BLACK)"]
-        W1 --- C2["Subtree B (BLACK)"]
-
-        style P1 fill:#1e1e2e,stroke:#333,color:#fff
-        style X1 fill:#a6e3a1,stroke:#333,color:#11111b
-        style W1 fill:#f38ba8,stroke:#333,color:#11111b
-        style C1 fill:#1e1e2e,stroke:#333,color:#fff
-        style C2 fill:#1e1e2e,stroke:#333,color:#fff
-    end
-
-    subgraph "Case 1 After: Recolor and Left-Rotate(X.p)"
-        W2["W (BLACK)"] --- P2["X.p (RED)"]
-        W2 --- C22["Subtree B (BLACK)"]
-        P2 --- X2["X (Double Black)"]
-        P2 --- C12["Subtree A (BLACK)"]
-
-        style W2 fill:#1e1e2e,stroke:#333,color:#fff
-        style P2 fill:#f38ba8,stroke:#333,color:#11111b
-        style X2 fill:#a6e3a1,stroke:#333,color:#11111b
-        style C12 fill:#1e1e2e,stroke:#333,color:#fff
-        style C22 fill:#1e1e2e,stroke:#333,color:#fff
-    end
-```
-
-#### Case 2: Sibling $W$ is BLACK and Both Children of $W$ are BLACK
-- **Condition:** $W.\text{color} == \text{BLACK}$, $W.\text{left}.\text{color} == \text{BLACK}$, $W.\text{right}.\text{color} == \text{BLACK}$.
-- **Steps:**
-  1. Recolor Sibling $W \to$ **RED**.
-  2. Move Double Black up: Set $X = X.p$.
-  3. If $X.p$ was RED, recolor $X \to$ **BLACK** and finish; otherwise repeat loop.
-
-```mermaid
-flowchart TD
-    subgraph "Case 2 Before: Sibling W & Children BLACK"
-        P1["X.p (Parent)"] --- X1["X (Double Black)"]
-        P1 --- W1["W (BLACK)"]
-        W1 --- C1["Left Child (BLACK)"]
-        W1 --- C2["Right Child (BLACK)"]
-
-        style P1 fill:#fab387,stroke:#333,color:#11111b
-        style X1 fill:#a6e3a1,stroke:#333,color:#11111b
-        style W1 fill:#1e1e2e,stroke:#333,color:#fff
-        style C1 fill:#1e1e2e,stroke:#333,color:#fff
-        style C2 fill:#1e1e2e,stroke:#333,color:#fff
-    end
-
-    subgraph "Case 2 After: W becomes RED, Double Black moves to X.p"
-        P2["X.p (New X: Double Black)"] --- X2["X (Single Black)"]
-        P2 --- W2["W (RED)"]
-        W2 --- C12["Left Child (BLACK)"]
-        W2 --- C22["Right Child (BLACK)"]
-
-        style P2 fill:#a6e3a1,stroke:#333,color:#11111b
-        style X2 fill:#1e1e2e,stroke:#333,color:#fff
-        style W2 fill:#f38ba8,stroke:#333,color:#11111b
-        style C12 fill:#1e1e2e,stroke:#333,color:#fff
-        style C22 fill:#1e1e2e,stroke:#333,color:#fff
-    end
-```
-
-#### Case 3: Sibling $W$ is BLACK, Inner Child is RED, Outer Child is BLACK
-- **Condition:** $W.\text{left}.\text{color} == \text{RED}, W.\text{right}.\text{color} == \text{BLACK}$.
-- **Steps:**
-  1. Recolor $W.\text{left} \to$ **BLACK**.
-  2. Recolor Sibling $W \to$ **RED**.
-  3. Right-Rotate($W$).
-  4. Transforms into **Case 4**.
-
-```mermaid
-flowchart TD
-    subgraph "Case 3 Before: Inner Child RED, Outer Child BLACK"
-        P1[X.p] --- X1["X (Double Black)"]
-        P1 --- W1["W (BLACK)"]
-        W1 --- WL1["W.left (RED)"]
-        W1 --- WR1["W.right (BLACK)"]
-
-        style P1 fill:#fab387,stroke:#333,color:#11111b
-        style X1 fill:#a6e3a1,stroke:#333,color:#11111b
-        style W1 fill:#1e1e2e,stroke:#333,color:#fff
-        style WL1 fill:#f38ba8,stroke:#333,color:#11111b
-        style WR1 fill:#1e1e2e,stroke:#333,color:#fff
-    end
-
-    subgraph "Case 3 After: Right-Rotate(W) to Case 4"
-        P2[X.p] --- X2["X (Double Black)"]
-        P2 --- WL2["New W: W.left (BLACK)"]
-        WL2 --- Sub1[Subtree]
-        WL2 --- W2["Old W (RED)"]
-        W2 --- WR2["W.right (BLACK)"]
-
-        style P2 fill:#fab387,stroke:#333,color:#11111b
-        style X2 fill:#a6e3a1,stroke:#333,color:#11111b
-        style WL2 fill:#1e1e2e,stroke:#333,color:#fff
-        style Sub1 fill:#1e1e2e,stroke:#333,color:#fff
-        style W2 fill:#f38ba8,stroke:#333,color:#11111b
-        style WR2 fill:#1e1e2e,stroke:#333,color:#fff
-    end
-```
-
-#### Case 4: Sibling $W$ is BLACK and Outer Child is RED
-- **Condition:** $W.\text{right}.\text{color} == \text{RED}$.
-- **Steps:**
-  1. Recolor Sibling $W \to$ Parent $X.p$'s color.
-  2. Recolor Parent $X.p \to$ **BLACK**.
-  3. Recolor $W.\text{right} \to$ **BLACK**.
-  4. Left-Rotate($X.p$).
-  5. Set $X = T.\text{root}$ $\implies$ **Double Black fully eliminated!**
-
-```mermaid
-flowchart TD
-    subgraph "Case 4 Before: Outer Child is RED"
-        P1["X.p (Parent)"] --- X1["X (Double Black)"]
-        P1 --- W1["W (BLACK)"]
-        W1 --- WL1[W.left]
-        W1 --- WR1["W.right (RED)"]
-
-        style P1 fill:#fab387,stroke:#333,color:#11111b
-        style X1 fill:#a6e3a1,stroke:#333,color:#11111b
-        style W1 fill:#1e1e2e,stroke:#333,color:#fff
-        style WL1 fill:#1e1e2e,stroke:#333,color:#fff
-        style WR1 fill:#f38ba8,stroke:#333,color:#11111b
-    end
-
-    subgraph "Case 4 After: Recolor and Left-Rotate(X.p) - Double Black Resolved"
-        W2["W (Parent Color)"] --- P2["X.p (BLACK)"]
-        W2 --- WR2["W.right (BLACK)"]
-        P2 --- X2["X (Single Black)"]
-        P2 --- WL2[W.left]
-
-        style W2 fill:#fab387,stroke:#333,color:#11111b
-        style P2 fill:#1e1e2e,stroke:#333,color:#fff
-        style WR2 fill:#1e1e2e,stroke:#333,color:#fff
-        style X2 fill:#1e1e2e,stroke:#333,color:#fff
-        style WL2 fill:#1e1e2e,stroke:#333,color:#fff
-    end
-```
+- **Case 1:** Sibling $W$ is RED $\implies$ Recolor $W \to$ BLACK, Parent $X.p \to$ RED, Left-Rotate($X.p$).
+- **Case 2:** Sibling $W$ is BLACK and both children of $W$ are BLACK $\implies$ Recolor $W \to$ RED, move Double Black up to $X.p$.
+- **Case 3:** Sibling $W$ is BLACK, Inner Child is RED, Outer Child is BLACK $\implies$ Recolor $W.\text{left} \to$ BLACK, $W \to$ RED, Right-Rotate($W$). Converts to Case 4.
+- **Case 4:** Sibling $W$ is BLACK and Outer Child is RED $\implies$ Recolor $W \to$ Parent $X.p$'s color, $X.p \to$ BLACK, $W.\text{right} \to$ BLACK, Left-Rotate($X.p$). Double Black fully resolved!
 
 ---
 
-## 3. Binomial Heaps: Step-by-Step Operations & Cases
+## 3. Interval Trees: Step-by-Step Operations & Case Guide
+
+An **Interval Tree** is an augmented Red-Black Tree that stores dynamic intervals $[i.low, i.high]$.
+
+### Node Structure & Attributes
+Each node $x$ contains:
+1. $x.interval = [x.low, x.high]$
+2. $x.key = x.interval.low$ (Ordered by low endpoint in BST)
+3. $x.max = \max(x.interval.high, x.left.max, x.right.max)$ (Max high endpoint in subtree)
+
+```mermaid
+flowchart TD
+    subgraph "Interval Tree Node Representation"
+        Root["[16, 21] | max=30"] --- L["[8, 9] | max=23"]
+        Root --- R["[25, 30] | max=30"]
+        L --- LL["[5, 8] | max=8"]
+        L --- LR["[15, 23] | max=23"]
+        R --- RL["[17, 19] | max=19"]
+        R --- RR["[26, 26] | max=26"]
+
+        style Root fill:#89b4fa,stroke:#333,color:#11111b
+        style L fill:#a6e3a1,stroke:#333,color:#11111b
+        style R fill:#a6e3a1,stroke:#333,color:#11111b
+    end
+```
+
+### Core Operations
+
+#### 1. Overlap Check Function
+Two intervals $i$ and $i'$ overlap if:
+
+$$
+i.low \le i'.high \quad \text{and} \quad i'.low \le i.high
+$$
+
+#### 2. Interval Search Algorithm (`INTERVAL-SEARCH(T, i)`)
+Finds an interval in $T$ overlapping with target interval $i$:
+
+```text
+Algorithm INTERVAL-SEARCH(T, i)
+    x = T.root
+    while x != NIL and NOT OVERLAP(x.interval, i) do
+        if x.left != NIL and x.left.max >= i.low then
+            x = x.left
+        else
+            x = x.right
+    return x
+```
+
+- **Proof of Branching Logic:**
+  - If `x.left` $\neq \text{NIL}$ and `x.left.max` $\ge i.low$, then the left subtree is guaranteed to contain an overlapping interval if any exists in $T$.
+  - If `x.left.max` $< i.low$, then no interval in the left subtree can possibly overlap $i$ because every high endpoint in the left subtree is $< i.low$. Going right is necessary.
+
+#### 3. Insertion & Rotation Maintenance
+- Insert node $z$ using $z.interval.low$ as the key into the Red-Black Tree.
+- Set $z.max = z.interval.high$.
+- During upward traversal and rotations (Left-Rotate / Right-Rotate), update $x.max$ for affected nodes:
+
+$$
+x.max = \max(x.interval.high, x.left.max, x.right.max)
+$$
+
+- **Complexity:** All operations (Insert, Delete, Search) run in $O(\log n)$ worst-case time.
+
+---
+
+## 4. Binomial Heaps: Structure & Operations
 
 ### Binomial Tree $B_k$ Properties
-1. $B_k$ has $2^k$ total nodes.
-2. Height of $B_k$ is $k$.
-3. Root degree of $B_k$ is $k$.
-4. $B_k$ is formed by making one $B_{k-1}$ the left child of another $B_{k-1}$.
+1. $B_k$ has $2^k$ total nodes and height $k$.
+2. Root degree of $B_k$ is $k$.
+3. $B_k$ is formed by linking two $B_{k-1}$ trees (smaller root becomes parent).
 
 ```mermaid
 flowchart TD
-    subgraph "Binomial Trees B0, B1, B2, B3"
-        subgraph "B0 (Degree 0, 1 Node)"
+    subgraph "Binomial Trees B0, B1, B2"
+        subgraph "B0"
             r0[10]
-            style r0 fill:#89b4fa,stroke:#333,color:#11111b
         end
-        subgraph "B1 (Degree 1, 2 Nodes)"
+        subgraph "B1"
             r1[12] --- c11[25]
-            style r1 fill:#89b4fa,stroke:#333,color:#11111b
-            style c11 fill:#a6e3a1,stroke:#333,color:#11111b
         end
-        subgraph "B2 (Degree 2, 4 Nodes)"
+        subgraph "B2"
             r2[15] --- c21[28]
             r2 --- c22[33]
             c21 --- c211[41]
-            style r2 fill:#89b4fa,stroke:#333,color:#11111b
-            style c21 fill:#a6e3a1,stroke:#333,color:#11111b
-            style c22 fill:#a6e3a1,stroke:#333,color:#11111b
-            style c211 fill:#f9e2af,stroke:#333,color:#11111b
         end
     end
 ```
 
----
-
-### Binomial Heap Union/Merge Algorithm (All Cases)
-
-Given two Binomial Heaps $H_1$ and $H_2$:
-1. **Merge Root Lists:** Merge root lists in ascending order of tree degree.
-2. **Consolidate Equal Degrees:** Traverse root list with pointers `prev`, `curr`, `next`.
-   - **Case A (Degrees Different):** `curr.degree != next.degree` $\implies$ Advance pointers.
-   - **Case B (3 Equal Degrees):** `curr.degree == next.degree == next.next.degree` $\implies$ Advance pointers.
-   - **Case C (2 Equal Degrees, `curr.key <= next.key`):** Link `next` under `curr` $\implies$ `curr` becomes parent of `next`. Degree of `curr` becomes $k+1$.
-   - **Case D (2 Equal Degrees, `curr.key &gt; next.key`):** Link `curr` under `next` $\implies$ `next` becomes parent of `curr`.
-
-```mermaid
-flowchart TD
-    subgraph "Linking Two B2 Trees (Roots 12 and 18)"
-        rA["12 (Degree 2)"] --- cA1[20]
-        rA --- cA2[25]
-
-        rB["18 (Degree 2)"] --- cB1[30]
-        rB --- cB2[35]
-
-        style rA fill:#a6e3a1,stroke:#333,color:#11111b
-        style rB fill:#f38ba8,stroke:#333,color:#11111b
-    end
-
-    subgraph "Merged B3 Tree (Root 12)"
-        rRes["12 (Degree 3)"] --- rB2["18 (Degree 2)"]
-        rRes --- cA12[20]
-        rRes --- cA22[25]
-        rB2 --- cB12[30]
-        rB2 --- cB22[35]
-
-        style rRes fill:#a6e3a1,stroke:#333,color:#11111b
-        style rB2 fill:#f38ba8,stroke:#333,color:#11111b
-    end
-```
+### Union Algorithm
+1. Merge root lists of $H_1$ and $H_2$ in ascending order of degree.
+2. Link trees with duplicate degrees using pointers `prev`, `curr`, `next`:
+   - If `curr.key <= next.key`: Link `next` under `curr`.
+   - If `curr.key` $> \text{next.key}$: Link `curr` under `next`.
+- **Complexity:** $O(\log n)$ worst-case.
 
 ---
 
-### Step-by-Step Solved Problem: Binomial Heap Operations
+## 5. Fibonacci Heaps: Lazy Operations & Amortized Bounds
 
-#### 1. Insert(H, x)
-- Create a new single-node Binomial Heap $H'$ containing $x$ (a $B_0$ tree).
-- Call `Binomial-Heap-Union(H, H')`.
-- **Complexity:** $O(\log n)$.
-
-#### 2. Extract-Min(H)
-- Find root $x$ with minimum key in root list.
-- Remove $x$ from root list.
-- Reverse the order of $x$'s child subtrees to form a new Binomial Heap $H''$.
-- Call `Binomial-Heap-Union(H, H'')`.
-- **Complexity:** $O(\log n)$.
-
-```mermaid
-flowchart TD
-    subgraph "Extract-Min Flow"
-        Step1["1. Search Root List -> Locate Min Root X"] --> Step2["2. Remove X from Root List"]
-        Step2 --> Step3["3. Reverse X's Children to form new Heap H'"]
-        Step3 --> Step4["4. Call Binomial-Heap-Union(H, H'')"]
-    end
-```
-
-#### 3. Decrease-Key(H, x, k)
-- Set $x.\text{key} = k$.
-- While $x$ is not root and $x.\text{key} < x.\text{parent}.\text{key}$:
-  - Swap key and satellite data between $x$ and $x.\text{parent}$.
-  - Set $x = x.\text{parent}$.
-- **Complexity:** $O(\log n)$.
-
----
-
-## 4. Fibonacci Heaps: Step-by-Step Operations & Cases
-
-### Key Attributes
-- **Lazy Structure:** Trees are unstructured in root list until `Extract-Min`.
-- **Min Pointer:** Points directly to root with minimum key.
-- **Marked Attribute:** `mark[x]` is `TRUE` if node $x$ lost a child since $x$ was made a child of another node.
+### Key Features
+- **Lazy Structure:** Trees are unstructured in circular root list until `Extract-Min`.
+- **Marked Bit:** `mark[x]` tracks whether node $x$ lost a child since $x$ was made a child of another node.
 
 ```mermaid
 flowchart TD
     subgraph "Fibonacci Heap Structure"
         minPtr["min pointer"] --> N3["3 (Min Root, Degree 2)"]
-
         N3 --- N17["17 (Degree 1)"]
         N3 --- N24["24 (Degree 0)"]
         N17 --- N30["30 (Degree 0)"]
-
         N3 <--> N7["7 (Root, Degree 0)"]
         N7 <--> N18["18 (Root, Degree 1, Marked)"]
         N18 --- N52["52 (Degree 0)"]
 
         style minPtr fill:#fab387,stroke:#333,color:#11111b
         style N3 fill:#a6e3a1,stroke:#333,color:#11111b
-        style N7 fill:#89b4fa,stroke:#333,color:#11111b
         style N18 fill:#f38ba8,stroke:#333,color:#11111b
     end
 ```
 
----
-
-### Step-by-Step Fibonacci Heap Operations
-
-#### 1. Insert(H, x) & Union(H1, H2)
-- **Insert:** Create node $x$, add $x$ to $H$'s root list, update `min` pointer if $x.\text{key} < \text{min}.\text{key}$. Amortized Cost = $O(1)$.
-- **Union:** Concatenate root lists of $H_1$ and $H_2$, update `min` pointer. Amortized Cost = $O(1)$.
-
-#### 2. Extract-Min(H) & Consolidation
-1. Remove `min` node $Z$ from root list.
-2. Add all children of $Z$ to root list.
-3. **Consolidate Root List:**
-   - Initialize Degree Table $A[0 \dots D(n)] = \text{NIL}$.
-   - For each node $x$ in root list:
-     - $d = x.\text{degree}$.
-     - While $A[d] \neq \text{NIL}$:
-       - $y = A[d]$ (another root with degree $d$).
-       - If $x.\text{key} > y.\text{key}$, swap $x$ and $y$.
-       - Link $y$ under $x$ (`Fibonacci-Heap-Link`).
-       - $A[d] = \text{NIL}, d = d + 1$.
-     - $A[d] = x$.
-4. Rebuild root list from $A[]$ and set `min` pointer. Amortized Cost = $O(\log n)$.
-
-```mermaid
-flowchart TD
-    subgraph "Fibonacci Extract-Min Consolidation Flow"
-        E1["Extract Min Z"] --> E2["Move Children of Z to Root List"]
-        E2 --> E3["Loop Nodes in Root List"]
-        E3 --> CheckA{"Is A[degree] occupied?"}
-        CheckA -- Yes --> Link["Link Roots: Larger Key becomes child of Smaller Key<br>Increment Degree -> Repeat Check"]
-        CheckA -- No --> Store["Store Root in A[degree]"]
-        Link --> CheckA
-        Store --> Done["Reconstruct Root List & Update min pointer"]
-    end
-```
-
-#### 3. Decrease-Key(H, x, k) & Cascading Cut
-1. Set $x.\text{key} = k$.
-2. If $x.\text{key} < x.\text{parent}.\text{key}$:
-   - **Cut(H, x, y):** Remove $x$ from child list of $y = x.\text{parent}$, add $x$ to root list, set $x.\text{mark} = \text{FALSE}$.
-   - **Cascading-Cut(H, y):**
-     - $z = y.\text{parent}$.
-     - If $y$ is not root:
-       - If $y.\text{mark} == \text{FALSE} \implies$ Set $y.\text{mark} = \text{TRUE}$.
-       - If $y.\text{mark} == \text{TRUE} \implies$ Cut $y$ from $z$, add $y$ to root list, recursively call `Cascading-Cut(H, z)`.
-
-```mermaid
-flowchart TD
-    subgraph "Cascading Cut Case Logic"
-        DK["Decrease-Key(x, k)"] --> CheckViol{"Is x.key < x.parent.key?"}
-        CheckViol -- No --> Valid["Heap Valid -> Done"]
-        CheckViol -- Yes --> CutX["Cut x from Parent P -> Move x to Root List -> Unmark x"]
-        CutX --> CheckP{"Is Parent P Marked?"}
-        CheckP -- "No (P is Unmarked)" --> MarkP["Mark P = TRUE -> Done"]
-        CheckP -- "Yes (P is Already Marked)" --> CutP["CASCADING CUT: Cut P from its Parent -> Move P to Root List -> Unmark P"]
-        CutP --> RecP["Recursively Apply Cascading Cut to P's Parent"]
-    end
-```
+### Key Operations & Amortized Costs
+1. **Insert & Union:** Add node / concatenate root lists in $\Theta(1)$ amortized time.
+2. **Extract-Min & Consolidation:** Remove min node, add children to root list, consolidate same-degree roots using array $A[0 \dots D(n)]$. Amortized time $O(\log n)$.
+3. **Decrease-Key & Cascading Cut:**
+   - If $x.key < x.parent.key$, `CUT(x, y)` moves $x$ to root list.
+   - `CASCADING-CUT(y)` recursively cuts ancestors if they are already marked (`mark == TRUE`). Amortized time $\Theta(1)$.
 
 ---
 
-## 5. Amortised Analysis Methods
+## 6. Disjoint Set Structures (Union-Find)
+
+Maintains non-overlapping dynamic sets supporting `MAKE-SET(x)`, `FIND-SET(x)`, and `UNION(x, y)`.
+
+### Optimized Pseudocode
+```text
+Algorithm MAKE-SET(x)
+    x.parent = x
+    x.rank = 0
+
+Algorithm FIND-SET(x)
+    if x != x.parent then
+        x.parent = FIND-SET(x.parent)  // Path Compression
+    return x.parent
+
+Algorithm UNION(x, y)
+    LINK(FIND-SET(x), FIND-SET(y))
+
+Algorithm LINK(x, y)
+    if x.rank > y.rank then
+        y.parent = x
+    else
+        x.parent = y
+        if x.rank == y.rank then
+            y.rank = y.rank + 1
+```
 
 ```mermaid
 flowchart TD
-    A["Amortised Analysis Methods"] --> B["1. Aggregate Method"]
+    subgraph "Path Compression Visualization"
+        direction LR
+        subgraph "Before Find(4)"
+            A1[1] --> A2[2] --> A3[3] --> A4[4]
+        end
+        subgraph "After Find(4)"
+            B1[1] --> B2[2]
+            B1 --> B3[3]
+            B1 --> B4[4]
+        end
+    end
+```
+
+### Amortized Complexity
+Using **Union by Rank** and **Path Compression**, a sequence of $m$ operations on $n$ elements takes $O(m \cdot \alpha(n))$ time, where $\alpha(n) \le 4$ is the Inverse Ackermann function. Amortized cost per operation is $\Theta(1)$.
+
+---
+
+## 7. Amortized Analysis Methods
+
+```mermaid
+flowchart TD
+    A["Amortized Analysis Methods"] --> B["1. Aggregate Method"]
     A --> C["2. Accounting Method (Banker's)"]
     A --> D["3. Potential Method (Physicist's)"]
 
-    B --> B1["Amortized Cost = Total Cost T(n) / n<br>Guarantees average cost per op over worst-case sequence"]
-    C --> C1["Assign Amortized Charge c_hat_i to each op<br>If c_hat_i > c_i: Store Credit in Data Structure<br>If c_hat_i < c_i: Use Credit to pay for op<br>Rule: Total Credit >= 0 always"]
-    D --> D1["Define Potential Function Phi(D_i) mapping state to real number<br>Amortized Cost c_hat_i = c_i + Phi(D_i) - Phi(D_i-1)<br>Rule: Phi(D_n) >= Phi(D_0) always"]
-
-    style A fill:#fab387,stroke:#333,color:#11111b
-    style B fill:#89b4fa,stroke:#333,color:#11111b
-    style C fill:#a6e3a1,stroke:#333,color:#11111b
-    style D fill:#f38ba8,stroke:#333,color:#11111b
+    B --> B1["Amortized Cost = Total Cost T(n) / n"]
+    C --> C1["Assign Amortized Charge c_hat_i.<br>Store credit when c_hat_i > c_i; use credit when c_hat_i < c_i."]
+    D --> D1["Define Potential Function Phi(D_i).<br>Amortized Cost c_hat_i = c_i + Phi(D_i) - Phi(D_i-1)."]
 ```
 
 ---
 
-## 6. Exam-Oriented Review & Formula Sheet
+## 8. Formula Sheet
 
-1. **Red-Black Tree Height Guarantee:** $h \le 2 \log_2(n+1)$.
-2. **RBT Insertion Cases:**
-   - **Case 1:** Uncle RED $\implies$ Recolor Parent, Uncle, Grandparent.
-   - **Case 2:** Uncle BLACK, Triangle $\implies$ Rotate Parent to Line.
-   - **Case 3:** Uncle BLACK, Line $\implies$ Rotate Grandparent & Recolor.
-3. **RBT Deletion Fixup Cases:**
-   - **Case 1:** Sibling RED $\implies$ Recolor & Rotate Parent towards $X$.
-   - **Case 2:** Sibling BLACK, 2 Black Children $\implies$ Recolor Sibling RED, move Double Black up.
-   - **Case 3:** Sibling BLACK, Inner Red Child $\implies$ Rotate Sibling away from $X$ (converts to Case 4).
-   - **Case 4:** Sibling BLACK, Outer Red Child $\implies$ Recolor & Rotate Parent towards $X$ (Eliminates Double Black).
-4. **Binomial Tree $B_k$:** $2^k$ nodes, degree $k$, height $k$.
-5. **Fibonacci Heap Amortized Complexity:** $O(1)$ for Insert, Union, Decrease-Key; $O(\log n)$ for Extract-Min and Delete.
-6. **Potential Method Equation:** $\hat{c}_i = c_i + \Phi(D_i) - \Phi(D_{i-1})$.
+- **Red-Black Tree Height:** $h \le 2 \log_2(n + 1)$.
+- **Binomial Tree $B_k$:** Nodes $= 2^k$, Height $= k$, Root Degree $= k$.
+- **Fibonacci Heap Potential Function:** $\Phi(H) = t(H) + 2 m(H)$ (where $t(H)$ is root count, $m(H)$ is marked node count).
+- **Disjoint Set Operations Amortized Cost:** $O(\alpha(n)) \approx \Theta(1)$.
+- **Interval Overlap Condition:** $i.low \le i'.high \text{ and } i'.low \le i.high$.
+
+---
+
+## 9. Definition Sheet
+
+1. **Red-Black Tree:** A self-balancing binary search tree with colored nodes that guarantees $O(\log n)$ height.
+2. **Interval Tree:** An augmented search tree for storing intervals and performing overlap queries in $O(\log n)$ time.
+3. **Binomial Heap:** A collection of binomial trees satisfying min-heap property and unique degrees.
+4. **Fibonacci Heap:** A min-heap structure achieving $O(1)$ amortized insertion, union, and decrease-key via lazy consolidation.
+5. **Path Compression:** A technique in Union-Find that points all visited nodes directly to the root during `FIND-SET`.
+6. **Inverse Ackermann Function ($\alpha(n)$):** An extremely slow-growing function ($\alpha(n) \le 4$ for all practical inputs) describing Disjoint Set efficiency.
+
+---
+
+## 10. Exam-Oriented Review
+
+1. List the 5 Red-Black Tree properties and prove why the maximum height is $2 \log_2(n+1)$.
+2. Trace Red-Black Tree insertion for keys $[15, 32, 20, 4, 12, 25, 7]$. Show all rotations and recoloring steps.
+3. Explain the node structure of an Interval Tree. How is `x.max` updated during tree rotations?
+4. Write the algorithm for `Interval-Search(T, i)` and prove why going left when `x.left.max >= i.low` is correct.
+5. Explain how Fibonacci Heaps achieve $O(1)$ amortized time for `Decrease-Key` using Cascading Cuts.
+6. Describe Union by Rank and Path Compression in Disjoint Sets. Derive the $O(\alpha(n))$ time complexity.
+7. Compare Binary Heap, Binomial Heap, and Fibonacci Heap across all priority queue operations.
 
 ---
 
