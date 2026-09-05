@@ -195,7 +195,7 @@ A multinational enterprise manages a large-scale digital marketing budget deploy
 ### Pipeline Execution
 1. **Collect:** Daily automated batch extraction of ad spend, impression delivery, and conversion events via AdTech APIs.
 2. **Clean:** Automatic validation rules verify UTM parameters, currency conversions, and deduplicate tracking ping errors.
-3. **Analyse:** Multi-touch attribution modeling determines channel-specific return on ad spend ($	ext{ROAS} = rac{	ext{Revenue Generated}}{	ext{Ad Spend}}$).
+3. **Analyse:** Multi-touch attribution modeling determines channel-specific return on ad spend ($		ext{ROAS} = rac{		ext{Revenue Generated}}{		ext{Ad Spend}}$).
 4. **Visualise:** Dynamic executive dashboards built in Tableau update daily, highlighting high-performing and money-losing channels using color-coded KPI thresholds.
 5. **Decide:** Executive leadership reallocated capital toward high-performing ad channels within 48 hours rather than waiting for quarterly post-mortems, yielding substantial gains in media effectiveness.
 
@@ -236,7 +236,11 @@ flowchart TD
 * **Business Data:** Any recorded fact concerning an organization's operations, customers, or market environment, systematically preserved for measurement and decision-making.
 * **Structured Data:** Highly organized information adhering to a rigid tabular schema (rows and columns) queryable via relational languages.
 * **Unstructured Data:** Information lacking a predefined conceptual model or tabular format (e.g., text, voice recordings, video).
-* **Analytics Pipeline:** The systematic five-stage sequence (Collect $ightarrow$ Clean $ightarrow$ Analyse $ightarrow$ Visualise $ightarrow$ Decide) converting raw events into organizational action.
+* **Analytics Pipeline:** The systematic five-stage sequence (Collect $
+ightarrow$ Clean $
+ightarrow$ Analyse $
+ightarrow$ Visualise $
+ightarrow$ Decide) converting raw events into organizational action.
 * **Data Analyst:** A practitioner focused on diagnostic and descriptive analysis to extract actionable business insights from existing data assets.
 * **BI Developer:** An engineer focused on data warehousing, data pipeline automation, and enterprise reporting infrastructure.
 * **Data Scientist:** A specialist leveraging advanced statistics and machine learning to forecast outcomes and automate algorithmic decisions.
@@ -256,3 +260,7 @@ flowchart TD
 * **Classification:** Provide two examples of internally-generated unstructured data and two examples of externally-sourced structured data.
 * **Pipeline Trace:** Map out the 5 stages of the analytics pipeline for an e-commerce platform handling a flash festival sale.
 * **Comparative:** Compare the core objectives, typical deliverables, and technical skills of a Data Analyst versus a BI Developer.
+
+
+## Summary Formula
+- **Return on Ad Spend (ROAS):** $	ext{ROAS} = rac{	ext{Revenue Generated}}{	ext{Ad Spend}}$.

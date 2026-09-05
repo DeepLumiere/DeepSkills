@@ -298,7 +298,10 @@ $$
 **Given Data:** $[4, 5, 6, 6, 7, 8]$
 
 **Step 1: Mean**
-$$ \bar{x} = \frac{4+5+6+6+7+8}{6} = \frac{36}{6} = 6 $$
+
+2885
+ar{x} = rac{4+5+6+6+7+8}{6} = rac{36}{6} = 6
+2885
 
 **Step 2: Deviations & Squared Deviations**
 | $x_i$ | $(x_i - \text{mean})$ | $(x_i - \text{mean})^2$ |
@@ -580,7 +583,7 @@ $$
 * **Interquartile Range (IQR):** Difference between $Q_3$ and $Q_1$, spread of the middle 50%.
 * **Histogram:** Graph of tabulated frequencies using area of adjacent bars.
 * **Q-Q Plot:** Plot comparing quantiles of two distributions to test similarity or normality.
-* **Skewness:** Asymmetry of distribution (Positively skewed if Mean > Median > Mode).
+* **Skewness:** Asymmetry of distribution (Positively skewed if $	ext{Mean} > 	ext{Median} > 	ext{Mode}$).
 * **Normal Distribution:** Bell-shaped, symmetric distribution where Mean = Median = Mode.
 
 ---

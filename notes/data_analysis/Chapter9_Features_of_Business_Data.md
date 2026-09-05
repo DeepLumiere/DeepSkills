@@ -144,7 +144,10 @@ flowchart TD
 
 ### Pattern Diagnostic Test
 
-$$	ext{The Analyst's Forecasting Question: } 	ext{"Will this pattern repeat, continue, or never happen again?"}$$
+
+2885
+	ext{The Analyst's Forecasting Question: "Will this pattern repeat, continue, or never happen again?"}
+2885
 
 * **Repeats on a regular cycle?** $\longrightarrow$ **Seasonality** (Model with periodic baselines and Year-over-Year comparisons).
 * **Continues in the same direction?** $\longrightarrow$ **Trend** (Model with moving averages or linear/polynomial regression).
@@ -185,7 +188,7 @@ flowchart LR
 ```
 
 ### Role in Interactive Visualizations
-Interactive dashboard filters (date selectors, regional cascading dropdowns, product category trees) are software implementations of hierarchical drill-downs. Moving down a hierarchy corresponds to increasing granularity ($	ext{Drill Down}$); moving up corresponds to decreasing granularity ($	ext{Roll Up}$).
+Interactive dashboard filters (date selectors, regional cascading dropdowns, product category trees) are software implementations of hierarchical drill-downs. Moving down a hierarchy corresponds to increasing granularity ($  	ext{Drill Down}$); moving up corresponds to decreasing granularity ($  	ext{Roll Up}$).
 
 [Source: Session-3_Features Business Data.pdf, Slides 19-20]
 
@@ -215,7 +218,7 @@ flowchart TD
 | **Consistency** | Inconsistent categorical strings ("Ahemdabad", "Ahmedabad", "AMD"). | Instead of a single prominent regional bar, the visualization splits into three small, disjointed bars. |
 | **Timeliness** | Outdated sales figures that failed to sync overnight. | Stale data points render with identical visual weight as fresh numbers, masking supply shortages. |
 | **Uniqueness** | Duplicate transaction records caused by network retries. | Bar heights and line chart elevations inflate beyond actual sales volume. |
-| **Validity** | Impossible values (e.g., customer $	ext{Age} = 250$). | A single extreme value dramatically expands the axis limit, compressing legitimate variance into an unreadable flatline. |
+| **Validity** | Impossible values (e.g., customer $  	ext{Age} = 250$). | A single extreme value dramatically expands the axis limit, compressing legitimate variance into an unreadable flatline. |
 
 ### The Real-World Financial Cost of Dirty Data
 * **Delivery Logistics:** Invalid customer addresses result in failed first-time parcel deliveries, doubling shipping costs.
@@ -311,7 +314,7 @@ A multi-billion-rupee annual festival sale (e.g., Diwali / Big Billion Days) str
 | :--- | :--- |
 | **Trend vs. Seasonality** | Trends represent long-term directional movement continuing over years; Seasonality represents cyclical fluctuations that repeat on fixed schedules (daily, weekly, annual). |
 | **Fine vs. Coarse Granularity** | Fine granularity preserves full atomic detail for root-cause diagnosis but carries high storage/compute overhead; Coarse granularity provides fast macro insights but permanently destroys atomic detail. |
-| **Accuracy vs. Validity** | Accuracy refers to whether a value reflects real-world truth ($25\$$ vs. $250\$$); Validity refers to whether a value conforms to syntactic domain constraints (e.g., $\text{Age} = -5$ or $250$ violates biological validity). |
+| **Accuracy vs. Validity** | Accuracy refers to whether a value reflects real-world truth ( vs. (); Validity refers to whether a value conforms to syntactic domain constraints (e.g., $	ext{Age} = -5$ or 50$ violates biological validity). |
 | **Batch vs. Streaming Velocity** | Batch processes accumulated data in bulk at scheduled intervals; Streaming processes individual events immediately upon generation with sub-second latencies. |
 
 ### Potential Exam Questions
@@ -320,3 +323,7 @@ A multi-billion-rupee annual festival sale (e.g., Diwali / Big Billion Days) str
 3. **Time-Series Classification:** Given telemetry logs from an e-commerce platform, how do you distinguish between a trend, a seasonal pattern, and an operational anomaly?
 4. **Data Quality Impact:** Discuss how inconsistencies in customer city naming ("Ahmedabad" vs. "AMD") distort a standard regional sales bar chart.
 5. **Case Synthesis:** Trace how the 5 V's and data granularity operate concurrently during a massive e-commerce flash festival sale.
+
+
+## Summary Formula
+- **Seasonality Ratio Formula:** $	ext{Seasonal Index} = rac{	ext{Actual Demand}}{	ext{Average Demand}}$.
