@@ -261,7 +261,7 @@ Algorithm UNION(x, y)
     LINK(FIND-SET(x), FIND-SET(y))
 
 Algorithm LINK(x, y)
-    if x.rank > y.rank then
+    if x.rank &gt; y.rank then
         y.parent = x
     else
         x.parent = y
@@ -298,7 +298,7 @@ flowchart TD
     A --> D["3. Potential Method (Physicist's)"]
 
     B --> B1["Amortized Cost = Total Cost T(n) / n"]
-    C --> C1["Assign Amortized Charge c_hat_i.<br>Store credit when c_hat_i > c_i; use credit when c_hat_i < c_i."]
+    C --> C1["Assign Amortized Charge c_hat_i.<br>Store credit when c_hat_i &gt; c_i; use credit when c_hat_i &lt; c_i."]
     D --> D1["Define Potential Function Phi(D_i).<br>Amortized Cost c_hat_i = c_i + Phi(D_i) - Phi(D_i-1)."]
 ```
 
@@ -367,7 +367,7 @@ flowchart TD
 ---
 
 Algorithm LINK(x, y)
-    if x.rank > y.rank then
+    if x.rank &gt; y.rank then
         y.parent = x
     else
         x.parent = y
@@ -404,7 +404,7 @@ flowchart TD
     A --> D["3. Potential Method (Physicist's)"]
 
     B --> B1["Amortized Cost = Total Cost T(n) / n"]
-    C --> C1["Assign Amortized Charge c_hat_i.<br>Store credit when c_hat_i > c_i; use credit when c_hat_i < c_i."]
+    C --> C1["Assign Amortized Charge c_hat_i.<br>Store credit when c_hat_i &gt; c_i; use credit when c_hat_i &lt; c_i."]
     D --> D1["Define Potential Function Phi(D_i).<br>Amortized Cost c_hat_i = c_i + Phi(D_i) - Phi(D_i-1)."]
 ```
 

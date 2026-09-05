@@ -23,7 +23,7 @@ flowchart TD
     Purpose --> P2["2. Speed Decisions"]
     Purpose --> P3["3. Tell a Story"]
     Purpose --> P4["4. Persuade Action"]
-    
+
     Purpose --> Form{"Visual Form"}
     Form --> F1["Comparison (Bar/Column)"]
     Form --> F2["Trend (Line)"]
@@ -31,7 +31,7 @@ flowchart TD
     Form --> F4["Relationship (Scatter)"]
     Form --> F5["Composition (Stacked Bar / Pie)"]
     Form --> F6["Geographic (Maps)"]
-    
+
     Form --> Target["Execution: Dashboards & Reports"]
 ```
 
@@ -42,9 +42,9 @@ flowchart TD
 ## 2. Definitions & Cognitive Foundations
 
 ### Definition: Business Data Visualization
-**Meaning:** The graphical representation of business data and information, designed to enable human decision-makers to identify patterns, trends, and outliers rapidly, and translate those insights into business action.  
-**Formal definition:** The mapping of quantitative, categorical, and relational business attributes to graphical marks (points, lines, bars, areas) and visual channels (position, length, color, shape) to facilitate perceptual inference and decision support.  
-**Intuition:** Visuals convert abstract numerical relationships into spatial geometries that the human brain parses in milliseconds.  
+**Meaning:** The graphical representation of business data and information, designed to enable human decision-makers to identify patterns, trends, and outliers rapidly, and translate those insights into business action.
+**Formal definition:** The mapping of quantitative, categorical, and relational business attributes to graphical marks (points, lines, bars, areas) and visual channels (position, length, color, shape) to facilitate perceptual inference and decision support.
+**Intuition:** Visuals convert abstract numerical relationships into spatial geometries that the human brain parses in milliseconds.
 [Source: Session-2_Definition Purpose Usage.pdf, Slide 4]
 
 ### Why Graphics Outperform Raw Tables of Numbers
@@ -197,12 +197,12 @@ flowchart LR
         EX1["<b>Exploratory Visualisation</b><br/>Audience: Analyst<br/>Goal: Pattern discovery<br/>Iterative, rapid, unpolished"]
         EX2["<b>Explanatory Visualisation</b><br/>Audience: Stakeholder / Exec<br/>Goal: Communication<br/>Curated, polished, one takeaway"]
     end
-    
+
     subgraph Delivery["Delivery Format"]
         D1["<b>Dashboard</b><br/>Continuous, live-updating<br/>Operational monitoring tool"]
         D2["<b>Report</b><br/>Static point-in-time snapshot<br/>Executive governance deck"]
     end
-    
+
     EX1 --> D1
     EX2 --> D2
 ```
@@ -244,9 +244,12 @@ flowchart TD
     Q3 --> OptimalChart["<b>Optimal Visual Selection</b><br/>High clarity, zero ambiguity, minimal cognitive friction"]
 ```
 
-1. **What is my message?** (e.g., "Product A generates 3x the margin of Product B" $ightarrow$ Comparison).
+1. **What is my message?** (e.g., "Product A generates 3x the margin of Product B" $
+ightarrow$ Comparison).
 2. **Who is my audience?** (e.g., C-suite executives require aggregated KPI cards and top-3 driver callouts; operations engineers require granular time-series with error bounds).
-3. **What is my data shape?** (e.g., 5 categories over 12 months $ightarrow$ multi-line chart or grouped bar chart; 100 continuous $(X,Y)$ pairs $ightarrow$ scatter plot).
+3. **What is my data shape?** (e.g., 5 categories over 12 months $
+ightarrow$ multi-line chart or grouped bar chart; 100 continuous $(X,Y)$ pairs $
+ightarrow$ scatter plot).
 
 ---
 
@@ -261,7 +264,7 @@ flowchart LR
         P3["Colors repeat or look identical"]
         P4["Impossible to rank 4th vs 7th"]
     end
-    
+
     subgraph Good["AFTER (Best Practice)"]
         direction TB
         B1["Horizontal Bar Chart"]
@@ -269,7 +272,7 @@ flowchart LR
         B3["Top 3 categories highlighted"]
         B4["Clean common baseline for comparison"]
     end
-    
+
     Bad -->|Refactor using Framework| Good
 ```
 
@@ -309,3 +312,13 @@ flowchart LR
 3. **Comparative Analysis:** Contrast dashboards and static business reports in terms of data freshness, interactivity, and operational risk mitigation.
 4. **Refactoring:** Why is a 15-slice pie chart considered an anti-pattern in business intelligence, and how should it be redesigned?
 5. **Ladder Trace:** Describe the transition from Data to Information to Insight using a real-world enterprise example.
+
+
+---
+
+## Formula Sheet
+
+- **Data Density Formula:**
+  3708
+	ext{Data Density} = rac{	ext{Number of Entries in Data Matrix}}{	ext{Area of Data Graphic}}
+  3708
