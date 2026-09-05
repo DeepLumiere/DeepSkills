@@ -909,7 +909,6 @@ $$
 
 ---
 
-
 ### Derivation: Mean Contention Slots in CSMA/CD via Geometric Series Derivative
 
 #### Problem Context & Mathematical Formulation
@@ -1283,7 +1282,6 @@ Because the mean number of contention slots is $\dfrac{1}{A}$, the mean contenti
 [Source: Ch 4 MAC Layer.pdf, Slide 88]
 
 ---
-
 
 ### Figure 4.22: CSMA/CD Contention Slot Infinite Geometric Series Derivation
 
@@ -1839,7 +1837,6 @@ $$
 
 ---
 
-
 ---
 
 ## 15. Edge Cases, Critical Boundary Conditions & Protocol Anomalies
@@ -1973,7 +1970,6 @@ On an IEEE 802.1Q trunk link, the **Native VLAN** carries untagged traffic for b
 Network security standards mandate setting the native VLAN to an unused dummy VLAN ID and explicitly tagging native VLAN traffic on all trunk ports.
 
 [Source: Ch 4 MAC Layer.pdf, Slides 88–89]
-
 
 ---
 

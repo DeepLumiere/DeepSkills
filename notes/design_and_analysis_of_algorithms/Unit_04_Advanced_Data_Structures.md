@@ -335,6 +335,35 @@ flowchart TD
 6. Describe Union by Rank and Path Compression in Disjoint Sets. Derive the $O(\alpha(n))$ time complexity.
 7. Compare Binary Heap, Binomial Heap, and Fibonacci Heap across all priority queue operations.
 
+- **Red-Black Tree Height:** $h \le 2 \log_2(n + 1)$.
+- **Binomial Tree $B_k$:** Nodes $= 2^k$, Height $= k$, Root Degree $= k$.
+- **Fibonacci Heap Potential Function:** $\Phi(H) = t(H) + 2 m(H)$ (where $t(H)$ is root count, $m(H)$ is marked node count).
+- **Disjoint Set Operations Amortized Cost:** $O(\alpha(n)) \approx \Theta(1)$.
+- **Interval Overlap Condition:** $i.low \le i'.high \text{ and } i'.low \le i.high$.
+
+---
+
+## 9. Definition Sheet
+
+1. **Red-Black Tree:** A self-balancing binary search tree with colored nodes that guarantees $O(\log n)$ height.
+2. **Interval Tree:** An augmented search tree for storing intervals and performing overlap queries in $O(\log n)$ time.
+3. **Binomial Heap:** A collection of binomial trees satisfying min-heap property and unique degrees.
+4. **Fibonacci Heap:** A min-heap structure achieving $O(1)$ amortized insertion, union, and decrease-key via lazy consolidation.
+5. **Path Compression:** A technique in Union-Find that points all visited nodes directly to the root during `FIND-SET`.
+6. **Inverse Ackermann Function ($\alpha(n)$):** An extremely slow-growing function ($\alpha(n) \le 4$ for all practical inputs) describing Disjoint Set efficiency.
+
+---
+
+## 10. Exam-Oriented Review
+
+1. List the 5 Red-Black Tree properties and prove why the maximum height is $2 \log_2(n+1)$.
+2. Trace Red-Black Tree insertion for keys $[15, 32, 20, 4, 12, 25, 7]$. Show all rotations and recoloring steps.
+3. Explain the node structure of an Interval Tree. How is `x.max` updated during tree rotations?
+4. Write the algorithm for `Interval-Search(T, i)` and prove why going left when `x.left.max >= i.low` is correct.
+5. Explain how Fibonacci Heaps achieve $O(1)$ amortized time for `Decrease-Key` using Cascading Cuts.
+6. Describe Union by Rank and Path Compression in Disjoint Sets. Derive the $O(\alpha(n))$ time complexity.
+7. Compare Binary Heap, Binomial Heap, and Fibonacci Heap across all priority queue operations.
+
 ---
 
 Algorithm LINK(x, y)
