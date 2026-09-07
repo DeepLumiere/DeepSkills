@@ -144,8 +144,15 @@ nav:
       - "Chapter 8: Data Visualization": data_analysis/Chapter8_Business_Data_Visualization_Definition_Purpose_Usage.md
       - "Chapter 9: Features of Business Data": data_analysis/Chapter9_Features_of_Business_Data.md
   - Full Stack Web Development:
-      - "Unit 1: Full Stack Basics & REST": web_development/Unit_01_Full_Stack_Basics.md
-      - "Unit 2: Frontend Frameworks": web_development/Unit_02_Frontend_Frameworks.md
+      - "Chapter 1: Full Stack Basics & REST": web_development/01_Full_Stack_Basics_and_REST.md
+      - "Chapter 2: Comprehensive JSON Handling": web_development/02_JSON_Handling.md
+      - "Chapter 3: Responsive Design & HTML5 APIs": web_development/03_Responsive_Design_and_HTML5_APIs.md
+      - "Chapter 4: Bootstrap 5 Framework": web_development/04_Bootstrap_Framework.md
+      - "Chapter 5: Tailwind CSS Engine": web_development/05_Tailwind_CSS.md
+      - "Chapter 6: Vue.js Directives & MVVM": web_development/06_Vue_JS.md
+      - "Chapter 7: React.js Virtual DOM & Hooks": web_development/07_React_JS.md
+      - "Unit 1 Consolidated Basics": web_development/Unit_01_Full_Stack_Basics.md
+      - "Unit 2 Consolidated Frameworks": web_development/Unit_02_Frontend_Frameworks.md
 
 extra:
   analytics:
