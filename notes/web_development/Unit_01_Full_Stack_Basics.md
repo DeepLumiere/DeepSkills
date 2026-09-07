@@ -1,4 +1,4 @@
-# Chapter 1: Full Stack Development Basics
+# Chapter 1: Full Stack Development Basics & Core Web Protocols
 
 > **Course Title:** Full Stack Web Development (FSD)
 > **Source Material:** `UNIT-1 Full Stack Development Basics.docx`, `UNIT-1 Full Stack Development Basics.pdf`, `UNIT-2 Frontend Frameworks.docx`
@@ -6,217 +6,373 @@
 ---
 
 ## 1. Chapter Overview
-Unit 1 provides the structural, architectural, and protocol foundation for web application engineering. It spans:
-- Core concepts of Full Stack Web Development and role responsibilities.
-- Comparative analysis of Front-End, Back-End, and Full Stack engineers.
-- Software Engineering vs. Full Stack Development distinctions.
-- 3-Tier Enterprise Architecture rules, layer boundary constraints, and decoupled communication.
-- Web Development Stacks (LAMP, MEAN, MERN, Ruby on Rails, Django, Spring Boot, Serverless, Flutter/React Native cross-platform).
-- JavaScript Object Notation (JSON): syntax rules, data types, nested/multidimensional structures, parsing efficiency, and comment workarounds.
-- REpresentational State Transfer (REST) Architecture: 6 architectural constraints, client-server decoupling, statelessness, cacheability, uniform interface, HATEOAS.
-- RESTful HTTP Protocol Operations: HTTP Verbs (GET, POST, PUT, DELETE), MIME Types & Accept headers, URI Path design conventions, Response Content-Types, and Standard HTTP Status Codes.
+- **Core Full Stack Architecture:** Role distinctions, 3-tier enterprise separation, and modern web stacks (LAMP, MEAN, MERN, Django, Spring Boot, Serverless).
+- **JSON Data Interchange:** Complete syntax rules, data types, nested/multidimensional structures, parsing/serialization, file I/O, dynamic updates, and data querying in JavaScript.
+- **Node.js Core Fundamentals:** Event-driven non-blocking I/O, `http` module server creation, `fs` file operations, `path` resolution, middleware execution, and JSON REST API endpoint routing.
+- **RESTful Architecture:** 6 architectural constraints, statelessness, HTTP verbs, MIME types, URI design rules, and status codes.
 
 ---
 
 ## 2. Fundamental Concepts & Terminology
 
-### 2.1 Full Stack Development Defined
-A **Full Stack Developer** possesses comprehensive domain knowledge across the entire technology stack—from client-side user interface rendering to server-side business logic, API definition, database administration, and deployment architecture.
+### 2.1 Role Comparison: Front-End vs. Back-End vs. Full Stack
 
-> **Role Responsibilities:**
-> 1. Technology Evaluation: Selecting client-side and server-side stack components during early project phases.
-> 2. Stack Implementation: Writing clean, maintainable code adhering to stack-specific best practices.
-> 3. Cross-Disciplinary Knowledge: Maintaining currency with emerging frameworks, databases, and DevOps tools.
-> 4. Agile Team Contribution: Serving as versatile, high-velocity engineering nodes in cross-functional Agile environments.
-
----
-
-### 2.2 Role Comparison: Front-End vs. Back-End vs. Full Stack
-
-| Feature / Dimension | Front-End Developer | Back-End Developer | Full Stack Developer |
+| Dimension | Front-End Developer | Back-End Developer | Full Stack Developer |
 | :--- | :--- | :--- | :--- |
-| **Primary Focus** | User Interface (UI), User Experience (UX), Visual Layout, Navigation, Client-Side Interactivity. | Business Logic, Security, Data Management, Database Querying, Request Handling, Scalability. | End-to-End Workflow Execution (Client + Server + Database + API). |
-| **Core Technologies** | HTML5, CSS3, JavaScript (ES6+), React, Vue, Angular, Bootstrap, Tailwind. | Node.js, Python, Java, Ruby, PHP, C#/.NET, Express, Django, Spring Boot. | Full Stacks (MERN, MEAN, LAMP, RoR, Serverless) spanning front-end & back-end. |
-| **Data Handling** | Manipulates DOM, renders JSON payloads received from server APIs. | Constructs APIs, interacts directly with DBMS (SQL/NoSQL), manages state persistence. | Manages data modeling, API payload construction, and DOM presentation. |
-| **System Visibility** | Client browser engine / web runtime. | Server environment / OS / Cloud container / Database. | Complete application topology. |
+| **Primary Scope** | User Interface (UI), User Experience (UX), DOM presentation, client interactivity. | Business logic, server architecture, database management, security, API routing. | End-to-end web stack architecture (Client + Server + Database + API). |
+| **Technology Stack** | HTML5, CSS3, JavaScript (ES6+), React, Vue, Bootstrap, Tailwind. | Node.js, Express, Python (Django), Java (Spring Boot), SQL/NoSQL databases. | Full stacks: MERN, MEAN, LAMP, Django, Serverless, Flutter/React Native. |
+| **Data Handling** | Manipulates DOM; processes JSON API payloads received from server. | Constructs REST APIs, queries DBMS (SQL/NoSQL), manages state persistence. | Models database schemas, builds REST API payloads, and renders DOM views. |
+| **Runtime Environment** | Web browser rendering engine (V8, SpiderMonkey, WebKit). | Node.js runtime, OS, Docker containers, Cloud server instances. | Complete web application topology across browser and server. |
 
 ---
 
-### 2.3 Software Engineer vs. Full Stack Developer
-
-```mermaid
-flowchart LR
-    subgraph SE["Software Engineer"]
-        A["Focus: Domain-Specific Modules / Algorithms"]
-        B["Individual Contributor in Specialized Domain"]
-    end
-    subgraph FSD["Full Stack Developer"]
-        C["Focus: End-to-End Web Stack Architecture"]
-        D["Builds Client + Server + Database Integrated Solutions"]
-    end
-```
-
-- **Software Engineer:** Broad engineering title. Typically focuses deeply on specialized individual modules, system components, algorithms, low-level OS drivers, or single-tier infrastructure.
-- **Full Stack Developer:** Web engineering specialization. Responsible for delivering functional end-to-end applications across all layers (Presentation, Logic, Database).
-
----
-
-### 2.4 Trade-Off Analysis of Full Stack Development
-
-#### Advantages:
-1. **End-to-End Ownership:** Deep architectural insight into the entire software lifecycle.
-2. **Cost & Time Efficiency:** Reduces communication overhead and team size requirement for small-to-medium builds.
-3. **Rapid Debugging:** Faster issue isolation across API layer boundaries.
-4. **Agile Versatility:** Smooth task-switching between front-end UI and back-end services in sprint cycles.
-5. **Entrepreneurial Autonomy:** Enables solo prototyping, SaaS MVP creation, and site monetization.
-
-#### Disadvantages:
-1. **Jack-of-all-trades Risk:** Breadth of knowledge can lead to reduced depth compared to specialized backend or database engineers.
-2. **Key Person Dependency:** Over-reliance on a single developer creates severe single-point-of-failure risks.
-3. **Cognitive Overhead:** Rapid shifts across multiple paradigms (CSS, SQL, Async JS, DevOps) increase defect likelihood.
-
----
-
-## 3. The 3-Tier Enterprise Architecture
-
-### 3.1 Structural Architecture
-The 3-Tier Architecture cleanly segregates software application code into three distinct, decoupled tiers.
+### 2.2 The 3-Tier Enterprise Architecture Rules
+- **Presentation Tier (UI Layer):** Handles user interaction and visual rendering. Communicates **strictly** with the Business Tier.
+- **Business Tier (Logic Layer):** Enforces business rules, validation, and algorithms. Communicates **only** with Presentation Tier (upstream) and Data Access Tier (downstream). Must be Presentation-Agnostic and Database-Agnostic.
+- **Data Access Tier (DAL / Database Layer):** Executes CRUD transactions against DBMS engines. Communicates **only** with Business Tier and DBMS.
 
 ```mermaid
 flowchart TD
-    Client["Client / User Interface"] <--> Presentation["Presentation Tier (UI Layer)<br>[HTML, CSS, JS, Frameworks]"]
+    Client["Client / User Interface"] <--> Presentation["Presentation Tier (UI Layer)<br>[HTML, CSS, JS, React, Vue]"]
     Presentation <--> Business["Business Tier (Logic Layer)<br>[Node.js, Express, Python, Java]"]
-    Business <--> DataAccess["Data Access Tier (DAL)<br>[SQL DDL/DML, ORM, MongoDB Driver]"]
+    Business <--> DataAccess["Data Access Tier (DAL)<br>[SQL, ORM, MongoDB Driver]"]
     DataAccess <--> Database[("Database Tier (DBMS)<br>[MySQL, PostgreSQL, MongoDB]")]
 ```
 
-### 3.2 Strict Rules of 3-Tier Architecture
-1. **Absolute Layer Isolation:** Code belonging to a tier must reside exclusively inside that tier's files.
-2. **Strict Cascade Communication:**
-   - Presentation Tier talks **only** to Business Tier. It is strictly prohibited from touching the Data Access Tier or Database directly.
-   - Business Tier talks **only** to Presentation Tier (upstream) and Data Access Tier (downstream). It cannot execute raw DB operations directly.
-   - Data Access Tier talks **only** to Business Tier (upstream) and the specific DBMS engine (downstream).
-3. **Decoupled Agnosticism:**
-   - The Business Tier must be **Database-Agnostic** (unaware of whether SQL or NoSQL stores data) and **Presentation-Agnostic** (unaware if output is HTML, JSON, PDF, or CSV).
-4. **Granular Multi-Component Structure:**
-   - Presentation Tier: A dedicated controller/view component per user transaction.
-   - Business Tier: A dedicated business entity logic component per database entity.
-   - Data Access Tier: A dedicated Data Access Object (DAO) component per supported DBMS engine.
-
-### 3.3 Skill Requirements per Tier
-
-| Tier | Primary Purpose | Required Technical Skills |
-| :--- | :--- | :--- |
-| **Presentation Tier** | User interaction, visual rendering, input capture. | HTML5, CSS3, JavaScript, UI/UX Design, Frameworks (React, Vue, Angular). |
-| **Business Tier** | Enforcing business rules, computational algorithms, access validation. | Core Server Languages (Node.js, Python, Java, PHP, C#), API Routing. |
-| **Data Access Tier** | Executing CRUD transactions against persistent storage. | SQL (DDL/DML), Database Schema Design, Indexing, NoSQL Query APIs. |
-
 ---
 
-## 4. Popular Web Development Stacks & Project Contexts
+## 3. JavaScript Object Notation (JSON) Engine & Full Code Operations
 
-### 4.1 Comparative Stack Matrix
+### 3.1 JSON Data Types Reference
 
-| Stack | Technology Breakdown | Ideal Project Context | Industry Adopters |
-| :--- | :--- | :--- | :--- |
-| **LAMP** | **L**inux, **A**pache, **M**ySQL, **P**HP | Low-cost, highly customizable e-commerce, content management systems (CMS). | Wikipedia, Yahoo, Etsy, WordPress, Magento, Shopify |
-| **MEAN** | **M**ongoDB, **E**xpress.js, **A**ngular, **N**ode.js | Real-time collaborative enterprise suites, SPA web apps requiring strong TypeScript support. | Google, Microsoft, IBM, Amazon, Uber, PayPal, LinkedIn |
-| **MERN** | **M**ongoDB, **E**xpress.js, **R**eact, **N**ode.js | Dynamic, highly interactive single-page web applications with real-time UI state re-rendering. | Meta (Facebook), Netflix, Airbnb, Tesla, Walmart, Uber |
-| **Ruby on Rails** | Ruby Language + Rails Framework (MVC) | Rapid startup MVP prototyping, donation management, developer-friendly convention-over-configuration apps. | GitHub, Airbnb, Shopify, SlideShare, CrunchBase, Dribbble |
-| **Django (Python)**| Python + Django Framework (MTV) | High-security enterprise internal portals, machine learning-driven web apps, data processing engines. | Instagram, Spotify, YouTube, Disqus, Bitbucket |
-| **Java / Spring Boot**| Java + Spring Boot Framework | Large-scale, high-concurrency enterprise applications, banking, microservices architectures. | Amazon, Netflix, Google, Ebay, Enterprise Banking |
-| **Serverless** | AWS Lambda / Azure Functions + DynamoDB / Serverless API | Personalized travel planning, event-driven web apps requiring auto-scaling with pay-per-use costing. | Serverless Startups, Cloud Native SaaS |
-| **Flutter / React Native**| Cross-Platform Frameworks (Dart / JS) | Multi-platform on-demand mobile & web applications (food delivery, fitness tracking). | Instagram, Uber Eats, BMW, Alibaba |
-
----
-
-## 5. JavaScript Object Notation (JSON)
-
-### 5.1 Definition & Properties
-**Definition:** JSON (JavaScript Object Notation) is a lightweight, text-based, open standard format designed specifically for human-readable data interchange.
-
-> **Key Characteristics:**
-> - **Language-Independent:** Native support in JavaScript, Python, Java, C#, PHP, Ruby, Go.
-> - **Self-Describing:** Structural key-value pairing defines data context implicitly.
-> - **Open Standard:** Based on a subset of JavaScript standard ECMA-262.
-
-### 5.2 JSON vs. XML Comparison
-
-| Evaluation Metric | JSON | XML |
-| :--- | :--- | :--- |
-| **Verbosity** | Compact, minimal syntax footprint. | Verbose, requires opening and closing tags `<tag></tag>`. |
-| **Parsing Speed** | Faster. Uses native fast JavaScript `JSON.parse()`. | Slower. Requires DOM/SAX parser tree construction in memory. |
-| **Data Structure Support**| Maps (Key-Value), Arrays, Primitives (Strings, Numbers, Booleans, Null). | Tree structures, Attributes, Elements. |
-| **Memory Footprint** | Extremely low. | High (due to DOM node tree allocation). |
-| **Readability** | High for both humans and machines. | Moderate (cluttered by markup tags). |
-
-### 5.3 Valid JSON Data Types
-
-| Data Type | Formal Rule & Syntax | Valid Example |
+| Data Type | Formal Structural Rule | Code Syntax Example |
 | :--- | :--- | :--- |
 | **String** | Double-quoted UTF-8 text string. | `"studentName": "Alice"` |
 | **Number** | Integer or floating-point number (no quotes). | `"age": 22`, `"gpa": 3.85` |
-| **Boolean** | Literal `true` or `false` (lowercase). | `"isEnrolled": true` |
-| **Null** | Literal `null` representing empty value. | `"middleName": null` |
-| **Object** | Unordered collection of key-value pairs wrapped in `{}`. Keys MUST be double-quoted strings. | `{"id": 101, "dept": "CS"}` |
+| **Boolean** | Lowercase literal `true` or `false`. | `"isEnrolled": true` |
+| **Null** | Lowercase literal `null` representing empty value. | `"middleName": null` |
+| **Object** | Unordered key-value pairs wrapped in `{}`. Keys MUST be double-quoted strings. | `{"id": 101, "dept": "CS"}` |
 | **Array** | Ordered sequence of values wrapped in `[]`. | `"grades": [88, 92, 95]` |
 
 ---
 
-### 5.4 JSON Structural Formats & Code Examples
+### 3.2 Master Code Guide: Complete JSON Operations in JavaScript / Node.js
 
-#### A. JSON Object Example
-```json
-{
-  "name": "Jack",
-  "employeeid": 1,
-  "present": false
-}
+#### A. JSON Stringification (`JSON.stringify`) & Custom Replacer
+- `JSON.stringify(value, replacer, space)` converts JavaScript objects into valid JSON strings.
+- `space`: Integer defining indent spacing for pretty-printing.
+- `replacer`: Function or array filtering keys during serialization.
+
+```javascript
+const user = {
+  id: 101,
+  name: "Alice Johnson",
+  passwordHash: "secret_hash_9823",
+  roles: ["admin", "editor"],
+  profile: { age: 24, email: "alice@example.com" }
+};
+
+// 1. Basic Stringification
+const jsonCompact = JSON.stringify(user);
+console.log("Compact JSON:", jsonCompact);
+
+// 2. Pretty-Printed JSON (4-space indentation)
+const jsonPretty = JSON.stringify(user, null, 4);
+console.log("Pretty JSON:\n", jsonPretty);
+
+// 3. Stringification with Replacer Array (Filter specific sensitive keys)
+const jsonFiltered = JSON.stringify(user, ["id", "name", "roles"], 2);
+console.log("Filtered JSON:\n", jsonFiltered);
+
+// 4. Stringification with Replacer Function (Mask sensitive attributes dynamically)
+const jsonCustom = JSON.stringify(user, (key, value) => {
+  if (key === "passwordHash") return undefined; // Omits passwordHash key
+  if (typeof value === "string") return value.toUpperCase();
+  return value;
+}, 2);
+console.log("Custom Replacer JSON:\n", jsonCustom);
 ```
 
-#### B. JSON Array of Objects Example
-```json
-{
-  "employees": [
-    { "name": "Ram", "email": "ram@gmail.com", "age": 23 },
-    { "name": "Shyam", "email": "shyam23@gmail.com", "age": 28 },
-    { "name": "John", "email": "john@gmail.com", "age": 33 },
-    { "name": "Bob", "email": "bob32@gmail.com", "age": 41 }
-  ]
-}
+---
+
+#### B. JSON Parsing (`JSON.parse`) & Custom Reviver
+- `JSON.parse(text, reviver)` transforms a JSON string into a JavaScript object.
+- `reviver`: Function executing custom transformations on every parsed key-value pair (e.g. converting ISO date strings back to JavaScript `Date` instances).
+
+```javascript
+const rawJson = `{
+  "orderId": "ORD-58392",
+  "amount": 249.99,
+  "createdAt": "2026-09-03T10:30:00.000Z",
+  "status": "completed"
+}`;
+
+// 1. Basic Parsing
+const orderObj = JSON.parse(rawJson);
+console.log("Parsed Amount:", orderObj.amount); // 249.99 (number)
+
+// 2. Parsing with Reviver Function (Automatic Date Typecasting)
+const orderWithDates = JSON.parse(rawJson, (key, value) => {
+  if (key === "createdAt") return new Date(value); // Converts string to Date instance
+  if (key === "amount") return "$" + value.toFixed(2); // Formats currency without template literals
+  return value;
+});
+
+console.log("Parsed Date Object:", orderWithDates.createdAt.toISOString());
+console.log("Formatted Currency Amount:", orderWithDates.amount);
 ```
 
-#### C. Multidimensional JSON Array Example
-```json
-[
-  ["a", "b", "c"],
-  ["m", "n", "o"],
-  ["x", "y", "z"]
-]
-```
+---
 
-#### D. JSON Comment Workaround
-JSON standard **does not support native comments** (`//` or `/* */`). To include explanatory notes in a JSON payload, developers introduce explicit attribute keys:
-```json
-{
-  "employee": {
-    "name": "Bob",
-    "salary": 56000,
-    "_comment": "This attribute acts as a comment line for documentation."
+#### C. Asynchronous File I/O for JSON (`fs.promises` in Node.js)
+
+```javascript
+const fs = require('fs').promises;
+const path = require('path');
+
+const filePath = path.join(__dirname, 'data.json');
+
+// 1. Asynchronous Write JSON File
+async function writeJsonFile(data) {
+  try {
+    const jsonString = JSON.stringify(data, null, 2);
+    await fs.writeFile(filePath, jsonString, 'utf8');
+    console.log("JSON successfully written to file!");
+  } catch (err) {
+    console.error("Error writing JSON file:", err.message);
   }
 }
+
+// 2. Asynchronous Read & Parse JSON File
+async function readJsonFile() {
+  try {
+    const rawData = await fs.readFile(filePath, 'utf8');
+    const parsedData = JSON.parse(rawData);
+    console.log("Successfully read JSON file:", parsedData);
+    return parsedData;
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      console.warn("File not found, initializing empty dataset.");
+      return [];
+    } else if (err instanceof SyntaxError) {
+      console.error("Malformed JSON syntax in file!");
+    } else {
+      console.error("Error reading JSON file:", err.message);
+    }
+    return null;
+  }
+}
+
+// Execution Workflow
+(async () => {
+  const initialData = { store: "TechStore", items: [{ id: 1, name: "Laptop", price: 999 }] };
+  await writeJsonFile(initialData);
+  await readJsonFile();
+})();
 ```
 
 ---
 
-## 6. REpresentational State Transfer (REST) Architecture
+#### D. Complete Dynamic JSON Manipulation (CRUD Operations in Memory)
 
-### 6.1 Architectural Definition
-REST is an architectural style that defines constraints for building scalable, resilient, and stateless web services. Systems adhering to REST principles are termed **RESTful**.
+```javascript
+// Sample JSON Database
+let database = {
+  users: [
+    { id: 1, name: "John Doe", email: "john@example.com", tags: ["tech", "sports"], address: { city: "New York", zip: "10001" } },
+    { id: 2, name: "Jane Smith", email: "jane@example.com", tags: ["design"], address: { city: "San Francisco", zip: "94101" } }
+  ],
+  meta: { totalCount: 2, version: "1.0" }
+};
+
+// --- 1. CREATE (Insert New User) ---
+function addUser(newUser) {
+  database.users.push(newUser);
+  database.meta.totalCount = database.users.length;
+  console.log("User Added. New Count:", database.meta.totalCount);
+}
+
+addUser({ id: 3, name: "Bob Martin", email: "bob@example.com", tags: ["devops"], address: { city: "Chicago", zip: "60601" } });
+
+// --- 2. READ / FIND (Querying JSON Data) ---
+// Find user by ID
+const user = database.users.find(u => u.id === 2);
+console.log("Found User:", user ? user.name : "Not Found");
+
+// Filter users by city (Nested object lookup)
+const sfUsers = database.users.filter(u => u.address.city === "San Francisco");
+console.log("Users in SF:", sfUsers.map(u => u.name));
+
+// Filter users by tag (Array inclusion lookup)
+const techUsers = database.users.filter(u => u.tags.includes("tech"));
+console.log("Tech Users:", techUsers.map(u => u.name));
+
+// --- 3. UPDATE (Modify Existing Properties & Deep Nested Attributes) ---
+function updateUser(id, updatedFields) {
+  const index = database.users.findIndex(u => u.id === id);
+  if (index !== -1) {
+    // Deep merge address if provided, shallow merge remaining fields
+    if (updatedFields.address) {
+      database.users[index].address = { ...database.users[index].address, ...updatedFields.address };
+      delete updatedFields.address;
+    }
+    database.users[index] = { ...database.users[index], ...updatedFields };
+    console.log(`User ${id} Updated Successfully!`);
+  }
+}
+
+updateUser(1, { email: "john_new@example.com", address: { zip: "10002" } });
+console.log("Updated User 1:", database.users[0]);
+
+// --- 4. DELETE (Remove Attributes & Delete User Objects) ---
+function deleteUser(id) {
+  database.users = database.users.filter(u => u.id !== id);
+  database.meta.totalCount = database.users.length;
+  console.log(`User ${id} Deleted. New Count:`, database.meta.totalCount);
+}
+
+deleteUser(2);
+console.log("Final Database Users:", database.users.map(u => u.name));
+```
 
 ---
 
-### 6.2 The 6 Core Constraints of REST
+## 4. Node.js Core Architecture & Server Execution
+
+### 4.1 Node.js Core Modules Reference
+
+| Core Module | Primary Purpose & Capabilities | Example Function Signatures |
+| :--- | :--- | :--- |
+| `http` | Creating low-level HTTP web servers, parsing incoming requests, sending HTTP response headers/bodies. | `http.createServer((req, res) => {})` |
+| `fs` | File system operations (reading, writing, appending, deleting, streaming files synchronously or asynchronously). | `fs.readFile()`, `fs.writeFile()`, `fs.promises` |
+| `path` | Cross-platform file path resolution, normalization, extension extraction (`.join()`, `.resolve()`, `.extname()`). | `path.join(__dirname, 'public', 'index.html')` |
+| `url` | Parsing URL query strings, protocol parameters, and pathnames. | `new URL(req.url, 'http://localhost:3000')` |
+
+---
+
+### 4.2 Master Node.js HTTP Server & JSON REST API Implementation
+
+```javascript
+const http = require('http');
+const path = require('path');
+const url = require('url');
+
+// In-Memory JSON Database
+let products = [
+  { id: 1, name: "Wireless Mouse", price: 29.99, category: "Electronics" },
+  { id: 2, name: "Mechanical Keyboard", price: 89.99, category: "Electronics" },
+  { id: 3, name: "Ergonomic Chair", price: 199.99, category: "Furniture" }
+];
+
+// Helper: Parse JSON Body from Incoming HTTP Request Stream
+function getRequestBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = '';
+    req.on('data', chunk => { body += chunk.toString(); });
+    req.on('end', () => {
+      try {
+        resolve(body ? JSON.parse(body) : {});
+      } catch (err) {
+        reject(new SyntaxError('Invalid JSON Payload'));
+      }
+    });
+    req.on('error', err => reject(err));
+  });
+}
+
+// Helper: Send JSON Response
+function sendJsonResponse(res, statusCode, data) {
+  res.writeHead(statusCode, {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*', // CORS Header
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+  });
+  res.end(JSON.stringify(data, null, 2));
+}
+
+// Create HTTP Web Server
+const server = http.createServer(async (req, res) => {
+  const parsedUrl = url.parse(req.url, true);
+  const pathname = parsedUrl.pathname;
+  const method = req.method;
+
+  // Handle CORS Preflight OPTIONS Request
+  if (method === 'OPTIONS') {
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    });
+    return res.end();
+  }
+
+  // --- ROUTE 1: GET /api/products (Fetch All Products or Filter by Category Query) ---
+  if (method === 'GET' && pathname === '/api/products') {
+    const categoryQuery = parsedUrl.query.category;
+    if (categoryQuery) {
+      const filtered = products.filter(p => p.category.toLowerCase() === categoryQuery.toLowerCase());
+      return sendJsonResponse(res, 200, { success: true, count: filtered.length, data: filtered });
+    }
+    return sendJsonResponse(res, 200, { success: true, count: products.length, data: products });
+  }
+
+  // --- ROUTE 2: GET /api/products/:id (Fetch Single Product by ID) ---
+  if (method === 'GET' && pathname.startsWith('/api/products/')) {
+    const id = parseInt(pathname.split('/')[3], 10);
+    const product = products.find(p => p.id === id);
+    if (!product) {
+      return sendJsonResponse(res, 404, { success: false, error: `Product with ID ${id} not found.` });
+    }
+    return sendJsonResponse(res, 200, { success: true, data: product });
+  }
+
+  // --- ROUTE 3: POST /api/products (Create New Product) ---
+  if (method === 'POST' && pathname === '/api/products') {
+    try {
+      const body = await getRequestBody(req);
+      if (!body.name || !body.price) {
+        return sendJsonResponse(res, 400, { success: false, error: 'Name and price are required fields.' });
+      }
+      const newProduct = {
+        id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1,
+        name: body.name,
+        price: parseFloat(body.price),
+        category: body.category || 'General'
+      };
+      products.push(newProduct);
+      return sendJsonResponse(res, 201, { success: true, message: 'Product Created', data: newProduct });
+    } catch (err) {
+      return sendJsonResponse(res, 400, { success: false, error: err.message });
+    }
+  }
+
+  // --- ROUTE 4: DELETE /api/products/:id (Delete Product by ID) ---
+  if (method === 'DELETE' && pathname.startsWith('/api/products/')) {
+    const id = parseInt(pathname.split('/')[3], 10);
+    const index = products.findIndex(p => p.id === id);
+    if (index === -1) {
+      return sendJsonResponse(res, 404, { success: false, error: `Product with ID ${id} not found.` });
+    }
+    const deleted = products.splice(index, 1)[0];
+    return sendJsonResponse(res, 200, { success: true, message: 'Product Deleted', data: deleted });
+  }
+
+  // Fallback 404 Route
+  sendJsonResponse(res, 404, { success: false, error: 'Endpoint URI path not found.' });
+});
+
+// Start Server on Port 3000
+const PORT = 3000;
+server.listen(PORT, () => {
+  console.log(`Node.js REST API Server running live at http://localhost:${PORT}`);
+});
+```
+
+---
+
+## 5. REpresentational State Transfer (REST) Architecture & HTTP Details
+
+### 5.1 The 6 Core Constraints of REST
 
 ```mermaid
 flowchart TD
@@ -228,104 +384,73 @@ flowchart TD
     C6["6. Code on Demand (Optional)<br>(Executable code download like JS)"]
 ```
 
-1. **Client-Server Separation:** Enforces complete boundary separation. The client handles presentation; the server manages storage and logic. Enables independent platform evolution.
-2. **Statelessness:** Every request from client to server must contain **all** authentication credentials and contextual data needed to process it. The server stores no session state between requests.
-3. **Cacheability:** Responses must explicitly declare whether they can be cached by clients/proxies (`Cache-Control`, `ETag`) to eliminate redundant round-trips.
-4. **Uniform Interface:** Standardized interaction contract containing sub-constraints:
-   - *Identification of Resources:* Unique URIs identify resources (`/customers/102`).
-   - *Manipulation via Representations:* Resources are modified via JSON/XML payloads.
-   - *Self-Descriptive Messages:* Headers explicitly describe payload metadata (e.g., `Content-Type`).
-   - *HATEOAS (Hypermedia as the Engine of Application State):* Responses include dynamic hypermedia links guiding available client state transitions.
-5. **Layered System:** Application topology can include intermediaries (load balancers, cache layers, API gateways) without client awareness.
-6. **Code-on-Demand (Optional):** Servers can temporarily extend client functionality by transferring executable code (e.g., JavaScript scripts).
+1. **Client-Server Separation:** UI presentation is fully isolated from backend data storage.
+2. **Statelessness:** Every request must contain complete authentication and contextual information. The server stores no session state.
+3. **Cacheability:** Responses must explicitly declare cache policy (`Cache-Control`, `ETag`).
+4. **Uniform Interface:** Standardized URIs identify resources (`/customers/102`); hypermedia links (`HATEOAS`) guide state transitions.
+5. **Layered System:** Intermediaries (load balancers, cache proxies) can be inserted transparently.
+6. **Code-on-Demand (Optional):** Servers can send executable code (e.g. JavaScript) to clients.
 
 ---
 
-## 7. RESTful HTTP Communications & Protocol Details
+### 5.2 RESTful HTTP Operations Matrix
 
-### 7.1 HTTP Verbs (Operations on Resources)
-
-| Verb | CRUD Mapping | Operational Behavior | Idempotent? | Safe? | Expected Success Code |
+| Verb | CRUD Mapping | Operational Description | Idempotent? | Safe? | Expected Success Code |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **GET** | Read | Retrieves a specific resource or resource collection. | Yes | Yes | `200 OK` |
-| **POST** | Create | Creates a new resource under a collection URI. | No | No | `201 CREATED` |
-| **PUT** | Update / Replace | Replaces an existing resource or creates if non-existent. | Yes | No | `200 OK` |
-| **DELETE**| Delete | Removes a specific resource by ID. | Yes | No | `204 NO CONTENT` |
-
-*Note on Idempotency:* An operation is idempotent if executing it multiple identical times produces the exact same server state as executing it once.
+| **GET** | Read | Fetches resource or collection without modifying server state. | Yes | Yes | `200 OK` |
+| **POST** | Create | Creates a new resource within a collection. | No | No | `201 CREATED` |
+| **PUT** | Update / Replace | Replaces an entire target resource or creates it if absent. | Yes | No | `200 OK` / `201 CREATED` |
+| **DELETE**| Delete | Removes a specific target resource by ID. | Yes | No | `204 NO CONTENT` |
 
 ---
 
-### 7.2 Headers & Media Content Types (MIME Types)
-The request `Accept` header indicates media types acceptable in response. The response `Content-Type` header informs the client of the returned payload format.
+### 5.3 Standard HTTP Status Codes
 
-#### MIME Type Structure: `type/subtype`
-
-```text
-  application/json
-  └───┬───┘   └─┬──┘
-    Type     Subtype
-```
-
-| Type Category | Commonly Used Subtypes |
-| :--- | :--- |
-| **Text** | `text/html`, `text/css`, `text/plain`, `text/csv` |
-| **Application** | `application/json`, `application/xml`, `application/pdf`, `application/octet-stream` |
-| **Image** | `image/png`, `image/jpeg`, `image/gif`, `image/webp` |
-| **Audio / Video** | `audio/mpeg`, `audio/wav`, `video/mp4`, `video/ogg` |
-
----
-
-### 7.3 REST URI Path Design Conventions
-1. **Plural Naming:** Use plural nouns for collection resources (`/customers`, `/orders`).
-2. **Hierarchical Nesting:** Show child resource ownership cleanly:
-   - `GET /customers/223/orders/12` (Fetches Order #12 for Customer #223).
-3. **Identifier Rules:**
-   - Collection Requests (`POST /customers`): No ID appended; server generates ID.
-   - Individual Resource Requests (`GET /customers/:id`, `DELETE /customers/:id`): Explicit ID appended.
-
----
-
-### 7.4 Standard HTTP Response Status Codes
-
-| Code Range | Category | Code & Name | Exam-Critical Definition |
+| Code Range | Category | Code & Name | Technical Application Context |
 | :--- | :--- | :--- | :--- |
-| **2xx** | Success | `200 OK` | Standard response for successful GET, PUT, or PATCH. |
-| | | `201 CREATED` | Request succeeded and a new resource was created (POST). |
-| | | `204 NO CONTENT` | Request succeeded but response body is intentionally empty (DELETE). |
-| **4xx** | Client Error | `400 BAD REQUEST` | Request syntax error, invalid parameters, or payload malformed. |
-| | | `403 FORBIDDEN` | Client authenticated, but lacks permissions for resource. |
-| | | `404 NOT FOUND` | Resource URI does not exist or has been deleted. |
-| **5xx** | Server Error | `500 INTERNAL SERVER ERROR` | Unhandled server-side exception or runtime system crash. |
+| **2xx** | Success | `200 OK` | Standard success for GET, PUT, or PATCH. |
+| | | `201 CREATED` | Resource created successfully via POST. |
+| | | `204 NO CONTENT` | Action succeeded; response body intentionally empty (DELETE). |
+| **4xx** | Client Error | `400 BAD REQUEST` | Payload syntax error or missing mandatory parameters. |
+| | | `401 UNAUTHORIZED` | Authentication required or token invalid. |
+| | | `403 FORBIDDEN` | Authenticated, but lacks required role permissions. |
+| | | `404 NOT FOUND` | Requested URI resource path does not exist. |
+| **5xx** | Server Error | `500 INTERNAL SERVER ERROR` | Unhandled server exception or runtime crash. |
 
 ---
 
-## 8. Formula Sheet
+## 6. Formula Sheet
 
-- **REST Idempotency Ratio:**
-  $$
-  f(f(x)) = f(x)
-  $$
-- **API Throughput Overhead Ratio:**
-  $$
-  \text{Overhead} = \frac{\text{Header Size (Bytes)}}{\text{Header Size} + \text{Payload Size}} \times 100\%
-  $$
+- **REST Idempotency Mathematical Operator Rule:**
 
----
+$$
+f(f(x)) = f(x)
+$$
 
-## 9. Definition Sheet
+- **JSON Serialization Memory Footprint Ratio:**
 
-1. **Full Stack Developer:** A developer who works with both client-side and server-side software, managing UI, APIs, logic, and databases.
-2. **3-Tier Architecture:** A client-server architecture in which functional process logic, data access, user interface, and computer data storage are developed and maintained as independent modules.
-3. **JSON:** A lightweight, text-based data interchange format derived from JavaScript object notation syntax.
-4. **REST:** REpresentational State Transfer; a software architectural style that defines constraints for web service communications.
-5. **HATEOAS:** Hypermedia as the Engine of Application State; a REST constraint where hypermedia links in responses direct clients to available actions.
+$$
+\text{Memory Overhead} = \frac{\text{JSON String Size (Bytes)}}{\text{Raw Binary Data Size (Bytes)}} \times 100\%
+$$
 
 ---
 
-## 10. Exam-Oriented Review
+## 7. Definition Sheet
 
-1. Compare 3-tier architecture with monolithic single-tier applications. Explain the cascade communication rule.
-2. Contrast JSON and XML across verbosity, parsing speed, and data structure support.
-3. List the 6 architectural constraints of REST and define HATEOAS with a JSON example.
-4. Detail the HTTP verbs (GET, POST, PUT, DELETE), their CRUD mappings, idempotency status, and standard return status codes.
+1. **Full Stack Developer:** An engineer capable of designing, building, and deploying software across client UI, server logic, APIs, and database tiers.
+2. **3-Tier Architecture:** Software architecture dividing application logic into Presentation, Business, and Data Access tiers.
+3. **JSON:** A lightweight, text-based, human-readable data interchange format derived from JavaScript object literals.
+4. **JSON.parse():** JavaScript method transforming a JSON-formatted string into a live JavaScript object.
+5. **JSON.stringify():** JavaScript method serializing a JavaScript object into a JSON string.
+6. **Node.js:** An open-source, cross-platform, single-threaded asynchronous JavaScript runtime built on Chrome's V8 engine.
+7. **REST:** REpresentational State Transfer; an architectural style defining constraints for stateless web services.
+8. **HATEOAS:** Hypermedia as the Engine of Application State; a REST constraint where hypermedia links inside response payloads guide client actions.
+
+---
+
+## 8. Exam-Oriented Review
+
+1. Detail the 3-tier enterprise architecture rules. Explain why the Business Tier must be Presentation-Agnostic and Database-Agnostic.
+2. Write runnable JavaScript code demonstrating how to perform CRUD operations on an in-memory JSON array of objects.
+3. Write a complete Node.js HTTP server using core modules (`http`, `url`) that parses JSON POST bodies and serves REST requests.
+4. List the 6 REST architectural constraints. Explain idempotency for GET, POST, PUT, and DELETE methods.
