@@ -1,4 +1,4 @@
-# Chapter 5: Tailwind CSS — Utility-First Architecture & Class Catalog
+# Chapter 5: Tailwind CSS — Utility-First Engine & Exhaustive Class Catalog
 
 > **Course Title:** Full Stack Web Development (FSD)
 > **Source Material:** `UNIT-2 Frontend Frameworks.docx`, `unit2code/`
@@ -6,12 +6,12 @@
 ---
 
 ## 1. Chapter Overview
-Tailwind CSS is an atomic, utility-first CSS framework. This chapter covers:
+Tailwind CSS is an atomic, utility-first CSS framework. This chapter provides an exhaustive reference covering:
 - Philosophy & architecture: Utility-First vs Component-Based CSS.
 - Just-In-Time (JIT) compilation engine and CSS purging mechanics.
-- Spacing scale equation ($\text{Dimension} = n \times 4\text{px}$).
-- Comprehensive utility catalog: sizing, typography, colors, flex/grid layouts, borders, and filter effects.
-- Responsive prefixes (`sm:`, `md:`, `lg:`, `xl:`, `2xl:`) and state variants (`hover:`, `focus:`, `dark:`).
+- Spacing scale linear equation ($\text{Dimension} = n \times 4\text{px}$).
+- Exhaustive class catalog: sizing, typography, color palettes ($50-950$), flex/grid layouts, borders, shadows, and filter effects.
+- Responsive prefixes (`sm:`, `md:`, `lg:`, `xl:`, `2xl:`) and state variants (`hover:`, `focus:`, `group-hover:`, `dark:`).
 - Square bracket arbitrary value syntax (`w-[350px]`, `bg-[#10b981]`).
 - Live interactive Tailwind CSS UI sandbox.
 
@@ -41,18 +41,28 @@ Formula: $\text{Dimension (in px)} = n \times 4\text{px} = n \times 0.25\text{re
 
 | Key ($n$) | rem Equivalent | Pixel Value | Available Classes |
 | :--- | :--- | :--- | :--- |
+| `0` | `0rem` | `0px` | `p-0`, `m-0`, `gap-0` |
+| `0.5` | `0.125rem` | `2px` | `p-0.5`, `m-0.5` |
 | `1` | `0.25rem` | `4px` | `p-1`, `m-1`, `gap-1`, `space-x-1` |
+| `1.5` | `0.375rem` | `6px` | `p-1.5`, `m-1.5` |
 | `2` | `0.5rem` | `8px` | `p-2`, `m-2`, `gap-2`, `space-x-2` |
+| `2.5` | `0.625rem` | `10px` | `p-2.5`, `m-2.5` |
+| `3` | `0.75rem` | `12px` | `p-3`, `m-3`, `gap-3` |
 | `4` | `1.0rem` | `16px` | `p-4`, `m-4`, `gap-4`, `space-x-4` |
-| `8` | `2.0rem` | `32px` | `p-8`, `m-8`, `gap-8`, `space-x-8` |
+| `6` | `1.5rem` | `24px` | `p-6`, `m-6`, `gap-6` |
+| `8` | `2.0rem` | `32px` | `p-8`, `m-8`, `gap-8` |
+| `12` | `3.0rem` | `48px` | `p-12`, `m-12` |
+| `16` | `4.0rem` | `64px` | `p-16`, `m-16` |
+| `24` | `6.0rem` | `96px` | `p-24`, `m-24` |
 
 ---
 
-### 3.2 Typography & Layouts Catalog
-- **Typography Sizes:** `text-xs` ($12\text{px}$), `text-sm` ($14\text{px}$), `text-base` ($16\text{px}$), `text-lg` ($18\text{px}$), `text-xl` ($20\text{px}$), `text-2xl` ($24\text{px}$), `text-3xl` ($30\text{px}$).
-- **Font Weight:** `font-light` (300), `font-normal` (400), `font-medium` (500), `font-semibold` (600), `font-bold` (700).
+### 3.2 Typography & Color Palettes
+- **Typography Sizes:** `text-xs` ($12\text{px}$), `text-sm` ($14\text{px}$), `text-base` ($16\text{px}$), `text-lg` ($18\text{px}$), `text-xl` ($20\text{px}$), `text-2xl` ($24\text{px}$), `text-3xl` ($30\text{px}$), `text-4xl` ($36\text{px}$), `text-5xl` ($48\text{px}$).
+- **Font Weight:** `font-light` (300), `font-normal` (400), `font-medium` (500), `font-semibold` (600), `font-bold` (700), `font-extrabold` (800).
+- **Color Shades:** Available across `slate`, `gray`, `red`, `amber`, `emerald`, `cyan`, `blue`, `indigo`, `purple`, `rose` across shades `50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950`.
 - **Flex & Grid:** `flex`, `flex-col`, `items-center`, `justify-between`, `grid`, `grid-cols-1`, `md:grid-cols-3`, `gap-4`.
-- **Filters & Effects:** `shadow-md`, `rounded-xl`, `hover:scale-105`, `transition-all`, `duration-300`, `blur-sm`.
+- **Filters & Effects:** `shadow-md`, `rounded-xl`, `hover:scale-105`, `transition-all`, `duration-300`, `blur-sm`, `grayscale`.
 
 ---
 

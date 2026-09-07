@@ -6,14 +6,14 @@
 ---
 
 ## 1. Chapter Overview
-JSON (JavaScript Object Notation) is the universal lingua franca for modern web API communication, client-server data serialization, and state persistence. This chapter provides a deep dive into:
+JSON (JavaScript Object Notation) is the universal lingua franca for modern web API communication, client-server data serialization, and state persistence. This chapter provides an exhaustive reference for:
 - JSON definition, structural properties, and language-independent characteristics.
-- Comprehensive technical comparison between JSON and XML.
+- Comprehensive technical comparison between JSON and XML across all dimensions.
 - Valid JSON data types, formal syntax rules, and strict structural constraints.
-- Multi-dimensional arrays, nested object hierarchies, and comments workarounds.
-- Parsing, stringification, error handling, and memory lifecycle in JavaScript.
-- REST API JSON payload modeling, dynamic payload generation, and schema validation.
-- An embedded live interactive JavaScript + UI sandbox for testing JSON serialization, parsing, and formatting.
+- Multi-dimensional arrays, nested object hierarchies, schema validation, and comments workarounds.
+- Parsing (`JSON.parse` with revivers), stringification (`JSON.stringify` with replacers and indentation), error handling, and memory lifecycle in JavaScript.
+- REST API JSON payload modeling, dynamic payload generation, and JSON Schema validation.
+- An embedded live interactive JavaScript + UI sandbox for testing JSON serialization, parsing, formatting, and tree inspection in real time.
 
 ---
 
@@ -34,11 +34,12 @@ JSON (JavaScript Object Notation) is the universal lingua franca for modern web 
 | Evaluation Metric | JSON (JavaScript Object Notation) | XML (eXtensible Markup Language) |
 | :--- | :--- | :--- |
 | **Syntax Footprint** | Compact, minimal syntax overhead. | Verbose; relies on opening and closing tags `<tag></tag>`. |
-| **Parsing Engine** | High speed; parsed via native engine or `JSON.parse()`. | Slower; requires DOM/SAX parser DOM tree allocation in memory. |
+| **Parsing Engine** | High speed; parsed via native engine or `JSON.parse()`. | Slower; requires DOM/SAX parser tree construction in memory. |
 | **Data Types** | Native primitives: String, Number, Boolean, Null, Array, Object. | Everything is stored internally as text nodes/attributes. |
 | **Schema Validation** | JSON Schema (lightweight, JSON-native). | XSD / DTD (powerful, but verbose and complex). |
 | **Array Representation**| First-class native arrays `[1, 2, 3]`. | Requires repeated element tags `<items><item>1</item><item>2</item></items>`. |
 | **Comments Support** | Standard JSON **prohibits** native comments. | Native support via `<!-- Comment -->`. |
+| **Memory Footprint** | Extremely low. | High due to DOM node tree allocation. |
 
 ---
 

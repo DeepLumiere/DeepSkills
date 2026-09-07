@@ -6,9 +6,9 @@
 ---
 
 ## 1. Chapter Overview
-React is a declarative, component-driven JavaScript library for building user interfaces. This chapter covers:
+React is a declarative, component-driven JavaScript library for building user interfaces. This chapter provides an exhaustive reference covering:
 - The Virtual DOM (VDOM) reconciliation engine and $O(n)$ heuristic diffing mechanics.
-- Real DOM vs Virtual DOM comprehensive performance comparison.
+- Real DOM vs Virtual DOM comprehensive performance comparison matrix.
 - React elements vs components; functional components vs class components.
 - State management (`useState`) and side effect lifecycles (`useEffect` dependency matrix).
 - Asynchronous REST API data fetching with error handling and request cancellation (`AbortController`).

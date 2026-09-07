@@ -6,13 +6,13 @@
 ---
 
 ## 1. Chapter Overview
-Bootstrap 5 is an open-source, mobile-first front-end framework. This chapter covers:
-- Architectural evolution: dropped jQuery dependency, CSS custom properties (`--bs-*`), and removal of IE support.
+Bootstrap 5 is an open-source, mobile-first front-end framework. This chapter provides an exhaustive reference covering:
+- Architectural evolution: dropped jQuery dependency, CSS custom properties (`--bs-*`), and removal of Internet Explorer support.
 - CDN installation vs offline compiled production deployment.
 - Subresource Integrity (SRI) security verification.
 - The 6-tier container breakpoint step functions.
 - The 12-column flexbox grid matrix, row mechanics, and gutter spacing (`g-*`, `gx-*`, `gy-*`).
-- Master utility classes reference catalog (spacing, typography, colors, flexbox, borders, display, components).
+- Master utility classes reference catalog (spacing, typography, colors, flexbox, borders, display, components, forms, buttons).
 - Edge cases and critical layout pitfalls.
 - Live interactive Bootstrap 5 UI sandbox.
 
@@ -67,11 +67,33 @@ Grid structure rule: $\text{Container} \to \text{Row} \to \text{Column}$.
 
 ## 4. Master Bootstrap 5 Utility Classes Reference Catalog
 
-- **Spacing:** `m-{0-5}`, `p-{0-5}`, `mt-3`, `mb-4`, `mx-auto`, `px-3`, `py-2`.
-- **Colors:** `text-primary`, `text-success`, `text-danger`, `bg-dark`, `bg-light`, `bg-warning`.
-- **Typography:** `.h1` through `.h6`, `.display-1` through `.display-6`, `.fw-bold`, `.fst-italic`, `.text-center`, `.text-truncate`.
-- **Flexbox:** `.d-flex`, `.flex-row`, `.flex-column`, `.justify-content-between`, `.align-items-center`.
-- **Borders:** `.border`, `.border-0`, `.border-primary`, `.rounded`, `.rounded-circle`, `.rounded-pill`.
+### A. Spacing Utilities (`margin` & `padding`)
+Syntax: `{property}{sides}-{size}` or `{property}{sides}-{breakpoint}-{size}`
+- **Property:** `m` (margin), `p` (padding)
+- **Sides:** `t` (top), `b` (bottom), `s` (start/left), `e` (end/right), `x` (horizontal), `y` (vertical), *(blank for all 4 sides)*.
+- **Size Multipliers:**
+  - `0` $\implies 0\text{px}$
+  - `1` $\implies 0.25\text{rem} \; (4\text{px})$
+  - `2` $\implies 0.5\text{rem} \; (8\text{px})$
+  - `3` $\implies 1.0\text{rem} \; (16\text{px})$
+  - `4` $\implies 1.5\text{rem} \; (24\text{px})$
+  - `5` $\implies 3.0\text{rem} \; (48\text{px})$
+  - `auto` $\implies \text{auto margin}$ (`mx-auto` for block centering).
+
+### B. Color & Background Palette
+Variants available for `bg-{variant}`, `text-{variant}`, `border-{variant}`, `btn-{variant}`, `badge bg-{variant}`:
+- `primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light`, `dark`, `white`, `transparent`, `muted`.
+
+### C. Typography & Alignment
+- **Headings:** `.h1` to `.h6`, `.display-1` to `.display-6`, `.lead`.
+- **Alignment:** `.text-start`, `.text-center`, `.text-end`, `.text-sm-center`, `.text-md-end`.
+- **Weights & Style:** `.fw-bold`, `.fw-semibold`, `.fw-normal`, `.fw-light`, `.fst-italic`.
+- **Truncation:** `.text-truncate`, `.text-break`, `.text-lowercase`, `.text-uppercase`.
+
+### D. Display & Flexbox Alignment
+- **Display:** `.d-none`, `.d-inline`, `.d-block`, `.d-grid`, `.d-flex`, `.d-none.d-md-block`.
+- **Flex Direction:** `.flex-row`, `.flex-column`, `.flex-row-reverse`.
+- **Justify & Align:** `.justify-content-start`, `.justify-content-center`, `.justify-content-between`, `.align-items-center`, `.align-items-stretch`.
 
 ---
 

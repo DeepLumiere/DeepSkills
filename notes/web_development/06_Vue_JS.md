@@ -6,12 +6,13 @@
 ---
 
 ## 1. Chapter Overview
-Vue.js is a progressive JavaScript framework for building user interfaces. This chapter covers:
+Vue.js is a progressive JavaScript framework for building user interfaces. This chapter provides an exhaustive reference covering:
 - MVVM (Model-View-ViewModel) architecture and Single Page Application (SPA) paradigms.
 - Complete reference catalog of all 15 built-in directives (`v-bind`, `v-model`, `v-for`, `v-if`, `v-show`, `v-html`, etc.).
-- Directives modifiers: event modifiers (`.prevent`, `.stop`), form modifiers (`.lazy`, `.number`, `.trim`), and keyboard modifiers.
-- Custom directives deep dive across Vue 2 and Vue 3 lifecycle hooks (`mounted`, `updated`, `unmounted`).
-- Options API vs Composition API (`createApp`, `setup`, `ref`, `computed`).
+- Directives modifiers: event modifiers (`.prevent`, `.stop`, `.once`, `.passive`), form modifiers (`.lazy`, `.number`, `.trim`), and keyboard/mouse modifiers.
+- Custom directives deep dive across Vue 2 and Vue 3 lifecycle hooks (`created`, `beforeMount`, `mounted`, `beforeUpdate`, `updated`, `beforeUnmount`, `unmounted`).
+- Four complete worked custom directive implementations (`v-uppercase`, `v-list`, `v-format-date`, `v-pin`).
+- Options API vs Composition API (`createApp`, `setup`, `ref`, `reactive`, `computed`).
 - Reactive state management with worked shopping cart implementations.
 - Live interactive Vue 3 shopping cart UI sandbox.
 
@@ -34,6 +35,8 @@ flowchart LR
     Model <-->|Two-Way Binding & Data Sync| ViewModel
     ViewModel <-->|Template Directives & DOM Events| View
 ```
+
+- **Single Page Application (SPA):** An application loading a single shell HTML page and dynamically updating page content asynchronously via REST/JSON APIs without full page reloads.
 
 ---
 
@@ -59,27 +62,68 @@ flowchart LR
 
 ---
 
-## 4. Custom Directives: Lifecycle Hooks & Worked Code
+## 4. Master Modifiers Catalog
 
-### 4.1 Custom Directives Lifecycle Hooks (Vue 3)
+### 4.1 Event Modifiers (`@` / `v-on`)
+- `.stop`: Invokes `event.stopPropagation()` to halt event bubbling.
+- `.prevent`: Invokes `event.preventDefault()` to cancel default browser behavior.
+- `.capture`: Enables event listening in capture phase instead of bubble phase.
+- `.self`: Triggers handler only if event originated from exact target element.
+- `.once`: Triggers event listener at most once, then automatically detaches.
+- `.passive`: Indicates handler will not call `preventDefault()`, optimizing mobile scroll performance.
+
+### 4.2 Form Input Modifiers (`v-model`)
+- `.lazy`: Syncs state on native `change` (blur) event rather than `input` event.
+- `.number`: Typecasts string inputs into numbers via `parseFloat()`.
+- `.trim`: Strips leading and trailing whitespace automatically.
+
+---
+
+## 5. Custom Directives Deep Dive: Vue 2 vs Vue 3 & 4 Worked Implementations
+
+### 5.1 Custom Directives Lifecycle Hooks (Vue 3)
 - `created`: Called before element attributes or event listeners are applied.
 - `beforeMount`: Called when directive is bound, but before element is mounted in DOM.
 - `mounted`: **Most common hook**; called once element is mounted into parent DOM.
+- `beforeUpdate`: Called before element itself is updated in VDOM.
 - `updated`: Called after containing component and child VNodes have re-rendered.
+- `beforeUnmount`: Called before bound element is unmounted.
 - `unmounted`: Called once directive is unbound and element unmounted.
 
 ---
 
-### 4.2 Worked Implementation: Localized Date Formatting Directive (`v-format-date`)
+### 5.2 Four Worked Custom Directives
+
+#### 1. `v-uppercase` (Transforms text on click)
 ```javascript
-const app = Vue.createApp({
-  data() {
-    return {
-      orderTimestamp: '2026-09-03T11:45:00Z'
-    };
+app.directive('uppercase', {
+  mounted(el) {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => {
+      el.textContent = el.textContent.toUpperCase();
+    });
   }
 });
+```
 
+#### 2. `v-list` (Dynamically creates `<ul>`/`<li>` nodes)
+```javascript
+app.directive('list', {
+  mounted(el, binding) {
+    const ul = document.createElement('ul');
+    ul.className = 'list-disc pl-5 space-y-1';
+    binding.value.forEach(text => {
+      const li = document.createElement('li');
+      li.textContent = text;
+      ul.appendChild(li);
+    });
+    el.appendChild(ul);
+  }
+});
+```
+
+#### 3. `v-format-date` (Localized Date Formatter)
+```javascript
 app.directive('format-date', {
   mounted(el, binding) {
     const dateObj = new Date(binding.value);
@@ -88,16 +132,28 @@ app.directive('format-date', {
     }).format(dateObj);
     el.textContent = formatted;
     el.style.color = '#0284c7';
-    el.style.fontWeight = '600';
   }
 });
+```
 
-app.mount('#app');
+#### 4. `v-pin` (Dynamic Argument & Modifier)
+```javascript
+app.directive('pin', {
+  mounted(el, binding) {
+    el.style.position = 'fixed';
+    const direction = binding.arg || 'top';
+    el.style[direction] = `${binding.value || 0}px`;
+    if (binding.modifiers.warning) {
+      el.style.backgroundColor = '#fef3c7';
+      el.style.padding = '8px';
+    }
+  }
+});
 ```
 
 ---
 
-## 5. Live Interactive UI Sandbox: Vue 3 Shopping Cart
+## 6. Live Interactive UI Sandbox: Vue 3 Shopping Cart
 Below is a live interactive Vue 3 reactive shopping cart running directly via CDN.
 
 ```html
@@ -164,7 +220,7 @@ Below is a live interactive Vue 3 reactive shopping cart running directly via CD
 
 ---
 
-## 6. Formula Sheet
+## 7. Formula Sheet
 
 - **Vue 3 Proxy Reactivity Dependency Tracking:**
 
@@ -178,7 +234,7 @@ $$
 
 ---
 
-## 7. Definition Sheet
+## 8. Definition Sheet
 
 1. **MVVM (Model-View-ViewModel):** An architectural pattern separating user interface presentation from data models via a dynamic reactivity layer.
 2. **Directive:** A specialized attribute prefixed with `v-` instructing Vue to apply dynamic DOM manipulations.
@@ -186,7 +242,7 @@ $$
 
 ---
 
-## 8. Exam-Oriented Review
+## 9. Exam-Oriented Review
 
 1. Compare `v-if` and `v-show` in terms of DOM mounting cost and toggle performance.
 2. Explain the priority reversal of `v-if` and `v-for` between Vue 2 and Vue 3.

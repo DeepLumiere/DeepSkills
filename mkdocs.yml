@@ -110,7 +110,9 @@ nav:
       - "Chapter 3: Multivariate Linear Regression": machine_learning/03_Multivariate_Linear_Regression.md
       - "Chapter 4: Regularization (Ridge & Lasso)": machine_learning/04_Regularization.md
       - "Chapter 5: Probability & Statistics for ML": machine_learning/05_Probability_and_Statistics_for_ML.md
-      - "Chapter 6: KNN, Naive Bayes & Decision Trees": machine_learning/06_KNN_Naive_Bayes_Decision_Trees.md
+      - "Chapter 6: K-Nearest Neighbors (KNN)": machine_learning/06_KNN_Classifier.md
+      - "Chapter 7: Naïve Bayes Classifier": machine_learning/07_Naive_Bayes_Classifier.md
+      - "Chapter 8: Decision Trees & Information Gain": machine_learning/08_Decision_Trees.md
   - Computer Networks:
       - "Chapter 1: Introduction & Architecture": computer_networks/Chapter_1_Introduction.md
       - "Chapter 3: Data Link Layer": computer_networks/Chapter_3_Data_Link_Layer.md
