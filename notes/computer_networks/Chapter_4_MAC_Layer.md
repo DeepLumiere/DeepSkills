@@ -26,7 +26,7 @@
 
 ## 1. Chapter Overview & Channel Allocation Problem
 
-On point-to-point links, a dedicated channel connects exactly two communicating nodes. However, on broadcast networks (such as Ethernet LANs, satellite links, and Wi-Fi networks), multiple communicating stations share a single common physical transmission channel.
+On dedicated point-to-point links, a single channel connects exactly two communicating nodes. However, on broadcast networks (such as Ethernet LANs, satellite links, and Wi-Fi networks), multiple communicating stations share a single common physical transmission channel.
 
 The fundamental design challenge on shared broadcast channels is: **When multiple stations contend for access simultaneously, which station gets to transmit, and how are collisions resolved?**
 
@@ -53,29 +53,35 @@ flowchart TD
 ### Static vs Dynamic Channel Allocation
 
 #### 1. Why Static Channel Allocation (FDM / TDM) Fails for Computer Data
-In traditional telephony, a channel is divided among $N$ users using **Frequency Division Multiplexing (FDM)** or **Time Division Multiplexing (TDM)**:
-* If $N$ users share a channel of total capacity $C$ bps, each user is permanently allocated a sub-band of $\frac{C}{N}$ bps.
-* From queuing theory, the average delay $T$ for a Poisson arrival stream with mean arrival rate $\lambda$ and mean frame service rate $\mu$ is:
+
+In traditional telephony, a channel is divided statically among $N$ competing users using **Frequency Division Multiplexing (FDM)** or **Time Division Multiplexing (TDM)**:
+* If $N$ users share a channel of total capacity $C\text{ bps}$, each user is permanently allocated a private sub-band of capacity $\f\frac{C}{N}\text{ bps}$.
+* **Queueing Theory Derivation ($M/M/1$ Queue):** Let frame arrivals follow a Poisson distribution with average arrival rate $\lambda\text{ frames/sec}$, and frame lengths follow an exponential distribution with mean length $1/\mu\text{ bits}$. The service rate of the undivided channel is $\mu C\text{ frames/sec}$. From $M/M/1$ queueing theory, the mean time delay $T$ to transmit a frame is:
 
 $$
-T_{\text{FDM}} = \frac{1}{\mu \left(\frac{C}{N}\right) - \left(\frac{\lambda}{N}\right)} = \frac{N}{\mu C - \lambda} = N \cdot T_{\text{single}}
+T = \frac{1}{\mu C - \lambda}
 $$
 
-* If $N = 10$ and traffic is bursty (with a high peak-to-average ratio of $1000:1$, typical of web browsing and file downloads), each station is idle for $99\%$ of the time. When a station does generate a burst, it is constrained to a tiny fraction $\frac{1}{N}$ of the bandwidth, causing average delay to increase **$N$-fold**, while all other $(N-1)$ subchannels sit completely idle and wasted.
+* Now divide the channel statically into $N$ equal subchannels of capacity $C/N$, with mean input arrival rate $\lambda/N$ per subchannel. Recomputing the mean delay $T_N$ on a subchannel:
 
-#### 2. Dynamic Channel Allocation
-Dynamic channel allocation shares the entire capacity $C$ on demand among all active stations. Key design assumptions:
-1. **Station Model:** $N$ independent stations, each generating frames with Poisson arrival rate $\lambda$. Once a frame is generated, the station is blocked until the frame is successfully transmitted.
+$$
+T_N = \frac{1}{\mu \left(\frac{C}{N}\right) - \left(\frac{\lambda}{N}\right)} = \frac{N}{\mu C - \lambda} = N \cdot T
+$$
+
+* **Result:** Dividing the single channel into $N$ static subchannels makes the average delay **$N$ times worse** ($T_N = N \cdot T$) than if all frames were served orderly from a single central queue!
+* **Bursty Traffic Inefficiency:** Computer data traffic is extremely bursty, with peak-to-average traffic ratios often exceeding $1000:1$ (e.g. web browsing, file downloads). Under static FDM/TDM, when a station is quiescent, its sub-band lies fallow and wasted while other stations are denied bandwidth.
+* **Bank Lobby Analogy:** Having a single central channel dynamically allocated on demand is like a bank lobby with a single line feeding all available teller windows, which is mathematically far more efficient than separate static queues in front of each teller.
+
+#### 2. Assumptions for Dynamic Channel Allocation
+
+Dynamic channel allocation shares the entire capacity $C$ on demand among active stations. Andrew Tanenbaum formulates five underlying assumptions:
+1. **Independent Traffic Model:** $N$ independent stations generate frames at constant Poisson arrival rate $\lambda \Delta t$. Once a frame is generated, the station is blocked and does nothing until the frame is successfully delivered.
 2. **Single Shared Channel:** A single common communication channel is available for all transmissions.
-3. **Collision Assumption:** If two transmissions overlap in time, their signals interfere and both frames are garbled (a **collision**). No signal can be decoded during a collision.
-4. **Time Model:**
-   * *Continuous Time:* Stations can transmit at any arbitrary instant.
-   * *Slotted Time:* Time is divided into discrete intervals (slots); transmissions must begin strictly at slot boundaries.
-5. **Carrier Sensing Model:**
-   * *Carrier Sense (CSMA):* Stations can listen to the medium before transmitting to determine if it is busy.
-   * *No Carrier Sense (ALOHA):* Stations cannot sense the medium; they transmit blindly and discover collisions later.
+3. **Observable Collisions:** If two frames overlap in time, their signals garble (a **collision**). All stations detect collisions immediately; collided frames must be retransmitted.
+4. **Time Model:** Continuous time (transmissions begin at any instant) vs. Slotted time (time is divided into discrete slots; transmissions start strictly at slot boundaries).
+5. **Carrier Sensing Model:** Carrier Sense (CSMA — stations listen to the channel before transmitting) vs. No Carrier Sense (ALOHA — stations cannot listen; they transmit blindly and discover collisions later).
 
-[Source: Ch 4 MAC Layer.pdf, Slides 4–7; Chapter4-Medium Access Control SubLayer.pdf, Slides 4–9]
+[Source: Ch 4 MAC Layer.pdf, Slides 4–7; Chapter4-Medium Access Control SubLayer.pdf, Slides 4–9; dll_ma.pdf, pp. 258–261]
 
 ---
 
@@ -116,12 +122,13 @@ Dynamic channel allocation shares the entire capacity $C$ on demand among all ac
 
 ![Figure 4.1: Pure ALOHA Vulnerable Period](../images/chapter4/ch4_pure_aloha_vulnerable_period.png)
 
-Developed by Norman Abramson at the University of Hawaii in 1970 for island communication.
+Developed by Norman Abramson and his colleagues at the University of Hawaii in 1970 to connect remote users on Hawaiian islands to the central computer in Honolulu using short-range ground radio broadcasting.
 
 #### Operation
 * Stations transmit **immediately** whenever they have data to send (continuous time, no carrier sensing).
-* After transmitting, the sender waits for an acknowledgment (ACK) broadcast by the central receiver.
-* If no ACK arrives within a timeout interval, the sender assumes a collision occurred, waits a random backoff time, and retransmits.
+* Senders cannot sense the channel before transmitting; they transmit blindly.
+* After transmitting, the central computer rebroadcasts the frame back to all stations. Senders listen for the echo/acknowledgment.
+* If no ACK arrives within a timeout interval, the sender assumes a collision occurred, waits a random backoff time, and retransmits. Waiting time must be random, or colliding frames will lockstep collide indefinitely (**Contention System**).
 
 #### Vulnerable Period Analysis
 Let $T_f$ be the frame transmission time.
@@ -138,16 +145,16 @@ Let $T_f$ be the frame transmission time.
 ```
 
 #### Mathematical Derivation of Pure ALOHA Throughput
-Let $G$ be the offered load (mean frame generation attempts per frame time $T_f$). Assuming frame generation follows a Poisson distribution:
+Let $G$ be the offered load (mean frame generation attempts per frame time $T_f$, including new frames and retransmissions). Assuming frame generation follows a Poisson distribution:
 
 $$
 P(k \text{ frames in time } t) = \frac{\left(G \cdot \frac{t}{T_f}\right)^k e^{-G \cdot \frac{t}{T_f}}}{k!}
 $$
 
-Over the vulnerable period $t = 2 T_f$, the probability of zero other transmissions ($k = 0$) is:
+Over the vulnerable period $t = 2 T_f$, the expected number of frames generated is $2G$. The probability of zero other transmissions ($k = 0$) is:
 
 $$
-P(0) = e^{-G \cdot \frac{2 T_f}{T_f}} = e^{-2G}
+P(0) = e^{-2G}
 $$
 
 The throughput $S$ (rate of successful transmissions per frame time) is:
@@ -166,7 +173,7 @@ $$
 S_{\max} = 0.5 \cdot e^{-1} = \frac{1}{2e} \approx 0.18394 \approx 18.4\%
 $$
 
-[Source: Ch 4 MAC Layer.pdf, Slides 8–15; CN_Numericals_MAC_Layer.pdf, Pages 4–5]
+[Source: Ch 4 MAC Layer.pdf, Slides 8–15; CN_Numericals_MAC_Layer.pdf, Pages 4–5; dll_ma.pdf, pp. 262–264]
 
 ---
 
@@ -179,34 +186,35 @@ Proposed by Lawrence Roberts in 1972 to double the capacity of Pure ALOHA.
 
 #### Operation
 * Time is divided into uniform discrete **slots** of duration $T_f$.
-* Stations are synchronized to slot boundaries. A station cannot transmit immediately; it must wait and begin transmission **strictly at the start of the next slot**.
+* Stations are synchronized to slot boundaries (e.g. via a central clock pulse). A station cannot transmit immediately; it must wait and begin transmission **strictly at the start of the next slot**.
 
 #### Vulnerable Period & Throughput Derivation
 * Since transmissions start only at slot boundaries, a frame transmitted in slot $[t_0, t_0 + T_f]$ collides only if another frame is also scheduled for that exact same slot.
 * The **vulnerable period** is halved to **$T_f$**.
-* Probability of zero other frames in slot time $T_f$:
-
-$$
-P(0) = e^{-G}
-$$
-
+* Probability of zero other frames in slot time $T_f$: $P(0) = e^{-G}$.
 * Throughput equation:
 
 $$
 S = G e^{-G}
 $$
 
-* Differentiating with respect to $G$:
-
-$$
-\frac{dS}{dG} = e^{-G}(1 - G) = 0 \implies G = 1.0
-$$
-
+* Differentiating with respect to $G$: $\frac{dS}{dG} = e^{-G}(1 - G) = 0 \implies G = 1.0$.
 * Maximum throughput:
 
 $$
 S_{\max} = 1.0 \cdot e^{-1} = \frac{1}{e} \approx 0.36788 \approx 36.8\%
 $$
+
+#### Expected Transmission Attempts & ALOHA Overload Bistability
+* At optimal load $G = 1.0$, the probability of a slot being empty is $e^{-1} \approx 37\%$, successful is $37\%$, and colliding is $26\%$.
+* The probability of a frame requiring exactly $k$ transmission attempts ($k-1$ collisions followed by 1 success) is $P_k = e^{-G}(1 - e^{-G})^{k-1}$.
+* The expected number of transmission attempts per line typed is:
+
+$$
+E = \sum_{k=1}^{\infty} k P_k = e^G
+$$
+
+* **ALOHA Bistability Collapse:** Because $E = e^G$ grows exponentially with $G$, a sudden surge in traffic pushes $G > 1.0$, causing an avalanche of retransmissions. Retransmissions drive $G$ even higher, creating a runaway positive feedback loop where $G \to \infty$ and useful throughput $S \to 0$ (channel collapse).
 
 #### Pure ALOHA vs Slotted ALOHA Comparison
 
@@ -216,7 +224,7 @@ flowchart LR
     C[Slotted ALOHA] -->|Vulnerable Period = 1 Tf| D[Peak Throughput S = 36.8% at G = 1.0]
 ```
 
-[Source: Ch 4 MAC Layer.pdf, Slides 9–15; CN_Numericals_MAC_Layer.pdf, Pages 4–5]
+[Source: Ch 4 MAC Layer.pdf, Slides 9–15; CN_Numericals_MAC_Layer.pdf, Pages 4–5; dll_ma.pdf, pp. 264–266]
 
 ---
 
@@ -239,18 +247,17 @@ flowchart TD
 1. **1-Persistent CSMA:**
    * When ready, sense channel. If idle, transmit immediately (probability 1).
    * If busy, continue listening continuously until idle, then transmit immediately.
-   * *Trade-off:* Minimizes idle line delay, but if two or more stations become ready while a third station is transmitting, they will both transmit as soon as the channel frees up, causing a guaranteed collision.
+   * *Propagation Delay Hazard:* If Station A starts transmitting, but its signal wavefront has not yet reached Station B ($\tau$ delay), Station B senses an idle channel and transmits, causing a collision.
+   * *Impatient Station Flaw:* If two stations become ready while a third is transmitting, both wait for the channel to clear and both transmit simultaneously at the end of the transmission, producing a guaranteed collision.
 2. **Non-Persistent CSMA:**
    * If idle, transmit immediately.
    * If busy, do *not* listen continuously; wait a random backoff time and sense again.
-   * *Trade-off:* Dramatically reduces collisions under high load, but introduces channel idle time during low load.
+   * *Trade-off:* Dramatically reduces collisions under heavy load, but introduces channel idle time during low load.
 3. **p-Persistent CSMA:**
-   * Applies to slotted channels.
-   * When channel becomes idle: Transmit with probability $p$; defer to next slot with probability $q = 1 - p$.
-   * If the next slot is still idle, repeat: transmit with probability $p$, defer with $1-p$.
-   * If channel becomes busy during deferral, treat as collision and start backoff.
+   * Applies to slotted channels. When channel becomes idle, transmit with probability $p$; defer to next slot with probability $q = 1 - p$.
+   * If next slot is idle, repeat: transmit with probability $p$, defer with $1-p$.
 
-[Source: Ch 4 MAC Layer.pdf, Slides 16–18; Chapter4-Medium Access Control SubLayer.pdf, Slides 14–18]
+[Source: Ch 4 MAC Layer.pdf, Slides 16–18; Chapter4-Medium Access Control SubLayer.pdf, Slides 14–18; dll_ma.pdf, pp. 266–267]
 
 ---
 
@@ -283,48 +290,34 @@ Let $\tau$ be the maximum one-way propagation time between the two farthest stat
 3. A collision occurs near B immediately at $t = \tau$.
 4. Station B detects the collision instantly, aborts, and broadcasts a jamming signal.
 5. The collision signal (the corrupted runt waveform) must travel all the way back across the physical cable to reach Station A.
-6. Station A detects the collision at time:
+6. Station A detects the collision at time $t_{\text{detect}} = 2\tau - \epsilon \approx 2\tau$.
 
-$$
-t_{\text{detect}} = 2\tau - \epsilon \approx 2\tau
-$$
-
-#### The Minimum Frame Size Requirement
+#### The Minimum Frame Size Floor & The Runt Frame Hazard
 To guarantee that a transmitting station detects a collision **before** it completes sending its frame, the frame transmission time $T_{\text{trans}}$ must be at least as long as the round-trip propagation time $2\tau$:
 
 $$
-T_{\text{trans}} \ge 2\tau
-$$
-
-$$
-\frac{L_{\min}}{B} \ge 2 \cdot \frac{D}{v} \implies L_{\min} = 2 \cdot \frac{D}{v} \cdot B = 2 \cdot \tau \cdot B
+T_{\text{trans}} \ge 2\tau \implies \frac{L_{\min}}{B} \ge 2 \cdot \frac{D}{v} \implies L_{\min} = 2 \cdot \frac{D}{v} \cdot B = 2 \cdot \tau \cdot B
 $$
 
 *For Classic 10 Mbps Ethernet (10Base5):*
-* Maximum length with 4 repeaters: $D = 2500\text{ m}$.
-* Signal speed in coaxial cable: $v = 2 \times 10^8\text{ m/s} = 200\text{ m/}\mu\text{s}$.
+* Maximum length with 4 repeaters: $D = 2500\text{ m}$. Signal speed: $v = 2 \times 10^8\text{ m/s} = 200\text{ m/}\mu\text{s}$.
 * Round-trip delay: $2\tau = \frac{2 \times 2500\text{ m}}{2 \times 10^8\text{ m/s}} = 25\,\mu\text{s}$ (with repeater delays, standard sets slot time to $51.2\,\mu\text{s}$).
-* Minimum frame size:
+* Minimum frame size: $L_{\min} = 51.2\,\mu\text{s} \times 10\text{ Mbps} = 512\text{ bits} = 64\text{ Bytes}$.
+* **The Runt Frame Hazard:** If a station transmits a frame smaller than 64 bytes (e.g. 20 bytes), it finishes sending all bits and clears its transmission buffer before $t = 2\tau$. When the collision noise burst arrives, the sender assumes the frame was delivered successfully, leaving a damaged fragment (**runt frame**) on the wire without triggering retransmission.
 
-$$
-L_{\min} = 51.2\,\mu\text{s} \times 10\text{ Mbps} = 512\text{ bits} = 64\text{ Bytes}
-$$
-
-If a station finishes transmitting a 64-byte frame without detecting a collision during the first 512 bits, it is guaranteed to have captured the channel, and no collision can occur for the remainder of the frame.
-
-[Source: Ch 4 MAC Layer.pdf, Slides 20, 42–43; CN_Numericals_MAC_Layer.pdf, Pages 9–11]
+[Source: Ch 4 MAC Layer.pdf, Slides 20, 42–43; CN_Numericals_MAC_Layer.pdf, Pages 9–11; dll_ma.pdf, pp. 268–269]
 
 ---
 
-### Binary Exponential Backoff (BEB) Algorithm
+### Binary Exponential Backoff (BEB) Algorithm & The Capture Effect
 
 After a collision, stations randomize their retransmission timing using BEB:
 
 #### Algorithm Rules
-1. Time is divided into contention slots of duration equal to the round-trip time: **$1\text{ slot} = 51.2\,\mu\text{s}$** ($512\text{ bit times}$ at 10 Mbps).
+1. Time is divided into contention slots equal to the round-trip time: **$1\text{ slot} = 51.2\,\mu\text{s}$** ($512\text{ bit times}$ at 10 Mbps).
 2. After the **$i$-th collision** for a given frame ($1 \le i \le 16$):
    * Set exponent $k = \min(i, 10)$.
-   * The station randomly chooses an integer backoff delay $r$ uniformly distributed in the range:
+   * Select random backoff delay $r$ uniformly distributed in:
 
 $$
 r \in [0, \; 2^k - 1]
@@ -333,13 +326,19 @@ $$
    * The station waits $r \times 51.2\,\mu\text{s}$ before attempting to sense the channel and retransmit.
 3. *Backoff Progression:*
    * Collision 1 ($i=1$): $r \in [0, 1]$ (Delays: 0 or 1 slot).
-   * Collision 2 ($i=2$): $r \in [0, 3]$ (Delays: 0, 1, 2, or 3 slots).
-   * Collision 3 ($i=3$): $r \in [0, 7]$ (Delays: 0 to 7 slots).
+   * Collision 2 ($i=2$): $r \in [0, 3]$ (Delays: 0 to 3 slots).
    * Collision 10 ($i=10$): $r \in [0, 1023]$ (Delays: 0 to 1023 slots).
    * Collisions 11 to 15: Frozen at $r \in [0, 1023]$.
-   * Collision 16: Failure; frame transmission is aborted and error is reported to the network layer.
+   * Collision 16: Failure; frame transmission is aborted and error reported to network layer.
 
-[Source: Ch 4 MAC Layer.pdf, Slide 21; Chapter4-Medium Access Control SubLayer.pdf, Slide 22]
+#### The Capture Effect Anomaly
+In CSMA/CD, if Station A and Station B collide:
+* Station A picks backoff 0 and transmits successfully, resetting its collision counter to 0.
+* Station B picks backoff 1 and waits.
+* On the next frame attempt, Station A has collision counter 0 ($k=1$, range $[0,1]$) while Station B has collision counter 1 ($k=2$, range $[0,3]$).
+* Station A has a much higher chance of acquiring the channel again, leading to **Channel Capture**, where one station dominates the line while other stations suffer exponential backoff starvation.
+
+[Source: Ch 4 MAC Layer.pdf, Slide 21; Chapter4-Medium Access Control SubLayer.pdf, Slide 22; dll_ma.pdf, pp. 285–286]
 
 ---
 
@@ -355,7 +354,7 @@ Collision-free protocols eliminate contention completely during data transfer th
 
 * **Mechanism:** If there are $N$ stations (numbered $0$ to $N-1$), each contention period consists of exactly **$N$ small 1-bit reservation slots**.
 * If station $j$ has a frame queued to transmit, it transmits a `1` bit during contention slot $j$. Stations with no frames remain silent (transmitting `0`).
-* By the end of $N$ slots, every station knows exactly which stations want to transmit.
+* By the end of $N$ slots, every station knows exactly which stations wish to transmit.
 * Stations then transmit their full data frames in strictly increasing numerical order without any collisions.
 
 ```text
@@ -365,21 +364,22 @@ Slot 0 | Slot 1 | Slot 2 | Slot 3 | Slot 4 | Slot 5 | Slot 6 | Slot 7
 Frame Transmissions: ----> [ Frame from Station 1 ] ---> [ Frame from Station 3 ] ---> [ Frame from Station 7 ]
 ```
 
-#### Channel Efficiency Analysis
+#### Delay Asymmetry & Channel Efficiency Analysis
 Let $d$ be the data frame size in bits:
-* **Low Load (Only 1 station wants to send):** Sender must wait for $N$ contention bits before transmitting $d$ bits. Overhead = $N$ bits.
+* **Low-Load Delay Asymmetry:** A low-numbered station (like 0 or 1) that becomes ready midway through a scan must wait $N/2$ slots for the current scan to finish, plus another full $N$ slots for the next scan before transmitting (average wait $= 1.5N$ slots). High-numbered stations (like $N-1$) only wait $N/2$ slots on average ($0.5N$). The mean waiting time across all stations is $N$ bit slots.
+* **Low-Load Efficiency:** The overhead per frame is $N$ bits for $d$ data bits:
 
 $$
-\text{Efficiency} = \frac{d}{d + N}
+\text{Efficiency}_{\text{low}} = \frac{d}{d + N}
 $$
 
-* **High Load (All $N$ stations want to send):** $N$ data frames ($N \cdot d$ bits) are transmitted for $N$ contention bits.
+* **High-Load Efficiency:** When all $N$ stations have data ready continuously, $N$ data frames ($N \cdot d$ bits) are sent per $N$-bit reservation scan, prorating overhead to 1 bit per frame:
 
 $$
-\text{Efficiency} = \frac{N \cdot d}{N \cdot d + N} = \frac{d}{d + 1}
+\text{Efficiency}_{\text{high}} = \frac{N \cdot d}{N \cdot d + N} = \frac{d}{d + 1}
 $$
 
-[Source: Ch 4 MAC Layer.pdf, Slides 27–30; CN_Numericals_MAC_Layer.pdf, Page 8]
+[Source: Ch 4 MAC Layer.pdf, Slides 27–30; CN_Numericals_MAC_Layer.pdf, Page 8; dll_ma.pdf, pp. 270–271]
 
 ---
 
@@ -387,10 +387,9 @@ $$
 
 ![Figure 4.7: Binary Countdown Protocol](../images/chapter4/ch4_binary_countdown.png)
 
-* **Mechanism:** Overcomes the $O(N)$ overhead of the Bit-Map protocol by assigning each station a binary address (e.g., $4\text{ bits}$ for 16 stations).
-* In the contention period, stations broadcast their binary addresses **bit-by-bit from most significant bit (MSB) to least significant bit (LSB)**.
-* The channel performs a boolean **wired-OR** operation on the transmitted signals.
-* **Rule:** If a station broadcasts a `0` bit in position $k$, but detects a `1` on the channel (because a higher-addressed station broadcast a `1`), it immediately concedes defeat and stops transmitting for the rest of the round.
+* **Mechanism:** Overcomes the $O(N)$ bit-map reservation overhead by assigning each station a binary address (e.g., $\log_2 N$ bits).
+* In the contention period, stations broadcast their binary addresses **bit-by-bit from most significant bit (MSB) to least significant bit (LSB)** over a boolean **wired-OR** channel.
+* **Arbitration Rule:** As soon as a station broadcasts a `0` bit in position $k$, but senses a `1` on the channel (because a higher-addressed station broadcast a `1`), it immediately concedes defeat and stops transmitting for the remainder of the round.
 * The highest-numbered contending station wins arbitration in only $\log_2 N$ bit slots.
 
 #### Example: Binary Countdown Arbitration
@@ -401,11 +400,10 @@ Suppose Stations 0010 (2), 0100 (4), 1010 (10), and 1001 (9) contend:
 * **Bit 0 (LSB):** Station 1010 sends `0`. Channel is `0`.
 * **Winner:** Station 1010 (Station 10) wins and transmits its frame.
 
-$$
-\text{Channel Efficiency} = \frac{d}{d + \log_2 N}
-$$
+#### 100% Efficiency Trick
+Standard channel efficiency is $\frac{d}{d + \log_2 N}$. However, if the frame format is designed so that the **sender's address is the first field in the frame header**, the binary countdown arbitration bits double as the frame header address field. In this case, zero bandwidth is wasted on arbitration overhead, achieving **$100\%$ channel efficiency**.
 
-[Source: Ch 4 MAC Layer.pdf, Slides 32–35]
+[Source: Ch 4 MAC Layer.pdf, Slides 32–35; dll_ma.pdf, pp. 272–273]
 
 ---
 
@@ -445,7 +443,7 @@ $$
 \lim_{k \to \infty} \left(1 - \frac{1}{k}\right)^{k-1} = \frac{1}{e} \approx 0.36788 \approx 36.8\%
 $$
 
-[Source: Ch 4 MAC Layer.pdf, Slides 37–38]
+[Source: Ch 4 MAC Layer.pdf, Slides 37–38; dll_ma.pdf, p. 274]
 
 ---
 
@@ -453,7 +451,11 @@ $$
 
 ![Figure 4.8: Adaptive Tree Walk](../images/chapter4/ch4_adaptive_tree_walk.png)
 
-The Adaptive Tree Walk protocol uses a binary tree structure to dynamically partition contending stations:
+#### Historical Origin (WWII Blood Testing Analogy)
+Devised from Robert Dorfman's 1943 algorithm for testing US Army soldiers for syphilis. To save test tubes, blood from $N$ soldiers was pooled into a single tube and tested. If negative, all $N$ soldiers were declared healthy. If positive, the group was recursively split into two halves and tested recursively until infected individuals were pinpointed.
+
+#### Protocol Rules & Binary Tree Search
+For a network with $N = 2^k$ stations represented as leaves of a binary tree:
 
 ```mermaid
 graph TD
@@ -473,23 +475,38 @@ graph TD
     Node2 --> Node6
 ```
 
-#### Protocol Rules
-1. In Slot 0, all stations under the Root Node are invited to transmit.
-2. If zero stations transmit $\implies$ Idle; proceed to next frame cycle.
-3. If exactly one station transmits $\implies$ Success; transmission completes.
-4. If two or more stations transmit $\implies$ **Collision**. The tree is split:
-   * In Slot 1, only stations in the **left subtree (Node 1)** are permitted to transmit.
-   * All stations in the right subtree remain silent until the left subtree resolves.
-   * If collision occurs at Node 1, recurse down to its left child (Stations 0, 1).
-   * Once the left subtree has finished (either by success or finding it idle), search moves to the right subtree.
+1. In Slot 0, all stations under the Root Node (Level 0) compete.
+2. If 0 stations send $\implies$ Slot is idle; cycle ends.
+3. If 1 station sends $\implies$ Success; transmission completes.
+4. If $\ge 2$ stations send $\implies$ **Collision**. The tree is searched depth-first:
+   * In Slot 1, only stations under **Node 1 (left child)** compete.
+   * If Node 1 collides, recurse to Node 1's left child.
+   * Once Node 1's subtree finishes, move search to Node 2 (right child).
 
-[Source: Ch 4 MAC Layer.pdf, Slides 39–40; CN_Numericals_MAC_Layer.pdf, Page 12]
+#### Optimal Tree Search Level
+If $q$ ready stations are uniformly distributed across the tree, a node at level $i$ has $2^{-i} q$ ready stations below it. The optimal level to start searching is where the expected number of contending stations per slot is $1$:
+
+$$
+2^{-i} q = 1 \implies i = \log_2 q
+$$
+
+#### Search Optimization Trick
+If a collision occurs at Node 1 (Root), and searching Node 2 (left child) reveals it is **idle**, it is mathematically guaranteed that $\ge 2$ ready stations are under Node 3 (right child). Thus, the probe of Node 3 can be **skipped**, immediately probing Node 3's left child (Node 6) instead.
+
+[Source: Ch 4 MAC Layer.pdf, Slides 39–40; CN_Numericals_MAC_Layer.pdf, Page 12; dll_ma.pdf, pp. 275–277]
 
 ---
 
 ## 6. Classic & Switched Ethernet (IEEE 802.3)
 
-Ethernet was invented by Robert Metcalfe and David Boggs at Xerox PARC in 1973 and standardized as IEEE 802.3.
+Ethernet was invented by Robert Metcalfe and David Boggs at Xerox PARC (Palo Alto Research Center) in 1973 and standardized as IEEE 802.3. Metcalfe named the system **Ethernet** after the 19th-century physics concept of *luminiferous ether*, through which electromagnetic waves were once thought to propagate.
+
+#### History, Cabling, and Physical Architecture
+1. **The Xerox 3 Mbps Coax Prototype:** Metcalfe's original PARC network connected experimental personal computers over a single thick coaxial cable running at $3\text{ Mbps}$.
+2. **The DIX Standard & IEEE 802.3:** In 1978, DEC, Intel, and Xerox established the 10-Mbps **DIX Standard**. Metcalfe founded 3Com to commercialize PC Ethernet adapters. In 1983, IEEE standardized 802.3.
+3. **Thick Ethernet (10Base5):** A yellow garden-hose-like coaxial cable up to $500\text{ meters}$ per segment. Computers attached via "vampire taps" that pierced the cable jacket to connect to the center copper conductor.
+4. **Thin Ethernet (10Base2):** Cheaper, more flexible coaxial cable using industry-standard BNC T-connectors. Limited to $185\text{ meters}$ per segment and 30 machines per segment.
+5. **Repeaters:** Physical-layer (Layer 1) signal regenerators. An Ethernet path could contain multiple cable segments connected by repeaters, subject to the **5-4-3 Rule** (max 5 segments, 4 repeaters, 3 populated segments) and a maximum physical transceiver separation of $2.5\text{ km}$.
 
 ---
 
@@ -506,17 +523,17 @@ Ethernet was invented by Robert Metcalfe and David Boggs at Xerox PARC in 1973 a
 ```
 
 #### Field Specifications
-1. **Preamble (7 Bytes):** Pattern `10101010` repeated 7 times ($56\text{ bits}$) producing a $10\text{ MHz}$ square wave to synchronize receiver clock.
+1. **Preamble (7 Bytes):** Pattern `10101010` repeated 7 times ($56\text{ bits}$) producing a $10\text{ MHz}$ square wave for $5.6\,\mu\text{s}$ to allow the receiver clock to synchronize with the sender.
 2. **Start of Frame Delimiter (SFD — 1 Byte):** Pattern `10101011` ending with two consecutive `1`s, signaling that the next byte is the destination MAC address.
 3. **Destination MAC Address (6 Bytes / 48 bits):** Hardware address of destination NIC. If least significant bit of first byte is `0` $\implies$ Individual (Unicast); if `1` $\implies$ Multicast; all `1`s (`FF:FF:FF:FF:FF:FF`) $\implies$ Broadcast.
 4. **Source MAC Address (6 Bytes / 48 bits):** Hardware address of transmitting NIC. First 3 bytes are IEEE-assigned Organizationally Unique Identifier (OUI); last 3 bytes are vendor-assigned NIC serial number.
 5. **Type / Length Field (2 Bytes):**
-   * If value $\le 1500$ (`0x05DC`), it represents the exact payload byte **Length** (IEEE 802.3 format).
-   * If value $\ge 1536$ (`0x0600`), it represents the network layer **EtherType** (Ethernet II format, e.g., `0x0800` IPv4, `0x0806` ARP, `0x86DD` IPv6).
+   * If value $\le 1500$ (`0x05DC`), it represents the exact payload byte **Length** (IEEE 802.3 format with mandatory 8-byte LLC header).
+   * If value $\ge 1536$ (`0x0600`), it represents the network layer **EtherType** (Ethernet II DIX format, e.g., `0x0800` IPv4, `0x0806` ARP, `0x86DD` IPv6).
 6. **Data Payload (46 to 1500 Bytes):** Network layer packet. If packet is $< 46\text{ Bytes}$, the DLL appends **Padding Bytes** to maintain the 64-byte minimum frame size ($14\text{ B header} + 46\text{ B payload} + 4\text{ B FCS} = 64\text{ Bytes}$).
 7. **Frame Check Sequence (FCS — 4 Bytes):** 32-bit CRC checksum computed over Destination Address, Source Address, Type/Length, and Payload/Pad fields.
 
-[Source: Ch 4 MAC Layer.pdf, Slide 42; CN_Numericals_MAC_Layer.pdf, Page 9]
+[Source: Ch 4 MAC Layer.pdf, Slide 42; CN_Numericals_MAC_Layer.pdf, Page 9; dll_ma.pdf, pp. 280–285]
 
 ---
 
@@ -538,22 +555,43 @@ $$
 \eta = \frac{T_{\text{frame}}}{T_{\text{frame}} + T_{\text{contention}}} = \frac{\frac{F}{B}}{\frac{F}{B} + 2 \left(\frac{L}{c}\right) e} = \frac{1}{1 + \frac{2 B L e}{c F}}
 $$
 
-**Key Insight:** Ethernet efficiency is high ($> 90\%$) when frames are large ($F = 1500\text{ B}$) and network span $L$ is short; efficiency degrades significantly if frames are small ($F = 64\text{ B}$) on long, high-speed networks.
+**Key Insight:** Increasing network bandwidth $B$ or cable length $L$ (the $BL$ product) decreases channel efficiency for a given frame size $F$. Ethernet efficiency is high ($> 85\%$) for large $1500\text{-byte}$ frames on short cables, but collapses for small $64\text{-byte}$ frames on long, high-speed lines.
 
-[Source: Ch 4 MAC Layer.pdf, Slides 45–48, 91]
+[Source: Ch 4 MAC Layer.pdf, Slides 45–48, 91; dll_ma.pdf, pp. 286–287]
 
 ---
 
-### Evolution of Ethernet
+### Switched Ethernet, Flow Control, and Evolution
 
-| Generation | Standard | Data Rate | Transmission Medium | Max Distance | Access Method / Line Coding |
+#### 1. Hubs vs. Switches
+* **Twisted-Pair Hubs (10Base-T):** Central wiring box connecting Cat 3/Cat 5 twisted pairs. Hubs repeat incoming electrical signals to all other ports. All ports belong to a **single shared collision domain** running CSMA/CD.
+* **Ethernet Switches:** High-speed backplane matrix connecting ports. A switch inspects incoming destination MAC addresses and forwards frames only to the target destination port. Each port forms an **independent full-duplex collision domain**. Collisions are impossible; **CSMA/CD is completely disabled**.
+
+#### 2. Flow Control & Jumbo Frames
+* **PAUSE Control Frames (IEEE 802.3x):** If a switch output port buffer fills up during a heavy burst, it transmits a PAUSE frame (EtherType `0x8808`) to the sending station requesting it to pause transmission for a specified number of $512\text{-ns}$ slot units (up to $33.6\text{ ms}$).
+* **Jumbo Frames:** Proprietary extension allowing payload sizes up to $9\text{ KB}$ (9000 bytes) at Gigabit speeds, reducing CPU interrupt overhead per megabyte transferred.
+
+#### 3. Evolution of Ethernet Standards
+
+| Generation | Standard | Data Rate | Transmission Medium | Max Segment Distance | Access Method & Line Coding |
 | :--- | :--- | :---: | :--- | :---: | :--- |
-| **Classic Ethernet** | IEEE 802.3 | 10 Mbps | Coaxial (10Base5/10Base2) / Cat 3 UTP | $500\text{ m} / 185\text{ m} / 100\text{ m}$ | CSMA/CD, Manchester (20 Mbaud) |
-| **Fast Ethernet** | IEEE 802.3u | 100 Mbps | Cat 5 UTP (100Base-TX) / Fiber (100Base-FX) | $100\text{ m} / 2000\text{ m}$ | CSMA/CD, 4B/5B, MLT-3 |
-| **Gigabit Ethernet** | IEEE 802.3z / ab | 1 Gbps | Cat 5e/6 (1000Base-T) / Fiber (1000Base-LX/SX)| $100\text{ m} / 550\text{ m} / 5000\text{ m}$ | Full-Duplex Switch / Carrier Extension (Half-Duplex), 8B/10B, 4D-PAM5 |
-| **10 Gigabit Ethernet**| IEEE 802.3ae / an| 10 Gbps | Cat 6a (10GBASE-T) / Fiber (10GBASE-SR/LR) | $100\text{ m} / 300\text{ m} / 10\text{ km}$ | Full-Duplex Only (No CSMA/CD, No Collisions), 64B/66B |
+| **Classic Ethernet** | IEEE 802.3 | 10 Mbps | Coaxial (10Base5/10Base2) / Cat 3 UTP | $500\text{ m} / 185\text{ m} / 100\text{ m}$ | Half-Duplex CSMA/CD, Manchester (20 Mbaud) |
+| **Fast Ethernet** | IEEE 802.3u | 100 Mbps | Cat 5 UTP (100Base-TX) / Fiber (100Base-FX) | $100\text{ m} / 2000\text{ m}$ | Full/Half Duplex (CSMA/CD), 4B/5B, MLT-3 |
+| **Gigabit Ethernet** | IEEE 802.3z / ab | 1 Gbps | Cat 5e/6 (1000Base-T) / Fiber (1000Base-LX/SX)| $100\text{ m} / 550\text{ m} / 5000\text{ m}$ | Full-Duplex Switch (no CSMA/CD) / Carrier Extension & Frame Bursting (Half-Duplex), 8B/10B, 4D-PAM5 |
+| **10-Gigabit Ethernet**| IEEE 802.3ae / an| 10 Gbps | Cat 6a (10GBASE-T) / Fiber (10GBASE-SR/LR/ER)| $100\text{ m} / 300\text{ m} / 10\text{ km} / 40\text{ km}$| Full-Duplex Only (no CSMA/CD, no hubs), 64B/66B, LDPC Error Correction |
 
-[Source: Ch 4 MAC Layer.pdf, Slides 49–50; Chapter4-Medium Access Control SubLayer.pdf, Slides 36–42]
+#### Fast & Gigabit Ethernet Scaling Details
+* **Fast Ethernet Cable Length Reduction:** To increase bit rate by $10\times$ ($100\text{ Mbps}$) while preserving the 64-byte minimum frame size requirement for half-duplex CSMA/CD hubs, the maximum cable span was reduced by a factor of 10 (from $2500\text{ m}$ down to $250\text{ m}$ total / $100\text{ m}$ hub-to-station).
+* **Gigabit Ethernet Carrier Extension & Frame Bursting:** At $1\text{ Gbps}$, a 64-byte frame takes only $512\text{ ns}$ to transmit. To allow half-duplex hubs over $200\text{ m}$ cables, **Carrier Extension** pads short frames to $512\text{ bytes}$ in hardware ($9\%$ efficiency for 46B payload). **Frame Bursting** concatenates multiple small frames into a single transmission burst without repadding.
+
+#### Retrospective: Why Ethernet Won (The KISS Principle)
+Over 30+ years, Ethernet outlived all competing LAN technologies (Token Ring, FDDI, Fibre Channel, and ATM). Andrew Tanenbaum identifies key reasons:
+1. **Simplicity & Cheapness:** Simple hardware translates to low manufacturing costs, reliability, and easy maintenance (plug-and-play, no complex configuration tables).
+2. **Connectionless Alignment with IP:** Ethernet provides unacknowledged connectionless datagram service, matching TCP/IP perfectly. Connection-oriented competitors (like ATM) suffered from architectural mismatch.
+3. **Evolutionary Backward Compatibility:** Ethernet evolved from $3\text{ Mbps} \to 10\text{ Mbps} \to 100\text{ Mbps} \to 1\text{ Gbps} \to 10\text{ Gbps} \to 100\text{ Gbps}$ without requiring software rewrites or forcing immediate cable replacement.
+4. **KISS Principle:** *Keep It Simple, Stupid.* When Ethernet caught up in speed, overly complex competitors had no advantages left and quietly died off.
+
+[Source: Ch 4 MAC Layer.pdf, Slides 49–50; Chapter4-Medium Access Control SubLayer.pdf, Slides 36–42; dll_ma.pdf, pp. 288–299]
 
 ---
 
@@ -624,7 +662,13 @@ sequenceDiagram
 3. **Network Allocation Vector (NAV):** Any station hearing the CTS (such as hidden Station C) reads the duration field and sets its internal hardware timer (**NAV**). Station C remains completely silent until the NAV counts down to zero (**Virtual Carrier Sensing**).
 4. **Data & ACK:** Sender A transmits the full data frame; Receiver B verifies CRC and returns an immediate ACK frame after a short SIFS interval.
 
-[Source: Ch 4 MAC Layer.pdf, Slides 60–63; Chapter4-Medium Access Control SubLayer.pdf, Slides 55–62]
+#### RTS Threshold Configuration Trade-Off
+Transmitting RTS + CTS frames introduces control overhead (34 bytes of control frames plus SIFS gaps). For small data packets (e.g. 50-byte TCP ACKs or DNS requests), the RTS/CTS overhead exceeds the packet size itself!
+* Wi-Fi network cards enforce an **RTS Threshold** parameter (typically 2347 bytes).
+* Packets **smaller** than the threshold bypass RTS/CTS handshaking and transmit directly via CSMA/CA.
+* Packets **larger** than the threshold utilize RTS/CTS to prevent hidden terminal collisions on large payloads.
+
+[Source: Ch 4 MAC Layer.pdf, Slides 60–63; Chapter4-Medium Access Control SubLayer.pdf, Slides 55–62; dll_ma.pdf, pp. 278–280]
 
 ---
 
