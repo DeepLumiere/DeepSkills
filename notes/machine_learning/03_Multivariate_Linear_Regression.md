@@ -349,15 +349,16 @@ Predicting salary for $10$ years experience: $\hat{y} = 23.6 + 3.5(10) = 58.6 \i
 
 ```mermaid
 flowchart TD
-    A[Multivariate Dataset X, y] --> B{Choose Solution Method}
-    B -- Gradient Descent --> C[Perform Feature Scaling Z-Score / Min-Max]
-    C --> D[Initialize Parameters theta]
-    D --> E[Iteratively Update theta := theta - alpha * grad]
-    E --> F[Check Convergence J_iter - J_prev < 1e-3]
-    F -- Converged --> G[Final Model theta*]
-    B -- Normal Equation --> H{Check if X^T X is Singular?}
-    H -- Non-Singular --> I[Compute theta = X^T X^-1 X^T y]
-    H -- Singular m <= n or Collinear --> J[Use pinv X' X * X' y or Regularization]
+    A["Multivariate Dataset X, y"] --> B{"Choose Solution Method"}
+    B -->|Gradient Descent| C["Perform Feature Scaling Z-Score / Min-Max"]
+    C --> D["Initialize Parameters &theta;"]
+    D --> E["Iteratively Update &theta; := &theta; - &alpha; &times; grad"]
+    E --> F{"Check Convergence J_iter - J_prev &lt; 1e-3"}
+    F -->|Converged| G["Final Model &theta;*"]
+    F -->|Not Converged| E
+    B -->|Normal Equation| H{"Check if X<sup>T</sup>X is Singular"}
+    H -->|Non-Singular| I["Compute &theta; = (X<sup>T</sup>X)<sup>-1</sup> X<sup>T</sup> y"]
+    H -->|Singular (m &le; n or Collinear)| J["Use pinv(X<sup>T</sup>X) X<sup>T</sup> y or Regularization"]
     I --> G
     J --> G
 ```
@@ -406,7 +407,7 @@ flowchart TD
 > 2. Compute Matrix Product $X^T X$.
 > 3. Calculate Determinant $\det(X^T X)$ and invert $(X^T X)^{-1}$ explicitly using the Adjugate Matrix.
 > 4. Compute Vector Product $X^T Y$.
-> 5. Solve for optimal parameter vector $	heta^* = (X^T X)^{-1} X^T Y$.
+> 5. Solve for optimal parameter vector $\theta^* = (X^T X)^{-1} X^T Y$.
 > 6. Formulate Predictions $\hat{y}$, Residuals $e^{(i)}$, and compute Mean Squared Error (MSE) and $R^2$ Score.
 
 #### Step 1: Design Matrix $X$ and Target Vector $Y$
