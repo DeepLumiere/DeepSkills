@@ -22,6 +22,8 @@
 
 ## 2. Red-Black Trees (RBT)
 
+<iframe src="rbt_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
+
 ### 2.1 The 5 Rules — Must All Hold Simultaneously
 
 | # | Rule | What It Means |
@@ -849,6 +851,8 @@ Algorithm INTERVAL-SEARCH(T, i=[14,16]):
 
 ## 4. Binomial Heaps
 
+<iframe src="binomial_heap_visualizer.html" width="100%" height="520px" style="border:none; border-radius:12px; margin-bottom: 24px;"></iframe>
+
 ### 4.1 Rules for Binomial Trees and Heaps
 
 | Rule | Description |
@@ -1264,6 +1268,8 @@ flowchart TD
 ---
 
 ## 5. Fibonacci Heaps
+
+<iframe src="fibonacci_heap_visualizer.html" width="100%" height="520px" style="border:none; border-radius:12px; margin-bottom: 24px;"></iframe>
 
 ### 5.1 Rules for Fibonacci Heaps
 

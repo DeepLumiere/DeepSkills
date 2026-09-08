@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #fdfcfc; margin: 0; padding: 20px; }
+    h2 { margin-top: 0; }
+    .controls { margin-bottom: 20px; display: flex; gap: 10px; }
+    input { padding: 8px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; width: 80px; }
+    button { padding: 8px 16px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; background: #3186ff; color: white; transition: 0.2s; }
+    button:hover { background: #2565c8; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    #canvas { width: 100%; max-width: 800px; height: 400px; background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; position: relative; }
+    .node { position: absolute; width: 30px; height: 30px; border-radius: 50%; background: #9dd2ff; border: 2px solid #3186ff; display: flex; align-items: center; justify-content: center; font-weight: bold; transform: translate(-50%, -50%); z-index: 10; transition: all 0.5s ease; }
+    .node.min { background: #50e389; border-color: #228a49; }
+    .node.marked { background: #ffdb0f; border-color: #997112; }
+    .edge { position: absolute; border-top: 2px solid #3186ff; transform-origin: 0 50%; z-index: 5; transition: all 0.5s ease; }
+    .root-edge { border-top: 2px dashed #9dd2ff; }
+    #message { margin-top: 15px; font-size: 16px; min-height: 24px; color: #555; font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <h2>Fibonacci Heap Visualizer</h2>
+  
+  <div class="controls">
+    <input type="number" id="valInput" placeholder="Value">
+    <button onclick="insert()">Insert</button>
+    <button onclick="extractMin()">Extract Min</button>
+    <button onclick="reset()">Reset</button>
+  </div>
+
+  <div id="canvas"></div>
+  <div id="message">Heap is empty. Lazy insertions supported.</div>
+
+  <script>
+    let rootList = []; // Array of trees (roots)
+    let minNode = null;
+    let nextId = 0;
+    
+    function reset() {
+      rootList = [];
+      minNode = null;
+      nextId = 0;
+      updateUI("Heap reset.");
+    }
+
+    function insert() {
+      const input = document.getElementById("valInput");
+      const val = parseInt(input.value);
+      if (isNaN(val)) return;
+      input.value = "";
+      
+      const newNode = { id: nextId++, val: val, degree: 0, children: [], marked: false };
+      
+      // Lazy insertion: just add to root list
+      rootList.push(newNode);
+      if (!minNode || val < minNode.val) {
+        minNode = newNode;
+      }
+      
+      updateUI(`Inserted ${val} lazily.`);
+    }
+
+    function extractMin() {
+      if (rootList.length === 0) {
+        updateUI("Heap is empty.");
+        return;
+      }
+      
+      const z = minNode;
+      updateUI(`Extracting Min: ${z.val}... Consolidating...`);
+      
+      setTimeout(() => {
+        // Remove min from rootList
+        const minIdx = rootList.indexOf(z);
+        rootList.splice(minIdx, 1);
+        
+        // Add children to root list
+        for (const child of z.children) {
+          child.marked = false;
+          rootList.push(child);
+        }
+        
+        if (rootList.length === 0) {
+          minNode = null;
+          updateUI(`Extracted ${z.val}. Heap empty.`);
+          render();
+          return;
+        }
+        
+        // Consolidate
+        const maxDegree = 10; // sufficient for small viz
+        const A = new Array(maxDegree).fill(null);
+        
+        while (rootList.length > 0) {
+          let x = rootList.shift();
+          let d = x.degree;
+          while (A[d] != null) {
+            let y = A[d];
+            if (x.val > y.val) {
+              // Swap x and y
+              let temp = x; x = y; y = temp;
+            }
+            // Link y to x
+            y.marked = false;
+            x.children.push(y);
+            x.degree++;
+            A[d] = null;
+            d++;
+          }
+          A[d] = x;
+        }
+        
+        // Rebuild root list
+        rootList = [];
+        minNode = null;
+        for (let i = 0; i < maxDegree; i++) {
+          if (A[i] != null) {
+            rootList.push(A[i]);
+            if (!minNode || A[i].val < minNode.val) {
+              minNode = A[i];
+            }
+          }
+        }
+        
+        updateUI(`Extracted ${z.val}. Consolidation complete.`);
+      }, 500);
+    }
+
+    function updateUI(msg) {
+      document.getElementById("message").innerText = msg;
+      render();
+    }
+
+    function render() {
+      const canvas = document.getElementById("canvas");
+      canvas.innerHTML = "";
+      
+      if (rootList.length === 0) return;
+
+      // Compute layout
+      let startX = 40;
+      for (let i = 0; i < rootList.length; i++) {
+        const root = rootList[i];
+        const bbox = computeTreeWidth(root);
+        const center = startX + bbox / 2;
+        
+        // Draw root list edges (dashed)
+        if (i < rootList.length - 1) {
+          const nextRoot = rootList[i+1];
+          const nextBbox = computeTreeWidth(nextRoot);
+          const nextCenter = startX + bbox + 20 + nextBbox/2;
+          
+          const edge = document.createElement("div");
+          edge.className = "edge root-edge";
+          edge.style.width = (nextCenter - center) + "px";
+          edge.style.left = center + "px";
+          edge.style.top = "40px";
+          canvas.appendChild(edge);
+        }
+        
+        drawTree(root, center, 40, canvas, root === minNode);
+        startX += bbox + 20;
+      }
+    }
+
+    function computeTreeWidth(node) {
+      if (node.degree === 0) return 40;
+      let width = 0;
+      for (const child of node.children) {
+        width += computeTreeWidth(child);
+      }
+      return Math.max(40, width);
+    }
+
+    function drawTree(node, x, y, canvas, isMinRoot = false) {
+      // Draw children
+      if (node.children.length > 0) {
+        let childX = x - (computeTreeWidth(node) / 2) + 20;
+        const childY = y + 60;
+        
+        for (const child of node.children) {
+          const cWidth = computeTreeWidth(child);
+          const cx = childX + (cWidth / 2) - 20;
+          
+          // Draw edge
+          const dist = Math.hypot(cx - x, childY - y);
+          const angle = Math.atan2(childY - y, cx - x);
+          
+          const edge = document.createElement("div");
+          edge.className = "edge";
+          edge.style.width = dist + "px";
+          edge.style.left = x + "px";
+          edge.style.top = y + "px";
+          edge.style.transform = `rotate(${angle}rad)`;
+          canvas.appendChild(edge);
+          
+          drawTree(child, cx, childY, canvas);
+          childX += cWidth;
+        }
+      }
+      
+      // Draw node
+      const el = document.createElement("div");
+      let classes = "node";
+      if (isMinRoot) classes += " min";
+      if (node.marked) classes += " marked";
+      el.className = classes;
+      el.innerText = node.val;
+      el.style.left = x + "px";
+      el.style.top = y + "px";
+      canvas.appendChild(el);
+    }
+    
+    // Notify parent iframe height
+    window.addEventListener('load', () => {
+       const height = document.body.scrollHeight;
+       window.parent.postMessage({type: 'widget-resize', height: height + 20}, '*');
+    });
+  </script>
+</body>
+</html>

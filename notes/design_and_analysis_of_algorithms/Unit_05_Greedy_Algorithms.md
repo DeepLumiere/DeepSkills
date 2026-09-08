@@ -194,6 +194,8 @@ Jobs sorted by descending profit. Max deadline = 6. Slots array = `[empty] × 6`
 
 ## 7. Problem 5: Huffman Coding
 
+<iframe src="huffman_visualizer.html" width="100%" height="600px" style="border:none; border-radius:12px; margin-bottom: 24px;"></iframe>
+
 **Problem:** Given character frequencies, create a variable-length prefix code that minimizes total file size.
 **Greedy Strategy:** Pick the **two nodes with the lowest frequencies**, merge them into a parent node with their sum, and place it back. Repeat until one tree remains.
 

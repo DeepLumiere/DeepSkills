@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #fdfcfc; margin: 0; padding: 20px; }
+    h2 { margin-top: 0; }
+    .controls { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; }
+    input { padding: 8px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; width: 60px; }
+    button { padding: 8px 16px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; background: #3186ff; color: white; transition: 0.2s; }
+    button:hover { background: #2565c8; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    #canvas { width: 100%; max-width: 800px; height: 500px; background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; position: relative; }
+    
+    .node { position: absolute; width: 40px; height: 40px; border-radius: 50%; background: #daf9d4; border: 2px solid #008052; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; transform: translate(-50%, -50%); z-index: 10; transition: all 0.5s ease; color: #008052; flex-direction: column; }
+    .node.internal { background: #dcf1ff; border-color: #3186ff; color: #3186ff; }
+    .node .char { font-size: 10px; opacity: 0.8; margin-top: -4px; }
+    
+    .edge { position: absolute; border-top: 2px solid #3186ff; transform-origin: 0 50%; z-index: 5; transition: all 0.5s ease; }
+    .edge-label { position: absolute; font-size: 12px; font-weight: bold; color: #555; transform: translate(-50%, -50%); z-index: 15; background: white; padding: 0 2px; }
+    
+    #message { margin-top: 15px; font-size: 16px; min-height: 24px; color: #555; font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <h2>Huffman Coding Visualizer</h2>
+  
+  <div class="controls">
+    <input type="text" id="charInput" placeholder="Char" maxlength="3">
+    <input type="number" id="freqInput" placeholder="Freq">
+    <button onclick="addNode()">Add Leaf</button>
+    <button id="btnStep" onclick="step()">Step (Merge Mins)</button>
+    <button onclick="reset()">Reset</button>
+  </div>
+
+  <div id="canvas"></div>
+  <div id="message">Add leaves or start merging.</div>
+
+  <script>
+    let forest = []; // Array of roots
+    let nextId = 0;
+    
+    // Default initial nodes
+    function initDefault() {
+      addLeaf("a", 5);
+      addLeaf("b", 9);
+      addLeaf("c", 12);
+      addLeaf("d", 13);
+      addLeaf("e", 16);
+      addLeaf("f", 45);
+      updateUI("Initial frequencies added. Click Step to merge.");
+    }
+
+    function reset() {
+      forest = [];
+      nextId = 0;
+      initDefault();
+    }
+
+    function addNode() {
+      const charInput = document.getElementById("charInput");
+      const freqInput = document.getElementById("freqInput");
+      const char = charInput.value || `N${nextId}`;
+      const freq = parseInt(freqInput.value);
+      
+      if (isNaN(freq)) return;
+      
+      charInput.value = "";
+      freqInput.value = "";
+      
+      addLeaf(char, freq);
+      updateUI(`Added leaf: ${char} (${freq})`);
+    }
+
+    function addLeaf(char, freq) {
+      forest.push({
+        id: nextId++,
+        char: char,
+        freq: freq,
+        left: null,
+        right: null,
+        isLeaf: true
+      });
+      render();
+    }
+
+    function step() {
+      if (forest.length <= 1) {
+        updateUI("Huffman tree is complete!");
+        document.getElementById("btnStep").disabled = true;
+        return;
+      }
+      
+      // Sort forest by frequency
+      forest.sort((a, b) => a.freq - b.freq);
+      
+      const left = forest.shift();
+      const right = forest.shift();
+      
+      const parent = {
+        id: nextId++,
+        char: null,
+        freq: left.freq + right.freq,
+        left: left,
+        right: right,
+        isLeaf: false
+      };
+      
+      forest.push(parent);
+      updateUI(`Merged ${left.freq} and ${right.freq} into new node ${parent.freq}.`);
+      
+      if (forest.length === 1) {
+        document.getElementById("btnStep").disabled = true;
+        updateUI("Huffman tree complete!");
+      }
+      
+      render();
+    }
+
+    function updateUI(msg) {
+      document.getElementById("message").innerText = msg;
+    }
+
+    function render() {
+      const canvas = document.getElementById("canvas");
+      canvas.innerHTML = "";
+      
+      if (forest.length === 0) return;
+
+      // Compute tree widths and depth
+      let startX = 40;
+      // Reverse forest for rendering so highest freq root is on right, looks nicer
+      const renderForest = [...forest].sort((a, b) => b.freq - a.freq);
+      
+      for (const root of renderForest) {
+        const bbox = computeTreeWidth(root);
+        const center = startX + bbox / 2;
+        drawTree(root, center, 40, canvas);
+        startX += bbox + 20;
+      }
+    }
+
+    function computeTreeWidth(node) {
+      if (!node) return 0;
+      if (node.isLeaf) return 50;
+      const lw = computeTreeWidth(node.left);
+      const rw = computeTreeWidth(node.right);
+      return Math.max(50, lw + rw + 20);
+    }
+
+    function drawTree(node, x, y, canvas) {
+      if (!node) return;
+      
+      // Draw children
+      if (!node.isLeaf) {
+        const lw = computeTreeWidth(node.left);
+        const rw = computeTreeWidth(node.right);
+        
+        const childY = y + 70;
+        const leftX = x - (lw + rw)/4 - 10;
+        const rightX = x + (lw + rw)/4 + 10;
+        
+        // Left Edge
+        drawEdge(x, y, leftX, childY, canvas, "0");
+        drawTree(node.left, leftX, childY, canvas);
+        
+        // Right Edge
+        drawEdge(x, y, rightX, childY, canvas, "1");
+        drawTree(node.right, rightX, childY, canvas);
+      }
+      
+      // Draw node
+      const el = document.createElement("div");
+      el.className = "node" + (node.isLeaf ? "" : " internal");
+      el.innerHTML = `<span>${node.freq}</span>` + (node.char ? `<span class="char">${node.char}</span>` : "");
+      el.style.left = x + "px";
+      el.style.top = y + "px";
+      canvas.appendChild(el);
+    }
+    
+    function drawEdge(x1, y1, x2, y2, canvas, label) {
+      const dist = Math.hypot(x2 - x1, y2 - y1);
+      const angle = Math.atan2(y2 - y1, x2 - x1);
+      
+      const edge = document.createElement("div");
+      edge.className = "edge";
+      edge.style.width = dist + "px";
+      edge.style.left = x1 + "px";
+      edge.style.top = y1 + "px";
+      edge.style.transform = `rotate(${angle}rad)`;
+      canvas.appendChild(edge);
+      
+      // Label
+      const midX = (x1 + x2) / 2;
+      const midY = (y1 + y2) / 2;
+      const lbl = document.createElement("div");
+      lbl.className = "edge-label";
+      lbl.innerText = label;
+      lbl.style.left = midX + "px";
+      lbl.style.top = (midY - 10) + "px"; // offset slightly
+      canvas.appendChild(lbl);
+    }
+
+    // Init
+    initDefault();
+    
+    window.addEventListener('load', () => {
+       const height = document.body.scrollHeight;
+       window.parent.postMessage({type: 'widget-resize', height: height + 20}, '*');
+    });
+  </script>
+</body>
+</html>
