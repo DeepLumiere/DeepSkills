@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #fdfcfc; margin: 0; padding: 20px; }
+    h2 { margin-top: 0; }
+    .controls { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; }
+    button { padding: 8px 16px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; background: #3186ff; color: white; transition: 0.2s; }
+    button:hover { background: #2565c8; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    
+    #layout { display: flex; gap: 20px; width: 100%; max-width: 900px; }
+    .panel { border: 1px solid #ddd; border-radius: 8px; background: white; padding: 15px; flex: 1; min-height: 400px;}
+    .panel h3 { margin-top: 0; text-align: center; }
+    
+    .item-list { display: flex; flex-direction: column; gap: 8px; }
+    .item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f2f0f0; border-radius: 6px; border-left: 4px solid #727676; transition: 0.3s; }
+    .item.sorted { border-left-color: #3186ff; }
+    .item.scheduled { background: #daf9d4; border-left-color: #008052; opacity: 0.5;}
+    .item.rejected { background: #ffdeec; border-left-color: #de2d29; opacity: 0.5;}
+    .item.active { box-shadow: 0 0 0 2px #3186ff; transform: scale(1.02); z-index: 10;}
+    .item-title { font-weight: bold; }
+    .item-stats { font-family: monospace; font-size: 14px; color: #555; }
+    
+    .timeline { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 20px;}
+    .slot { width: 60px; height: 80px; border: 2px dashed #ccc; border-radius: 8px; display: flex; flex-direction: column; align-items: center; background: #fafafa; position: relative; transition: 0.3s;}
+    .slot.checking { border-color: #f5d77f; background: #fffbe6; transform: scale(1.1); z-index: 10;}
+    .slot.filled { border: 2px solid #008052; background: #daf9d4; border-style: solid;}
+    
+    .slot-label { font-size: 12px; color: #777; margin-top: 4px; }
+    .slot-content { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-direction: column; font-size: 14px; color: #008052;}
+    .slot-profit { font-size: 10px; font-weight: normal;}
+    
+    .status { margin-top: 15px; font-size: 18px; font-weight: bold; text-align: center; }
+    #message { color: #555; font-style: italic; font-weight: normal; font-size: 16px; margin-top: 10px; text-align: center; min-height: 24px;}
+  </style>
+</head>
+<body>
+
+  <h2>Job Sequencing (Deadlines) Visualizer</h2>
+  
+  <div class="controls">
+    <button id="btnStart" onclick="startAlg()">Sort by Profit</button>
+    <button id="btnStep" onclick="stepAlg()" disabled>Schedule Next Job</button>
+    <button onclick="reset()">Reset</button>
+  </div>
+  
+  <div class="status">
+    Total Profit: <span id="profitTxt">0</span>
+  </div>
+  <div id="message">Click 'Sort by Profit' to begin.</div>
+
+  <div id="layout">
+    <div class="panel">
+      <h3>Jobs List</h3>
+      <div class="item-list" id="itemList"></div>
+    </div>
+    <div class="panel">
+      <h3>Timeline Slots</h3>
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </div>
+
+  <script>
+    const initialJobs = [
+      { id: "J1", profit: 100, deadline: 2 },
+      { id: "J2", profit: 19, deadline: 1 },
+      { id: "J3", profit: 27, deadline: 2 },
+      { id: "J4", profit: 25, deadline: 1 },
+      { id: "J5", profit: 15, deadline: 3 }
+    ];
+    let jobs = [];
+    let slots = [];
+    let maxDeadline = 0;
+    let profit = 0;
+    let stepIndex = 0;
+
+    function initAlg() {
+      // Clone jobs
+      jobs = initialJobs.map(j => ({ ...j, status: 'default' }));
+      maxDeadline = Math.max(...jobs.map(j => j.deadline));
+      slots = new Array(maxDeadline + 1).fill(null); // 1-indexed slots
+      
+      profit = 0;
+      stepIndex = 0;
+      
+      document.getElementById("btnStart").disabled = false;
+      document.getElementById("btnStep").disabled = true;
+      
+      renderJobs();
+      renderTimeline();
+      updateStatus();
+      document.getElementById("message").innerText = "Ready.";
+    }
+
+    function reset() {
+      initAlg();
+    }
+
+    function startAlg() {
+      document.getElementById("btnStart").disabled = true;
+      document.getElementById("btnStep").disabled = false;
+      
+      // Sort jobs by profit descending
+      jobs.sort((a, b) => b.profit - a.profit);
+      jobs.forEach(j => j.status = 'sorted');
+      
+      renderJobs();
+      document.getElementById("message").innerText = "Jobs sorted by Profit. Click 'Schedule Next Job'.";
+    }
+
+    async function stepAlg() {
+      if (stepIndex >= jobs.length) {
+        document.getElementById("btnStep").disabled = true;
+        document.getElementById("message").innerText = "All jobs processed!";
+        return;
+      }
+
+      document.getElementById("btnStep").disabled = true; // disable during animation
+      
+      // Clear active states
+      jobs.forEach(j => { if(j.status === 'active') j.status = 'sorted'; });
+      let job = jobs[stepIndex];
+      job.status = 'active';
+      renderJobs();
+      
+      document.getElementById("message").innerText = `Trying to schedule ${job.id} (Deadline: ${job.deadline})...`;
+      
+      // Animate searching for slot from deadline down to 1
+      let targetSlot = Math.min(job.deadline, maxDeadline);
+      let scheduled = false;
+      
+      for (let i = targetSlot; i >= 1; i--) {
+        await highlightSlot(i, 'checking');
+        
+        if (slots[i] === null) {
+          slots[i] = job;
+          profit += job.profit;
+          job.status = 'scheduled';
+          scheduled = true;
+          
+          await highlightSlot(i, 'filled');
+          renderTimeline(); // update text
+          document.getElementById("message").innerText = `Scheduled ${job.id} at slot ${i}.`;
+          break;
+        } else {
+          document.getElementById("message").innerText = `Slot ${i} is taken. Checking earlier slots...`;
+          await unhighlightSlot(i);
+        }
+      }
+      
+      if (!scheduled) {
+        job.status = 'rejected';
+        document.getElementById("message").innerText = `${job.id} rejected. All valid slots taken.`;
+      }
+      
+      stepIndex++;
+      renderJobs();
+      updateStatus();
+      
+      if (stepIndex < jobs.length) {
+        document.getElementById("btnStep").disabled = false;
+      } else {
+        document.getElementById("message").innerText += " Algorithm Complete.";
+      }
+    }
+    
+    function highlightSlot(idx, stateClass) {
+      return new Promise(resolve => {
+        const el = document.getElementById(`slot-${idx}`);
+        if(el) {
+            // Remove checking class from all just in case
+            document.querySelectorAll('.slot').forEach(s => s.classList.remove('checking'));
+            el.classList.add(stateClass);
+        }
+        setTimeout(resolve, 600);
+      });
+    }
+    
+    function unhighlightSlot(idx) {
+      return new Promise(resolve => {
+        const el = document.getElementById(`slot-${idx}`);
+        if(el) el.classList.remove('checking');
+        setTimeout(resolve, 200);
+      });
+    }
+
+    function renderJobs() {
+      const list = document.getElementById("itemList");
+      list.innerHTML = "";
+      jobs.forEach(job => {
+        const div = document.createElement("div");
+        div.className = `item ${job.status}`;
+        div.innerHTML = `
+          <div class="item-title">${job.id}</div>
+          <div class="item-stats">Profit: ${job.profit} | Deadline: ${job.deadline}</div>
+        `;
+        list.appendChild(div);
+      });
+    }
+    
+    function renderTimeline() {
+        const t = document.getElementById("timeline");
+        t.innerHTML = "";
+        for (let i = 1; i <= maxDeadline; i++) {
+            const div = document.createElement("div");
+            const isFilled = slots[i] !== null;
+            div.className = "slot" + (isFilled ? " filled" : "");
+            div.id = `slot-${i}`;
+            
+            let content = "";
+            if (isFilled) {
+                content = `<div>${slots[i].id}</div><div class="slot-profit">+${slots[i].profit}</div>`;
+            }
+            
+            div.innerHTML = `
+                <div class="slot-label">Slot ${i}</div>
+                <div class="slot-content">${content}</div>
+            `;
+            t.appendChild(div);
+        }
+    }
+
+    function updateStatus() {
+      document.getElementById("profitTxt").innerText = profit;
+    }
+
+    initAlg();
+    
+    window.addEventListener('load', () => {
+       const height = document.body.scrollHeight;
+       window.parent.postMessage({type: 'widget-resize', height: height + 20}, '*');
+    });
+  </script>
+</body>
+</html>

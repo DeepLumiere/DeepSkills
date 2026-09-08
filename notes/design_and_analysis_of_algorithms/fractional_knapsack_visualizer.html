@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #fdfcfc; margin: 0; padding: 20px; }
+    h2 { margin-top: 0; }
+    .controls { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; }
+    input { padding: 8px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; width: 100px; }
+    button { padding: 8px 16px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; background: #3186ff; color: white; transition: 0.2s; }
+    button:hover { background: #2565c8; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    
+    #layout { display: flex; gap: 20px; width: 100%; max-width: 900px; }
+    .panel { border: 1px solid #ddd; border-radius: 8px; background: white; padding: 15px; flex: 1; min-height: 400px;}
+    .panel h3 { margin-top: 0; text-align: center; }
+    
+    .item-list { display: flex; flex-direction: column; gap: 8px; }
+    .item { display: flex; justify-content: space-between; padding: 8px 12px; background: #f2f0f0; border-radius: 6px; border-left: 4px solid #727676; transition: 0.3s; }
+    .item.sorted { border-left-color: #3186ff; }
+    .item.taken-full { background: #daf9d4; border-left-color: #008052; }
+    .item.taken-frac { background: #ffdeec; border-left-color: #de2d29; }
+    .item-title { font-weight: bold; }
+    .item-stats { font-family: monospace; font-size: 14px; color: #555; }
+    
+    .knapsack-visual { width: 100%; height: 300px; border: 4px solid #555; border-top: none; border-radius: 0 0 12px 12px; position: relative; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; background: #fafafa;}
+    .ks-block { width: 100%; background: #3186ff; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.3); transition: height 0.5s; overflow: hidden; }
+    .ks-block.frac { background: #de2d29; }
+    
+    .status { margin-top: 15px; font-size: 18px; font-weight: bold; text-align: center; }
+    #message { color: #555; font-style: italic; font-weight: normal; font-size: 16px; margin-top: 10px; text-align: center;}
+  </style>
+</head>
+<body>
+
+  <h2>Fractional Knapsack Visualizer</h2>
+  
+  <div class="controls">
+    <input type="number" id="capacityInput" value="50" placeholder="Capacity (W)">
+    <button id="btnStart" onclick="startAlg()">Sort & Start</button>
+    <button id="btnStep" onclick="stepAlg()" disabled>Step (Take Item)</button>
+    <button onclick="reset()">Reset</button>
+  </div>
+  
+  <div class="status">
+    Total Profit: <span id="profitTxt">0</span> | Remaining W: <span id="wTxt">50</span>
+  </div>
+  <div id="message">Adjust capacity and click Start.</div>
+
+  <div id="layout">
+    <div class="panel">
+      <h3>Available Items</h3>
+      <div class="item-list" id="itemList"></div>
+    </div>
+    <div class="panel">
+      <h3>Knapsack</h3>
+      <div class="knapsack-visual" id="ksVisual"></div>
+    </div>
+  </div>
+
+  <script>
+    const initialItems = [
+      { id: "I1", p: 60, w: 10 },
+      { id: "I2", p: 100, w: 20 },
+      { id: "I3", p: 120, w: 30 }
+    ];
+    let items = [];
+    let capacity = 50;
+    let initialCapacity = 50;
+    let profit = 0;
+    let stepIndex = 0;
+
+    function initItems() {
+      // Clone and compute ratios
+      items = initialItems.map(item => ({
+        ...item,
+        ratio: item.p / item.w,
+        status: 'default' // default, sorted, taken-full, taken-frac
+      }));
+      renderItems();
+    }
+
+    function reset() {
+      const capInput = parseInt(document.getElementById("capacityInput").value);
+      if (!isNaN(capInput) && capInput > 0) {
+        capacity = capInput;
+        initialCapacity = capInput;
+      } else {
+        capacity = 50;
+      }
+      profit = 0;
+      stepIndex = 0;
+      document.getElementById("btnStart").disabled = false;
+      document.getElementById("btnStep").disabled = true;
+      document.getElementById("capacityInput").disabled = false;
+      document.getElementById("ksVisual").innerHTML = "";
+      updateStatus();
+      initItems();
+      document.getElementById("message").innerText = "Ready.";
+    }
+
+    function startAlg() {
+      capacity = parseInt(document.getElementById("capacityInput").value) || 50;
+      initialCapacity = capacity;
+      document.getElementById("capacityInput").disabled = true;
+      document.getElementById("btnStart").disabled = true;
+      document.getElementById("btnStep").disabled = false;
+      
+      // Sort items by ratio descending
+      items.sort((a, b) => b.ratio - a.ratio);
+      items.forEach(i => i.status = 'sorted');
+      
+      renderItems();
+      updateStatus();
+      document.getElementById("message").innerText = "Items sorted by Value/Weight ratio. Click Step.";
+    }
+
+    function stepAlg() {
+      if (stepIndex >= items.length || capacity <= 0) {
+        document.getElementById("btnStep").disabled = true;
+        document.getElementById("message").innerText = "Knapsack is full or no items left!";
+        return;
+      }
+
+      let item = items[stepIndex];
+      let fraction = 1.0;
+      
+      if (item.w <= capacity) {
+        // Take full
+        capacity -= item.w;
+        profit += item.p;
+        item.status = 'taken-full';
+        addBlock(item.id, item.w, item.p, false);
+        document.getElementById("message").innerText = `Took 100% of ${item.id}.`;
+      } else {
+        // Take fraction
+        fraction = capacity / item.w;
+        let fracProfit = item.p * fraction;
+        profit += fracProfit;
+        addBlock(item.id, capacity, fracProfit, true, fraction);
+        capacity = 0;
+        item.status = 'taken-frac';
+        document.getElementById("message").innerText = `Took ${(fraction*100).toFixed(1)}% of ${item.id}. Knapsack full!`;
+      }
+      
+      stepIndex++;
+      renderItems();
+      updateStatus();
+      
+      if (capacity <= 0 || stepIndex >= items.length) {
+        document.getElementById("btnStep").disabled = true;
+        if(capacity <= 0) {
+            document.getElementById("message").innerText += " (Optimal Result)";
+        }
+      }
+    }
+    
+    function addBlock(id, wUsed, pGained, isFrac, fracPercent) {
+      const container = document.getElementById("ksVisual");
+      const block = document.createElement("div");
+      block.className = "ks-block" + (isFrac ? " frac" : "");
+      
+      // Calculate height percentage relative to initial capacity
+      // Cap at 100% just in case
+      let pct = (wUsed / initialCapacity) * 100;
+      block.style.height = pct + "%";
+      
+      let txt = `${id} (w:${wUsed}, p:${pGained.toFixed(1)})`;
+      if (isFrac) txt = `[${(fracPercent*100).toFixed(0)}%] ` + txt;
+      block.innerText = txt;
+      
+      // Insert at top so it stacks
+      container.insertBefore(block, container.firstChild);
+    }
+
+    function renderItems() {
+      const list = document.getElementById("itemList");
+      list.innerHTML = "";
+      items.forEach(item => {
+        const div = document.createElement("div");
+        div.className = `item ${item.status}`;
+        div.innerHTML = `
+          <div class="item-title">${item.id}</div>
+          <div class="item-stats">P: ${item.p} | W: ${item.w} | Ratio: ${item.ratio.toFixed(1)}</div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function updateStatus() {
+      document.getElementById("profitTxt").innerText = profit.toFixed(1);
+      document.getElementById("wTxt").innerText = capacity;
+    }
+
+    initItems();
+    
+    window.addEventListener('load', () => {
+       const height = document.body.scrollHeight;
+       window.parent.postMessage({type: 'widget-resize', height: height + 20}, '*');
+    });
+  </script>
+</body>
+</html>

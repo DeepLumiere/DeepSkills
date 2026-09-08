@@ -10,9 +10,12 @@
     button { padding: 8px 16px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; background: #3186ff; color: white; transition: 0.2s; }
     button:hover { background: #2565c8; }
     button:disabled { background: #ccc; cursor: not-allowed; }
+    button.step-btn { background: #008052; }
+    button.step-btn:hover { background: #006b44; }
     #canvas { width: 100%; max-width: 800px; height: 400px; background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; position: relative; }
     .node { position: absolute; width: 30px; height: 30px; border-radius: 50%; background: #9dd2ff; border: 2px solid #3186ff; display: flex; align-items: center; justify-content: center; font-weight: bold; transform: translate(-50%, -50%); z-index: 10; transition: all 0.5s ease; }
     .node.min { background: #50e389; border-color: #228a49; }
+    .node.active { background: #ffdeec; border-color: #de2d29; box-shadow: 0 0 0 4px rgba(222, 45, 41, 0.3); z-index: 15; }
     .edge { position: absolute; border-top: 2px solid #3186ff; transform-origin: 0 50%; z-index: 5; transition: all 0.5s ease; }
     #message { margin-top: 15px; font-size: 16px; min-height: 24px; color: #555; font-style: italic; }
   </style>
@@ -23,8 +26,9 @@
   
   <div class="controls">
     <input type="number" id="valInput" placeholder="Value">
-    <button onclick="insert()">Insert</button>
-    <button onclick="extractMin()">Extract Min</button>
+    <button id="btnInsert" onclick="insert()">Insert</button>
+    <button id="btnExtract" onclick="extractMin()">Extract Min</button>
+    <button id="btnStep" class="step-btn" onclick="step()" disabled>Step Consolidation</button>
     <button onclick="reset()">Reset</button>
   </div>
 
@@ -35,11 +39,17 @@
     let heap = []; // Array of trees (roots)
     let nextId = 0;
     
-    // Each tree node: { id, val, degree, children: [] }
+    // State machine for step logic
+    let isConsolidating = false;
+    let consIndex = 0;
 
     function reset() {
       heap = [];
       nextId = 0;
+      isConsolidating = false;
+      document.getElementById("btnInsert").disabled = false;
+      document.getElementById("btnExtract").disabled = false;
+      document.getElementById("btnStep").disabled = true;
       updateUI("Heap reset.");
     }
 
@@ -49,14 +59,10 @@
       if (isNaN(val)) return;
       input.value = "";
       
-      const newNode = { id: nextId++, val: val, degree: 0, children: [] };
-      updateUI(`Inserting ${val}...`);
+      const newNode = { id: nextId++, val: val, degree: 0, children: [], active: false };
+      heap.unshift(newNode); // Add B0 to start of root list
       
-      setTimeout(() => {
-        heap.unshift(newNode); // Add B0 to start of root list
-        consolidate();
-        updateUI(`Inserted ${val}.`);
-      }, 500);
+      startConsolidation(`Inserted ${val}. Root list now requires consolidation.`);
     }
 
     function extractMin() {
@@ -64,52 +70,87 @@
         updateUI("Heap is already empty.");
         return;
       }
+      if (isConsolidating) return;
       
       let minIdx = 0;
       for (let i = 1; i < heap.length; i++) {
-        if (heap[i].val < heap[minIdx].val) {
-          minIdx = i;
-        }
+        if (heap[i].val < heap[minIdx].val) minIdx = i;
       }
       
       const minNode = heap[minIdx];
-      updateUI(`Extracting minimum: ${minNode.val}`);
+      heap.splice(minIdx, 1);
+      const children = minNode.children.reverse(); // Reverse so smaller degrees are first
+      heap = heap.concat(children); // Merge root lists
       
-      setTimeout(() => {
-        heap.splice(minIdx, 1);
-        const children = minNode.children.reverse(); // Reverse so smaller degrees are first
-        heap = heap.concat(children); // Merge root lists
-        
-        // Sort root list by degree
-        heap.sort((a, b) => a.degree - b.degree);
-        
-        consolidate();
-        updateUI(`Extracted ${minNode.val}. Consolidation complete.`);
-      }, 500);
+      // Sort root list by degree
+      heap.sort((a, b) => a.degree - b.degree);
+      
+      startConsolidation(`Extracted minimum ${minNode.val}. Appended children to root list. Begin consolidation.`);
+    }
+    
+    function startConsolidation(msg) {
+      isConsolidating = true;
+      consIndex = 0;
+      document.getElementById("btnInsert").disabled = true;
+      document.getElementById("btnExtract").disabled = true;
+      document.getElementById("btnStep").disabled = false;
+      
+      // Clear active states
+      clearActive();
+      updateUI(msg);
+    }
+    
+    function clearActive() {
+        const resetActive = (node) => {
+            node.active = false;
+            node.children.forEach(resetActive);
+        }
+        heap.forEach(resetActive);
     }
 
-    function consolidate() {
-      let i = 0;
-      while (i < heap.length - 1) {
-        if (heap[i].degree === heap[i+1].degree) {
-          // Link them
-          let parent, child;
-          if (heap[i].val <= heap[i+1].val) {
-            parent = heap[i];
-            child = heap[i+1];
-            heap.splice(i+1, 1);
-          } else {
-            parent = heap[i+1];
-            child = heap[i];
-            heap.splice(i, 1);
-          }
-          parent.children.unshift(child); // Add as leftmost child
-          parent.degree++;
-          // Do not increment i, check again in case we need another link
-        } else {
-          i++;
-        }
+    function step() {
+      if (!isConsolidating) return;
+      
+      clearActive();
+      
+      if (consIndex >= heap.length - 1) {
+        // Done consolidating
+        isConsolidating = false;
+        document.getElementById("btnInsert").disabled = false;
+        document.getElementById("btnExtract").disabled = false;
+        document.getElementById("btnStep").disabled = true;
+        updateUI("Consolidation complete.");
+        return;
       }
+      
+      let node1 = heap[consIndex];
+      let node2 = heap[consIndex + 1];
+      
+      if (node1.degree === node2.degree) {
+        node1.active = true;
+        node2.active = true;
+        
+        // Link them
+        let parent, child;
+        if (node1.val <= node2.val) {
+          parent = node1;
+          child = node2;
+          heap.splice(consIndex + 1, 1);
+        } else {
+          parent = node2;
+          child = node1;
+          heap.splice(consIndex, 1);
+        }
+        parent.children.unshift(child); // Add as leftmost child
+        parent.degree++;
+        updateUI(`Linked two B${parent.degree-1} trees. ${parent.val} <= ${child.val}, so ${child.val} became a child of ${parent.val}.`);
+        // Do not increment consIndex, check again in case we need another link at this position
+      } else {
+        node1.active = true;
+        updateUI(`Degrees do not match at index ${consIndex} (B${node1.degree} vs B${node2.degree}). Moving to next pair.`);
+        consIndex++;
+      }
+      
       render();
     }
 
@@ -134,7 +175,7 @@
       for (const root of heap) {
         const bbox = computeTreeWidth(root);
         const center = startX + bbox / 2;
-        drawTree(root, center, 40, canvas, root === minNode);
+        drawTree(root, center, 40, canvas, root === minNode && !isConsolidating);
         startX += bbox + 20;
       }
     }
@@ -149,8 +190,6 @@
     }
 
     function drawTree(node, x, y, canvas, isMinRoot = false) {
-      const radius = 15;
-      
       // Draw children
       if (node.children.length > 0) {
         let childX = x - (computeTreeWidth(node) / 2) + 20;
@@ -179,7 +218,11 @@
       
       // Draw node
       const el = document.createElement("div");
-      el.className = "node" + (isMinRoot ? " min" : "");
+      let classes = "node";
+      if (isMinRoot) classes += " min";
+      if (node.active) classes += " active";
+      
+      el.className = classes;
       el.innerText = node.val;
       el.style.left = x + "px";
       el.style.top = y + "px";

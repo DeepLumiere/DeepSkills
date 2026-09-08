@@ -37,6 +37,8 @@ A **Greedy Algorithm** makes the **locally optimal choice** at each step with th
 
 ## 3. Problem 1: Coin Change Problem
 
+<iframe src="../coin_change_visualizer.html" width="100%" height="450px" style="border:none; border-radius:12px; margin-bottom: 24px;"></iframe>
+
 **Problem:** Given amount $V$ and denominations $C = \{c_1 > c_2 > \cdots > c_n\}$, pay exactly $V$ using the **minimum number of coins**.
 **Greedy Strategy:** Always choose the largest coin denomination $c_i \le V$.
 
@@ -69,6 +71,8 @@ Coins = {6, 4, 1}, V = 8.
 ---
 
 ## 4. Problem 2: Knapsack Problems
+
+<iframe src="../fractional_knapsack_visualizer.html" width="100%" height="600px" style="border:none; border-radius:12px; margin-bottom: 24px;"></iframe>
 
 ### Fractional Knapsack (Greedy Works ✅)
 **Strategy:** Sort by **value-to-weight ratio** $r_i = p_i / w_i$ (descending). Fill greedily, taking fractions if needed.
@@ -161,6 +165,8 @@ gantt
 
 ## 6. Problem 4: Job Sequencing with Deadlines
 
+<iframe src="../job_scheduling_visualizer.html" width="100%" height="600px" style="border:none; border-radius:12px; margin-bottom: 24px;"></iframe>
+
 **Problem:** $n$ jobs, each taking 1 unit of time, with a deadline $d_i$ and profit $p_i$. Earn profit if completed before deadline. Maximize total profit.
 **Greedy Strategy:** Sort jobs by **profit (descending)**. Assign each job to the **latest possible free slot** $\le$ its deadline.
 
@@ -194,7 +200,7 @@ Jobs sorted by descending profit. Max deadline = 6. Slots array = `[empty] × 6`
 
 ## 7. Problem 5: Huffman Coding
 
-<iframe src="huffman_visualizer.html" width="100%" height="600px" style="border:none; border-radius:12px; margin-bottom: 24px;"></iframe>
+<iframe src="../huffman_visualizer.html" width="100%" height="600px" style="border:none; border-radius:12px; margin-bottom: 24px;"></iframe>
 
 **Problem:** Given character frequencies, create a variable-length prefix code that minimizes total file size.
 **Greedy Strategy:** Pick the **two nodes with the lowest frequencies**, merge them into a parent node with their sum, and place it back. Repeat until one tree remains.
