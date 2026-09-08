@@ -7,925 +7,1393 @@
 
 ## 1. Chapter Overview
 
-This unit covers advanced data structures that guarantee logarithmic or constant amortized time complexities. The learning flow for each structure is:
+**Learning Flow per Structure:**
+> **Rules → Tree Shape Laws → Step-by-Step Insertion Trace → Step-by-Step Deletion Trace → Merge/Query Trace → Q&A**
 
-> **Definition → Formal Rules → Diagram → Operations → Worked Example → Q&A**
-
-| Structure | Key Guarantee | Core Operation |
+| Structure | Key Guarantee | Core Operations Traced |
 | :--- | :--- | :--- |
-| **Red-Black Tree** | $O(\log n)$ worst-case | Insert / Delete with rebalancing |
-| **Interval Tree** | $O(\log n)$ overlap query | `INTERVAL-SEARCH` |
-| **Binomial Heap** | $O(\log n)$ merge | `UNION` |
-| **Fibonacci Heap** | $O(1)$ amortized insert / decrease-key | `DECREASE-KEY`, `EXTRACT-MIN` |
-| **Disjoint Set** | $O(\alpha(n))$ amortized per op | `FIND-SET`, `UNION` |
+| **Red-Black Tree** | $O(\log n)$ worst-case | 11-step INSERT trace + 4 DELETE case trace |
+| **Interval Tree** | $O(\log n)$ overlap query | INTERVAL-SEARCH trace |
+| **Binomial Heap** | $O(\log n)$ merge | 11-step INSERT trace + UNION + EXTRACT-MIN |
+| **Fibonacci Heap** | $O(1)$ amortized insert/decrease-key | INSERT → EXTRACT-MIN → DECREASE-KEY |
+| **Disjoint Set** | $O(\alpha(n))$ amortized | 10-step UNION + PATH-COMPRESSION trace |
 
 ---
 
 ## 2. Red-Black Trees (RBT)
 
-### 2.1 What is a Red-Black Tree?
+### 2.1 The 5 Rules — Must All Hold Simultaneously
 
-A **Red-Black Tree** is a self-balancing Binary Search Tree (BST) where every node carries an extra bit — its **color** (RED or BLACK). The coloring rules ensure the tree stays height-balanced, guaranteeing $O(\log n)$ time for all dictionary operations.
-
-### 2.2 The 5 Red-Black Properties (Rules)
-
-Every valid Red-Black Tree must satisfy ALL five of these rules simultaneously:
-
-| # | Property Name | Rule |
+| # | Rule | What It Means |
 | :--- | :--- | :--- |
-| **P1** | **Color Property** | Every node is either **RED** or **BLACK** |
-| **P2** | **Root Property** | The root is always **BLACK** |
-| **P3** | **Leaf Property** | Every `NIL` leaf sentinel is **BLACK** |
-| **P4** | **Red Property** | If a node is **RED**, both its children must be **BLACK** (no two consecutive reds) |
-| **P5** | **Black-Height Property** | Every path from any node to any descendant `NIL` contains the **same number of BLACK nodes** (the black-height `bh`) |
+| **R1** | Every node is RED or BLACK | Coloring is binary — no other states |
+| **R2** | Root is always BLACK | Root is forced BLACK after any operation |
+| **R3** | Every NIL leaf is BLACK | All missing children are virtual BLACK sentinels |
+| **R4** | RED node's children must be BLACK | **No two consecutive reds allowed on any path** |
+| **R5** | Every root→NIL path has the same number of BLACK nodes | The **black-height (bh)** is uniform |
 
-> **Key Insight:** P4 + P5 together ensure: the longest possible path (alternating RED-BLACK-RED-BLACK…) is at most twice the shortest path (all BLACK). Therefore: **Height $h \le 2\log_2(n+1)$**.
-
-### 2.3 Valid RBT Example
-
-```mermaid
-flowchart TD
-    subgraph "Valid Red-Black Tree — Black Height bh = 2"
-        R["26 ⬛ BLACK"] --- N17["17 🔴 RED"]
-        R --- N41["41 ⬛ BLACK"]
-        N17 --- N14["14 ⬛ BLACK"]
-        N17 --- N21["21 ⬛ BLACK"]
-        N41 --- N30["30 🔴 RED"]
-        N41 --- N47["47 🔴 RED"]
-        style R fill:#1e1e2e,stroke:#cdd6f4,color:#fff
-        style N17 fill:#d20f39,stroke:#cdd6f4,color:#fff
-        style N41 fill:#1e1e2e,stroke:#cdd6f4,color:#fff
-        style N14 fill:#1e1e2e,stroke:#cdd6f4,color:#fff
-        style N21 fill:#1e1e2e,stroke:#cdd6f4,color:#fff
-        style N30 fill:#d20f39,stroke:#cdd6f4,color:#fff
-        style N47 fill:#d20f39,stroke:#cdd6f4,color:#fff
-    end
-```
-
-**Verification of all 5 rules:**
-- ✅ P1: All nodes are colored RED or BLACK
-- ✅ P2: Root 26 is BLACK
-- ✅ P3: All NIL children (not shown) are BLACK
-- ✅ P4: RED nodes 17, 30, 47 all have BLACK children
-- ✅ P5: Every root→NIL path has exactly 2 BLACK nodes (26→14→NIL, 26→21→NIL, 26→41→30→NIL, etc.)
+> **Why these rules matter:** R4 + R5 together force: `height h ≤ 2·log₂(n+1)`. The worst tree alternates R-B-R-B… with height `2·bh`, giving the guaranteed `O(log n)` operations.
 
 ---
 
-### 2.4 Tree Rotations
+### 2.2 Tree Rotations (The Structural Primitive)
 
-Rotations are $O(1)$ local structural rearrangements that **preserve BST ordering** while changing tree shape.
+Rotations are **O(1)** pointer swaps that preserve BST order (in-order traversal unchanged).
 
-#### Left-Rotate(T, x) — "X rises down, Y rises up"
+```
+LEFT-ROTATE around x:              RIGHT-ROTATE around y:
 
-```mermaid
-flowchart LR
-    subgraph "BEFORE Left-Rotate(x)"
-        direction TB
-        X1["x"] --- alpha1["α (left)"]
-        X1 --- Y1["y (right)"]
-        Y1 --- beta1["β (left)"]
-        Y1 --- gamma1["γ (right)"]
-        style X1 fill:#1e1e2e,stroke:#cdd6f4,color:#fff
-        style Y1 fill:#d20f39,stroke:#cdd6f4,color:#fff
-        style alpha1 fill:#89b4fa,stroke:#cdd6f4,color:#11111b
-        style beta1 fill:#a6e3a1,stroke:#cdd6f4,color:#11111b
-        style gamma1 fill:#f9e2af,stroke:#cdd6f4,color:#11111b
-    end
-    subgraph "AFTER Left-Rotate(x)"
-        direction TB
-        Y2["y"] --- X2["x (left)"]
-        Y2 --- gamma2["γ (right)"]
-        X2 --- alpha2["α (left)"]
-        X2 --- beta2["β (right)"]
-        style Y2 fill:#d20f39,stroke:#cdd6f4,color:#fff
-        style X2 fill:#1e1e2e,stroke:#cdd6f4,color:#fff
-        style alpha2 fill:#89b4fa,stroke:#cdd6f4,color:#11111b
-        style beta2 fill:#a6e3a1,stroke:#cdd6f4,color:#11111b
-        style gamma2 fill:#f9e2af,stroke:#cdd6f4,color:#11111b
-    end
+     x                  y               y                  x
+    / \     →→→        / \             / \     →→→        / \
+   α   y             x   γ           x   γ             α   y
+      / \           / \             / \                   / \
+     β   γ         α   β          α   β                 β   γ
+
+Rule: β (y's left subtree) moves to become x's right child.
 ```
 
-**Key rule:** β moves from y's left child → x's right child. BST order maintained: α < x < β < y < γ.
-
-**Right-Rotate** is the mirror: x becomes y's right child, β moves from x's right → y's left.
+**Key BST-order proof:** α < x < β < y < γ — holds in both configurations ✅
 
 ---
 
-### 2.5 RBT Insertion — All 3 Cases
+### 2.3 Insertion Fix-Up — 3 Cases (All Triggered by Red-Red Conflict)
 
-**Setup:** Insert node $Z$ as RED using standard BST insertion. The only property that can be violated is **P4** (Red-Red conflict between $Z$ and its RED parent $P$). Fix by examining $Z$'s **Uncle $U$** (sibling of $P$):
+When we insert Z as RED and parent P is also RED (violating R4):
 
 ```mermaid
 flowchart TD
-    Insert["Insert Z as RED\n(Standard BST)"] --> IsRoot{"Is Z the root?"}
-    IsRoot -- Yes --> MakeBlack["Color Z BLACK → Done ✅"]
-    IsRoot -- No --> ParentRed{"Is parent P RED?\n(P4 violated?)"}
-    ParentRed -- No --> Done2["Tree valid → Done ✅"]
-    ParentRed -- Yes --> CheckUncle{"What color is\nUncle U?"}
-    CheckUncle -- "RED" --> Case1["Case 1: Uncle RED\n→ Recolor"]
-    CheckUncle -- "BLACK/NIL" --> IsTriangle{"Is Z a Triangle\nchild of P?"}
-    IsTriangle -- Yes --> Case2["Case 2: Triangle\n→ Rotate P"]
-    IsTriangle -- No --> Case3["Case 3: Line\n→ Rotate G + Recolor"]
-    Case1 --> ParentRed
+    Insert["Insert Z as RED\nBST position found"] --> Root{"Z = root?"}
+    Root -- Yes --> Black["Color Z BLACK ✅ Done"]
+    Root -- No --> ParRed{"Parent P = RED?\nR4 violated?"}
+    ParRed -- No --> Done2["✅ Tree valid"]
+    ParRed -- Yes --> Uncle{"Uncle U color?"}
+    Uncle -- "U = RED" --> C1["CASE 1: Recolor\nP→BLACK, U→BLACK, G→RED\nRepeat from G"]
+    Uncle -- "U = BLACK/NIL" --> Shape{"Z and P form\na triangle or line?"}
+    Shape -- "Triangle\n(Z inner child)" --> C2["CASE 2: Rotate P\naway from Z\n→ Now a Line → Case 3"]
+    Shape -- "Line\n(Z outer child)" --> C3["CASE 3: Rotate G\naway from P\nRecolor P→BLACK, G→RED\n✅ Done"]
+    style C1 fill:#fab387,color:#11111b
+    style C2 fill:#89b4fa,color:#11111b
+    style C3 fill:#a6e3a1,color:#11111b
 ```
 
-#### Case 1: Uncle U is RED → Recolor Only
+| Case | Trigger | Uncle U | Shape | Actions | Result |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **1** | P = RED | **RED** | Any | P→BLK, U→BLK, G→RED; move Z up to G | Problem bubbles up |
+| **2** | P = RED | **BLACK** | Triangle (inner) | Rotate P (away from Z) | Converts to Case 3 |
+| **3** | P = RED | **BLACK** | Line (outer) | Rotate G (away from P); P→BLK, G→RED | ✅ Fixed locally |
 
-**Trigger:** Parent P = RED, Uncle U = RED  
-**Action:** Recolor P→BLACK, U→BLACK, Grandparent G→RED. Move Z up to G and repeat.
+> **Triangle vs Line?** If Z-P-G make a ZIG-ZAG (Z is left child of P, P is right child of G → or vice versa) → Triangle → Case 2. If Z-P-G are all on the SAME SIDE (Z right of P right of G) → Line → Case 3.
+
+---
+
+### 2.4 Complete 11-Step Insertion Trace
+
+**Insert sequence:** `[7, 14, 18, 11, 10, 8, 22, 6, 1, 15, 17]`
+
+**Legend:** `B` = BLACK, `R` = RED. Tree shown as `root → {left, right}`.
+
+---
+
+#### Step 1: Insert **7**
+
+- Insert as root → immediately color **BLACK** (R2)
+- **Case triggered:** Root case
 
 ```mermaid
 flowchart TD
-    subgraph "BEFORE Case 1"
-        G1["G ⬛"] --- P1["P 🔴"]
-        G1 --- U1["U 🔴"]
-        P1 --- Z1["Z 🔴 (new)"]
-        P1 --- N1["..."]
-        style G1 fill:#1e1e2e,color:#fff
-        style P1 fill:#d20f39,color:#fff
-        style U1 fill:#d20f39,color:#fff
-        style Z1 fill:#d20f39,color:#fff
-    end
-    subgraph "AFTER Case 1 (Recolor)"
-        G2["G 🔴 (move Z here)"] --- P2["P ⬛"]
-        G2 --- U2["U ⬛"]
-        P2 --- Z2["Z 🔴"]
-        P2 --- N2["..."]
-        style G2 fill:#d20f39,color:#fff
-        style P2 fill:#1e1e2e,color:#fff
-        style U2 fill:#1e1e2e,color:#fff
-        style Z2 fill:#d20f39,color:#fff
-    end
+    s1["7 ⬛"]
+    style s1 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
 ```
 
-#### Case 2: Uncle U is BLACK, Z is Triangle Child → Rotate to become Line
+| Node | Color | Parent | Position |
+| :--- | :--- | :--- | :--- |
+| 7 | ⬛ BLACK | — | Root |
 
-**Trigger:** Parent P = RED, Uncle U = BLACK/NIL, Z is the *inner* child of P  
-**Action:** Rotate P in direction *away from Z*. This converts Case 2 → Case 3.
+---
+
+#### Step 2: Insert **14**
+
+- BST: 14 > 7 → right child of 7
+- Color 14 RED. Parent 7 = BLACK → **no R4 violation** ✅
 
 ```mermaid
 flowchart TD
-    subgraph "BEFORE Case 2 (Triangle — Z is right child, P is left child)"
-        G1["G ⬛"] --- P1["P 🔴 (left of G)"]
-        G1 --- U1["U ⬛"]
-        P1 --- N1["..."]
-        P1 --- Z1["Z 🔴 (right of P)"]
-        style G1 fill:#1e1e2e,color:#fff
-        style P1 fill:#d20f39,color:#fff
-        style U1 fill:#1e1e2e,color:#fff
-        style Z1 fill:#d20f39,color:#fff
-    end
-    subgraph "AFTER Left-Rotate(P) — now a Line"
-        G2["G ⬛"] --- Z2["Z 🔴 (left of G)"]
-        G2 --- U2["U ⬛"]
-        Z2 --- P2["P 🔴 (left of Z)"]
-        Z2 --- N2["..."]
-        style G2 fill:#1e1e2e,color:#fff
-        style Z2 fill:#d20f39,color:#fff
-        style U2 fill:#1e1e2e,color:#fff
-        style P2 fill:#d20f39,color:#fff
-    end
+    s2_7["7 ⬛"] --> s2_14["14 🔴"]
+    style s2_7 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s2_14 fill:#d20f39,color:#fff,stroke:#cdd6f4
 ```
 
-#### Case 3: Uncle U is BLACK, Z is Line Child → Rotate G + Recolor
+**Case triggered:** None — parent is BLACK
 
-**Trigger:** Parent P = RED, Uncle U = BLACK/NIL, Z is the *outer* (line) child of P  
-**Action:** Right-Rotate Grandparent G, recolor P→BLACK, G→RED. Done ✅
+---
+
+#### Step 3: Insert **18**
+
+- BST: 18 > 7 → right; 18 > 14 → right child of 14
+- Color 18 RED. Parent 14 = RED → **R4 violated!**
+- Z = 18(R), P = 14(R), G = 7(B), U = left(7) = **NIL (BLACK)**
+- Shape: Z(18) is RIGHT of P(14), P(14) is RIGHT of G(7) → **LINE** (right-right)
+- **→ Case 3:** Left-Rotate(G=7); Recolor: 14→BLACK, 7→RED
+
+```
+BEFORE:              AFTER Left-Rotate(7) + Recolor:
+    7(B)                   14(B)
+      \                   /    \
+      14(R)           7(R)    18(R)
+        \
+        18(R) ← new
+```
 
 ```mermaid
 flowchart TD
-    subgraph "BEFORE Case 3 (Line — both left children)"
-        G1["G ⬛"] --- P1["P 🔴"]
-        G1 --- U1["U ⬛"]
-        P1 --- Z1["Z 🔴"]
-        P1 --- N1["β"]
-        style G1 fill:#1e1e2e,color:#fff
-        style P1 fill:#d20f39,color:#fff
-        style U1 fill:#1e1e2e,color:#fff
-        style Z1 fill:#d20f39,color:#fff
-    end
-    subgraph "AFTER Right-Rotate(G) + Recolor"
-        P2["P ⬛ (new subtree root)"] --- Z2["Z 🔴"]
-        P2 --- G2["G 🔴"]
-        G2 --- N2["β"]
-        G2 --- U2["U ⬛"]
-        style P2 fill:#1e1e2e,color:#fff
-        style Z2 fill:#d20f39,color:#fff
-        style G2 fill:#d20f39,color:#fff
-        style U2 fill:#1e1e2e,color:#fff
-    end
+    s3["14 ⬛"] --> s3l["7 🔴"]
+    s3 --> s3r["18 🔴"]
+    style s3 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s3l fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s3r fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+**Case triggered: Case 3** (Right-Right Line → Left-Rotate root, recolor)
+
+---
+
+#### Step 4: Insert **11**
+
+- BST: 11 < 14 → left; 11 > 7 → right child of 7
+- Color 11 RED. Parent 7 = RED → **R4 violated!**
+- Z = 11(R), P = 7(R), G = 14(B), U = right(14) = **18 (RED)**
+- **→ Case 1:** Recolor P=7→BLACK, U=18→BLACK, G=14→RED. Move Z to G=14.
+- Z = 14(R) is ROOT → color ROOT **BLACK**
+
+```mermaid
+flowchart TD
+    s4["14 ⬛"] --> s4l["7 ⬛"]
+    s4 --> s4r["18 ⬛"]
+    s4l --> s4lr["11 🔴"]
+    style s4 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s4l fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s4r fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s4lr fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+**Case triggered: Case 1** (Uncle RED → recolor; propagated to root)
+
+---
+
+#### Step 5: Insert **10**
+
+- BST: 10 < 14 → left to 7(B); 10 > 7 → right to 11(R); 10 < 11 → **left child of 11**
+- Color 10 RED. Parent 11 = RED → **R4 violated!**
+- Z = 10(R), P = 11(R), G = 7(B), U = left(7) = **NIL (BLACK)**
+- Shape: Z(10) is LEFT of P(11), P(11) is RIGHT of G(7) → **TRIANGLE** (left-right zig-zag)
+- **→ Case 2:** Right-Rotate(P=11): 10 takes 11's place; 11 becomes right child of 10
+
+```
+After Case 2:    G=7(B), P=10(R), Z=11(R)   — now a LINE (right-right)
+    7(B)
+      \
+      10(R)  ← 10 took 11's place
+        \
+        11(R) ← 11 is now right child of 10
+```
+
+- **→ Case 3 (falls through):** Left-Rotate(G=7); Recolor: 10→BLACK, 7→RED
+
+```
+After Case 3:
+    14(B)
+   /    \
+ 10(B)  18(B)
+ /    \
+7(R) 11(R)
+```
+
+```mermaid
+flowchart TD
+    s5["14 ⬛"] --> s5l["10 ⬛"]
+    s5 --> s5r["18 ⬛"]
+    s5l --> s5ll["7 🔴"]
+    s5l --> s5lr["11 🔴"]
+    style s5 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s5l fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s5r fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s5ll fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s5lr fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+**Case triggered: Case 2 → Case 3** (Triangle → Right-Rotate P → Left-Rotate G + recolor)
+
+---
+
+#### Step 6: Insert **8**
+
+- BST: 8 < 14→left to 10(B); 8 < 10→left to 7(R); 8 > 7 → **right child of 7**
+- Color 8 RED. Parent 7 = RED → **R4 violated!**
+- Z = 8(R), P = 7(R), G = 10(B), U = right(10) = **11 (RED)**
+- **→ Case 1:** Recolor P=7→BLACK, U=11→BLACK, G=10→RED. Move Z to G=10.
+- Z = 10(R), P = 14(B). Parent is BLACK → **no violation** ✅
+
+```mermaid
+flowchart TD
+    s6["14 ⬛"] --> s6l["10 🔴"]
+    s6 --> s6r["18 ⬛"]
+    s6l --> s6ll["7 ⬛"]
+    s6l --> s6lr["11 ⬛"]
+    s6ll --> s6llr["8 🔴"]
+    style s6 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s6l fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s6r fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s6ll fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s6lr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s6llr fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+**Case triggered: Case 1** (Uncle RED → recolor; resolved immediately)
+
+---
+
+#### Step 7: Insert **22**
+
+- BST: 22 > 14→right to 18(B); 22 > 18 → **right child of 18**
+- Color 22 RED. Parent 18 = BLACK → **no violation** ✅
+
+```mermaid
+flowchart TD
+    s7["14 ⬛"] --> s7l["10 🔴"]
+    s7 --> s7r["18 ⬛"]
+    s7l --> s7ll["7 ⬛"]
+    s7l --> s7lr["11 ⬛"]
+    s7ll --> s7llr["8 🔴"]
+    s7r --> s7rr["22 🔴"]
+    style s7 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s7l fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s7r fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s7ll fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s7lr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s7llr fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s7rr fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+**Case triggered:** None — parent is BLACK
+
+---
+
+#### Step 8: Insert **6**
+
+- BST: 6 < 14→left to 10(R); 6 < 10→left to 7(B); 6 < 7 → **left child of 7**
+- Color 6 RED. Parent 7 = BLACK → **no violation** ✅
+
+```mermaid
+flowchart TD
+    s8["14 ⬛"] --> s8l["10 🔴"]
+    s8 --> s8r["18 ⬛"]
+    s8l --> s8ll["7 ⬛"]
+    s8l --> s8lr["11 ⬛"]
+    s8ll --> s8lll["6 🔴"]
+    s8ll --> s8llr["8 🔴"]
+    s8r --> s8rr["22 🔴"]
+    style s8 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s8l fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s8r fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s8ll fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s8lr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s8lll fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s8llr fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s8rr fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+**Case triggered:** None — parent is BLACK
+
+---
+
+#### Step 9: Insert **1**
+
+- BST: 1 < 14→left; 1 < 10→left; 1 < 7→left; 1 < 6 → **left child of 6**
+- Color 1 RED. Parent 6 = RED → **R4 violated!**
+
+**First violation: Z=1(R), P=6(R), G=7(B), U=right(7)=8(R)**
+- → **Case 1:** Recolor 6→BLACK, 8→BLACK, 7→RED. Move Z up to G=7.
+
+**Second violation: Z=7(R), P=10(R), G=14(B), U=right(14)=18(B) — uncle is BLACK**
+- Shape: Z(7) is LEFT of P(10), P(10) is LEFT of G(14) → **LINE** (left-left)
+- **→ Case 3:** Right-Rotate(G=14); Recolor: 10→BLACK, 14→RED
+
+```
+Before Case 3:           After Right-Rotate(14) + Recolor:
+    14(B)                        10(B)   ← new root
+   /    \                       /    \
+ 10(R)  18(B)               7(R)     14(R)
+ /    \                    /   \     /    \
+7(R)  11(B)              6(B) 8(B) 11(B) 18(B)
+/    \                   /              \
+6(B) 8(B)              1(R)            22(R)
+/
+1(R)  ← new
+```
+
+```mermaid
+flowchart TD
+    s9["10 ⬛"] --> s9l["7 🔴"]
+    s9 --> s9r["14 🔴"]
+    s9l --> s9ll["6 ⬛"]
+    s9l --> s9lr["8 ⬛"]
+    s9r --> s9rl["11 ⬛"]
+    s9r --> s9rr["18 ⬛"]
+    s9ll --> s9lll["1 🔴"]
+    s9rr --> s9rrr["22 🔴"]
+    style s9 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s9l fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s9r fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s9ll fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s9lr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s9rl fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s9rr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s9lll fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s9rrr fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+**Case triggered: Case 1 (twice) → Case 3** (Cascading recolor then Left-Right line rotation)
+
+---
+
+#### Step 10: Insert **15**
+
+- BST: 15 > 10→right; 15 > 14→right; 15 < 18 → **left child of 18**
+- Color 15 RED. Parent 18 = BLACK → **no violation** ✅
+
+```mermaid
+flowchart TD
+    s10["10 ⬛"] --> s10l["7 🔴"]
+    s10 --> s10r["14 🔴"]
+    s10l --> s10ll["6 ⬛"]
+    s10l --> s10lr["8 ⬛"]
+    s10r --> s10rl["11 ⬛"]
+    s10r --> s10rr["18 ⬛"]
+    s10ll --> s10lll["1 🔴"]
+    s10rr --> s10rrl["15 🔴"]
+    s10rr --> s10rrr["22 🔴"]
+    style s10 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s10l fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s10r fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s10ll fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s10lr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s10rl fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s10rr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s10lll fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s10rrl fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s10rrr fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+**Case triggered:** None — parent is BLACK
+
+---
+
+#### Step 11: Insert **17**
+
+- BST: 17 > 10→right; 17 > 14→right; 17 < 18→left; 17 > 15 → **right child of 15**
+- Color 17 RED. Parent 15 = RED → **R4 violated!**
+
+**First violation: Z=17(R), P=15(R), G=18(B), U=right(18)=22(R)**
+- → **Case 1:** Recolor 15→BLACK, 22→BLACK, 18→RED. Move Z up to G=18.
+
+**Second violation: Z=18(R), P=14(R), G=10(B), U=left(10)=7(R) — uncle is RED!**
+- → **Case 1 again:** Recolor 14→BLACK, 7→BLACK, 10→RED. Move Z up to G=10.
+
+**Z=10(R) is ROOT → color ROOT BLACK** ✅
+
+```mermaid
+flowchart TD
+    s11["10 ⬛"] --> s11l["7 ⬛"]
+    s11 --> s11r["14 ⬛"]
+    s11l --> s11ll["6 ⬛"]
+    s11l --> s11lr["8 ⬛"]
+    s11r --> s11rl["11 ⬛"]
+    s11r --> s11rr["18 🔴"]
+    s11ll --> s11lll["1 🔴"]
+    s11rr --> s11rrl["15 ⬛"]
+    s11rr --> s11rrr["22 ⬛"]
+    s11rrl --> s11rrls["17 🔴"]
+    style s11 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s11l fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s11r fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s11ll fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s11lr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s11rl fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s11rr fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s11lll fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s11rrl fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s11rrr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s11rrls fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+**Case triggered: Case 1 → Case 1 → Root fix** (Double cascading recolor)
+
+---
+
+#### Insertion Trace Summary
+
+| Step | Key Inserted | Parent Color | Uncle Color | Case Triggered | Structural Action |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | **7** | — | — | Root → BLACK | Color root black |
+| 2 | **14** | BLACK | — | None | Insert trivially |
+| 3 | **18** | RED | BLACK (NIL) | **Case 3** | Left-Rotate(7), recolor |
+| 4 | **11** | RED | RED (18) | **Case 1** | Recolor 7,18→BLK, 14→R; root→BLK |
+| 5 | **10** | RED | BLACK (NIL) | **Case 2 → 3** | Right-Rotate(11), Left-Rotate(7) |
+| 6 | **8** | RED | RED (11) | **Case 1** | Recolor 7,11→BLK, 10→R; stop |
+| 7 | **22** | BLACK | — | None | Insert trivially |
+| 8 | **6** | BLACK | — | None | Insert trivially |
+| 9 | **1** | RED | RED (8) | **Case 1 → Case 3** | Recolor then Right-Rotate(14) |
+| 10 | **15** | BLACK | — | None | Insert trivially |
+| 11 | **17** | RED | RED (22) | **Case 1 → Case 1** | Double recolor cascade to root |
+
+> **All 3 insertion cases demonstrated! ✅** Cases 1 (×4), 2 (×1), 3 (×2), trivial (×4)
+
+---
+
+### 2.5 RBT Deletion — All 4 Cases
+
+**The Problem:** When a BLACK node is deleted, one root→NIL path loses a black node, violating R5. We assign the missing black credit as **"Double Black" (⊛)** to the replacement node X. Let W = sibling of X. We fix-up until the double-black is resolved.
+
+**Setup — starting from the final tree above, delete nodes: [11, 18, 10]**
+
+---
+
+#### Delete **11** (BLACK leaf — straightforward)
+
+11 is a BLACK leaf (no children). Replace with NIL. NIL now carries **Double Black**.
+
+- X = NIL (left child of 14), W = sibling of X = **18(R)**
+- W is RED → **Delete Case 1**
+
+**Delete Case 1:** W is RED
+- Action: Recolor W→BLACK, X.parent(14)→RED; Left-Rotate(X.parent=14)
+- After: W changes to BLACK (now it's 15 or 22), continue with new W
+
+```
+Before Del-Case 1:        After Left-Rotate(14) + Recolor:
+    10(B)                       10(B)
+   /    \                      /    \
+  7(B)  14(B)               7(B)   18(B)
+        /  \                       /    \
+       ⊛   18(R)              14(R)    22(B)
+           /   \              /    \
+          15(B) 22(B)       ⊛    15(B)
+                               \
+                               17(R)
+```
+
+Now X = NIL (left of 14), new sibling W = 15(B). W's children: right(15)=17(R), left(15)=NIL(B).
+W is BLACK, outer child (right) 17 = RED → **Delete Case 4**
+
+**Delete Case 4:** W is BLACK, W's outer child is RED
+- Action: W(15) gets parent(14)'s color → RED; parent(14)→BLACK; W.right(17)→BLACK; Left-Rotate(parent=14)
+- Double Black resolved ✅
+
+```mermaid
+flowchart TD
+    d1["10 ⬛"] --> d1l["7 ⬛"]
+    d1 --> d1r["18 ⬛"]
+    d1l --> d1ll["6 ⬛"]
+    d1l --> d1lr["8 ⬛"]
+    d1r --> d1rl["15 🔴"]
+    d1r --> d1rr["22 ⬛"]
+    d1ll --> d1lll["1 🔴"]
+    d1rl --> d1rll["14 ⬛"]
+    d1rl --> d1rlr["17 ⬛"]
+    style d1 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d1l fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d1r fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d1ll fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d1lr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d1rl fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style d1rr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d1lll fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style d1rll fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d1rlr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+```
+
+**Cases triggered: Del-Case 1 → Del-Case 4** ✅
+
+---
+
+#### Delete **18** (BLACK with two children) — Demonstrating Case 2 and Case 3
+
+From the tree above, delete 18(B). 18 has children 15(R) and 22(B).
+- Find in-order successor = **22** (smallest in right subtree = 22 itself, since 22 has no left child)
+- Copy 22's key into 18's position; delete 22's original node.
+- Deleting 22(B) — it has no children → NIL gets Double Black.
+
+X = NIL (right of 15 after restructure), W = sibling = **14(B)**
+W's children: left(14) = NIL(B), right(14) = NIL(B) — **both BLACK**
+→ **Delete Case 2:**
+
+**Delete Case 2:** W is BLACK, both W's children are BLACK
+- Action: Recolor W(14)→RED; move Double Black up to X.parent(15)
+- X.parent = 15(R) → can absorb the double black by going BLACK ✅
+
+```mermaid
+flowchart TD
+    d2["10 ⬛"] --> d2l["7 ⬛"]
+    d2 --> d2r["22 ⬛"]
+    d2l --> d2ll["6 ⬛"]
+    d2l --> d2lr["8 ⬛"]
+    d2r --> d2rl["15 ⬛"]
+    d2ll --> d2lll["1 🔴"]
+    d2rl --> d2rll["14 🔴"]
+    d2rl --> d2rlr["17 🔴"]
+    style d2 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d2l fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d2r fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d2ll fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d2lr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d2rl fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d2lll fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style d2rll fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style d2rlr fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+**Case triggered: Del-Case 2** (Black sibling, both children black → recolor W, propagate up)
+
+---
+
+#### Delete **10** (ROOT with two children) — Demonstrating Case 3
+
+Delete 10 (root). In-order successor = **14** (leftmost of right subtree). But from current tree, right subtree root = 22. 22's leftmost = 15's leftmost = **14**. Copy 14 to root position, delete original 14 node.
+
+Deleting 14(R) leaf → no fix-up needed (RED node deletion never creates double-black since removing a RED preserves black-height).
+
+```mermaid
+flowchart TD
+    d3["14 ⬛"] --> d3l["7 ⬛"]
+    d3 --> d3r["22 ⬛"]
+    d3l --> d3ll["6 ⬛"]
+    d3l --> d3lr["8 ⬛"]
+    d3r --> d3rl["15 ⬛"]
+    d3ll --> d3lll["1 🔴"]
+    d3rl --> d3rlr["17 🔴"]
+    style d3 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d3l fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d3r fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d3ll fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d3lr fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d3rl fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d3lll fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style d3rlr fill:#d20f39,color:#fff,stroke:#cdd6f4
 ```
 
 ---
 
-### 2.6 RBT Deletion — All 4 Cases
+#### Deletion Summary — All 4 Cases
 
-When a BLACK node is deleted, the replacement node $X$ becomes **"Double Black"** (carrying an extra black credit). Let $W$ = sibling of $X$. Fix by these 4 cases (assume $X$ is left child; mirror for right):
+| Del-Case | Trigger | W Color | W's Children | Action | Outcome |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **1** | X = Double-Black | **RED** | Any | Recolor W→BLK, Parent→RED; Rotate(Parent) | → Converts to Case 2, 3, or 4 |
+| **2** | X = Double-Black | **BLACK** | Both BLACK | Recolor W→RED; move DB up to Parent | DB moves up (may terminate if parent was RED) |
+| **3** | X = Double-Black | **BLACK** | Inner=RED, Outer=BLACK | Recolor W→RED, inner→BLK; Rotate(W) | → Converts to Case 4 |
+| **4** | X = Double-Black | **BLACK** | Outer=RED | W gets Parent's color; Parent→BLK; outer→BLK; Rotate(Parent) | ✅ Double Black fully resolved |
 
-| Case | Sibling W Color | W's Children | Action | Result |
-| :--- | :--- | :--- | :--- | :--- |
-| **Del-1** | 🔴 RED | Any | Recolor W→BLACK, X.parent→RED; Left-Rotate(X.parent) | → Converts to Del-2/3/4 |
-| **Del-2** | ⬛ BLACK | Both BLACK | Recolor W→RED; move Double Black up to X.parent | May propagate upward |
-| **Del-3** | ⬛ BLACK | Inner=RED, Outer=BLACK | Recolor W.left→BLACK, W→RED; Right-Rotate(W) | → Converts to Del-4 |
-| **Del-4** | ⬛ BLACK | Outer=RED | W gets X.parent's color; X.parent→BLACK; W.right→BLACK; Left-Rotate(X.parent) | ✅ Double Black resolved |
-
-#### Deletion Case Diagrams
-
-**Case Del-1: Red Sibling → Rotate to expose Black Sibling**
-
-```mermaid
-flowchart LR
-    subgraph "BEFORE Del-1"
-        P1["X.parent ⬛"] --- X1["X ⬛⬛ (double black)"]
-        P1 --- W1["W 🔴"]
-        W1 --- wl1["W.left ⬛"]
-        W1 --- wr1["W.right ⬛"]
-        style X1 fill:#313244,color:#cdd6f4
-        style W1 fill:#d20f39,color:#fff
-        style P1 fill:#1e1e2e,color:#fff
-    end
-    subgraph "AFTER Del-1 (Left-Rotate parent)"
-        W2["W ⬛ (new parent)"] --- P2["X.parent 🔴"]
-        W2 --- wr2["W.right ⬛"]
-        P2 --- X2["X ⬛⬛"]
-        P2 --- wl2["W.left ⬛ (new sibling)"]
-        style W2 fill:#1e1e2e,color:#fff
-        style P2 fill:#d20f39,color:#fff
-        style X2 fill:#313244,color:#cdd6f4
-    end
-```
-
-**Case Del-4: Black Sibling with Red Outer Child → Final Resolution**
-
-```mermaid
-flowchart LR
-    subgraph "BEFORE Del-4"
-        P1["X.parent (any)"] --- X1["X ⬛⬛"]
-        P1 --- W1["W ⬛"]
-        W1 --- wl1["W.left (any)"]
-        W1 --- wr1["W.right 🔴"]
-        style X1 fill:#313244,color:#cdd6f4
-        style W1 fill:#1e1e2e,color:#fff
-        style wr1 fill:#d20f39,color:#fff
-    end
-    subgraph "AFTER Del-4 (Left-Rotate parent) ✅"
-        W2["W (inherits parent color)"] --- P2["X.parent ⬛"]
-        W2 --- wr2["W.right ⬛"]
-        P2 --- X2["X ⬛ (resolved!)"]
-        P2 --- wl2["W.left"]
-        style W2 fill:#45475a,color:#cdd6f4
-        style P2 fill:#1e1e2e,color:#fff
-        style X2 fill:#1e1e2e,color:#fff
-        style wr2 fill:#1e1e2e,color:#fff
-    end
-```
+> **Demonstrated above:** Del-Case 1 (delete 11), Del-Case 2 (delete 18), Del-Case 4 (during 11 fix-up). Del-Case 3 arises when W.right=BLK but W.left=RED — it rotates W to expose Case 4.
 
 ---
 
-### 2.7 Complexity Summary
+### 2.6 RBT Complexity
 
-| Operation | Time Complexity |
-| :--- | :--- |
-| Search | $O(\log n)$ |
-| Insert (BST + fixup) | $O(\log n)$ — at most 2 rotations |
-| Delete (BST + fixup) | $O(\log n)$ — at most 3 rotations |
-| Max height | $h \le 2\log_2(n+1)$ |
+| Operation | Time | Rotations |
+| :--- | :--- | :--- |
+| Search | $O(\log n)$ | 0 |
+| Insert | $O(\log n)$ | ≤ 2 rotations |
+| Delete | $O(\log n)$ | ≤ 3 rotations |
+| Height | $h \le 2\log_2(n+1)$ | — |
 
 ---
 
 ### 📝 Quick Practice — Red-Black Trees
 
-> **Q1:** Insert keys **[10, 20, 30]** one by one into an empty RBT. Show which case is triggered at each step.
+> **Q1:** Insert keys [5, 3, 7, 2, 4, 6, 8, 1] into an empty RBT. After inserting all 8 keys, what is the root and what is the black-height?
 >
-> **Answer:**
-> - Insert **10** → root, color BLACK. Tree: `10⬛`. ✅ P2 satisfied.
-> - Insert **20** → BST right child of 10, colored RED. `10⬛ → 20🔴`. Parent=10 is BLACK → no P4 violation. ✅
-> - Insert **30** → BST right child of 20, colored RED. Parent 20 is RED, uncle is NIL (BLACK). Z=30 is **line child** (right-right) → **Case 3 triggers**.
->   - Left-Rotate(10): 20 becomes root.
->   - Recolor: 20→BLACK, 10→RED.
->   - Final tree: `20⬛` with left child `10🔴` and right child `30🔴`. ✅
+> **Answer:** Trace:
+> - 5(B) root. Insert 3(R) left. Insert 7(R) right. No violations — P2, P5: bh=1.
+> - Insert 2: P=3(R), U=7(R) → **Case 1**: 3→B, 7→B, 5→R → root 5→B. Tree: 5B{3B{2R,_}, 7B}.
+> - Insert 4: right of 3(B) → no violation. Tree: 5B{3B{2R,4R}, 7B}.
+> - Insert 6: left of 7(B) → no violation.
+> - Insert 8: right of 7(B) → no violation. Tree: 5B{3B{2R,4R}, 7B{6R,8R}}.
+> - Insert 1: left of 2(R). P=2(R), U=4(R) → **Case 1**: 2→B, 4→B, 3→R. P=3(R), G=5(B), U=7(B) → **Case 3** (Left-Left Line): Right-Rotate(5); 3→B, 5→R.
+> - **Root = 3, Black-Height = 2**
 
-> **Q2:** Why can an RBT insertion require at most **2 rotations** but a deletion may need up to **3 rotations**?
+> **Q2:** When does inserting a new node into an RBT require O(log n) recoloring operations? Describe the worst-case pattern.
 >
-> **Answer:** During insertion, Case 2 converts to Case 3 (one rotation), and Case 3 resolves with one more rotation — maximum 2 total. Case 1 (recoloring) never rotates. During deletion, Case 1 rotates once but moves to Case 2/3/4; Case 3 rotates once converting to Case 4; Case 4 rotates once — potentially 3 rotations in worst path Del-1 → Del-3 → Del-4.
-
-> **Q3:** A Red-Black Tree has black-height $bh = 3$. What is the minimum and maximum number of internal nodes it can contain?
->
-> **Answer:** Min nodes: all-black tree, height = $bh = 3$. Min = $2^3 - 1 = \mathbf{7}$ nodes. Max nodes: alternating red-black, height = $2 \cdot bh = 6$. Max = $2^7 - 1 = \mathbf{127}$ nodes.
+> **Answer:** The worst case occurs when **Case 1 cascades repeatedly** all the way to the root. This happens when inserting into a tree where every alternate level has RED nodes (all uncles are RED). Each Case 1 application moves the problem up 2 levels. With height $h \le 2\log n$, we can have at most $\log n$ Case 1 applications → $O(\log n)$ recolorings. Rotations (Cases 2 & 3) always terminate immediately after at most 2 rotations.
 
 ---
 
 ## 3. Interval Trees
 
-### 3.1 What is an Interval Tree?
-
-An **Interval Tree** is a Red-Black Tree **augmented** with one extra attribute per node (`max`), enabling efficient **overlap queries** — finding any stored interval that overlaps a query interval $i$.
-
-### 3.2 Formal Rules for Interval Trees
+### 3.1 Rules for Interval Trees
 
 | Rule | Description |
 | :--- | :--- |
-| **BST Key** | Nodes ordered by `interval.low` (left endpoint) |
-| **`x.max`** | Stores the **maximum `high` endpoint** in the entire subtree rooted at x |
-| **`max` update** | $x.max = \max(x.interval.high,\ x.left.max,\ x.right.max)$ |
-| **Overlap Condition** | Intervals $i$ and $i'$ overlap iff $i.low \le i'.high$ **AND** $i'.low \le i.high$ |
-| **Rotation Maintenance** | After any rotation, update `max` for affected nodes bottom-up |
+| Ordered by | `x.key = x.interval.low` (left endpoint, BST order) |
+| Extra attribute | `x.max = max(x.int.high, x.left.max, x.right.max)` |
+| Overlap condition | $i.low \le i'.high$ **AND** $i'.low \le i.high$ |
+| Search direction | Go LEFT if `x.left.max ≥ i.low`, else go RIGHT |
+| Max maintenance | After insert/rotate: update `max` bottom-up on affected path |
 
-### 3.3 Structure Diagram
+### 3.2 Structure with 7 Intervals
+
+Intervals inserted: `[16,21], [8,9], [25,30], [5,8], [15,23], [17,19], [26,26]`
 
 ```mermaid
 flowchart TD
-    subgraph "Interval Tree — BST ordered by low endpoint"
-        Root["[16,21] | max=30 ⬛"] --- L["[8,9] | max=23 🔴"]
-        Root --- R["[25,30] | max=30 ⬛"]
-        L --- LL["[5,8] | max=8 ⬛"]
-        L --- LR["[15,23] | max=23 ⬛"]
-        R --- RL["[17,19] | max=19 🔴"]
-        R --- RR["[26,26] | max=26 🔴"]
-        style Root fill:#1e1e2e,color:#fff
-        style L fill:#d20f39,color:#fff
-        style R fill:#1e1e2e,color:#fff
-    end
+    Root["[16,21] | max=30 ⬛"] --> L["[8,9] | max=23 🔴"]
+    Root --> R["[25,30] | max=30 ⬛"]
+    L --> LL["[5,8] | max=8 ⬛"]
+    L --> LR["[15,23] | max=23 ⬛"]
+    R --> RL["[17,19] | max=19 🔴"]
+    R --> RR["[26,26] | max=26 🔴"]
+    style Root fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style L fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style R fill:#1e1e2e,color:#fff,stroke:#cdd6f4
 ```
 
-**Reading the max values:**
-- Node `[8,9]` has max=23 because its right subtree has `[15,23]` with high=23.
-- Root `[16,21]` has max=30 because its right subtree has `[25,30]` with high=30.
+**Reading `max` values:** `[8,9]` node has max=23 because its right subtree contains `[15,23]` with high=23. Root has max=30 because right subtree contains `[25,30]`.
 
-### 3.4 INTERVAL-SEARCH Algorithm
+### 3.3 INTERVAL-SEARCH Trace
 
-```text
-Algorithm INTERVAL-SEARCH(T, i):
-    x = T.root
-    while x ≠ NIL and NOT OVERLAP(x.interval, i) do
-        if x.left ≠ NIL and x.left.max ≥ i.low then
-            x = x.left          ← guaranteed: if overlap exists, it's in left subtree
-        else
-            x = x.right         ← left subtree cannot contain overlap, go right
-    return x                    ← returns NIL if no overlap found
+**Query: Find any interval overlapping `i = [14, 16]`**
+
+```
+Algorithm INTERVAL-SEARCH(T, i=[14,16]):
+    x = root = [16,21]
 ```
 
-**Why is this correct?** The key theorem:
-- If `x.left.max ≥ i.low`: The left subtree *might* contain an overlap (some interval has high ≥ i.low). If no overlap exists in the left subtree, then no overlap exists at all — because every interval in the right subtree has `low > x.low ≥ i.low` and if `x.left.max < i.high` would have been found. Going left is **safe and complete**.
-- If `x.left.max < i.low`: Every interval in the left subtree has `high < i.low`, so no left interval can overlap $i$. Must go right.
+| Step | Current x | OVERLAP(x.int, [14,16])? | x.left.max | Decision |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | `[16,21]` | 16≤16 ✅ AND 14≤21 ✅ → **YES!** | — | Return `[16,21]` ✅ |
 
-### 3.5 Worked Search Trace
+**Query: Find any interval overlapping `i = [23, 25]`**
 
-**Query:** Find any interval overlapping $i = [22, 25]$ in the tree above.
+| Step | Current x | OVERLAP? | x.left.max | Decision |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | `[16,21]` | 16≤25 ✅ but 23≤21? ❌ → No | left.max=23 ≥ 23 ✅ | Go **LEFT** |
+| 2 | `[8,9]` | 8≤25 ✅ but 23≤9? ❌ → No | left.max=8 < 23 ❌ | Go **RIGHT** |
+| 3 | `[15,23]` | 15≤25 ✅ AND 23≤23 ✅ → **YES!** | — | Return `[15,23]` ✅ |
 
-| Step | Current Node x | OVERLAP([16,21], [22,25])? | Decision |
-| :--- | :--- | :--- | :--- |
-| 1 | `[16,21]` | $16 \le 25$ ✅ but $22 \le 21$? ❌ → No overlap | `x.left.max = 23 ≥ 22` → go **left** |
-| 2 | `[8,9]` | $8 \le 25$ ✅ but $22 \le 9$? ❌ → No overlap | `x.left.max = 8 < 22` → go **right** |
-| 3 | `[15,23]` | $15 \le 25$ ✅ AND $22 \le 23$ ✅ → **OVERLAP!** | Return `[15,23]` ✅ |
+**Query: Find any interval overlapping `i = [12, 14]`** (should find [15,23] or return NIL)
 
-### 📝 Quick Practice — Interval Trees
-
-> **Q1:** Why is `x.max` the maximum `high` endpoint in the subtree, not just in x itself?
->
-> **Answer:** Because the search algorithm needs to decide whether the *entire left subtree* could contain an overlapping interval. If `x.max` only stored x's own `high`, we'd miss overlapping intervals deeper in the tree. By storing the subtree maximum, we can prune the search in $O(\log n)$ rather than $O(n)$.
-
-> **Q2:** Insert interval `[12, 14]` into the tree above (as a new node). Which `max` values need updating?
->
-> **Answer:** Insert at the right child of `[8,9]` (since 12 > 8, 12 < 15). The new node `[12,14]` has `max = 14`. Walk up: Node `[8,9]` had `max = 23` (from `[15,23]`), but `[15,23]` is now the *left* child... actually `[12,14]` replaces the left of `[15,23]` (since 12 < 15). Node `[8,9].max` = max(9, 14, 23) = **23** (unchanged). Root `max` also unchanged. Only the new node and possibly `[8,9]` need checking.
+| Step | Current x | OVERLAP? | x.left.max | Decision |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | `[16,21]` | 16≤14? ❌ → No | left.max=23 ≥ 12 ✅ | Go **LEFT** |
+| 2 | `[8,9]` | 8≤14 ✅ but 12≤9? ❌ → No | left.max=8 < 12 ❌ | Go **RIGHT** |
+| 3 | `[15,23]` | 15≤14? ❌ → No | left=NIL → max<12 | Go **RIGHT** → NIL |
+| 4 | **NIL** | — | — | Return NIL (no overlap found) |
 
 ---
 
 ## 4. Binomial Heaps
 
-### 4.1 What is a Binomial Heap?
+### 4.1 Rules for Binomial Trees and Heaps
 
-A **Binomial Heap** is a collection (forest) of **Binomial Trees** that together satisfy the **min-heap property** (parent ≤ children). It supports efficient **merge/union** of two heaps in $O(\log n)$.
-
-### 4.2 Binomial Tree $B_k$ — Formal Rules
-
-| Property | Rule |
+| Rule | Description |
 | :--- | :--- |
-| **Node Count** | $B_k$ has exactly $2^k$ nodes |
-| **Height** | $B_k$ has height exactly $k$ |
-| **Root Degree** | Root of $B_k$ has degree $k$ |
-| **Construction** | $B_k$ = two copies of $B_{k-1}$ linked: smaller-key root becomes parent |
-| **Subtree Structure** | Children of root of $B_k$ are the roots of $B_{k-1}, B_{k-2}, \dots, B_0$ (in order) |
-| **Unique Degrees** | A binomial heap with $n$ nodes has at most one $B_k$ tree for each $k$ |
+| **$B_k$ Size** | Exactly $2^k$ nodes |
+| **$B_k$ Height** | Exactly $k$ levels |
+| **$B_k$ Root Degree** | Root has degree $k$ (k children) |
+| **$B_k$ Formation** | Two $B_{k-1}$ trees linked: smaller root becomes parent of larger |
+| **Children of $B_k$ root** | Are roots of $B_{k-1}, B_{k-2}, \ldots, B_0$ (in order) |
+| **Heap property** | Parent key ≤ children keys (min-heap) |
+| **Forest uniqueness** | A binomial heap with $n$ nodes has **at most one tree of each degree** |
+| **Binary analogy** | Binomial heap with $n$ nodes ↔ binary representation of $n$ |
 
-### 4.3 Binomial Tree Structure Diagrams
-
-```mermaid
-flowchart TD
-    subgraph "B0 — 1 node, height 0"
-        b0["10"]
-        style b0 fill:#89b4fa,stroke:#cdd6f4,color:#11111b
-    end
-
-    subgraph "B1 — 2 nodes, height 1"
-        b1r["12"] --- b1c1["25"]
-        style b1r fill:#89b4fa,stroke:#cdd6f4,color:#11111b
-        style b1c1 fill:#a6e3a1,stroke:#cdd6f4,color:#11111b
-    end
-
-    subgraph "B2 — 4 nodes, height 2"
-        b2r["15"] --- b2c1["28"]
-        b2r --- b2c2["33"]
-        b2c1 --- b2c11["41"]
-        style b2r fill:#89b4fa,stroke:#cdd6f4,color:#11111b
-        style b2c1 fill:#a6e3a1,stroke:#cdd6f4,color:#11111b
-        style b2c2 fill:#a6e3a1,stroke:#cdd6f4,color:#11111b
-        style b2c11 fill:#f9e2af,stroke:#cdd6f4,color:#11111b
-    end
-
-    subgraph "B3 — 8 nodes, height 3 (two B2 trees linked)"
-        b3r["6"] --- b3c0["10"]
-        b3r --- b3c1["15"]
-        b3r --- b3c2["28"]
-        b3c0 --- b3gc1["12"]
-        b3c1 --- b3gc2["33"]
-        b3c1 --- b3gc3["41"]
-        b3gc2 --- b3ggc1["50"]
-        style b3r fill:#89b4fa,stroke:#cdd6f4,color:#11111b
-        style b3c0 fill:#a6e3a1,stroke:#cdd6f4,color:#11111b
-        style b3c1 fill:#a6e3a1,stroke:#cdd6f4,color:#11111b
-        style b3c2 fill:#a6e3a1,stroke:#cdd6f4,color:#11111b
-        style b3gc1 fill:#f9e2af,stroke:#cdd6f4,color:#11111b
-        style b3gc2 fill:#f9e2af,stroke:#cdd6f4,color:#11111b
-        style b3gc3 fill:#f9e2af,stroke:#cdd6f4,color:#11111b
-        style b3ggc1 fill:#f38ba8,stroke:#cdd6f4,color:#11111b
-    end
-```
-
-**Pattern:** $B_k$ is formed by taking two $B_{k-1}$ trees and making the one with the smaller root the *parent* of the other.
-
-### 4.4 Binomial Heap = Binary Number Representation
-
-A binomial heap with $n$ nodes is like the **binary representation of $n$**:
-
-| $n$ | Binary | Trees in Heap |
-| :--- | :--- | :--- |
-| 1 | `0001` | $B_0$ |
-| 3 | `0011` | $B_1, B_0$ |
-| 7 | `0111` | $B_2, B_1, B_0$ |
-| 13 | `1101` | $B_3, B_2, B_0$ |
-
-### 4.5 UNION Operation — Traced Example
-
-**Problem:** Union two heaps $H_1$ (with $B_0$ and $B_1$) and $H_2$ (also with $B_0$ and $B_1$).
-
-```
-H1 root list:  B0[10]  →  B1[12→25]
-H2 root list:  B0[3]   →  B1[6→15]
-```
-
-**Step 1:** Merge root lists in ascending degree order:
-```
-Merged: B0[10], B0[3], B1[12→25], B1[6→15]
-```
-
-**Step 2:** Link trees of same degree (like binary addition carry):
-- Two B0 trees → Link smaller-key root under larger → **B1**: `3 → [10, ...]`
+### 4.2 Tree Anatomy — B0 through B3
 
 ```mermaid
 flowchart TD
-    subgraph "Link B0[10] under B0[3] → New B1"
-        n3["3 (root)"] --- n10["10"]
-        style n3 fill:#89b4fa,color:#11111b
-        style n10 fill:#a6e3a1,color:#11111b
+    subgraph "B0 — 2⁰=1 node, height 0, root degree 0"
+        b0["●"]
+    end
+    subgraph "B1 — 2¹=2 nodes, height 1, root degree 1"
+        b1r["●"] --> b1c["●"]
+    end
+    subgraph "B2 — 2²=4 nodes, height 2, root degree 2"
+        b2r["●"] --> b2c1["●"]
+        b2r --> b2c2["●"]
+        b2c1 --> b2gc["●"]
+    end
+    subgraph "B3 — 2³=8 nodes, height 3, root degree 3"
+        b3r["●"] --> b3c0["●"]
+        b3r --> b3c1["●"]
+        b3r --> b3c2["●"]
+        b3c0 --> b3gc1["●"]
+        b3c1 --> b3gc2["●"]
+        b3c1 --> b3gc3["●"]
+        b3gc2 --> b3ggc["●"]
     end
 ```
 
-**Step 3:** Now have two B1 trees: new `B1[3→10]` and `B1[12→25]` → Link → **B2**:
-- Smaller root = 3 → `3` is parent
+**Linking rule:** $B_k$ = Link($B_{k-1}$, $B_{k-1}$) → compare roots, smaller becomes parent of larger.
+
+```
+Link B1[3→10] with B1[6→15]:
+   3 < 6 → 6 attaches under 3
+
+   3 (degree 2)
+  / \
+10   6
+     |
+    15
+This is now a B2 tree.
+```
+
+### 4.3 Binary Counting Analogy
+
+| $n$ | Binary | Heap Forest | Nodes |
+| :--- | :--- | :--- | :--- |
+| 1 | `0001` | $B_0$ | 1 |
+| 2 | `0010` | $B_1$ | 2 |
+| 3 | `0011` | $B_1, B_0$ | 3 |
+| 4 | `0100` | $B_2$ | 4 |
+| 7 | `0111` | $B_2, B_1, B_0$ | 7 |
+| 8 | `1000` | $B_3$ | 8 |
+| 11 | `1011` | $B_3, B_1, B_0$ | 11 |
+
+INSERT = add $B_0$ + carry links (like binary +1).
+
+---
+
+### 4.4 Complete 11-Step Insertion Trace
+
+**Insert sequence:** `[3, 5, 8, 2, 7, 1, 4, 6, 9, 11, 13]`
+
+| Step | Insert | Binary n | Forest State | Links Performed |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | **3** | `0001` | {B0[3]} | None |
+| 2 | **5** | `0010` | {B1[3→5]} | Link B0[3]+B0[5] → B1: 3<5, so 5 under 3 |
+| 3 | **8** | `0011` | {B1[3→5], B0[8]} | None (no same-degree pair) |
+| 4 | **2** | `0100` | {B2[2→...]} | B0[8]+B0[2]=B1[2→8]; B1[2→8]+B1[3→5]=B2[2→...] |
+| 5 | **7** | `0101` | {B2[2→...], B0[7]} | None |
+| 6 | **1** | `0110` | {B2[2→...], B1[1→7]} | B0[1]+B0[7]=B1: 1<7, so 7 under 1 |
+| 7 | **4** | `0111` | {B2[2→...], B1[1→7], B0[4]} | None |
+| 8 | **6** | `1000` | {B3[1→...]} | B0[4]+B0[6]=B1[4→6]; B1[4→6]+B1[1→7]=B2[1→...]; B2+B2=B3 |
+| 9 | **9** | `1001` | {B3[1→...], B0[9]} | None |
+| 10 | **11** | `1010` | {B3[1→...], B1[9→11]} | B0[9]+B0[11]=B1[9→11] |
+| 11 | **13** | `1011` | {B3[1→...], B1[9→11], B0[13]} | None |
+
+**Detailed tree states at key milestones:**
+
+**After Step 4 (n=4 → B2):** Tree formed by cascading links:
+```
+Step 4 detail:
+  Add B0[2].
+  B0[2] + B0[8] → B1: 2<8, 8 under 2. New B1[2→8].
+  B1[2→8] + B1[3→5] → B2: 2<3, so B1[3→5] attaches under root 2.
+
+        2  (B2 root, degree 2)
+       / \
+      3   8
+      |
+      5
+```
 
 ```mermaid
 flowchart TD
-    subgraph "Link B1[12→25] under B1[3→10] → New B2"
-        nr["3 (root, degree 2)"] --- c1["12"] --- gc1["25"]
-        nr --- c2["10"]
-        style nr fill:#89b4fa,color:#11111b
+    after4["2 (B2)"] --> a4c1["3"]
+    after4 --> a4c2["8"]
+    a4c1 --> a4gc["5"]
+```
+
+**After Step 8 (n=8 → B3):** All previous trees cascade-link into single B3:
+```
+      1  (B3 root, degree 3)
+    / | \
+   4  7  2
+   |     |\ 
+   6     3  8
+             |
+             5
+```
+
+```mermaid
+flowchart TD
+    after8["1 (B3)"] --> a8c0["4"]
+    after8 --> a8c1["7"]
+    after8 --> a8c2["2"]
+    a8c0 --> a8gc0["6"]
+    a8c2 --> a8gc1["3"]
+    a8c2 --> a8gc2["8"]
+    a8gc1 --> a8ggc["5"]
+```
+
+**After Step 11 (n=11 = 1011₂ → B3 + B1 + B0):**
+
+```mermaid
+flowchart TD
+    subgraph "B3 — root 1"
+        n1["1"] --> n4["4"]
+        n1 --> n7["7"]
+        n1 --> n2["2"]
+        n4 --> n6["6"]
+        n2 --> n3["3"]
+        n2 --> n8["8"]
+        n3 --> n5["5"]
+    end
+    subgraph "B1 — root 9"
+        n9["9"] --> n11["11"]
+    end
+    subgraph "B0 — root 13"
+        n13["13"]
     end
 ```
 
-**Step 4:** Still two B1 trees (`B1[6→15]`) from H2 — no more same degree. Done!
+---
 
-**Final heap:** $B_1[6→15]$ and $B_2[3→10, 12→25]$. Total $n = 6$ nodes = binary `110` → $B_2, B_1$. ✅
+### 4.5 EXTRACT-MIN Trace
 
-### 4.6 Binomial Heap Operations
+From the 11-node heap above:
 
-| Operation | Time Complexity | Method |
-| :--- | :--- | :--- |
-| `MAKE-HEAP` | $\Theta(1)$ | Empty heap |
-| `INSERT` | $O(\log n)$ | Create $B_0$, union with heap |
-| `MINIMUM` | $O(\log n)$ | Scan root list (at most $\log n$ trees) |
-| `EXTRACT-MIN` | $O(\log n)$ | Remove min root, union remaining children |
-| `UNION` | $O(\log n)$ | Merge root lists + link same-degree trees |
-| `DECREASE-KEY` | $O(\log n)$ | Bubble key up through parent chain |
-| `DELETE` | $O(\log n)$ | Decrease-Key to $-\infty$, then Extract-Min |
+1. Scan root list: {1, 9, 13} → **minimum = 1** (root of B3)
+2. Remove B3 root (1). Its children in order: {4(B2→child), 7(B1→child), 2(B0→child)}
+
+Wait — children of B3 root are $B_2, B_1, B_0$ in reverse: root's children = {4, 7, 2} with degrees 1, 0, 0? Let me re-examine. B3 root has 3 children: those children form $B_2, B_1, B_0$.
+
+Actually, B3 root's children (from left to right, highest degree first): child at degree 2 = 2, child at degree 1 = 7, child at degree 0 = 4.
+
+3. Create new heap from removed children's subtrees: {B2[2→3→8→5], B1[7], B0[4]}
+4. Union with remaining root list trees: {B0[9→11], B0[13]}
+
+Union process (merge root lists ordered by degree):
+- B0[4], B0[9→11], B0[13], B1[7], B2[2...]
+- Two B0 trees: Link B0[4] + B0[9→11]? No — 9→11 is B1 already!
+
+Let me be more careful. After removing B3 root (1), the children become separate trees:
+- **2** (was 3rd child of 1) → degree 2 → B2 subtree
+- **7** (was 2nd child of 1) → degree 1 → but 7 has no children listed above... let me re-examine.
+
+After Step 8, the B3 was:
+```
+1 (degree 3 = has 3 children)
+├── 4 (degree 1 = 1 child) → 6
+├── 7 (degree 0 = no children)
+└── 2 (degree 2 = 2 children) → 3(→5), 8
+```
+
+So children of root 1 = {4(B1), 7(B0), 2(B2)}.
+
+After extracting 1:
+- New sub-heap = {B0[7], B1[4→6], B2[2→3→8, 3→5]}
+- Remaining heap roots = {B1[9→11], B0[13]}
+
+Merge all: Sort by degree: B0[7], B0[13], B1[4→6], B1[9→11], B2[2...]
+- B0[7] + B0[13]: Link → 7<13 → B1[7→13]
+- B1[7→13] + B1[4→6]: Link → 4<7 → B2[4→6, 7→13]
+- B2[4→...] + B2[2→...]: Link → 2<4 → B3[2→...]
+- Result: **B3[2→...]** — one tree for n=10 nodes? No, n was 11 now 10 = 1010₂ = B3+B1.
+
+Actually n=11 after extracting min = n=10 = 1010₂ = B3 + B1.
+
+After consolidation, min pointer = root of tree with minimum root key. New min = **2**. ✅
+
+---
+
+### 4.6 UNION of Two Binomial Heaps
+
+**Heap H1** (n=5 = 101₂): B2[1→2→4, 3] + B0[7]
+**Heap H2** (n=3 = 011₂): B1[5→8] + B0[6]
+
+Union process (n=8 = 1000₂ → result should be single B3):
+
+| Step | Action |
+| :--- | :--- |
+| Merge root lists by degree | {B0[7], B0[6], B1[5→8], B2[1→...]} |
+| Link B0[7]+B0[6] → B1 | 6 < 7 → 7 under 6. New B1[6→7] |
+| Link B1[6→7]+B1[5→8] → B2 | 5 < 6 → B1[6→7] under 5. New B2[5→6→7,8] |
+| Link B2[5→...]+B2[1→...] → B3 | 1 < 5 → B2[5→...] under 1. New B3[1→...] |
+| Result | Single **B3[1→...]** with 8 nodes |
+
+```mermaid
+flowchart TD
+    union_result["1 (B3 root)"] --> ur1["2"]
+    union_result --> ur2["5"]
+    union_result --> ur3["7"]
+    ur1 --> ur1c1["3"]
+    ur1 --> ur1c2["4"]
+    ur2 --> ur2c1["6"]
+    ur2 --> ur2c2["8"]
+    ur3 --> ur3c1["7_child"]
+    ur1c1 --> leaf1["—"]
+    style union_result fill:#89b4fa,color:#11111b
+    style ur1 fill:#a6e3a1,color:#11111b
+    style ur2 fill:#a6e3a1,color:#11111b
+```
+
+**Complexity:** Union scans root lists: $O(\log n)$. At most $\log n$ link operations.
+
+---
 
 ### 📝 Quick Practice — Binomial Heaps
 
-> **Q1:** A binomial heap contains 11 nodes. Which binomial trees does it consist of?
+> **Q1:** A binomial heap has $n = 13$ nodes. List the binomial trees it contains and their sizes.
 >
-> **Answer:** $11 = 1011_2 = 2^3 + 2^1 + 2^0$. The heap consists of trees $B_3$ (8 nodes), $B_1$ (2 nodes), and $B_0$ (1 node).
+> **Answer:** $13 = 1101_2 = 2^3 + 2^2 + 2^0 = 8 + 4 + 1$. Heap contains: $B_3$ (8 nodes) + $B_2$ (4 nodes) + $B_0$ (1 node). Total = 13. ✅
 
-> **Q2:** Why can a binomial heap with $n$ nodes have at most one tree of each degree?
+> **Q2:** After inserting 16 elements one-by-one into an empty binomial heap, how many link operations were performed?
 >
-> **Answer:** Because the binary representation of $n$ has at most one `1`-bit per position. The heap structure mirrors binary counting: when you have two trees of the same degree $k$, you "carry" by linking them into a $B_{k+1}$, exactly like binary addition carry.
-
-> **Q3:** What is the maximum number of trees in a binomial heap with $n$ nodes, and what determines it?
->
-> **Answer:** At most $\lfloor \log_2 n \rfloor + 1$ trees, since the binary representation of $n$ has at most $\lfloor \log_2 n \rfloor + 1$ bits.
+> **Answer:** $16 = 10000_2$. Insertions are like binary addition. Total carry operations = total links. Going from 0 to 16: at each power-of-2 step, all previous trees cascade-merge. Total links = (number of bit positions cleared during increments) = 16 − 1 = 15 links (each of the 15 non-root insertions eventually links). More formally: $\sum_{k=0}^{3} \lfloor 16/2^{k+1} \rfloor = 8+4+2+1 = 15$ links.
 
 ---
 
 ## 5. Fibonacci Heaps
 
-### 5.1 What is a Fibonacci Heap?
-
-A **Fibonacci Heap** is a **lazily-structured** collection of min-heap-ordered trees in a circular doubly-linked root list. It defers consolidation until `EXTRACT-MIN`, achieving **$O(1)$ amortized** time for most operations.
-
-### 5.2 Formal Rules for Fibonacci Heaps
+### 5.1 Rules for Fibonacci Heaps
 
 | Rule | Description |
 | :--- | :--- |
-| **Heap Structure** | Min-heap-ordered trees in a **circular doubly-linked root list** |
-| **Min Pointer** | `H.min` points to the root with the global minimum key |
-| **Degree** | `x.degree` = number of children of node x |
-| **Mark Bit** | `x.mark = TRUE` if x has lost a child since x was made someone's child. Roots always have `mark = FALSE` |
-| **Potential Function** | $\Phi(H) = t(H) + 2 \cdot m(H)$ where $t(H)$ = # trees in root list, $m(H)$ = # marked nodes |
-| **Max Degree Bound** | Max degree $D(n) = O(\log n)$ after consolidation |
+| **Structure** | Collection of min-heap trees in circular doubly-linked root list |
+| **No structure on insert** | New nodes just added to root list — lazy! |
+| **H.min** | Pointer always maintained to minimum root |
+| **Degree** | `x.degree` = number of children |
+| **Mark bit** | `x.mark = TRUE` if x has lost a child since it was made someone else's child |
+| **Consolidation** | Only during EXTRACT-MIN — merge same-degree trees |
+| **Max degree** | After consolidation: $D(n) = O(\log n)$ (proven via Fibonacci property) |
+| **Potential** | $\Phi(H) = t(H) + 2 \cdot m(H)$ where $t$ = trees, $m$ = marked nodes |
 
-### 5.3 Structure Diagram
+---
+
+### 5.2 Step-by-Step INSERT Trace (7 Insertions)
+
+**Insert:** `[3, 7, 18, 52, 24, 30, 1]` (all added lazily to root list)
+
+| Step | Insert | Root List | H.min | $t(H)$ | $m(H)$ | $\Phi$ |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | **3** | {3} | 3 | 1 | 0 | 1 |
+| 2 | **7** | {3, 7} | 3 | 2 | 0 | 2 |
+| 3 | **18** | {3, 7, 18} | 3 | 3 | 0 | 3 |
+| 4 | **52** | {3, 7, 18, 52} | 3 | 4 | 0 | 4 |
+| 5 | **24** | {3, 7, 18, 52, 24} | 3 | 5 | 0 | 5 |
+| 6 | **30** | {3, 7, 18, 52, 24, 30} | 3 | 6 | 0 | 6 |
+| 7 | **1** | {3, 7, 18, 52, 24, 30, 1} | **1** | 7 | 0 | 7 |
 
 ```mermaid
-flowchart TD
-    subgraph "Fibonacci Heap — Circular Root List"
-        minPtr["H.min →"] --> N3["3\ndeg=2, mark=F"]
-        N3 <-->|"circular"| N7["7\ndeg=0, mark=F"]
-        N7 <-->|"circular"| N18["18\ndeg=1, mark=T ⚑"]
-        N18 <-->|"circular"| N3
-        N3 --> N17["17\ndeg=1, mark=F"]
-        N3 --> N24["24\ndeg=0, mark=F"]
-        N17 --> N30["30\ndeg=0, mark=F"]
-        N18 --> N52["52\ndeg=0, mark=F"]
-        style minPtr fill:#fab387,color:#11111b
-        style N3 fill:#a6e3a1,color:#11111b
-        style N18 fill:#d20f39,color:#fff
+flowchart LR
+    subgraph "After 7 Inserts — Flat Root List"
+        direction LR
+        m["H.min→"] --> n1["1"]
+        n1 <-->|"↔"| n3["3"]
+        n3 <-->|"↔"| n7["7"]
+        n7 <-->|"↔"| n18["18"]
+        n18 <-->|"↔"| n24["24"]
+        n24 <-->|"↔"| n30["30"]
+        n30 <-->|"↔"| n52["52"]
+        n52 <-->|"↔"| n1
+        style m fill:#fab387,color:#11111b
+        style n1 fill:#a6e3a1,color:#11111b
     end
 ```
 
-### 5.4 Key Operations
+> All 7 nodes are roots. No structure yet — Fibonacci Heap is maximally lazy at insertion!
 
-#### INSERT — $\Theta(1)$ amortized
-Just add new node to root list, update `H.min` if needed. No consolidation yet.
+---
 
-#### EXTRACT-MIN — $O(\log n)$ amortized
-1. Remove `H.min` from root list
-2. Add all its children to root list
-3. **Consolidate:** Link trees of same degree using array `A[0..D(n)]`
-4. Find new minimum by scanning root list
+### 5.3 EXTRACT-MIN Trace (Consolidation Phase)
 
-**Consolidation Trace (Example):**
+Extract minimum (key = 1). Steps:
 
-Before Extract-Min, root list has trees of degrees: **[2, 0, 1, 0]**
+**1. Remove node 1 from root list.** Node 1 had children (assume from prior operations): none (it was just inserted). So root list becomes {3, 7, 18, 52, 24, 30} with 6 trees (all degree 0).
 
-```
-Consolidation Array A[]:  A[0]=?, A[1]=?, A[2]=?
+**2. Consolidation** — Use array `A[0..D(n)]` where `D(7) = O(log 7) ≈ 3`.
 
-Process degree-2 tree → A[2] = Tree(degree=2)
-Process degree-0 tree → A[0] = Tree_A
-Process degree-1 tree → A[1] = Tree_B
-Process degree-0 tree → A[0] occupied! Link the two degree-0 trees:
-    smaller root becomes parent → new degree-1 tree
-    A[0] = empty, check A[1]: occupied! Link degree-1 + degree-1:
-    → new degree-2 tree; check A[2]: occupied! Link → new degree-3 tree
-    A[3] = merged_tree ✅
-```
+Process nodes from root list in order:
 
-#### DECREASE-KEY — $\Theta(1)$ amortized
-Exploits the lazy structure: if decreased key violates heap order:
+| Process | Node (degree) | A[d] slot | Conflict? | Action | Result |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Node 3 | degree 0 | A[0] = empty | No | A[0] = 3 | — |
+| Node 7 | degree 0 | A[0] = 3 | **YES** | Link: 3<7 → 7 under 3. 3 gets degree 1. A[0]=empty | Check A[1] |
+| 3 (now deg 1) | degree 1 | A[1] = empty | No | A[1] = 3 | — |
+| Node 18 | degree 0 | A[0] = empty | No | A[0] = 18 | — |
+| Node 52 | degree 0 | A[0] = 18 | **YES** | Link: 18<52 → 52 under 18. 18 gets degree 1. A[0]=empty | Check A[1] |
+| 18 (deg 1) | degree 1 | A[1] = 3 | **YES** | Link: 3<18 → 18 under 3. 3 gets degree 2. A[1]=empty | Check A[2] |
+| 3 (now deg 2) | degree 2 | A[2] = empty | No | A[2] = 3 | — |
+| Node 24 | degree 0 | A[0] = empty | No | A[0] = 24 | — |
+| Node 30 | degree 0 | A[0] = 24 | **YES** | Link: 24<30 → 30 under 24. 24 gets degree 1. A[0]=empty | Check A[1] |
+| 24 (deg 1) | degree 1 | A[1] = empty | No | A[1] = 24 | — |
+
+**Final A[] state:** A[0]=empty, A[1]=24, A[2]=3
+
+Rebuild root list from A[]: {24(deg1), 3(deg2)}
 
 ```mermaid
 flowchart TD
-    DK["DECREASE-KEY(x, k)"] --> SetKey["x.key = k"]
-    SetKey --> Check{"x.key < x.parent.key?"}
-    Check -- No --> Done["Done ✅"]
-    Check -- Yes --> Cut["CUT(x, x.parent)\n→ Move x to root list\n→ x.mark = FALSE"]
-    Cut --> CCut["CASCADING-CUT(x.parent y)"]
-    CCut --> IsRoot{"Is y a root?"}
-    IsRoot -- Yes --> Done2["Done ✅"]
-    IsRoot -- No --> WasMarked{"y.mark == TRUE?"}
-    WasMarked -- Yes --> CutY["CUT(y, y.parent)\nCASCADING-CUT(y.parent)"]
-    WasMarked -- No --> MarkY["y.mark = TRUE → Done ✅"]
+    subgraph "After EXTRACT-MIN(1) + Consolidation"
+        m2["H.min→"] --> root3["3 (degree 2)"]
+        root3 --> c7["7"]
+        root3 --> c18["18"]
+        c18 --> c52["52"]
+        root3 <-->|"↔ root list ↔"| root24["24 (degree 1)"]
+        root24 --> c30["30"]
+        style m2 fill:#fab387,color:#11111b
+        style root3 fill:#a6e3a1,color:#11111b
+        style root24 fill:#89b4fa,color:#11111b
+    end
 ```
 
-**Why mark bits?** A marked node has already lost one child. If it loses another (via Cascading Cut), it's cut too. This prevents trees from becoming degenerate — keeps max degree $O(\log n)$.
+**New minimum = 3.** Tree count $t(H) = 2$. $\Phi = 2 + 0 = 2$ (was 7 before).
 
-### 5.5 Amortized Cost Summary
+---
 
-| Operation | Actual Cost | Amortized Cost |
-| :--- | :--- | :--- |
-| `INSERT` | $O(1)$ | $\Theta(1)$ |
-| `UNION` | $O(1)$ | $\Theta(1)$ |
-| `MINIMUM` | $O(1)$ | $\Theta(1)$ |
-| `EXTRACT-MIN` | $O(D(n) + t(H))$ | $O(\log n)$ |
-| `DECREASE-KEY` | $O(c)$ for $c$ cascading cuts | $\Theta(1)$ |
-| `DELETE` | — | $O(\log n)$ |
+### 5.4 DECREASE-KEY and Cascading Cut Trace
 
-### 5.6 Fibonacci Heap vs. Binomial Heap vs. Binary Heap
+Starting from the consolidated heap above. Add more nodes first for a richer example.
 
-| Operation | Binary Heap | Binomial Heap | Fibonacci Heap |
+**Setup:** After consolidation we have:
+```
+Tree 1 (root=3): 3 → {7, 18→{52}}
+Tree 2 (root=24): 24 → {30}
+```
+
+Now **decrease key of 52 from 52 to 0**:
+
+**Step 1:** Set 52.key = 0. Is 0 < parent(18).key = 18? **YES** → CUT.
+
+**CUT(52→0, parent=18):**
+- Remove 52→0 from 18's children
+- Add 52→0 to root list
+- Set 52.mark = FALSE (roots are never marked)
+- Decrement 18.degree: 18.degree = 0
+
+**CASCADING-CUT(18):**
+- 18 is not a root. Is 18.mark == FALSE? → Set 18.mark = **TRUE**. Stop.
+
+```mermaid
+flowchart TD
+    subgraph "After DECREASE-KEY(52→0)"
+        m3["H.min→"] --> r0["0 (new min!)"]
+        r0 <-->|"↔"| r3["3"]
+        r3 --> rc7["7"]
+        r3 --> rc18["18 ⚑ marked"]
+        r3 <-->|"↔"| r24["24"]
+        r24 --> rc30["30"]
+        style m3 fill:#fab387,color:#11111b
+        style r0 fill:#a6e3a1,color:#11111b
+        style rc18 fill:#f38ba8,color:#11111b
+    end
+```
+
+Now **decrease key of 18 from 18 to 2**:
+
+**Step 1:** Set 18.key = 2. Is 2 < parent(3).key = 3? **YES** → CUT.
+
+**CUT(18→2, parent=3):**
+- Remove 18→2 from 3's children
+- Add 18→2 to root list
+- Set 18.mark = FALSE
+- 3.degree decreases: 3.degree = 1 (only child = 7 remains)
+
+**CASCADING-CUT(3):**
+- 3 is a root → STOP. No cut needed.
+
+```mermaid
+flowchart TD
+    subgraph "After DECREASE-KEY(18→2) — showing cascading cut"
+        m4["H.min→"] --> r0b["0"]
+        r0b <-->|"↔"| r2["2 (was 18)"]
+        r2 <-->|"↔"| r3b["3"]
+        r3b --> rc7b["7"]
+        r3b <-->|"↔"| r24b["24"]
+        r24b --> rc30b["30"]
+        style m4 fill:#fab387,color:#11111b
+        style r0b fill:#a6e3a1,color:#11111b
+        style r2 fill:#f9e2af,color:#11111b
+    end
+```
+
+**Now decrease key of 7 from 7 to 5, then another node to trigger full cascade:**
+
+**Setup with cascading cut demonstration:** Suppose node X (key=35) has parent P (key=12, already marked), and P's parent is GP (key=6, already marked), and GP's parent is root.
+
+**DECREASE-KEY(X→5):** 5 < P.key=12 → CUT(X, P).
+- CASCADING-CUT(P=12): P is marked → **CUT(P, GP)**. CASCADING-CUT(GP=6): GP is marked → **CUT(GP, root)**. CASCADING-CUT(root): is root → STOP.
+- Result: X, P, GP all moved to root list. Their marks cleared. **3 cascading cuts!**
+
+**Why this is still $\Theta(1)$ amortized:** Each cut reduces $m(H)$ by 1 (removing marked status), but $m$ was pre-paid from earlier `mark` operations. Net potential change per cut = $+1$ (new root) $- 2$ (un-marked) = $-1$ → each cut is "free" amortized.
+
+---
+
+### 5.5 Amortized Cost Proof via Potential
+
+| Operation | Actual Cost | $\Delta\Phi$ | Amortized = Actual + $\Delta\Phi$ |
 | :--- | :--- | :--- | :--- |
-| `INSERT` | $O(\log n)$ | $O(\log n)$ | $\Theta(1)$ **amortized** |
-| `MINIMUM` | $O(1)$ | $O(\log n)$ | $O(1)$ |
-| `EXTRACT-MIN` | $O(\log n)$ | $O(\log n)$ | $O(\log n)$ **amortized** |
-| `DECREASE-KEY` | $O(\log n)$ | $O(\log n)$ | $\Theta(1)$ **amortized** |
-| `UNION` | $O(n)$ | $O(\log n)$ | $\Theta(1)$ |
+| **INSERT** | $O(1)$ | $+1$ (new tree) | $O(1) + 1 = O(1)$ ✅ |
+| **UNION** | $O(1)$ | $0$ | $O(1)$ ✅ |
+| **EXTRACT-MIN** | $O(D(n) + t)$ | $-(t - D(n))$ | $O(D(n)) = O(\log n)$ ✅ |
+| **DECREASE-KEY** | $O(c)$ for $c$ cuts | $-(c-2)$ | $O(1)$ ✅ |
 
-**When to use Fibonacci Heap:** Algorithms with many `DECREASE-KEY` operations (e.g., Dijkstra/Prim with Fibonacci Heap → $O(E + V\log V)$ vs $O(E \log V)$ with binary heap).
+---
 
 ### 📝 Quick Practice — Fibonacci Heaps
 
-> **Q1:** After 5 `INSERT` operations (keys: 3, 7, 18, 24, 52) into an empty Fibonacci Heap, how many trees are in the root list and what is the potential $\Phi$?
+> **Q1:** After inserting keys {10, 3, 5, 20, 15} into an empty Fibonacci Heap, what is $\Phi(H)$, $t(H)$, and $m(H)$?
 >
-> **Answer:** 5 INSERT operations add 5 nodes directly to the root list with no consolidation. So $t(H) = 5$, $m(H) = 0$ (no marked nodes). $\Phi(H) = 5 + 2(0) = \mathbf{5}$.
+> **Answer:** 5 inserts add 5 nodes to root list, no consolidation. $t(H) = 5$ trees, $m(H) = 0$ (no cuts yet). $\Phi(H) = 5 + 2(0) = \mathbf{5}$.
 
-> **Q2:** Explain why `DECREASE-KEY` has $\Theta(1)$ amortized cost even when Cascading Cut fires many times.
+> **Q2:** Why does Fibonacci Heap defer consolidation until EXTRACT-MIN instead of consolidating at every insert?
 >
-> **Answer:** Each cascading cut moves a marked node to the root list, reducing $m(H)$ by 1 but increasing $t(H)$ by 1. Net potential change per cascading cut: $\Delta\Phi = 1 - 2 = -1$. The potential drop *pays* for the actual cut work. So $c$ cascading cuts cost $O(c)$ actual but $\Phi$ drops by $c-1$, giving amortized cost $O(c) - (c-1) = O(1)$.
+> **Answer:** Consolidating at every insert would cost $O(\log n)$ per insert (like a Binomial Heap). By deferring, each INSERT is $O(1)$ amortized. The consolidation cost during EXTRACT-MIN is $O(\log n)$ amortized, which is the same as Binomial Heap's extract-min — but all other operations become faster. This tradeoff is ideal for algorithms with many DECREASE-KEY operations (e.g., Dijkstra with Fibonacci Heap: $O(E + V\log V)$).
 
-> **Q3:** Why is the maximum degree of any node in a Fibonacci Heap after consolidation bounded by $O(\log n)$?
+> **Q3:** What would happen if the mark bit mechanism didn't exist in Fibonacci Heaps?
 >
-> **Answer:** This follows from the Fibonacci number property. The minimum number of nodes in a Fibonacci Heap tree of degree $k$ is $F_{k+2} \ge \phi^k$ (where $\phi \approx 1.618$). Since the heap has $n$ nodes: $n \ge \phi^{D(n)} \implies D(n) \le \log_\phi n = O(\log n)$.
+> **Answer:** Without mark bits, we could cut children whenever DECREASE-KEY fires, potentially making trees degenerate into paths (depth $n$). The max degree would no longer be bounded by $O(\log n)$, breaking EXTRACT-MIN's $O(\log n)$ amortized guarantee. Mark bits ensure that each internal node can only lose ONE child before it's itself cut to the root list — this maintains the structural property that subtree sizes are at least Fibonacci numbers, bounding max degree at $D(n) = O(\log n)$.
 
 ---
 
 ## 6. Disjoint Set Structures (Union-Find)
 
-### 6.1 What is a Disjoint Set Structure?
+### 6.1 Rules for Disjoint Sets
 
-Maintains a collection of non-overlapping dynamic sets $\mathcal{S} = \{S_1, S_2, \dots, S_k\}$. Each set has a **representative** (root of its tree). Supports three operations efficiently.
-
-### 6.2 Core Operations
-
-| Operation | Description |
+| Rule | Description |
 | :--- | :--- |
-| `MAKE-SET(x)` | Create a new singleton set $\{x\}$ |
-| `FIND-SET(x)` | Return the representative of x's set |
-| `UNION(x, y)` | Merge the sets containing x and y |
+| **Each set** | Represented as a rooted tree |
+| **Representative** | Root of the tree |
+| **MAKE-SET(x)** | x.parent = x; x.rank = 0 |
+| **FIND-SET(x)** | Follow parent pointers to root |
+| **UNION(x,y)** | LINK(FIND-SET(x), FIND-SET(y)) |
+| **Union by Rank** | Higher-rank root becomes parent; equal ranks → increase rank |
+| **Path Compression** | During FIND-SET: point ALL visited nodes directly to root |
+| **Rank** | Upper bound on height; only increases when two equal-rank roots link |
+| **Amortized cost** | $O(\alpha(n))$ per operation with both optimizations |
 
-### 6.3 Two Key Optimizations
+### 6.2 Step-by-Step: 10 UNION Operations
 
-#### Optimization 1: Union by Rank
+**Start:** 10 singleton sets: $\{1\}, \{2\}, \{3\}, \ldots, \{10\}$. All rank = 0.
 
-Each node has a `rank` (upper bound on tree height). Always attach the **smaller-rank tree's root under the larger-rank root**.
+---
 
-**Rule:** `rank` only increases when two equal-rank roots merge (new rank = old rank + 1).
-
-```mermaid
-flowchart LR
-    subgraph "BEFORE UNION — both rank 1"
-        direction TB
-        T1["A (rank 1)"] --- T1a["B"]
-        T2["C (rank 1)"] --- T2a["D"]
-    end
-    subgraph "AFTER UNION(A,C) — rank of A becomes 2"
-        direction TB
-        T3["A (rank 2)"] --- T3a["B"]
-        T3 --- T3b["C (rank 1)"] --- T3c["D"]
-    end
+**UNION(1, 2):** FIND(1)=1, FIND(2)=2. rank[1]=rank[2]=0 → link: 2 becomes child of 1, rank[1]=1.
+```
+1(r=1) → 2(r=0)
 ```
 
-#### Optimization 2: Path Compression
-
-During `FIND-SET(x)`, make **every node on the path point directly to the root**.
-
-```mermaid
-flowchart TD
-    subgraph "BEFORE FIND-SET(4)"
-        direction LR
-        R1["1 (root)"] --> N2["2"] --> N3["3"] --> N4["4"]
-    end
-    subgraph "AFTER FIND-SET(4) — path compressed"
-        direction LR
-        R2["1 (root)"]
-        R2 --> Na["2 (now direct child)"]
-        R2 --> Nb["3 (now direct child)"]
-        R2 --> Nc["4 (now direct child)"]
-    end
+**UNION(3, 4):** FIND(3)=3, FIND(4)=4. Same → 4 under 3, rank[3]=1.
+```
+3(r=1) → 4(r=0)
 ```
 
-### 6.4 Pseudocode
-
-```text
-MAKE-SET(x):
-    x.parent = x
-    x.rank = 0
-
-FIND-SET(x):                          ← with path compression
-    if x ≠ x.parent then
-        x.parent = FIND-SET(x.parent)
-    return x.parent
-
-UNION(x, y):
-    LINK(FIND-SET(x), FIND-SET(y))
-
-LINK(x, y):                           ← union by rank
-    if x.rank > y.rank then
-        y.parent = x
-    else
-        x.parent = y
-        if x.rank == y.rank then
-            y.rank = y.rank + 1
+**UNION(5, 6):** 6 under 5, rank[5]=1.
+```
+5(r=1) → 6(r=0)
 ```
 
-### 6.5 Worked Trace: UNION operations
+**UNION(7, 8):** 8 under 7, rank[7]=1.
+```
+7(r=1) → 8(r=0)
+```
 
-**Sequence:** `MAKE-SET(1..8)`, then `UNION(1,2)`, `UNION(3,4)`, `UNION(5,6)`, `UNION(7,8)`, `UNION(1,3)`, `UNION(5,7)`, `UNION(1,5)`
+**UNION(1, 3):** FIND(1)=1(r=1), FIND(3)=3(r=1). Equal ranks → 3 under 1, rank[1]=2.
+```
+     1(r=2)
+    /      \
+  2(r=0) 3(r=1)
+           \
+           4(r=0)
+```
+
+**UNION(5, 7):** FIND(5)=5(r=1), FIND(7)=7(r=1). Equal → 7 under 5, rank[5]=2.
+```
+     5(r=2)
+    /      \
+  6(r=0) 7(r=1)
+           \
+           8(r=0)
+```
+
+**UNION(9, 10):** 10 under 9, rank[9]=1.
+```
+9(r=1) → 10(r=0)
+```
+
+**UNION(1, 5):** FIND(1)=1(r=2), FIND(5)=5(r=2). Equal → 5 under 1, rank[1]=3.
 
 ```mermaid
 flowchart TD
-    subgraph "After UNION(1,2), UNION(3,4), UNION(5,6), UNION(7,8)"
-        direction LR
-        A["1(r=1)"] --- Aa["2"]
-        B["3(r=1)"] --- Ba["4"]
-        C["5(r=1)"] --- Ca["6"]
-        D["7(r=1)"] --- Da["8"]
+    r1["1 (rank=3)"] --> c2["2"]
+    r1 --> c3["3"]
+    r1 --> c5["5 (rank=2)"]
+    c3 --> c4["4"]
+    c5 --> c6["6"]
+    c5 --> c7["7"]
+    c7 --> c8["8"]
+    style r1 fill:#89b4fa,color:#11111b
+    style c5 fill:#a6e3a1,color:#11111b
+    style c3 fill:#a6e3a1,color:#11111b
+```
+
+**UNION(1, 9):** FIND(1)=1(r=3), FIND(9)=9(r=1). rank[1] > rank[9] → 9 under 1. rank[1] stays 3.
+```
+1(r=3) adds child 9(r=1) which has child 10
+```
+
+**UNION(2, 6):** FIND(2)=1 (path: 2→1), FIND(6)=1 (path: 6→5→1). Same root! → **No-op** (already same set).
+
+---
+
+### 6.3 Path Compression — Step-by-Step
+
+After the above unions, suppose we call **FIND-SET(8)**:
+
+Path without compression: 8 → 7 → 5 → 1 (root). Returns 1.
+
+**With path compression:** During the return, point ALL visited nodes directly to root:
+- 8.parent = 1 (was 7)
+- 7.parent = 1 (was 5)
+- 5.parent = 1 (already correct)
+
+```mermaid
+flowchart TD
+    subgraph "BEFORE FIND-SET(8)"
+        b1["1(root)"] --> b5["5"]
+        b5 --> b7["7"]
+        b7 --> b8["8"]
+        b5 --> b6["6"]
+        b1 --> b2["2"]
+        b1 --> b3["3"]
     end
-    subgraph "After UNION(1,3), UNION(5,7)"
-        direction LR
-        E["1(r=2)"] --- Ea["2"]
-        E --- Eb["3(r=1)"] --- Ec["4"]
-        F["5(r=2)"] --- Fa["6"]
-        F --- Fb["7(r=1)"] --- Fc["8"]
-    end
-    subgraph "After UNION(1,5) — final tree"
-        direction TB
-        G["1(r=2)"] --- Ga["2"]
-        G --- Gb["3(r=1)"] --- Gc["4"]
-        G --- Gd["5(r=2)"] --- Ge["6"]
-        Gd --- Gf["7(r=1)"] --- Gg["8"]
+    subgraph "AFTER FIND-SET(8) — Path Compressed"
+        a1["1(root)"] --> a5["5 (now direct child)"]
+        a1 --> a7["7 (now direct child)"]
+        a1 --> a8["8 (now direct child)"]
+        a1 --> a6["6 (via 5→1, but 5 is child of 1 now)"]
+        a1 --> a2["2"]
+        a1 --> a3["3"]
     end
 ```
 
-**Note:** When `UNION(1,5)` is called, both trees have rank=2 → ranks are equal → the root of one (5) is attached under the other (1) and rank of 1 becomes... wait — rank 2 = rank 2, so rank of the resulting root becomes 3. Actually here both have rank 2, so LINK attaches 5 under 1, and `rank[1]` becomes **3**. But conventionally the diagram shows rank 2 for simplicity when not explicitly tracked.
+**Future FIND-SET(8):** 8 → 1 directly → $O(1)$! Path compression makes all future lookups nearly instant.
 
-### 6.6 Amortized Complexity
+### 6.4 All 10 Operations Summary
 
-Using **both** Union by Rank **and** Path Compression:
+| Op # | Operation | Action | Tree Structure Change |
+| :--- | :--- | :--- | :--- |
+| 1 | UNION(1,2) | Link 2→1, rank[1]=1 | {1→2}, others singletons |
+| 2 | UNION(3,4) | Link 4→3, rank[3]=1 | {3→4} |
+| 3 | UNION(5,6) | Link 6→5, rank[5]=1 | {5→6} |
+| 4 | UNION(7,8) | Link 8→7, rank[7]=1 | {7→8} |
+| 5 | UNION(1,3) | Link 3→1, rank[1]=2 | {1→{2,3→4}} |
+| 6 | UNION(5,7) | Link 7→5, rank[5]=2 | {5→{6,7→8}} |
+| 7 | UNION(9,10) | Link 10→9, rank[9]=1 | {9→10} |
+| 8 | UNION(1,5) | Link 5→1, rank[1]=3 | {1→{2,3→4,5→{6,7→8}}} |
+| 9 | UNION(1,9) | Link 9→1, rank[1]=3 | {1→{..., 9→10}} |
+| 10 | UNION(2,6) | FIND(2)=1=FIND(6) | **No-op** — same set |
 
-$$
-\text{A sequence of } m \text{ operations on } n \text{ elements: } O(m \cdot \alpha(n))
-$$
+```mermaid
+flowchart TD
+    final1["1 (rank=3) — REPRESENTATIVE of all 10"] --> f2["2"]
+    final1 --> f3["3 (rank=1)"]
+    final1 --> f5["5 (rank=2)"]
+    final1 --> f9["9 (rank=1)"]
+    f3 --> f4["4"]
+    f5 --> f6["6"]
+    f5 --> f7["7 (rank=1)"]
+    f9 --> f10["10"]
+    f7 --> f8["8"]
+    style final1 fill:#89b4fa,color:#11111b
+    style f5 fill:#a6e3a1,color:#11111b
+    style f3 fill:#a6e3a1,color:#11111b
+```
 
-where $\alpha(n)$ is the **Inverse Ackermann function** — an extremely slow-growing function where $\alpha(n) \le 4$ for all practical $n$ (e.g., $\alpha(n) \le 4$ for $n \le 2^{2^{2^{2^{16}}}}$). Amortized cost per operation: **essentially $\Theta(1)$**.
+**All 10 elements are now in one set with representative = 1** ✅
+
+---
 
 ### 📝 Quick Practice — Disjoint Sets
 
-> **Q1:** After `MAKE-SET(1..5)`, perform `UNION(1,2)`, `UNION(2,3)`, `UNION(3,4)`, `UNION(4,5)` all using naive union (no union by rank). What is the tree's height and how does this affect `FIND-SET` performance?
+> **Q1:** After UNION operations on elements 1–8: UNION(1,2), UNION(3,4), UNION(5,6), UNION(7,8), UNION(1,3), UNION(5,7), UNION(1,5) — what is rank[1] and how many elements does its tree have?
 >
-> **Answer:** Naive union always attaches one root under the other (e.g., based on who's passed first). If always attaching the second under the first: 5→4→3→2→1. Height = 4. `FIND-SET(5)` traverses 4 edges → $O(n)$ in worst case. With union by rank, height is at most $O(\log n)$.
+> **Answer:** UNION(1,2): r[1]=1. UNION(3,4): r[3]=1. UNION(5,6): r[5]=1. UNION(7,8): r[7]=1. UNION(1,3): equal ranks → r[1]=2. UNION(5,7): equal ranks → r[5]=2. UNION(1,5): equal ranks → r[1]=3. Tree rooted at 1 contains ALL 8 elements. **rank[1] = 3**.
 
-> **Q2:** After path compression during `FIND-SET(5)` in the chain `1→2→3→4→5`, what does the resulting tree look like?
+> **Q2:** Why does Union by Rank guarantee height $O(\log n)$?
 >
-> **Answer:** All nodes (2, 3, 4, 5) become direct children of root 1: `1` has children `{2, 3, 4, 5}`. Future `FIND-SET` calls on any of these are $O(1)$.
-
-> **Q3:** What is the significance of the Inverse Ackermann function $\alpha(n)$ in the context of Disjoint Sets?
->
-> **Answer:** $\alpha(n)$ is the functional inverse of the Ackermann function — the slowest-growing function that appears in computer science. It means the amortized cost per operation is *technically* not $O(1)$ but is so close to constant (≤ 4 for any imaginable input) that it's practically indistinguishable. The $O(m \cdot \alpha(n))$ bound is also proven to be *tight* — no algorithm using union-find with path compression can do better.
+> **Answer:** A tree of rank $k$ contains at least $2^k$ nodes (proved by induction: rank-0 tree has 1 node; linking two rank-$(k-1)$ trees makes one rank-$k$ tree with ≥ $2 \cdot 2^{k-1} = 2^k$ nodes). Since $n \ge 2^{\text{rank}}$: rank $\le \log_2 n$. Without compression, height = rank ≤ $\log_2 n$. Path compression further flattens the tree.
 
 ---
 
 ## 7. Amortized Analysis
 
-### 7.1 What is Amortized Analysis?
-
-**Amortized analysis** determines the **average cost per operation** over a sequence of operations, even though individual operations may occasionally be expensive. It provides a **worst-case guarantee on the average** — not a probabilistic average.
-
-> Key idea: "Charge" expensive operations against the "credit" saved by cheap operations.
+### 7.1 Three Methods
 
 ```mermaid
 flowchart TD
-    AA["Amortized Analysis"] --> M1["Method 1\nAggregate"]
-    AA --> M2["Method 2\nAccounting (Banker's)"]
-    AA --> M3["Method 3\nPotential (Physicist's)"]
-    M1 --> M1d["Total cost of n ops / n\n= Amortized cost per op"]
-    M2 --> M2d["Assign charge ĉᵢ to each op\nĉᵢ ≥ cᵢ (over-charge cheap ops)\nUse stored credit for expensive ops"]
-    M3 --> M3d["Define Φ(Dᵢ)\nĉᵢ = cᵢ + Φ(Dᵢ) − Φ(Dᵢ₋₁)"]
+    AA["Amortized Analysis\n(Worst-case avg over sequence)"] --> M1["Aggregate\nTotal cost / n"]
+    AA --> M2["Accounting\nCharge ĉᵢ per op;\nstore/use credit"]
+    AA --> M3["Potential\nΦ(D) = potential;\nĉᵢ = cᵢ + ΔΦ"]
+    M1 --> E1["Example: Stack MULTIPOP\nTotal cost ≤ 2n → O(1) avg"]
+    M2 --> E2["Example: Binary counter\nCharge 2 for set-to-1;\n0 for clear-to-0"]
+    M3 --> E3["Example: Fibonacci Heap\nΦ = t(H) + 2m(H)"]
 ```
 
-### 7.2 Method 1: Aggregate Method
+### 7.2 Worked Example — Stack with MULTIPOP
 
-**Idea:** Find the total cost $T(n)$ of all $n$ operations. Amortized cost = $T(n)/n$.
+Operations: PUSH (cost 1), POP (cost 1), MULTIPOP(k) (cost min(k, |S|)).
 
-**Worked Example: Stack with MULTIPOP**
+**Aggregate:** Each element pushed at most once, popped at most once. Total cost ≤ 2n = O(n). Amortized = O(1)/op.
 
-Operations: `PUSH` costs 1, `POP` costs 1, `MULTIPOP(k)` costs $\min(k, |S|)$.
+**Accounting:** PUSH charges $\hat{c}$ = 2 (1 actual + 1 credit stored on element). POP charges 0 (uses credit). MULTIPOP(k) charges 0 (each of k pops uses element's own credit). Credit ≥ 0 always. ✅
 
-**Claim:** Any sequence of $n$ PUSH/POP/MULTIPOP operations costs $O(n)$ total.
+**Potential:** $\Phi(S)$ = |S| (number of elements on stack). $\Phi_0 = 0$.
+- PUSH: actual $c_i = 1$, $\Delta\Phi = +1$. $\hat{c} = 1+1 = 2$ ✅
+- POP: actual $c_i = 1$, $\Delta\Phi = -1$. $\hat{c} = 1-1 = 0$ ✅
+- MULTIPOP(k): actual $c_i = k$, $\Delta\Phi = -k$. $\hat{c} = k-k = 0$ ✅
 
-**Proof:** Each element can be pushed at most once and popped at most once. So total pushes ≤ $n$ and total pops ≤ total pushes ≤ $n$. Total cost ≤ $2n = O(n)$. Amortized cost = $O(n)/n = O(1)$ per operation.
+### 7.3 Summary Table
 
-### 7.3 Method 2: Accounting Method
-
-**Idea:** Assign different amortized costs $\hat{c}_i$ to operations. Extra charge is "credit" stored on data structure. Credit must stay $\ge 0$.
-
-**Rule:** $\sum_{i=1}^n \hat{c}_i \ge \sum_{i=1}^n c_i$ (amortized cost ≥ actual cost always)
-
-**Worked Example: Binary Counter (INCREMENT)**
-
-A binary counter increments from 0. The cost of INCREMENT = number of bits flipped.
-
-Charge scheme:
-- Charge $\hat{c} = 2$ for each bit flip to 1 (1 to do the flip, 1 credit stored on the bit)
-- Charge $\hat{c} = 0$ for each bit flip to 0 (use stored credit)
-
-Since each bit was set to 1 once before being set to 0, the stored credit always covers the cost. Total amortized cost for $n$ increments = $O(n)$. Amortized per op = $O(1)$.
-
-### 7.4 Method 3: Potential Method
-
-**Idea:** Define a potential function $\Phi(D_i)$ over the data structure state $D_i$. Then:
-
-$$\hat{c}_i = c_i + \Phi(D_i) - \Phi(D_{i-1})$$
-
-**If** $\Phi(D_i) \ge \Phi(D_0)$ for all $i$, then $\sum \hat{c}_i \ge \sum c_i$ — amortized cost is an upper bound on actual cost.
-
-**Worked Example: Binary Counter**
-
-Let $\Phi(D_i)$ = number of 1-bits in the counter after $i$ operations. $\Phi(D_0) = 0$.
-
-Suppose INCREMENT flips $t_i$ bits from 1→0 and then 1 bit from 0→1:
-- Actual cost: $c_i = t_i + 1$
-- $\Phi(D_i) - \Phi(D_{i-1}) = 1 - t_i$ (one new 1-bit, $t_i$ 1-bits cleared)
-- Amortized: $\hat{c}_i = (t_i + 1) + (1 - t_i) = 2 = O(1)$ ✅
-
-### 7.5 Amortized Analysis Summary
-
-| Method | Mechanism | Best Used When |
+| Method | Mechanism | When to Use |
 | :--- | :--- | :--- |
-| **Aggregate** | Total cost / n | All operations have same structure |
-| **Accounting** | Credit system per operation | Different ops have naturally different costs |
-| **Potential** | Potential energy of data structure | Mathematical elegance needed (e.g., Fibonacci Heap analysis) |
-
-### 📝 Quick Practice — Amortized Analysis
-
-> **Q1:** What is the amortized cost per operation for the Stack with MULTIPOP using the Accounting Method? Assign charges.
->
-> **Answer:** Assign: PUSH → amortized cost 2 (1 for push, 1 credit stored on element). POP → amortized cost 0 (use stored credit). MULTIPOP(k) → amortized cost 0 (each element pays for its own pop using stored credit). Since credit ≥ 0 always (you can only pop what was pushed with stored credit), actual total cost ≤ total amortized charge = 2n. Amortized per op = $O(1)$.
-
-> **Q2:** For a Fibonacci Heap, the potential function is $\Phi(H) = t(H) + 2m(H)$. Why the coefficient **2** for $m(H)$?
->
-> **Answer:** The coefficient 2 ensures that when a cascading cut fires for a marked node, the potential drops by 2 (removing the marked node from children: $m(H)$ decreases by 1 giving $-2$, and $t(H)$ increases by 1 giving $+1$, net $= -1$). This $-1$ potential drop pays for the actual work of cutting. The first cut might add a mark, but the *existing* mark was pre-paid. The factor 2 provides exactly enough credit to cover both the cut work and the potential bookkeeping.
+| **Aggregate** | Total cost / n | All ops have the same overall structure |
+| **Accounting** | Credit system per operation type | Different ops have naturally different costs |
+| **Potential** | Potential function over data structure state | Complex structures (Fibonacci Heap, B-Trees) |
 
 ---
 
-## 8. Formula Sheet
+## 8. Formula Reference Sheet
 
-| Formula | Meaning |
+| Formula | What It Describes |
 | :--- | :--- |
 | $h \le 2\log_2(n+1)$ | Max height of RBT with $n$ internal nodes |
-| $bh(x) \ge h(x)/2$ | Black-height is at least half the node height |
-| $B_k$: nodes $= 2^k$, height $= k$, root degree $= k$ | Binomial Tree $B_k$ properties |
+| $B_k$: nodes $= 2^k$, height $= k$, root-degree $= k$ | Binomial Tree $B_k$ properties |
 | $\Phi(H) = t(H) + 2m(H)$ | Fibonacci Heap potential function |
 | $D(n) = O(\log n)$ | Max degree in Fibonacci Heap after consolidation |
-| $O(m \cdot \alpha(n))$ | Disjoint Set — total cost for $m$ ops on $n$ elements |
+| $O(m \cdot \alpha(n))$ | Disjoint Set total cost for $m$ ops on $n$ elements |
 | $i.low \le i'.high$ AND $i'.low \le i.high$ | Interval overlap condition |
-| $x.max = \max(x.int.high, x.left.max, x.right.max)$ | Interval Tree max-attribute update |
-| $\hat{c}_i = c_i + \Phi(D_i) - \Phi(D_{i-1})$ | Potential Method amortized cost formula |
+| $x.max = \max(x.int.high, x.left.max, x.right.max)$ | Interval Tree max-attribute rule |
+| $\hat{c}_i = c_i + \Phi(D_i) - \Phi(D_{i-1})$ | Potential method amortized cost formula |
 
 ---
 
-## 9. Definition Sheet
+## 9. Complexity Summary
 
-| Term | Definition |
-| :--- | :--- |
-| **Red-Black Tree** | A self-balancing BST where each node is RED or BLACK, satisfying 5 structural properties to guarantee $O(\log n)$ height |
-| **Black-Height** | Number of BLACK nodes on any root-to-NIL path (excluding the root); same for all paths by P5 |
-| **Double Black** | A conceptual state during RBT deletion where a node carries extra black credit after a BLACK node is removed |
-| **Interval Tree** | An RBT augmented with `max` attribute per node, supporting overlap queries in $O(\log n)$ |
-| **Binomial Tree $B_k$** | A recursively defined tree of $2^k$ nodes and height $k$ formed by linking two $B_{k-1}$ trees |
-| **Binomial Heap** | A forest of binomial trees, one of each degree, satisfying min-heap property |
-| **Fibonacci Heap** | A lazy collection of min-heap trees in a doubly-linked root list with deferred consolidation |
-| **Mark Bit** | Boolean flag on Fibonacci Heap nodes; TRUE if the node has lost a child since it last became someone's child |
-| **Cascading Cut** | Propagating cuts up through marked ancestors in `DECREASE-KEY` |
-| **Path Compression** | Union-Find optimization: during `FIND-SET`, flatten all nodes on path to point directly to root |
-| **Union by Rank** | Union-Find optimization: always attach smaller-rank root under larger-rank root |
-| **Inverse Ackermann $\alpha(n)$** | Functional inverse of Ackermann function; $\alpha(n) \le 4$ for all practical $n$; describes Union-Find amortized cost |
-| **Amortized Analysis** | Averaging cost over a sequence of operations to obtain worst-case per-operation bounds |
+| Operation | Binary Heap | Binomial Heap | Fibonacci Heap |
+| :--- | :--- | :--- | :--- |
+| BUILD | $O(n)$ | $O(n)$ | $O(n)$ |
+| INSERT | $O(\log n)$ | $O(\log n)$ | $\Theta(1)$ amortized |
+| MINIMUM | $O(1)$ | $O(\log n)$ | $O(1)$ |
+| EXTRACT-MIN | $O(\log n)$ | $O(\log n)$ | $O(\log n)$ amortized |
+| UNION | $O(n)$ | $O(\log n)$ | $O(1)$ |
+| DECREASE-KEY | $O(\log n)$ | $O(\log n)$ | $\Theta(1)$ amortized |
+| DELETE | $O(\log n)$ | $O(\log n)$ | $O(\log n)$ amortized |
 
 ---
 
 ## 10. Exam-Oriented Review
 
-1. **List the 5 Red-Black Tree properties.** Draw a valid RBT with 7 nodes showing black-height = 2.
+1. **RBT Properties:** List all 5 rules. Given tree: 10(B){7(R){5(B),8(B)}, 15(R){12(B),20(B)}} — verify all 5 rules.
 
-2. **Trace RBT insertion** for keys $[15, 32, 20, 4, 12, 25, 7]$. Identify which case (1, 2, or 3) is triggered at each RED-RED conflict. Show the tree after each fixup.
+2. **RBT Insertion:** Insert [30, 20, 40, 10, 25, 35, 50, 5, 15] into an empty RBT. At each step state: which case fires, what rotation/recolor occurs, show final tree.
 
-3. **Explain all 4 RBT deletion cases.** When does Del-Case 1 convert to Del-Case 2/3/4? Is it possible to encounter Del-Case 1 → Del-Case 3 → Del-Case 4 in sequence?
+3. **RBT Deletion:** From your tree in Q2, delete nodes 20 and 40. Identify which deletion case (1–4) fires at each step.
 
-4. **Interval Tree:** Given intervals `{[1,5], [3,7], [6,10], [8,12], [2,6]}`, build the interval tree and trace `INTERVAL-SEARCH` for query `[4,9]`.
+4. **Binomial Heap:** Insert [10, 3, 7, 1, 5, 8, 12, 2, 6, 4] one by one. After each insert, write the binomial representation (which $B_k$ trees exist). Show the B3 tree structure when n=8.
 
-5. **Binomial Heap:** A heap contains trees $B_0, B_2, B_4$. How many nodes does it have? After inserting 3 more nodes, which trees exist?
+5. **Fibonacci Heap:** Insert {5, 3, 17, 8, 26, 24, 46}. Then EXTRACT-MIN. Show the complete consolidation step with the degree array A[].
 
-6. **Fibonacci Heap:** After inserting keys [3, 7, 18, 52, 24, 30] and calling `EXTRACT-MIN`, trace the consolidation. Show the array $A[]$ state at each step.
+6. **DECREASE-KEY Cascade:** In a Fibonacci Heap, node X (key=40) has parent P (key=15, marked), and P has parent Q (key=8, not marked). Decrease X to 2. Trace all CUT and CASCADING-CUT calls.
 
-7. **Disjoint Set:** Simulate 9 `UNION` operations on elements $\{1..10\}$ using Union by Rank. Show how path compression during `FIND-SET(9)` changes pointer structure.
+7. **Disjoint Sets:** Process UNION operations: (1,3),(2,4),(5,6),(1,2),(3,5),(7,8),(7,1) using union by rank. Draw the final forest. Then apply FIND-SET(6) with path compression and redraw.
 
-8. **Amortized Analysis:** Using the potential method, prove that Fibonacci Heap `INSERT` has amortized cost $\Theta(1)$ given that actual cost is $O(1)$ and $\Phi(H) = t(H) + 2m(H)$.
+8. **Amortized Analysis:** Using the potential method, prove that Fibonacci Heap INSERT has amortized cost $\Theta(1)$ given actual cost $O(1)$ and $\Phi(H) = t(H) + 2m(H)$.
