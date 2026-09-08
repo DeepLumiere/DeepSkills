@@ -638,7 +638,38 @@ flowchart TD
 | Search direction | Go LEFT if `x.left.max ≥ i.low`, else go RIGHT |
 | Max maintenance | After insert/rotate: update `max` bottom-up on affected path |
 
-### 3.2 Complete 5-Step Insertion Trace
+### 3.2 Interval Tree Rules: INTERVAL-SEARCH
+
+```mermaid
+flowchart TD
+    Start["Search interval i in tree x"] --> Overlap{"x overlaps i?\n(x.low ≤ i.high AND\ni.low ≤ x.high)"}
+    Overlap -- Yes --> Found["Return x ✅"]
+    Overlap -- No --> LeftCheck{"x.left != NIL AND\nx.left.max ≥ i.low?"}
+    LeftCheck -- Yes --> GoLeft["Search in x.left"]
+    LeftCheck -- No --> GoRight["Search in x.right"]
+    style Found fill:#a6e3a1,color:#11111b
+```
+
+### 3.3 Structure with 7 Intervals
+
+Intervals inserted: `[16,21], [8,9], [25,30], [5,8], [15,23], [17,19], [26,26]`
+
+```mermaid
+flowchart TD
+    Root["[16,21] | max=30 ⬛"] --> L["[8,9] | max=23 🔴"]
+    Root --> R["[25,30] | max=30 ⬛"]
+    L --> LL["[5,8] | max=8 ⬛"]
+    L --> LR["[15,23] | max=23 ⬛"]
+    R --> RL["[17,19] | max=19 🔴"]
+    R --> RR["[26,26] | max=26 🔴"]
+    style Root fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style L fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style R fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+```
+
+**Reading `max` values:** `[8,9]` node has max=23 because its right subtree contains `[15,23]` with high=23. Root has max=30 because right subtree contains `[25,30]`.
+
+### 3.4 Complete 5-Step Insertion Trace
 
 **Insert sequence:** `[15,20], [10,30], [17,19], [5,20], [12,15]`
 
@@ -746,7 +777,7 @@ flowchart TD
 
 ---
 
-### 3.3 INTERVAL-DELETE Trace
+### 3.5 INTERVAL-DELETE Trace
 
 **Delete `[10,30]` from the tree above:**
 
@@ -776,7 +807,7 @@ flowchart TD
 
 ---
 
-### 3.4 INTERVAL-SEARCH Trace
+### 3.6 INTERVAL-SEARCH Trace
 
 **Query: Find any interval overlapping `i = [14, 16]`**
 
@@ -805,6 +836,14 @@ Algorithm INTERVAL-SEARCH(T, i=[14,16]):
 | 2 | `[8,9]` | 8≤14 ✅ but 12≤9? ❌ → No | left.max=8 < 12 ❌ | Go **RIGHT** |
 | 3 | `[15,23]` | 15≤14? ❌ → No | left=NIL → max<12 | Go **RIGHT** → NIL |
 | 4 | **NIL** | — | — | Return NIL (no overlap found) |
+
+---
+
+### 📝 Quick Practice — Interval Trees
+
+> **Q1:** Insert `[14, 18]` into the tree from Section 3.3. What color will it be, and what is its parent? Will a rotation be triggered?
+>
+> **Answer:** Insert traces like standard BST on `low`: 14 < 16(Root) → left; 14 > 8(L) → right; 14 < 15(LR) → left. So `[14, 18]` becomes left child of `[15, 23]`. It is colored RED. Since `[15, 23]` is BLACK, no RBT violation occurs. `max` attributes are updated bottom-up on the path. `[14, 18].max = 18`. `[15, 23].max = max(23, 18, -∞) = 23`. The root `[16, 21].max` remains 30.
 
 ---
 
@@ -879,7 +918,22 @@ INSERT = add $B_0$ + carry links (like binary +1).
 
 ---
 
-### 4.4 Complete 11-Step Insertion Trace
+### 4.4 Binomial Heap Rules: INSERT / LINK Logic
+
+When adding a new $B_0$ or merging trees, we use binary addition logic (carrying):
+
+```mermaid
+flowchart TD
+    Start["Add/Merge Tree B_k\nto Heap H"] --> Check{"Does H already\nhave a B_k?"}
+    Check -- No --> Add["Add B_k to H ✅ Done"]
+    Check -- Yes --> Link["LINK both B_k trees\nSmaller root becomes parent\nForms new B_{k+1} tree"]
+    Link --> Carry["Set k = k + 1\nRepeat check"]
+    Carry --> Check
+    style Add fill:#a6e3a1,color:#11111b
+    style Link fill:#fab387,color:#11111b
+```
+
+### 4.5 Complete 11-Step Insertion Trace
 
 **Insert sequence:** `[3, 5, 8, 2, 7, 1, 4, 6, 9, 11, 13]`
 
@@ -1041,7 +1095,19 @@ flowchart TD
 
 ---
 
-### 4.5 EXTRACT-MIN Trace
+### 4.6 Binomial Heap Rules: EXTRACT-MIN Logic
+
+```mermaid
+flowchart TD
+    Start["EXTRACT-MIN(H)"] --> FindMin["Scan root list\nFind min root x"]
+    FindMin --> Remove["Remove x from root list"]
+    Remove --> Reverse["Reverse the children of x\nto form Heap H'"]
+    Reverse --> Union["UNION(H, H')"]
+    Union --> Return["Return x ✅ Done"]
+    style Return fill:#a6e3a1,color:#11111b
+```
+
+### 4.7 EXTRACT-MIN Trace
 
 From the 11-node heap after Step 11 (`H = {B3[1...], B1[9...], B0[13]}`):
 
@@ -1094,7 +1160,25 @@ flowchart TD
 
 ---
 
-### 4.6 UNION of Two Binomial Heaps
+### 4.8 Binomial Heap Rules: UNION Logic
+
+```mermaid
+flowchart TD
+    Start["UNION(H1, H2)"] --> MergeLists["Merge root lists of H1 and H2\nsorted by degree"]
+    MergeLists --> Scan["Scan through merged list\nwith 3 pointers (prev, x, next)"]
+    Scan --> CheckDegrees{"x.deg == next.deg?"}
+    CheckDegrees -- No --> Move["Move pointers forward"]
+    Move --> Loop{"End of list?"}
+    Loop -- No --> Scan
+    Loop -- Yes --> Done["Done ✅"]
+    CheckDegrees -- Yes --> Check3{"x.deg == next.deg\n== next.next.deg?"}
+    Check3 -- Yes --> Move
+    Check3 -- No --> Link["LINK(x, next)\nSmaller root becomes parent"]
+    Link --> Scan
+    style Done fill:#a6e3a1,color:#11111b
+```
+
+### 4.9 UNION of Two Binomial Heaps
 
 **Heap H1** ($n=5 = 101_2$): `B2[1→2→4, 3] + B0[7]`
 **Heap H2** ($n=3 = 011_2$): `B1[5→8] + B0[6]`
@@ -1165,6 +1249,17 @@ flowchart TD
 > **Q2:** After inserting 16 elements one-by-one into an empty binomial heap, how many link operations were performed?
 >
 > **Answer:** $16 = 10000_2$. Insertions are like binary addition. Total carry operations = total links. Going from 0 to 16: at each power-of-2 step, all previous trees cascade-merge. Total links = (number of bit positions cleared during increments) = 16 − 1 = 15 links (each of the 15 non-root insertions eventually links). More formally: $\sum_{k=0}^{3} \lfloor 16/2^{k+1} \rfloor = 8+4+2+1 = 15$ links.
+
+> **Q3:** Trace EXTRACT-MIN on a Binomial Heap `H = {B2[1 -> {3->5, 8}], B0[7]}`.
+> 
+> **Answer:**
+> 1. Minimum root is 1 (in $B_2$). Remove 1.
+> 2. Children of 1 are reversed into a new heap $H'$. Children are $B_1[3 \rightarrow 5]$ and $B_0[8]$.
+> 3. $H' = \{B_0[8], B_1[3 \rightarrow 5]\}$. Remaining $H = \{B_0[7]\}$.
+> 4. UNION $H$ and $H'$: Merge lists $\rightarrow \{B_0[7], B_0[8], B_1[3 \rightarrow 5]\}$.
+> 5. Scan: Link $B_0[7]$ and $B_0[8]$ (7 < 8 $\rightarrow$ 8 under 7) $\rightarrow B_1[7 \rightarrow 8]$.
+> 6. Scan: Link $B_1[7 \rightarrow 8]$ and $B_1[3 \rightarrow 5]$ (3 < 7 $\rightarrow$ 7 under 3) $\rightarrow B_2[3 \rightarrow \{7 \rightarrow 8, 5\}]$.
+> 7. Final Heap: $\{B_2[3 \dots]\}$.
 
 ---
 
@@ -1244,7 +1339,26 @@ flowchart LR
 
 ---
 
-### 5.3 EXTRACT-MIN Trace (Consolidation Phase)
+### 5.3 Fibonacci Heap Rules: EXTRACT-MIN & Consolidation Logic
+
+```mermaid
+flowchart TD
+    Start["EXTRACT-MIN(H)"] --> FindMin["Find min root x"]
+    FindMin --> Remove["Remove x from root list"]
+    Remove --> Children["Add x's children to root list"]
+    Children --> Consolidate["CONSOLIDATE(H)"]
+    Consolidate --> Array["Create array A of size D(n)"]
+    Array --> Loop["For each root w in H:"]
+    Loop --> Check{"A[w.deg] empty?"}
+    Check -- Yes --> SetArray["A[w.deg] = w"]
+    Check -- No --> Link["LINK w and A[w.deg]\n(smaller root becomes parent)"]
+    Link --> Loop
+    SetArray --> Rebuild["Rebuild root list from A\nFind new min"]
+    style Start fill:#89b4fa,color:#11111b
+    style Consolidate fill:#fab387,color:#11111b
+```
+
+### 5.4 EXTRACT-MIN Trace (Consolidation Phase)
 
 Extract minimum (key = 1). Steps:
 
@@ -1307,7 +1421,29 @@ flowchart TD
 
 ---
 
-### 5.4 DECREASE-KEY and Cascading Cut Trace
+### 5.5 Fibonacci Heap Rules: DECREASE-KEY & CUT Logic
+
+```mermaid
+flowchart TD
+    Start["DECREASE-KEY(x, k)"] --> Set["Set x.key = k"]
+    Set --> CheckViolation{"x.key < x.parent.key?"}
+    CheckViolation -- No --> Done["Done ✅"]
+    CheckViolation -- Yes --> Cut["CUT(x, parent)\nMove x to root list"]
+    Cut --> CascadingCut["CASCADING-CUT(parent)"]
+    CascadingCut --> ParRoot{"parent is root?"}
+    ParRoot -- Yes --> Done
+    ParRoot -- No --> ParMark{"parent.mark == TRUE?"}
+    ParMark -- FALSE --> Mark["parent.mark = TRUE ✅ Done"]
+    ParMark -- TRUE --> CutPar["CUT(parent, grandparent)"]
+    CutPar --> CascadingCutGP["CASCADING-CUT(grandparent)"]
+    CascadingCutGP --> ParRoot
+    
+    style Done fill:#a6e3a1,color:#11111b
+    style Cut fill:#fab387,color:#11111b
+    style CutPar fill:#f38ba8,color:#11111b
+```
+
+### 5.6 DECREASE-KEY and Cascading Cut Trace
 
 Starting from the consolidated heap above. Add more nodes first for a richer example.
 
@@ -1385,7 +1521,7 @@ flowchart TD
 
 ---
 
-### 5.5 DELETE(x) Trace
+### 5.7 DELETE(x) Trace
 
 Operation `DELETE(x)` is implemented simply as:
 1. `DECREASE-KEY(x, -∞)`
@@ -1434,7 +1570,7 @@ flowchart TD
 
 ---
 
-### 5.6 Amortized Cost Proof via Potential
+### 5.8 Amortized Cost Proof via Potential
 
 | Operation | Actual Cost | $\Delta\Phi$ | Amortized = Actual + $\Delta\Phi$ |
 | :--- | :--- | :--- | :--- |
@@ -1459,6 +1595,10 @@ flowchart TD
 >
 > **Answer:** Without mark bits, we could cut children whenever DECREASE-KEY fires, potentially making trees degenerate into paths (depth $n$). The max degree would no longer be bounded by $O(\log n)$, breaking EXTRACT-MIN's $O(\log n)$ amortized guarantee. Mark bits ensure that each internal node can only lose ONE child before it's itself cut to the root list — this maintains the structural property that subtree sizes are at least Fibonacci numbers, bounding max degree at $D(n) = O(\log n)$.
 
+> **Q4:** In a Fibonacci Heap, what sequence of operations can be used to perform `DELETE(x)`? Why is its amortized cost $O(\log n)$?
+>
+> **Answer:** `DELETE(x)` is implemented as `DECREASE-KEY(x, -∞)` followed by `EXTRACT-MIN()`. `DECREASE-KEY` is $O(1)$ amortized, and `EXTRACT-MIN` is $O(\log n)$ amortized. The total amortized cost is therefore $O(\log n)$.
+
 ---
 
 ## 6. Disjoint Set Structures (Union-Find)
@@ -1477,7 +1617,26 @@ flowchart TD
 | **Rank** | Upper bound on height; only increases when two equal-rank roots link |
 | **Amortized cost** | $O(\alpha(n))$ per operation with both optimizations |
 
-### 6.2 Step-by-Step: 10 UNION Operations
+### 6.2 Disjoint Set Rules: UNION by Rank
+
+```mermaid
+flowchart TD
+    Start["UNION(x, y)"] --> Find["root_x = FIND-SET(x)\nroot_y = FIND-SET(y)"]
+    Find --> Check{"root_x == root_y?"}
+    Check -- Yes --> Done["Done ✅ (Already in same set)"]
+    Check -- No --> Compare{"rank[root_x] > rank[root_y]?"}
+    Compare -- Yes --> Link1["root_y.parent = root_x\n(rank unchanged) ✅"]
+    Compare -- No --> Compare2{"rank[root_x] < rank[root_y]?"}
+    Compare2 -- Yes --> Link2["root_x.parent = root_y\n(rank unchanged) ✅"]
+    Compare2 -- No --> Link3["root_y.parent = root_x\nrank[root_x]++ ✅"]
+    
+    style Done fill:#a6e3a1,color:#11111b
+    style Link1 fill:#89b4fa,color:#11111b
+    style Link2 fill:#89b4fa,color:#11111b
+    style Link3 fill:#fab387,color:#11111b
+```
+
+### 6.3 Step-by-Step: 10 UNION Operations
 
 **Start:** 10 singleton sets: $\{1\}, \{2\}, \{3\}, \ldots, \{10\}$. All rank = 0.
 
@@ -1562,7 +1721,22 @@ flowchart TD
 
 ---
 
-### 6.3 Path Compression — Step-by-Step
+### 6.4 Disjoint Set Rules: FIND-SET with Path Compression
+
+```mermaid
+flowchart TD
+    Start["FIND-SET(x)"] --> Check{"x.parent == x?"}
+    Check -- Yes --> Return["Return x (It is the Root) ✅"]
+    Check -- No --> Recurse["root = FIND-SET(x.parent)"]
+    Recurse --> Compress["x.parent = root\n(Path Compression)"]
+    Compress --> Return2["Return root ✅"]
+    
+    style Return fill:#a6e3a1,color:#11111b
+    style Return2 fill:#a6e3a1,color:#11111b
+    style Compress fill:#89b4fa,color:#11111b
+```
+
+### 6.5 Path Compression — Step-by-Step
 
 After the above unions, suppose we call **FIND-SET(8)**:
 
@@ -1598,7 +1772,7 @@ flowchart TD
 
 **Future FIND-SET(8):** 8 → 1 directly → $O(1)$! Path compression flattens the tree.
 
-### 6.4 All 10 Operations Summary
+### 6.6 All 10 Operations Summary
 
 | Op # | Operation | Action | Tree Structure Change |
 | :--- | :--- | :--- | :--- |
@@ -1642,6 +1816,10 @@ flowchart TD
 > **Q2:** Why does Union by Rank guarantee height $O(\log n)$?
 >
 > **Answer:** A tree of rank $k$ contains at least $2^k$ nodes (proved by induction: rank-0 tree has 1 node; linking two rank-$(k-1)$ trees makes one rank-$k$ tree with ≥ $2 \cdot 2^{k-1} = 2^k$ nodes). Since $n \ge 2^{\text{rank}}$: rank $\le \log_2 n$. Without compression, height = rank ≤ $\log_2 n$. Path compression further flattens the tree.
+
+> **Q3:** If we perform `FIND-SET` without path compression, what is the worst-case time complexity? What about with path compression but without Union by Rank?
+>
+> **Answer:** Without path compression, finding the root takes time proportional to the height of the tree. If Union by Rank is used, height is $O(\log n)$, so $O(\log n)$ worst-case. If NEITHER is used, the tree can become a line of $n$ nodes, making `FIND-SET` $O(n)$. If path compression is used but NOT Union by Rank, the amortized cost per operation is $O(\log n)$, because trees can still be built inefficiently but compression flattens them over time. Using BOTH together gives the optimal $O(\alpha(n))$ amortized time.
 
 ---
 
@@ -1697,17 +1875,30 @@ Operations: PUSH (cost 1), POP (cost 1), MULTIPOP(k) (cost min(k, |S|)).
 
 ---
 
-## 9. Complexity Summary
+## 9. Master Comparison Table
 
-| Operation | Binary Heap | Binomial Heap | Fibonacci Heap |
-| :--- | :--- | :--- | :--- |
-| BUILD | $O(n)$ | $O(n)$ | $O(n)$ |
-| INSERT | $O(\log n)$ | $O(\log n)$ | $\Theta(1)$ amortized |
-| MINIMUM | $O(1)$ | $O(\log n)$ | $O(1)$ |
-| EXTRACT-MIN | $O(\log n)$ | $O(\log n)$ | $O(\log n)$ amortized |
-| UNION | $O(n)$ | $O(\log n)$ | $O(1)$ |
-| DECREASE-KEY | $O(\log n)$ | $O(\log n)$ | $\Theta(1)$ amortized |
-| DELETE | $O(\log n)$ | $O(\log n)$ | $O(\log n)$ amortized |
+### 9.1 Time Complexity by Structure
+
+| Structure | Insert | Delete | Search / Find | Merge / Union | Extract-Min | Decrease-Key |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Red-Black Tree** | $O(\log n)$ | $O(\log n)$ | $O(\log n)$ | $O(n)$ | $O(\log n)$ | — |
+| **Interval Tree** | $O(\log n)$ | $O(\log n)$ | $O(\log n)$ | $O(n)$ | — | — |
+| **Binary Heap** | $O(\log n)$ | $O(\log n)$ | $O(n)$ | $O(n)$ | $O(\log n)$ | $O(\log n)$ |
+| **Binomial Heap** | $O(\log n)$ | $O(\log n)$ | $O(n)$ | $O(\log n)$ | $O(\log n)$ | $O(\log n)$ |
+| **Fibonacci Heap** | $\Theta(1)$ am. | $O(\log n)$ am. | $O(n)$ | $O(1)$ | $O(\log n)$ am. | $\Theta(1)$ am. |
+| **Disjoint Sets** | $O(\alpha(n))$ am. | — | $O(\alpha(n))$ am. | $O(\alpha(n))$ am. | — | — |
+
+*am. = amortized cost. Disjoint Sets assumes both path compression and union by rank.*
+
+### 9.2 Structural Invariants Summary
+
+| Structure | Core Invariants & State Maintenance |
+| :--- | :--- |
+| **Red-Black Tree** | 1. Root/Leaves BLACK. 2. No Red-Red paths. 3. Uniform black-height. Fixed via rotations. |
+| **Interval Tree** | 1. RBT rules on `low` endpoint. 2. `max = max(high, left.max, right.max)`. Updated bottom-up. |
+| **Binomial Heap** | 1. $B_k$ has $2^k$ nodes, root degree $k$. 2. Min-heap order. 3. At most one tree of each degree. |
+| **Fibonacci Heap** | 1. Min-heap order. 2. Marked node loses $\le 1$ child before CUT. 3. Consolidate only on EXTRACT-MIN. |
+| **Disjoint Sets** | 1. Representative is root. 2. Union by rank bounds height. 3. Path compression flattens trees. |
 
 ---
 
