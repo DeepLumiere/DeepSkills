@@ -638,26 +638,145 @@ flowchart TD
 | Search direction | Go LEFT if `x.left.max ≥ i.low`, else go RIGHT |
 | Max maintenance | After insert/rotate: update `max` bottom-up on affected path |
 
-### 3.2 Structure with 7 Intervals
+### 3.2 Complete 5-Step Insertion Trace
 
-Intervals inserted: `[16,21], [8,9], [25,30], [5,8], [15,23], [17,19], [26,26]`
+**Insert sequence:** `[15,20], [10,30], [17,19], [5,20], [12,15]`
+
+**Legend:** `B` = BLACK, `R` = RED. Tree shown with `max` attributes updated bottom-up. Since an Interval Tree is an augmented Red-Black Tree, it follows standard RBT insertion rules, with the additional step of updating `max` during recoloring and rotations.
+
+---
+
+#### Step 1: Insert **[15,20]**
+
+- Insert as root → immediately color **BLACK** (R2)
+- Calculate `max`: $\max(high=20, left.max=-\infty, right.max=-\infty) = 20$
 
 ```mermaid
 flowchart TD
-    Root["[16,21] | max=30 ⬛"] --> L["[8,9] | max=23 🔴"]
-    Root --> R["[25,30] | max=30 ⬛"]
-    L --> LL["[5,8] | max=8 ⬛"]
-    L --> LR["[15,23] | max=23 ⬛"]
-    R --> RL["[17,19] | max=19 🔴"]
-    R --> RR["[26,26] | max=26 🔴"]
-    style Root fill:#1e1e2e,color:#fff,stroke:#cdd6f4
-    style L fill:#d20f39,color:#fff,stroke:#cdd6f4
-    style R fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    s1["[15,20]\nmax=20 ⬛"]
+    style s1 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
 ```
 
-**Reading `max` values:** `[8,9]` node has max=23 because its right subtree contains `[15,23]` with high=23. Root has max=30 because right subtree contains `[25,30]`.
+---
 
-### 3.3 INTERVAL-SEARCH Trace
+#### Step 2: Insert **[10,30]**
+
+- BST based on `low`: 10 < 15 → left child of `[15,20]`
+- Color RED. Parent is BLACK → no RBT violation.
+- Update `max` bottom-up:
+  - `[10,30].max` = 30
+  - `[15,20].max` = $\max(20, 30, -\infty) = 30$
+
+```mermaid
+flowchart TD
+    s2_15["[15,20]\nmax=30 ⬛"] --> s2_10["[10,30]\nmax=30 🔴"]
+    style s2_15 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s2_10 fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+---
+
+#### Step 3: Insert **[17,19]**
+
+- BST based on `low`: 17 > 15 → right child of `[15,20]`
+- Color RED. Parent is BLACK → no RBT violation.
+- Update `max` bottom-up:
+  - `[17,19].max` = 19
+  - `[15,20].max` = $\max(20, 30, 19) = 30$
+
+```mermaid
+flowchart TD
+    s3_15["[15,20]\nmax=30 ⬛"] --> s3_10["[10,30]\nmax=30 🔴"]
+    s3_15 --> s3_17["[17,19]\nmax=19 🔴"]
+    style s3_15 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s3_10 fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s3_17 fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+---
+
+#### Step 4: Insert **[5,20]**
+
+- BST based on `low`: 5 < 15 → left; 5 < 10 → left child of `[10,30]`
+- Color RED. Parent `[10,30]` = RED → **RBT violation!** (Red-Red conflict)
+- Uncle is `[17,19]` (RED). **Case 1** triggers.
+- Recolor: P(`[10,30]`)→BLACK, U(`[17,19]`)→BLACK, G(`[15,20]`)→RED.
+- G is root, so root recolored to **BLACK**.
+- Update `max` bottom-up:
+  - `[5,20].max` = 20
+  - `[10,30].max` = $\max(30, 20, -\infty) = 30$
+  - `[15,20].max` = $\max(20, 30, 19) = 30$
+
+```mermaid
+flowchart TD
+    s4_15["[15,20]\nmax=30 ⬛"] --> s4_10["[10,30]\nmax=30 ⬛"]
+    s4_15 --> s4_17["[17,19]\nmax=19 ⬛"]
+    s4_10 --> s4_5["[5,20]\nmax=20 🔴"]
+    style s4_15 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s4_10 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s4_17 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s4_5 fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+---
+
+#### Step 5: Insert **[12,15]**
+
+- BST based on `low`: 12 < 15 → left; 12 > 10 → right child of `[10,30]`
+- Color RED. Parent `[10,30]` = BLACK → no RBT violation.
+- Update `max` bottom-up:
+  - `[12,15].max` = 15
+  - `[10,30].max` = $\max(30, 20, 15) = 30$
+  - `[15,20].max` = $\max(20, 30, 19) = 30$
+
+```mermaid
+flowchart TD
+    s5_15["[15,20]\nmax=30 ⬛"] --> s5_10["[10,30]\nmax=30 ⬛"]
+    s5_15 --> s5_17["[17,19]\nmax=19 ⬛"]
+    s5_10 --> s5_5["[5,20]\nmax=20 🔴"]
+    s5_10 --> s5_12["[12,15]\nmax=15 🔴"]
+    style s5_15 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s5_10 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s5_17 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style s5_5 fill:#d20f39,color:#fff,stroke:#cdd6f4
+    style s5_12 fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+> **Max Maintenance during Rotations:** If a rotation was triggered (e.g., RBT Case 2 or 3), we would update the `max` attributes of the rotated nodes bottom-up, taking $O(1)$ time per node.
+
+---
+
+### 3.3 INTERVAL-DELETE Trace
+
+**Delete `[10,30]` from the tree above:**
+
+- `[10,30]` has two children (`[5,20]` and `[12,15]`).
+- Find in-order successor (smallest `low` in right subtree): `[12,15]`.
+- Copy `[12,15]`'s interval data into the node for `[10,30]`.
+- Delete the original node `[12,15]` (which is a RED leaf).
+- **RBT Fixup:** Since the deleted node `[12,15]` was RED, no black-height violation occurs.
+- **Max Fixup:** Update `max` from the parent of the physically deleted node (`[12,15]`), up to the root.
+  - Re-evaluating `[12,15]` (now at the old `[10,30]` position):
+    - Left child is `[5,20]` with `max=20`. Right child is NIL. Node's `high=15`.
+    - `max = \max(15, 20, -\infty) = 20`
+  - Re-evaluating root `[15,20]`:
+    - Left child has `max=20`. Right child has `max=19`. Node's `high=20`.
+    - `max = \max(20, 20, 19) = 20`
+
+```mermaid
+flowchart TD
+    d1_15["[15,20]\nmax=20 ⬛"] --> d1_12["[12,15]\nmax=20 ⬛"]
+    d1_15 --> d1_17["[17,19]\nmax=19 ⬛"]
+    d1_12 --> d1_5["[5,20]\nmax=20 🔴"]
+    style d1_15 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d1_12 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d1_17 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
+    style d1_5 fill:#d20f39,color:#fff,stroke:#cdd6f4
+```
+
+---
+
+### 3.4 INTERVAL-SEARCH Trace
 
 **Query: Find any interval overlapping `i = [14, 16]`**
 
@@ -764,83 +883,159 @@ INSERT = add $B_0$ + carry links (like binary +1).
 
 **Insert sequence:** `[3, 5, 8, 2, 7, 1, 4, 6, 9, 11, 13]`
 
-| Step | Insert | Binary n | Forest State | Links Performed |
-| :--- | :--- | :--- | :--- | :--- |
-| 1 | **3** | `0001` | {B0[3]} | None |
-| 2 | **5** | `0010` | {B1[3→5]} | Link B0[3]+B0[5] → B1: 3<5, so 5 under 3 |
-| 3 | **8** | `0011` | {B1[3→5], B0[8]} | None (no same-degree pair) |
-| 4 | **2** | `0100` | {B2[2→...]} | B0[8]+B0[2]=B1[2→8]; B1[2→8]+B1[3→5]=B2[2→...] |
-| 5 | **7** | `0101` | {B2[2→...], B0[7]} | None |
-| 6 | **1** | `0110` | {B2[2→...], B1[1→7]} | B0[1]+B0[7]=B1: 1<7, so 7 under 1 |
-| 7 | **4** | `0111` | {B2[2→...], B1[1→7], B0[4]} | None |
-| 8 | **6** | `1000` | {B3[1→...]} | B0[4]+B0[6]=B1[4→6]; B1[4→6]+B1[1→7]=B2[1→...]; B2+B2=B3 |
-| 9 | **9** | `1001` | {B3[1→...], B0[9]} | None |
-| 10 | **11** | `1010` | {B3[1→...], B1[9→11]} | B0[9]+B0[11]=B1[9→11] |
-| 11 | **13** | `1011` | {B3[1→...], B1[9→11], B0[13]} | None |
+INSERT = add $B_0$ and link if a tree of the same degree exists (like binary addition carry).
 
-**Detailed tree states at key milestones:**
-
-**After Step 4 (n=4 → B2):** Tree formed by cascading links:
-```
-Step 4 detail:
-  Add B0[2].
-  B0[2] + B0[8] → B1: 2<8, 8 under 2. New B1[2→8].
-  B1[2→8] + B1[3→5] → B2: 2<3, so B1[3→5] attaches under root 2.
-
-        2  (B2 root, degree 2)
-       / \
-      3   8
-      |
-      5
-```
+#### Step 1: Insert **3**
+- Binary $n$: `0001` → $B_0$
+- Forest: `{B0[3]}`
 
 ```mermaid
 flowchart TD
-    after4["2 (B2)"] --> a4c1["3"]
-    after4 --> a4c2["8"]
-    a4c1 --> a4gc["5"]
+    s1_3["3"]
 ```
 
-**After Step 8 (n=8 → B3):** All previous trees cascade-link into single B3:
-```
-      1  (B3 root, degree 3)
-    / | \
-   4  7  2
-   |     |\ 
-   6     3  8
-             |
-             5
-```
+#### Step 2: Insert **5**
+- Add `B0[5]`. Conflict with `B0[3]`. Link: 3 < 5 → 5 attaches under 3.
+- Binary $n$: `0010` → $B_1$
+- Forest: `{B1[3→5]}`
 
 ```mermaid
 flowchart TD
-    after8["1 (B3)"] --> a8c0["4"]
-    after8 --> a8c1["7"]
-    after8 --> a8c2["2"]
-    a8c0 --> a8gc0["6"]
-    a8c2 --> a8gc1["3"]
-    a8c2 --> a8gc2["8"]
-    a8gc1 --> a8ggc["5"]
+    s2_3["3"] --> s2_5["5"]
 ```
 
-**After Step 11 (n=11 = 1011₂ → B3 + B1 + B0):**
+#### Step 3: Insert **8**
+- Add `B0[8]`. No conflict.
+- Binary $n$: `0011` → $B_1, B_0$
+- Forest: `{B1[3→5], B0[8]}`
+
+```mermaid
+flowchart TD
+    s3_3["3"] --> s3_5["5"]
+    s3_8["8"]
+```
+
+#### Step 4: Insert **2**
+- Add `B0[2]`.
+- Link `B0[2]` + `B0[8]` → `B1[2→8]`.
+- Link `B1[2→8]` + `B1[3→5]` → 2 < 3 → 3 attaches under 2.
+- Binary $n$: `0100` → $B_2$
+- Forest: `{B2[2→{3,8}]}`
+
+```mermaid
+flowchart TD
+    s4_2["2"] --> s4_3["3"]
+    s4_2 --> s4_8["8"]
+    s4_3 --> s4_5["5"]
+```
+
+#### Step 5: Insert **7**
+- Add `B0[7]`.
+- Binary $n$: `0101` → $B_2, B_0$
+
+```mermaid
+flowchart TD
+    s5_2["2"] --> s5_3["3"]
+    s5_2 --> s5_8["8"]
+    s5_3 --> s5_5["5"]
+    s5_7["7"]
+```
+
+#### Step 6: Insert **1**
+- Add `B0[1]`. Link `B0[1]` + `B0[7]` → 1 < 7 → 7 under 1.
+- Binary $n$: `0110` → $B_2, B_1$
+
+```mermaid
+flowchart TD
+    s6_2["2"] --> s6_3["3"]
+    s6_2 --> s6_8["8"]
+    s6_3 --> s6_5["5"]
+    s6_1["1"] --> s6_7["7"]
+```
+
+#### Step 7: Insert **4**
+- Add `B0[4]`.
+- Binary $n$: `0111` → $B_2, B_1, B_0$
+
+```mermaid
+flowchart TD
+    s7_2["2"] --> s7_3["3"]
+    s7_2 --> s7_8["8"]
+    s7_3 --> s7_5["5"]
+    s7_1["1"] --> s7_7["7"]
+    s7_4["4"]
+```
+
+#### Step 8: Insert **6**
+- Add `B0[6]`.
+- Link `B0[6]` + `B0[4]` → `B1[4→6]`.
+- Link `B1[4→6]` + `B1[1→7]` → 1 < 4 → 4 under 1. (`B2[1→{4,7}]`)
+- Link `B2[1...]` + `B2[2...]` → 1 < 2 → 2 under 1. (`B3`)
+- Binary $n$: `1000` → $B_3$
+
+```mermaid
+flowchart TD
+    s8_1["1"] --> s8_4["4"]
+    s8_1 --> s8_7["7"]
+    s8_1 --> s8_2["2"]
+    s8_4 --> s8_6["6"]
+    s8_2 --> s8_3["3"]
+    s8_2 --> s8_8["8"]
+    s8_3 --> s8_5["5"]
+```
+
+#### Step 9: Insert **9**
+- Add `B0[9]`.
+- Binary $n$: `1001` → $B_3, B_0$
+
+```mermaid
+flowchart TD
+    s9_1["1"] --> s9_4["4"]
+    s9_1 --> s9_7["7"]
+    s9_1 --> s9_2["2"]
+    s9_4 --> s9_6["6"]
+    s9_2 --> s9_3["3"]
+    s9_2 --> s9_8["8"]
+    s9_3 --> s9_5["5"]
+    s9_9["9"]
+```
+
+#### Step 10: Insert **11**
+- Add `B0[11]`. Link `B0[9]` + `B0[11]` → 9 < 11 → 11 under 9.
+- Binary $n$: `1010` → $B_3, B_1$
+
+```mermaid
+flowchart TD
+    s10_1["1"] --> s10_4["4"]
+    s10_1 --> s10_7["7"]
+    s10_1 --> s10_2["2"]
+    s10_4 --> s10_6["6"]
+    s10_2 --> s10_3["3"]
+    s10_2 --> s10_8["8"]
+    s10_3 --> s10_5["5"]
+    s10_9["9"] --> s10_11["11"]
+```
+
+#### Step 11: Insert **13**
+- Add `B0[13]`. No conflict.
+- Binary $n$: `1011` → $B_3, B_1, B_0$
 
 ```mermaid
 flowchart TD
     subgraph "B3 — root 1"
-        n1["1"] --> n4["4"]
-        n1 --> n7["7"]
-        n1 --> n2["2"]
-        n4 --> n6["6"]
-        n2 --> n3["3"]
-        n2 --> n8["8"]
-        n3 --> n5["5"]
+        s11_1["1"] --> s11_4["4"]
+        s11_1 --> s11_7["7"]
+        s11_1 --> s11_2["2"]
+        s11_4 --> s11_6["6"]
+        s11_2 --> s11_3["3"]
+        s11_2 --> s11_8["8"]
+        s11_3 --> s11_5["5"]
     end
     subgraph "B1 — root 9"
-        n9["9"] --> n11["11"]
+        s11_9["9"] --> s11_11["11"]
     end
     subgraph "B0 — root 13"
-        n13["13"]
+        s11_13["13"]
     end
 ```
 
@@ -848,84 +1043,116 @@ flowchart TD
 
 ### 4.5 EXTRACT-MIN Trace
 
-From the 11-node heap above:
+From the 11-node heap after Step 11 (`H = {B3[1...], B1[9...], B0[13]}`):
 
-1. Scan root list: {1, 9, 13} → **minimum = 1** (root of B3)
-2. Remove B3 root (1). Its children in order: {4(B2→child), 7(B1→child), 2(B0→child)}
+**1. Find Minimum Root:** Scan root list `{1, 9, 13}`. Min is **1**.
+**2. Remove Root 1:** Remove B3 root (1). Its children are separated into a new heap.
+The children of a B3 root are $B_2, B_1, B_0$.
+- Child `2` has degree 2 → becomes $B_2$.
+- Child `4` has degree 1 → becomes $B_1$.
+- Child `7` has degree 0 → becomes $B_0$.
 
-Wait — children of B3 root are $B_2, B_1, B_0$ in reverse: root's children = {4, 7, 2} with degrees 1, 0, 0? Let me re-examine. B3 root has 3 children: those children form $B_2, B_1, B_0$.
-
-Actually, B3 root's children (from left to right, highest degree first): child at degree 2 = 2, child at degree 1 = 7, child at degree 0 = 4.
-
-3. Create new heap from removed children's subtrees: {B2[2→3→8→5], B1[7], B0[4]}
-4. Union with remaining root list trees: {B0[9→11], B0[13]}
-
-Union process (merge root lists ordered by degree):
-- B0[4], B0[9→11], B0[13], B1[7], B2[2...]
-- Two B0 trees: Link B0[4] + B0[9→11]? No — 9→11 is B1 already!
-
-Let me be more careful. After removing B3 root (1), the children become separate trees:
-- **2** (was 3rd child of 1) → degree 2 → B2 subtree
-- **7** (was 2nd child of 1) → degree 1 → but 7 has no children listed above... let me re-examine.
-
-After Step 8, the B3 was:
-```
-1 (degree 3 = has 3 children)
-├── 4 (degree 1 = 1 child) → 6
-├── 7 (degree 0 = no children)
-└── 2 (degree 2 = 2 children) → 3(→5), 8
+```mermaid
+flowchart TD
+    subgraph "Heap H' (Remaining roots)"
+        h_9["9"] --> h_11["11"]
+        h_13["13"]
+    end
+    subgraph "Heap H'' (Extracted Children reversed)"
+        c_2["2"] --> c_3["3"]
+        c_2 --> c_8["8"]
+        c_3 --> c_5["5"]
+        c_4["4"] --> c_6["6"]
+        c_7["7"]
+    end
 ```
 
-So children of root 1 = {4(B1), 7(B0), 2(B2)}.
+**3. Union H' and H'':** Merge root lists ordered by degree: `{B0[7], B0[13], B1[4→6], B1[9→11], B2[2...]}`
 
-After extracting 1:
-- New sub-heap = {B0[7], B1[4→6], B2[2→3→8, 3→5]}
-- Remaining heap roots = {B1[9→11], B0[13]}
+- **Link B0s:** `B0[7] + B0[13]` → 7 < 13 → `B1[7→13]`.
+  - Forest: `{B1[7→13], B1[4→6], B1[9→11], B2[2...]}`
+- **Link B1s:** `B1[7→13] + B1[4→6]` → 4 < 7 → `B2[4→{6,7}]`. (Note: `B1[9→11]` is left alone for now as we just link adjacent same-degree roots).
+  - Forest: `{B1[9→11], B2[4→{6,7}], B2[2...]}`
+- **Link B2s:** `B2[4...] + B2[2...]` → 2 < 4 → `B3[2...]`.
+  - Forest: `{B1[9→11], B3[2...]}`
 
-Merge all: Sort by degree: B0[7], B0[13], B1[4→6], B1[9→11], B2[2...]
-- B0[7] + B0[13]: Link → 7<13 → B1[7→13]
-- B1[7→13] + B1[4→6]: Link → 4<7 → B2[4→6, 7→13]
-- B2[4→...] + B2[2→...]: Link → 2<4 → B3[2→...]
-- Result: **B3[2→...]** — one tree for n=10 nodes? No, n was 11 now 10 = 1010₂ = B3+B1.
-
-Actually n=11 after extracting min = n=10 = 1010₂ = B3 + B1.
-
-After consolidation, min pointer = root of tree with minimum root key. New min = **2**. ✅
+```mermaid
+flowchart TD
+    subgraph "B3 — root 2 (New Minimum)"
+        e_2["2"] --> e_4["4"]
+        e_2 --> e_3["3"]
+        e_2 --> e_8["8"]
+        e_4 --> e_6["6"]
+        e_4 --> e_7["7"]
+        e_7 --> e_13["13"]
+        e_3 --> e_5["5"]
+    end
+    subgraph "B1 — root 9"
+        e_9["9"] --> e_11["11"]
+    end
+```
 
 ---
 
 ### 4.6 UNION of Two Binomial Heaps
 
-**Heap H1** (n=5 = 101₂): B2[1→2→4, 3] + B0[7]
-**Heap H2** (n=3 = 011₂): B1[5→8] + B0[6]
+**Heap H1** ($n=5 = 101_2$): `B2[1→2→4, 3] + B0[7]`
+**Heap H2** ($n=3 = 011_2$): `B1[5→8] + B0[6]`
 
-Union process (n=8 = 1000₂ → result should be single B3):
+**Step 1: Merge Root Lists by Degree**
+Sorted roots: `{B0[7], B0[6], B1[5→8], B2[1...]}`
 
-| Step | Action |
-| :--- | :--- |
-| Merge root lists by degree | {B0[7], B0[6], B1[5→8], B2[1→...]} |
-| Link B0[7]+B0[6] → B1 | 6 < 7 → 7 under 6. New B1[6→7] |
-| Link B1[6→7]+B1[5→8] → B2 | 5 < 6 → B1[6→7] under 5. New B2[5→6→7,8] |
-| Link B2[5→...]+B2[1→...] → B3 | 1 < 5 → B2[5→...] under 1. New B3[1→...] |
-| Result | Single **B3[1→...]** with 8 nodes |
+**Step 2: Scan and Link Same-Degree Trees**
+
+- **Link B0s:** `B0[7] + B0[6]`. 6 < 7 → 7 attaches under 6.
+  - New tree: `B1[6→7]`.
+  - Next scan sees: `{B1[6→7], B1[5→8], B2[1...]}`
 
 ```mermaid
 flowchart TD
-    union_result["1 (B3 root)"] --> ur1["2"]
-    union_result --> ur2["5"]
-    union_result --> ur3["7"]
-    ur1 --> ur1c1["3"]
-    ur1 --> ur1c2["4"]
-    ur2 --> ur2c1["6"]
-    ur2 --> ur2c2["8"]
-    ur3 --> ur3c1["7_child"]
-    ur1c1 --> leaf1["—"]
-    style union_result fill:#89b4fa,color:#11111b
-    style ur1 fill:#a6e3a1,color:#11111b
-    style ur2 fill:#a6e3a1,color:#11111b
+    subgraph "After Linking B0s"
+        u1_6["6"] --> u1_7["7"]
+        u1_5["5"] --> u1_8["8"]
+        u1_1["1"] --> u1_2["2"]
+        u1_1 --> u1_3["3"]
+        u1_2 --> u1_4["4"]
+    end
 ```
 
-**Complexity:** Union scans root lists: $O(\log n)$. At most $\log n$ link operations.
+- **Link B1s:** `B1[6→7] + B1[5→8]`. 5 < 6 → 6 attaches under 5.
+  - New tree: `B2[5→{8,6}]`.
+  - Next scan sees: `{B2[5...], B2[1...]}`
+
+```mermaid
+flowchart TD
+    subgraph "After Linking B1s"
+        u2_5["5"] --> u2_8["8"]
+        u2_5 --> u2_6["6"]
+        u2_6 --> u2_7["7"]
+        u2_1["1"] --> u2_2["2"]
+        u2_1 --> u2_3["3"]
+        u2_2 --> u2_4["4"]
+    end
+```
+
+- **Link B2s:** `B2[5...] + B2[1...]`. 1 < 5 → 5 attaches under 1.
+  - New tree: `B3[1...]`.
+
+```mermaid
+flowchart TD
+    subgraph "Final B3 Tree"
+        u3_1["1"] --> u3_5["5"]
+        u3_1 --> u3_2["2"]
+        u3_1 --> u3_3["3"]
+        u3_5 --> u3_8["8"]
+        u3_5 --> u3_6["6"]
+        u3_6 --> u3_7["7"]
+        u3_2 --> u3_4["4"]
+    end
+    style u3_1 fill:#89b4fa,color:#11111b
+```
+
+**Complexity:** Union scans root lists ($O(\log n)$ items). At most $\log n$ link operations. Overall $O(\log n)$.
 
 ---
 
@@ -962,34 +1189,58 @@ flowchart TD
 
 **Insert:** `[3, 7, 18, 52, 24, 30, 1]` (all added lazily to root list)
 
-| Step | Insert | Root List | H.min | $t(H)$ | $m(H)$ | $\Phi$ |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | **3** | {3} | 3 | 1 | 0 | 1 |
-| 2 | **7** | {3, 7} | 3 | 2 | 0 | 2 |
-| 3 | **18** | {3, 7, 18} | 3 | 3 | 0 | 3 |
-| 4 | **52** | {3, 7, 18, 52} | 3 | 4 | 0 | 4 |
-| 5 | **24** | {3, 7, 18, 52, 24} | 3 | 5 | 0 | 5 |
-| 6 | **30** | {3, 7, 18, 52, 24, 30} | 3 | 6 | 0 | 6 |
-| 7 | **1** | {3, 7, 18, 52, 24, 30, 1} | **1** | 7 | 0 | 7 |
+Fibonacci Heap insertion is purely lazy. Each new node is just added to the circular doubly-linked root list, and `H.min` is updated if necessary.
+
+#### Steps 1 & 2: Insert **3**, then **7**
+- Insert 3. It becomes `H.min`.
+- Insert 7 to root list. 7 > 3, so `H.min` stays 3.
+
+```mermaid
+flowchart LR
+    m1["H.min→"] --> n3["3"]
+    n3 <-->|"↔"| n7["7"]
+    n7 <-->|"↔"| n3
+    style m1 fill:#fab387,color:#11111b
+    style n3 fill:#a6e3a1,color:#11111b
+```
+
+#### Steps 3, 4, 5, 6: Insert **18, 52, 24, 30**
+- All simply appended to root list. `H.min` remains 3.
+
+```mermaid
+flowchart LR
+    m2["H.min→"] --> n3["3"]
+    n3 <-->|"↔"| n7["7"]
+    n7 <-->|"↔"| n18["18"]
+    n18 <-->|"↔"| n52["52"]
+    n52 <-->|"↔"| n24["24"]
+    n24 <-->|"↔"| n30["30"]
+    n30 <-->|"↔"| n3
+    style m2 fill:#fab387,color:#11111b
+    style n3 fill:#a6e3a1,color:#11111b
+```
+
+#### Step 7: Insert **1**
+- Append 1. Since 1 < 3, update `H.min` to 1.
 
 ```mermaid
 flowchart LR
     subgraph "After 7 Inserts — Flat Root List"
         direction LR
-        m["H.min→"] --> n1["1"]
+        m3["H.min→"] --> n1["1"]
         n1 <-->|"↔"| n3["3"]
         n3 <-->|"↔"| n7["7"]
         n7 <-->|"↔"| n18["18"]
-        n18 <-->|"↔"| n24["24"]
+        n18 <-->|"↔"| n52["52"]
+        n52 <-->|"↔"| n24["24"]
         n24 <-->|"↔"| n30["30"]
-        n30 <-->|"↔"| n52["52"]
-        n52 <-->|"↔"| n1
-        style m fill:#fab387,color:#11111b
+        n30 <-->|"↔"| n1
+        style m3 fill:#fab387,color:#11111b
         style n1 fill:#a6e3a1,color:#11111b
     end
 ```
 
-> All 7 nodes are roots. No structure yet — Fibonacci Heap is maximally lazy at insertion!
+> **Potential $\Phi$ after 7 inserts:** $t(H) = 7$ trees, $m(H) = 0$ marked. $\Phi = 7$.
 
 ---
 
@@ -1012,6 +1263,23 @@ Process nodes from root list in order:
 | Node 52 | degree 0 | A[0] = 18 | **YES** | Link: 18<52 → 52 under 18. 18 gets degree 1. A[0]=empty | Check A[1] |
 | 18 (deg 1) | degree 1 | A[1] = 3 | **YES** | Link: 3<18 → 18 under 3. 3 gets degree 2. A[1]=empty | Check A[2] |
 | 3 (now deg 2) | degree 2 | A[2] = empty | No | A[2] = 3 | — |
+
+**Intermediate state after processing 52:**
+```mermaid
+flowchart TD
+    subgraph "Array A[] so far"
+        a0["A[0] = empty"]
+        a1["A[1] = empty"]
+        a2["A[2] = 3"]
+        a2 --> root3["3 (deg 2)"]
+        root3 --> c7["7"]
+        root3 --> c18["18"]
+        c18 --> c52["52"]
+    end
+```
+
+| Process | Node (degree) | A[d] slot | Conflict? | Action | Result |
+| :--- | :--- | :--- | :--- | :--- | :--- |
 | Node 24 | degree 0 | A[0] = empty | No | A[0] = 24 | — |
 | Node 30 | degree 0 | A[0] = 24 | **YES** | Link: 24<30 → 30 under 24. 24 gets degree 1. A[0]=empty | Check A[1] |
 | 24 (deg 1) | degree 1 | A[1] = empty | No | A[1] = 24 | — |
@@ -1117,7 +1385,56 @@ flowchart TD
 
 ---
 
-### 5.5 Amortized Cost Proof via Potential
+### 5.5 DELETE(x) Trace
+
+Operation `DELETE(x)` is implemented simply as:
+1. `DECREASE-KEY(x, -∞)`
+2. `EXTRACT-MIN()`
+
+**Let's DELETE node 18 from the heap above:**
+
+**Step 1: DECREASE-KEY(18, -∞)**
+- Node 18 becomes $-\infty$. This is smaller than its parent (3), triggering a **CUT**.
+- Node 18($-\infty$) is moved to the root list.
+- `H.min` is updated to point to this new $-\infty$ node.
+
+```mermaid
+flowchart TD
+    subgraph "After DECREASE-KEY(18, -∞)"
+        m_inf["H.min→"] --> r_inf["-∞ (was 18)"]
+        r_inf --> rc52["52"]
+        r_inf <-->|"↔"| r_0["0"]
+        r_0 <-->|"↔"| r_3["3"]
+        r_3 --> rc7["7"]
+        r_3 <-->|"↔"| r_24["24"]
+        r_24 --> rc30["30"]
+        style m_inf fill:#fab387,color:#11111b
+        style r_inf fill:#a6e3a1,color:#11111b
+    end
+```
+
+**Step 2: EXTRACT-MIN()**
+- Remove $-\infty$ from the root list.
+- Its children (node 52) are added to the root list.
+- Proceed to consolidate the root list `{0, 3, 24, 52}`.
+
+```mermaid
+flowchart TD
+    subgraph "After EXTRACT-MIN() + Consolidation"
+        m_new["H.min→"] --> r_0_new["0"]
+        r_0_new <-->|"↔"| r_3_new["3"]
+        r_3_new --> rc7_new["7"]
+        r_3_new --> rc52_new["52 (linked under 3)"]
+        r_0_new <-->|"↔"| r_24_new["24"]
+        r_24_new --> rc30_new["30"]
+        style m_new fill:#fab387,color:#11111b
+        style r_0_new fill:#a6e3a1,color:#11111b
+    end
+```
+
+---
+
+### 5.6 Amortized Cost Proof via Potential
 
 | Operation | Actual Cost | $\Delta\Phi$ | Amortized = Actual + $\Delta\Phi$ |
 | :--- | :--- | :--- | :--- |
@@ -1166,71 +1483,82 @@ flowchart TD
 
 ---
 
-**UNION(1, 2):** FIND(1)=1, FIND(2)=2. rank[1]=rank[2]=0 → link: 2 becomes child of 1, rank[1]=1.
-```
-1(r=1) → 2(r=0)
-```
-
-**UNION(3, 4):** FIND(3)=3, FIND(4)=4. Same → 4 under 3, rank[3]=1.
-```
-3(r=1) → 4(r=0)
-```
-
-**UNION(5, 6):** 6 under 5, rank[5]=1.
-```
-5(r=1) → 6(r=0)
-```
-
-**UNION(7, 8):** 8 under 7, rank[7]=1.
-```
-7(r=1) → 8(r=0)
-```
-
-**UNION(1, 3):** FIND(1)=1(r=1), FIND(3)=3(r=1). Equal ranks → 3 under 1, rank[1]=2.
-```
-     1(r=2)
-    /      \
-  2(r=0) 3(r=1)
-           \
-           4(r=0)
-```
-
-**UNION(5, 7):** FIND(5)=5(r=1), FIND(7)=7(r=1). Equal → 7 under 5, rank[5]=2.
-```
-     5(r=2)
-    /      \
-  6(r=0) 7(r=1)
-           \
-           8(r=0)
-```
-
-**UNION(9, 10):** 10 under 9, rank[9]=1.
-```
-9(r=1) → 10(r=0)
-```
-
-**UNION(1, 5):** FIND(1)=1(r=2), FIND(5)=5(r=2). Equal → 5 under 1, rank[1]=3.
-
+**1. UNION(1, 2):** FIND(1)=1, FIND(2)=2. rank[1]=rank[2]=0 → link: 2 becomes child of 1, rank[1]=1.
 ```mermaid
 flowchart TD
-    r1["1 (rank=3)"] --> c2["2"]
-    r1 --> c3["3"]
-    r1 --> c5["5 (rank=2)"]
-    c3 --> c4["4"]
-    c5 --> c6["6"]
-    c5 --> c7["7"]
-    c7 --> c8["8"]
+    u1_1["1 (r=1)"] --> u1_2["2 (r=0)"]
+```
+
+**2. UNION(3, 4):** FIND(3)=3, FIND(4)=4. Equal ranks → 4 under 3, rank[3]=1.
+```mermaid
+flowchart TD
+    u2_3["3 (r=1)"] --> u2_4["4 (r=0)"]
+```
+
+**3. UNION(5, 6):** 6 under 5, rank[5]=1.
+```mermaid
+flowchart TD
+    u3_5["5 (r=1)"] --> u3_6["6 (r=0)"]
+```
+
+**4. UNION(7, 8):** 8 under 7, rank[7]=1.
+```mermaid
+flowchart TD
+    u4_7["7 (r=1)"] --> u4_8["8 (r=0)"]
+```
+
+**5. UNION(1, 3):** FIND(1)=1(r=1), FIND(3)=3(r=1). Equal ranks → 3 under 1, rank[1]=2.
+```mermaid
+flowchart TD
+    u5_1["1 (r=2)"] --> u5_2["2 (r=0)"]
+    u5_1 --> u5_3["3 (r=1)"]
+    u5_3 --> u5_4["4 (r=0)"]
+```
+
+**6. UNION(5, 7):** FIND(5)=5(r=1), FIND(7)=7(r=1). Equal → 7 under 5, rank[5]=2.
+```mermaid
+flowchart TD
+    u6_5["5 (r=2)"] --> u6_6["6 (r=0)"]
+    u6_5 --> u6_7["7 (r=1)"]
+    u6_7 --> u6_8["8 (r=0)"]
+```
+
+**7. UNION(9, 10):** 10 under 9, rank[9]=1.
+```mermaid
+flowchart TD
+    u7_9["9 (r=1)"] --> u7_10["10 (r=0)"]
+```
+
+**8. UNION(1, 5):** FIND(1)=1(r=2), FIND(5)=5(r=2). Equal → 5 under 1, rank[1]=3.
+```mermaid
+flowchart TD
+    r1["1 (r=3)"] --> c2["2 (r=0)"]
+    r1 --> c3["3 (r=1)"]
+    r1 --> c5["5 (r=2)"]
+    c3 --> c4["4 (r=0)"]
+    c5 --> c6["6 (r=0)"]
+    c5 --> c7["7 (r=1)"]
+    c7 --> c8["8 (r=0)"]
     style r1 fill:#89b4fa,color:#11111b
     style c5 fill:#a6e3a1,color:#11111b
     style c3 fill:#a6e3a1,color:#11111b
 ```
 
-**UNION(1, 9):** FIND(1)=1(r=3), FIND(9)=9(r=1). rank[1] > rank[9] → 9 under 1. rank[1] stays 3.
-```
-1(r=3) adds child 9(r=1) which has child 10
+**9. UNION(1, 9):** FIND(1)=1(r=3), FIND(9)=9(r=1). rank[1] > rank[9] → 9 under 1. rank[1] stays 3.
+```mermaid
+flowchart TD
+    u9_1["1 (r=3)"] --> u9_2["2"]
+    u9_1 --> u9_3["3 (r=1)"]
+    u9_1 --> u9_5["5 (r=2)"]
+    u9_1 --> u9_9["9 (r=1)"]
+    u9_3 --> u9_4["4"]
+    u9_5 --> u9_6["6"]
+    u9_5 --> u9_7["7 (r=1)"]
+    u9_7 --> u9_8["8"]
+    u9_9 --> u9_10["10"]
 ```
 
-**UNION(2, 6):** FIND(2)=1 (path: 2→1), FIND(6)=1 (path: 6→5→1). Same root! → **No-op** (already same set).
+**10. UNION(2, 6):** FIND(2)=1 (path: 2→1), FIND(6)=1 (path: 6→5→1). Same root! → **No-op** (already same set).
 
 ---
 
@@ -1238,12 +1566,15 @@ flowchart TD
 
 After the above unions, suppose we call **FIND-SET(8)**:
 
-Path without compression: 8 → 7 → 5 → 1 (root). Returns 1.
+1. `FIND-SET(8)`: parent is 7. Calls `FIND-SET(7)`.
+2. `FIND-SET(7)`: parent is 5. Calls `FIND-SET(5)`.
+3. `FIND-SET(5)`: parent is 1. Calls `FIND-SET(1)`.
+4. `FIND-SET(1)`: is root. Returns 1.
 
-**With path compression:** During the return, point ALL visited nodes directly to root:
-- 8.parent = 1 (was 7)
-- 7.parent = 1 (was 5)
-- 5.parent = 1 (already correct)
+**With path compression:** As the recursion unwinds, point ALL visited nodes directly to root (1):
+- `FIND-SET(5)` returns 1. 5's parent is already 1.
+- `FIND-SET(7)` returns 1. Sets 7's parent = 1.
+- `FIND-SET(8)` returns 1. Sets 8's parent = 1.
 
 ```mermaid
 flowchart TD
@@ -1265,7 +1596,7 @@ flowchart TD
     end
 ```
 
-**Future FIND-SET(8):** 8 → 1 directly → $O(1)$! Path compression makes all future lookups nearly instant.
+**Future FIND-SET(8):** 8 → 1 directly → $O(1)$! Path compression flattens the tree.
 
 ### 6.4 All 10 Operations Summary
 
