@@ -2,52 +2,68 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="lumi_theme.css">
   <style>
-    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #fdfcfc; margin: 0; padding: 20px; }
-    h2 { margin-top: 0; }
-    .controls { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; }
-    input { padding: 8px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; width: 80px; }
-    button { padding: 8px 16px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; background: #3186ff; color: white; transition: 0.2s; }
-    button:hover { background: #2565c8; }
-    button:disabled { background: #ccc; cursor: not-allowed; }
-    #canvas { width: 100%; max-width: 800px; height: 300px; background: white; border: 1px solid #ddd; border-radius: 8px; overflow-y: auto; padding: 20px; box-sizing: border-box; }
+    body { margin: 0; padding: 20px; }
+    h2 { margin-top: 0; margin-bottom: 8px; }
+    .widget-container { width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--m, 12px); }
+    #canvas { width: 100%; height: 300px; background: transparent; overflow-y: auto; padding: 20px; box-sizing: border-box; }
     
     .coin-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-    .coin { width: 50px; height: 50px; border-radius: 50%; background: #ffd700; border: 2px solid #daa520; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; color: #b8860b; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s; animation: popIn 0.3s ease-out forwards; }
+    .coin { width: 50px; height: 50px; border-radius: 50%; background: var(--surface-bright, #fff); border: 2px solid var(--primary, #3186ff); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; color: var(--on-surface); box-shadow: var(--lumi-sys-elevation--level1); transition: transform 0.3s; animation: popIn 0.3s ease-out forwards; }
     
     @keyframes popIn {
       0% { transform: scale(0); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
     
-    .status-panel { display: flex; justify-content: space-between; width: 100%; max-width: 800px; margin-top: 15px; font-size: 18px; font-weight: bold; }
-    #message { color: #555; font-style: italic; font-weight: normal; font-size: 16px; margin-top: 10px;}
+    .status-panel { display: flex; justify-content: space-between; width: 100%; margin-top: 15px; font-size: 18px; font-weight: bold; font-family: var(--ff-sans); color: var(--on-surface); }
+    #message { font-family: var(--ff-sans); font-size: 15px; color: var(--on-surface-variant); min-height: 20px; font-style: italic; margin-top: 8px; }
     
     .denom-list { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; justify-content: center;}
-    .denom { padding: 4px 8px; background: #f2f0f0; border-radius: 4px; font-family: monospace; font-size: 14px; border: 1px solid #ccc;}
-    .denom.active { background: #dcf1ff; border-color: #3186ff; color: #3186ff; font-weight: bold; }
+    .denom { padding: 4px 8px; background: var(--surface-container, #f2f0f0); border-radius: 4px; font-family: var(--ff-mono); font-size: 14px; border: 1px solid var(--stroke-default, #e3e3e3); color: var(--on-surface); }
+    .denom.active { background: var(--accent-container, #dcf1ff); border-color: var(--primary, #3186ff); color: var(--primary, #3186ff); font-weight: bold; }
+    
+    .control-deck { background-color: var(--lumi-sys-color--surface-container, #f2f0f0); padding: 16px; border-radius: 16px; display: flex; flex-direction: column; gap: 16px; }
+    .action-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .playback-bar { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--stroke-default); padding-top: 12px; }
+    .playback-btns { display: flex; gap: 8px; }
   </style>
 </head>
 <body>
 
-  <h2>Greedy Coin Change Visualizer</h2>
-  
-  <div class="denom-list" id="denomList"></div>
+  <div class="widget-container">
+    <div class="lumi-card" style="padding: 20px;">
+      <h2 class="lumi-card-title">Greedy Coin Change Visualizer</h2>
+      <p class="lumi-card-subtitle">Indian Currency System: Greedily pick the largest denomination &le; remaining amount.</p>
+    </div>
 
-  <div class="controls">
-    <input type="number" id="valInput" placeholder="Amount (e.g. 187)">
-    <button id="btnStart" onclick="startChange()">Start Change</button>
-    <button onclick="reset()">Reset</button>
-  </div>
-  
-  <div class="status-panel">
-    <div id="remainingTxt">Remaining: 0</div>
-    <div id="coinCountTxt">Coins: 0</div>
-  </div>
-  <div id="message">Enter an amount and click Start to begin.</div>
+    <div class="lumi-card" style="padding: 16px;">
+      <div class="denom-list" id="denomList"></div>
+      <div class="status-panel">
+        <div id="remainingTxt">Remaining: 0</div>
+        <div id="coinCountTxt">Coins: 0</div>
+      </div>
+      <div id="canvas">
+        <div class="coin-container" id="coinContainer"></div>
+      </div>
+    </div>
 
-  <div id="canvas">
-    <div class="coin-container" id="coinContainer"></div>
+    <div class="control-deck">
+      <div id="message">Ready. Enter an amount and click Start.</div>
+      
+      <div class="action-row">
+        <input type="number" id="valInput" class="lumi-input" style="width: 200px; min-height: 40px;" placeholder="Amount (e.g. 187)">
+        <button id="btnStart" class="lumi-btn lumi-btn--primary" onclick="startChange()">Start Change</button>
+      </div>
+
+      <div class="playback-bar">
+        <div style="flex: 1;"></div>
+        <div class="playback-btns">
+          <button class="lumi-btn lumi-btn--ghost" onclick="reset()">Reset</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>

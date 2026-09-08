@@ -134,13 +134,33 @@ Back-substitute: $\log_2 T(n) = \Theta(n) \implies T(n) = \Theta(2^{\Theta(n)})$
 
 ## 8. Method 6 — Master Theorem
 
-For $T(n) = aT(n/b) + f(n)$ where $a \ge 1, b > 1$. Let $c_{crit} = \log_b a$.
+### Master Theorem (Divide & Conquer)
+For $T(n) = aT(n/b) + f(n)$ where $a \ge 1, b > 1$:
+
+$$
+T(n) = aT(n/b) + f(n) \implies \begin{cases} 
+\Theta(n^{\log_b a}) & f(n) = \mathcal{O}(n^{\log_b a - \epsilon}) \\ 
+\Theta(n^{\log_b a} \log^{k+1} n) & f(n) = \Theta(n^{\log_b a} \log^k n) \\ 
+\Theta(f(n)) & f(n) = \Omega(n^{\log_b a + \epsilon}) 
+\end{cases}
+$$
 
 | Case | Condition on $f(n)$ | Solution $T(n)$ | Meaning |
 | :--- | :--- | :--- | :--- |
-| **1** | $f(n) = O(n^{c_{crit} - \epsilon})$ | $\Theta(n^{c_{crit}})$ | Leaf cost dominates |
-| **2** | $f(n) = \Theta(n^{c_{crit}} \log^k n)$ | $\Theta(n^{c_{crit}} \log^{k+1} n)$ | Work is balanced across levels |
-| **3** | $f(n) = \Omega(n^{c_{crit} + \epsilon})$ + regularity | $\Theta(f(n))$ | Root cost dominates |
+| **1** | $f(n) = O(n^{\log_b a - \epsilon})$ | $\Theta(n^{\log_b a})$ | Leaf cost dominates |
+| **2** | $f(n) = \Theta(n^{\log_b a} \log^k n)$ | $\Theta(n^{\log_b a} \log^{k+1} n)$ | Work is balanced across levels |
+| **3** | $f(n) = \Omega(n^{\log_b a + \epsilon})$ + regularity | $\Theta(f(n))$ | Root cost dominates |
+
+### Master Theorem (Subtract & Conquer)
+For $T(n) = aT(n - b) + \mathcal{O}(n^k)$:
+
+$$
+T(n) = aT(n - b) + \mathcal{O}(n^k) \implies \begin{cases} 
+\mathcal{O}(n^k) & a < 1 \\ 
+\mathcal{O}(n^{k+1}) & a = 1 \\ 
+\mathcal{O}(a^{n/b} n^k) & a > 1 
+\end{cases}
+$$
 
 ---
 

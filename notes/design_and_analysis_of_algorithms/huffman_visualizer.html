@@ -2,40 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="lumi_theme.css">
   <style>
-    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #fdfcfc; margin: 0; padding: 20px; }
-    h2 { margin-top: 0; }
-    .controls { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; }
-    input { padding: 8px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; width: 60px; }
-    button { padding: 8px 16px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; background: #3186ff; color: white; transition: 0.2s; }
-    button:hover { background: #2565c8; }
-    button:disabled { background: #ccc; cursor: not-allowed; }
-    #canvas { width: 100%; max-width: 800px; height: 500px; background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; position: relative; }
+    body { margin: 0; padding: 20px; }
+    h2 { margin-top: 0; margin-bottom: 8px; }
+    .widget-container { width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--m, 12px); }
+    #canvas { width: 100%; height: 500px; background: transparent; position: relative; }
     
-    .node { position: absolute; width: 40px; height: 40px; border-radius: 50%; background: #daf9d4; border: 2px solid #008052; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; transform: translate(-50%, -50%); z-index: 10; transition: all 0.5s ease; color: #008052; flex-direction: column; }
-    .node.internal { background: #dcf1ff; border-color: #3186ff; color: #3186ff; }
-    .node .char { font-size: 10px; opacity: 0.8; margin-top: -4px; }
+    .node { position: absolute; width: 40px; height: 40px; border-radius: 50%; background: var(--positive-container, #daf9d4); border: 2px solid var(--positive, #008052); display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: var(--ff-mono); font-size: 14px; transform: translate(-50%, -50%); z-index: 10; transition: all 0.5s ease; color: var(--positive, #008052); flex-direction: column; }
+    .node.internal { background: var(--surface-accent, #dcf1ff); border-color: var(--primary, #3186ff); color: var(--primary, #3186ff); }
+    .node .char { font-size: 10px; font-family: var(--ff-sans); opacity: 0.8; margin-top: -4px; }
     
-    .edge { position: absolute; border-top: 2px solid #3186ff; transform-origin: 0 50%; z-index: 5; transition: all 0.5s ease; }
-    .edge-label { position: absolute; font-size: 12px; font-weight: bold; color: #555; transform: translate(-50%, -50%); z-index: 15; background: white; padding: 0 2px; }
+    .edge { position: absolute; border-top: 2px solid var(--primary, #3186ff); transform-origin: 0 50%; z-index: 5; transition: all 0.5s ease; }
+    .edge-label { position: absolute; font-size: 12px; font-weight: bold; font-family: var(--ff-mono); color: var(--on-surface-variant); transform: translate(-50%, -50%); z-index: 15; background: var(--surface-bright, #fff); padding: 0 2px; }
     
-    #message { margin-top: 15px; font-size: 16px; min-height: 24px; color: #555; font-style: italic; }
+    .control-deck { background-color: var(--lumi-sys-color--surface-container, #f2f0f0); padding: 16px; border-radius: 16px; display: flex; flex-direction: column; gap: 16px; }
+    .action-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: center; }
+    .playback-bar { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--stroke-default); padding-top: 12px; }
+    .playback-btns { display: flex; gap: 8px; }
+    #message { font-family: var(--ff-sans); font-size: 15px; color: var(--on-surface-variant); min-height: 20px; font-style: italic; }
   </style>
 </head>
 <body>
 
-  <h2>Huffman Coding Visualizer</h2>
-  
-  <div class="controls">
-    <input type="text" id="charInput" placeholder="Char" maxlength="3">
-    <input type="number" id="freqInput" placeholder="Freq">
-    <button onclick="addNode()">Add Leaf</button>
-    <button id="btnStep" onclick="step()">Step (Merge Mins)</button>
-    <button onclick="reset()">Reset</button>
-  </div>
+  <div class="widget-container">
+    <div class="lumi-card" style="padding: 20px;">
+      <h2 class="lumi-card-title">Huffman Coding Visualizer</h2>
+      <p class="lumi-card-subtitle">Greedy algorithm: repeatedly merge the two nodes with the lowest frequencies.</p>
+    </div>
 
-  <div id="canvas"></div>
-  <div id="message">Add leaves or start merging.</div>
+    <div class="lumi-card" style="padding: 0; overflow: hidden;">
+      <div id="canvas"></div>
+    </div>
+
+    <div class="control-deck">
+      <div id="message">Add leaves or start merging.</div>
+      
+      <div class="action-row">
+        <input type="text" id="charInput" class="lumi-input" style="width: 80px; min-height: 40px;" placeholder="Char" maxlength="3">
+        <input type="number" id="freqInput" class="lumi-input" style="width: 100px; min-height: 40px;" placeholder="Freq">
+        <button class="lumi-btn lumi-btn--tonal" onclick="addNode()">Add Leaf</button>
+      </div>
+
+      <div class="playback-bar">
+        <div style="flex: 1;"></div>
+        <div class="playback-btns">
+          <button id="btnStep" class="lumi-btn lumi-btn--primary" onclick="step()">Step (Merge Mins)</button>
+          <button class="lumi-btn lumi-btn--ghost" onclick="reset()">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     let forest = []; // Array of roots

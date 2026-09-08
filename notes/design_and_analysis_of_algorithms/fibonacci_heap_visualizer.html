@@ -2,54 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="lumi_theme.css">
   <style>
-    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #fdfcfc; margin: 0; padding: 20px; }
-    h2 { margin-top: 0; }
-    .controls { margin-bottom: 10px; display: flex; gap: 10px; }
-    input { padding: 8px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; width: 80px; }
-    button { padding: 8px 16px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; background: #3186ff; color: white; transition: 0.2s; }
-    button:hover { background: #2565c8; }
-    button:disabled { background: #ccc; cursor: not-allowed; }
-    button.step-btn { background: #008052; }
-    button.step-btn:hover { background: #006b44; }
+    body { margin: 0; padding: 20px; }
+    h2 { margin-top: 0; margin-bottom: 8px; }
+    .widget-container { width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--m, 12px); }
+    #canvas { width: 100%; height: 350px; background: transparent; position: relative; margin-top: 10px; }
+    .node { position: absolute; width: 30px; height: 30px; border-radius: 50%; background: var(--surface-bright, #fff); border: 2px solid var(--primary, #3186ff); display: flex; align-items: center; justify-content: center; font-weight: bold; transform: translate(-50%, -50%); z-index: 10; transition: all 0.5s ease; color: var(--on-surface); }
+    .node.min { background: var(--positive-container, #daf9d4); border-color: var(--positive, #008052); }
+    .node.marked { background: var(--surface-accent, #9dd2ff); border-color: var(--outline, #727676); }
+    .node.active { background: var(--error-container, #ffdeec); border-color: var(--error, #de2d29); box-shadow: 0 0 0 4px rgba(222, 45, 41, 0.3); z-index: 15; }
+    .node.in-array { background: var(--surface-dim, #f2f0f0); border-style: dashed; }
+    .edge { position: absolute; border-top: 2px solid var(--stroke-default, #e3e3e3); transform-origin: 0 50%; z-index: 5; transition: all 0.5s ease; }
+    .root-edge { border-top: 2px dashed var(--stroke-default, #e3e3e3); }
     
-    #canvas { width: 100%; max-width: 800px; height: 350px; background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; position: relative; margin-top: 10px;}
-    .node { position: absolute; width: 30px; height: 30px; border-radius: 50%; background: #9dd2ff; border: 2px solid #3186ff; display: flex; align-items: center; justify-content: center; font-weight: bold; transform: translate(-50%, -50%); z-index: 10; transition: all 0.5s ease; }
-    .node.min { background: #50e389; border-color: #228a49; }
-    .node.marked { background: #ffdb0f; border-color: #997112; }
-    .node.active { box-shadow: 0 0 0 4px rgba(222, 45, 41, 0.4); border-color: #de2d29; z-index: 15; }
-    .node.in-array { background: #dcf1ff; border-style: dashed; }
-    .edge { position: absolute; border-top: 2px solid #3186ff; transform-origin: 0 50%; z-index: 5; transition: all 0.5s ease; }
-    .root-edge { border-top: 2px dashed #9dd2ff; }
+    .circular-link { position: absolute; border: 2px dashed var(--stroke-default, #e3e3e3); border-top: none; z-index: 4; border-radius: 0 0 20px 20px; transition: all 0.5s ease; pointer-events: none;}
     
-    .circular-link { position: absolute; border: 2px dashed #9dd2ff; border-top: none; z-index: 4; border-radius: 0 0 20px 20px; transition: all 0.5s ease; pointer-events: none;}
+    .degree-array-container { display: flex; gap: 4px; margin-top: 10px; height: 40px; display: none; padding: 0 20px;}
+    .array-slot { width: 40px; height: 40px; border: 1px solid var(--stroke-default, #e3e3e3); display: flex; flex-direction: column; align-items: center; background: var(--surface-dim, #f2f0f0); border-radius: 4px;}
+    .array-label { font-family: var(--ff-sans); font-size: 10px; color: var(--on-surface-variant); margin-top: 2px;}
+    .array-val { font-family: var(--ff-mono); color: var(--on-surface); font-weight: bold; margin-top: 2px;}
     
-    .degree-array-container { display: flex; gap: 4px; margin-top: 10px; height: 40px; display: none;}
-    .array-slot { width: 40px; height: 40px; border: 1px solid #ccc; display: flex; flex-direction: column; align-items: center; background: #fafafa; border-radius: 4px;}
-    .array-label { font-size: 10px; color: #777; margin-top: 2px;}
-    .array-val { font-weight: bold; margin-top: 2px;}
-    
-    #message { margin-top: 10px; font-size: 16px; min-height: 24px; color: #555; font-style: italic; }
+    .control-deck { background-color: var(--lumi-sys-color--surface-container, #f2f0f0); padding: 16px; border-radius: 16px; display: flex; flex-direction: column; gap: 16px; }
+    .action-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .playback-bar { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--stroke-default); padding-top: 12px; }
+    .playback-btns { display: flex; gap: 8px; }
+    #message { font-family: var(--ff-sans); font-size: 15px; color: var(--on-surface-variant); min-height: 20px; font-style: italic; }
   </style>
 </head>
 <body>
 
-  <h2>Fibonacci Heap Visualizer</h2>
-  
-  <div class="controls">
-    <input type="number" id="valInput" placeholder="Value">
-    <button id="btnInsert" onclick="insert()">Insert</button>
-    <button id="btnExtract" onclick="extractMin()">Extract Min</button>
-    <button id="btnStep" class="step-btn" onclick="step()" disabled>Step Consolidation</button>
-    <button onclick="reset()">Reset</button>
-  </div>
-  
-  <div class="degree-array-container" id="degreeArrayCont">
-    <!-- max degree slots generated here -->
-  </div>
+  <div class="widget-container">
+    <div class="lumi-card" style="padding: 20px;">
+      <h2 class="lumi-card-title">Fibonacci Heap Visualizer</h2>
+      <p class="lumi-card-subtitle">Insert lazily into the root list, then Extract Min to consolidate.</p>
+    </div>
 
-  <div id="message">Heap is empty. Lazy insertions supported.</div>
-  <div id="canvas"></div>
+    <div class="lumi-card" style="padding: 0; overflow: hidden;">
+      <div class="degree-array-container" id="degreeArrayCont">
+        <!-- max degree slots generated here -->
+      </div>
+      <div id="canvas"></div>
+    </div>
+
+    <div class="control-deck">
+      <div id="message">Ready. Heap is empty. Lazy insertions supported.</div>
+      
+      <div class="action-row">
+        <input type="number" id="valInput" class="lumi-input" style="width: 140px; min-height: 40px;" placeholder="Value">
+        <button id="btnInsert" class="lumi-btn lumi-btn--primary" onclick="insert()">Insert</button>
+        <button id="btnExtract" class="lumi-btn lumi-btn--tonal" onclick="extractMin()">Extract Min</button>
+      </div>
+
+      <div class="playback-bar">
+        <div style="flex: 1;"></div>
+        <div class="playback-btns">
+          <button id="btnStep" class="lumi-btn lumi-btn--primary" onclick="step()" disabled>Step Consolidation</button>
+          <button class="lumi-btn lumi-btn--ghost" onclick="reset()">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     let rootList = []; 

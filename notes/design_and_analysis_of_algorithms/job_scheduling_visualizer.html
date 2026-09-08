@@ -2,63 +2,81 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="lumi_theme.css">
   <style>
-    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #fdfcfc; margin: 0; padding: 20px; }
-    h2 { margin-top: 0; }
-    .controls { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; }
-    button { padding: 8px 16px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; background: #3186ff; color: white; transition: 0.2s; }
-    button:hover { background: #2565c8; }
-    button:disabled { background: #ccc; cursor: not-allowed; }
+    body { margin: 0; padding: 20px; }
+    h2 { margin-top: 0; margin-bottom: 8px; }
+    .widget-container { width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--m, 12px); }
     
-    #layout { display: flex; gap: 20px; width: 100%; max-width: 900px; }
-    .panel { border: 1px solid #ddd; border-radius: 8px; background: white; padding: 15px; flex: 1; min-height: 400px;}
-    .panel h3 { margin-top: 0; text-align: center; }
+    #layout { display: flex; gap: 20px; width: 100%; }
+    .panel { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+    .panel h3 { margin-top: 0; text-align: center; font-family: var(--ff-sans); color: var(--on-surface); }
     
     .item-list { display: flex; flex-direction: column; gap: 8px; }
-    .item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f2f0f0; border-radius: 6px; border-left: 4px solid #727676; transition: 0.3s; }
-    .item.sorted { border-left-color: #3186ff; }
-    .item.scheduled { background: #daf9d4; border-left-color: #008052; opacity: 0.5;}
-    .item.rejected { background: #ffdeec; border-left-color: #de2d29; opacity: 0.5;}
-    .item.active { box-shadow: 0 0 0 2px #3186ff; transform: scale(1.02); z-index: 10;}
+    .item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--surface-container, #f2f0f0); border-radius: 8px; border-left: 4px solid var(--outline, #727676); transition: 0.3s; color: var(--on-surface); font-family: var(--ff-sans); }
+    .item.sorted { border-left-color: var(--primary, #3186ff); }
+    .item.scheduled { background: var(--positive-container, #daf9d4); border-left-color: var(--positive, #008052); opacity: 0.6; }
+    .item.rejected { background: var(--error-container, #ffdeec); border-left-color: var(--error, #de2d29); opacity: 0.6; }
+    .item.active { box-shadow: 0 0 0 2px var(--primary, #3186ff); transform: scale(1.02); z-index: 10; background: var(--surface-bright, #fff); opacity: 1; }
     .item-title { font-weight: bold; }
-    .item-stats { font-family: monospace; font-size: 14px; color: #555; }
+    .item-stats { font-family: var(--ff-mono); font-size: 14px; color: var(--on-surface-variant, #555); }
     
     .timeline { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 20px;}
-    .slot { width: 60px; height: 80px; border: 2px dashed #ccc; border-radius: 8px; display: flex; flex-direction: column; align-items: center; background: #fafafa; position: relative; transition: 0.3s;}
-    .slot.checking { border-color: #f5d77f; background: #fffbe6; transform: scale(1.1); z-index: 10;}
-    .slot.filled { border: 2px solid #008052; background: #daf9d4; border-style: solid;}
+    .slot { width: 60px; height: 80px; border: 2px dashed var(--outline, #ccc); border-radius: 8px; display: flex; flex-direction: column; align-items: center; background: var(--surface-dim, #fafafa); position: relative; transition: 0.3s;}
+    .slot.checking { border-color: var(--warning, #f5d77f); background: var(--warning-container, #fffbe6); transform: scale(1.1); z-index: 10;}
+    .slot.filled { border: 2px solid var(--positive, #008052); background: var(--positive-container, #daf9d4); border-style: solid;}
     
-    .slot-label { font-size: 12px; color: #777; margin-top: 4px; }
-    .slot-content { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-direction: column; font-size: 14px; color: #008052;}
-    .slot-profit { font-size: 10px; font-weight: normal;}
+    .slot-label { font-family: var(--ff-sans); font-size: 12px; color: var(--on-surface-variant, #777); margin-top: 4px; }
+    .slot-content { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-direction: column; font-size: 14px; color: var(--positive, #008052); font-family: var(--ff-sans); }
+    .slot-profit { font-size: 10px; font-weight: normal; color: var(--on-surface-variant); }
     
-    .status { margin-top: 15px; font-size: 18px; font-weight: bold; text-align: center; }
-    #message { color: #555; font-style: italic; font-weight: normal; font-size: 16px; margin-top: 10px; text-align: center; min-height: 24px;}
+    .status { margin-top: 0; font-size: 18px; font-weight: bold; text-align: center; color: var(--on-surface); font-family: var(--ff-sans); }
+    
+    .control-deck { background-color: var(--lumi-sys-color--surface-container, #f2f0f0); padding: 16px; border-radius: 16px; display: flex; flex-direction: column; gap: 16px; }
+    .action-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: center; }
+    .playback-bar { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--stroke-default); padding-top: 12px; }
+    .playback-btns { display: flex; gap: 8px; }
+    #message { font-family: var(--ff-sans); font-size: 15px; color: var(--on-surface-variant); min-height: 20px; font-style: italic; }
   </style>
 </head>
 <body>
 
-  <h2>Job Sequencing (Deadlines) Visualizer</h2>
-  
-  <div class="controls">
-    <button id="btnStart" onclick="startAlg()">Sort by Profit</button>
-    <button id="btnStep" onclick="stepAlg()" disabled>Schedule Next Job</button>
-    <button onclick="reset()">Reset</button>
-  </div>
-  
-  <div class="status">
-    Total Profit: <span id="profitTxt">0</span>
-  </div>
-  <div id="message">Click 'Sort by Profit' to begin.</div>
-
-  <div id="layout">
-    <div class="panel">
-      <h3>Jobs List</h3>
-      <div class="item-list" id="itemList"></div>
+  <div class="widget-container">
+    <div class="lumi-card" style="padding: 20px;">
+      <h2 class="lumi-card-title">Job Sequencing (Deadlines) Visualizer</h2>
+      <p class="lumi-card-subtitle">Jobs are sorted by profit. Schedule each job into the latest possible available slot before its deadline.</p>
     </div>
-    <div class="panel">
-      <h3>Timeline Slots</h3>
-      <div class="timeline" id="timeline"></div>
+
+    <div class="lumi-card" style="padding: 20px;">
+      <div class="status">
+        Total Profit: <span id="profitTxt">0</span>
+      </div>
+      <div id="layout">
+        <div class="panel">
+          <h3>Jobs List</h3>
+          <div class="item-list" id="itemList"></div>
+        </div>
+        <div class="panel">
+          <h3>Timeline Slots</h3>
+          <div class="timeline" id="timeline"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-deck">
+      <div id="message">Ready. Click 'Sort by Profit' to begin.</div>
+      
+      <div class="action-row">
+        <button id="btnStart" class="lumi-btn lumi-btn--primary" onclick="startAlg()">Sort by Profit</button>
+      </div>
+
+      <div class="playback-bar">
+        <div style="flex: 1;"></div>
+        <div class="playback-btns">
+          <button id="btnStep" class="lumi-btn lumi-btn--primary" onclick="stepAlg()" disabled>Schedule Next Job</button>
+          <button class="lumi-btn lumi-btn--ghost" onclick="reset()">Reset</button>
+        </div>
+      </div>
     </div>
   </div>
 

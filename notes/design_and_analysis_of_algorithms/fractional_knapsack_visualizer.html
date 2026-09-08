@@ -2,59 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="lumi_theme.css">
   <style>
-    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #fdfcfc; margin: 0; padding: 20px; }
-    h2 { margin-top: 0; }
-    .controls { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; }
-    input { padding: 8px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; width: 100px; }
-    button { padding: 8px 16px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; background: #3186ff; color: white; transition: 0.2s; }
-    button:hover { background: #2565c8; }
-    button:disabled { background: #ccc; cursor: not-allowed; }
+    body { margin: 0; padding: 20px; }
+    h2 { margin-top: 0; margin-bottom: 8px; }
+    .widget-container { width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--m, 12px); }
     
-    #layout { display: flex; gap: 20px; width: 100%; max-width: 900px; }
-    .panel { border: 1px solid #ddd; border-radius: 8px; background: white; padding: 15px; flex: 1; min-height: 400px;}
-    .panel h3 { margin-top: 0; text-align: center; }
+    #layout { display: flex; gap: 20px; width: 100%; }
+    .panel { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+    .panel h3 { margin-top: 0; text-align: center; font-family: var(--ff-sans); color: var(--on-surface); }
     
     .item-list { display: flex; flex-direction: column; gap: 8px; }
-    .item { display: flex; justify-content: space-between; padding: 8px 12px; background: #f2f0f0; border-radius: 6px; border-left: 4px solid #727676; transition: 0.3s; }
-    .item.sorted { border-left-color: #3186ff; }
-    .item.taken-full { background: #daf9d4; border-left-color: #008052; }
-    .item.taken-frac { background: #ffdeec; border-left-color: #de2d29; }
+    .item { display: flex; justify-content: space-between; padding: 12px 16px; background: var(--surface-container, #f2f0f0); border-radius: 8px; border-left: 4px solid var(--outline, #727676); transition: 0.3s; color: var(--on-surface); font-family: var(--ff-sans); }
+    .item.sorted { border-left-color: var(--primary, #3186ff); }
+    .item.taken-full { background: var(--positive-container, #daf9d4); border-left-color: var(--positive, #008052); }
+    .item.taken-frac { background: var(--error-container, #ffdeec); border-left-color: var(--error, #de2d29); }
     .item-title { font-weight: bold; }
-    .item-stats { font-family: monospace; font-size: 14px; color: #555; }
+    .item-stats { font-family: var(--ff-mono); font-size: 14px; color: var(--on-surface-variant, #555); }
     
-    .knapsack-visual { width: 100%; height: 300px; border: 4px solid #555; border-top: none; border-radius: 0 0 12px 12px; position: relative; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; background: #fafafa;}
-    .ks-block { width: 100%; background: #3186ff; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.3); transition: height 0.5s; overflow: hidden; }
-    .ks-block.frac { background: #de2d29; }
+    .knapsack-visual { width: 100%; height: 300px; border: 4px solid var(--outline, #555); border-top: none; border-radius: 0 0 16px 16px; position: relative; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; background: var(--surface-dim, #fafafa);}
+    .ks-block { width: 100%; background: var(--primary, #3186ff); color: var(--surface-bright, #fff); display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: var(--ff-sans); border-top: 1px solid rgba(255,255,255,0.3); transition: height 0.5s; overflow: hidden; }
+    .ks-block.frac { background: var(--error, #de2d29); }
     
-    .status { margin-top: 15px; font-size: 18px; font-weight: bold; text-align: center; }
-    #message { color: #555; font-style: italic; font-weight: normal; font-size: 16px; margin-top: 10px; text-align: center;}
+    .status { margin-top: 0; font-size: 18px; font-weight: bold; text-align: center; color: var(--on-surface); font-family: var(--ff-sans); }
+    
+    .control-deck { background-color: var(--lumi-sys-color--surface-container, #f2f0f0); padding: 16px; border-radius: 16px; display: flex; flex-direction: column; gap: 16px; }
+    .action-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .playback-bar { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--stroke-default); padding-top: 12px; }
+    .playback-btns { display: flex; gap: 8px; }
+    #message { font-family: var(--ff-sans); font-size: 15px; color: var(--on-surface-variant); min-height: 20px; font-style: italic; }
   </style>
 </head>
 <body>
 
-  <h2>Fractional Knapsack Visualizer</h2>
-  
-  <div class="controls">
-    <input type="number" id="capacityInput" value="50" placeholder="Capacity (W)">
-    <button id="btnStart" onclick="startAlg()">Sort & Start</button>
-    <button id="btnStep" onclick="stepAlg()" disabled>Step (Take Item)</button>
-    <button onclick="reset()">Reset</button>
-  </div>
-  
-  <div class="status">
-    Total Profit: <span id="profitTxt">0</span> | Remaining W: <span id="wTxt">50</span>
-  </div>
-  <div id="message">Adjust capacity and click Start.</div>
-
-  <div id="layout">
-    <div class="panel">
-      <h3>Available Items</h3>
-      <div class="item-list" id="itemList"></div>
+  <div class="widget-container">
+    <div class="lumi-card" style="padding: 20px;">
+      <h2 class="lumi-card-title">Fractional Knapsack Visualizer</h2>
+      <p class="lumi-card-subtitle">Items are sorted by P/W ratio. The algorithm greedily takes whole items, fractioning the last one.</p>
     </div>
-    <div class="panel">
-      <h3>Knapsack</h3>
-      <div class="knapsack-visual" id="ksVisual"></div>
+
+    <div class="lumi-card" style="padding: 20px;">
+      <div class="status">
+        Total Profit: <span id="profitTxt">0</span> | Remaining W: <span id="wTxt">50</span>
+      </div>
+      <div id="layout">
+        <div class="panel">
+          <h3>Available Items</h3>
+          <div class="item-list" id="itemList"></div>
+        </div>
+        <div class="panel">
+          <h3>Knapsack</h3>
+          <div class="knapsack-visual" id="ksVisual"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-deck">
+      <div id="message">Adjust capacity and click Start.</div>
+      
+      <div class="action-row">
+        <input type="number" id="capacityInput" class="lumi-input" style="width: 140px; min-height: 40px;" value="50" placeholder="Capacity (W)">
+        <button id="btnStart" class="lumi-btn lumi-btn--primary" onclick="startAlg()">Sort & Start</button>
+      </div>
+
+      <div class="playback-bar">
+        <div style="flex: 1;"></div>
+        <div class="playback-btns">
+          <button id="btnStep" class="lumi-btn lumi-btn--primary" onclick="stepAlg()" disabled>Step (Take Item)</button>
+          <button class="lumi-btn lumi-btn--ghost" onclick="reset()">Reset</button>
+        </div>
+      </div>
     </div>
   </div>
 
