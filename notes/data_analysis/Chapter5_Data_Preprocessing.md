@@ -45,6 +45,7 @@ Data in the real world is frequently imperfect. The main categories of "dirty" d
 5.  **Data Discretization:** Part of data reduction but with particular importance, especially for numerical data (e.g., binning).
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#dbeafe', 'primaryBorderColor': '#2563eb', 'primaryTextColor': '#1e293b', 'lineColor': '#475569', 'edgeLabelBackground': '#ffffff', 'clusterBkg': '#eff6ff', 'clusterBorder': '#93c5fd'}} }%%
 flowchart LR
     Raw["Raw Dirty Data<br/>(Incomplete, Noisy, Inconsistent)"] --> Clean["1. Data Cleaning<br/>(Impute, Smooth, Outliers)"]
     Clean --> Integ["2. Data Integration<br/>(Schema, Redundancy, Correlation)"]
@@ -108,10 +109,14 @@ Noise lowers data quality, leading to misleading analysis and poor model perform
 ### Binning Methods
 
 **1. Equal-width (distance) partitioning:**
-Divides the range into $N$ intervals of equal size (uniform grid). If $A$ and $B$ are the lowest and highest values, the width $W$ is:
+Divides the range into $N$intervals of equal size (uniform grid). If$A$and$B$are the lowest and highest values, the width$W$ is:
+
 $$
+
 W = \frac{B - A}{N}
+
 $$
+
 *   *Pros:* Straightforward.
 *   *Cons:* Outliers may dominate the presentation; skewed data is not handled well.
 
@@ -136,24 +141,24 @@ Since $N=12$, creating 3 bins means each bin gets $12/3 = 4$ values.
 **Step 2: Smoothing by bin means**
 Each value in a bin is replaced by the mean of that bin.
 *   Mean(Bin 1) = $(4+8+9+15)/4 = 36/4 = 9 \implies [9, 9, 9, 9]$
-*   Mean(Bin 2) = $(21+21+24+25)/4 = 91/4 = 22.75 \implies$ (Rounded in source to $23$) $\implies [23, 23, 23, 23]$
-*   Mean(Bin 3) = $(26+28+29+34)/4 = 117/4 = 29.25 \implies$ (Rounded in source to $29$) $\implies [29, 29, 29, 29]$
+*   Mean(Bin 2) = $(21+21+24+25)/4 = 91/4 = 22.75 \implies$(Rounded in source to$23$) $\implies [23, 23, 23, 23]$
+*   Mean(Bin 3) = $(26+28+29+34)/4 = 117/4 = 29.25 \implies$(Rounded in source to$29$) $\implies [29, 29, 29, 29]$
 
 **Step 3: Smoothing by bin boundaries**
 The minimum and maximum values of the bin are its boundaries. Each value in the bin is replaced by the closest boundary value.
-*   **Bin 1 Boundaries:** $4$ and $15$.
+*   **Bin 1 Boundaries:** $4$and$15$.
     *   $4 \rightarrow 4$
-    *   $8 \rightarrow 4$ (closer to $4$ than $15$)
-    *   $9 \rightarrow 4$ (closer to $4$ than $15$)
+    *   $8 \rightarrow 4$(closer to$4$than$15$)
+    *   $9 \rightarrow 4$(closer to$4$than$15$)
     *   $15 \rightarrow 15$
     *   Result: $[4, 4, 4, 15]$
-*   **Bin 2 Boundaries:** $21$ and $25$.
+*   **Bin 2 Boundaries:** $21$and$25$.
     *   $21 \rightarrow 21$
     *   $21 \rightarrow 21$
     *   $24 \rightarrow 25$
     *   $25 \rightarrow 25$
     *   Result: $[21, 21, 25, 25]$
-*   **Bin 3 Boundaries:** $26$ and $34$.
+*   **Bin 3 Boundaries:** $26$and$34$.
     *   $26 \rightarrow 26$
     *   $28 \rightarrow 26$
     *   $29 \rightarrow 26$
@@ -183,20 +188,28 @@ Data integration combines data from multiple sources into a coherent store.
 ### Correlation Analysis (Categorical Data) - Chi-Square Test
 
 Used to detect redundancy between categorical attributes.
+
 $$
+
 \chi^2 = \sum_{i=1}^{R} \sum_{j=1}^{C} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+
 $$
+
 Where expected frequency $E_{ij}$:
+
 $$
+
 E_{ij} = \frac{(\text{Row}_i \text{ Sum}) \times (\text{Col}_j \text{ Sum})}{N}
+
 $$
+
 Degrees of freedom $= (R-1)(C-1)$.
 
 **Example: Gender vs Preferred Reading**
 *   **Null Hypothesis:** There is no relationship between the two categorical variables (independent).
 *   **Acceptable (Alternate) Hypothesis:** There is a relationship (not independent).
 
-Assume we calculate $\chi^2$ and the degrees of freedom is $1$. For a $0.001$ significance level, the tabular threshold is $10.828$.
+Assume we calculate $\chi^2$and the degrees of freedom is$1$. For a $0.001$significance level, the tabular threshold is$10.828$.
 If $\chi^2_{\text{calculated}} > 10.828$, we reject the null hypothesis and conclude that gender and preferred reading are strongly correlated.
 
 [Source: 5. data_preprocessing.pdf, Slides 30-33]
@@ -204,13 +217,21 @@ If $\chi^2_{\text{calculated}} > 10.828$, we reject the null hypothesis and conc
 ### Correlation Analysis (Numerical Data) - Pearson Correlation
 
 Measures the linear correlation between two continuous variables.
+
 $$
+
 r_{A,B} = \frac{\sum_{i=1}^{n}(A_i - \bar{A})(B_i - \bar{B})}{\sqrt{\sum_{i=1}^{n}(A_i - \bar{A})^2 \sum_{i=1}^{n}(B_i - \bar{B})^2}}
+
 $$
+
 Alternatively expressed as:
+
 $$
+
 r = \frac{n(\sum xy) - (\sum x)(\sum y)}{\sqrt{[n\sum x^2 - (\sum x)^2][n\sum y^2 - (\sum y)^2]}}
+
 $$
+
 *   $r > 0$: Positively correlated (A increases as B increases).
 *   $r = 0$: Independent.
 *   $r < 0$: Negatively correlated.
@@ -220,7 +241,9 @@ $$
 **Find:** Correlation coefficient $r$.
 
 **Solution:**
+
 $$
+
 \begin{aligned}
 r &= \frac{6(20485) - (247 \times 486)}{\sqrt{[6(11409) - (247)^2] \times [6(40022) - (486)^2]}} \\
 &= \frac{122910 - 120042}{\sqrt{[68454 - 61009] \times [240132 - 236196]}} \\
@@ -229,16 +252,22 @@ r &= \frac{6(20485) - (247 \times 486)}{\sqrt{[6(11409) - (247)^2] \times [6(400
 &= \frac{2868}{5413.27} \\
 &= 0.5298
 \end{aligned}
+
 $$
+
 **Result:** $r \approx 0.53$. This means the variables have a moderate positive correlation (52.98%).
 [Source: 5. data_preprocessing.pdf, Slide 46]
 
 ### Covariance (Numeric Data)
 
 Covariance is similar to correlation.
+
 $$
+
 \text{Cov}(A,B) = \frac{\sum_{i=1}^{n} (A_i - \bar{A})(B_i - \bar{B})}{n} = E(AB) - E(A)E(B)
+
 $$
+
 *   **Positive covariance:** If $\text{Cov}(A,B) > 0$, A and B both tend to be larger than their expected values.
 *   **Negative covariance:** If $\text{Cov}(A,B) < 0$, if A is larger than expected, B is likely smaller.
 *   **Independence:** If independent, $\text{Cov}(A,B) = 0$. However, $\text{Cov}(A,B) = 0$ does not strictly imply independence unless under specific assumptions (like multivariate normal distribution).
@@ -252,6 +281,7 @@ Will their prices rise or fall together?
 2.  Find $E(B)$: $(5+8+10+11+14)/5 = 48/5 = 9.6$
 3.  Find $\text{Cov}(A,B)$:
     $$
+
     \begin{aligned}
     \text{Cov}(A,B) &= \frac{(2\times5) + (3\times8) + (5\times10) + (4\times11) + (6\times14)}{5} - (4 \times 9.6) \\
     &= \frac{10 + 24 + 50 + 44 + 84}{5} - 38.4 \\
@@ -260,6 +290,7 @@ Will their prices rise or fall together?
     &= 4.0
     \end{aligned}
     $$
+
 **Result:** $\text{Cov}(A, B) = 4$. Since covariance is positive, A and B rise together.
 [Source: 5. data_preprocessing.pdf, Slide 48]
 
@@ -278,32 +309,43 @@ Transforms data into appropriate forms for mining. Methods include:
 
 **1. Min-Max Normalization**
 Linearly maps values to a new range $[\text{new\_min}_A, \text{new\_max}_A]$.
+
 $$
+
 v' = \frac{v - \min_A}{\max_A - \min_A} (\text{new\_max}_A - \text{new\_min}_A) + \text{new\_min}_A
+
 $$
 
 **2. Z-score Normalization**
 Normalizes based on mean ($\mu$) and standard deviation ($\sigma$).
+
 $$
+
 v' = \frac{v - \mu_A}{\sigma_A}
+
 $$
 
 **3. Decimal Scaling**
 Moves the decimal point of values based on the maximum absolute value.
+
 $$
+
 v' = \frac{v}{10^j}
+
 $$
-Where $j$ is the smallest integer such that $\max(|v'|) < 1$.
+
+Where $j$is the smallest integer such that$\max(|v'|) < 1$.
 
 [Source: 5. data_preprocessing.pdf, Slides 50-51]
 
 ### Examples: Normalization
 
 **Min-Max Example:**
-*   **Given:** Feature `income` ranges from $\$12,000$ to $\$98,000$. Target range is $[0.0, 1.0]$.
+*   **Given:** Feature `income` ranges from $\$12,000$to$\$98,000$. Target range is $[0.0, 1.0]$.
 *   **Transform:** $v = \$73,600$.
 *   **Solution:**
     $$
+
     v' = \frac{73600 - 12000}{98000 - 12000}(1.0 - 0.0) + 0.0 = \frac{61600}{86000} \approx 0.7163
     $$
 
@@ -312,12 +354,13 @@ Where $j$ is the smallest integer such that $\max(|v'|) < 1$.
 *   **Transform:** $v = \$73,600$.
 *   **Solution:**
     $$
+
     v' = \frac{73600 - 54000}{16000} = \frac{19600}{16000} = 1.225
     $$
 
 **Decimal Scaling Example:**
-*   **Given:** Range of values is $-986$ to $917$.
-*   **Transform:** Maximum absolute value is $|-986| = 986$. Therefore, $j=3$ (since $986/1000 = 0.986 < 1$).
+*   **Given:** Range of values is $-986$to$917$.
+*   **Transform:** Maximum absolute value is $|-986| = 986$. Therefore, $j=3$(since$986/1000 = 0.986 < 1$).
 *   **Solution:**
     *   $-986 \rightarrow -986 / 10^3 = -0.986$
     *   $917 \rightarrow 917 / 10^3 = 0.917$
@@ -337,6 +380,7 @@ Where $j$ is the smallest integer such that $\max(|v'|) < 1$.
 *   Methods include binning (discussed earlier).
 *   **Sturges' Rule** for determining the number of bins $k$ for ungrouped continuous data:
     $$
+
     k = \lceil 1 + \log_2(n) \rceil
     $$
 
@@ -358,50 +402,79 @@ Where $j$ is the smallest integer such that $\max(|v'|) < 1$.
 ## Formula Sheet
 
 ### 1. Equal-Width Binning
+
 $$
+
 W = \frac{B - A}{N}
+
 $$
+
 *   $W$ = width of each bin
 *   $A, B$ = lowest and highest values
 *   $N$ = number of intervals
 
 ### 2. Chi-Square ($\chi^2$)
+
 $$
+
 \chi^2 = \sum_{i=1}^{R} \sum_{j=1}^{C} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+
 $$
+
 $$
+
 E_{ij} = \frac{(\text{Row}_i \text{ Sum}) \times (\text{Col}_j \text{ Sum})}{N}
+
 $$
+
 *   Degrees of Freedom $= (R-1)(C-1)$
 
 ### 3. Pearson Correlation Coefficient ($r$)
+
 $$
+
 r = \frac{n(\sum xy) - (\sum x)(\sum y)}{\sqrt{[n\sum x^2 - (\sum x)^2][n\sum y^2 - (\sum y)^2]}}
+
 $$
 
 ### 4. Covariance
+
 $$
+
 \text{Cov}(A,B) = \frac{\sum_{i=1}^{n} (A_i - \bar{A})(B_i - \bar{B})}{n} = E(AB) - E(A)E(B)
+
 $$
 
 ### 5. Min-Max Normalization
+
 $$
+
 v' = \frac{v - \min_A}{\max_A - \min_A} (\text{new\_max}_A - \text{new\_min}_A) + \text{new\_min}_A
+
 $$
 
 ### 6. Z-Score Normalization
+
 $$
+
 v' = \frac{v - \mu_A}{\sigma_A}
+
 $$
 
 ### 7. Decimal Scaling
+
 $$
+
 v' = \frac{v}{10^j} \quad \text{where } \max(|v'|) < 1
+
 $$
 
 ### 8. Sturges' Rule (Bin count)
+
 $$
+
 k = \lceil 1 + \log_2(n) \rceil
+
 $$
 
 ---
@@ -414,7 +487,7 @@ $$
 *   **Data Integration:** Combining data from multiple sources into a coherent store, addressing schema conflicts and redundancies.
 *   **Normalization:** Scaling numerical data to fall within a small, specified range to prevent large-magnitude features from dominating distance calculations.
 *   **Min-Max Normalization:** Linear scaling mapping attribute values into a specified range, typically $[0, 1]$.
-*   **Z-Score Normalization:** Scaling technique centering data at mean $0$ with standard deviation $1$.
+*   **Z-Score Normalization:** Scaling technique centering data at mean $0$with standard deviation$1$.
 *   **Decimal Scaling:** Normalization by shifting decimal places based on the maximum absolute value.
 
 ---
@@ -437,7 +510,7 @@ $$
 **Q4: How does Min-Max normalization differ from Z-score normalization in handling outliers?**
 **A:** Min-Max normalization scales values strictly between a defined min and max range. Extreme outliers will become the new max or min, compressing the rest of the normal data into a tiny numerical window. Z-score normalization handles outliers better because it scales based on the mean and standard deviation, allowing outliers to remain as large magnitude values without heavily compressing the bulk distribution.
 
-**Q5: Normalize the value $v=500$ to the range $[0, 1]$ if the attribute's minimum is $100$ and maximum is $900$.**
+**Q5: Normalize the value $v=500$to the range$[0, 1]$if the attribute's minimum is$100$and maximum is$900$.**
 **A:** $v' = \frac{500 - 100}{900 - 100}(1 - 0) + 0 = \frac{400}{800} = 0.5$.
 
 **Q6: What is the purpose of the Chi-Square test in data integration?**
