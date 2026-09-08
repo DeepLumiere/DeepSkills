@@ -155,10 +155,12 @@
 
     initUI();
     
-    window.addEventListener('load', () => {
+    const notifyHeight = () => {
        const height = document.body.scrollHeight;
        window.parent.postMessage({type: 'widget-resize', height: height + 20}, '*');
-    });
+    };
+    window.addEventListener('load', notifyHeight);
+    new ResizeObserver(notifyHeight).observe(document.querySelector('.widget-container') || document.body);
   </script>
 </body>
 </html>

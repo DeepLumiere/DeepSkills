@@ -60,6 +60,7 @@ extra_javascript:
   - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
   - javascripts/mermaid-init.js
   - javascripts/nav-dropdown.js
+  - javascripts/iframe-resize.js
 
 markdown_extensions:
   # LaTeX Math Support ($...$ and $$...$$)
