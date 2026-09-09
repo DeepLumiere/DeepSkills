@@ -94,6 +94,8 @@ HTML5 introduced native multimedia codecs directly into the browser DOM without 
 
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <style></style> </head> <body> <!-- Multi-codec fallback video element --> <video width="480" height="270" controls autoplay muted loop poster="thumbnail.jpg" preload="metadata"> <source src="movie.webm" type="video/webm"> <source src="movie.mp4" type="video/mp4"> <source src="movie.ogg" type="video/ogg"> <p>Your browser engine does not support native HTML5 video streaming.</p> </video> <!-- Native audio player --> <audio controls preload="auto"> <source src="track.mp3" type="audio/mpeg"> <source src="track.ogg" type="audio/ogg"> Your browser does not support native audio playback. </audio> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 
 
 [Source: `UNIT-2 Frontend Frameworks.docx`, Section 2; `unit2code/demo8.html`]
@@ -158,6 +160,8 @@ HTML5 introduced native multimedia codecs directly into the browser DOM without 
 
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <style></style> </head> <body> <!-- Semantic Figure with Caption --> <figure style="border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; width: fit-content;"> <img src="red_tulips.jpg" alt="Field of vibrant red tulips in blossom" style="max-width: 100%; border-radius: 4px;"> <figcaption style="font-size: 0.875rem; color: #475569; margin-top: 6px; text-align: center;"> Figure 2.1: Cultivated Tulipa Gesneriana in spring bloom. </figcaption> </figure> <!-- Progress Bar Implementation --> <p>Task Processing Status:</p> <progress value="72" max="100" style="width: 100%; height: 20px;"></progress> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 
 
 [Source: `UNIT-2 Frontend Frameworks.docx`, Section 2]
@@ -221,6 +225,8 @@ The `<canvas>` element provides a procedural, immediate-mode raster drawing API 
 </script>
 
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <style></style> </head> <body> <canvas id="myCanvas" width="400" height="150" style="border: 1px solid #94a3b8; border-radius: 6px;"></canvas> <script> const canvas = document.getElementById("myCanvas"); const ctx = canvas.getContext("2d"); // Draw solid rectangle ctx.fillStyle = "#0284c7"; ctx.fillRect(20, 20, 100, 60); // Draw stroked circle (arc) ctx.beginPath(); ctx.arc(200, 50, 35, 0, 2 * Math.PI); ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 4; ctx.stroke(); // Render text ctx.font = "16px sans-serif"; ctx.fillStyle = "#1e293b"; ctx.fillText("HTML5 2D Canvas Engine", 140, 125); </script> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 
 
@@ -516,6 +522,8 @@ The Drag and Drop API allows elements to become draggable objects that can be mo
 
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <style></style> </head> <body> <!-- Draggable Source Item --> <div id="dragItem1" draggable="true" ondragstart="dragStart(event)" style="padding: 10px; background: #38bdf8; width: 120px; border-radius: 4px; cursor: grab;"> Draggable Box </div> <!-- Drop Zone Container --> <div id="dropContainer" ondragover="allowDrop(event)" ondrop="drop(event)" style="margin-top: 20px; width: 200px; height: 120px; border: 2px dashed #64748b; border-radius: 6px; display: flex; align-items: center; justify-content: center;"> Drop Here </div> <script> function dragStart(event) { // Record target element ID into DataTransfer payload event.dataTransfer.setData("text/plain", event.target.id); event.dataTransfer.dropEffect = "move"; } function allowDrop(event) { // MANDATORY: Browser default cancels drops. Calling preventDefault activates drop zone. event.preventDefault(); } function drop(event) { event.preventDefault(); const elementId = event.dataTransfer.getData("text/plain"); const draggedElement = document.getElementById(elementId); event.currentTarget.appendChild(draggedElement); } </script> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 
 
 [Source: `UNIT-2 Frontend Frameworks.docx`, Section 2; `unit2code/2-drag-drop.html`]
@@ -726,6 +734,8 @@ flowchart TD
 
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <style></style> </head> <body> <!-- Bootstrap 5 Compiled CSS --> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" > <!-- Bootstrap 5 Bundle JS (Includes Popper.js for tooltips/dropdowns) --> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"> </script> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 
 
 #### Security Attributes Analysis:
@@ -848,6 +858,8 @@ $$
 </div>
 
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <script src="https://cdn.tailwindcss.com"></script> <style>body { background: #f8fafc; color: #0f172a; padding: 16px; }</style> </head> <body> <div class="container"> <!-- Rows apply negative margins to align column gutters --> <div class="row g-3"> <!-- Equal auto-layout columns --> <div class="col bg-light border p-3">Auto Col A</div> <div class="col bg-light border p-3">Auto Col B</div> <div class="col bg-light border p-3">Auto Col C</div> </div> <!-- Responsive explicit columns: stacked on mobile, 4-col on tablet, 8-col on desktop --> <div class="row mt-3"> <div class="col-12 col-md-4 col-lg-3 bg-primary text-white p-3">Sidebar</div> <div class="col-12 col-md-8 col-lg-9 bg-secondary text-white p-3">Main Content</div> </div> </div> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 
 
@@ -1101,6 +1113,8 @@ Bootstrap's responsive Navbar automatically collapses on mobile using the `navba
 
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <script src="https://cdn.tailwindcss.com"></script> <style>body { background: #f8fafc; color: #0f172a; padding: 16px; }</style> </head> <body> <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4"> <a class="navbar-brand fw-bold" href="#">MyApp</a> <!-- Hamburger toggle for mobile --> <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"> <span class="navbar-toggler-icon"></span> </button> <!-- Collapsible menu --> <div class="collapse navbar-collapse" id="navMenu"> <ul class="navbar-nav ms-auto"> <li class="nav-item"> <a class="nav-link active" href="#">Home</a> </li> <li class="nav-item"> <a class="nav-link" href="#">About</a> </li> <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Services</a> <ul class="dropdown-menu"> <li><a class="dropdown-item" href="#">Web Design</a></li> <li><a class="dropdown-item" href="#">Development</a></li> </ul> </li> </ul> </div> </nav> </body> </html>' width="100%" height="350" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 
 
 #### B. Modal Component
@@ -1193,6 +1207,8 @@ Modals require the `data-bs-toggle="modal"` trigger and `data-bs-target` pointin
 
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Trigger Button --> <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"> Open Modal </button> <!-- Modal Structure --> <div class="modal fade" id="myModal" tabindex="-1"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h5 class="modal-title">Confirm Action</h5> <button type="button" class="btn-close" data-bs-dismiss="modal"></button> </div> <div class="modal-body"> <p>Are you sure you want to delete this item?</p> </div> <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button> <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete</button> </div> </div> </div> </div> <!-- JavaScript API to control modal programmatically --> <script> // Open modal via JS const modal = new bootstrap.Modal(document.getElementById(&apos;myModal&apos;)); modal.show(); // Opens modal.hide(); // Closes modal.toggle(); // Toggles </script> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 
 
 #### C. Alert & Badge Components
@@ -1220,6 +1236,8 @@ Modals require the `data-bs-toggle="modal"` trigger and `data-bs-target` pointin
 <span class="badge bg-success">Active</span>
 
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <script src="https://cdn.tailwindcss.com"></script> <style>body { background: #f8fafc; color: #0f172a; padding: 16px; }</style> </head> <body> <!-- Dismissible Alert --> <div class="alert alert-success alert-dismissible fade show" role="alert"> <strong>Success!</strong> Your data has been saved. <button type="button" class="btn-close" data-bs-dismiss="alert"></button> </div> <!-- Badges --> <h5>Notifications <span class="badge bg-danger">12</span></h5> <span class="badge rounded-pill bg-primary">New</span> <span class="badge bg-success">Active</span> </body> </html>' width="100%" height="250" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 
 
@@ -1282,6 +1300,8 @@ Modals require the `data-bs-toggle="modal"` trigger and `data-bs-target` pointin
 </script>
 
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <script src="https://cdn.tailwindcss.com"></script> <style>body { background: #f8fafc; color: #0f172a; padding: 16px; }</style> </head> <body> <form class="needs-validation" novalidate> <div class="mb-3"> <label for="email" class="form-label">Email address</label> <input type="email" class="form-control" id="email" required> <div class="valid-feedback">Looks good!</div> <div class="invalid-feedback">Please enter a valid email.</div> </div> <div class="mb-3"> <label for="name" class="form-label">Full Name</label> <input type="text" class="form-control" id="name" placeholder="Enter name" required> </div> <button class="btn btn-primary" type="submit">Submit</button> </form> <script> // Bootstrap form validation document.querySelector(&apos;.needs-validation&apos;).addEventListener(&apos;submit&apos;, e => { if (!e.target.checkValidity()) { e.preventDefault(); e.stopPropagation(); } e.target.classList.add(&apos;was-validated&apos;); }); </script> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 
 
@@ -1530,6 +1550,8 @@ npm run build # Production build — JIT purges unused CSS
 <script src="https://cdn.tailwindcss.com"></script>
 
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <style></style> </head> <body> <!-- Use in HTML directly — no build step needed --> <script src="https://cdn.tailwindcss.com"></script> </body> </html>' width="100%" height="250" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 
 
@@ -1839,6 +1861,8 @@ Tailwind supplies full palettes across shades `50, 100, 200, 300, 400, 500, 600,
 
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <script src="https://cdn.tailwindcss.com"></script> <style>body { background: #f8fafc; color: #0f172a; padding: 16px; }</style> </head> <body> <!-- Fully Styled Responsive Card --> <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl hover:shadow-lg transition-shadow duration-300"> <div class="md:flex"> <div class="md:shrink-0"> <img class="h-48 w-full object-cover md:h-full md:w-48 grayscale hover:grayscale-0 transition-all duration-300" src="photo.jpg" alt="Nature"> </div> <div class="p-8"> <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Course Module</div> <a href="#" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Tailwind CSS Architecture</a> <p class="mt-2 text-slate-500">Master utility-first layout composition with JIT compilation engines.</p> </div> </div> </div> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 
 
 [Source: `UNIT-2 Frontend Frameworks.docx`, Section 4; `unit2code/Utility-Tailwind.html`, `imageEffect.html`, `textEffect.html`]
@@ -2057,6 +2081,8 @@ Directives are special attributes prefixed with `v-` that apply reactive behavio
 
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> <style>body { padding: 16px; font-family: system-ui, sans-serif; background: #f8fafc; color: #0f172a; }</style> </head> <body> <div id="app"> <!-- v-text vs v-html --> <p v-text="rawSnippet"></p> <!-- Outputs: &lt;strong&gt;Hello&lt;/strong&gt; --> <p v-html="rawSnippet"></p> <!-- Renders bold: Hello --> <!-- v-if vs v-show --> <div v-if="role === &apos;admin&apos;">Admin Panel (Mounted in DOM)</div> <div v-else-if="role === &apos;editor&apos;">Editor Dashboard</div> <div v-else>Standard User View</div> <div v-show="isNotificationVisible">Persistent Alert (display: none when false)</div> <!-- v-for with unique :key --> <ul> <li v-for="(framework, idx) in frameworks" :key="framework.id"> {{ idx + 1 }}. {{ framework.name }} ({{ framework.stars }} stars) </li> </ul> </div> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 
 
 [Source: `UNIT-2 Frontend Frameworks.docx`, Section 5; `unit2code/Vue-Demo1.html`, `Student-record.html`]
@@ -2142,6 +2168,8 @@ Available aliases: `.enter`, `.tab`, `.delete` (captures both Delete and Backspa
 </form>
 
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> <style>body { padding: 16px; font-family: system-ui, sans-serif; background: #f8fafc; color: #0f172a; }</style> </head> <body> <!-- Form submission with event and key modifiers --> <form @submit.prevent="submitForm"> <!-- Trimmed string synced only on blur --> <input v-model.trim.lazy="userHandle" placeholder="Handle"> <!-- Numeric input typecast automatically --> <input v-model.number="userAge" type="number" placeholder="Age"> <!-- Submits on Ctrl + Enter --> <textarea @keydown.ctrl.enter="submitForm" placeholder="Press Ctrl+Enter to submit"></textarea> </form> </body> </html>' width="100%" height="250" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 
 
@@ -2255,6 +2283,8 @@ Custom directives provide low-level direct DOM manipulation hooks on elements.
 
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <style></style> </head> <body> <div id="app"> <p v-uppercase>Click this text to transform it to uppercase!</p> </div> <script> const { createApp } = Vue; const app = createApp({}); // Register directive globally app.directive(&apos;uppercase&apos;, { mounted(el) { el.style.cursor = &apos;pointer&apos;; el.addEventListener(&apos;click&apos;, () => { el.textContent = el.textContent.toUpperCase(); }); } }); app.mount(&apos;#app&apos;); </script> </body> </html>' width="100%" height="250" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 
 
 #### Implementation 2: `v-list` (Dynamically generates and mounts `<ul>`/`<li>` DOM nodes)
@@ -2317,6 +2347,8 @@ Custom directives provide low-level direct DOM manipulation hooks on elements.
 
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <style></style> </head> <body> <div id="app"> <div v-list="technologies"></div> </div> <script> const { createApp } = Vue; createApp({ data() { return { technologies: [&apos;Vue.js 3&apos;, &apos;Bootstrap 5&apos;, &apos;Tailwind CSS&apos;, &apos;React 18&apos;] }; } }) .directive(&apos;list&apos;, { mounted(el, binding) { const ul = document.createElement(&apos;ul&apos;); ul.className = &apos;list-disc pl-5 space-y-1 text-slate-700&apos;; binding.value.forEach(itemText => { const li = document.createElement(&apos;li&apos;); li.textContent = itemText; ul.appendChild(li); }); el.appendChild(ul); } }) .mount(&apos;#app&apos;); </script> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 
 
 #### Implementation 3: `v-format-date` (Localized Date Formatting Directive)
@@ -2370,6 +2402,8 @@ Custom directives provide low-level direct DOM manipulation hooks on elements.
 </script>
 
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> <style>body { padding: 16px; font-family: system-ui, sans-serif; background: #f8fafc; color: #0f172a; }</style> </head> <body> <div id="app"> <p v-format-date="orderDate"></p> </div> <script> const { createApp } = Vue; createApp({ data() { return { orderDate: &apos;2026-09-03T11:45:00Z&apos; }; } }) .directive(&apos;format-date&apos;, { mounted(el, binding) { const dateObj = new Date(binding.value); const options = { year: &apos;numeric&apos;, month: &apos;long&apos;, day: &apos;numeric&apos;, hour: &apos;2-digit&apos;, minute: &apos;2-digit&apos; }; el.textContent = new Intl.DateTimeFormat(&apos;en-US&apos;, options).format(dateObj); el.className = &apos;font-semibold text-sky-700&apos;; } }) .mount(&apos;#app&apos;); </script> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 
 
@@ -3939,6 +3973,8 @@ $$
 
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> <style>body { padding: 16px; font-family: system-ui, sans-serif; background: #f8fafc; color: #0f172a; }</style> </head> <body> <!-- FAILS IN VUE 3: Throws ReferenceError: item is not defined --> <ul> <li v-for="item in inventory" v-if="item.inStock"> {{ item.name }} </li> </ul> </body> </html>' width="100%" height="250" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 **Fix:** In Vue 3, `v-if` has a higher priority than `v-for`. To fix, filter the array beforehand via a `computed` property, or wrap `v-for` inside a `<template>` tag:
 
 ```html
@@ -3958,6 +3994,8 @@ $$
 </ul>
 
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> <style>body { padding: 16px; font-family: system-ui, sans-serif; background: #f8fafc; color: #0f172a; }</style> </head> <body> <ul> <template v-for="item in inventory" :key="item.id"> <li v-if="item.inStock"> {{ item.name }} </li> </template> </ul> </body> </html>' width="100%" height="250" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 
 

@@ -37,6 +37,8 @@ The fastest way to include Bootstrap is via the CDN. Always include the CSS in `
 </html>
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Bootstrap 5 App</title> <!-- Bootstrap 5 CSS (CDN with SRI) --> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> </head> <body> <!-- Page content --> <!-- Bootstrap JS Bundle (includes Popper.js) --> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmS8GW3QgdnfwFvkFXjqhpqSl8y" crossorigin="anonymous"> </script> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 ---
 
 ## 2. Container System
@@ -72,6 +74,8 @@ Containers are the foundational layout element — they center and horizontally 
   <p>100% wide on mobile/tablet, bounded at 992px+</p>
 </div>
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Fixed container — bounded at each breakpoint --> <div class="container"> <h1>Fixed Container</h1> <p>This content is centered with max-width at each breakpoint.</p> </div> <!-- Full-width fluid container --> <div class="container-fluid bg-primary text-white p-4"> <h1>Full-Width Fluid Container</h1> </div> <!-- Responsive container — fluid until lg breakpoint --> <div class="container-lg"> <p>100% wide on mobile/tablet, bounded at 992px+</p> </div> </body> </html>' width="100%" height="250" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 ---
 
@@ -143,6 +147,8 @@ Bootstrap's 12-column flexbox grid: wrap columns in `.row` inside any `.containe
 </div>
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Basic 2-column layout --> <div class="container"> <div class="row"> <div class="col-sm-8 bg-primary text-white p-3">col-sm-8</div> <div class="col-sm-4 bg-secondary text-white p-3">col-sm-4</div> </div> </div> <!-- Auto-layout equal-width columns --> <div class="container"> <div class="row"> <div class="col bg-info p-2">1 of 3</div> <div class="col bg-warning p-2">2 of 3</div> <div class="col bg-success p-2">3 of 3</div> </div> </div> <!-- Responsive column stacking: 12→6→4 columns per row --> <div class="container"> <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"> <div class="col"><div class="card p-3">Card 1</div></div> <div class="col"><div class="card p-3">Card 2</div></div> <div class="col"><div class="card p-3">Card 3</div></div> </div> </div> <!-- Mixed: one fixed column, one fills remaining --> <div class="container"> <div class="row"> <div class="col-md-3 bg-dark text-white p-3">Sidebar (3 cols)</div> <div class="col-md-9 bg-light p-3">Main Content (9 cols)</div> </div> </div> <!-- Gutters: control spacing between columns --> <div class="container"> <div class="row g-4"> <!-- g-0 to g-5 --> <div class="col-6"><div class="p-3 bg-light border">Column 1</div></div> <div class="col-6"><div class="p-3 bg-light border">Column 2</div></div> </div> </div> <!-- Offset columns --> <div class="container"> <div class="row"> <div class="col-md-4 offset-md-4 bg-primary text-white p-3"> Centered (offset 4) </div> </div> </div> </body> </html>' width="100%" height="600" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 ---
 
 ## 4. Typography & Color System
@@ -178,6 +184,8 @@ Bootstrap's 12-column flexbox grid: wrap columns in `.row` inside any `.containe
 <p class="fs-6">Smallest (fs-6)</p>
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Display headings — large, impactful --> <h1 class="display-1">Display 1</h1> <h2 class="display-2">Display 2</h2> <h3 class="display-6">Display 6 (smallest)</h3> <!-- Regular headings with heading utilities --> <p class="h1">Paragraph styled as H1</p> <p class="h3">Paragraph styled as H3</p> <!-- Lead paragraph --> <p class="lead">This is a leading paragraph that stands out from regular body text.</p> <!-- Text utilities --> <p class="text-center fw-bold">Bold, centered text</p> <p class="text-end fst-italic">Italic, right-aligned</p> <p class="text-uppercase text-muted">Muted uppercase text</p> <p class="text-truncate" style="max-width: 200px;">This long text is truncated...</p> <!-- Text decorations --> <p class="text-decoration-underline">Underlined text</p> <p class="text-decoration-line-through">Strikethrough text</p> <!-- Font sizes (fs-1 = 2.5rem, fs-6 = 1rem) --> <p class="fs-1">Largest (fs-1)</p> <p class="fs-4">Medium (fs-4)</p> <p class="fs-6">Smallest (fs-6)</p> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 ### Theme Colors
 
 | Color Name | Background | Text | Button | Border |
@@ -201,6 +209,8 @@ Bootstrap's 12-column flexbox grid: wrap columns in `.row` inside any `.containe
 <span class="badge bg-success">Approved</span>
 <span class="badge bg-danger rounded-pill">99+</span>
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Semantic color usage --> <div class="alert alert-success">Operation completed successfully.</div> <div class="alert alert-danger">An error occurred. Please try again.</div> <div class="alert alert-warning">Warning: This action is irreversible.</div> <p class="text-primary bg-dark p-2">Blue text on dark background.</p> <span class="badge bg-success">Approved</span> <span class="badge bg-danger rounded-pill">99+</span> </body> </html>' width="100%" height="250" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 ---
 
@@ -234,6 +244,8 @@ Format: `{property}{sides}-{breakpoint}-{size}`
   <div>Item 3</div>
 </div>
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Padding --> <div class="p-4">4-side padding 1.5rem</div> <div class="px-5 py-2">Horizontal 3rem, vertical 0.5rem</div> <div class="pt-3 pb-0">Top 1rem, bottom 0</div> <!-- Margin --> <div class="mt-5">Top margin 3rem</div> <div class="mx-auto" style="width:200px;">Horizontally centered block</div> <div class="ms-auto">Pushed to the right (margin-start auto)</div> <div class="mb-2 me-3">Bottom + right margin</div> <!-- Responsive spacing (md and up) --> <div class="p-2 p-md-5">Sm padding on mobile, larger on desktop</div> <!-- Gap utilities (for flex/grid) --> <div class="d-flex gap-3"> <div>Item 1</div> <div>Item 2</div> <div>Item 3</div> </div> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 ---
 
@@ -289,6 +301,8 @@ Format: `{property}{sides}-{breakpoint}-{size}`
 </div>
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Basic flex container --> <div class="d-flex justify-content-between align-items-center"> <span>Left</span> <span>Center</span> <span>Right</span> </div> <!-- Direction --> <div class="d-flex flex-column gap-2"> <div>Top</div> <div>Middle</div> <div>Bottom</div> </div> <!-- Flex wrapping --> <div class="d-flex flex-wrap gap-2"> <div class="p-2 bg-primary text-white">Tag 1</div> <div class="p-2 bg-primary text-white">Tag 2</div> <div class="p-2 bg-primary text-white">Tag 3</div> </div> <!-- Flex grow/shrink --> <div class="d-flex"> <div class="flex-grow-1 bg-success text-white p-2">Grows to fill space</div> <div class="flex-shrink-0 bg-danger text-white p-2">Fixed size</div> </div> <!-- Order utilities --> <div class="d-flex"> <div class="order-3 bg-info p-2">First in HTML, shows 3rd</div> <div class="order-1 bg-warning p-2">Second in HTML, shows 1st</div> <div class="order-2 bg-success p-2">Third in HTML, shows 2nd</div> </div> <!-- Justify content options --> <!-- justify-content-start | end | center | between | around | evenly --> <div class="d-flex justify-content-evenly"> <div class="p-2 bg-primary text-white">A</div> <div class="p-2 bg-secondary text-white">B</div> <div class="p-2 bg-success text-white">C</div> </div> <!-- Align items options --> <!-- align-items-start | end | center | baseline | stretch --> <div class="d-flex align-items-center" style="height:80px; background:#f0f0f0"> <div class="p-2 bg-danger text-white">Vertically Centered</div> </div> </body> </html>' width="100%" height="600" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 ---
 
 ## 7. UI Components
@@ -332,6 +346,8 @@ Format: `{property}{sides}-{breakpoint}-{size}`
   <button class="btn btn-outline-primary">Right</button>
 </div>
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Solid buttons --> <button class="btn btn-primary">Primary</button> <button class="btn btn-secondary">Secondary</button> <button class="btn btn-success">Success</button> <button class="btn btn-danger">Danger</button> <button class="btn btn-warning">Warning</button> <button class="btn btn-info">Info</button> <button class="btn btn-light">Light</button> <button class="btn btn-dark">Dark</button> <!-- Outline buttons --> <button class="btn btn-outline-primary">Outline Primary</button> <button class="btn btn-outline-danger">Outline Danger</button> <!-- Sizes --> <button class="btn btn-primary btn-lg">Large Button</button> <button class="btn btn-primary btn-sm">Small Button</button> <!-- Full-width (block) button --> <button class="btn btn-success w-100">Full Width</button> <!-- Disabled state --> <button class="btn btn-primary" disabled>Disabled</button> <!-- Button with badge --> <button class="btn btn-primary"> Notifications <span class="badge bg-danger">4</span> </button> <!-- Button group --> <div class="btn-group"> <button class="btn btn-outline-primary">Left</button> <button class="btn btn-outline-primary">Middle</button> <button class="btn btn-outline-primary">Right</button> </div> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 ### Cards
 
@@ -386,6 +402,8 @@ Format: `{property}{sides}-{breakpoint}-{size}`
 </div>
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Standard card --> <div class="card" style="width: 18rem;"> <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Card image"> <div class="card-body"> <h5 class="card-title">Card Title</h5> <p class="card-text">A simple card with body text, an image header, and a button.</p> <a href="#" class="btn btn-primary">Go somewhere</a> </div> </div> <!-- Card with header and footer --> <div class="card"> <div class="card-header">Featured Article</div> <div class="card-body"> <h5 class="card-title">Special title treatment</h5> <p class="card-text">With supporting text below as a natural lead-in.</p> <a href="#" class="btn btn-primary">Go somewhere</a> </div> <div class="card-footer text-muted">2 days ago</div> </div> <!-- Horizontal card --> <div class="card"> <div class="row g-0"> <div class="col-4"> <img src="https://via.placeholder.com/200" class="img-fluid rounded-start" alt="..."> </div> <div class="col-8"> <div class="card-body"> <h5 class="card-title">Horizontal Card</h5> <p class="card-text">This is a wider card with a photo on the side.</p> </div> </div> </div> </div> <!-- Card group (equal height cards) --> <div class="card-group"> <div class="card"> <div class="card-body"><h5 class="card-title">Card 1</h5><p class="card-text">Short content.</p></div> </div> <div class="card"> <div class="card-body"><h5 class="card-title">Card 2</h5><p class="card-text">Longer content here makes all cards equal height.</p></div> </div> <div class="card"> <div class="card-body"><h5 class="card-title">Card 3</h5><p class="card-text">Medium.</p></div> </div> </div> </body> </html>' width="100%" height="600" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 ### Navbar
 
 ```html
@@ -436,6 +454,8 @@ Format: `{property}{sides}-{breakpoint}-{size}`
 </nav>
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Full responsive navbar --> <nav class="navbar navbar-expand-lg bg-dark navbar-dark"> <div class="container-fluid"> <!-- Brand logo/name --> <a class="navbar-brand" href="#">MyApp</a> <!-- Hamburger toggle for mobile --> <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button> <!-- Collapsible nav links --> <div class="collapse navbar-collapse" id="mainNav"> <ul class="navbar-nav me-auto mb-2 mb-lg-0"> <li class="nav-item"> <a class="nav-link active" aria-current="page" href="#">Home</a> </li> <li class="nav-item"> <a class="nav-link" href="#">Features</a> </li> <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> Dropdown </a> <ul class="dropdown-menu"> <li><a class="dropdown-item" href="#">Action 1</a></li> <li><a class="dropdown-item" href="#">Action 2</a></li> <li><hr class="dropdown-divider"></li> <li><a class="dropdown-item" href="#">Separated link</a></li> </ul> </li> </ul> <!-- Right-aligned items --> <form class="d-flex" role="search"> <input class="form-control me-2" type="search" placeholder="Search"> <button class="btn btn-outline-success" type="submit">Search</button> </form> </div> </div> </nav> </body> </html>' width="100%" height="350" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 ### Modal
 
 ```html
@@ -463,6 +483,8 @@ Format: `{property}{sides}-{breakpoint}-{size}`
   </div>
 </div>
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Trigger button --> <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> Launch Demo Modal </button> <!-- Modal structure --> <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h5 class="modal-title" id="modalLabel">Modal Title</h5> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> This is the modal body. You can put any HTML content here. </div> <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button> <button type="button" class="btn btn-primary">Save Changes</button> </div> </div> </div> </div> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 ### Forms
 
@@ -544,6 +566,8 @@ Format: `{property}{sides}-{breakpoint}-{size}`
 </form>
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <form> <!-- Text input --> <div class="mb-3"> <label for="email" class="form-label">Email address</label> <input type="email" class="form-control" id="email" placeholder="name@example.com"> <div class="form-text">We&apos;ll never share your email with anyone else.</div> </div> <!-- Password --> <div class="mb-3"> <label for="password" class="form-label">Password</label> <input type="password" class="form-control" id="password"> </div> <!-- Select dropdown --> <div class="mb-3"> <label for="roleSelect" class="form-label">Role</label> <select class="form-select" id="roleSelect"> <option selected>Choose a role...</option> <option value="1">Student</option> <option value="2">Teacher</option> <option value="3">Admin</option> </select> </div> <!-- Checkbox --> <div class="mb-3 form-check"> <input type="checkbox" class="form-check-input" id="acceptTerms"> <label class="form-check-label" for="acceptTerms">Accept Terms & Conditions</label> </div> <!-- Radio buttons --> <div class="mb-3"> <div class="form-check"> <input class="form-check-input" type="radio" name="gender" id="male" value="male"> <label class="form-check-label" for="male">Male</label> </div> <div class="form-check"> <input class="form-check-input" type="radio" name="gender" id="female" value="female"> <label class="form-check-label" for="female">Female</label> </div> </div> <!-- Textarea --> <div class="mb-3"> <label for="message" class="form-label">Message</label> <textarea class="form-control" id="message" rows="4" placeholder="Your message..."></textarea> </div> <!-- File input --> <div class="mb-3"> <label for="fileUpload" class="form-label">Upload File</label> <input class="form-control" type="file" id="fileUpload"> </div> <!-- Validation states --> <div class="mb-3"> <label class="form-label">Valid Input</label> <input type="text" class="form-control is-valid" value="Correct value"> <div class="valid-feedback">Looks good!</div> </div> <div class="mb-3"> <label class="form-label">Invalid Input</label> <input type="text" class="form-control is-invalid"> <div class="invalid-feedback">This field is required.</div> </div> <!-- Input group --> <div class="input-group mb-3"> <span class="input-group-text">@</span> <input type="text" class="form-control" placeholder="Username"> </div> <button type="submit" class="btn btn-primary w-100">Submit Form</button> </form> </body> </html>' width="100%" height="600" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 ### Alerts & Toasts
 
 ```html
@@ -558,6 +582,8 @@ Format: `{property}{sides}-{breakpoint}-{size}`
 <div class="alert alert-success">✅ Your profile has been updated successfully.</div>
 <div class="alert alert-danger">❌ Failed to connect to the server.</div>
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Dismissible alert --> <div class="alert alert-warning alert-dismissible fade show" role="alert"> <strong>Warning!</strong> Your session will expire in 5 minutes. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> </div> <!-- Static alerts (no dismiss) --> <div class="alert alert-info">ℹ️ System maintenance scheduled for Sunday 2AM.</div> <div class="alert alert-success">✅ Your profile has been updated successfully.</div> <div class="alert alert-danger">❌ Failed to connect to the server.</div> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 ### Accordion
 
@@ -590,6 +616,8 @@ Format: `{property}{sides}-{breakpoint}-{size}`
 </div>
 ```
 
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <div class="accordion" id="faqAccordion"> <div class="accordion-item"> <h2 class="accordion-header"> <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1"> What is Bootstrap? </button> </h2> <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion"> <div class="accordion-body"> Bootstrap is a free, open-source front-end framework for responsive web design. </div> </div> </div> <div class="accordion-item"> <h2 class="accordion-header"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2"> Does Bootstrap 5 need jQuery? </button> </h2> <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"> <div class="accordion-body"> No. Bootstrap 5 dropped jQuery completely and now uses vanilla JavaScript only. </div> </div> </div> </div> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+
 ### Progress Bar
 
 ```html
@@ -610,6 +638,8 @@ Format: `{property}{sides}-{breakpoint}-{size}`
   <div class="progress-bar bg-danger" style="width:15%">15%</div>
 </div>
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Basic progress --> <div class="progress mb-3"> <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div> </div> <!-- Striped and animated --> <div class="progress mb-3"> <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 80%"></div> </div> <!-- Multiple sections (stacked) --> <div class="progress"> <div class="progress-bar bg-success" style="width:40%">40%</div> <div class="progress-bar bg-warning" style="width:20%">20%</div> <div class="progress-bar bg-danger" style="width:15%">15%</div> </div> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 ---
 
@@ -720,6 +750,8 @@ Format: `{property}{sides}-{breakpoint}-{size}`
 <div class="opacity-50">50% opaque</div>
 <div class="opacity-25">25% opaque</div>
 ```
+
+<iframe srcdoc='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <style>body { padding: 16px; }</style> </head> <body> <!-- Display utilities --> <div class="d-none d-md-block">Hidden on mobile, visible on md+</div> <div class="d-block d-lg-none">Visible on mobile, hidden on lg+</div> <!-- Position utilities --> <div class="position-relative"> <span class="position-absolute top-0 end-0 badge bg-danger">New</span> Content with badge in corner </div> <!-- Shadow utilities --> <div class="shadow-sm p-3 mb-3">Small shadow</div> <div class="shadow p-3 mb-3">Regular shadow</div> <div class="shadow-lg p-3 mb-3">Large shadow</div> <!-- Rounded corners --> <img class="rounded" src="img.jpg" alt=""> <img class="rounded-circle" src="img.jpg" alt="" style="width:64px;height:64px;"> <img class="rounded-pill" src="img.jpg" alt=""> <!-- Border utilities --> <div class="border border-primary p-2">Blue border</div> <div class="border-0 p-2">No border</div> <div class="border border-2 rounded p-2">Thick border + rounded</div> <!-- Overflow utilities --> <div class="overflow-auto" style="max-height:150px;">Scrollable content...</div> <div class="overflow-hidden">Clipped content</div> <!-- Z-index --> <div class="z-0">Base layer</div> <div class="z-3">Elevated layer</div> <!-- Opacity utilities --> <div class="opacity-75">75% opaque</div> <div class="opacity-50">50% opaque</div> <div class="opacity-25">25% opaque</div> </body> </html>' width="100%" height="400" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 ---
 
