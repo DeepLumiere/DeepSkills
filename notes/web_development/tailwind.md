@@ -1,161 +1,666 @@
-# Tailwind CSS Comprehensive Guide
+# Tailwind CSS — Complete Utility-First Reference
 
 Tailwind CSS is a utility-first CSS framework packed with classes like `flex`, `pt-4`, `text-center`, and `rotate-90` that can be composed to build any design, directly in your markup.
 
 > [!NOTE]
-> Unlike Bootstrap, Tailwind does not provide pre-designed UI components (like a `.card` or `.navbar`). Instead, it provides low-level utility classes that let you build completely custom designs without leaving your HTML.
+> Unlike Bootstrap, Tailwind does **not** provide pre-designed UI components. Instead, it gives you low-level utility classes to build completely custom designs without writing CSS.
 
-## 1. Utility-First Architecture & JIT Compiler
+---
 
-The core philosophy of Tailwind is applying single-purpose CSS classes directly to HTML elements.
+## 1. CDN Setup (Play CDN)
 
-Tailwind's Just-In-Time (JIT) compiler scans your HTML/JS files for class names and generates the corresponding CSS on demand. This ensures your final CSS bundle is extremely small, as it only includes the classes you actually used.
+The Tailwind Play CDN is for development and prototyping — it dynamically generates CSS at runtime. For production, use the Tailwind CLI or PostCSS build step.
 
 ```html
-<!-- Building a "Card" component from scratch using utilities -->
-<div class="max-w-sm rounded overflow-hidden shadow-lg bg-white p-6">
-  <div class="font-bold text-xl mb-2 text-gray-800">The Coldest Sunset</div>
-  <p class="text-gray-700 text-base">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tailwind App</title>
+
+  <!-- Tailwind CSS Play CDN (dev only — not for production) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Optional: extend the default theme -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#0284c7'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <!-- Your content here -->
+</body>
+</html>
+```
+
+---
+
+## 2. Spacing — Margin & Padding
+
+Tailwind's spacing scale is based on a **4px grid**: `1 unit = 0.25rem = 4px`.
+
+| Class | Value |
+| :--- | :--- |
+| `p-0` | `padding: 0` |
+| `p-1` | `padding: 0.25rem (4px)` |
+| `p-2` | `padding: 0.5rem (8px)` |
+| `p-4` | `padding: 1rem (16px)` |
+| `p-8` | `padding: 2rem (32px)` |
+| `p-16` | `padding: 4rem (64px)` |
+
+```html
+<!-- Padding all sides -->
+<div class="p-4">Padding 1rem all around</div>
+<div class="p-8">Padding 2rem all around</div>
+
+<!-- Directional padding -->
+<div class="pt-6 pb-2 pl-4 pr-4">Top 1.5rem, Bottom 0.5rem, L/R 1rem</div>
+<div class="px-8 py-4">Horizontal 2rem, Vertical 1rem</div>
+
+<!-- Margin -->
+<div class="mt-8 mb-4">Margin top 2rem, bottom 1rem</div>
+<div class="mx-auto max-w-md">Horizontally centered, max-width 28rem</div>
+<div class="ml-auto">Pushed to the right</div>
+
+<!-- Negative margin -->
+<div class="-mt-4">Negative top margin (overlap)</div>
+
+<!-- Space between children (flex/grid) -->
+<div class="flex gap-4">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</div>
+
+<!-- Space-x / space-y (margin-based spacing) -->
+<div class="flex space-x-4">
+  <div>Item 1</div>
+  <div>Item 2</div>
+</div>
+
+<div class="flex flex-col space-y-2">
+  <p>Row 1</p>
+  <p>Row 2</p>
+  <p>Row 3</p>
+</div>
+```
+
+---
+
+## 3. Typography
+
+```html
+<!-- Font sizes -->
+<p class="text-xs">Extra Small (12px)</p>
+<p class="text-sm">Small (14px)</p>
+<p class="text-base">Base (16px)</p>
+<p class="text-lg">Large (18px)</p>
+<p class="text-xl">XL (20px)</p>
+<p class="text-2xl">2XL (24px)</p>
+<p class="text-4xl">4XL (36px)</p>
+<p class="text-6xl">6XL (60px)</p>
+<p class="text-9xl">9XL (128px)</p>
+
+<!-- Font weight -->
+<p class="font-thin">Thin (100)</p>
+<p class="font-light">Light (300)</p>
+<p class="font-normal">Normal (400)</p>
+<p class="font-medium">Medium (500)</p>
+<p class="font-semibold">Semibold (600)</p>
+<p class="font-bold">Bold (700)</p>
+<p class="font-extrabold">Extra Bold (800)</p>
+<p class="font-black">Black (900)</p>
+
+<!-- Text alignment -->
+<p class="text-left">Left aligned</p>
+<p class="text-center">Center aligned</p>
+<p class="text-right">Right aligned</p>
+<p class="text-justify">Justified text spans the full width</p>
+
+<!-- Text color (from color palette) -->
+<p class="text-slate-900">Slate 900 (near black)</p>
+<p class="text-blue-600">Blue 600</p>
+<p class="text-emerald-500">Emerald 500</p>
+<p class="text-red-400">Red 400</p>
+<p class="text-zinc-400">Zinc 400 (muted)</p>
+
+<!-- Line height -->
+<p class="leading-none">Leading none (1)</p>
+<p class="leading-tight">Leading tight (1.25)</p>
+<p class="leading-normal">Leading normal (1.5)</p>
+<p class="leading-relaxed">Leading relaxed (1.625)</p>
+<p class="leading-loose">Leading loose (2)</p>
+
+<!-- Letter spacing -->
+<p class="tracking-tighter">Tighter tracking</p>
+<p class="tracking-normal">Normal tracking</p>
+<p class="tracking-widest">Widest tracking (0.1em)</p>
+
+<!-- Text decoration & transform -->
+<p class="underline">Underlined</p>
+<p class="line-through">Strikethrough</p>
+<p class="uppercase">uppercase transform</p>
+<p class="lowercase">LOWERCASE TRANSFORM</p>
+<p class="capitalize">capitalize each word</p>
+
+<!-- Truncate long text -->
+<p class="truncate max-w-xs">This very long text will be truncated with an ellipsis...</p>
+```
+
+---
+
+## 4. Colors — Full Palette Usage
+
+```html
+<!-- Background colors (50 = lightest, 950 = darkest) -->
+<div class="bg-slate-50">Slate 50</div>
+<div class="bg-blue-100">Blue 100</div>
+<div class="bg-sky-500 text-white">Sky 500</div>
+<div class="bg-indigo-700 text-white">Indigo 700</div>
+<div class="bg-violet-900 text-white">Violet 900</div>
+
+<!-- Tailwind color families -->
+<!-- slate, gray, zinc, neutral, stone,
+     red, orange, amber, yellow, lime,
+     green, emerald, teal, cyan, sky,
+     blue, indigo, violet, purple, fuchsia, pink, rose -->
+
+<!-- Border colors -->
+<div class="border-2 border-blue-500">Blue border</div>
+<div class="border border-rose-300">Rose border</div>
+
+<!-- Gradient backgrounds -->
+<div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4">
+  Left-to-right gradient
+</div>
+<div class="bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 text-white p-4">
+  Diagonal gradient with via
+</div>
+<div class="bg-gradient-to-b from-sky-100 to-white p-4">
+  Top to bottom (light)
+</div>
+
+<!-- Ring (focus ring) -->
+<button class="focus:ring-4 focus:ring-blue-300 focus:outline-none p-2">
+  Focus me
+</button>
+
+<!-- Divide utilities -->
+<div class="divide-y divide-slate-200">
+  <p class="py-2">Section 1</p>
+  <p class="py-2">Section 2</p>
+  <p class="py-2">Section 3</p>
+</div>
+```
+
+---
+
+## 5. Flexbox Layout
+
+```html
+<!-- ─── Basic flex ──────────────────────────────────────────────── -->
+<div class="flex items-center gap-4 p-4 bg-slate-100 rounded">
+  <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">AV</div>
+  <div>
+    <h3 class="font-semibold">Alice Johnson</h3>
+    <p class="text-sm text-slate-500">Senior Developer</p>
+  </div>
+  <button class="ml-auto bg-blue-500 text-white px-4 py-2 rounded-lg text-sm">Follow</button>
+</div>
+
+<!-- ─── Justify content ─────────────────────────────────────────── -->
+<div class="flex justify-start gap-2">  <!-- start (default) --></div>
+<div class="flex justify-center gap-2"> <!-- center --></div>
+<div class="flex justify-end gap-2">    <!-- end --></div>
+<div class="flex justify-between gap-2"><!-- space between --></div>
+<div class="flex justify-around gap-2"> <!-- space around --></div>
+<div class="flex justify-evenly gap-2"> <!-- equal space --></div>
+
+<!-- ─── Align items ────────────────────────────────────────────── -->
+<div class="flex items-start h-24 bg-slate-100">  <!-- align to top --></div>
+<div class="flex items-center h-24 bg-slate-100"> <!-- center vertical --></div>
+<div class="flex items-end h-24 bg-slate-100">    <!-- align to bottom --></div>
+<div class="flex items-stretch h-24 bg-slate-100"><!-- stretch to full height --></div>
+
+<!-- ─── Flex direction ─────────────────────────────────────────── -->
+<div class="flex flex-row gap-4">     <!-- horizontal (default) -->
+  <div>Left</div><div>Right</div>
+</div>
+<div class="flex flex-col gap-4">    <!-- vertical -->
+  <div>Top</div><div>Bottom</div>
+</div>
+<div class="flex flex-row-reverse">  <!-- reversed horizontal --></div>
+
+<!-- ─── Flex wrap ─────────────────────────────────────────────── -->
+<div class="flex flex-wrap gap-3 p-4">
+  <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">React</span>
+  <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Vue.js</span>
+  <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Tailwind</span>
+  <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Bootstrap</span>
+  <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">JavaScript</span>
+</div>
+
+<!-- ─── Flex grow/shrink ────────────────────────────────────────── -->
+<div class="flex gap-4">
+  <div class="flex-1 bg-blue-200 p-3">Grows equally (flex-1)</div>
+  <div class="flex-1 bg-blue-300 p-3">Grows equally (flex-1)</div>
+  <div class="flex-none w-24 bg-blue-400 p-3">Fixed width</div>
+</div>
+
+<!-- ─── Self alignment ─────────────────────────────────────────── -->
+<div class="flex items-start gap-4 h-32 bg-slate-100 p-2">
+  <div class="self-start bg-red-200 p-2">Top</div>
+  <div class="self-center bg-green-200 p-2">Middle</div>
+  <div class="self-end bg-blue-200 p-2">Bottom</div>
+  <div class="self-stretch bg-purple-200 p-2">Stretch</div>
+</div>
+```
+
+---
+
+## 6. CSS Grid Layout
+
+```html
+<!-- ─── Basic grid ─────────────────────────────────────────────── -->
+<div class="grid grid-cols-3 gap-4">
+  <div class="bg-blue-100 p-4 rounded">Col 1</div>
+  <div class="bg-blue-200 p-4 rounded">Col 2</div>
+  <div class="bg-blue-300 p-4 rounded">Col 3</div>
+</div>
+
+<!-- ─── Responsive grid ────────────────────────────────────────── -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div class="bg-white border rounded-lg p-4 shadow-sm">Card 1</div>
+  <div class="bg-white border rounded-lg p-4 shadow-sm">Card 2</div>
+  <div class="bg-white border rounded-lg p-4 shadow-sm">Card 3</div>
+  <div class="bg-white border rounded-lg p-4 shadow-sm">Card 4</div>
+</div>
+
+<!-- ─── Column spanning ────────────────────────────────────────── -->
+<div class="grid grid-cols-6 gap-4">
+  <div class="col-span-4 bg-blue-100 p-4">Wide (4 cols)</div>
+  <div class="col-span-2 bg-blue-200 p-4">Narrow (2 cols)</div>
+  <div class="col-span-2 bg-green-100 p-4">2 cols</div>
+  <div class="col-span-2 bg-green-200 p-4">2 cols</div>
+  <div class="col-span-2 bg-green-300 p-4">2 cols</div>
+</div>
+
+<!-- ─── Auto-fill responsive grid ─────────────────────────────── -->
+<div class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
+  <div class="bg-slate-100 p-4 rounded">Auto card 1</div>
+  <div class="bg-slate-100 p-4 rounded">Auto card 2</div>
+  <div class="bg-slate-100 p-4 rounded">Auto card 3</div>
+</div>
+
+<!-- ─── Grid rows + areas ──────────────────────────────────────── -->
+<div class="grid grid-rows-3 grid-flow-col gap-4">
+  <div class="row-span-2 bg-indigo-100 p-4">Spans 2 rows</div>
+  <div class="bg-indigo-200 p-4">Cell</div>
+  <div class="bg-indigo-200 p-4">Cell</div>
+  <div class="bg-indigo-200 p-4">Cell</div>
+</div>
+```
+
+---
+
+## 7. Responsive Design (Mobile-First)
+
+Every Tailwind utility can be prefixed with a breakpoint to apply conditionally.
+
+| Prefix | Min Width | Typical Target |
+| :--- | :--- | :--- |
+| *(none)* | 0px | All screens (mobile base) |
+| `sm:` | 640px | Large phones / small tablets |
+| `md:` | 768px | Tablets |
+| `lg:` | 1024px | Laptops |
+| `xl:` | 1280px | Desktops |
+| `2xl:` | 1536px | Wide monitors |
+
+```html
+<!-- Text size: sm on mobile, larger on desktop -->
+<h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold">
+  Responsive Heading
+</h1>
+
+<!-- Grid: 1 col → 2 col → 4 col -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+  <div>Card</div><div>Card</div><div>Card</div><div>Card</div>
+</div>
+
+<!-- Sidebar layout: stacked on mobile, side-by-side on lg+ -->
+<div class="flex flex-col lg:flex-row gap-6">
+  <aside class="w-full lg:w-64 bg-slate-100 p-4">Sidebar</aside>
+  <main class="flex-1 bg-white p-4">Main Content</main>
+</div>
+
+<!-- Hide/show at breakpoints -->
+<nav class="hidden lg:flex items-center gap-6">Desktop Nav</nav>
+<button class="lg:hidden">☰ Mobile Menu</button>
+
+<!-- Padding responsive -->
+<div class="p-4 md:p-8 xl:p-16">Responsive padding</div>
+
+<!-- Rounded: change at breakpoints -->
+<div class="rounded-none sm:rounded-md lg:rounded-xl">
+  Corner radius changes at breakpoints
+</div>
+```
+
+---
+
+## 8. State Variants & Interactive Modifiers
+
+```html
+<!-- ─── Hover ─────────────────────────────────────────────────── -->
+<button class="bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-200">
+  Hover to darken
+</button>
+
+<div class="text-slate-600 hover:text-blue-600 cursor-pointer transition-colors">
+  Hover to change color
+</div>
+
+<div class="transform hover:scale-105 hover:shadow-xl transition-all duration-200">
+  Hover to scale up
+</div>
+
+<!-- ─── Focus ─────────────────────────────────────────────────── -->
+<input class="border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none rounded-lg px-4 py-2"
+       placeholder="Focus to highlight">
+
+<!-- ─── Active (during click) ─────────────────────────────────── -->
+<button class="bg-blue-500 active:bg-blue-800 active:scale-95 text-white px-6 py-3 rounded-lg transition-all">
+  Press me
+</button>
+
+<!-- ─── Disabled state ─────────────────────────────────────────── -->
+<button class="bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg" disabled>
+  Disabled Button
+</button>
+
+<!-- ─── Group hover (parent triggers child styles) ────────────── -->
+<div class="group bg-white hover:bg-blue-600 p-6 rounded-xl border transition-all duration-200 cursor-pointer">
+  <h3 class="group-hover:text-white font-bold transition-colors">Card Title</h3>
+  <p class="text-slate-500 group-hover:text-blue-100 text-sm transition-colors">
+    Entire card changes when you hover
   </p>
 </div>
-```
 
----
+<!-- ─── Peer modifier (sibling affects sibling) ─────────────────── -->
+<div>
+  <input type="checkbox" id="toggle" class="peer hidden">
+  <label for="toggle" class="cursor-pointer bg-slate-200 peer-checked:bg-blue-500 text-sm px-4 py-2 rounded-full transition-colors">
+    Toggle
+  </label>
+  <p class="hidden peer-checked:block mt-2 text-blue-600">Revealed by checkbox!</p>
+</div>
 
-## 2. Core Utility Categories
-
-### Spacing (Margin & Padding)
-
-Tailwind's spacing scale is based on a `4px` grid. $1\text{ unit} = 0.25\text{rem} = 4\text{px}$.
-
-- `p-{size}`: Padding all sides (e.g., `p-4` = $1\text{rem}$)
-- `px-{size}`: Padding x-axis (left/right)
-- `py-{size}`: Padding y-axis (top/bottom)
-- `pt-{size}`, `pr-{size}`, `pb-{size}`, `pl-{size}`: Specific sides
-- `m-{size}`: Margin (follows same axis/side rules as padding)
-
-```html
-<div class="pt-6 px-4 mb-8">...</div>
-```
-
-### Typography
-
-Controls font family, size, weight, color, and alignment.
-
-- **Size**: `text-xs`, `text-sm`, `text-base`, `text-lg`, `text-xl`, `text-2xl`, etc.
-- **Weight**: `font-light`, `font-normal`, `font-medium`, `font-semibold`, `font-bold`
-- **Alignment**: `text-left`, `text-center`, `text-right`, `text-justify`
-- **Color**: `text-{color}-{shade}` (e.g., `text-blue-500`)
-
-```html
-<h1 class="text-3xl font-bold text-slate-900 text-center">Hello World</h1>
-```
-
-### Color Palette
-
-Tailwind provides an extensive default color palette ranging from `50` (lightest) to `950` (darkest).
-
-- **Backgrounds**: `bg-{color}-{shade}` (e.g., `bg-red-500`)
-- **Text**: `text-{color}-{shade}`
-- **Borders**: `border-{color}-{shade}`
-
----
-
-## 3. Flexbox & Grid Layouts
-
-Tailwind makes building complex layouts easy without writing custom CSS.
-
-### Flexbox
-
-```html
-<div class="flex flex-row justify-between items-center gap-4">
-  <div class="flex-1 bg-blue-200 p-4">Item 1</div>
-  <div class="flex-none bg-blue-300 p-4">Item 2</div>
+<!-- ─── Dark mode ────────────────────────────────────────────── -->
+<div class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white p-6">
+  Adapts to OS dark mode
 </div>
 ```
-- `flex`: Sets `display: flex`
-- `flex-row` / `flex-col`: Direction
-- `justify-{start|center|end|between|around}`: Main axis alignment
-- `items-{start|center|end|stretch}`: Cross axis alignment
-- `gap-{size}`: Spacing between flex items
-
-### CSS Grid
-
-```html
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-  <div class="bg-gray-100 p-4">Col 1</div>
-  <div class="bg-gray-100 p-4">Col 2</div>
-  <div class="bg-gray-100 p-4">Col 3</div>
-</div>
-```
-- `grid`: Sets `display: grid`
-- `grid-cols-{n}`: Specifies the number of columns
-- `col-span-{n}`: Makes an item span multiple columns
 
 ---
 
-## 4. Modifiers (Hover, Focus, and States)
-
-Tailwind allows you to conditionally apply utility classes using modifier prefixes.
-
-### State Modifiers
-- `hover:`: Applies when the mouse is over the element.
-- `focus:`: Applies when the element is focused.
-- `active:`: Applies when the element is being clicked.
-- `disabled:`: Applies when the element is disabled.
+## 9. Borders, Shadows & Effects
 
 ```html
-<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:ring-4 focus:ring-blue-300">
-  Click me
+<!-- ─── Borders ──────────────────────────────────────────────── -->
+<div class="border">Default 1px border</div>
+<div class="border-2 border-blue-500">2px blue border</div>
+<div class="border-4 border-dashed border-red-400">4px dashed red</div>
+<div class="border-0">No border</div>
+<div class="border-t-2 border-blue-500">Top border only</div>
+
+<!-- ─── Border radius ─────────────────────────────────────────── -->
+<div class="rounded-none p-2">Sharp corners</div>
+<div class="rounded p-2">Default rounded (4px)</div>
+<div class="rounded-md p-2">Medium (6px)</div>
+<div class="rounded-lg p-2">Large (8px)</div>
+<div class="rounded-xl p-2">Extra large (12px)</div>
+<div class="rounded-2xl p-2">2XL (16px)</div>
+<div class="rounded-full p-2">Full pill</div>
+<img class="rounded-full w-16 h-16" src="avatar.jpg" alt="Avatar">
+
+<!-- ─── Box shadows ────────────────────────────────────────────── -->
+<div class="shadow-none p-4">No shadow</div>
+<div class="shadow-sm p-4">Small shadow</div>
+<div class="shadow p-4">Default shadow</div>
+<div class="shadow-md p-4">Medium shadow</div>
+<div class="shadow-lg p-4">Large shadow</div>
+<div class="shadow-xl p-4">XL shadow</div>
+<div class="shadow-2xl p-4">2XL shadow</div>
+<div class="shadow-inner p-4">Inset shadow</div>
+<div class="shadow-blue-500/50 shadow-lg p-4">Colored shadow</div>
+
+<!-- ─── Opacity ────────────────────────────────────────────────── -->
+<div class="opacity-100">100% opaque</div>
+<div class="opacity-75">75%</div>
+<div class="opacity-50">50%</div>
+<div class="opacity-25">25%</div>
+<div class="opacity-0">Invisible</div>
+
+<!-- ─── Image filters ──────────────────────────────────────────── -->
+<img class="grayscale" src="img.jpg" alt="">           <!-- Black & white -->
+<img class="grayscale hover:grayscale-0 transition" src="img.jpg" alt=""> <!-- Color on hover -->
+<img class="blur-sm" src="img.jpg" alt="">             <!-- Slight blur -->
+<img class="brightness-50" src="img.jpg" alt="">       <!-- Darker -->
+<img class="brightness-125" src="img.jpg" alt="">      <!-- Brighter -->
+<img class="contrast-150" src="img.jpg" alt="">        <!-- High contrast -->
+<img class="saturate-200" src="img.jpg" alt="">        <!-- Vivid colors -->
+<img class="sepia" src="img.jpg" alt="">               <!-- Sepia tone -->
+```
+
+---
+
+## 10. Arbitrary Values
+
+When you need a value not in the default scale, use bracket syntax `[]`:
+
+```html
+<!-- Exact pixel size -->
+<div class="w-[380px] h-[220px]">Exact 380×220</div>
+
+<!-- Exact color (hex, hsl, rgb) -->
+<div class="bg-[#bada55] text-[#1a1a2e]">Custom hex color</div>
+<div class="bg-[hsl(210,100%,56%)]">HSL color</div>
+
+<!-- CSS variables -->
+<div class="bg-[var(--brand-color)]">CSS variable</div>
+
+<!-- Exact spacing -->
+<div class="mt-[117px]">Exact 117px top margin</div>
+<div class="px-[3.75rem]">Exact horizontal padding</div>
+
+<!-- Arbitrary font size -->
+<p class="text-[13px] leading-[1.4]">Exact font-size and line-height</p>
+
+<!-- Grid with arbitrary template -->
+<div class="grid grid-cols-[1fr_2fr_1fr]">
+  <div>25%</div>
+  <div>50%</div>
+  <div>25%</div>
+</div>
+
+<!-- Complex background -->
+<div class="bg-[url('hero.jpg')] bg-cover bg-center h-64">Hero image</div>
+
+<!-- Calc() -->
+<div class="w-[calc(100%-2rem)]">Full width minus 2rem</div>
+```
+
+---
+
+## 11. Transitions & Animations
+
+```html
+<!-- ─── Transition utilities ──────────────────────────────────── -->
+<button class="bg-blue-500 hover:bg-blue-700 transition-colors duration-300">
+  Color transition (300ms)
 </button>
-```
 
-### Group and Peer Modifiers
-- `group-hover:`: Styles an element based on the hover state of a parent (requires the parent to have the `group` class).
-- `peer-invalid:`: Styles an element based on the state of a sibling element (requires the sibling to have the `peer` class).
+<div class="transform hover:scale-110 transition-transform duration-200 ease-in-out">
+  Scale on hover
+</div>
 
----
+<div class="opacity-0 hover:opacity-100 transition-opacity duration-500">
+  Fade in on hover
+</div>
 
-## 5. Responsive Design
+<!-- transition-all: transitions all properties at once -->
+<div class="hover:scale-105 hover:shadow-2xl hover:bg-blue-50 transition-all duration-300">
+  All properties transition
+</div>
 
-Every utility class in Tailwind can be applied conditionally at different breakpoints using screen size prefixes. Tailwind uses a mobile-first approach.
+<!-- Timing functions -->
+<div class="transition-transform ease-linear duration-300">Linear</div>
+<div class="transition-transform ease-in duration-300">Ease in (slow start)</div>
+<div class="transition-transform ease-out duration-300">Ease out (slow end)</div>
+<div class="transition-transform ease-in-out duration-300">Ease in-out</div>
 
-| Prefix | Minimum Width | CSS Media Query |
-| :--- | :--- | :--- |
-| `sm:` | $640\text{px}$ | `@media (min-width: 640px) { ... }` |
-| `md:` | $768\text{px}$ | `@media (min-width: 768px) { ... }` |
-| `lg:` | $1024\text{px}$| `@media (min-width: 1024px) { ... }` |
-| `xl:` | $1280\text{px}$| `@media (min-width: 1280px) { ... }` |
-| `2xl:`| $1536\text{px}$| `@media (min-width: 1536px) { ... }` |
+<!-- ─── Built-in animations ────────────────────────────────────── -->
+<div class="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full">
+  <!-- Loading spinner --></div>
+<div class="animate-ping h-4 w-4 bg-green-500 rounded-full"><!-- Ping/ripple --></div>
+<div class="animate-pulse bg-slate-200 h-4 w-48 rounded"><!-- Skeleton loader --></div>
+<div class="animate-bounce">⬇️ Bouncing arrow</div>
 
-```html
-<!-- 
-  Mobile: 1 column
-  Tablet (md): 2 columns
-  Desktop (lg): 4 columns
--->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-  <!-- Content -->
+<!-- Skeleton loader pattern -->
+<div class="animate-pulse space-y-3">
+  <div class="h-4 bg-slate-200 rounded w-3/4"></div>
+  <div class="h-4 bg-slate-200 rounded"></div>
+  <div class="h-4 bg-slate-200 rounded w-5/6"></div>
 </div>
 ```
 
 ---
 
-## 6. Arbitrary Values
+## 12. Live Showcase: Full Tailwind UI Page
 
-If you need a specific value that isn't included in the design system, you can use the JIT compiler's arbitrary value syntax using square brackets `[]`.
+**Complete modern landing page with navbar, hero, cards, form, and footer:**
 
 ```html
-<!-- Uses an exact hex color -->
-<div class="bg-[#bada55]">...</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tailwind CSS Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-900">
 
-<!-- Uses an exact pixel value for top margin -->
-<div class="mt-[117px]">...</div>
+  <!-- Navbar -->
+  <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+      <span class="text-xl font-bold text-blue-600">⚡ TailwindApp</span>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">Home</a>
+        <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">Features</a>
+        <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">Pricing</a>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+          Get Started
+        </button>
+      </div>
+    </div>
+  </nav>
 
-<!-- Uses CSS variables -->
-<div class="w-[var(--my-width)]">...</div>
+  <!-- Hero -->
+  <section class="bg-gradient-to-br from-blue-50 to-indigo-100 py-16">
+    <div class="max-w-4xl mx-auto text-center px-6">
+      <h1 class="text-4xl md:text-6xl font-black text-slate-900 mb-4 leading-tight">
+        Build Faster with <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Tailwind CSS</span>
+      </h1>
+      <p class="text-xl text-slate-500 mb-8 max-w-2xl mx-auto">
+        Utility-first CSS framework that lets you build beautiful, responsive UIs without leaving your HTML.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-blue-200 transition-all">
+          Start Building
+        </button>
+        <button class="bg-white text-slate-700 hover:bg-slate-50 font-semibold px-8 py-3 rounded-xl border border-slate-200 shadow-sm transition-all">
+          View Docs
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Cards -->
+  <section class="max-w-5xl mx-auto px-6 py-12">
+    <h2 class="text-2xl font-bold text-center mb-8">Why Tailwind?</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="group bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300">
+        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🎨</div>
+        <h3 class="font-bold text-lg mb-2 group-hover:text-blue-600 transition-colors">Utility-First</h3>
+        <p class="text-slate-500 text-sm">Apply single-purpose classes directly. No more switching files or naming conventions.</p>
+      </div>
+      <div class="group bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-purple-200 transition-all duration-300">
+        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">⚡</div>
+        <h3 class="font-bold text-lg mb-2 group-hover:text-purple-600 transition-colors">JIT Compiler</h3>
+        <p class="text-slate-500 text-sm">Generates only the CSS you use. Final bundles are tiny — often under 10KB.</p>
+      </div>
+      <div class="group bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-200 transition-all duration-300">
+        <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">📱</div>
+        <h3 class="font-bold text-lg mb-2 group-hover:text-emerald-600 transition-colors">Responsive</h3>
+        <p class="text-slate-500 text-sm">Mobile-first responsive prefixes (sm:, md:, lg:) on every utility class.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form -->
+  <section class="bg-white py-12">
+    <div class="max-w-md mx-auto px-6">
+      <h2 class="text-2xl font-bold mb-6 text-center">Get in Touch</h2>
+      <div class="space-y-4">
+        <input type="text" placeholder="Your Name"
+               class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+        <input type="email" placeholder="Email Address"
+               class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+        <select class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-500">
+          <option>Select topic</option>
+          <option>General Inquiry</option>
+          <option>Support</option>
+        </select>
+        <textarea placeholder="Your message..." rows="4"
+                  class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"></textarea>
+        <button class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 rounded-xl hover:shadow-lg hover:shadow-blue-200 transition-all active:scale-95">
+          Send Message →
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-white py-8">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <span class="text-lg font-bold text-blue-400">⚡ TailwindApp</span>
+      <div class="flex flex-wrap gap-3">
+        <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">Utility-First</span>
+        <span class="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-sm">JIT</span>
+        <span class="bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-sm">Responsive</span>
+        <span class="bg-orange-500/20 text-orange-300 px-3 py-1 rounded-full text-sm">Dark Mode</span>
+      </div>
+      <p class="text-slate-400 text-sm">© 2026 Built with Tailwind CSS</p>
+    </div>
+  </footer>
+
+</body>
+</html>
 ```
+
+<iframe srcdoc='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script src="https://cdn.tailwindcss.com"><\/script></head><body class="bg-slate-50 text-slate-900"><nav class="bg-white border-b border-slate-200 sticky top-0 z-50"><div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between"><span class="text-lg font-bold text-blue-600">⚡ TailwindApp</span><div class="flex items-center gap-4 text-sm font-medium"><a href="#" class="text-slate-500 hover:text-blue-600 transition-colors">Home</a><a href="#" class="text-slate-500 hover:text-blue-600 transition-colors">Features</a><button class="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-blue-700 transition-colors">Get Started</button></div></div></nav><section class="bg-gradient-to-br from-blue-50 to-indigo-100 py-10"><div class="max-w-3xl mx-auto text-center px-4"><h1 class="text-3xl md:text-4xl font-black text-slate-900 mb-3 leading-tight">Build Faster with <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Tailwind CSS</span></h1><p class="text-slate-500 mb-6 max-w-xl mx-auto text-sm">Utility-first CSS framework. Beautiful, responsive UIs without leaving your HTML.</p><div class="flex flex-wrap justify-center gap-3"><button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl shadow-lg transition-all active:scale-95">Start Building</button><button class="bg-white text-slate-700 hover:bg-slate-50 font-semibold px-6 py-2.5 rounded-xl border border-slate-200 shadow-sm transition-all">View Docs</button></div></div></section><section class="max-w-4xl mx-auto px-4 py-8"><h2 class="text-xl font-bold text-center mb-6">Why Tailwind?</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div class="group bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300"><div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">🎨</div><h3 class="font-bold mb-1 group-hover:text-blue-600 transition-colors">Utility-First</h3><p class="text-slate-500 text-xs">Apply single-purpose classes. No more naming or context switching.</p></div><div class="group bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-purple-200 transition-all duration-300"><div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">⚡</div><h3 class="font-bold mb-1 group-hover:text-purple-600 transition-colors">JIT Compiler</h3><p class="text-slate-500 text-xs">Generates only CSS you use. Final bundles under 10KB.</p></div><div class="group bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-200 transition-all duration-300"><div class="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">📱</div><h3 class="font-bold mb-1 group-hover:text-emerald-600 transition-colors">Responsive</h3><p class="text-slate-500 text-xs">Mobile-first responsive prefixes on every utility class.</p></div></div></section><section class="bg-white py-8"><div class="max-w-sm mx-auto px-4"><h2 class="text-xl font-bold mb-4 text-center">Get in Touch</h2><div class="space-y-3"><input type="text" placeholder="Your Name" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition"><input type="email" placeholder="Email Address" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition"><textarea placeholder="Your message..." rows="3" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm transition resize-none"></textarea><button class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-2.5 rounded-xl hover:shadow-lg hover:shadow-blue-200 transition-all active:scale-95 text-sm">Send Message →</button></div></div></section><footer class="bg-slate-900 text-white py-6 mt-4"><div class="max-w-4xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-3"><span class="font-bold text-blue-400">⚡ TailwindApp</span><div class="flex flex-wrap gap-2"><span class="bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded-full text-xs">Utility-First</span><span class="bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full text-xs">JIT</span><span class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full text-xs">Responsive</span></div><p class="text-slate-400 text-xs">© 2026 Built with Tailwind CSS</p></div></footer></body></html>' width="100%" height="750" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 > [!TIP]
-> While arbitrary values are incredibly powerful, use them sparingly. Relying too heavily on them defeats the purpose of having a constrained design system.
+> While arbitrary values `[...]` are incredibly powerful, use them sparingly. Over-relying on them defeats the purpose of a constrained design system and makes maintenance harder.
