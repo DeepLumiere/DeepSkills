@@ -117,17 +117,11 @@ This chapter establishes the core architectural foundations of microprocessors, 
 
 
 | Generation | Processor | Data Bus Width | Address Bus Width | Addressable Memory | Key Architectural Features |
-
 | :--- | :--- | :--- | :--- | :--- | :--- |
-
 | **1st Gen (1971–1973)** | Intel 4004, 8008 | 4-bit / 8-bit | 12-bit / 14-bit | 4 KB / 16 KB | PMOS technology, primitive calculator controllers, low execution speeds. |
-
 | **2nd Gen (1974–1976)** | Intel 8080, 8085 | 8-bit | 16-bit | 64 KB | NMOS technology, single +5V supply (8085), hardware interrupts, integrated status signals. |
-
 | **3rd Gen (1978–1982)** | Intel 8086, 8088, 80286 | 16-bit | 20-bit / 24-bit | 1 MB / 16 MB | HMOS, dual independent processing units (BIU + EU), 6-byte instruction prefetch queue, segmented memory. |
-
 | **4th Gen (1985–1990s)**| Intel 80386, 80486 | 32-bit | 32-bit | 4 GB | Paged virtual memory, on-chip floating point unit (FPU), cache memory hierarchy. |
-
 | **5th Gen to Present** | Pentium, Core i-series, Xeon | 64-bit | 36-bit to 52-bit | Terabytes ($2^{64}$) | Superscalar execution, multi-core processing, out-of-order execution, hyper-threading. |
 
 
@@ -207,27 +201,16 @@ Assembly language operates at the boundary between human-readable software logic
 
 
 | Lab No. | Title | Core Assembly Concepts & Practical Skills |
-
 | :--- | :--- | :--- |
-
 | **1** | SASM IDE & Basic Assembly | Exploring IDE commands (step, breakpoint, register watch, memory dump); writing `Hello World` and 16-bit addition programs. |
-
 | **2** | Binary Arithmetic & Bit Logic | Performing 16-bit and 32-bit addition, subtraction, bitwise AND/OR/XOR, and multi-bit shift operations. |
-
 | **3** | Machine Code Generation | Reverse-engineering assembly instructions (`MOV`) into binary machine codes via opcode templates and MOD-R/M bytes. |
-
 | **4** | Array Processing & Sorting | Memory array traversal, extracting minimum/maximum values, implementing Bubble Sort algorithm using register indexing. |
-
 | **5** | Data Conversion & String Case | Converting octal numbers to binary; manipulating ASCII strings (converting uppercase to lowercase and vice versa via bitwise logic). |
-
 | **6** | String Reversal Procedures | Developing modular `NEAR` procedures with stack-based string pointer passing to reverse character arrays. |
-
 | **7** | Statistical Analysis & Parity | Computing array summation and averages; counting set bits (`1`s) in an 8-bit byte; determining parity; string-to-integer conversion. |
-
 | **8** | Substring Search | Pattern search within text buffers using modular `NEAR` procedures and index pointers. |
-
 | **9** | Fibonacci Series Generation | Generating N Fibonacci terms using `FAR` procedures (`NASM PROC` equivalents) and stack memory. |
-
 | **10** | Modular Checking & 8254 Timer | Multi-file modular checking (prime/odd/even); theoretical and practical study of 8254 Programmable Interval Timer IC. |
 
 
@@ -369,27 +352,16 @@ The internal functional architecture of the Intel 8085 consists of distinct oper
 
 
 | Register Name | Bit Size | Functions & Special Characteristics | Important Operational Notes |
-
 | :--- | :--- | :--- | :--- |
-
 | **Accumulator (A)** | 8-bit | Primary operand storage for ALU; receives ALU output; target for I/O transfers. | Always implicit in arithmetic/logic instructions (e.g., `ADD B`). |
-
 | **Flag Register (F)** | 8-bit | Contains 5 status flag flip-flops ($S, Z, AC, P, CY$). | Reflects status of recent ALU operation. |
-
 | **B Register** | 8-bit | General purpose register; pairs with C as 16-bit BC pair. | Upper byte in BC pair. Used as generic loop counter. |
-
 | **C Register** | 8-bit | General purpose register; pairs with B as 16-bit BC pair. | Lower byte in BC pair. |
-
 | **D Register** | 8-bit | General purpose register; pairs with E as 16-bit DE pair. | Upper byte in DE pair. |
-
 | **E Register** | 8-bit | General purpose register; pairs with D as 16-bit DE pair. | Lower byte in DE pair. |
-
 | **H Register** | 8-bit | General purpose register; pairs with L as 16-bit HL pair. | Upper byte in HL pair. Primary high address pointer. |
-
 | **L Register** | 8-bit | General purpose register; pairs with H as 16-bit HL pair. | Lower byte in HL pair. Primary low address pointer. |
-
 | **Program Counter (PC)** | 16-bit | Points to memory location of next instruction byte to fetch. | Automatically incremented during fetch cycle. |
-
 | **Stack Pointer (SP)** | 16-bit | Points to current Top-of-Stack memory address in RAM. | Decremented/Incremented by 2 during push/pop. |
 
 
@@ -417,23 +389,14 @@ The 8-bit Flag register contains 5 active conditional status flags:
 
 
 | Bit Position | Flag Name | Symbol | Description & Setting Condition |
-
 | :--- | :--- | :--- | :--- |
-
 | **$D_7$** | Sign Flag | **S** | Set to `1` if MSB ($D_7$) of result is `1` (negative); reset to `0` if $D_7 = 0$ (positive). |
-
 | **$D_6$** | Zero Flag | **Z** | Set to `1` if ALU operation result is exactly zero; reset to `0` if non-zero. |
-
 | **$D_5$** | Unassigned | **X** | Not used (undefined bit). |
-
 | **$D_4$** | Auxiliary Carry | **AC**| Set to `1` if ALU generates a carry out of bit $D_3$into bit$D_4$ during BCD math; otherwise `0`. |
-
 | **$D_3$** | Unassigned | **X** | Not used (undefined bit). |
-
 | **$D_2$** | Parity Flag | **P** | Set to `1` if result contains an **even number of 1s** (Even Parity); reset to `0` for Odd Parity. |
-
 | **$D_1$** | Unassigned | **X** | Not used (undefined bit). |
-
 | **$D_0$** | Carry Flag | **CY**| Set to `1` if arithmetic operation produces carry out of MSB ($D_7$) or borrow in subtraction; otherwise `0`. |
 
 
@@ -491,53 +454,29 @@ $$
 
 
 | Signal Name | Pin Numbers | Type | Functional Description |
-
 | :--- | :--- | :--- | :--- |
-
 | **$A_{15} - A_8$** | Pins 21–28 | Output (Tri-state) | Higher-order address bus lines. Carry most significant 8 bits of memory/IO address. |
-
 | **$AD_7 - AD_0$** | Pins 12–19 | Bidirectional (Tri-state) | Time-multiplexed lower address / data bus. Carries lower address byte when $ALE=1$, and data byte when $ALE=0$. |
-
 | **$ALE$** | Pin 30 | Output | **Address Latch Enable:** Positive pulse emitted during $T_1$ of machine cycle to latch lower address byte into external 74LS373 latch. |
-
 | **$\overline{\text{RD}}$** | Pin 32 | Output (Tri-state) | **Read Control:** Active low signal indicating CPU is reading data from memory or I/O device. |
-
 | **$\overline{\text{WR}}$** | Pin 31 | Output (Tri-state) | **Write Control:** Active low signal indicating CPU is writing data to memory or I/O device. |
-
 | **$\text{IO}/\overline{\text{M}}$** | Pin 34 | Output (Tri-state) | **IO / Memory Status:** Active high indicates I/O operation; Active low indicates Memory operation. |
-
 | **$S_1, S_0$** | Pins 33, 29 | Output | **Machine Status Signals:** Specify type of active machine cycle (Fetch, Read, Write, Halt). |
-
 | **$TRAP$** | Pin 6 | Input | Non-maskable highest priority interrupt. Highest priority; level and edge sensitive. Vector: `0024H`. |
-
 | **$RST 7.5$** | Pin 7 | Input | Maskable interrupt; rising-edge sensitive. Internal flip-flop remembers trigger. Vector: `003CH`. |
-
 | **$RST 6.5$** | Pin 8 | Input | Maskable interrupt; high-level sensitive. Vector: `0034H`. |
-
 | **$RST 5.5$** | Pin 9 | Input | Maskable interrupt; high-level sensitive. Vector: `0020H`. |
-
 | **$INTR$** | Pin 10 | Input | Maskable handshake interrupt; level sensitive. Expects external opcode/vector on $\overline{\text{INTA}}$. |
-
 | **$\overline{\text{INTA}}$** | Pin 11 | Output | **Interrupt Acknowledge:** Active low signal issued in response to $INTR$ to read opcode from external hardware. |
-
 | **$SID$** | Pin 5 | Input | **Serial Input Data:** Single-bit serial input line read by `RIM` instruction. |
-
 | **$SOD$** | Pin 4 | Output | **Serial Output Data:** Single-bit serial output line set/reset by `SIM` instruction. |
-
 | **$HOLD$** | Pin 39 | Input | Indicates external bus master (e.g., DMA Controller) requests control of address/data buses. |
-
 | **$HOLDA$** | Pin 38 | Output | **HOLD Acknowledge:** Confirms CPU has released buses to tri-state for DMA transfer. |
-
 | **$\overline{\text{RESET IN}}$** | Pin 3 | Input | Active low signal resetting CPU (clears PC to `0000H`, resets interrupt enables). |
-
 | **$RESET OUT$** | Pin 37 | Output | Active high output signal to reset peripheral ICs connected in system. |
-
 | **$READY$** | Pin 35 | Input | Synchronizes CPU with slow memory/IO devices. If low, CPU enters WAIT states ($T_{WAIT}$). |
-
 | **$X_1, X_2$** | Pins 1, 2 | Input | Connections for external crystal oscillator to set internal clock frequency. |
-
 | **$CLK(OUT)$** | Pin 37 | Output | System clock output for external support chips (half of crystal frequency). |
-
 | **$V_{CC}, V_{SS}$**| Pins 40, 20 | Power | $+5\text{V}$ main power supply ($V_{CC}$) and Ground reference ($V_{SS}$). |
 
 
@@ -551,21 +490,13 @@ $$
 
 
 | $\text{IO}/\overline{\text{M}}$|$S_1$|$S_0$ | Machine Cycle State | Control Signals Active |
-
 | :---: | :---: | :---: | :--- | :--- |
-
 | **0** | **1** | **1** | Opcode Fetch (OF) | $\overline{\text{RD}} = 0$ |
-
 | **0** | **1** | **0** | Memory Read (MR) | $\overline{\text{RD}} = 0$ |
-
 | **0** | **0** | **1** | Memory Write (MW) | $\overline{\text{WR}} = 0$ |
-
 | **1** | **1** | **0** | I/O Read (IOR) | $\overline{\text{RD}} = 0$ |
-
 | **1** | **0** | **1** | I/O Write (IOW) | $\overline{\text{WR}} = 0$ |
-
 | **1** | **1** | **1** | Interrupt Acknowledge (INA) | $\overline{\text{INTA}} = 0$ |
-
 | **0** | **0** | **0** | Halt State | None (Buses Tri-stated) |
 
 
@@ -587,17 +518,11 @@ $$
 
 
 | Interrupt Name | Priority Rank | Trigger Mode | Maskability | Vector Address (Hex) | Vector Calculation Formula |
-
 | :--- | :--- | :--- | :--- | :--- | :--- |
-
 | **TRAP** | 1 (Highest) | Level & Edge | Non-Maskable | `0024H` | Fixed vector ($4.5 \times 8 = 36 = 24\text{H}$) |
-
 | **RST 7.5** | 2 | Rising-Edge | Maskable (`SIM`) | `003CH` | Fixed vector ($7.5 \times 8 = 60 = 3\text{CH}$) |
-
 | **RST 6.5** | 3 | High-Level | Maskable (`SIM`) | `0034H` | Fixed vector ($6.5 \times 8 = 52 = 34\text{H}$) |
-
 | **RST 5.5** | 4 | High-Level | Maskable (`SIM`) | `0020H` | Fixed vector ($5.5 \times 8 = 44 = 20\text{H}$) |
-
 | **INTR** | 5 (Lowest) | High-Level | Maskable (`EI`/`DI`) | Provided Externally | Determined by 8259 or external hardware |
 
 
@@ -938,33 +863,19 @@ flowchart TD
 
 
 | Register Group | Symbol | Bit Size | Split Registers | Dedicated Functions |
-
 | :--- | :--- | :--- | :--- | :--- |
-
 | **Accumulator** | **AX** | 16-bit | AH (8-bit), AL (8-bit) | Primary arithmetic/logic target, I/O port data transfers, fast multiplication/division. |
-
 | **Base Register** | **BX** | 16-bit | BH (8-bit), BL (8-bit) | Memory base address pointer for data references; indirect addressing. |
-
 | **Count Register** | **CX** | 16-bit | CH (8-bit), CL (8-bit) | Loop counter (`LOOP`), bit shift/rotate counter (`CL`), string operations. |
-
 | **Data Register** | **DX** | 16-bit | DH (8-bit), DL (8-bit) | 16-bit I/O port address pointer (`IN`/`OUT`); high-word holder in 32-bit math. |
-
 | **Stack Pointer** | **SP** | 16-bit | None | Offset address of Top-of-Stack within Stack Segment (SS). |
-
 | **Base Pointer** | **BP** | 16-bit | None | Base offset address for parameter passing inside stack frames (SS). |
-
 | **Source Index** | **SI** | 16-bit | None | Source data offset pointer in DS; source string pointer (`DS:SI`). |
-
 | **Destination Index**| **DI** | 16-bit | None | Destination data offset pointer in DS; string target pointer (`ES:DI`). |
-
 | **Code Segment** | **CS** | 16-bit | None | Base paragraph address of active Code Segment. |
-
 | **Data Segment** | **DS** | 16-bit | None | Base paragraph address of active Data Segment. |
-
 | **Stack Segment** | **SS** | 16-bit | None | Base paragraph address of active Stack Segment. |
-
 | **Extra Segment** | **ES** | 16-bit | None | Base paragraph address of active Extra Segment (string destinations). |
-
 | **Instruction Pointer**| **IP**| 16-bit | None | Offset address of next instruction to execute within CS (`CS:IP`). |
 
 
@@ -986,25 +897,15 @@ The 8086 Flag Register is a 16-bit register containing 9 active flags (6 Status 
 
 
 | Bit Position | Flag Name | Symbol | Category | Functional Description |
-
 | :---: | :--- | :---: | :---: | :--- |
-
 | **$D_0$** | Carry Flag | **CF** | Status | Set to `1` if unsigned math produces carry out of MSB or borrow; otherwise `0`. |
-
 | **$D_2$** | Parity Flag | **PF** | Status | Set to `1` if lower 8 bits of result contain even number of `1`s (Even Parity). |
-
 | **$D_4$** | Auxiliary Carry | **AF** | Status | Set to `1` if carry generated from bit 3 to bit 4 during BCD math. |
-
 | **$D_6$** | Zero Flag | **ZF** | Status | Set to `1` if operation result is zero; reset to `0` if non-zero. |
-
 | **$D_7$** | Sign Flag | **SF** | Status | Set to `1` if MSB of result is `1` (negative signed value). |
-
 | **$D_8$** | Trap Flag | **TF** | Control | Set to `1` to enable single-step debugging mode (CPU generates Type 1 interrupt after each instruction). |
-
 | **$D_9$** | Interrupt Flag | **IF** | Control | Set to `1` to enable maskable hardware interrupts (`INTR`); `0` disables `INTR`. |
-
 | **$D_{10}$**| Direction Flag | **DF** | Control | Determines auto increment/decrement for string operations: `0` = Increment (forward), `1` = Decrement (backward). |
-
 | **$D_{11}$**| Overflow Flag | **OF** | Status | Set to `1` if signed arithmetic result exceeds signed capacity of destination register. |
 
 
@@ -1152,15 +1053,10 @@ The 8086 uses $A_0$and$\overline{\text{BHE}}$ status signals to select the appro
 
 
 | $\overline{\text{BHE}}$|$A_0$ | Data Bus Width Used | Memory Bank Accessed | Bus Cycles Required |
-
 | :---: | :---: | :---: | :--- | :---: |
-
 | **0** | **0** | 16-bit ($D_{15} - D_0$) | Both Banks (Aligned Word access at Even Address) | 1 Cycle |
-
 | **0** | **1** | 8-bit ($D_{15} - D_8$) | Odd Bank only (Byte access at Odd Address) | 1 Cycle |
-
 | **1** | **0** | 8-bit ($D_7 - D_0$) | Even Bank only (Byte access at Even Address) | 1 Cycle |
-
 | **1** | **1** | None (Idle) | No Bank selected | - |
 
 
@@ -1293,15 +1189,10 @@ $$
 
 
 | Segment Type | Segment Register | Default Offset Register | Alternative Offset Registers | Physical Address Purpose |
-
 | :--- | :---: | :---: | :---: | :--- |
-
 | **Instruction Fetch** | **CS** | **IP** | None | Next instruction byte to fetch (`CS:IP`). |
-
 | **Stack Operation** | **SS** | **SP** | **BP** | Top of stack (`SS:SP`) or stack frame (`SS:BP`). |
-
 | **General Data** | **DS** | **BX** | **SI, DI**, Direct Address | General variable data (`DS:BX`, `DS:SI`, `DS:DI`). |
-
 | **String Destination**| **ES** | **DI** | None | Destination operand in string commands (`ES:DI`). |
 
 
@@ -1458,21 +1349,13 @@ The 8086 provides 7 primary addressing modes for accessing instruction operands:
 
 
 | Addressing Mode | Effective Address ($EA$) Formula | Advantage | Disadvantage | Typical Assembly Example |
-
 | :--- | :--- | :--- | :--- | :--- |
-
 | **Register** | $EA = R$ | Fastest (No memory reference) | Limited addressable space (registers only) | `MOV BX, DX` |
-
 | **Immediate** | $EA = \text{Instruction Constant}$ | Fast operand loading | Fixed constant value | `MOV AX, 2550H` |
-
 | **Direct** | $EA = [\text{Displacement}]$ | Simple to program | Fixed memory offset | `MOV AX, [2400H]` |
-
 | **Register Indirect**| $EA = [\text{BX/BP/SI/DI}]$ | Large addressable memory | Requires prior register load | `MOV AX, [BX]` |
-
 | **Base Relative** | $EA = [\text{BX/BP}] + \text{Disp}$ | Flexible for structures | Requires 16-bit register addition | `MOV AX, 12H[BX]` |
-
 | **Indexed Relative** | $EA = [\text{SI/DI}] + \text{Disp}$ | Ideal for array indexing | Requires 16-bit register addition | `MOV DX, ARRAY[SI]` |
-
 | **Base Indexed Relative** | $EA = [\text{BX/BP}] + [\text{SI/DI}] + \text{Disp}$ | Extremely flexible (2D arrays) | Complex address calculation | `MOV AX, BETA[BX][SI]` |
 
 
@@ -2262,17 +2145,11 @@ Logical instructions perform bitwise boolean operations. **CF and OF are cleared
 
 
 | Instruction | Syntax | Boolean Operation | Flag Rules |
-
 | :--- | :--- | :--- | :--- |
-
 | **NOT** | `NOT OPR` | $(\text{OPR}) \leftarrow \overline{\text{OPR}}$ (One's Complement) | **No flags affected.** |
-
 | **AND** | `AND DST, SRC` | $(\text{DST}) \leftarrow (\text{DST}) \land (\text{SRC})$ | CF=0, OF=0, updates SF, ZF, PF. |
-
 | **OR** | `OR DST, SRC` | $(\text{DST}) \leftarrow (\text{DST}) \lor (\text{SRC})$ | CF=0, OF=0, updates SF, ZF, PF. |
-
 | **XOR** | `XOR DST, SRC` | $(\text{DST}) \leftarrow (\text{DST}) \oplus (\text{SRC})$ | CF=0, OF=0, updates SF, ZF, PF. |
-
 | **TEST** | `TEST OPR1, OPR2` | $(\text{OPR1}) \land (\text{OPR2})$ (Result discarded) | CF=0, OF=0, updates SF, ZF, PF. |
 
 
@@ -2320,21 +2197,13 @@ Shift and Rotate instructions manipulate operand bits by shifting them left or r
 
 
 | Instruction | Name / Type | Operational Behavior | Carry Flag (CF) Impact |
-
 | :--- | :--- | :--- | :--- |
-
 | **SHL / SAL** | Shift Logical/Arithmetic Left | Shifts bits left; fills right with `0`. | MSB shifted out enters CF. |
-
 | **SHR** | Shift Logical Right | Shifts bits right; fills left with `0`. | LSB shifted out enters CF. |
-
 | **SAR** | Shift Arithmetic Right | Shifts bits right; **retains original MSB (sign bit)** on left. | LSB shifted out enters CF. |
-
 | **ROL** | Rotate Left | Circular bit rotation left. | MSB rotates into LSB AND into CF. |
-
 | **ROR** | Rotate Right | Circular bit rotation right. | LSB rotates into MSB AND into CF. |
-
 | **RCL** | Rotate Left Through Carry | 9-bit/17-bit circular rotation left through CF. | CF bit enters LSB; MSB enters CF. |
-
 | **RCR** | Rotate Right Through Carry | 9-bit/17-bit circular rotation right through CF. | CF bit enters MSB; LSB enters CF. |
 
 
@@ -2861,17 +2730,11 @@ flowchart TD
 
 
 | Interrupt Line | Trigger Type | Priority | Vector Address (Hex) | Maskable? |
-
 | :--- | :--- | :--- | :--- | :--- |
-
 | **TRAP (RST 4.5)** | Level + Edge | 1 (Highest) | `0024H` | Non-Maskable (NMI) |
-
 | **RST 7.5** | Rising Edge | 2 | `003CH` | Maskable via `SIM` |
-
 | **RST 6.5** | High Level | 3 | `0034H` | Maskable via `SIM` |
-
 | **RST 5.5** | High Level | 4 | `0020H` | Maskable via `SIM` |
-
 | **INTR** | High Level | 5 (Lowest) | Non-vectored (from Bus) | Maskable via `EI`/`DI` |
 
 

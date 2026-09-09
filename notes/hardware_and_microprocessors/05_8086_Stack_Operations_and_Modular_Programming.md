@@ -161,15 +161,10 @@ $$
 
 
 | Instruction | Syntax | Permitted Operands | Operation Performed | Flags Affected |
-
 | :--- | :--- | :--- | :--- | :---: |
-
 | **`PUSH`** | `PUSH src` | Reg16 (`AX, BX, CX, DX, SI, DI, BP, SP`), SegReg (`CS, DS, ES, SS`), Mem16 | $1.\; (\text{SP}) \leftarrow (\text{SP}) - 2$<br>$2.\; [\text{SS}:\text{SP}] \leftarrow (\text{src})$ | **None** |
-
 | **`POP`** | `POP dst` | Reg16, SegReg (**except `CS`**), Mem16 | $1.\; (\text{dst}) \leftarrow [\text{SS}:\text{SP}]$<br>$2.\; (\text{SP}) \leftarrow (\text{SP}) + 2$ | **None** |
-
 | **`PUSHF`** | `PUSHF` | None | Pushes entire 16-bit Flag Register onto stack. | **None** |
-
 | **`POPF`** | `POPF` | None | Pops 16-bit word from stack into Flag Register. | **All Flags** |
 
 
@@ -261,17 +256,11 @@ sequenceDiagram
 
 
 | Parameter | `NEAR` Procedure | `FAR` Procedure |
-
 | :--- | :--- | :--- |
-
 | **Scope** | Internal to the calling code segment. | External; callable from any code segment. |
-
 | **`CALL` Mechanics** | Pushes only the 16-bit Instruction Pointer (`IP`). | Pushes `CS` first, followed by `IP`. |
-
 | **`RET` Mechanics** | Pops 16-bit return address into `IP`. | Pops `IP` first, followed by `CS`. |
-
 | **Machine Instruction** | 3-byte Opcode (`E8 Disp16`). | 5-byte Opcode (`9A Offset Seg`). |
-
 | **Declaration** | `MY_PROC PROC NEAR` | `MY_PROC PROC FAR` |
 
 

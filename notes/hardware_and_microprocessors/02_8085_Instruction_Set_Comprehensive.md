@@ -61,29 +61,17 @@ This chapter delivers a thorough, university-level examination of the Intel 8085
 
 
 | Parameter | Specification | Functional Details |
-
 | :--- | :--- | :--- |
-
 | **Word Length** | 8 bits | Processes, transfers, and stores data in 8-bit byte increments. |
-
 | **Data Bus** | 8 bits ($D_7 - D_0$) | Bidirectional; time-multiplexed with lower address bus ($AD_7 - AD_0$). |
-
 | **Address Bus** | 16 bits ($A_{15} - A_0$) | Unidirectional; directly addresses $2^{16} = 65,536\text{ bytes}$ (64 KB). |
-
 | **Clock Frequency** | 3.0 MHz (8085A) / 5.0 MHz (8085A-2) | Driven by external quartz crystal on $X_1, X_2$; divided by 2 internally. |
-
 | **Power Supply** | Single $+5\text{V DC}$ ($V_{CC}$), $V_{SS}$(GND) | Major improvement over 8080 (which required$+5\text{V}, -5\text{V}, +12\text{V}$). |
-
 | **Packaging** | 40-pin Plastic / Ceramic DIP | Dual-in-line package. |
-
 | **Internal Registers** | 12 addressable 8-bit registers | A, B, C, D, E, H, L, Flags, SP (16-bit), PC (16-bit), W, Z (internal). |
-
 | **Interrupt System** | 5 Hardware Interrupts | TRAP (NMI), RST 7.5, RST 6.5, RST 5.5, INTR. |
-
 | **DMA Controller Support**| HOLD and HLDA lines | Provides high-speed direct memory transfer bypassing the CPU. |
-
 | **Serial I/O Lines** | Dedicated SID and SOD pins | Software-controlled 1-bit serial communication via `RIM` / `SIM`. |
-
 | **Machine Status Pins** | $IO/\overline{\text{M}}$, $S_1$, $S_0$ | Explicitly signal active bus transaction type to peripheral decoders. |
 
 
@@ -285,17 +273,11 @@ Flag Bit:     [  S |  Z |  X | AC |  X |  P |  X | CY ]
 
 
 | Flag Symbol | Flag Name | Set Condition ($= 1$) | Reset Condition ($= 0$) |
-
 | :---: | :--- | :--- | :--- |
-
 | **S** | Sign Flag | Bit $D_7$of ALU result is `1` (negative signed number). | Bit$D_7$ of ALU result is `0` (positive signed number). |
-
 | **Z** | Zero Flag | ALU result is exactly `00H` (all 8 bits zero). | ALU result is non-zero (`01H` to `FFH`). |
-
 | **AC**| Auxiliary Carry | Carry generated out of bit $D_3$into bit$D_4$(BCD half-carry). | No carry from bit$D_3$to$D_4$. |
-
 | **P** | Parity Flag | Result contains an **even number of 1-bits** (Even Parity). | Result contains an **odd number of 1-bits** (Odd Parity). |
-
 | **CY**| Carry Flag | Carry generated out of MSB ($D_7$) in addition, or borrow in subtraction. | No carry out of $D_7$ or borrow required. |
 
 
@@ -409,21 +391,13 @@ The combination of $IO/\overline{\text{M}}$, $S_1$, and $S_0$ defines the active
 
 
 | $IO/\overline{\text{M}}$|$S_1$|$S_0$ | Machine Cycle | Active Control Signal | Typical T-States |
-
 | :---: | :---: | :---: | :--- | :---: | :---: |
-
 | **0** | **1** | **1** | **Opcode Fetch (OF)** | $\overline{\text{RD}} = 0$ | 4 or 6 |
-
 | **0** | **1** | **0** | **Memory Read (MR)** | $\overline{\text{RD}} = 0$ | 3 |
-
 | **0** | **0** | **1** | **Memory Write (MW)** | $\overline{\text{WR}} = 0$ | 3 |
-
 | **1** | **1** | **0** | **I/O Read (IOR)** | $\overline{\text{RD}} = 0$ | 3 |
-
 | **1** | **0** | **1** | **I/O Write (IOW)** | $\overline{\text{WR}} = 0$ | 3 |
-
 | **1** | **1** | **1** | **Interrupt Acknowledge (INA)** | $\overline{\text{INTA}} = 0$ | 6 or 12 |
-
 | **0** | **0** | **0** | **Halt State** | None (Buses Tri-Stated) | Infinite |
 
 
@@ -445,17 +419,11 @@ The combination of $IO/\overline{\text{M}}$, $S_1$, and $S_0$ defines the active
 
 
 | Interrupt | Priority | Trigger Mode | Maskability | Vector Address | Vector Calculation Formula |
-
 | :--- | :---: | :--- | :--- | :---: | :--- |
-
 | **TRAP** | 1 (Highest) | Level & Rising-Edge | Non-Maskable | `0024H` | Fixed vector ($4.5 \times 8 = 36_{10} = 24\text{H}$) |
-
 | **RST 7.5** | 2 | Rising-Edge Only | Maskable (`SIM`) | `003CH` | Fixed vector ($7.5 \times 8 = 60_{10} = 3\text{CH}$) |
-
 | **RST 6.5** | 3 | High-Level Only | Maskable (`SIM`) | `0034H` | Fixed vector ($6.5 \times 8 = 52_{10} = 34\text{H}$) |
-
 | **RST 5.5** | 4 | High-Level Only | Maskable (`SIM`) | `0020H` | Fixed vector ($5.5 \times 8 = 44_{10} = 20\text{H}$) |
-
 | **INTR** | 5 (Lowest) | High-Level Only | Maskable (`EI`/`DI`)| External | Provided by external hardware / 8259 PIC |
 
 
@@ -507,33 +475,19 @@ The 8085 features **80 basic instructions** that expand into **246 total opcodes
 
 
 | Mnemonic | Operands | Bytes | Machine Cycles | T-States | Addressing Mode | Operation Description |
-
 | :--- | :--- | :---: | :---: | :---: | :--- | :--- |
-
 | **MOV** | $r_1, r_2$| 1 | 1 (OF) | 4 | Register |$(r_1) \leftarrow (r_2)$. Copies register $r_2$to$r_1$. |
-
 | **MOV** | $r, M$| 1 | 2 (OF, MR) | 7 | Reg. Indirect |$(r) \leftarrow ((H)(L))$. Copies memory byte at address HL to register $r$. |
-
 | **MOV** | $M, r$| 1 | 2 (OF, MW) | 7 | Reg. Indirect |$((H)(L)) \leftarrow (r)$. Copies register $r$ to memory byte at HL. |
-
 | **MVI** | $r, \text{data8}$| 2 | 2 (OF, MR) | 7 | Immediate |$(r) \leftarrow \text{byte 2}$. Loads immediate 8-bit data into register $r$. |
-
 | **MVI** | $M, \text{data8}$| 2 | 3 (OF, MR, MW) | 10 | Immediate/Indirect |$((H)(L)) \leftarrow \text{byte 2}$. Stores immediate byte into memory at HL. |
-
 | **LXI** | $rp, \text{data16}$| 3 | 3 (OF, MR, MR) | 10 | Immediate | $(rp) \leftarrow \text{bytes 2 \& 3}$. Loads 16-bit data into register pair $rp$ (BC, DE, HL, SP). |
-
 | **LDA** | $\text{addr16}$| 3 | 4 (OF, MR, MR, MR)| 13 | Direct |$(A) \leftarrow (\text{addr16})$. Loads byte from direct 16-bit address into A. |
-
 | **STA** | $\text{addr16}$| 3 | 4 (OF, MR, MR, MW)| 13 | Direct |$(\text{addr16}) \leftarrow (A)$. Stores Accumulator byte into direct 16-bit address. |
-
 | **LHLD**| $\text{addr16}$| 3 | 5 (OF, 4 MR) | 16 | Direct |$(L) \leftarrow (\text{addr})$, $(H) \leftarrow (\text{addr}+1)$. Loads HL from direct address. |
-
 | **SHLD**| $\text{addr16}$| 3 | 5 (OF, 2 MR, 2 MW)| 16 | Direct |$(\text{addr}) \leftarrow (L)$, $(\text{addr}+1) \leftarrow (H)$. Stores HL into direct address. |
-
 | **LDAX**| $rp$(BC/DE)| 1 | 2 (OF, MR) | 7 | Reg. Indirect |$(A) \leftarrow ((rp))$. Loads Accumulator from address in BC or DE. |
-
 | **STAX**| $rp$(BC/DE)| 1 | 2 (OF, MW) | 7 | Reg. Indirect |$((rp)) \leftarrow (A)$. Stores Accumulator into address held in BC or DE. |
-
 | **XCHG**| None | 1 | 1 (OF) | 4 | Register | $(H) \leftrightarrow (D)$, $(L) \leftrightarrow (E)$. Swaps HL and DE register pairs. |
 
 
@@ -593,37 +547,21 @@ XCHG              ; Now HL = 5678H, DE = 1234H
 
 
 | Mnemonic | Operands | Bytes | Cycles | T-States | Flags Affected | Operation Description |
-
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
-
 | **ADD** | $r$ | 1 | 1 | 4 | All ($S,Z,AC,P,CY$) | $(A) \leftarrow (A) + (r)$. Adds register to Accumulator. |
-
 | **ADD** | $M$| 1 | 2 | 7 | All |$(A) \leftarrow (A) + ((H)(L))$. Adds memory byte at HL to A. |
-
 | **ADI** | $\text{data8}$| 2 | 2 | 7 | All |$(A) \leftarrow (A) + \text{data8}$. Adds immediate byte to A. |
-
 | **ADC** | $r$/$M$| 1 | 1 / 2 | 4 / 7 | All |$(A) \leftarrow (A) + (r/M) + CY$. Add with Carry. |
-
 | **ACI** | $\text{data8}$| 2 | 2 | 7 | All |$(A) \leftarrow (A) + \text{data8} + CY$. Add immediate with Carry. |
-
 | **SUB** | $r$/$M$| 1 | 1 / 2 | 4 / 7 | All |$(A) \leftarrow (A) - (r/M)$. Subtracts register/memory from A. |
-
 | **SUI** | $\text{data8}$| 2 | 2 | 7 | All |$(A) \leftarrow (A) - \text{data8}$. Subtracts immediate byte from A. |
-
 | **SBB** | $r$/$M$| 1 | 1 / 2 | 4 / 7 | All |$(A) \leftarrow (A) - (r/M) - CY$. Subtract with Borrow. |
-
 | **SBI** | $\text{data8}$| 2 | 2 | 7 | All |$(A) \leftarrow (A) - \text{data8} - CY$. Subtract immediate with Borrow. |
-
 | **INR** | $r$/$M$| 1 | 1 / 3 | 4 / 10 |$S, Z, AC, P$ (**CY NOT affected**) | Increments register or memory byte by 1. |
-
 | **DCR** | $r$/$M$| 1 | 1 / 3 | 4 / 10 |$S, Z, AC, P$ (**CY NOT affected**) | Decrements register or memory byte by 1. |
-
 | **INX** | $rp$| 1 | 1 | 6 | **None** |$(rp) \leftarrow (rp) + 1$. 16-bit increment of BC, DE, HL, or SP. |
-
 | **DCX** | $rp$| 1 | 1 | 6 | **None** |$(rp) \leftarrow (rp) - 1$. 16-bit decrement of BC, DE, HL, or SP. |
-
 | **DAD** | $rp$| 1 | 3 | 10 | **CY Only** |$(HL) \leftarrow (HL) + (rp)$. 16-bit double addition to HL. |
-
 | **DAA** | None | 1 | 1 | 4 | All | Decimal Adjust Accumulator. Converts binary sum in A to BCD. |
 
 
@@ -700,37 +638,21 @@ DAA               ; Corrects: A = 67H (BCD 39 + 28 = 67)
 
 
 | Mnemonic | Operands | Bytes | Cycles | T-States | Flags Affected | Operational Mechanics |
-
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
-
 | **ANA** | $r$/$M$| 1 | 1 / 2 | 4 / 7 |$S, Z, P$ updated; **$CY=0, AC=1$** | Bitwise AND with Accumulator. |
-
 | **ANI** | $\text{data8}$| 2 | 2 | 7 |$S, Z, P$ updated; **$CY=0, AC=1$** | Bitwise AND immediate byte with Accumulator. |
-
 | **ORA** | $r$/$M$| 1 | 1 / 2 | 4 / 7 |$S, Z, P$ updated; **$CY=0, AC=0$** | Bitwise OR with Accumulator. |
-
 | **ORI** | $\text{data8}$| 2 | 2 | 7 |$S, Z, P$ updated; **$CY=0, AC=0$** | Bitwise OR immediate byte with Accumulator. |
-
 | **XRA** | $r$/$M$| 1 | 1 / 2 | 4 / 7 |$S, Z, P$ updated; **$CY=0, AC=0$** | Bitwise XOR with Accumulator (`XRA A` clears A and CY). |
-
 | **XRI** | $\text{data8}$| 2 | 2 | 7 |$S, Z, P$ updated; **$CY=0, AC=0$** | Bitwise XOR immediate byte with Accumulator. |
-
 | **CMA** | None | 1 | 1 | 4 | **None** | $(A) \leftarrow \overline{(A)}$. One's complement of Accumulator. |
-
 | **CMC** | None | 1 | 1 | 4 | **CY Only** | $(CY) \leftarrow \overline{(CY)}$. Complements Carry Flag. |
-
 | **STC** | None | 1 | 1 | 4 | **CY Only** | $(CY) \leftarrow 1$. Explicitly sets Carry Flag to 1. |
-
 | **CMP** | $r$/$M$| 1 | 1 / 2 | 4 / 7 | All | Compares register/memory with A (computes$A - r$). |
-
 | **CPI** | $\text{data8}$ | 2 | 2 | 7 | All | Compares immediate byte with A. |
-
 | **RLC** | None | 1 | 1 | 4 | **CY Only** | Rotate Left Circular: Bit 7 enters Bit 0 and CY. |
-
 | **RRC** | None | 1 | 1 | 4 | **CY Only** | Rotate Right Circular: Bit 0 enters Bit 7 and CY. |
-
 | **RAL** | None | 1 | 1 | 4 | **CY Only** | Rotate Left Through Carry: 9-bit rotation through CY. |
-
 | **RAR** | None | 1 | 1 | 4 | **CY Only** | Rotate Right Through Carry: 9-bit rotation through CY. |
 
 
@@ -829,29 +751,17 @@ MOV H, A           ; HL now shifted left 1 position
 
 
 | Mnemonic | Condition Tested | Bytes | Cycles (Taken / Untaken) | T-States (Taken / Untaken) | Description |
-
 | :--- | :--- | :---: | :---: | :---: | :--- |
-
 | **JMP** | Unconditional | 3 | 3 | 10 | $(PC) \leftarrow \text{addr16}$. Direct 16-bit jump. |
-
 | **JC / JNC** | $CY = 1$/$CY = 0$ | 3 | 3 / 2 | 10 / 7 | Jump on Carry / No Carry. |
-
 | **JZ / JNZ** | $Z = 1$/$Z = 0$ | 3 | 3 / 2 | 10 / 7 | Jump on Zero / Not Zero. |
-
 | **JM / JP** | $S = 1$/$S = 0$ | 3 | 3 / 2 | 10 / 7 | Jump on Minus (Negative) / Positive. |
-
 | **JPE / JPO** | $P = 1$/$P = 0$ | 3 | 3 / 2 | 10 / 7 | Jump on Parity Even / Parity Odd. |
-
 | **PCHL** | None | 1 | 1 | 6 | $(PC) \leftarrow (HL)$. Jumps to address held in HL pair. |
-
 | **CALL** | Unconditional | 3 | 5 | 18 | Pushes $(PC)$ onto stack, jumps to direct address. |
-
 | **Ccond** | Condition True / False | 3 | 5 / 2 | 18 / 9 | Conditional Subroutine Call. |
-
 | **RET** | Unconditional | 1 | 3 | 10 | Pops 16-bit return address from stack into PC. |
-
 | **Rcond** | Condition True / False | 1 | 3 / 1 | 12 / 6 | Conditional Subroutine Return. |
-
 | **RST $n$** | $n \in \{0..7\}$| 1 | 3 | 12 | Software Restart: Calls vector$(n \times 8_{10})$. |
 
 
@@ -915,29 +825,17 @@ MY_SUBROUTINE:
 
 
 | Mnemonic | Operands | Bytes | Cycles | T-States | Flags Affected | Operational Mechanics |
-
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
-
 | **PUSH** | $rp$(BC/DE/HL/PSW)| 1 | 3 | 12 | **None** |$(SP-1) \leftarrow (rp_H)$, $(SP-2) \leftarrow (rp_L)$, $SP \leftarrow SP - 2$. |
-
 | **POP** | $rp$(BC/DE/HL/PSW)| 1 | 3 | 10 | None (PSW updates all)|$(rp_L) \leftarrow (SP)$, $(rp_H) \leftarrow (SP+1)$, $SP \leftarrow SP + 2$. |
-
 | **XTHL** | None | 1 | 5 | 16 | **None** | Swaps $L$with$(SP)$, and $H$with$(SP+1)$. Top of stack exchange. |
-
 | **SPHL** | None | 1 | 1 | 6 | **None** | $(SP) \leftarrow (HL)$. Copies HL address into Stack Pointer. |
-
 | **IN** | $\text{port8}$| 2 | 3 | 10 | **None** |$(A) \leftarrow (\text{port8})$. Reads byte from 8-bit I/O port into A. |
-
 | **OUT** | $\text{port8}$| 2 | 3 | 10 | **None** |$(\text{port8}) \leftarrow (A)$. Writes Accumulator byte to 8-bit I/O port. |
-
 | **EI / DI** | None | 1 | 1 | 4 | **None** | Enable / Disable maskable hardware interrupts. |
-
 | **HLT** | None | 1 | 1 | 5 | **None** | Halts CPU execution until interrupt or reset occurs. |
-
 | **NOP** | None | 1 | 1 | 4 | **None** | No Operation; advances PC by 1. |
-
 | **RIM** | None | 1 | 1 | 4 | **None** | Read Interrupt Mask & serial input bit (SID) into A. |
-
 | **SIM** | None | 1 | 1 | 4 | **None** | Set Interrupt Mask & serial output bit (SOD) from A. |
 
 

@@ -199,6 +199,7 @@ Byte 6:  High-order Immediate Data (if present)
 ---
 
 ### Register Bit Codes ($W=0$ vs $W=1$)
+
 | Code | $W=0$ (Byte) | $W=1$ (Word) | Segment Register Code |
 | :---: | :---: | :---: | :---: |
 | `000` | AL | AX | ES (`00`) |

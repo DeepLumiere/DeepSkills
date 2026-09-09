@@ -125,17 +125,11 @@ classDiagram
 
 
 | Directive | Full Name | Size in Bits | Size in Bytes | Numeric Range (Unsigned) | Numeric Range (Signed 2's Comp) | Common Applications |
-
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
-
 | **DB** | Define Byte | 8 | 1 | $0$to$255$(`00H` to `FFH`) |$-128$to$+127$ | ASCII characters, 8-bit integers, byte arrays. |
-
 | **DW** | Define Word | 16 | 2 | $0$to$65,535$(`0000H` to `FFFFH`) |$-32,768$to$+32,767$ | 16-bit integers, near memory pointers (offsets). |
-
 | **DD** | Define Doubleword | 32 | 4 | $0$to$2^{32}-1$|$-2^{31}$to$+2^{31}-1$ | 32-bit integers, far memory pointers (Segment:Offset). |
-
 | **DQ** | Define Quadword | 64 | 8 | $0$to$2^{64}-1$|$-2^{63}$to$+2^{63}-1$ | 64-bit integer values, double-precision floats. |
-
 | **DT** | Define Tenbyte | 80 | 10 | - | - | Packed BCD numbers, 80-bit extended precision floats. |
 
 
@@ -495,15 +489,10 @@ flowchart TD
 
 
 | Feature | `EQU` Directive | `=` Directive |
-
 | :--- | :--- | :--- |
-
 | **Redefinability** | **Permanently bound.** Re-declaring throws a compiler error. | **Freely redefinable** anywhere in the code. |
-
 | **Allowed Values** | Numbers, addresses, expressions, register names, mnemonics. | Strictly numeric integer expressions. |
-
 | **Memory Allocation** | Zero bytes (replaces tokens in symbol table during assembly).| Zero bytes. |
-
 | **Example** | `BUFFER_SIZE EQU 1024`<br>`PORT_DATA EQU DX`<br>`INDEX_CHAR EQU ARRAY[SI+5]` | `COUNTER = 0`<br>`COUNTER = COUNTER + 1` |
 
 
@@ -699,17 +688,11 @@ Attribute operators evaluate meta-properties of variables and symbols during ass
 
 
 | Operator | Evaluated Value Returned | Return Type | Typical Code Example | Evaluated Machine Result |
-
 | :--- | :--- | :---: | :--- | :--- |
-
 | **`LENGTH`** | Returns the repetition count ($N$) defined in the first `DUP` clause. | 16-bit integer | `MOV CX, LENGTH ARRAY` | Loads array count into loop register `CX`. |
-
 | **`SIZE`** | Total bytes allocated by variable (`LENGTH * TYPE`). | 16-bit integer | `MOV CX, SIZE ARRAY` | Loads total buffer byte count. |
-
 | **`OFFSET`** | The 16-bit offset address of the variable from segment base. | 16-bit address | `MOV BX, OFFSET ARRAY` | Loads offset pointer into base register `BX`. |
-
 | **`SEG`** | The 16-bit base paragraph address of the segment containing variable. | 16-bit address | `MOV AX, SEG ARRAY` | Loads segment selector for subsequent `DS` load. |
-
 | **`TYPE`** | Evaluates byte width of data, or distance of code label: <br> `DB` = 1, `DW` = 2, `DD` = 4, `DQ` = 8, `DT` = 10, `NEAR` = -1, `FAR` = -2. | Integer | `ADD SI, TYPE ARRAY` | Automatically steps pointer `SI` by element width. |
 
 
