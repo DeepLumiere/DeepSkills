@@ -134,6 +134,121 @@ createApp({
 
 ---
 
+### 🌟 Deep Dive: Class & Style Bindings (All Possible Cases)
+
+Vue provides special enhancements when `v-bind` is used with `class` and `style`.
+
+#### 1. Binding HTML Classes (`:class`)
+
+```html
+<div id="app">
+  <!-- 1. String Syntax (Standard but dynamic) -->
+  <div :class="activeClass">String syntax</div>
+
+  <!-- 2. Object Syntax (Toggle classes based on truthiness) -->
+  <div :class="{ active: isActive, 'text-danger': hasError }">Object syntax</div>
+
+  <!-- 3. Bound to a data object directly -->
+  <div :class="classObject">Data Object syntax</div>
+
+  <!-- 4. Bound to a computed property (Most powerful & common pattern!) -->
+  <div :class="computedClassObject">Computed Object syntax</div>
+
+  <!-- 5. Array Syntax (Apply multiple classes) -->
+  <div :class="[activeClass, errorClass]">Array syntax</div>
+
+  <!-- 6. Array Syntax with Ternary expressions -->
+  <div :class="[isActive ? activeClass : '', errorClass]">Array with Ternary</div>
+
+  <!-- 7. Array with Nested Object Syntax (Cleanest for mixing logic) -->
+  <div :class="[{ active: isActive }, errorClass]">Array with Object syntax</div>
+  
+  <!-- 8. Component Class Inheritance -->
+  <!-- If MyButton template has class="btn", the resulting HTML is class="btn btn-large" -->
+  <my-button :class="['btn-large']"></my-button>
+</div>
+
+<script>
+createApp({
+  data() {
+    return {
+      isActive: true,
+      hasError: false,
+      activeClass: 'active-item',
+      errorClass: 'text-danger',
+      classObject: {
+        active: true,
+        'text-danger': false
+      }
+    }
+  },
+  computed: {
+    computedClassObject() {
+      return {
+        active: this.isActive && !this.hasError,
+        'text-danger': this.hasError && this.isActive
+      }
+    }
+  }
+})
+</script>
+```
+
+#### 2. Binding Inline Styles (`:style`)
+
+```html
+<div id="app">
+  <!-- 1. Object Syntax (CamelCase keys) -->
+  <div :style="{ color: activeColor, fontSize: fontSize + 'px' }">Inline Object</div>
+
+  <!-- 2. Object Syntax (Kebab-case keys in quotes) -->
+  <div :style="{ 'background-color': bgColor }">Kebab-case</div>
+
+  <!-- 3. Bound to a data object -->
+  <div :style="styleObject">Data Object Style</div>
+
+  <!-- 4. Bound to a computed property -->
+  <div :style="computedStyles">Computed Style</div>
+
+  <!-- 5. Array Syntax (Merge multiple style objects) -->
+  <div :style="[baseStyles, overridingStyles]">Array of Styles</div>
+
+  <!-- 6. Auto-prefixing (Vue adds browser prefixes like -webkit- automatically) -->
+  <div :style="{ transform: 'rotate(10deg)' }">Auto-prefixed</div>
+
+  <!-- 7. Multiple Values (Vue chooses the last one the browser supports) -->
+  <div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }">Multiple Values</div>
+</div>
+
+<script>
+createApp({
+  data() {
+    return {
+      activeColor: 'red',
+      fontSize: 30,
+      bgColor: '#f4f4f4',
+      styleObject: {
+        color: 'blue',
+        fontSize: '24px'
+      },
+      baseStyles: { margin: '10px', padding: '20px' },
+      overridingStyles: { padding: '10px', color: 'green' }
+    }
+  },
+  computed: {
+    computedStyles() {
+      return {
+        fontWeight: this.isActive ? 'bold' : 'normal',
+        opacity: this.hasError ? 0.5 : 1
+      }
+    }
+  }
+})
+</script>
+```
+
+---
+
 ### v-model — Two-Way Data Binding
 
 ```html

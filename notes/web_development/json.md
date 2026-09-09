@@ -364,7 +364,109 @@ async function updateJson(filepath, updates) {
 
 ---
 
-## 6. JSON Schema Validation
+## 6. Advanced JSON Data Manipulation in JS
+
+When working with JSON in JavaScript, you typically parse it into arrays of objects. Here are all the core patterns for mutating and querying that data.
+
+```javascript
+// Sample JSON-derived dataset
+let db = {
+  users: [
+    { id: 1, name: 'Alice', role: 'admin', tags: ['js', 'vue'] },
+    { id: 2, name: 'Bob', role: 'editor', tags: ['css'] }
+  ]
+};
+```
+
+### A. Appending / Inserting (Create)
+
+```javascript
+// 1. Mutative Append (push to end)
+db.users.push({ id: 3, name: 'Charlie', role: 'viewer', tags: [] });
+
+// 2. Mutative Prepend (unshift to beginning)
+db.users.unshift({ id: 0, name: 'Zero', role: 'viewer', tags: [] });
+
+// 3. Immutable Append (using Spread Operator - React/Redux preferred)
+const newUsers = [...db.users, { id: 4, name: 'Dave', role: 'editor', tags: [] }];
+
+// 4. Insert at specific index (splice)
+// Splice: (startIndex, deleteCount, item1, item2...)
+db.users.splice(1, 0, { id: 1.5, name: 'Inserted', role: 'viewer', tags: [] });
+```
+
+### B. Searching & Querying (Read)
+
+```javascript
+// 1. Find a single object (returns first match or undefined)
+const bob = db.users.find(user => user.id === 2);
+console.log(bob?.name); // 'Bob'
+
+// 2. Find index of an object (returns index or -1)
+const bobIndex = db.users.findIndex(user => user.name === 'Bob');
+
+// 3. Filter multiple objects (returns new array)
+const editors = db.users.filter(user => user.role === 'editor');
+
+// 4. Check if ANY object matches condition (returns true/false)
+const hasAdmins = db.users.some(user => user.role === 'admin');
+
+// 5. Check if ALL objects match condition (returns true/false)
+const allHaveTags = db.users.every(user => user.tags.length > 0);
+
+// 6. Deep search across nested arrays
+const vueUsers = db.users.filter(user => user.tags.includes('vue'));
+```
+
+### C. Updating / Modifying (Update)
+
+```javascript
+// 1. Mutative Update (find and modify directly)
+const userToUpdate = db.users.find(u => u.id === 1);
+if (userToUpdate) {
+  userToUpdate.role = 'superadmin';
+  userToUpdate.tags.push('react'); // Update nested array
+}
+
+// 2. Immutable Update (Map - React/Redux preferred)
+const updatedUsers = db.users.map(user => 
+  user.id === 2 ? { ...user, role: 'admin', tags: [...user.tags, 'html'] } : user
+);
+
+// 3. Object.assign for bulk property updates
+const target = db.users[0];
+Object.assign(target, { name: 'Alicia', lastActive: '2026-09-09' });
+
+// 4. Deep Cloning for safe modifications
+const deepClone = JSON.parse(JSON.stringify(db.users));
+// Note: structuredClone(db.users) is the modern native alternative!
+```
+
+### D. Deleting / Removing (Delete)
+
+```javascript
+// 1. Immutable Delete (Filter - React/Redux preferred)
+// Removes user with ID 2 by keeping everyone ELSE
+db.users = db.users.filter(user => user.id !== 2);
+
+// 2. Mutative Delete (Splice by index)
+const indexToRemove = db.users.findIndex(u => u.id === 3);
+if (indexToRemove !== -1) {
+  db.users.splice(indexToRemove, 1);
+}
+
+// 3. Delete a specific property from a JSON object
+const userObj = db.users[0];
+delete userObj.lastActive; // Removes the key entirely
+
+// 4. Immutable Property Deletion (Destructuring Rest Pattern)
+const { role, ...userWithoutRole } = userObj;
+// userWithoutRole has all properties EXCEPT 'role'
+```
+
+---
+
+## 7. JSON Schema Validation
 
 While JSON doesn't have built-in validation, you can validate structure manually or with libraries like `ajv`:
 

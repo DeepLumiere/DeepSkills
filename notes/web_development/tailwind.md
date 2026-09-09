@@ -547,7 +547,94 @@ When you need a value not in the default scale, use bracket syntax `[]`:
 
 ---
 
-## 12. Live Showcase: Full Tailwind UI Page
+---
+
+## 12. Exhaustive Class Cheatsheet Reference
+
+### 📐 Layout & Core
+
+| Category | Classes | Description |
+| :--- | :--- | :--- |
+| **Container** | `container` | Sets `max-width` to match min-width of current breakpoint |
+| **Display** | `block`, `inline-block`, `inline`, `flex`, `grid`, `hidden` | Sets CSS `display` |
+| **Box Sizing** | `box-border`, `box-content` | Controls how element size is calculated |
+| **Position** | `static`, `fixed`, `absolute`, `relative`, `sticky` | Sets CSS `position` |
+| **Top/Right/Bottom/Left** | `inset-0`, `top-4`, `bottom-0`, `left-auto`, `-right-2` | Placement of positioned elements |
+| **Z-Index** | `z-0`, `z-10`, `z-20`, `z-50`, `z-auto` | Controls stack order |
+
+### 📏 Spacing & Sizing
+
+| Category | Classes |
+| :--- | :--- |
+| **Padding** | `p-0` to `p-96`, `px-4`, `py-2`, `pt-1`, `pb-8`, `pl-auto`, `pr-3` |
+| **Margin** | `m-0` to `m-96`, `mx-auto`, `my-4`, `mt-2`, `mb-8`, `-ml-4` *(negative margin)* |
+| **Space Between**| `space-x-4`, `space-y-2`, `space-x-reverse` |
+| **Width** | `w-0` to `w-96`, `w-full`, `w-screen`, `w-min`, `w-max`, `w-fit`, `w-1/2`, `w-1/3` |
+| **Min/Max Width**| `min-w-0`, `min-w-full`, `max-w-sm`, `max-w-md`, `max-w-screen-lg` |
+| **Height** | `h-0` to `h-96`, `h-full`, `h-screen`, `h-min`, `h-max`, `h-fit` |
+
+### 🔠 Typography
+
+| Category | Classes |
+| :--- | :--- |
+| **Font Family**| `font-sans`, `font-serif`, `font-mono` |
+| **Font Size** | `text-xs`, `text-sm`, `text-base`, `text-lg`, `text-xl`, `text-2xl` to `text-9xl` |
+| **Font Weight**| `font-thin`, `font-light`, `font-normal`, `font-medium`, `font-semibold`, `font-bold`, `font-black` |
+| **Text Align** | `text-left`, `text-center`, `text-right`, `text-justify` |
+| **Text Color** | `text-slate-500`, `text-blue-600`, `text-emerald-400`, `text-white`, `text-transparent` |
+| **Decoration** | `underline`, `overline`, `line-through`, `no-underline` |
+| **Line Height**| `leading-none`, `leading-tight`, `leading-snug`, `leading-normal`, `leading-relaxed`, `leading-loose` |
+
+### 🎨 Backgrounds & Borders
+
+| Category | Classes |
+| :--- | :--- |
+| **Background Color**| `bg-slate-50`, `bg-blue-600`, `bg-transparent`, `bg-black` |
+| **Gradient Base** | `bg-gradient-to-t`, `bg-gradient-to-r`, `bg-gradient-to-b`, `bg-gradient-to-l`, `bg-gradient-to-br` |
+| **Gradient Stops** | `from-blue-500`, `via-purple-500`, `to-pink-500` |
+| **Border Radius**| `rounded-none`, `rounded-sm`, `rounded`, `rounded-md`, `rounded-lg`, `rounded-full` |
+| **Border Width** | `border-0`, `border-2`, `border-4`, `border-t-2`, `border-b-4` |
+| **Border Color** | `border-slate-200`, `border-blue-500`, `border-transparent` |
+| **Outline (Ring)** | `ring-0`, `ring-2`, `ring-4`, `ring-blue-500`, `ring-offset-2` |
+
+### 📐 Flexbox & Grid
+
+| Category | Classes |
+| :--- | :--- |
+| **Flex Direction**| `flex-row`, `flex-col`, `flex-row-reverse`, `flex-col-reverse` |
+| **Flex Wrap** | `flex-wrap`, `flex-nowrap`, `flex-wrap-reverse` |
+| **Justify Content**| `justify-start`, `justify-center`, `justify-end`, `justify-between`, `justify-around`, `justify-evenly` |
+| **Align Items** | `items-start`, `items-center`, `items-end`, `items-baseline`, `items-stretch` |
+| **Flex Children** | `flex-1`, `flex-auto`, `flex-none`, `grow`, `grow-0`, `shrink`, `shrink-0` |
+| **Grid Cols/Rows**| `grid-cols-1` to `grid-cols-12`, `grid-rows-1` to `grid-rows-6` |
+| **Grid Spanning** | `col-span-2`, `row-span-3`, `col-start-1`, `col-end-4` |
+| **Gap** | `gap-0` to `gap-96`, `gap-x-4`, `gap-y-2` |
+
+### 🚀 Effects & Filters
+
+| Category | Classes |
+| :--- | :--- |
+| **Box Shadow** | `shadow-sm`, `shadow`, `shadow-md`, `shadow-lg`, `shadow-xl`, `shadow-inner`, `shadow-none` |
+| **Opacity** | `opacity-0`, `opacity-10`, `opacity-50`, `opacity-100` |
+| **Mix Blend** | `mix-blend-normal`, `mix-blend-multiply`, `mix-blend-screen`, `mix-blend-overlay` |
+| **Blur** | `blur-none`, `blur-sm`, `blur`, `blur-md`, `blur-xl` |
+| **Drop Shadow**| `drop-shadow-sm`, `drop-shadow`, `drop-shadow-lg` |
+| **Grayscale** | `grayscale-0`, `grayscale` |
+
+### ⏳ Transitions & Transforms
+
+| Category | Classes |
+| :--- | :--- |
+| **Transition** | `transition-none`, `transition-all`, `transition`, `transition-colors`, `transition-transform` |
+| **Duration** | `duration-75`, `duration-150`, `duration-300`, `duration-500`, `duration-1000` |
+| **Easing** | `ease-linear`, `ease-in`, `ease-out`, `ease-in-out` |
+| **Scale** | `scale-0`, `scale-50`, `scale-90`, `scale-100`, `scale-110`, `scale-150` |
+| **Rotate** | `rotate-0`, `rotate-45`, `rotate-90`, `rotate-180`, `-rotate-90` |
+| **Translate** | `translate-x-4`, `-translate-y-2`, `translate-x-full` |
+
+---
+
+## 13. Live Showcase: Full Tailwind UI Page
 
 **Complete modern landing page with navbar, hero, cards, form, and footer:**
 

@@ -613,7 +613,73 @@ Format: `{property}{sides}-{breakpoint}-{size}`
 
 ---
 
-## 8. Utility Classes Quick Reference
+## 8. Exhaustive Class Cheatsheet Reference
+
+### 📐 Layout & Grid
+
+| Category | Classes | Description |
+| :--- | :--- | :--- |
+| **Containers** | `.container`, `.container-fluid`, `.container-{sm\|md\|lg\|xl\|xxl}` | Wrappers for grid |
+| **Grid Base** | `.row`, `.col`, `.col-{1-12}` | 12-column flex grid |
+| **Grid Responsive** | `.col-{sm\|md\|lg\|xl\|xxl}-{1-12}` | Breakpoint-specific columns |
+| **Row Columns** | `.row-cols-{1-auto}` | Set equal width columns per row |
+| **Offsets** | `.offset-{1-11}`, `.offset-{sm\|md\|lg\|xl\|xxl}-{1-11}` | Push columns to the right |
+| **Gutters** | `.g-{0-5}`, `.gx-{0-5}`, `.gy-{0-5}` | Row/Column spacing gaps |
+
+### 🎨 Colors & Backgrounds
+
+| Category | Classes |
+| :--- | :--- |
+| **Text Color** | `.text-primary`, `.text-secondary`, `.text-success`, `.text-danger`, `.text-warning`, `.text-info`, `.text-light`, `.text-dark`, `.text-muted`, `.text-white`, `.text-black` |
+| **Backgrounds**| `.bg-primary`, `.bg-secondary`, `.bg-success`, `.bg-danger`, `.bg-warning`, `.bg-info`, `.bg-light`, `.bg-dark`, `.bg-white`, `.bg-transparent` |
+| **Subtle BG**  | `.bg-primary-subtle`, `.bg-success-subtle`, `.bg-danger-subtle` *(Bootstrap 5.3+)* |
+
+### 📏 Spacing (Margins & Padding)
+
+*Format:* `{property}{sides}-{size}` or `{property}{sides}-{breakpoint}-{size}`
+*Sizes:* `0`, `1`, `2`, `3`, `4`, `5`, `auto`
+
+| Property | Sides | Examples |
+| :--- | :--- | :--- |
+| **Margin (m)** | `t` (top), `b` (bottom), `s` (start/left), `e` (end/right), `x` (horiz), `y` (vert), blank (all) | `.mt-3`, `.mb-0`, `.mx-auto`, `.ms-sm-4`, `.m-5` |
+| **Padding (p)** | `t` (top), `b` (bottom), `s` (start/left), `e` (end/right), `x` (horiz), `y` (vert), blank (all) | `.pt-4`, `.pb-2`, `.px-3`, `.py-1`, `.p-0` |
+| **Gap** | N/A | `.gap-1`, `.gap-2`, `.gap-3`, `.gap-md-4` |
+
+### 🔠 Typography
+
+| Category | Classes |
+| :--- | :--- |
+| **Headings** | `.h1` to `.h6`, `.display-1` to `.display-6` |
+| **Font Weight**| `.fw-bold`, `.fw-bolder`, `.fw-semibold`, `.fw-normal`, `.fw-light`, `.fw-lighter` |
+| **Text Align** | `.text-start`, `.text-center`, `.text-end`, `.text-sm-center` |
+| **Text Transform** | `.text-lowercase`, `.text-uppercase`, `.text-capitalize` |
+| **Other** | `.lead`, `.fst-italic`, `.text-decoration-none`, `.text-decoration-underline`, `.text-truncate`, `.text-wrap`, `.text-nowrap` |
+
+### 📐 Flexbox (`.d-flex`, `.d-inline-flex`)
+
+| Category | Classes |
+| :--- | :--- |
+| **Direction** | `.flex-row`, `.flex-column`, `.flex-row-reverse`, `.flex-column-reverse` |
+| **Justify (X)** | `.justify-content-start`, `.justify-content-end`, `.justify-content-center`, `.justify-content-between`, `.justify-content-around`, `.justify-content-evenly` |
+| **Align (Y)** | `.align-items-start`, `.align-items-end`, `.align-items-center`, `.align-items-baseline`, `.align-items-stretch` |
+| **Wrap** | `.flex-wrap`, `.flex-nowrap`, `.flex-wrap-reverse` |
+| **Grow/Shrink**| `.flex-grow-0`, `.flex-grow-1`, `.flex-shrink-0`, `.flex-shrink-1` |
+| **Order** | `.order-0` to `.order-5`, `.order-first`, `.order-last` |
+
+### 📦 Borders, Shadows & Display
+
+| Category | Classes |
+| :--- | :--- |
+| **Borders** | `.border`, `.border-0`, `.border-top`, `.border-primary`, `.border-2`, `.border-3` |
+| **Radius** | `.rounded`, `.rounded-0`, `.rounded-circle`, `.rounded-pill`, `.rounded-top` |
+| **Shadows** | `.shadow-none`, `.shadow-sm`, `.shadow`, `.shadow-lg` |
+| **Display** | `.d-none`, `.d-block`, `.d-inline`, `.d-inline-block`, `.d-flex`, `.d-grid` |
+| **Position** | `.position-static`, `.position-relative`, `.position-absolute`, `.position-fixed`, `.position-sticky` |
+| **Opacity** | `.opacity-0`, `.opacity-25`, `.opacity-50`, `.opacity-75`, `.opacity-100` |
+
+---
+
+## 9. Utility Classes Code Examples
 
 ```html
 <!-- Display utilities -->
