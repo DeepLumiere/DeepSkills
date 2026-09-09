@@ -324,7 +324,7 @@ $$
 
 - **Sign Flag (S):** `0` (Bit $D_7$ of result is `0`).
 
-- **Auxiliary Carry (AC):** `1` (Bit $D_3$sum:$0 + 1 + 0 = 0$with no carry... wait: bit$D_2=1, D_2=1 \rightarrow 1+1=0$, carry to $D_3$; $0+1+1=0$, carry to $D_4 \rightarrow AC = 1$).
+- **Auxiliary Carry (AC):** `1` (Carry out of bit $D_3$ into bit $D_4$: bits $D_3$ of both operands are `0` and `1` respectively; carry chain from lower bits generates AC=1).
 
 - **Parity Flag (P):** `0` (Result `0010 0000` has only one `1` bit $\rightarrow$ odd parity).
 
@@ -537,12 +537,56 @@ The 8085 features **80 basic instructions** that expand into **246 total opcodes
 | **XCHG**| None | 1 | 1 (OF) | 4 | Register | $(H) \leftrightarrow (D)$, $(L) \leftrightarrow (E)$. Swaps HL and DE register pairs. |
 
 
+---
+
+#### Code Examples — Data Transfer
+
+```assembly
+; ─── MOV: Register to Register ───────────────────────────────────────
+MOV A, B          ; Copy B into Accumulator A
+MOV H, D          ; Copy D into H
+MOV C, A          ; Copy Accumulator into C
+
+; ─── MOV: Register to/from Memory (HL as pointer) ────────────────────
+LXI H, 2050H      ; HL = 2050H (point to memory location)
+MOV A, M          ; A = [2050H] (read byte from memory)
+MVI M, 55H        ; [2050H] = 55H (write immediate to memory)
+MOV M, B          ; [2050H] = B (write register B to memory)
+
+; ─── MVI: Immediate Load ─────────────────────────────────────────────
+MVI A, 0AH        ; A = 0AH
+MVI B, 05H        ; B = 05H
+MVI C, 0FFH       ; C = FFH
+
+; ─── LXI: Load Register Pair Immediate ───────────────────────────────
+LXI B, 1234H      ; BC = 1234H (B=12H, C=34H)
+LXI D, 2050H      ; DE = 2050H
+LXI H, 3000H      ; HL = 3000H
+LXI SP, 4000H     ; SP = 4000H (initialize stack)
+
+; ─── LDA / STA: Direct Memory Transfer ──────────────────────────────
+LDA 2050H         ; A = [2050H] (load from direct address)
+STA 3000H         ; [3000H] = A (store to direct address)
+
+; ─── LHLD / SHLD: Load/Store HL Pair ────────────────────────────────
+LHLD 2050H        ; L = [2050H], H = [2051H]
+SHLD 3000H        ; [3000H] = L, [3001H] = H
+
+; ─── LDAX / STAX: Indirect via BC or DE ─────────────────────────────
+LXI B, 2050H      ; BC = 2050H
+LDAX B            ; A = [2050H] (load via BC pointer)
+LXI D, 3000H      ; DE = 3000H
+STAX D            ; [3000H] = A (store via DE pointer)
+
+; ─── XCHG: Swap HL and DE ────────────────────────────────────────────
+LXI H, 1234H      ; HL = 1234H
+LXI D, 5678H      ; DE = 5678H
+XCHG              ; Now HL = 5678H, DE = 1234H
+```
 
 ---
 
 
-
-### 7.2 Arithmetic Group (14 Primary Instructions)
 
 **Flag Impact:** All arithmetic instructions update $S, Z, AC, P, CY$, **except `INX` and `DCX` (which affect NO flags)**, and `DAD` (which updates **ONLY the Carry Flag CY**).
 
@@ -583,12 +627,75 @@ The 8085 features **80 basic instructions** that expand into **246 total opcodes
 | **DAA** | None | 1 | 1 | 4 | All | Decimal Adjust Accumulator. Converts binary sum in A to BCD. |
 
 
+---
+
+#### Code Examples — Arithmetic
+
+```assembly
+; ─── ADD / ADI: Addition ─────────────────────────────────────────────
+MVI A, 50H        ; A = 50H
+MVI B, 30H        ; B = 30H
+ADD B             ; A = 50H + 30H = 80H  (S=1, CY=0)
+
+ADI 20H           ; A = A + 20H = A0H (immediate addition)
+
+; ─── ADC / ACI: Add with Carry (16-bit / multi-byte addition) ────────
+; Add 16-bit number in (D,E) to 16-bit number in (H,L):
+MOV A, L          ; A = L (low byte)
+ADD E             ; A = L + E; sets/clears CY
+MOV L, A          ; Store low byte sum
+MOV A, H          ; A = H (high byte)
+ADC D             ; A = H + D + CY (carry from low byte)
+MOV H, A          ; Store high byte sum (HL = HL + DE)
+
+; ─── SUB / SUI: Subtraction ─────────────────────────────────────────
+MVI A, 80H        ; A = 80H
+MVI C, 30H        ; C = 30H
+SUB C             ; A = 80H - 30H = 50H (CY=0, Z=0)
+
+SUI 10H           ; A = A - 10H = 40H (immediate subtraction)
+
+; ─── SBB / SBI: Subtract with Borrow ───────────────────────────────
+; Multi-byte subtraction (32-bit: BC:DE - HL:some_reg):
+MOV A, E          ; Low byte of minuend
+SUB L             ; Subtract low byte; CY = borrow
+MOV E, A          ; Store low byte result
+MOV A, D          ; High byte of minuend
+SBB H             ; Subtract high byte WITH borrow
+MOV D, A          ; Store high byte result
+
+; ─── INR / DCR: Increment / Decrement Register ───────────────────────
+MVI A, 0FFH       ; A = FFH
+INR A             ; A = 00H (Z=1, S=0, CY NOT affected!)
+
+MVI B, 01H
+DCR B             ; B = 00H (Z=1)
+
+LXI H, 2050H
+INR M             ; Increment byte at [2050H] by 1
+DCR M             ; Decrement byte at [2050H] by 1
+
+; ─── INX / DCX: 16-bit Increment / Decrement (NO flags!) ────────────
+LXI H, 2000H
+INX H             ; HL = 2001H (no flags changed)
+INX H             ; HL = 2002H
+DCX H             ; HL = 2001H
+
+; ─── DAD: 16-bit Add to HL ───────────────────────────────────────────
+LXI H, 1234H      ; HL = 1234H
+LXI B, 0011H      ; BC = 0011H
+DAD B             ; HL = HL + BC = 1245H  (only CY affected!)
+
+; ─── DAA: BCD Addition Correction ───────────────────────────────────
+MVI A, 39H        ; A = BCD 39
+MVI B, 28H        ; B = BCD 28
+ADD B             ; Binary: A = 61H (but not valid BCD!)
+DAA               ; Corrects: A = 67H (BCD 39 + 28 = 67)
+```
 
 ---
 
 
-
-### 7.3 Logical Group (15 Primary Instructions)
 
 
 
@@ -627,12 +734,97 @@ The 8085 features **80 basic instructions** that expand into **246 total opcodes
 | **RAR** | None | 1 | 1 | 4 | **CY Only** | Rotate Right Through Carry: 9-bit rotation through CY. |
 
 
+---
+
+#### Code Examples — Logical Operations
+
+```assembly
+; ─── ANA / ANI: Bitwise AND ──────────────────────────────────────────
+MVI A, 0F0H       ; A = 1111 0000
+MVI B, 0AAH       ; B = 1010 1010
+ANA B             ; A = 1010 0000 = A0H (mask upper nibble with B)
+
+ANI 0FH           ; A = A & 0FH → clears upper nibble, keeps lower nibble
+
+; Clear bit 3 of A using ANI:
+MVI A, 0FFH
+ANI 0F7H          ; 1111 0111 → A bit 3 = 0, others unchanged
+
+; ─── ORA / ORI: Bitwise OR ───────────────────────────────────────────
+MVI A, 01H        ; A = 0000 0001
+MVI C, 80H        ; C = 1000 0000
+ORA C             ; A = 1000 0001 = 81H (set bit 7)
+
+ORI 08H           ; A = A | 08H → set bit 3
+
+; Convert ASCII digit to uppercase using OR (set bit 5):
+MVI A, 41H        ; A = 'A' (uppercase)
+ORI 20H           ; A = 61H = 'a' (lowercase)
+
+; ─── XRA / XRI: Bitwise XOR ──────────────────────────────────────────
+XRA A             ; A = A XOR A = 00H (fastest way to clear accumulator!)
+                  ; Also: CY=0, AC=0, Z=1
+
+MVI A, 0FFH
+XRI 0AAH          ; A = FFH XOR AAH = 55H (invert alternate bits)
+
+; Toggle case of ASCII letter using XOR bit 5:
+MVI A, 41H        ; A = 'A' (uppercase, bit 5 = 0)
+XRI 20H           ; A = 61H = 'a' (bit 5 toggled → lowercase)
+XRI 20H           ; A = 41H = 'A' (toggle back)
+
+; ─── CMA: One's Complement of Accumulator ────────────────────────────
+MVI A, 35H        ; A = 0011 0101
+CMA               ; A = 1100 1010 = CAH (no flags affected)
+
+; Two's complement via CMA + ADI:
+MVI A, 05H
+CMA               ; A = FAH (one's complement)
+ADI 01H           ; A = FBH (two's complement = -5 in 8-bit signed)
+
+; ─── CMP / CPI: Compare (sets flags, A unchanged) ────────────────────
+MVI A, 50H        ; A = 50H
+MVI B, 30H        ; B = 30H
+CMP B             ; Flags = 50H - 30H: CY=0 (A>B), Z=0, S=0
+JNC GREATER       ; Jump if A >= B (Carry Not Set)
+
+CPI 50H           ; Compare A with immediate 50H
+JZ  EQUAL         ; Jump if A == 50H (Zero Set)
+
+; ─── STC / CMC: Carry Flag Manipulation ─────────────────────────────
+STC               ; CY = 1 (Set Carry)
+CMC               ; CY = 0 (Complement: 1 → 0)
+CMC               ; CY = 1 (Complement again: 0 → 1)
+
+; ─── RLC / RRC: Rotate Circular (no carry) ───────────────────────────
+MVI A, 10110001B  ; A = B1H
+RLC               ; A rotated left: A = 01100011B = 63H, CY=1 (old bit7)
+RRC               ; A rotated right: A = 10110001B = B1H (restored)
+
+; Use RLC to multiply A by 2:
+MVI A, 05H        ; A = 5
+RLC               ; A = 0AH = 10 (multiply by 2)
+
+; ─── RAL / RAR: Rotate Through Carry (9-bit) ────────────────────────
+STC               ; CY = 1
+MVI A, 10110001B  ; A = B1H
+RAL               ; 9-bit rotate: A = 01100011B, CY = 1 (old bit 7 came out)
+RAR               ; 9-bit rotate right: CY rotated into bit 7
+
+; 16-bit shift left (HL register pair) using RAL:
+MVI A, 0           ; Start with clear carry
+ORA A              ; Clear CY (OR A with itself)
+MOV A, L           ; A = Low byte
+RAL                ; Shift L left through carry
+MOV L, A           ; Store L
+MOV A, H           ; A = High byte
+RAL                ; Shift H left, using carry from L
+MOV H, A           ; HL now shifted left 1 position
+```
 
 ---
 
 
-
-### 7.4 Branching Group (Jumps, Calls, Returns, Restarts)
 
 
 
@@ -663,12 +855,62 @@ The 8085 features **80 basic instructions** that expand into **246 total opcodes
 | **RST $n$** | $n \in \{0..7\}$| 1 | 3 | 12 | Software Restart: Calls vector$(n \times 8_{10})$. |
 
 
+---
+
+#### Code Examples — Branching & Control Flow
+
+```assembly
+; ─── JMP: Unconditional Jump ──────────────────────────────────────────
+JMP START         ; Jump always to label START
+
+; ─── JZ / JNZ: Jump on Zero / Not Zero ──────────────────────────────
+MVI A, 00H
+CPI 00H           ; Compare A with 0 → Z=1
+JZ  IS_ZERO       ; Jump because A == 0
+
+MVI C, 0AH        ; Counter = 10
+LOOP:
+  ; ... loop body ...
+DCR C             ; C = C - 1; Z=1 when C reaches 0
+JNZ LOOP          ; Repeat while C != 0
+
+; ─── JC / JNC: Jump on Carry / No Carry ─────────────────────────────
+MVI A, 50H
+MVI B, 30H
+CMP B             ; A - B: CY=0 (no borrow; A > B)
+JC  A_LESS_THAN_B ; Jump only if A < B (Carry Set means borrow)
+JNC A_GREATER_EQ  ; Jump if A >= B
+
+; ─── JM / JP: Jump on Sign (Minus / Positive) ────────────────────────
+MVI A, 0FFH       ; A = -1 in signed (bit 7 = 1)
+ORA A             ; Refresh sign flag
+JM  NEGATIVE      ; Jump since S=1 (bit 7 set)
+
+; ─── CALL / RET: Subroutine ──────────────────────────────────────────
+          CALL MY_SUBROUTINE   ; Push PC onto stack, jump to subroutine
+          ; ... returns here after RET ...
+          HLT
+
+MY_SUBROUTINE:
+          MVI A, 0FFH           ; Subroutine body
+          RET                   ; Pop return address from stack into PC
+
+; ─── CALL with condition: Call if Zero ────────────────────────────────
+          CPI 00H
+          CZ  HANDLE_ZERO       ; Call HANDLE_ZERO only if A == 0
+
+; ─── RST: Software Restart ────────────────────────────────────────────
+          RST 5                 ; Call vector address 0028H (5 × 8)
+          RST 7                 ; Call vector address 0038H (7 × 8)
+
+; ─── PCHL: Indirect Jump via HL ─────────────────────────────────────
+          LXI H, TARGET_ADDR    ; HL = jump destination address
+          PCHL                  ; PC = HL (jump to address in HL)
+```
 
 ---
 
 
-
-### 7.5 Stack, I/O & Machine Control Group
 
 
 
@@ -699,16 +941,60 @@ The 8085 features **80 basic instructions** that expand into **246 total opcodes
 | **SIM** | None | 1 | 1 | 4 | **None** | Set Interrupt Mask & serial output bit (SOD) from A. |
 
 
-
 [Source: 8085 PPT, Slides 24–25; Gaonkar Architecture & Programming]
 
+---
 
+#### Code Examples — Stack, I/O & Machine Control
+
+```assembly
+; ─── PUSH / POP: Save and Restore Registers ──────────────────────────
+          PUSH B        ; Push BC pair onto stack (SP = SP - 2)
+          PUSH D        ; Push DE pair
+          PUSH H        ; Push HL pair
+          PUSH PSW      ; Push A and Flags
+          ; ... critical section ...
+          POP PSW       ; Restore A and Flags (reverse order!)
+          POP H         ; Restore HL
+          POP D         ; Restore DE
+          POP B         ; Restore BC
+
+; ─── XTHL: Exchange Top-of-Stack with HL ─────────────────────────────
+          LXI H, 1234H  ; HL = 1234H
+          XTHL          ; H ↔ [SP+1], L ↔ [SP] (swap TOS and HL)
+
+; ─── SPHL: Copy HL to Stack Pointer ────────────────────────────────
+          LXI H, 2000H
+          SPHL          ; SP = HL = 2000H (initialize/relocate stack)
+
+; ─── IN / OUT: I/O Port Access ───────────────────────────────────────
+          IN  00H       ; A = byte from I/O port 00H (e.g., switch state)
+          OUT 01H       ; I/O port 01H = A (e.g., output to display)
+
+; ─── EI / DI: Enable / Disable Interrupts ────────────────────────────
+          DI            ; Disable all maskable interrupts
+          ; ... critical section (no interrupt allowed) ...
+          EI            ; Re-enable interrupts
+
+; ─── RIM / SIM: Read / Set Interrupt Mask & Serial I/O ───────────────
+          RIM           ; A = interrupt mask + SID bit (read current mask)
+          ; After RIM:
+          ; A[7] = SID (Serial Input Data bit)
+          ; A[6:5:4] = pending RST7.5:6.5:5.5
+          ; A[3] = interrupt enable flag
+          ; A[2:1:0] = RST7.5:6.5:5.5 masks
+
+          MVI A, 0EH    ; 0000 1110 = enable INTR, mask RST7.5,6.5,5.5
+          SIM           ; Apply mask settings
+
+; ─── HLT / NOP: Halt and No-Op ──────────────────────────────────────
+          NOP           ; No operation (3 T-states used as delay)
+          HLT           ; Halt CPU — waits for RESET or interrupt
+```
 
 ---
 
 
-
-## 8. Practical Worked Assembly Programs (8085)
 
 
 

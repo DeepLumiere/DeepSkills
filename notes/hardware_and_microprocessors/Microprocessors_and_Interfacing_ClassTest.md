@@ -2870,7 +2870,7 @@ flowchart TD
 
 | **RST 6.5** | High Level | 3 | `0034H` | Maskable via `SIM` |
 
-| **RST 5.5** | High Level | 4 | `002CH` | Maskable via `SIM` |
+| **RST 5.5** | High Level | 4 | `0020H` | Maskable via `SIM` |
 
 | **INTR** | High Level | 5 (Lowest) | Non-vectored (from Bus) | Maskable via `EI`/`DI` |
 

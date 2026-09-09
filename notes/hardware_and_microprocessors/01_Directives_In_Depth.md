@@ -247,11 +247,9 @@ Each single iteration generates:
 
 
 
-2885
-
-0, \quad [1, 2, 1, 2], \quad 0, \quad 3 \implies 7 	ext{ bytes per group}
-
-2885
+$$
+0, \quad [1, 2, 1, 2], \quad 0, \quad 3 \implies 7 \text{ bytes per group}
+$$
 
 
 
@@ -788,5 +786,6 @@ CODE ENDS
 
 ## Summary Formula
 
-- **Physical Address Formula:** $	ext{Physical Address} = (	ext{Segment} 	imes 16) + 	ext{Offset}$.
-
+$$
+\text{Physical Address} = (\text{Segment} \times 16) + \text{Offset}
+$$
