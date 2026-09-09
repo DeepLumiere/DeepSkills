@@ -43,21 +43,13 @@ HTML5 introduced native multimedia codecs directly into the browser DOM without 
 
 
 | Attribute Name | Permissible Values | Default | Technical Behavior |
-
 | :--- | :--- | :--- | :--- |
-
 | `controls` | Boolean flag (`controls`) | Absent (false) | Renders the browser native playback UI (Play, Pause, Volume, Seekbar, Fullscreen). |
-
 | `autoplay` | Boolean flag (`autoplay`) | Absent (false) | Instructs browser to stream and play media immediately upon document load. *(Subject to browser autoplay policies).* |
-
 | `loop` | Boolean flag (`loop`) | Absent (false) | Causes media playback to restart from timeline $0.0\text{s}$ upon reaching completion. |
-
 | `muted` | Boolean flag (`muted`) | Absent (false) | Forces audio output level to $0\text{dB}$. **Mandatory** for programmatic `autoplay` in modern Chrome/Safari. |
-
 | `preload` | `auto`, `metadata`, `none` | `auto` | `auto`: buffers full file; `metadata`: buffers dimensions/duration only; `none`: zero network pre-fetching. |
-
 | `poster` | Valid image URI | None | Specifies a placeholder thumbnail graphic displayed prior to playback initiation (video only). |
-
 | `width` / `height` | Positive integers (pixels) | Intrinsic stream size | Specifies layout box dimensions on the page canvas. |
 
 
@@ -115,21 +107,13 @@ HTML5 introduced native multimedia codecs directly into the browser DOM without 
 
 
 | HTML5 Tag | Semantic Specification | Rendering Characteristics | Accessibility Role (ARIA Mapping) |
-
 | :--- | :--- | :--- | :--- |
-
 | `<header>` | Introductory content, top-level navigation container, branding elements. | Block-level display. | Maps to landmark `role="banner"` (at document root). |
-
 | `<footer>` | Author information, copyright declarations, disclosure links, sitemaps. | Block-level display. | Maps to landmark `role="contentinfo"`. |
-
 | `<figure>` | Self-contained illustrative unit (illustrations, photos, diagrams, code blocks). | Block-level, default browser margin $1\text{em}$ left/right. | Maps to `role="figure"`. |
-
 | `<figcaption>` | Captions, titles, or descriptions tied to parent `<figure>`. | Block-level inside `<figure>`. | Supplies accessible label for parent `<figure>`. |
-
 | `<mark>` | Represents text highlighted for reference due to relevance in another context. | Inline display, default browser background `#ffff00` (yellow). | Highlighted semantic status. |
-
 | `<progress>` | Visual progress bar of a task of known or indeterminate duration. | Inline-block; attributes: `value` (current float) and `max` (target float). | Maps to `role="progressbar"`. |
-
 | `<canvas>` | Resolution-dependent bitmap canvas for scriptable dynamic 2D/3D graphics. | Inline-block, default $300 \times 150\text{px}$ buffer. | Pixel canvas buffer. |
 
 
@@ -255,23 +239,14 @@ The Geolocation API allows client-side applications to access the device's geogr
 
 
 | Object / Property | Data Type | Units / Range | Meaning & Diagnostic Role |
-
 | :--- | :--- | :--- | :--- |
-
 | `coords.latitude` | Decimal Float | $-90.00^{\circ}$to$+90.00^{\circ}$ | Geographic latitude in decimal degrees. |
-
 | `coords.longitude` | Decimal Float | $-180.00^{\circ}$to$+180.00^{\circ}$ | Geographic longitude in decimal degrees. |
-
 | `coords.accuracy` | Decimal Float | Meters | Accuracy level of latitude and longitude (95% confidence radius). |
-
 | `coords.altitude` | Float or `null` | Meters above sea level | Altitude relative to WGS 84 ellipsoid. |
-
 | `coords.speed` | Float or `null` | Meters / second | Instantaneous ground velocity of the device. |
-
 | `error.code = 1` | Integer Constant | `PERMISSION_DENIED` | User explicitly clicked "Block" or system permissions prohibited location access. |
-
 | `error.code = 2` | Integer Constant | `POSITION_UNAVAILABLE` | Network or satellite triangulation failed to lock coordinates. |
-
 | `error.code = 3` | Integer Constant | `TIMEOUT` | Device failed to resolve coordinates within `options.timeout` milliseconds. |
 
 
@@ -345,17 +320,11 @@ navigator.geolocation.getCurrentPosition(
 
 
 | Feature / Dimension | `window.localStorage` | `window.sessionStorage` | Traditional HTTP Cookies |
-
 | :--- | :--- | :--- | :--- |
-
 | **Persistence Duration** | Permanent until explicitly deleted by code or user. | Survives page reloads; destroyed when browser tab closes. | Governed by `Expires` or `Max-Age` header. |
-
 | **Storage Capacity** | $\sim 5\text{MB} - 10\text{MB}$per origin. |$\sim 5\text{MB}$per origin. |$\le 4\text{KB}$ total per cookie. |
-
 | **Network Overhead** | Zero. Client-side local access only. | Zero. Client-side local access only. | Transmitted automatically on **every** HTTP request header. |
-
 | **API Methods** | `setItem`, `getItem`, `removeItem`, `clear`. | `setItem`, `getItem`, `removeItem`, `clear`. | Raw string parsing (`document.cookie`). |
-
 | **Execution Synchronicity**| Synchronous blocking on UI thread. | Synchronous blocking on UI thread. | Synchronous. |
 
 
@@ -365,19 +334,12 @@ navigator.geolocation.getCurrentPosition(
 
 
 | Method Signature | Return Value | Functional Description |
-
 | :--- | :--- | :--- |
-
 | `setItem(key, value)` | `undefined` | Stores `value` under string identifier `key`. Strings only. |
-
 | `getItem(key)` | String or `null` | Retrieves string payload for `key`; returns `null` if key does not exist. |
-
 | `removeItem(key)` | `undefined` | Deletes specific record matching `key`. |
-
 | `clear()` | `undefined` | Purges all key-value entries belonging to the origin. |
-
 | `key(index)` | String or `null` | Returns the key name at zero-indexed position `index`. |
-
 | `length` | Integer (Property) | Returns total count of key-value pairs stored in the namespace. |
 
 
@@ -441,21 +403,13 @@ The Drag and Drop API allows elements to become draggable objects that can be mo
 
 
 | Event Listener | Target Element | Purpose & Mandatory Handler Code |
-
 | :--- | :--- | :--- |
-
 | `ondragstart` | Draggable Item | Initiates the drag operation; sets drag payload via `dataTransfer.setData()`. |
-
 | `ondrag` | Draggable Item | Fires continuously while the element is in motion. |
-
 | `ondragend` | Draggable Item | Fires when the user releases the mouse button, completing or aborting the drag. |
-
 | `ondragenter` | Drop Target Zone | Fires when a dragged item crosses into the bounding box of a drop target. |
-
 | `ondragover` | Drop Target Zone | **CRITICAL:** Fires continuously over drop zone. **Must call `event.preventDefault()`** to permit drop! |
-
 | `ondragleave` | Drop Target Zone | Fires when the dragged item exits the bounding box of the drop zone. |
-
 | `ondrop` | Drop Target Zone | Executes drop logic; retrieves data payload via `dataTransfer.getData()`. **Must call `event.preventDefault()`**. |
 
 
@@ -751,15 +705,10 @@ flowchart TD
 
 
 | Dimension | CDN Edge Delivery | Offline Compiled Deployment |
-
 | :--- | :--- | :--- |
-
 | **Availability** | Requires active internet connection; subject to corporate proxy blocks. | $100\%$ available offline, on air-gapped intranets, and local dev environments. |
-
 | **Latency** | Low globally due to geographically distributed edge servers (PoPs). | High-speed on local network; dependent on self-hosted origin server bandwidth. |
-
 | **Caching** | Benefit of shared browser cache across sites. | Scoped exclusively to the application origin host domain. |
-
 | **Customizability** | Fixed standard build; cannot toggle Sass configuration variables. | Full Sass source access; can prune unused modules and override theme variables. |
 
 
@@ -783,21 +732,13 @@ Containers provide the foundational responsive wrapper by padding, centering, an
 
 
 | Container Class | Extra Small (`xs`) $<576\text{px}$| Small (`sm`)$\ge 576\text{px}$| Medium (`md`)$\ge 768\text{px}$| Large (`lg`)$\ge 992\text{px}$| Extra Large (`xl`)$\ge 1200\text{px}$| Extra Extra Large (`xxl`)$\ge 1400\text{px}$ |
-
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-
 | `.container` | $100\%$|$540\text{px}$|$720\text{px}$|$960\text{px}$|$1140\text{px}$|$1320\text{px}$ |
-
 | `.container-sm` | $100\%$|$540\text{px}$|$720\text{px}$|$960\text{px}$|$1140\text{px}$|$1320\text{px}$ |
-
 | `.container-md` | $100\%$|$100\%$|$720\text{px}$|$960\text{px}$|$1140\text{px}$|$1320\text{px}$ |
-
 | `.container-lg` | $100\%$|$100\%$|$100\%$|$960\text{px}$|$1140\text{px}$|$1320\text{px}$ |
-
 | `.container-xl` | $100\%$|$100\%$|$100\%$|$100\%$|$1140\text{px}$|$1320\text{px}$ |
-
 | `.container-xxl` | $100\%$|$100\%$|$100\%$|$100\%$|$100\%$|$1320\text{px}$ |
-
 | `.container-fluid` | $100\%$|$100\%$|$100\%$|$100\%$|$100\%$|$100\%$ |
 
 
@@ -868,23 +809,14 @@ $$
 
 
 | Column Class Pattern | Parameter Options | Functional Behavior |
-
 | :--- | :--- | :--- |
-
 | `.col` | None | Equal-width auto-layout column; distributes remaining row width equally among sibling `.col` elements. |
-
 | `.col-{1-12}` | Integers $1$through$12$ | Unconditional span: occupies fixed fraction of the 12 columns across all viewport sizes. |
-
 | `.col-{bp}-{1-12}` | `bp` $\in$`{sm, md, lg, xl, xxl}`, width$\in$`{1..12}` | Responsive span: stacks$100\%$ width below breakpoint `bp`; spans specified columns at and above `bp`. |
-
 | `.col-auto` | None | Natural width column: sizes itself strictly based on the intrinsic width of its content. |
-
 | `.offset-{1-11}` | Integers $1$through$11$ | Moves column to the right by increasing left margin by specified column units. |
-
 | `.offset-{bp}-{1-11}`| `bp` $\in$`{sm, md, lg, xl, xxl}`, offset$\in$ `{1..11}` | Responsive column offset applied at and above target breakpoint. |
-
 | `.row-cols-{1-6}` | Integers $1$through$6$ | Declared on parent `.row`: sets default number of columns rendered per row before wrapping. |
-
 | `.g-{0-5}`, `.gx-{0-5}`, `.gy-{0-5}` | Integers $0$through$5$ | Sets horizontal/vertical gutter spacing between columns ($0=0, 1=0.25\text{rem}, ..., 5=3\text{rem}$). |
 
 
@@ -1604,61 +1536,33 @@ Formulas:
 
 
 | Key ($n$) | rem Equivalent | Pixel Value ($1\text{rem} = 16\text{px}$) | Classes Available |
-
 | :--- | :--- | :--- | :--- |
-
 | `0` | `0rem` | `0px` | `p-0`, `m-0`, `gap-0`, `space-x-0` |
-
 | `px` | `1px` (fixed) | `1px` | `p-px`, `m-px`, `-m-px` |
-
 | `0.5` | `0.125rem` | `2px` | `p-0.5`, `m-0.5`, `gap-0.5` |
-
 | `1` | `0.25rem` | `4px` | `p-1`, `m-1`, `gap-1`, `space-x-1` |
-
 | `1.5` | `0.375rem` | `6px` | `p-1.5`, `m-1.5`, `gap-1.5` |
-
 | `2` | `0.5rem` | `8px` | `p-2`, `m-2`, `gap-2`, `space-x-2` |
-
 | `2.5` | `0.625rem` | `10px` | `p-2.5`, `m-2.5`, `gap-2.5` |
-
 | `3` | `0.75rem` | `12px` | `p-3`, `m-3`, `gap-3`, `space-x-3` |
-
 | `3.5` | `0.875rem` | `14px` | `p-3.5`, `m-3.5`, `gap-3.5` |
-
 | `4` | `1.0rem` | `16px` | `p-4`, `m-4`, `gap-4`, `space-x-4` |
-
 | `5` | `1.25rem` | `20px` | `p-5`, `m-5`, `gap-5` |
-
 | `6` | `1.5rem` | `24px` | `p-6`, `m-6`, `gap-6`, `space-x-6` |
-
 | `8` | `2.0rem` | `32px` | `p-8`, `m-8`, `gap-8`, `space-x-8` |
-
 | `10` | `2.5rem` | `40px` | `p-10`, `m-10`, `gap-10` |
-
 | `12` | `3.0rem` | `48px` | `p-12`, `m-12`, `gap-12` |
-
 | `16` | `4.0rem` | `64px` | `p-16`, `m-16`, `gap-16` |
-
 | `20` | `5.0rem` | `80px` | `p-20`, `m-20`, `gap-20` |
-
 | `24` | `6.0rem` | `96px` | `p-24`, `m-24`, `gap-24` |
-
 | `32` | `8.0rem` | `128px` | `p-32`, `m-32`, `gap-32` |
-
 | `40` | `10.0rem` | `160px` | `p-40`, `m-40` |
-
 | `48` | `12.0rem` | `192px` | `p-48`, `m-48` |
-
 | `56` | `14.0rem` | `224px` | `p-56`, `m-56` |
-
 | `64` | `16.0rem` | `256px` | `p-64`, `m-64` |
-
 | `72` | `18.0rem` | `288px` | `p-72`, `m-72` |
-
 | `80` | `20.0rem` | `320px` | `p-80`, `m-80` |
-
 | `96` | `24.0rem` | `384px` | `p-96`, `m-96` |
-
 | `auto` | Auto spacing | Dynamic | `m-auto`, `mx-auto`, `my-auto` |
 
 
@@ -1684,17 +1588,11 @@ Formulas:
 
 
 | Category | Available Utility Classes | Description & Value |
-
 | :--- | :--- | :--- |
-
 | **Fixed Width** | `w-0` through `w-96`, `w-px` | Follows spacing scale (e.g., `w-64` $= 256\text{px}$). |
-
 | **Fractional Width** | `w-1/2` ($50\%$), `w-1/3` ($33.3\%$), `w-2/3` ($66.6\%$), `w-1/4` ($25\%$), `w-3/4` ($75\%$), `w-1/5` to `w-4/5`, `w-1/6` to `w-5/6`, `w-1/12` to `w-11/12` | Grid and column division fractions. |
-
 | **Full / Screen Width** | `w-full` ($100\%$), `w-screen` ($100\text{vw}$), `w-min`, `w-max`, `w-fit` | Container sizing utilities. |
-
 | **Height** | `h-0` through `h-96`, `h-full` ($100\%$), `h-screen` ($100\text{vh}$), `h-fit` | Vertical dimensions. |
-
 | **Max Width** | `max-w-none`, `max-w-xs` ($320\text{px}$), `max-w-sm` ($384\text{px}$), `max-w-md` ($448\text{px}$), `max-w-lg` ($512\text{px}$), `max-w-xl` ($576\text{px}$), `max-w-2xl` ($672\text{px}$), `max-w-3xl` ($768\text{px}$), `max-w-4xl` ($896\text{px}$), `max-w-5xl` ($1024\text{px}$), `max-w-6xl` ($1152\text{px}$), `max-w-7xl` ($1280\text{px}$), `max-w-full`, `max-w-prose` ($65\text{ch}$) | Optimal reading and layout bounds. |
 
 
@@ -1708,21 +1606,13 @@ Formulas:
 
 
 | Property Domain | Available Class Catalog | Resulting CSS Rule |
-
 | :--- | :--- | :--- |
-
 | **Font Size** | `text-xs` ($12\text{px}$), `text-sm` ($14\text{px}$), `text-base` ($16\text{px}$), `text-lg` ($18\text{px}$), `text-xl` ($20\text{px}$), `text-2xl` ($24\text{px}$), `text-3xl` ($30\text{px}$), `text-4xl` ($36\text{px}$), `text-5xl` ($48\text{px}$), `text-6xl` ($60\text{px}$), `text-7xl` ($72\text{px}$), `text-8xl` ($96\text{px}$), `text-9xl` ($128\text{px}$) | `font-size: ...; line-height: ...;` |
-
 | **Font Weight** | `font-thin` (100), `font-extralight` (200), `font-light` (300), `font-normal` (400), `font-medium` (500), `font-semibold` (600), `font-bold` (700), `font-extrabold` (800), `font-black` (900) | `font-weight: ...;` |
-
 | **Letter Spacing** | `tracking-tighter` ($-0.05\text{em}$), `tracking-tight` ($-0.025\text{em}$), `tracking-normal` ($0\text{em}$), `tracking-wide` ($0.025\text{em}$), `tracking-wider` ($0.05\text{em}$), `tracking-widest` ($0.1\text{em}$) | `letter-spacing: ...;` |
-
 | **Line Height** | `leading-none` (1), `leading-tight` (1.25), `leading-snug` (1.375), `leading-normal` (1.5), `leading-relaxed` (1.625), `leading-loose` (2) | `line-height: ...;` |
-
 | **Text Transform** | `uppercase`, `lowercase`, `capitalize`, `normal-case` | `text-transform: ...;` |
-
 | **Text Alignment** | `text-left`, `text-center`, `text-right`, `text-justify` | `text-align: ...;` |
-
 | **Text Truncation** | `truncate` (ellipsis on single line), `text-ellipsis`, `text-clip` | `overflow: hidden; text-overflow: ellipsis; white-space: nowrap;` |
 
 
@@ -1762,23 +1652,14 @@ Tailwind supplies full palettes across shades `50, 100, 200, 300, 400, 500, 600,
 
 
 | Category | Class Names | CSS Declarations |
-
 | :--- | :--- | :--- |
-
 | **Display** | `flex`, `inline-flex`, `grid`, `inline-grid` | `display: flex | inline-flex | grid` |
-
 | **Flex Direction** | `flex-row`, `flex-row-reverse`, `flex-col`, `flex-col-reverse` | `flex-direction: ...;` |
-
 | **Flex Wrap** | `flex-wrap`, `flex-wrap-reverse`, `flex-nowrap` | `flex-wrap: ...;` |
-
 | **Justify Content** | `justify-start`, `justify-end`, `justify-center`, `justify-between`, `justify-around`, `justify-evenly` | `justify-content: ...;` |
-
 | **Align Items** | `items-start`, `items-end`, `items-center`, `items-baseline`, `items-stretch` | `align-items: ...;` |
-
 | **Grid Columns** | `grid-cols-1` through `grid-cols-12`, `grid-cols-none` | `grid-template-columns: repeat(N, minmax(0, 1fr));` |
-
 | **Grid Column Span** | `col-auto`, `col-span-1` through `col-span-12`, `col-span-full` | `grid-column: span N / span N;` |
-
 | **Grid Gap** | `gap-{n}`, `gap-x-{n}`, `gap-y-{n}` (uses spacing scale $0$to$96$) | `gap: ...;` |
 
 
@@ -1792,17 +1673,11 @@ Tailwind supplies full palettes across shades `50, 100, 200, 300, 400, 500, 600,
 
 
 | Category | Options Catalog | Resulting CSS Behavior |
-
 | :--- | :--- | :--- |
-
 | **Border Width** | `border` ($1\text{px}$), `border-0`, `border-2`, `border-4`, `border-8`, `border-t-2`, `border-b-4` | Border stroke width. |
-
 | **Border Radius** | `rounded-none`, `rounded-sm` ($2\text{px}$), `rounded` ($4\text{px}$), `rounded-md` ($6\text{px}$), `rounded-lg` ($8\text{px}$), `rounded-xl` ($12\text{px}$), `rounded-2xl` ($16\text{px}$), `rounded-3xl` ($24\text{px}$), `rounded-full` ($9999\text{px}$) | `border-radius: ...;` |
-
 | **Box Shadow** | `shadow-sm`, `shadow`, `shadow-md`, `shadow-lg`, `shadow-xl`, `shadow-2xl`, `shadow-inner`, `shadow-none` | Outer and inner drop shadows. |
-
 | **Image Filters** | `blur-none`, `blur-sm`, `blur`, `blur-md`, `blur-lg`, `grayscale`, `grayscale-0`, `sepia`, `invert` | CSS `filter: blur(...) grayscale(...)` |
-
 | **Transitions** | `transition-all`, `duration-150`, `duration-300`, `duration-500`, `ease-in-out`, `scale-105`, `rotate-6` | Hardware-accelerated CSS animations. |
 
 
@@ -1816,17 +1691,11 @@ Tailwind supplies full palettes across shades `50, 100, 200, 300, 400, 500, 600,
 
 
 | Modifier Category | Syntax Format | Trigger Condition |
-
 | :--- | :--- | :--- |
-
 | **Responsive Prefix** | `sm:` ($\ge 640\text{px}$), `md:` ($\ge 768\text{px}$), `lg:` ($\ge 1024\text{px}$), `xl:` ($\ge 1280\text{px}$), `2xl:` ($\ge 1536\text{px}$) | Mobile-first CSS media queries (`min-width`). |
-
 | **State Modifiers** | `hover:`, `focus:`, `active:`, `visited:`, `disabled:` | User interactions on target element. |
-
 | **Parent/Group State** | `group-hover:`, `group-focus:` (requires `group` on parent) | Styles child based on parent interaction. |
-
 | **Dark Mode** | `dark:bg-slate-900 dark:text-white` | Applies when `prefers-color-scheme: dark` or `.dark` class is set. |
-
 | **Arbitrary Values** | `w-[350px]`, `bg-[#10b981]`, `top-[17px]`, `grid-cols-[200px_1fr]` | Precise square-bracket escape syntax for non-standard values. |
 
 
@@ -2006,37 +1875,21 @@ Directives are special attributes prefixed with `v-` that apply reactive behavio
 
 
 | Directive | Shorthand | Expected Value | DOM & Technical Behavior |
-
 | :--- | :--- | :--- | :--- |
-
 | `v-text` | None | `string` | Updates the element's `textContent`. Escapes HTML entities, rendering them as literal characters. |
-
 | `v-html` | None | `string` | Updates the element's `innerHTML`. Renders raw HTML strings. **Severe XSS hazard** if data is untrusted. |
-
 | `v-show` | None | `any` (truthy/falsy) | Toggles CSS `display: none` via inline style. Element always stays resident in the DOM tree. |
-
 | `v-if` | None | `any` (truthy/falsy) | Conditionally creates or completely destroys the element and its children from the real DOM tree. |
-
 | `v-else-if`| None | `any` (truthy/falsy) | Denotes the "else if" branch for a preceding `v-if` or `v-else-if` sibling. |
-
 | `v-else` | None | None (Flag) | Denotes the "else" fallback block for a preceding `v-if` or `v-else-if` sibling. |
-
 | `v-for` | None | Array / Object / Number / String | Iteratively clones the element. Syntax: `(item, index) in items` or `(val, key, index) in obj`. Requires `:key`. |
-
 | `v-on` | `@` | Function / Inline Statement | Attaches DOM event listeners. Supports extensive event, keyboard, mouse, and system modifiers. |
-
 | `v-bind` | `:` | Object / Array / Primitive | Dynamically binds HTML attributes or component props to reactive state expressions. |
-
 | `v-model` | None | Reactive State Variable | Creates two-way data binding on form inputs, textareas, checkboxes, radio buttons, and selects. |
-
 | `v-slot` | `#` | Slot name / Scoped props | Declares named or scoped slot templates consumed by child components. |
-
 | `v-pre` | None | None (Flag) | Skips compilation for this element and all its children. Displays raw mustache tags `{{ }}` for documentation. |
-
 | `v-cloak` | None | None (Flag) | Remains on the element until the Vue instance finishes compilation. Used with CSS `[v-cloak] { display: none; }`. |
-
 | `v-once` | None | None (Flag) | Renders the element and component once only. Future reactive state updates will not trigger a re-render. |
-
 | `v-memo` | None | Array of dependencies | Memoizes a sub-tree of the template. Re-renders only if values in dependency array change (Vue 3.2+). |
 
 
@@ -2102,19 +1955,12 @@ Directives are special attributes prefixed with `v-` that apply reactive behavio
 
 
 | Modifier Name | Native Event Equivalent | Technical Action |
-
 | :--- | :--- | :--- |
-
 | `.stop` | `event.stopPropagation()` | Halts event bubbling up the DOM parent hierarchy. |
-
 | `.prevent` | `event.preventDefault()` | Cancels default browser action (e.g. form submission, anchor navigation). |
-
 | `.capture` | `{ capture: true }` | Sets event listener to fire during the capture phase rather than the bubble phase. |
-
 | `.self` | `if (event.target === event.currentTarget)` | Fires handler only if event was dispatched by this exact element, not a descendant. |
-
 | `.once` | `{ once: true }` | Automatically detaches event listener after firing exactly once. |
-
 | `.passive` | `{ passive: true }` | Informs browser the handler will never call `preventDefault()`. Optimizes mobile scroll. |
 
 
@@ -2124,13 +1970,9 @@ Directives are special attributes prefixed with `v-` that apply reactive behavio
 
 
 | Modifier Name | Data Type Behavior | Functional Action |
-
 | :--- | :--- | :--- |
-
 | `.lazy` | Change Event Binding | Syncs input value to reactive state on native `change` (blur) rather than `input` events. |
-
 | `.number` | Number Typecasting | Automatically casts string input to JavaScript float/integer via `parseFloat()`. |
-
 | `.trim` | String Sanitization | Automatically trims leading and trailing whitespace from user input. |
 
 
@@ -2192,23 +2034,14 @@ Custom directives provide low-level direct DOM manipulation hooks on elements.
 
 
 | Vue 2 Hook Name | Vue 3 Hook Name | Execution Timing in Element Lifecycle |
-
 | :--- | :--- | :--- |
-
 | *(None)* | `created(el, binding, vnode, prevVnode)` | Called before attributes or event listeners are applied to the element. |
-
 | `bind` | `beforeMount(el, binding, vnode, prevVnode)` | Called when directive is bound to element, but before element is inserted into DOM. |
-
 | `inserted` | `mounted(el, binding, vnode, prevVnode)` | **Most Common:** Called once the element is inserted into the parent document DOM. |
-
 | *(None)* | `beforeUpdate(el, binding, vnode, prevVnode)` | Called before the containing component itself is updated in the VDOM. |
-
 | `update` | *(Combined with updated)* | In Vue 2: called after containing component updates, but before children update. |
-
 | `componentUpdated`| `updated(el, binding, vnode, prevVnode)` | Called after the containing component AND all its child VNodes have re-rendered. |
-
 | *(None)* | `beforeUnmount(el, binding, vnode, prevVnode)`| Called before the bound element is unmounted from the DOM. |
-
 | `unbind` | `unmounted(el, binding, vnode, prevVnode)` | Called once when directive is unbound from element and parent component unmounted. |
 
 
@@ -2488,21 +2321,13 @@ flowchart TD
 
 
 | Hook | Options API | Composition API | When it Runs |
-
 | :--- | :--- | :--- | :--- |
-
 | Setup/Created | `created()` | `setup()` begins | Data reactive; no DOM yet |
-
 | Before Mount | `beforeMount()` | `onBeforeMount()` | Template compiled, DOM not attached |
-
 | Mounted | `mounted()` | `onMounted()` | ✅ Component in DOM — use for DOM access, API calls |
-
 | Before Update | `beforeUpdate()` | `onBeforeUpdate()` | Data changed, DOM not yet re-rendered |
-
 | Updated | `updated()` | `onUpdated()` | DOM re-rendered after data change |
-
 | Before Unmount | `beforeUnmount()` | `onBeforeUnmount()` | Cleanup timers, event listeners |
-
 | Unmounted | `unmounted()` | `onUnmounted()` | Component fully removed from DOM |
 
 
@@ -2686,15 +2511,10 @@ async function submitForm(formData) {
 
 
 | Architectural Feature | Options API (`Vue 2 / Vue 3`) | Composition API (`Vue 3`) |
-
 | :--- | :--- | :--- |
-
 | **Logic Organization** | Split into option blocks: `data`, `methods`, `computed`, `watch`. | Grouped together by logical feature inside `setup()`. |
-
 | **Reactivity Primitives** | Object properties defined in `data()` wrapped via `Object.defineProperty` (Vue 2) or `Proxy` (Vue 3). | Explicit reactive wrappers: `ref()` (primitives/objects) and `reactive()` (objects). |
-
 | **Code Reusability** | Mixins (subject to namespace collisions and implicit source tracing). | Composable Functions (Hooks) with explicit parameter and return signatures. |
-
 | **TypeScript Support** | Complex type inference across `this` context. | Native First-Class TypeScript type inference. |
 
 
@@ -2884,15 +2704,10 @@ flowchart TD
 
 
 | Architectural Dimension | Real Browser DOM | React Virtual DOM |
-
 | :--- | :--- | :--- |
-
 | **Data Structure** | Heavy C++ browser internal tree representation of HTML document. | Lightweight plain JavaScript object in heap memory (`{ type, props, children }`). |
-
 | **Update Mechanism** | Direct mutation causes expensive layout recalculations, reflows, and repaints. | In-memory tree comparison; real DOM is only mutated for changed nodes. |
-
 | **Performance Impact** | Slow on frequent updates; $O(N)$ real DOM mutations cause dropped frames. | High throughput via batched updates and $O(N)$ heuristic diffing. |
-
 | **Platform Portability**| Locked exclusively to browser web rendering engines. | Platform agnostic (can render to Web, Mobile via React Native, or Terminal). |
 
 
@@ -3068,15 +2883,10 @@ function Button({ label = "Click Me", color = "blue" }) {
 
 
 | Dimension | Modern Functional Components (with Hooks) | Traditional Class Components |
-
 | :--- | :--- | :--- |
-
 | **Syntax** | Pure JavaScript function returning JSX. | ES6 Class extending `React.Component` implementing `render()`. |
-
 | **State Management**| Handled via `useState` and `useReducer` hooks. | Handled via `this.state` and `this.setState()`. |
-
 | **Lifecycle Handling**| Unified via `useEffect` hook. | Fragmented across `componentDidMount`, `componentDidUpdate`, etc. |
-
 | **`this` Binding** | No `this` keyword; lexical scope prevents context confusion. | Requires manual method binding in `constructor` or arrow functions. |
 
 
@@ -3202,17 +3012,11 @@ class Counter extends React.Component {
 
 
 | Class Lifecycle | Functional Hook Equivalent | When It Runs |
-
 | :--- | :--- | :--- |
-
 | `constructor` | `useState` initial value | Component initialization |
-
 | `componentDidMount` | `useEffect(() => {}, [])` | After first render only |
-
 | `componentDidUpdate` | `useEffect(() => {}, [dep])` | After dependency changes |
-
 | `componentWillUnmount` | `useEffect` cleanup return fn | Before unmount |
-
 | `render()` | Component function body | On every render |
 
 
@@ -3262,15 +3066,10 @@ function Counter() {
 
 
 | Dependency Array Argument | Execution Timing in Lifecycle | Traditional Class Equivalent |
-
 | :--- | :--- | :--- |
-
 | `useEffect(() => { ... })` *(No array)* | Runs after **every** single render (initial mount + updates). | `componentDidMount` + `componentDidUpdate` |
-
 | `useEffect(() => { ... }, [])` *(Empty array)* | Runs **once only** after initial DOM mount. | `componentDidMount` |
-
 | `useEffect(() => { ... }, [propA, stateB])` | Runs on mount and whenever `propA` or `stateB` change value. | `componentDidUpdate` (conditional on prop changes) |
-
 | `return () => { ... }` *(Cleanup function)* | Runs before re-executing effect and immediately prior to unmount. | `componentWillUnmount` |
 
 
@@ -3332,21 +3131,13 @@ function WindowResizeTracker() {
 
 
 | Hook | Purpose | Basic Signature |
-
 | :--- | :--- | :--- |
-
 | `useState` | Local state management | `const [value, setValue] = useState(init)` |
-
 | `useEffect` | Side effects (data fetch, subscriptions) | `useEffect(fn, [deps])` |
-
 | `useRef` | Mutable ref / DOM node access | `const ref = useRef(initialValue)` |
-
 | `useContext` | Consume React Context (global state) | `const value = useContext(MyContext)` |
-
 | `useMemo` | Memoize expensive computed value | `const val = useMemo(() => compute(), [deps])` |
-
 | `useCallback` | Memoize function to prevent re-creation | `const fn = useCallback(() => {}, [deps])` |
-
 | `useReducer` | Complex state with reducer pattern | `const [state, dispatch] = useReducer(reducer, init)` |
 
 
@@ -3648,21 +3439,13 @@ export default UserList;
 
 
 | Dimension / Evaluation Parameter | Bootstrap 5 | Tailwind CSS | Pure Hand-Crafted CSS3 |
-
 | :--- | :--- | :--- | :--- |
-
 | **Core Design Paradigm** | Component-Oriented (pre-packaged `.card`, `.btn`, `.navbar`). | Utility-First (atomic building blocks: `flex`, `p-4`, `shadow`). | Semantic Selector-Oriented (`.article-header`, `#nav-bar`). |
-
 | **Styling Customizability** | High effort; requires overriding Sass variables or custom class rules. | Unlimited; infinitely flexible without writing CSS selectors. | 100% custom; complete control with zero external constraints. |
-
 | **Compilation & Build Engine** | Optional; can run directly via CDN or compiled offline bundle. | Requires build pipeline (Vite, PostCSS) for JIT compilation in production. | Zero build step required; native browser stylesheet execution. |
-
 | **Production Bundle Footprint** | Fixed: $\approx 200\text{KB}$(CSS + JS bundle) unless manually pruned. | Extremely small:$\approx 8\text{KB} - 15\text{KB}$ (JIT purges 100% unused rules). | Varies by project size; typically grows monotonically over time. |
-
 | **JavaScript Dependency** | Vanilla ES6+ for dynamic interactive components (Modals, Toasts). | Pure CSS; zero runtime JavaScript or UI behavior included. | Pure CSS; JavaScript must be written manually from scratch. |
-
 | **Learning Curve** | Low; memorize component class names and copy HTML markup. | Medium; requires understanding low-level CSS layout and utility tokens. | High; requires deep mastery of cascade, specificity, and flex/grid. |
-
 | **Design Uniqueness** | Risk of "Cookie-Cutter" Bootstrap appearance if uncustomized. | High visual distinctiveness; each UI is bespoke by construction. | Completely bespoke. |
 
 
@@ -3680,21 +3463,13 @@ export default UserList;
 
 
 | Feature / Criterion | Vue 3 Options API | Vue 3 Composition API | React 18 Functional Hooks |
-
 | :--- | :--- | :--- | :--- |
-
 | **Primary Code Unit** | Single File Component (SFC) with declarative option keys. | SFC using `<script setup>` or `setup()` function. | Pure JavaScript/TypeScript function returning JSX. |
-
 | **State Declaration** | `data() { return { count: 0 }; }` | `const count = ref(0);` or `const state = reactive({});` | `const [count, setCount] = useState(0);` |
-
 | **State Mutation Style** | Direct assignment: `this.count++` | Mutate `.value`: `count.value++` | Immutable functional setter: `setCount(prev => prev + 1)` |
-
 | **Computed Derived State** | `computed: { double() { return this.count * 2; } }` | `const double = computed(() => count.value * 2);` | `const double = useMemo(() => count * 2, [count]);` |
-
 | **Side Effect Mechanism** | `watch: { count(val) { ... } }` | `watch(count, (newVal) => { ... })` or `watchEffect()` | `useEffect(() => { ... }, [count]);` |
-
 | **Reactivity Primitive** | ES6 Proxy wrapping internal instance. | ES6 Proxy object wrapping target (`reactive`/`ref`). | Closure state linked to Fiber node internal linked list. |
-
 | **Re-render Granularity** | Surgical component-level re-render driven by dependency tracker. | Surgical component-level re-render driven by dependency tracker. | Component function re-executes entirely from top to bottom on render. |
 
 
@@ -3712,19 +3487,12 @@ export default UserList;
 
 
 | Evaluation Dimension | `window.localStorage` | `window.sessionStorage` | HTTP Cookies | IndexedDB Engine |
-
 | :--- | :--- | :--- | :--- | :--- |
-
 | **Data Model** | Key-Value Strings | Key-Value Strings | Key-Value Strings | Structured NoSQL Object Store |
-
 | **Storage Quota** | $\approx 5\text{MB} - 10\text{MB}$|$\approx 5\text{MB}$|$\le 4\text{KB}$total |$>250\text{MB}$ (disk available) |
-
 | **Lifecycle / Expiry** | Persistent across browser restarts | Destroyed upon browser tab closure | Set via `Expires` / `Max-Age` | Persistent across browser restarts |
-
 | **Thread Blocking** | Synchronous (blocks UI thread) | Synchronous (blocks UI thread) | Synchronous | Asynchronous (Event-driven / Promises) |
-
 | **Automatic Server Sync**| No; client-only access | No; client-only access | Yes; sent with every HTTP request | No; client-only access |
-
 | **Query Capabilities** | Key lookup only | Key lookup only | None (regex parsing) | Indexes, Cursors, Range queries |
 
 
@@ -3742,17 +3510,11 @@ export default UserList;
 
 
 | Dimension | Native Browser Real DOM | Virtual DOM (React & Vue 3) |
-
 | :--- | :--- | :--- |
-
 | **Representation** | Hierarchical C++ DOM nodes linked to layout and render trees. | Plain JavaScript Object tree residing in memory heap. |
-
 | **Update Cycle** | Directly triggers layout tree calculations, reflows, and repaints. | Computes diff between VNode snapshots; batches writes to real DOM. |
-
 | **Algorithmic Cost** | $O(N)$native DOM operations cause heavy layout recalculations. | Heuristic Diffing:$O(N)$operations instead of theoretical$O(N^3)$. |
-
 | **Memory Overhead** | High (each DOM node implements dozens of interfaces). | Low (lightweight plain object literals). |
-
 | **Cross-Platform Target** | Web browsers exclusively. | Web (DOM), Mobile (React Native / NativeScript), SSR (Node.js). |
 
 

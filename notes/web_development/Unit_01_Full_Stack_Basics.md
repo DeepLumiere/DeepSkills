@@ -37,15 +37,10 @@
 
 
 | Dimension | Front-End Developer | Back-End Developer | Full Stack Developer |
-
 | :--- | :--- | :--- | :--- |
-
 | **Primary Scope** | User Interface (UI), User Experience (UX), DOM presentation, client interactivity. | Business logic, server architecture, database management, security, API routing. | End-to-end web stack architecture (Client + Server + Database + API). |
-
 | **Technology Stack** | HTML5, CSS3, JavaScript (ES6+), React, Vue, Bootstrap, Tailwind. | Node.js, Express, Python (Django), Java (Spring Boot), SQL/NoSQL databases. | Full stacks: MERN, MEAN, LAMP, Django, Serverless, Flutter/React Native. |
-
 | **Data Handling** | Manipulates DOM; processes JSON API payloads received from server. | Constructs REST APIs, queries DBMS (SQL/NoSQL), manages state persistence. | Models database schemas, builds REST API payloads, and renders DOM views. |
-
 | **Runtime Environment** | Web browser rendering engine (V8, SpiderMonkey, WebKit). | Node.js runtime, OS, Docker containers, Cloud server instances. | Complete web application topology across browser and server. |
 
 
@@ -93,19 +88,12 @@ flowchart TD
 
 
 | Data Type | Formal Structural Rule | Code Syntax Example |
-
 | :--- | :--- | :--- |
-
 | **String** | Double-quoted UTF-8 text string. | `"studentName": "Alice"` |
-
 | **Number** | Integer or floating-point number (no quotes). | `"age": 22`, `"gpa": 3.85` |
-
 | **Boolean** | Lowercase literal `true` or `false`. | `"isEnrolled": true` |
-
 | **Null** | Lowercase literal `null` representing empty value. | `"middleName": null` |
-
 | **Object** | Unordered key-value pairs wrapped in `{}`. Keys MUST be double-quoted strings. | `{"id": 101, "dept": "CS"}` |
-
 | **Array** | Ordered sequence of values wrapped in `[]`. | `"grades": [88, 92, 95]` |
 
 
@@ -175,19 +163,12 @@ A valid JSON object has **strictly double-quoted keys**, no trailing commas, and
 
 
 | Feature | JSON | JS Object |
-
 | :--- | :--- | :--- |
-
 | Key quoting | Required: `"key"` | Optional: `key` or `"key"` |
-
 | String quotes | Double only | Single or double |
-
 | Trailing comma | âŒ Not allowed | âœ… Allowed |
-
 | Comments | âŒ Not allowed | âœ… Allowed |
-
 | Functions | âŒ Not allowed | âœ… Allowed |
-
 | `undefined` | âŒ Not allowed | âœ… Allowed |
 
 
@@ -705,19 +686,12 @@ deleteUser(3);
 
 
 | Option | Type | Example | Purpose |
-
 | :--- | :--- | :--- | :--- |
-
 | `method` | string | `"GET"`, `"POST"`, `"PUT"`, `"DELETE"` | HTTP verb |
-
 | `headers` | object | `{ "Content-Type": "application/json" }` | Request headers |
-
 | `body` | string | `JSON.stringify(data)` | Payload (POST/PUT only) |
-
 | `signal` | AbortSignal | `controller.signal` | Cancels in-flight requests |
-
 | `mode` | string | `"cors"`, `"no-cors"`, `"same-origin"` | CORS policy |
-
 | `credentials` | string | `"include"`, `"omit"`, `"same-origin"` | Cookie handling |
 
 
@@ -943,15 +917,10 @@ console.log("Final Database Users:", database.users.map(u => u.name));
 
 
 | Core Module | Primary Purpose & Capabilities | Example Function Signatures |
-
 | :--- | :--- | :--- |
-
 | `http` | Creating low-level HTTP web servers, parsing incoming requests, sending HTTP response headers/bodies. | `http.createServer((req, res) => {})` |
-
 | `fs` | File system operations (reading, writing, appending, deleting, streaming files synchronously or asynchronously). | `fs.readFile()`, `fs.writeFile()`, `fs.promises` |
-
 | `path` | Cross-platform file path resolution, normalization, extension extraction (`.join()`, `.resolve()`, `.extname()`). | `path.join(__dirname, 'public', 'index.html')` |
-
 | `url` | Parsing URL query strings, protocol parameters, and pathnames. | `new URL(req.url, 'http://localhost:3000')` |
 
 
@@ -1251,15 +1220,10 @@ flowchart TD
 
 
 | Verb | CRUD Mapping | Operational Description | Idempotent? | Safe? | Expected Success Code |
-
 | :--- | :--- | :--- | :--- | :--- | :--- |
-
 | **GET** | Read | Fetches resource or collection without modifying server state. | Yes | Yes | `200 OK` |
-
 | **POST** | Create | Creates a new resource within a collection. | No | No | `201 CREATED` |
-
 | **PUT** | Update / Replace | Replaces an entire target resource or creates it if absent. | Yes | No | `200 OK` / `201 CREATED` |
-
 | **DELETE**| Delete | Removes a specific target resource by ID. | Yes | No | `204 NO CONTENT` |
 
 
@@ -1273,23 +1237,14 @@ flowchart TD
 
 
 | Code Range | Category | Code & Name | Technical Application Context |
-
 | :--- | :--- | :--- | :--- |
-
 | **2xx** | Success | `200 OK` | Standard success for GET, PUT, or PATCH. |
-
 | | | `201 CREATED` | Resource created successfully via POST. |
-
 | | | `204 NO CONTENT` | Action succeeded; response body intentionally empty (DELETE). |
-
 | **4xx** | Client Error | `400 BAD REQUEST` | Payload syntax error or missing mandatory parameters. |
-
 | | | `401 UNAUTHORIZED` | Authentication required or token invalid. |
-
 | | | `403 FORBIDDEN` | Authenticated, but lacks required role permissions. |
-
 | | | `404 NOT FOUND` | Requested URI resource path does not exist. |
-
 | **5xx** | Server Error | `500 INTERNAL SERVER ERROR` | Unhandled server exception or runtime crash. |
 
 
