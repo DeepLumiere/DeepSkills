@@ -1099,3 +1099,211 @@ END START
     - **`REPE CMPSB` terminates** because `ZF = 0` (mismatch at position 4).
     - **Final state:** `ZF = 0`, `CF = 1` (STR1 < STR2), `CX = 0`, SI and DI both advanced 5 positions past start.
     - Conclusion: Execute `JB STR1_LESS` since `CF = 1`.
+
+---
+
+## 9. LOOP Instruction — Detailed Trace Tables
+
+### Trace: LOOP executing 5 iterations (CX = 5, add 10H each time)
+
+```assembly
+MOV CX, 5
+MOV AX, 0
+LOOP_TOP:
+    ADD AX, 10H
+    LOOP LOOP_TOP     ; CX--, jump if CX != 0
+; Result: AX = 50H
+```
+
+| Iteration | CX before LOOP | CX after LOOP | AX after ADD | Jump? |
+|:---:|:---:|:---:|:---:|:---:|
+| 1 | 5 | 4 | 10H | ✅ Yes |
+| 2 | 4 | 3 | 20H | ✅ Yes |
+| 3 | 3 | 2 | 30H | ✅ Yes |
+| 4 | 2 | 1 | 40H | ✅ Yes |
+| 5 | 1 | 0 | 50H | ❌ No (exit) |
+
+> [!IMPORTANT]
+> **CRITICAL BUG:** If CX=0 before LOOP, CX wraps to FFFFh and the loop executes 65,536 times. Always use `JCXZ SKIP` before a loop to guard against zero-count inputs.
+
+---
+
+### Trace: LOOPE — Stop When Mismatch (STR1="ABCDF" vs STR2="ABCDE")
+
+```assembly
+MOV CX, 5
+MOV SI, 0
+CMP_LOOP:
+    MOV AL, STR1[SI]
+    CMP AL, STR2[SI]   ; ZF=1 if equal
+    INC SI
+    LOOPE CMP_LOOP     ; Loop while CX!=0 AND ZF=1
+```
+
+| Iter | STR1[i] | STR2[i] | ZF | CX after | Continue? |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| 1 | 'A' | 'A' | 1 | 4 | ✅ Yes |
+| 2 | 'B' | 'B' | 1 | 3 | ✅ Yes |
+| 3 | 'C' | 'C' | 1 | 2 | ✅ Yes |
+| 4 | 'D' | 'D' | 1 | 1 | ✅ Yes |
+| 5 | 'F' | 'E' | **0** | 0 | ❌ Exit (mismatch!) |
+
+Exit: ZF=0 → mismatch found at position 4 (index 4).
+
+---
+
+### Trace: LOOPNE — Find Character 'M' in "HELLO MICRO"
+
+```assembly
+MOV CX, 11
+MOV SI, -1
+MOV AL, 'M'
+FIND_LOOP:
+    INC SI
+    CMP AL, STR[SI]    ; ZF=1 when match
+    LOOPNE FIND_LOOP   ; Loop while CX!=0 AND ZF=0
+JZ FOUND               ; Match at SI if ZF=1
+```
+
+| Iter | SI | STR[SI] | ZF | CX after | Continue? |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| 1 | 0 | 'H' | 0 | 10 | ✅ Yes |
+| 2 | 1 | 'E' | 0 | 9  | ✅ Yes |
+| 3 | 2 | 'L' | 0 | 8  | ✅ Yes |
+| 4 | 3 | 'L' | 0 | 7  | ✅ Yes |
+| 5 | 4 | 'O' | 0 | 6  | ✅ Yes |
+| 6 | 5 | ' ' | 0 | 5  | ✅ Yes |
+| 7 | 6 | 'M' | **1** | 4 | ❌ Exit (found at SI=6!) |
+
+Exit: ZF=1 → `JZ FOUND` taken → 'M' at index 6. ✓
+
+---
+
+## 10. Additional Complete Programs
+
+### Program 7.10: Bubble Sort (Ascending Order) Using LOOP
+
+```assembly
+; Sort NUMS array ascending using Bubble Sort algorithm
+DATA SEGMENT
+    NUMS  DB 45H, 12H, 78H, 22H, 60H, 05H, 33H
+    N     EQU $ - NUMS              ; N = 7
+DATA ENDS
+
+CODE SEGMENT
+    ASSUME CS:CODE, DS:DATA
+START:
+    MOV AX, DATA
+    MOV DS, AX
+    MOV DX, N - 1                  ; DX = outer pass count (N-1 passes)
+
+OUTER_PASS:
+    LEA SI, NUMS                   ; SI -> first element
+    MOV CX, N - 1                  ; CX = inner comparisons per pass
+
+INNER_PASS:
+    MOV AL, [SI]                   ; Load current element
+    MOV BL, [SI + 1]               ; Load next element
+    CMP AL, BL                     ; Compare: AL - BL
+    JBE NO_SWAP                    ; If AL <= BL: already ordered, skip swap
+    MOV [SI],     BL               ; Swap: put smaller first
+    MOV [SI + 1], AL               ; Put larger second
+NO_SWAP:
+    INC SI                         ; Advance pointer
+    LOOP INNER_PASS                ; Repeat for all adjacent pairs
+
+    DEC DX                         ; Decrement outer pass counter
+    JNZ OUTER_PASS                 ; Do another pass if needed
+
+    ; Array now sorted: 05H, 12H, 22H, 33H, 45H, 60H, 78H
+    MOV AH, 4CH
+    INT 21H
+CODE ENDS
+END START
+```
+
+**First Pass Trace (initial: 45,12,78,22,60,05,33):**
+
+| Comparison | [SI] vs [SI+1] | Swap? | Array After Step |
+|:---:|:---:|:---:|:---|
+| 1 | 45 vs 12 | ✅ Yes | `12, 45, 78, 22, 60, 05, 33` |
+| 2 | 45 vs 78 | ❌ No  | `12, 45, 78, 22, 60, 05, 33` |
+| 3 | 78 vs 22 | ✅ Yes | `12, 45, 22, 78, 60, 05, 33` |
+| 4 | 78 vs 60 | ✅ Yes | `12, 45, 22, 60, 78, 05, 33` |
+| 5 | 78 vs 05 | ✅ Yes | `12, 45, 22, 60, 05, 78, 33` |
+| 6 | 78 vs 33 | ✅ Yes | `12, 45, 22, 60, 05, 33, 78` |
+
+After Pass 1: Largest element (78H) has bubbled to the end. ✓
+
+---
+
+### Program 7.11: String Length Counter — Using SCASB
+
+```assembly
+; Count length of null-terminated string (C-style, 00H terminator)
+DATA SEGMENT
+    MY_STR  DB 'ASSEMBLY', 00H    ; null-terminated
+    STR_LEN DW ?
+DATA ENDS
+
+CODE SEGMENT
+    ASSUME CS:CODE, DS:DATA, ES:DATA
+START:
+    MOV AX, DATA
+    MOV DS, AX
+    MOV ES, AX            ; ES = DS (SCASB scans ES:DI)
+
+    CLD
+    LEA DI, MY_STR        ; ES:DI -> start of string
+    MOV CX, 0FFFFH        ; Maximum scan length
+    XOR AL, AL            ; AL = 00H (null terminator to find)
+
+    REPNE SCASB           ; Scan: DI++, CX--, until AL == [ES:DI]
+
+    ; After: DI points 1 past the null terminator
+    NOT CX                ; CX = 0FFFFh - remaining = count including null
+    DEC CX                ; Subtract null byte itself
+    MOV STR_LEN, CX       ; CX = 8 for "ASSEMBLY" (correct!)
+
+    MOV AH, 4CH
+    INT 21H
+CODE ENDS
+END START
+```
+
+**Trace of `NOT CX` Trick:**
+- Before scan: CX = FFFFh
+- Null found at position 8 (0-indexed): CX decremented 9 times → CX = FFFFh − 9 = FFF6h
+- `NOT FFF6h` = `0009h`
+- `DEC CX` = `0008h` = length of "ASSEMBLY" ✓
+
+---
+
+## 11. Additional Exam Questions
+
+**Q11.** What happens if CX = 0 before `LOOP`? How do you prevent this?
+
+> **Answer:** If CX = 0 before `LOOP`, the instruction decrements CX to `FFFFh` (65535) and jumps backward, executing the loop **65,536 times** — a critical underflow bug. Always use `JCXZ SKIP_LABEL` immediately before the loop body to skip it entirely when CX is zero.
+
+**Q12.** Write the shortest assembly code to copy 50 words from SRC (DS) to DEST (ES).
+
+> **Answer:**
+> ```assembly
+> CLD
+> LEA SI, SRC
+> LEA DI, DEST
+> MOV CX, 50
+> REP MOVSW       ; Copies 50 words (100 bytes) in a single prefixed instruction
+> ```
+
+**Q13.** What is the difference between `JE` and `JZ`?
+
+> **Answer:** They are **identical instructions** with different mnemonics (assembler aliases). Both check `ZF = 1` and both assemble to opcode `74H`. The difference is only semantic: `JE` (Jump if Equal) is used after `CMP` for readability; `JZ` (Jump if Zero) is used after arithmetic operations. The CPU and assembler generate exactly the same machine code byte for both.
+
+**Q14.** Can `JCXZ` affect any status flags?
+
+> **Answer:** **No.** `JCXZ` (Jump if CX is Zero) examines the CX register but does **not modify any status flags** (ZF, CF, SF, OF, PF, AF remain unchanged), does **not decrement CX**, and performs no arithmetic. It is purely a conditional branch based on the current value of CX.
+
+**Q15.** After `REPE CMPSB` comparing 10-byte strings, CX = 3. What does this mean?
+
+> **Answer:** CX started at 10 and was decremented once per byte comparison. CX = 3 means **7 bytes were successfully compared** (iterations: 10→9→8→7→6→5→4→3). The 7th comparison found a **mismatch** (ZF = 0), which caused `REPE CMPSB` to terminate early. The strings differ at byte position 7 (zero-indexed: position 6, since SI/DI were advanced before CX was checked). The final 3 bytes were never compared.

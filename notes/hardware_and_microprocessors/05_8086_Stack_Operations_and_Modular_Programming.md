@@ -495,3 +495,172 @@ END START
 
    *Answer:* `RET n` performs both the return jump and parameter cleanup in one single atomic operation. It pops the return address into `IP` and automatically adds $n$ to `SP`, freeing the caller from needing an additional `ADD SP, n` instruction after every procedure call.
 
+---
+
+## 8. Step-by-Step Stack Trace — CALL and RETURN Sequence
+
+This trace shows exactly what happens in memory and registers during a function call.
+
+### Given Setup
+```
+SS = 3000H, SP = 0200H (initial)
+Main code at CS:0100H
+SUBROUTINE at CS:0050H
+Caller pushes 2 parameters: AX = 0005H, BX = 000AH
+```
+
+### Trace Table
+
+| Step | Action | SP Value | Stack Contents at `[SS:SP]` | Registers |
+|:---:|:---|:---:|:---|:---|
+| 1 | `PUSH BX` (2nd param) | `01FEH` | `[SS:01FEH] = 000AH` | SP=01FEH |
+| 2 | `PUSH AX` (1st param) | `01FCH` | `[SS:01FCH] = 0005H` | SP=01FCH |
+| 3 | `CALL SUBROUTINE` | `01FAH` | `[SS:01FAH] = 0103H` (return IP) | SP=01FAH, IP→0050H |
+| 4 | `PUSH BP` (prologue) | `01F8H` | `[SS:01F8H] = old BP` | SP=01F8H |
+| 5 | `MOV BP, SP` | `01F8H` | — | BP=01F8H (frame base) |
+| 6 | `SUB SP, 2` (local var) | `01F6H` | `[SS:01F6H] = ?` (local) | SP=01F6H |
+
+**Stack Layout at this point (BP=01F8H as reference):**
+```
+Address     Content               Access via BP
+─────────────────────────────────────────────────
+SS:01F6H    [Local variable]     [BP - 2]
+SS:01F8H    Old BP value      ←  [BP + 0]  ← BP points here
+SS:01FAH    Return IP (0103H)    [BP + 2]
+SS:01FCH    Parameter 1 (0005H)  [BP + 4]  ← First arg
+SS:01FEH    Parameter 2 (000AH)  [BP + 6]  ← Second arg
+SS:0200H    (original top)
+```
+
+### Epilogue (Function Return)
+```assembly
+; Epilogue sequence:
+MOV SP, BP       ; SP = BP = 01F8H (deallocates local var)
+POP BP           ; BP restored, SP = 01FAH
+RET 4            ; Pops IP → 0103H (SP=01FCH), then SP += 4 → SP=0200H
+                 ; Stack completely restored to initial state!
+```
+
+---
+
+## 9. Multi-Level (Nested) Procedure Calls
+
+When one procedure calls another, multiple stack frames are chained together.
+
+```assembly
+; Caller → FUNC_A → FUNC_B (three levels deep)
+
+FUNC_B PROC NEAR
+    PUSH BP
+    MOV  BP, SP
+    ; [BP+2] = return addr to FUNC_A
+    ; [BP+4] = FUNC_B's parameter
+    MOV  AX, [BP + 4]    ; Get parameter
+    ADD  AX, 100         ; Add 100
+    POP  BP
+    RET  2               ; Return and clean 1 word param
+FUNC_B ENDP
+
+FUNC_A PROC NEAR
+    PUSH BP
+    MOV  BP, SP
+    ; [BP+2] = return addr to main
+    ; [BP+4] = FUNC_A's parameter
+
+    MOV  AX, [BP + 4]    ; Get FUNC_A's parameter
+    PUSH AX              ; Pass it as FUNC_B's parameter
+    CALL FUNC_B          ; FUNC_B return value comes back in AX
+
+    POP  BP
+    RET  2
+FUNC_A ENDP
+
+; Main calls FUNC_A:
+PUSH WORD PTR 0050H    ; Parameter for FUNC_A
+CALL FUNC_A            ; AX = 0050H + 100 = 0096H + 100 = 150 (0096H)
+; Stack diagram during FUNC_B execution:
+; SS:SP → FUNC_B local / FUNC_B old BP
+;         FUNC_B return addr (inside FUNC_A)
+;         FUNC_B's parameter (= 0050H)
+;         FUNC_A old BP
+;         FUNC_A return addr (in main)
+;         FUNC_A's parameter (0050H)
+```
+
+---
+
+## 10. PUSHA / POPA — 80286 Extension (Exam Gotcha)
+
+> [!WARNING]
+> **`PUSHA` and `POPA` are NOT 8086 instructions** — they were introduced in the **80286** processor.
+
+| Instruction | Processor | Action |
+|:---|:---:|:---|
+| `PUSHA` | 80286+ | Push all 8 general registers in one instruction: AX, CX, DX, BX, SP, BP, SI, DI |
+| `POPA` | 80286+ | Pop all 8 general registers (restores AX, CX, DX, BX, BP, SI, DI; discards SP value) |
+| `PUSHF` | 8086 | Push FLAGS register (supported on 8086) |
+| `POPF` | 8086 | Pop FLAGS register (supported on 8086) |
+
+**On the 8086, to save all registers you must do it manually:**
+```assembly
+; 8086-compatible "save all" pattern:
+PUSH AX
+PUSH BX
+PUSH CX
+PUSH DX
+PUSH SI
+PUSH DI
+PUSH BP
+PUSHF        ; Save flags too
+
+; ... critical code ...
+
+POPF         ; Restore flags FIRST
+POP BP
+POP DI
+POP SI
+POP DX
+POP CX
+POP BX
+POP AX       ; Restore in REVERSE order (LIFO!)
+```
+
+---
+
+## 11. Additional Exam Questions
+
+**Q4.** Trace the SP value when `PUSH AX`, `PUSH BX`, `CALL PROC` executes (initial SP = `0200H`).
+
+> **Answer:**
+> - After `PUSH AX`: SP = `0200H - 2 = 01FEH`
+> - After `PUSH BX`: SP = `01FEH - 2 = 01FCH`
+> - After `CALL PROC` (NEAR): SP = `01FCH - 2 = 01FAH` (IP = return address pushed)
+> - Final SP = `01FAH`, with the stack holding [IP at 01FAH, BX at 01FCH, AX at 01FEH]
+
+**Q5.** Why is `POP CS` forbidden on the 8086?
+
+> **Answer:** `CS` (Code Segment) and `IP` (Instruction Pointer) together determine WHERE the CPU fetches the next instruction. Modifying `CS` alone — without simultaneously updating `IP` — would cause the CPU to fetch from a new segment at a random offset, leading to undefined behavior or a crash. The only safe way to change `CS` is via `JMP FAR`, `CALL FAR`, or `RETF`, which always update both `CS` and `IP` atomically.
+
+**Q6.** What happens if you forget `MOV AX, DATA; MOV DS, AX` at the start of a program?
+
+> **Answer:** Without initializing `DS`, the Data Segment register holds whatever value DOS happened to leave in it when it loaded the program (typically the PSP segment). Any memory variable access via DS would go to the wrong physical address, returning garbage values or corrupting memory, leading to incorrect results or a program crash.
+
+**Q7.** A procedure has 3 word parameters and 2 word local variables. Draw the stack frame.
+
+> **Answer (after PUSH BP; MOV BP,SP; SUB SP,4):**
+> ```
+> [BP + 8]   ← 3rd parameter (pushed first)
+> [BP + 6]   ← 2nd parameter
+> [BP + 4]   ← 1st parameter (pushed last by caller)
+> [BP + 2]   ← Return IP (pushed by CALL)
+> [BP + 0]   ← Old BP (saved by PUSH BP in prologue)
+> [BP - 2]   ← Local variable 1
+> [BP - 4]   ← Local variable 2  ← SP points here
+> ```
+
+**Q8.** What is the difference between NEAR and FAR CALL in terms of stack behavior?
+
+> **Answer:**
+> - **NEAR CALL:** Pushes only `IP` (2 bytes) onto the stack. `CS` is NOT pushed/changed. RET pops 2 bytes back into `IP`. Used for procedures within the same 64KB code segment.
+> - **FAR CALL:** Pushes `CS` first (2 bytes), then `IP` (2 bytes) = **4 bytes total**. Both CS and IP are restored on `RETF`. Used to call procedures in different code segments (different CS values).
+

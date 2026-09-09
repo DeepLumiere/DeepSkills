@@ -98,7 +98,7 @@ flowchart TD
 
 
 
-### 3.1.1 JSON Syntax Rules & Structure â€” Complete Example
+### 3.1.1 JSON Syntax Rules & Structure — Complete Example
 
 
 
@@ -144,17 +144,17 @@ A valid JSON object has **strictly double-quoted keys**, no trailing commas, and
 
 **Rules at a glance:**
 
-- âœ… Keys are **always** `"double-quoted"` strings
+- ✅ Keys are **always** `"double-quoted"` strings
 
-- âœ… Strings use `"double quotes"` â€” single quotes `'` are **invalid**
+- ✅ Strings use `"double quotes"` — single quotes `'` are **invalid**
 
-- âœ… Numbers, booleans (`true`/`false`), `null` â€” no quotes
+- ✅ Numbers, booleans (`true`/`false`), `null` — no quotes
 
-- âŒ No trailing commas: `{"a": 1, "b": 2,}` â€” **invalid**
+- ❌ No trailing commas: `{"a": 1, "b": 2,}` — **invalid**
 
-- âŒ No comments: `// this breaks JSON` â€” **invalid**
+- ❌ No comments: `// this breaks JSON` — **invalid**
 
-- âŒ No `undefined`, functions, or `Date` objects
+- ❌ No `undefined`, functions, or `Date` objects
 
 
 
@@ -166,10 +166,10 @@ A valid JSON object has **strictly double-quoted keys**, no trailing commas, and
 | :--- | :--- | :--- |
 | Key quoting | Required: `"key"` | Optional: `key` or `"key"` |
 | String quotes | Double only | Single or double |
-| Trailing comma | âŒ Not allowed | âœ… Allowed |
-| Comments | âŒ Not allowed | âœ… Allowed |
-| Functions | âŒ Not allowed | âœ… Allowed |
-| `undefined` | âŒ Not allowed | âœ… Allowed |
+| Trailing comma | ❌ Not allowed | ✅ Allowed |
+| Comments | ❌ Not allowed | ✅ Allowed |
+| Functions | ❌ Not allowed | ✅ Allowed |
+| `undefined` | ❌ Not allowed | ✅ Allowed |
 
 
 
@@ -443,7 +443,7 @@ async function readJsonFile() {
 
 
 
-#### D. `fetch()` API â€” Consuming JSON from REST APIs (Browser)
+#### D. `fetch()` API — Consuming JSON from REST APIs (Browser)
 
 
 
@@ -455,13 +455,13 @@ The `fetch()` API is the standard browser mechanism for making HTTP requests and
 
 ```
 
-fetch(url, options) â†’ Promise<Response> â†’ response.json() â†’ Promise<Object>
+fetch(url, options) → Promise<Response> → response.json() → Promise<Object>
 
 ```
 
 
 
-##### D1. GET Request â€” Fetch & Display JSON
+##### D1. GET Request — Fetch & Display JSON
 
 
 
@@ -495,7 +495,7 @@ fetch("https://jsonplaceholder.typicode.com/users")
 
     users.forEach(user => {
 
-      console.log(`${user.id}: ${user.name} â€” ${user.email}`);
+      console.log(`${user.id}: ${user.name} — ${user.email}`);
 
     });
 
@@ -511,7 +511,7 @@ fetch("https://jsonplaceholder.typicode.com/users")
 
 
 
-##### D2. GET with `async/await` â€” Recommended Pattern
+##### D2. GET with `async/await` — Recommended Pattern
 
 
 
@@ -561,7 +561,7 @@ fetchUsers();
 
 
 
-##### D3. POST Request â€” Sending JSON Body to API
+##### D3. POST Request — Sending JSON Body to API
 
 
 
@@ -633,7 +633,7 @@ createPost("My First Post", "Hello World content", 1);
 
 ```javascript
 
-// PUT â€” Full replacement update
+// PUT — Full replacement update
 
 async function updateUser(userId, updatedData) {
 
@@ -657,7 +657,7 @@ updateUser(1, { name: "Alice Updated", email: "alice@new.com" });
 
 
 
-// DELETE â€” Remove a resource
+// DELETE — Remove a resource
 
 async function deleteUser(userId) {
 
@@ -706,21 +706,21 @@ const response = await fetch(url);
 
 
 
-response.ok;         // Boolean: true if status 200â€“299
+response.ok;         // Boolean: true if status 200–299
 
 response.status;     // Number: e.g. 200, 201, 404, 500
 
 response.statusText; // String: e.g. "OK", "Not Found"
 
-response.headers;    // Headers object â€” response.headers.get("Content-Type")
+response.headers;    // Headers object — response.headers.get("Content-Type")
 
 response.url;        // Final URL after redirects
 
 
 
-// Body reading methods (can only be called ONCE â€” body stream consumed):
+// Body reading methods (can only be called ONCE — body stream consumed):
 
-await response.json();   // Parse body as JSON â†’ JavaScript object
+await response.json();   // Parse body as JSON → JavaScript object
 
 await response.text();   // Parse body as plain string
 
@@ -732,7 +732,7 @@ await response.blob();   // Parse body as Blob (binary/image/file)
 
 > [!IMPORTANT]
 
-> `response.json()` can only be called **once** per response â€” the body stream is consumed on first read. Always store the result in a variable.
+> `response.json()` can only be called **once** per response — the body stream is consumed on first read. Always store the result in a variable.
 
 
 

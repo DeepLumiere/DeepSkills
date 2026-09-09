@@ -1,4 +1,4 @@
-# JSON â€” JavaScript Object Notation: Complete Reference
+# JSON — JavaScript Object Notation: Complete Reference
 
 JSON (JavaScript Object Notation) is a lightweight, text-based data-interchange format that is language-independent, easy for humans to read and write, and easy for machines to parse and generate.
 
@@ -15,7 +15,7 @@ JSON (JavaScript Object Notation) is a lightweight, text-based data-interchange 
 | **Boolean** | Lowercase `true` / `false` | `"isActive": true` | `"isActive": True` (uppercase) |
 | **Null** | Lowercase `null` | `"middleName": null` | `"middleName": undefined` |
 | **Object** | `{}` with string keys | `{"id": 1, "name": "Bob"}` | `{id: 1}` (unquoted key) |
-| **Array** | `[]` ordered sequence | `"tags": ["js", "vue"]` | â€” |
+| **Array** | `[]` ordered sequence | `"tags": ["js", "vue"]` | — |
 
 ### Strict Rules
 
@@ -45,11 +45,11 @@ JSON (JavaScript Object Notation) is a lightweight, text-based data-interchange 
 | :--- | :--- | :--- |
 | **Key quoting** | Required (`"key"`) | Optional (`key` or `"key"`) |
 | **String quotes** | Double quotes only | Single or double |
-| **Trailing comma** | âŒ Not allowed | âœ… Allowed |
-| **Comments** | âŒ Not allowed | âœ… Allowed (`//`, `/* */`) |
-| **Functions** | âŒ Not allowed | âœ… Allowed |
-| **`undefined`** | âŒ Not allowed | âœ… Allowed |
-| **`NaN` / `Infinity`** | âŒ Not allowed | âœ… Allowed |
+| **Trailing comma** | ❌ Not allowed | ✅ Allowed |
+| **Comments** | ❌ Not allowed | ✅ Allowed (`//`, `/* */`) |
+| **Functions** | ❌ Not allowed | ✅ Allowed |
+| **`undefined`** | ❌ Not allowed | ✅ Allowed |
+| **`NaN` / `Infinity`** | ❌ Not allowed | ✅ Allowed |
 
 ---
 
@@ -96,7 +96,7 @@ JSON (JavaScript Object Notation) is a lightweight, text-based data-interchange 
 
 ## 3. JSON Serialization & Parsing (JavaScript)
 
-### `JSON.stringify()` â€” Object â†’ JSON String
+### `JSON.stringify()` — Object → JSON String
 
 ```javascript
 const student = {
@@ -106,15 +106,15 @@ const student = {
   gpa: 9.1,
   courses: ['CS101', 'CS202', 'CS303'],
   address: { city: 'Mumbai', pincode: '400001' },
-  dob: undefined,       // undefined â†’ OMITTED from output
-  greet: function() {}  // functions â†’ OMITTED from output
+  dob: undefined,       // undefined → OMITTED from output
+  greet: function() {}  // functions → OMITTED from output
 };
 
 // 1. Compact JSON string
 const compact = JSON.stringify(student);
 // '{"id":101,"name":"Alice Johnson","age":22,"gpa":9.1,"courses":["CS101","CS202","CS303"],"address":{"city":"Mumbai","pincode":"400001"}}'
 
-// 2. Pretty-printed (indented) â€” readable format
+// 2. Pretty-printed (indented) — readable format
 const pretty = JSON.stringify(student, null, 2);
 /*
 {
@@ -157,7 +157,7 @@ const c = new Course('CS101', 'Algorithms', 4);
 JSON.stringify(c); // '{"code":"CS101","name":"Algorithms"}'
 ```
 
-### `JSON.parse()` â€” JSON String â†’ JavaScript Object
+### `JSON.parse()` — JSON String → JavaScript Object
 
 ```javascript
 const rawJson = '{"id":101,"name":"Alice","gpa":9.1,"courses":["CS101","CS202"]}';
@@ -186,7 +186,7 @@ console.log(valid.data);   // { ok: true }
 // 3. Reviver function: transform values during parsing
 const dateJson = '{"name":"Event","date":"2026-09-09T10:00:00Z"}';
 const parsed = JSON.parse(dateJson, (key, value) => {
-  if (key === 'date') return new Date(value);  // Convert string â†’ Date object
+  if (key === 'date') return new Date(value);  // Convert string → Date object
   return value;
 });
 console.log(parsed.date instanceof Date); // true
@@ -200,7 +200,7 @@ console.log(original.b.c); // [1, 2, 3]
 
 ---
 
-## 4. JSON Fetch API â€” REST Integration
+## 4. JSON Fetch API — REST Integration
 
 ### GET Request
 
@@ -245,7 +245,7 @@ async function createPost(title, body, userId) {
         'Accept': 'application/json',             // We want JSON back
         'Authorization': 'Bearer YOUR_TOKEN'      // Auth header (if needed)
       },
-      body: JSON.stringify({ title, body, userId })  // Serialize JS â†’ JSON string
+      body: JSON.stringify({ title, body, userId })  // Serialize JS → JSON string
     });
 
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -308,7 +308,7 @@ deletePost(1);
 const fs = require('fs').promises;
 const path = require('path');
 
-// â”€â”€â”€ Write JSON to file â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Write JSON to file ────────────────────────────────────────────
 async function saveJson(data, filepath) {
   try {
     const jsonStr = JSON.stringify(data, null, 2);  // Pretty-print
@@ -320,7 +320,7 @@ async function saveJson(data, filepath) {
   }
 }
 
-// â”€â”€â”€ Read JSON from file â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Read JSON from file ───────────────────────────────────────────
 async function loadJson(filepath) {
   try {
     const raw = await fs.readFile(filepath, 'utf8');
@@ -335,7 +335,7 @@ async function loadJson(filepath) {
   }
 }
 
-// â”€â”€â”€ Merge/update JSON data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Merge/update JSON data ────────────────────────────────────────
 async function updateJson(filepath, updates) {
   const existing = await loadJson(filepath) || {};
   const merged = { ...existing, ...updates };
@@ -343,7 +343,7 @@ async function updateJson(filepath, updates) {
   return merged;
 }
 
-// â”€â”€â”€ Practical usage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Practical usage ──────────────────────────────────────────────
 (async () => {
   const dbPath = path.join(__dirname, 'students.json');
 
@@ -506,36 +506,36 @@ console.log(validateStudent(badStudent));
 > **`undefined`, functions, and symbols are silently dropped** during `JSON.stringify()`. If you rely on these values being preserved, JSON is the wrong transport format.
 
 ```javascript
-// â”€â”€ Pitfall 1: undefined is dropped â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Pitfall 1: undefined is dropped ──────────────────────────────
 JSON.stringify({ a: 1, b: undefined, c: null });
-// '{"a":1,"c":null}'  â€” 'b' is completely gone!
+// '{"a":1,"c":null}'  — 'b' is completely gone!
 
-// â”€â”€ Pitfall 2: Dates serialize as ISO strings, not Date objects â”€â”€â”€
+// ── Pitfall 2: Dates serialize as ISO strings, not Date objects ───
 const obj = { created: new Date() };
 const json = JSON.stringify(obj);
 // '{"created":"2026-09-09T06:00:00.000Z"}'  (string!)
 const back = JSON.parse(json);
-back.created instanceof Date  // false â€” it's a string!
+back.created instanceof Date  // false — it's a string!
 // Fix with reviver:
 const fixed = JSON.parse(json, (k, v) => k === 'created' ? new Date(v) : v);
 fixed.created instanceof Date  // true
 
-// â”€â”€ Pitfall 3: Circular references throw â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Pitfall 3: Circular references throw ────────────────────────
 const a = {};
 a.self = a;
 JSON.stringify(a); // TypeError: Converting circular structure to JSON!
 
-// â”€â”€ Pitfall 4: response.json() can only be called once â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Pitfall 4: response.json() can only be called once ───────────
 const res = await fetch(url);
-const data1 = await res.json();   // âœ… Works
-const data2 = await res.json();   // âŒ TypeError: body already used!
+const data1 = await res.json();   // ✅ Works
+const data2 = await res.json();   // ❌ TypeError: body already used!
 // Fix: clone the response before reading
 const res2 = await fetch(url);
 const clone = res2.clone();
 const data = await res2.json();
 const rawText = await clone.text();
 
-// â”€â”€ Pitfall 5: JSON numbers lose precision beyond 2^53 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Pitfall 5: JSON numbers lose precision beyond 2^53 ───────────
 // Large integer IDs from databases may lose precision
 const bigId = 9007199254740993;
 JSON.stringify({ id: bigId });    // '{"id":9007199254740992}'  (wrong!)
@@ -591,7 +591,7 @@ JSON.stringify({ id: bigId.toString() }); // '{"id":"9007199254740993"}'
 
   <script>
     async function fetchUsers() {
-      document.getElementById('users-output').innerHTML = '<p>â³ Loading...</p>';
+      document.getElementById('users-output').innerHTML = '<p>⏳ Loading...</p>';
       try {
         const res = await fetch('https://jsonplaceholder.typicode.com/users');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -616,7 +616,7 @@ JSON.stringify({ id: bigId.toString() }); // '{"id":"9007199254740993"}'
     async function createPost() {
       const title = document.getElementById('post-title').value || 'Test Post';
       const body = document.getElementById('post-body').value || 'This is a test.';
-      document.getElementById('post-output').innerHTML = '<p>â³ Sending...</p>';
+      document.getElementById('post-output').innerHTML = '<p>⏳ Sending...</p>';
       try {
         const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
           method: 'POST',
@@ -625,7 +625,7 @@ JSON.stringify({ id: bigId.toString() }); // '{"id":"9007199254740993"}'
         });
         const created = await res.json();
         document.getElementById('post-output').innerHTML =
-          `<p style="color:green;margin-top:8px">âœ… Post created with ID: ${created.id}</p>
+          `<p style="color:green;margin-top:8px">✅ Post created with ID: ${created.id}</p>
            <pre>${JSON.stringify(created, null, 2)}</pre>`;
       } catch (e) {
         document.getElementById('post-output').innerHTML = `<p style="color:red">Error: ${e.message}</p>`;
@@ -661,7 +661,7 @@ JSON.stringify({ id: bigId.toString() }); // '{"id":"9007199254740993"}'
 </html>
 ```
 
-<iframe srcdoc='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,sans-serif;padding:16px;background:#f8fafc;color:#0f172a}h1{font-size:1.3rem;font-weight:700;color:#0284c7;margin-bottom:12px}.card{background:white;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:10px}h2{font-size:1rem;font-weight:600;margin-bottom:8px}button{background:#0284c7;color:white;border:none;padding:7px 14px;border-radius:6px;cursor:pointer;font-size:13px;margin-bottom:8px}button:hover{background:#0369a1}input{width:100%;padding:7px 10px;border:1px solid #e2e8f0;border-radius:6px;margin-bottom:6px;font-size:13px}pre{background:#1e293b;color:#e2e8f0;padding:12px;border-radius:6px;font-size:11px;overflow:auto;margin-top:6px;max-height:200px}.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0284c7,#7c3aed);color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0;font-size:14px}.urow{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f1f5f9}</style></head><body><h1>ðŸ“¦ JSON API Explorer</h1><div class="card"><h2>Fetch Users (GET)</h2><button onclick="fetchUsers()">Fetch from JSONPlaceholder</button><div id="uo"></div></div><div class="card"><h2>Create Post (POST)</h2><input id="pt" placeholder="Post title"><input id="pb" placeholder="Post content"><button onclick="createPost()">POST to API</button><div id="po"></div></div><div class="card"><h2>JSON stringify/parse Demo</h2><button onclick="demoStr()">Run Demo</button><div id="so"></div></div><script>async function fetchUsers(){document.getElementById("uo").innerHTML="<p style=color:#64748b>â³ Loading...</p>";try{const r=await fetch("https://jsonplaceholder.typicode.com/users");const u=await r.json();const h=u.slice(0,4).map(x=>`<div class="urow"><div class="avatar">${x.name[0]}</div><div><strong>${x.name}</strong> <span style="color:#64748b;font-size:12px">@${x.username}</span><br><small style="color:#94a3b8">${x.email}</small></div></div>`).join("");document.getElementById("uo").innerHTML=h+`<details style="margin-top:8px"><summary style="cursor:pointer;color:#0284c7;font-size:13px">View JSON</summary><pre>${JSON.stringify(u[0],null,2)}</pre></details>`}catch(e){document.getElementById("uo").innerHTML=`<p style=color:red>Error: ${e.message}</p>`}}async function createPost(){const t=document.getElementById("pt").value||"Test Post";const b=document.getElementById("pb").value||"Content here.";document.getElementById("po").innerHTML="<p style=color:#64748b>â³ Posting...</p>";try{const r=await fetch("https://jsonplaceholder.typicode.com/posts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({title:t,body:b,userId:1})});const d=await r.json();document.getElementById("po").innerHTML=`<p style="color:green;margin-top:6px">âœ… Post created! ID: ${d.id}</p><pre>${JSON.stringify(d,null,2)}</pre>`}catch(e){document.getElementById("po").innerHTML=`<p style=color:red>Error: ${e.message}</p>`}}function demoStr(){const obj={name:"Alice",age:22,gpa:9.175,enrolled:true,courses:["CS101","CS202"],address:{city:"Mumbai"},secret:undefined,fn:()=>"ignored"};const compact=JSON.stringify(obj);const pretty=JSON.stringify(obj,null,2);const filtered=JSON.stringify(obj,["name","gpa","courses"],2);document.getElementById("so").innerHTML=`<p style="font-size:12px;color:#64748b;margin:6px 0">Compact:</p><pre>${compact}</pre><p style="font-size:12px;color:#64748b;margin:6px 0">Pretty (null,2):</p><pre>${pretty}</pre><p style="font-size:12px;color:#64748b;margin:6px 0">Filtered keys [name,gpa,courses]:</p><pre>${filtered}</pre><p style="color:#f59e0b;font-size:12px;margin-top:4px">âš ï¸ undefined &amp; functions are silently dropped!</p>`}</script></body></html>' width="100%" height="700" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
+<iframe srcdoc='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,sans-serif;padding:16px;background:#f8fafc;color:#0f172a}h1{font-size:1.3rem;font-weight:700;color:#0284c7;margin-bottom:12px}.card{background:white;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:10px}h2{font-size:1rem;font-weight:600;margin-bottom:8px}button{background:#0284c7;color:white;border:none;padding:7px 14px;border-radius:6px;cursor:pointer;font-size:13px;margin-bottom:8px}button:hover{background:#0369a1}input{width:100%;padding:7px 10px;border:1px solid #e2e8f0;border-radius:6px;margin-bottom:6px;font-size:13px}pre{background:#1e293b;color:#e2e8f0;padding:12px;border-radius:6px;font-size:11px;overflow:auto;margin-top:6px;max-height:200px}.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0284c7,#7c3aed);color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0;font-size:14px}.urow{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f1f5f9}</style></head><body><h1>ðŸ“¦ JSON API Explorer</h1><div class="card"><h2>Fetch Users (GET)</h2><button onclick="fetchUsers()">Fetch from JSONPlaceholder</button><div id="uo"></div></div><div class="card"><h2>Create Post (POST)</h2><input id="pt" placeholder="Post title"><input id="pb" placeholder="Post content"><button onclick="createPost()">POST to API</button><div id="po"></div></div><div class="card"><h2>JSON stringify/parse Demo</h2><button onclick="demoStr()">Run Demo</button><div id="so"></div></div><script>async function fetchUsers(){document.getElementById("uo").innerHTML="<p style=color:#64748b>⏳ Loading...</p>";try{const r=await fetch("https://jsonplaceholder.typicode.com/users");const u=await r.json();const h=u.slice(0,4).map(x=>`<div class="urow"><div class="avatar">${x.name[0]}</div><div><strong>${x.name}</strong> <span style="color:#64748b;font-size:12px">@${x.username}</span><br><small style="color:#94a3b8">${x.email}</small></div></div>`).join("");document.getElementById("uo").innerHTML=h+`<details style="margin-top:8px"><summary style="cursor:pointer;color:#0284c7;font-size:13px">View JSON</summary><pre>${JSON.stringify(u[0],null,2)}</pre></details>`}catch(e){document.getElementById("uo").innerHTML=`<p style=color:red>Error: ${e.message}</p>`}}async function createPost(){const t=document.getElementById("pt").value||"Test Post";const b=document.getElementById("pb").value||"Content here.";document.getElementById("po").innerHTML="<p style=color:#64748b>⏳ Posting...</p>";try{const r=await fetch("https://jsonplaceholder.typicode.com/posts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({title:t,body:b,userId:1})});const d=await r.json();document.getElementById("po").innerHTML=`<p style="color:green;margin-top:6px">✅ Post created! ID: ${d.id}</p><pre>${JSON.stringify(d,null,2)}</pre>`}catch(e){document.getElementById("po").innerHTML=`<p style=color:red>Error: ${e.message}</p>`}}function demoStr(){const obj={name:"Alice",age:22,gpa:9.175,enrolled:true,courses:["CS101","CS202"],address:{city:"Mumbai"},secret:undefined,fn:()=>"ignored"};const compact=JSON.stringify(obj);const pretty=JSON.stringify(obj,null,2);const filtered=JSON.stringify(obj,["name","gpa","courses"],2);document.getElementById("so").innerHTML=`<p style="font-size:12px;color:#64748b;margin:6px 0">Compact:</p><pre>${compact}</pre><p style="font-size:12px;color:#64748b;margin:6px 0">Pretty (null,2):</p><pre>${pretty}</pre><p style="font-size:12px;color:#64748b;margin:6px 0">Filtered keys [name,gpa,courses]:</p><pre>${filtered}</pre><p style="color:#f59e0b;font-size:12px;margin-top:4px">⚠️ï¸ undefined &amp; functions are silently dropped!</p>`}</script></body></html>' width="100%" height="700" style="border:1px solid #cbd5e1;border-radius:8px;margin:12px 0;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);" loading="lazy"></iframe>
 
 > [!IMPORTANT]
 > `response.json()` consumes the response body stream. It can only be called **once** per response. If you need to read it multiple times, clone the response first using `response.clone()` before calling `.json()`.

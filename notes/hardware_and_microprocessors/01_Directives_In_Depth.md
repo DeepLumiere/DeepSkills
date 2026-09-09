@@ -772,3 +772,190 @@ CODE ENDS
 $$
 \text{Physical Address} = (\text{Segment} \times 16) + \text{Offset}
 $$
+
+---
+
+## 13. MACRO and ENDM — Macro Definition Directive
+
+A **macro** is a named block of assembly code that the assembler substitutes (expands) wherever the macro name is called. Unlike a `PROC`, a macro has **zero call overhead** — it is literally text-substituted at assembly time.
+
+### Syntax
+```assembly
+MacroName MACRO [param1, param2, ...]
+    ; Assembly code using parameters
+ENDM
+```
+
+### Simple Macro Example
+```assembly
+; Define a macro to print a character
+PRINT_CHAR MACRO char
+    MOV AH, 02H
+    MOV DL, char
+    INT 21H
+ENDM
+
+; Use the macro (assembler expands inline):
+PRINT_CHAR 'A'       ; Expands to: MOV AH,02H; MOV DL,'A'; INT 21H
+PRINT_CHAR 'B'       ; Expands to: MOV AH,02H; MOV DL,'B'; INT 21H
+```
+
+### Macro with LOCAL Labels
+When a macro contains labels (e.g., for jumps), and the macro is used multiple times, label duplication would cause errors. Use `LOCAL` to create unique labels per expansion:
+
+```assembly
+CHECK_ZERO MACRO reg
+    LOCAL NOT_ZERO, DONE_CHECK
+    CMP reg, 0
+    JNZ NOT_ZERO
+    MOV AX, -1          ; reg was zero
+    JMP DONE_CHECK
+NOT_ZERO:
+    MOV AX, 0           ; reg was not zero
+DONE_CHECK:
+ENDM
+
+; Usage:
+CHECK_ZERO AX           ; Expands with unique labels ??0001, ??0002
+CHECK_ZERO BX           ; Expands with unique labels ??0003, ??0004 (no conflict!)
+```
+
+### Macro vs Procedure Comparison
+
+| Feature | MACRO | PROC (Subroutine) |
+|:---|:---|:---|
+| Code Duplication | Each call expands full code | Single copy in memory |
+| Execution Speed | No CALL/RET overhead — fastest | Overhead of CALL (push IP) + RET |
+| Code Size | Grows with each call | Compact |
+| Parameters | Passed as text substitution | Passed via registers or stack |
+| Best For | Short, speed-critical sequences | Long, reusable routines |
+
+---
+
+## 14. PUBLIC and EXTRN — Multi-Module Directives
+
+When a program is split into multiple `.asm` files linked together, you need to share symbols between modules.
+
+### `PUBLIC` — Export a Symbol
+Makes a label or variable visible to other object files during linking:
+
+```assembly
+; File: MODULE_A.ASM
+PUBLIC MY_PROC          ; Export MY_PROC for use by other modules
+PUBLIC GLOBAL_VAR       ; Export a variable
+
+DATA SEGMENT
+    GLOBAL_VAR DW 1234H
+DATA ENDS
+
+CODE SEGMENT
+MY_PROC PROC NEAR
+    MOV AX, GLOBAL_VAR
+    RET
+MY_PROC ENDP
+CODE ENDS
+END
+```
+
+### `EXTRN` — Import a Symbol
+Declares that a label or variable is defined in a different module:
+
+```assembly
+; File: MODULE_B.ASM
+EXTRN MY_PROC:NEAR      ; Import NEAR procedure
+EXTRN GLOBAL_VAR:WORD   ; Import word variable
+
+CODE SEGMENT
+    ASSUME CS:CODE
+START:
+    CALL MY_PROC        ; Linker resolves this to MODULE_A's MY_PROC
+    MOV BX, GLOBAL_VAR  ; Accesses MODULE_A's variable
+    MOV AH, 4CH
+    INT 21H
+CODE ENDS
+END START
+```
+
+### EXTRN Type Specifiers
+
+| Type | Used For |
+|:---|:---|
+| `NEAR` | Procedure in same segment |
+| `FAR` | Procedure in different segment |
+| `BYTE` | 8-bit variable |
+| `WORD` | 16-bit variable |
+| `DWORD` | 32-bit variable |
+
+---
+
+## 15. TASM-Specific Directives (vs MASM)
+
+TASM (Turbo Assembler) is generally compatible with MASM syntax but has some differences:
+
+### Simplified Segment Directives (.MODEL)
+TASM supports simplified segment directives that automatically set up standard segment organization:
+
+```assembly
+; Traditional MASM/TASM full segment style:
+DATA SEGMENT
+    VAR1 DB 10H
+DATA ENDS
+CODE SEGMENT
+    ASSUME CS:CODE, DS:DATA
+START:
+    ; ...
+CODE ENDS
+END START
+
+; Simplified TASM/MASM style (using .MODEL):
+.MODEL SMALL            ; SMALL: one code + one data segment (fits in 64KB each)
+.DATA
+    VAR1 DB 10H         ; Data goes here
+.CODE
+START:
+    MOV AX, @DATA       ; @DATA = data segment address
+    MOV DS, AX
+    ; ... code ...
+    MOV AH, 4CH
+    INT 21H
+END START
+```
+
+### Memory Models
+
+| .MODEL | Description | Max Code | Max Data |
+|:---:|:---|:---:|:---:|
+| `TINY` | .COM file — all in one segment | 64KB total | Shared |
+| `SMALL` | One code + one data segment | 64KB | 64KB |
+| `MEDIUM` | Multiple code, one data | Multiple | 64KB |
+| `COMPACT` | One code, multiple data | 64KB | Multiple |
+| `LARGE` | Multiple code + data | Multiple | Multiple |
+| `HUGE` | Like LARGE but arrays can exceed 64KB | Multiple | Multiple |
+
+> [!NOTE]
+> In university lab programs, **SMALL model** or **full segment style** (using `SEGMENT`/`ENDS`) are the most common. TASM supports both.
+
+### TITLE and PAGE Directives
+
+```assembly
+TITLE My 8086 Assembly Program      ; Sets listing file title (no effect on .exe)
+PAGE 60, 132                         ; Listing format: 60 lines per page, 132 cols wide
+; These are purely documentation directives — they affect the .LST file only
+```
+
+---
+
+## 16. Additional Exam Questions
+
+**Q4.** What is the difference between a MACRO and a PROC (subroutine)?
+
+> **Answer:** A **MACRO** is expanded inline at every call site by the assembler — no CALL/RET instructions are generated, so there is zero runtime overhead but the code is duplicated each time. A **PROC** is a single copy of code in memory called via `CALL` (which pushes the return address) and exited via `RET`. Macros are faster; Procedures save memory. Use macros for short, frequently-called code; use procedures for long or rarely-called routines.
+
+**Q5.** What does `PUBLIC MY_PROC` do in assembly?
+
+> **Answer:** `PUBLIC MY_PROC` instructs the assembler to mark `MY_PROC` in the object file's symbol table as an **externally visible exported symbol**. The linker can then resolve references to `MY_PROC` from other object files that declare `EXTRN MY_PROC:NEAR`. Without `PUBLIC`, the symbol is local and invisible outside its own module.
+
+**Q6.** Why is `LOCAL` needed inside a MACRO that contains labels?
+
+> **Answer:** Without `LOCAL`, if the same macro is used (expanded) multiple times in one source file, all expansions would contain the same label names, causing a **duplicate label assembler error**. `LOCAL label_name` instructs TASM/MASM to generate a unique label name (like `??0001`, `??0002`) for each expansion, preventing naming conflicts.
+
