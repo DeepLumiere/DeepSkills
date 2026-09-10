@@ -41,49 +41,23 @@ Basic statistical descriptions can be used to identify properties of the data an
 
 
 ```mermaid
-
 graph TD
-
     Stats[Statistical Descriptions]
-
     Stats --> CT[Central Tendency: Center]
-
     Stats --> Disp[Dispersion: Spread]
-
     Stats --> Shape[Distribution Shape]
-
     Stats --> Vis[Data Visualization]
-
-
-
     CT --> Mean[Mean / Weighted / Trimmed]
-
     CT --> Med[Median]
-
     CT --> Mode[Mode]
-
-
-
     Disp --> Range[Range / IQR]
-
     Disp --> Var[Variance & Std Dev]
-
     Disp --> Quant[Quantiles]
-
-
-
     Shape --> Skew[Skewness: Asymmetry]
-
-    
-
     Vis --> Boxplot[Boxplot]
-
     Vis --> Histogram[Histogram]
-
     Vis --> QQPlot[Q-Q Plot]
-
     Vis --> Scatter[Scatter Plot]
-
 ```
 
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 3-4, 49]

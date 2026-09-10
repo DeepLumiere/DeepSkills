@@ -129,35 +129,17 @@ Data attributes are classified into four hierarchical levels of measurement:
 
 
 ```mermaid
-
 flowchart TD
-
     Data["Data Types"] --> Qual["Categorical (Qualitative)"]
-
     Data --> Quant["Numerical (Quantitative)"]
-
-
-
     Qual --> Nom["Nominal Scale<br/>(Unordered Categories)"]
-
     Qual --> Ord["Ordinal Scale<br/>(Ordered Categories)"]
-
-
-
     Quant --> Disc["Discrete Data<br/>(Countable Integers)"]
-
     Quant --> Cont["Continuous Data<br/>(Measurable Real Values)"]
-
-
-
     Disc --> Int1["Interval Scale"]
-
     Disc --> Rat1["Ratio Scale"]
-
     Cont --> Int2["Interval Scale"]
-
     Cont --> Rat2["Ratio Scale"]
-
 ```
 
 

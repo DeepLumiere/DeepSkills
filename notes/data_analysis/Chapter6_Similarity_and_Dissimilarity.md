@@ -29,31 +29,17 @@ Proximity measurement?quantifying how similar or dissimilar two data objects are
 
 
 ```mermaid
-
 flowchart TD
-
     DataObjects["Data Objects (Records / Tuples)"] --> Repr[Representation]
-
     Repr --> DM["Data Matrix (Two-Mode: n x p)"]
-
     Repr --> DSM["Dissimilarity Matrix (Single-Mode: n x n)"]
-
-    
-
     DataObjects --> AttrType{"Attribute Type"}
-
     AttrType -->|Nominal| Nom["Simple Matching / Binary Expansion"]
-
     AttrType -->|Binary| Bin["Symmetric vs Asymmetric (Jaccard)"]
-
     AttrType -->|Numeric| Num["Minkowski Distance (L1, L2, L_inf)"]
-
     AttrType -->|Ordinal| Ord["Rank Normalization to [0,1]"]
-
     AttrType -->|Text / Vector| Cos["Cosine Similarity"]
-
     AttrType -->|Mixed Types| Mixed["Weighted Fusion Distance"]
-
 ```
 
 
@@ -579,19 +565,12 @@ A distance function $d(i,j)$ is a true **metric** if and only if it satisfies fo
 <iframe src="distance_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
 
 ```mermaid
-
 flowchart TD
-
     Minkowski["Minkowski Distance (L_h norm)"]
-
     Minkowski -->|"h = 1"| L1["Manhattan Distance (L1 norm / City Block)"]
-
     Minkowski -->|"h = 2"| L2["Euclidean Distance (L2 norm)"]
-
     Minkowski -->|"h -> inf"| Linf["Supremum Distance (L_inf norm / Chebyshev)"]
-
     L1 -.->|"Binary Data"| Hamming["Hamming Distance (# of bit differences)"]
-
 ```
 
 

@@ -188,27 +188,14 @@ $$
 
 
 ```mermaid
-
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e8f4f8', 'primaryBorderColor': '#2196F3', 'primaryTextColor': '#1a1a2e', 'lineColor': '#555', 'edgeLabelBackground': '#ffffff', 'clusterBkg': '#f0f7ff', 'clusterBorder': '#90caf9'}} }%%
-
 graph BT
-
     A["Data: Raw Facts"] --> B["Information: Contextualized Data"]
-
     B --> C["Knowledge: Actionable Information"]
-
     C --> D["Wisdom: Applied Knowledge"]
-
-    
-
     style A fill:#e1f5fe,stroke:#01579b
-
     style B fill:#b3e5fc,stroke:#01579b
-
     style C fill:#81d4fa,stroke:#01579b
-
     style D fill:#4fc3f7,stroke:#01579b
-
 ```
 
 
@@ -220,19 +207,11 @@ The data lifecycle represents the sequence of stages that data goes through from
 
 
 ```mermaid
-
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e8f4f8', 'primaryBorderColor': '#2196F3', 'primaryTextColor': '#1a1a2e', 'lineColor': '#555', 'edgeLabelBackground': '#ffffff', 'clusterBkg': '#f0f7ff', 'clusterBorder': '#90caf9'}} }%%
-
 flowchart LR
-
     A["Generation/Collection"] --> B[Storage]
-
     B --> C["Processing/Transformation"]
-
     C --> D[Analysis]
-
     D --> E["Visualization/Communication"]
-
 ```
 
 
@@ -432,21 +411,12 @@ Data analysis is a structured process to make sense of information.
 
 
 ```mermaid
-
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e8f4f8', 'primaryBorderColor': '#2196F3', 'primaryTextColor': '#1a1a2e', 'lineColor': '#555', 'edgeLabelBackground': '#ffffff', 'clusterBkg': '#f0f7ff', 'clusterBorder': '#90caf9'}} }%%
-
 flowchart TD
-
     A[Define the Goal] --> B[Collect Data]
-
     B --> C["Clean/Preprocess Data"]
-
     C --> D[Analyze Data]
-
     D --> E[Visualize Results]
-
     E --> F["Communicate Findings / Take Action"]
-
 ```
 
 *(Based on the Data Analysis steps process models)*
@@ -476,27 +446,15 @@ flowchart TD
 
 
 ```mermaid
-
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e8f4f8', 'primaryBorderColor': '#2196F3', 'primaryTextColor': '#1a1a2e', 'lineColor': '#555', 'edgeLabelBackground': '#ffffff', 'clusterBkg': '#f0f7ff', 'clusterBorder': '#90caf9'}} }%%
-
 flowchart TD
-
     subgraph CRISP_DM ["CRISP-DM Cycle"]
-
         A[Business Understanding] <--> B[Data Understanding]
-
         B <--> C[Data Preparation]
-
         C <--> D[Modeling]
-
         D --> E[Evaluation]
-
         E --> F[Deployment]
-
         E -.->|Refine| A
-
     end
-
 ```
 
 
@@ -528,17 +486,10 @@ flowchart TD
 
 
 ```mermaid
-
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e8f4f8', 'primaryBorderColor': '#2196F3', 'primaryTextColor': '#1a1a2e', 'lineColor': '#555', 'edgeLabelBackground': '#ffffff', 'clusterBkg': '#f0f7ff', 'clusterBorder': '#90caf9'}} }%%
-
 flowchart LR
-
     A["Descriptive<br/>What happened?"] --> B["Diagnostic<br/>Why did it happen?"]
-
     B --> C["Predictive<br/>What will happen?"]
-
     C --> D["Prescriptive<br/>What to do?"]
-
 ```
 
 

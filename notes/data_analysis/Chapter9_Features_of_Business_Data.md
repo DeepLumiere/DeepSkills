@@ -33,31 +33,17 @@ Business data possesses unique operational, temporal, and structural characteris
 
 
 ```mermaid
-
 flowchart TD
-
     subgraph DataFeatures["Defining Features of Business Data"]
-
         V5["The 5 V's<br/>(Volume, Velocity, Variety, Veracity, Value)"]
-
         GR["Granularity & Hierarchies<br/>(Fine vs. Coarse / Drill-down)"]
-
         TM["Temporal Dynamics<br/>(Trend, Seasonality, Anomaly)"]
-
         DQ["Data Quality Dimensions<br/>(Accuracy, Completeness, Validity, etc.)"]
-
     end
-
-    
-
     DataFeatures --> VisDecision["Visualization Engineering Decisions"]
-
     VisDecision --> AGG["Aggregation Strategies (SQL / OLAP)"]
-
     VisDecision --> UI["Interactive Drill-Down & Filters"]
-
     VisDecision --> CHART["Chart & Baseline Selection (YoY, Sparklines)"]
-
 ```
 
 
@@ -79,51 +65,13 @@ The defining characteristics of modern enterprise data are captured by five foun
 
 
 ```mermaid
-
-mindmap
-
-  root((The 5 V's of Business Data))
-
-    Volume
-
-      Scale: How MUCH data?
-
-      Billions of UPI transactions/month
-
-      Impact: Mandates SQL, cloud warehouses, aggregation
-
-    Velocity
-
-      Speed: How FAST does it arrive?
-
-      Batch vs. Near Real-Time vs. Streaming
-
-      Impact: Match dashboard refresh rate to data arrival
-
-    Variety
-
-      Forms: How many FORMATS?
-
-      Structured + Text + Image + GPS + Audio
-
-      Impact: Multi-modal composite dashboard displays
-
-    Veracity
-
-      Trust: Can you TRUST it?
-
-      Typos, sensor glitches, fake reviews, nulls
-
-      Impact: 'Garbage in, garbage out'
-
-    Value
-
-      Utility: Is it WORTH the storage cost?
-
-      Cost center vs. Revenue-generating insight
-
-      Impact: Recommendation engines, fraud prevention
-
+flowchart LR
+    Root(("The 5 V's of Business Data"))
+    Root --> V1["Volume<br/>Scale: How MUCH data?<br/>Mandates SQL, cloud warehouses"]
+    Root --> V2["Velocity<br/>Speed: How FAST does it arrive?<br/>Match dashboard refresh rate"]
+    Root --> V3["Variety<br/>Forms: How many FORMATS?<br/>Structured + Text + GPS"]
+    Root --> V4["Veracity<br/>Trust: Can you TRUST it?<br/>Garbage in, garbage out"]
+    Root --> V5["Value<br/>Utility: Is it WORTH the storage cost?<br/>Revenue-generating insight"]
 ```
 
 
@@ -157,27 +105,16 @@ mindmap
 
 
 ```mermaid
-
 flowchart LR
-
     subgraph T1["Batch Processing"]
-
         B1["Periodic ingestion<br/>(Daily / Monthly)"] --> B2["Monthly payroll,<br/>Quarterly sales reports"]
-
     end
-
     subgraph T2["Near Real-Time"]
-
         N1["Latencies: Seconds - Minutes"] --> N2["Swiggy / Uber delivery ETAs,<br/>Warehouse inventory updates"]
-
     end
-
     subgraph T3["Streaming / Real-Time"]
-
         S1["Continuous, Instantaneous<br/>(Sub-second)"] --> S2["Stock market tickers,<br/>UPI fraud blocks, IoT alerts"]
-
     end
-
 ```
 
 
@@ -205,25 +142,14 @@ Granularity defines the atomic resolution or "zoom level" at which data records 
 
 
 ```mermaid
-
 flowchart TD
-
     L1["<b>Coarse Granularity (Zoomed Out)</b><br/>Yearly Corporate Revenue Totals"]
-
     L2["Monthly Regional Sales Totals"]
-
     L3["Daily Store-Level Receipts"]
-
     L4["<b>Fine Granularity (Zoomed In)</b><br/>Individual Product Barcode Scans with Millisecond Timestamps"]
-
-    
-
     L4 -->|Aggregation / Roll-Up| L3
-
     L3 -->|Aggregation / Roll-Up| L2
-
     L2 -->|Aggregation / Roll-Up| L1
-
 ```
 
 
@@ -271,17 +197,11 @@ Business events are intrinsically bound to timestamps. Time-series data exhibits
 
 
 ```mermaid
-
 flowchart TD
-
     TimeSeries["Time-Series Pattern Decomposition"]
-
     TimeSeries --> T["<b>1. Trend</b><br/>Long-term directional movement<br/><i>e.g., Year-over-year UPI growth</i>"]
-
     TimeSeries --> S["<b>2. Seasonality</b><br/>Predictable, repeating cyclical fluctuations<br/><i>e.g., Diwali shopping, monsoon umbrella sales</i>"]
-
     TimeSeries --> A["<b>3. Anomaly</b><br/>One-off, unrepeatable shock event<br/><i>e.g., Server crash, pandemic lockdown</i>"]
-
 ```
 
 
@@ -335,43 +255,22 @@ Business data naturally organizes along multidimensional drill-down hierarchies.
 
 
 ```mermaid
-
 flowchart LR
-
     subgraph Geo["Geographical Hierarchy"]
-
         G1["Country (India)"] --> G2["State (Gujarat)"]
-
         G2 --> G3["City (Ahmedabad)"]
-
         G3 --> G4["Store (CG Road Branch)"]
-
     end
-
-    
-
     subgraph Prod["Product Hierarchy"]
-
         P1["Department (Electronics)"] --> P2["Category (Mobiles)"]
-
         P2 --> P3["Brand (Samsung)"]
-
         P3 --> P4["SKU (Galaxy S24, 256GB)"]
-
     end
-
-    
-
     subgraph Time["Temporal Hierarchy"]
-
         T1["Year (2026)"] --> T2["Quarter (Q3)"]
-
         T2 --> T3["Month (September)"]
-
         T3 --> T4["Day (2nd Sept)"]
-
     end
-
 ```
 
 
@@ -399,23 +298,14 @@ Data quality issues do not merely corrupt database records?they silently distort
 
 
 ```mermaid
-
 flowchart TD
-
     DQ["Six Core Data Quality Dimensions"]
-
     DQ --> Q1["<b>1. Accuracy</b><br/>Corrupt values shift bars silently"]
-
     DQ --> Q2["<b>2. Completeness</b><br/>Missing rows show as wrong totals"]
-
     DQ --> Q3["<b>3. Consistency</b><br/>Typo variations fragment one bar into three"]
-
     DQ --> Q4["<b>4. Timeliness</b><br/>Stale numbers look equally fresh on a chart"]
-
     DQ --> Q5["<b>5. Uniqueness</b><br/>Duplicates artificially inflate bar heights"]
-
     DQ --> Q6["<b>6. Validity</b><br/>Out-of-range values distort axis scales"]
-
 ```
 
 
@@ -471,57 +361,29 @@ The structural and behavioral features of data determine every visualization eng
 
 
 ```mermaid
-
 flowchart LR
-
     subgraph Feat["Data Feature"]
-
         F1["High Volume"]
-
         F2["High Velocity"]
-
         F3["High Variety"]
-
         F4["Questionable Veracity"]
-
         F5["Deep Hierarchy"]
-
         F6["Time Dependence"]
-
     end
-
-    
-
     subgraph Action["Engineering Response"]
-
         A1["Pre-aggregate via OLAP/SQL"]
-
         A2["Build streaming dashboard"]
-
         A3["Multi-chart coordinated dashboard"]
-
         A4["Clean & profile before plotting"]
-
         A5["Design drill-down visual paths"]
-
         A6["Line charts with seasonal baselines"]
-
     end
-
-    
-
     F1 --> A1
-
     F2 --> A2
-
     F3 --> A3
-
     F4 --> A4
-
     F5 --> A5
-
     F6 --> A6
-
 ```
 
 

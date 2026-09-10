@@ -45,7 +45,6 @@ Data in the real world is frequently imperfect. The main categories of "dirty" d
 5.  **Data Discretization:** Part of data reduction but with particular importance, especially for numerical data (e.g., binning).
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#dbeafe', 'primaryBorderColor': '#2563eb', 'primaryTextColor': '#1e293b', 'lineColor': '#475569', 'edgeLabelBackground': '#ffffff', 'clusterBkg': '#eff6ff', 'clusterBorder': '#93c5fd'}} }%%
 flowchart LR
     Raw["Raw Dirty Data<br/>(Incomplete, Noisy, Inconsistent)"] --> Clean["1. Data Cleaning<br/>(Impute, Smooth, Outliers)"]
     Clean --> Integ["2. Data Integration<br/>(Schema, Redundancy, Correlation)"]

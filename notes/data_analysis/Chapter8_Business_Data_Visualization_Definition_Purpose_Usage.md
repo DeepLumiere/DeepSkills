@@ -33,41 +33,21 @@ Business data visualization serves as the vital cognitive bridge between mathema
 
 
 ```mermaid
-
 flowchart TD
-
     RawData["Raw Business Data<br/>(Transactional logs, ERP, CRM)"] --> DIK["Data-Information-Insight Bridge"]
-
     DIK --> Purpose{"Core Purpose"}
-
     Purpose --> P1["1. Reveal Patterns"]
-
     Purpose --> P2["2. Speed Decisions"]
-
     Purpose --> P3["3. Tell a Story"]
-
     Purpose --> P4["4. Persuade Action"]
-
-
-
     Purpose --> Form{"Visual Form"}
-
     Form --> F1["Comparison (Bar/Column)"]
-
     Form --> F2["Trend (Line)"]
-
     Form --> F3["Distribution (Histogram)"]
-
     Form --> F4["Relationship (Scatter)"]
-
     Form --> F5["Composition (Stacked Bar / Pie)"]
-
     Form --> F6["Geographic (Maps)"]
-
-
-
     Form --> Target["Execution: Dashboards & Reports"]
-
 ```
 
 
@@ -101,29 +81,17 @@ flowchart TD
 
 
 ```mermaid
-
-mindmap
-
-  root((Perceptual Advantages of Visualization))
-
-    Pre-attentive Processing
-
-      Visual cortex processes spatial geometries in under 250ms
-
-      Preattentive attributes: length, 2D position, color hue
-
-    Instant Anomaly Detection
-
-      Outliers visible immediately without scanning all records
-
-      Inflection points and clusters self-evident
-
-    Cognitive Load Reduction
-
-      Viewer avoids holding multiple numeric values in working memory
-
-      Direct perceptual comparison across hundreds of data points
-
+flowchart TD
+    Root(("Perceptual Advantages of Visualization"))
+    Root --> P["Pre-attentive Processing"]
+    P --> P1["Visual cortex processes spatial geometries in under 250ms"]
+    P --> P2["Preattentive attributes: length, 2D position, color hue"]
+    Root --> I["Instant Anomaly Detection"]
+    I --> I1["Outliers visible immediately without scanning all records"]
+    I --> I2["Inflection points and clusters self-evident"]
+    Root --> C["Cognitive Load Reduction"]
+    C --> C1["Viewer avoids holding multiple numeric values in working memory"]
+    C --> C2["Direct perceptual comparison across hundreds of data points"]
 ```
 
 
@@ -153,13 +121,9 @@ Business analytics progresses through three distinct cognitive tiers:
 
 
 ```mermaid
-
 flowchart LR
-
     D["<b>Data</b><br/>Raw, unprocessed facts<br/><i>e.g., 200 individual store sales rows</i>"] -->|Organize & Contextualize| I["<b>Information</b><br/>Data structured and ranked<br/><i>e.g., Sales aggregated by store & region</i>"]
-
     I -->|Synthesize & Infer| INS["<b>Insight</b><br/>Actionable strategic understanding<br/><i>e.g., '12 stores underperforming due to logistics'</i>"]
-
 ```
 
 
@@ -211,23 +175,15 @@ Every enterprise visualization is designed to fulfill one or more of four core f
 
 
 ```mermaid
-
-quadrantChart
-
-    title The Four Purposes of Visualization
-
-    x-axis Analytic Focus --> Communication Focus
-
-    y-axis Speed-Oriented --> Narrative-Oriented
-
-    quadrant-1 Tell a Story<br/>Guiding executive attention to key drivers
-
-    quadrant-2 Reveal Patterns<br/>Spotting unseen clusters and trends
-
-    quadrant-3 Speed Up Decisions<br/>Color-coded alerts for operational triage
-
-    quadrant-4 Support Persuasion<br/>Evidence-backed business justification
-
+flowchart TD
+    subgraph Narrative-Oriented
+        Q2["Reveal Patterns<br/>Spotting unseen clusters and trends"]
+        Q1["Tell a Story<br/>Guiding executive attention to key drivers"]
+    end
+    subgraph Speed-Oriented
+        Q3["Speed Up Decisions<br/>Color-coded alerts for operational triage"]
+        Q4["Support Persuasion<br/>Evidence-backed business justification"]
+    end
 ```
 
 
@@ -303,17 +259,11 @@ Visual encodings are categorized into six foundational chart families based on t
 flowchart TD
     ChartFamilies["Six Foundational Chart Families"]
     ChartFamilies --> C1["<b>1. Comparison</b><br/>Bar / Column Charts<br/><i>Compare categories</i>"]
-
     ChartFamilies --> C2["<b>2. Trend</b><br/>Line / Area Charts<br/><i>Track change over time</i>"]
-
     ChartFamilies --> C3["<b>3. Distribution</b><br/>Histograms / Box Plots<br/><i>Inspect spread & frequency</i>"]
-
     ChartFamilies --> C4["<b>4. Relationship</b><br/>Scatter Plots / Bubble Charts<br/><i>Examine correlation</i>"]
-
     ChartFamilies --> C5["<b>5. Composition</b><br/>Stacked Bar / Treemaps / Pie<br/><i>Show parts of a whole</i>"]
-
     ChartFamilies --> C6["<b>6. Geographic</b><br/>Choropleth / Bubble Maps<br/><i>Visualize spatial distribution</i>"]
-
 ```
 
 
@@ -373,33 +323,17 @@ In commercial enterprise environments, data visualization operates in two distin
 
 
 ```mermaid
-
 flowchart LR
-
     subgraph Mindset["Operational Paradigm"]
-
         EX1["<b>Exploratory Visualisation</b><br/>Audience: Analyst<br/>Goal: Pattern discovery<br/>Iterative, rapid, unpolished"]
-
         EX2["<b>Explanatory Visualisation</b><br/>Audience: Stakeholder / Exec<br/>Goal: Communication<br/>Curated, polished, one takeaway"]
-
     end
-
-
-
     subgraph Delivery["Delivery Format"]
-
         D1["<b>Dashboard</b><br/>Continuous, live-updating<br/>Operational monitoring tool"]
-
         D2["<b>Report</b><br/>Static point-in-time snapshot<br/>Executive governance deck"]
-
     end
-
-
-
     EX1 --> D1
-
     EX2 --> D2
-
 ```
 
 
@@ -465,15 +399,10 @@ Before selecting a visualization form, an analyst must resolve three foundationa
 
 
 ```mermaid
-
 flowchart TD
-
     Q1["<b>1. What is the Core Message?</b><br/>Comparison, Trend, Relationship, Composition, or Distribution?"] --> Q2["<b>2. Who is the Intended Audience?</b><br/>Technical analyst (exploratory) vs. Executive leader (explanatory)?"]
-
     Q2 --> Q3["<b>3. What is the Underlying Data Shape?</b><br/>Categorical, continuous time-series, geo coordinates, or multi-dimensional?"]
-
     Q3 --> OptimalChart["<b>Optimal Visual Selection</b><br/>High clarity, zero ambiguity, minimal cognitive friction"]
-
 ```
 
 
@@ -501,43 +430,22 @@ ightarrow$ scatter plot).
 
 
 ```mermaid
-
 flowchart LR
-
     subgraph Bad["BEFORE (Anti-Pattern)"]
-
         direction TB
-
         P1["Pie Chart with 15 Slices"]
-
         P2["Thin, unreadable slivers"]
-
         P3["Colors repeat or look identical"]
-
         P4["Impossible to rank 4th vs 7th"]
-
     end
-
-
-
     subgraph Good["AFTER (Best Practice)"]
-
         direction TB
-
         B1["Horizontal Bar Chart"]
-
         B2["Categories sorted descending"]
-
         B3["Top 3 categories highlighted"]
-
         B4["Clean common baseline for comparison"]
-
     end
-
-
-
     Bad -->|Refactor using Framework| Good
-
 ```
 
 
