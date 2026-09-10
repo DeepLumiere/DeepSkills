@@ -1,5 +1,3 @@
-<Complete DAV Notes: Chapter 6 ? Measuring Data Similarity and Dissimilarity>
-
 > **Course:** Data Analysis and Visualisation (3CS103ME24)
 
 > **Programme:** B.Tech (CSE), Integrated B.Tech (CSE)-MBA, B.Tech (Interdisciplinary Minor in Data Science)
@@ -8,11 +6,9 @@
 
 > **Files Integrated:** `5.1_Similarity and Dissimilarity.pdf`, `ch5_1_text.txt`
 
-</Complete DAV Notes: Chapter 6 ? Measuring Data Similarity and Dissimilarity>
+---
 
-
-
-# Chapter 6 ? Measuring Data Similarity and Dissimilarity
+# Chapter 6 — Measuring Data Similarity and Dissimilarity
 
 
 

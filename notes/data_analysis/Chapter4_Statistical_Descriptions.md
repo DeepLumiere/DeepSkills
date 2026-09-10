@@ -1,18 +1,10 @@
-<Complete DAV Notes: Chapter 4 — Statistical Descriptions of Data>
+> **Course:** Data Analysis and Visualization
 
-> Course: Data Analysis and Visualization
+> **Primary Source:** 4.Statistical Descriptions of Data_new.pdf
 
-> Primary Source: 4.Statistical Descriptions of Data_new.pdf
+> **Files Integrated:** `4.Statistical Descriptions of Data_new.pdf`, `ch4_text.txt`
 
-> Files Integrated: 4.Statistical Descriptions of Data_new.pdf, ch4_text.txt
-
-</Complete DAV Notes: Chapter 4 — Statistical Descriptions of Data>
-
-
-
-<Chapter 4 — Statistical Descriptions of Data>
-
-
+---
 
 # Chapter 4 — Statistical Descriptions of Data
 
@@ -1114,8 +1106,4 @@ $$
 4. Explain the steps to create a Q-Q plot and what the $y=x$ line represents.
 
 5. Provide the formula for the grouped median and define each term.
-
-
-
-</Chapter 4 — Statistical Descriptions of Data>
 

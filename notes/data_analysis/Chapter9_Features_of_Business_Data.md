@@ -1,10 +1,8 @@
-<Complete DAV Notes: Chapter 9 ? Features of Business Data>
-
 > **Course:** Data Analysis and Visualisation (3CS103ME24)
 
 > **Programme:** B.Tech (CSE), Integrated B.Tech (CSE)-MBA, B.Tech (Interdisciplinary Minor in Data Science), Semester V
 
-> **Unit:** Unit II ? Business Data Visualization (Session 3 of 10)
+> **Unit:** Unit II — Business Data Visualization (Session 3 of 10)
 
 > **Instructor / Industry Lead:** Mr. Pramathesh Shukla (Senior Data Analyst | Business Intelligence & Analytics)
 
@@ -12,11 +10,9 @@
 
 > **Files Integrated:** `Session-3_Features Business Data.pdf`, `u2_s3_text.txt`
 
-</Complete DAV Notes: Chapter 9 ? Features of Business Data>
+---
 
-
-
-# Chapter 9 ? Features of Business Data (Unit II, Session 3)
+# Chapter 9 — Features of Business Data (Unit II, Session 3)
 
 
 

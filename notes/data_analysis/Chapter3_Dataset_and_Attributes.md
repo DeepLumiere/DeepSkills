@@ -1,12 +1,10 @@
-<Complete DAV Notes: Chapter 3 — Dataset and Attributes>
-
 > **Course:** Data Analysis and Visualization
 
 > **Primary Source:** 3.Dataset and Attributes.pdf
 
 > **Files Integrated:** `3.Dataset and Attributes.pdf`, `ch3_text.txt`
 
-
+---
 
 # Chapter 3 — Dataset and Attributes
 

@@ -1,10 +1,8 @@
-<Complete DAV Notes: Chapter 7 ? Introduction to Business Data for Analytics>
-
 > **Course:** Data Analysis and Visualisation (3CS103ME24)
 
 > **Programme:** B.Tech (CSE), Integrated B.Tech (CSE)-MBA, B.Tech (Interdisciplinary Minor in Data Science), Semester V
 
-> **Unit:** Unit II ? Business Data Visualization (Session 1 of 10)
+> **Unit:** Unit II — Business Data Visualization (Session 1 of 10)
 
 > **Instructor / Industry Lead:** Mr. Pramathesh Shukla (Senior Data Analyst | Business Intelligence & Analytics)
 
@@ -12,11 +10,9 @@
 
 > **Files Integrated:** `Session-1_Introduction to Business Data.pdf`, `u2_s1_text.txt`
 
-</Complete DAV Notes: Chapter 7 ? Introduction to Business Data for Analytics>
+---
 
-
-
-# Chapter 7 ? Introduction to Business Data for Analytics (Unit II, Session 1)
+# Chapter 7 — Introduction to Business Data for Analytics (Unit II, Session 1)
 
 
 
