@@ -589,13 +589,9 @@ $$
 **Step 1: Mean**
 
 
-
-2885
-
-ar{x} = rac{4+5+6+6+7+8}{6} = rac{36}{6} = 6
-
-2885
-
+$$
+\bar{x} = \frac{4+5+6+6+7+8}{6} = \frac{36}{6} = 6
+$$
 
 
 **Step 2: Deviations & Squared Deviations**
@@ -657,11 +653,9 @@ $$
 
 ## 7. Five-Number Summary and Boxplot Analysis
 
-
+<iframe src="boxplot_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
 
 **Five-number summary:** Minimum, $Q_1$, Median, $Q_3$, Maximum.
-
-
 
 **Boxplot Structure:**
 
@@ -849,7 +843,7 @@ Histograms often tell more than boxplots. Two datasets might share the exact sam
 
 ### Normal Distribution
 
-
+<iframe src="distribution_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
 
 A continuous probability distribution representing data that is symmetrical, with most values clustered around the mean.
 

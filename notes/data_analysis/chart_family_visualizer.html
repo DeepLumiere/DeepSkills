@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart Family Visualizer</title>
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --bg-color: #f8fafc;
+            --text-main: #1e293b;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            padding: 24px;
+            box-sizing: border-box;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 10px 20px;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        button.active, button:hover {
+            background: var(--primary);
+            color: white;
+        }
+        .description {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+        #plot {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>The Six Major Chart Families</h2>
+    </div>
+    
+    <div class="controls">
+        <button onclick="setChart('comparison')" class="active" id="btn-comparison">Comparison (Bar)</button>
+        <button onclick="setChart('trend')" id="btn-trend">Trend (Line)</button>
+        <button onclick="setChart('distribution')" id="btn-distribution">Distribution (Histogram)</button>
+        <button onclick="setChart('relationship')" id="btn-relationship">Relationship (Scatter)</button>
+        <button onclick="setChart('composition')" id="btn-composition">Composition (Pie)</button>
+    </div>
+
+    <div class="description" id="desc">
+        Select a chart family to see how it represents data.
+    </div>
+
+    <div id="plot"></div>
+</div>
+
+<script>
+    const dataGen = {
+        months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        sales: [120, 150, 180, 130, 210, 250, 240, 290, 310, 280, 350, 400],
+        categories: ['Electronics', 'Clothing', 'Home', 'Beauty', 'Sports'],
+        catSales: [450, 320, 280, 190, 150],
+        scatterX: Array.from({length: 50}, () => Math.random() * 100),
+        scatterY: []
+    };
+    // Generate correlated scatter data
+    dataGen.scatterY = dataGen.scatterX.map(x => x * 1.5 + Math.random() * 40);
+    // Generate distribution data
+    dataGen.distData = Array.from({length: 500}, () => (Math.random() + Math.random() + Math.random()) * 30);
+
+    const configs = {
+        comparison: {
+            desc: "<strong>Comparison (Bar Chart):</strong> Used to compare values across discrete categories. The length of the bar is directly proportional to the value.",
+            data: [{
+                x: dataGen.categories,
+                y: dataGen.catSales,
+                type: 'bar',
+                marker: {color: '#4F46E5'}
+            }],
+            layout: { title: 'Revenue by Department', xaxis: {title: 'Department'}, yaxis: {title: 'Revenue ($)'} }
+        },
+        trend: {
+            desc: "<strong>Trend (Line Chart):</strong> Used to track changes over continuous periods of time. Connects data points to emphasize movement.",
+            data: [{
+                x: dataGen.months,
+                y: dataGen.sales,
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {color: '#10B981', width: 3},
+                marker: {size: 8}
+            }],
+            layout: { title: 'Monthly Sales Trend', xaxis: {title: 'Month'}, yaxis: {title: 'Sales Volume'} }
+        },
+        distribution: {
+            desc: "<strong>Distribution (Histogram):</strong> Used to show the frequency and spread of continuous numerical data grouped into bins.",
+            data: [{
+                x: dataGen.distData,
+                type: 'histogram',
+                marker: {color: '#8B5CF6'},
+                xbins: {size: 5}
+            }],
+            layout: { title: 'Customer Age Distribution', xaxis: {title: 'Age (Years)'}, yaxis: {title: 'Count'} }
+        },
+        relationship: {
+            desc: "<strong>Relationship (Scatter Plot):</strong> Used to identify correlation between two continuous variables.",
+            data: [{
+                x: dataGen.scatterX,
+                y: dataGen.scatterY,
+                type: 'scatter',
+                mode: 'markers',
+                marker: {color: '#F59E0B', size: 10, opacity: 0.7}
+            }],
+            layout: { title: 'Ad Spend vs Revenue', xaxis: {title: 'Ad Spend ($)'}, yaxis: {title: 'Revenue ($)'} }
+        },
+        composition: {
+            desc: "<strong>Composition (Pie/Donut Chart):</strong> Used to show the parts-to-whole relationship of categories.",
+            data: [{
+                values: dataGen.catSales,
+                labels: dataGen.categories,
+                type: 'pie',
+                hole: 0.4,
+                marker: {colors: ['#4F46E5', '#10B981', '#8B5CF6', '#F59E0B', '#EC4899']}
+            }],
+            layout: { title: 'Market Share Composition' }
+        }
+    };
+
+    function setChart(type) {
+        document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn-' + type).classList.add('active');
+        
+        document.getElementById('desc').innerHTML = configs[type].desc;
+        
+        const layout = Object.assign({
+            margin: { t: 40, b: 40, l: 50, r: 20 },
+            font: {family: 'Segoe UI'}
+        }, configs[type].layout);
+
+        Plotly.newPlot('plot', configs[type].data, layout, {displayModeBar: false, responsive: true});
+    }
+
+    // Initialize
+    setChart('comparison');
+</script>
+
+</body>
+</html>

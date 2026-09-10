@@ -210,6 +210,8 @@ If $\chi^2_{\text{calculated}} > 10.828$, we reject the null hypothesis and conc
 
 ### Correlation Analysis (Numerical Data) - Pearson Correlation
 
+<iframe src="correlation_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
+
 Measures the linear correlation between two continuous variables.
 
 $$
@@ -352,8 +354,26 @@ $$
 ## 8. Data Reduction & Discretization
 
 ### Data Reduction
-*   **Purpose:** Obtains a reduced representation in volume but produces the same or similar analytical results.
+*   **Purpose:** Obtains a reduced representation in volume but produces the same or similar analytical results. It mitigates the "Curse of Dimensionality".
 *   **Techniques:** Dimensionality reduction (e.g., PCA), numerosity reduction, and data compression.
+
+### Principal Component Analysis (PCA)
+PCA is a rigorous mathematical procedure that uses an orthogonal transformation to convert a set of observations of possibly correlated variables into a set of values of linearly uncorrelated variables called principal components.
+
+**The PCA Pipeline:**
+1.  **Standardization:** Normalize the range of continuous initial variables (typically using Z-score normalization) so that each feature contributes equally to the analysis.
+2.  **Covariance Matrix Computation:** Compute the covariance matrix to identify correlations.
+    $$
+    Cov(X, Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})
+    $$
+3.  **Compute Eigenvectors and Eigenvalues:** Calculate the eigenvectors and eigenvalues of the covariance matrix to identify the principal components.
+    *   **Eigenvectors** determine the *directions* of the new feature space.
+    *   **Eigenvalues** determine the *magnitude* (variance explained) by each eigenvector.
+4.  **Feature Vector Construction:** Sort eigenvectors by descending eigenvalues and choose the top $k$ eigenvectors to form a matrix $W$. This reduces the dimensionality from $p$ dimensions to $k$ dimensions.
+5.  **Recast Data:** Reorient the original data to the new principal component axes.
+    $$
+    \text{Final Data} = \text{Standardized Original Data} \times W
+    $$
 
 ### Data Discretization
 *   Part of data reduction but highly important for continuous numeric data.

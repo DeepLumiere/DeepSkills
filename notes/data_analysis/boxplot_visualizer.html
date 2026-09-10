@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boxplot & Five-Number Summary Visualizer</title>
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    <style>
+        :root {
+            --primary: #10b981;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .controls {
+            flex: 1;
+            background: var(--surface);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border: 1px solid var(--border);
+            min-width: 300px;
+        }
+        .visualization {
+            flex: 3;
+            background: var(--surface);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border: 1px solid var(--border);
+            height: 500px;
+        }
+        h2 { margin-top: 0; font-size: 1.25rem; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.9rem; }
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-sizing: border-box;
+            resize: vertical;
+            font-family: monospace;
+        }
+        .stats {
+            margin-top: 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .stat-box {
+            background: #ecfdf5;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #a7f3d0;
+            text-align: center;
+        }
+        .stat-label { font-size: 0.8rem; color: #065f46; font-weight: 600; text-transform: uppercase; }
+        .stat-value { font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-top: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="controls">
+        <h2>Data Input</h2>
+        
+        <div class="form-group">
+            <label>Enter values (comma or space separated)</label>
+            <textarea id="dataInput" rows="4" oninput="updatePlot()">25, 28, 29, 29, 30, 34, 35, 35, 37, 38, 50</textarea>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-label">Min</div>
+                <div class="stat-value" id="s-min">-</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Q1</div>
+                <div class="stat-value" id="s-q1">-</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Median (Q2)</div>
+                <div class="stat-value" id="s-med">-</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Q3</div>
+                <div class="stat-value" id="s-q3">-</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Max</div>
+                <div class="stat-value" id="s-max">-</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">IQR</div>
+                <div class="stat-value" id="s-iqr">-</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="visualization" id="plot"></div>
+</div>
+
+<script>
+    function quantile(arr, q) {
+        const sorted = arr.slice().sort((a, b) => a - b);
+        const pos = (sorted.length - 1) * q;
+        const base = Math.floor(pos);
+        const rest = pos - base;
+        if (sorted[base + 1] !== undefined) {
+            return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
+        } else {
+            return sorted[base];
+        }
+    }
+
+    function updatePlot() {
+        const rawText = document.getElementById('dataInput').value;
+        const data = rawText.split(/[\s,]+/).filter(x => x.trim() !== '' && !isNaN(x)).map(Number);
+        
+        if (data.length < 3) return; // Need at least some data
+
+        const sorted = data.slice().sort((a,b) => a-b);
+        const min = sorted[0];
+        const max = sorted[sorted.length-1];
+        const q1 = quantile(sorted, 0.25);
+        const med = quantile(sorted, 0.5);
+        const q3 = quantile(sorted, 0.75);
+        const iqr = q3 - q1;
+
+        document.getElementById('s-min').innerText = min.toFixed(1);
+        document.getElementById('s-q1').innerText = q1.toFixed(1);
+        document.getElementById('s-med').innerText = med.toFixed(1);
+        document.getElementById('s-q3').innerText = q3.toFixed(1);
+        document.getElementById('s-max').innerText = max.toFixed(1);
+        document.getElementById('s-iqr').innerText = iqr.toFixed(1);
+
+        const trace = {
+            x: data,
+            type: 'box',
+            name: 'Dataset',
+            marker: { color: '#10b981' },
+            boxpoints: 'all',
+            jitter: 0.3,
+            pointpos: -1.8,
+            boxmean: 'sd'
+        };
+
+        const layout = {
+            title: 'Boxplot Distribution',
+            margin: { t: 40, b: 40, l: 80, r: 20 },
+            xaxis: { title: 'Values', zeroline: false },
+            yaxis: { showticklabels: false }
+        };
+
+        Plotly.newPlot('plot', [trace], layout, {responsive: true, displayModeBar: false});
+    }
+
+    // Initial plot
+    updatePlot();
+</script>
+
+</body>
+</html>

@@ -576,7 +576,7 @@ A distance function $d(i,j)$ is a true **metric** if and only if it satisfies fo
 
 ### Special Cases of Minkowski Distance
 
-
+<iframe src="distance_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
 
 ```mermaid
 
@@ -1111,11 +1111,20 @@ $$
 
 
 
+## 13. Bridging Data Mining to Business Analytics
+
+While mathematical formulas (like Minkowski and Cosine) form the rigorous foundation of data mining, they are not abstract concepts?they are the direct engines behind massive enterprise value.
+
+### Real-World Applications of Proximity
+1. **Customer Segmentation (CRM):** Calculating the Euclidean distance between customer vectors (age, income, purchase frequency) allows businesses to cluster similar customers and target them with tailored marketing campaigns.
+2. **Recommendation Engines:** Netflix and Amazon use Cosine Similarity to find users with viewing/purchase histories pointing in the "same direction" to serve highly accurate recommendations.
+3. **Fraud Detection:** Using Supremum ($L_\infty$) or Mahalanobis distance to identify credit card transactions that are mathematically too "distant" from a user's normal spending baseline, triggering an instant block.
+
+These metrics feed directly into the Dashboards and Analytical Pipelines covered in the next module on Business Data Visualization.
+
 ---
 
-
-
-## 13. Exam-Oriented Review
+## 14. Exam-Oriented Review
 
 
 

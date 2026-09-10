@@ -138,15 +138,15 @@ flowchart TD
 
 
 
-    Qual --> Nom["Nominal Scale\n(Unordered Categories)"]
+    Qual --> Nom["Nominal Scale<br/>(Unordered Categories)"]
 
-    Qual --> Ord["Ordinal Scale\n(Ordered Categories)"]
+    Qual --> Ord["Ordinal Scale<br/>(Ordered Categories)"]
 
 
 
-    Quant --> Disc["Discrete Data\n(Countable Integers)"]
+    Quant --> Disc["Discrete Data<br/>(Countable Integers)"]
 
-    Quant --> Cont["Continuous Data\n(Measurable Real Values)"]
+    Quant --> Cont["Continuous Data<br/>(Measurable Real Values)"]
 
 
 

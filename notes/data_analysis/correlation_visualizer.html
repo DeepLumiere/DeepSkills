@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correlation & Scatter Plot Visualizer</title>
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .controls {
+            flex: 1;
+            background: var(--surface);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border: 1px solid var(--border);
+            min-width: 300px;
+        }
+        .visualization {
+            flex: 3;
+            background: var(--surface);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border: 1px solid var(--border);
+            height: 500px;
+        }
+        h2 { margin-top: 0; font-size: 1.25rem; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.9rem; }
+        input[type="range"] { width: 100%; }
+        .stats {
+            margin-top: 24px;
+            padding: 16px;
+            background: #f5f3ff;
+            border-radius: 8px;
+            border: 1px solid #ddd6fe;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        .stat-value { font-weight: 700; color: var(--primary); }
+        .controls-note {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="controls">
+        <h2>Correlation Generator</h2>
+        
+        <div class="form-group">
+            <label>Noise Level</label>
+            <input type="range" id="noise" min="0" max="50" value="10" oninput="generateData()">
+        </div>
+        
+        <div class="form-group">
+            <label>Trend (Slope)</label>
+            <input type="range" id="slope" min="-2" max="2" step="0.1" value="1" oninput="generateData()">
+        </div>
+
+        <div class="stats">
+            <div class="stat-row">
+                <span>Pearson r:</span>
+                <span id="pearson-out" class="stat-value">0.00</span>
+            </div>
+            <div class="stat-row">
+                <span>Covariance:</span>
+                <span id="cov-out" class="stat-value">0.00</span>
+            </div>
+        </div>
+        
+        <p class="controls-note">Adjust the sliders to see how noise and slope affect correlation and covariance. Pearson r ranges from -1 to +1.</p>
+    </div>
+    
+    <div class="visualization" id="plot"></div>
+</div>
+
+<script>
+    function generateData() {
+        const noiseLevel = parseFloat(document.getElementById('noise').value);
+        const slope = parseFloat(document.getElementById('slope').value);
+        
+        const x = [];
+        const y = [];
+        
+        let sumX = 0, sumY = 0;
+        
+        // Generate points
+        for(let i=0; i<50; i++) {
+            const cx = Math.random() * 100;
+            const noise = (Math.random() - 0.5) * noiseLevel * 10;
+            const cy = slope * cx + noise + 50; // offset
+            
+            x.push(cx);
+            y.push(cy);
+            sumX += cx;
+            sumY += cy;
+        }
+        
+        const n = x.length;
+        const meanX = sumX / n;
+        const meanY = sumY / n;
+        
+        let numCov = 0, denX = 0, denY = 0;
+        for(let i=0; i<n; i++) {
+            const dx = x[i] - meanX;
+            const dy = y[i] - meanY;
+            numCov += dx * dy;
+            denX += dx * dx;
+            denY += dy * dy;
+        }
+        
+        const cov = numCov / n; // population covariance
+        const pearson = numCov / Math.sqrt(denX * denY);
+        
+        document.getElementById('pearson-out').innerText = pearson.toFixed(3);
+        document.getElementById('cov-out').innerText = cov.toFixed(2);
+        
+        const trace = {
+            x: x,
+            y: y,
+            mode: 'markers',
+            type: 'scatter',
+            marker: { size: 10, color: '#8b5cf6', opacity: 0.7 }
+        };
+        
+        // Add regression line
+        const minX = Math.min(...x);
+        const maxX = Math.max(...x);
+        
+        // OLS Regression
+        const b1 = numCov / (denX/n);
+        const b0 = meanY - b1 * meanX;
+        
+        const line = {
+            x: [minX, maxX],
+            y: [b0 + b1*minX, b0 + b1*maxX],
+            mode: 'lines',
+            type: 'scatter',
+            line: { color: '#f43f5e', width: 3 },
+            name: 'Best Fit Line'
+        };
+
+        const layout = {
+            title: 'Scatter Plot',
+            margin: { t: 40, b: 40, l: 40, r: 20 },
+            xaxis: { title: 'Variable X', range: [0, 100] },
+            yaxis: { title: 'Variable Y', range: [-100, 300] },
+            showlegend: false
+        };
+
+        Plotly.newPlot('plot', [trace, line], layout, {responsive: true, displayModeBar: false});
+    }
+
+    // Initial plot
+    generateData();
+</script>
+
+</body>
+</html>
