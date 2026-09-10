@@ -17,6 +17,7 @@ Data preprocessing is an indispensable step in the data mining and data engineer
 
 ### Why is Data Dirty?
 Data in the real world is frequently imperfect. The main categories of "dirty" data are:
+
 *   **Incomplete data:** Lacking attribute values, lacking certain attributes of interest, or containing only aggregate data.
     *   *Causes:* "Not applicable" data value when collected; different considerations between the time of collection and analysis; human/hardware/software problems.
     *   *Example:* `occupation=" "`
@@ -30,6 +31,7 @@ Data in the real world is frequently imperfect. The main categories of "dirty" d
 [Source: 5. data_preprocessing.pdf, Slides 2-3, 18]
 
 ### Why Data Preprocessing is Important
+
 *   **No quality data $\rightarrow$ No quality results.**
 *   Quality decisions require accurate, complete, and consistent data.
 *   Missing or duplicate data leads to incorrect or misleading statistics.
@@ -38,6 +40,7 @@ Data in the real world is frequently imperfect. The main categories of "dirty" d
 [Source: 5. data_preprocessing.pdf, Slide 7]
 
 ### Major Tasks in Data Preprocessing
+
 1.  **Data Cleaning:** Fill in missing values, smooth noisy data, identify or remove outliers, and resolve inconsistencies.
 2.  **Data Integration:** Integration of multiple databases, data cubes, or files into a coherent store.
 3.  **Data Transformation:** Normalization and aggregation.
@@ -98,6 +101,7 @@ Missing data is common (e.g., missing customer income in sales data).
 Noise lowers data quality, leading to misleading analysis and poor model performance.
 
 ### How to Handle Noisy Data
+
 1.  **Binning:** Smooth a sorted data value by consulting its "neighborhood" (values around it). Sort data, partition into bins (e.g., equal-frequency), and smooth by bin means, bin medians, or bin boundaries.
 2.  **Regression:** Smooth data by fitting it into regression functions (linear or multiple linear regression).
 3.  **Clustering:** Detect and remove outliers by organizing similar values into groups (clusters).
@@ -119,6 +123,7 @@ $$
 
 **2. Equal-depth (frequency) partitioning:**
 Divides the range into $N$ intervals, each containing approximately the same number of samples.
+
 *   *Pros:* Good data scaling.
 *   *Cons:* Managing categorical attributes can be tricky.
 
@@ -131,18 +136,21 @@ $V = [4, 8, 9, 15, 21, 21, 24, 25, 26, 28, 29, 34]$
 
 **Step 1: Partition into equal-frequency (equi-depth) bins**
 Since $N=12$, creating 3 bins means each bin gets $12/3 = 4$ values.
+
 *   **Bin 1:** $[4, 8, 9, 15]$
 *   **Bin 2:** $[21, 21, 24, 25]$
 *   **Bin 3:** $[26, 28, 29, 34]$
 
 **Step 2: Smoothing by bin means**
 Each value in a bin is replaced by the mean of that bin.
+
 *   Mean(Bin 1) = $(4+8+9+15)/4 = 36/4 = 9 \implies [9, 9, 9, 9]$
 *   Mean(Bin 2) = $(21+21+24+25)/4 = 91/4 = 22.75 \implies$(Rounded in source to$23$) $\implies [23, 23, 23, 23]$
 *   Mean(Bin 3) = $(26+28+29+34)/4 = 117/4 = 29.25 \implies$(Rounded in source to$29$) $\implies [29, 29, 29, 29]$
 
 **Step 3: Smoothing by bin boundaries**
 The minimum and maximum values of the bin are its boundaries. Each value in the bin is replaced by the closest boundary value.
+
 *   **Bin 1 Boundaries:** $4$and$15$.
     *   $4 \rightarrow 4$
     *   $8 \rightarrow 4$(closer to$4$than$15$)
@@ -171,6 +179,7 @@ The minimum and maximum values of the bin are its boundaries. Each value in the 
 Data integration combines data from multiple sources into a coherent store.
 
 ### Key Issues
+
 1.  **Schema Integration:** Integrating metadata from different sources (e.g., `cust-id` vs `cust-no`).
     *   *Entity identification problem:* Identifying real-world entities from multiple data sources (e.g., "Bill Clinton" = "William Clinton").
 2.  **Detecting and Resolving Data Value Conflicts:** For the same real-world entity, attribute values from different sources are different.
@@ -199,6 +208,7 @@ $$
 Degrees of freedom $= (R-1)(C-1)$.
 
 **Example: Gender vs Preferred Reading**
+
 *   **Null Hypothesis:** There is no relationship between the two categorical variables (independent).
 *   **Acceptable (Alternate) Hypothesis:** There is a relationship (not independent).
 
@@ -209,7 +219,9 @@ If $\chi^2_{\text{calculated}} > 10.828$, we reject the null hypothesis and conc
 
 ### Correlation Analysis (Numerical Data) - Pearson Correlation
 
-<iframe src="correlation_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
+[Click here to open correlation_visualizer.html if the visualizer below does not load](correlation_visualizer.html)
+
+<iframe src="./correlation_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
 
 Measures the linear correlation between two continuous variables.
 
@@ -264,6 +276,7 @@ Suppose two stocks A and B have the following values: $(2, 5), (3, 8), (5, 10), 
 Will their prices rise or fall together?
 
 **Solution:**
+
 1.  Find $E(A)$: $(2+3+5+4+6)/5 = 20/5 = 4$
 2.  Find $E(B)$: $(5+8+10+11+14)/5 = 48/5 = 9.6$
 3.  Find $\text{Cov}(A,B)$:
@@ -275,7 +288,6 @@ Will their prices rise or fall together?
     &= 42.4 - 38.4 \\
     &= 4.0
     \end{aligned}
-    
 $$
 
 **Result:** $\text{Cov}(A, B) = 4$. Since covariance is positive, A and B rise together.
@@ -286,6 +298,7 @@ $$
 ## 7. Data Transformation
 
 Transforms data into appropriate forms for mining. Methods include:
+
 1.  **Smoothing:** Remove noise.
 2.  **Aggregation:** Summarization, data cube construction.
 3.  **Generalization:** Concept hierarchy climbing.
@@ -322,24 +335,25 @@ Where $j$is the smallest integer such that$\max(|v'|) < 1$.
 ### Examples: Normalization
 
 **Min-Max Example:**
+
 *   **Given:** Feature `income` ranges from $\$12,000$to$\$98,000$. Target range is $[0.0, 1.0]$.
 *   **Transform:** $v = \$73,600$.
 *   **Solution:**
     $$
     v' = \frac{73600 - 12000}{98000 - 12000}(1.0 - 0.0) + 0.0 = \frac{61600}{86000} \approx 0.7163
-    
 $$
 
 **Z-score Example:**
+
 *   **Given:** Mean $\mu = \$54,000$, Std Dev $\sigma = \$16,000$.
 *   **Transform:** $v = \$73,600$.
 *   **Solution:**
     $$
     v' = \frac{73600 - 54000}{16000} = \frac{19600}{16000} = 1.225
-    
 $$
 
 **Decimal Scaling Example:**
+
 *   **Given:** Range of values is $-986$to$917$.
 *   **Transform:** Maximum absolute value is $|-986| = 986$. Therefore, $j=3$(since$986/1000 = 0.986 < 1$).
 *   **Solution:**
@@ -353,6 +367,7 @@ $$
 ## 8. Data Reduction & Discretization
 
 ### Data Reduction
+
 *   **Purpose:** Obtains a reduced representation in volume but produces the same or similar analytical results. It mitigates the "Curse of Dimensionality".
 *   **Techniques:** Dimensionality reduction (e.g., PCA), numerosity reduction, and data compression.
 
@@ -360,11 +375,13 @@ $$
 PCA is a rigorous mathematical procedure that uses an orthogonal transformation to convert a set of observations of possibly correlated variables into a set of values of linearly uncorrelated variables called principal components.
 
 **The PCA Pipeline:**
+
 1.  **Standardization:** Normalize the range of continuous initial variables (typically using Z-score normalization) so that each feature contributes equally to the analysis.
 2.  **Covariance Matrix Computation:** Compute the covariance matrix to identify correlations.
     $$
     Cov(X, Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})
     $$
+
 3.  **Compute Eigenvectors and Eigenvalues:** Calculate the eigenvectors and eigenvalues of the covariance matrix to identify the principal components.
     *   **Eigenvectors** determine the *directions* of the new feature space.
     *   **Eigenvalues** determine the *magnitude* (variance explained) by each eigenvector.
@@ -375,12 +392,12 @@ PCA is a rigorous mathematical procedure that uses an orthogonal transformation 
     $$
 
 ### Data Discretization
+
 *   Part of data reduction but highly important for continuous numeric data.
 *   Methods include binning (discussed earlier).
 *   **Sturges' Rule** for determining the number of bins $k$ for ungrouped continuous data:
     $$
     k = \lceil 1 + \log_2(n) \rceil
-    
 $$
 
 [Source: 5. data_preprocessing.pdf, Slides 8, 19-20]
@@ -483,6 +500,7 @@ $$
 
 **Q3: Perform equal-frequency binning with 3 bins on the following data: $2, 6, 7, 9, 13, 15, 17, 21, 24$, and smooth by bin means.**
 **A:**
+
 *   Sort: Already sorted. $N=9$. 3 bins $\rightarrow$ 3 items per bin.
 *   Bin 1: $[2, 6, 7] \rightarrow \text{Mean} = (2+6+7)/3 = 5 \rightarrow [5, 5, 5]$
 *   Bin 2: $[9, 13, 15] \rightarrow \text{Mean} = (9+13+15)/3 = 37/3 \approx 12.33 \rightarrow [12.33, 12.33, 12.33]$

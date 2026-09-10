@@ -356,17 +356,11 @@ $$
 Runners' times grouped in seconds.
 
 | Class Interval | Midpoint ($x_i$) | Frequency ($f_i$) | $f_i \times x_i$ |
-
 | -------------- | ---------------- | ----------------- | ---------------- |
-
 | 51 - 55        | 53               | 2                 | 106              |
-
 | 56 - 60        | 58               | 7                 | 406              |
-
 | 61 - 65        | 63               | 8                 | 504              |
-
 | 66 - 70        | 68               | 4                 | 272              |
-
 | **Total**      |                  | **21**            | **1288**         |
 
 
@@ -490,15 +484,10 @@ Both have mean and median of 46, but spread is completely different.
 
 
 | Type | Division | Example |
-
 | :--- | :--- | :--- |
-
 | **Quartiles** | Divide data into 4 equal parts | $Q_1, Q_2, Q_3, Q_4$ |
-
 | **Deciles** | Divide data into 10 equal parts | $D_1, D_2, \dots, D_9$ |
-
 | **Percentiles**| Divide data into 100 equal parts | $P_1, P_2, \dots, P_{99}$ |
-
 | **Median** | Special case of $Q_2$ / 50th percentile | |
 
 
@@ -571,21 +560,13 @@ $$
 **Step 2: Deviations & Squared Deviations**
 
 | $x_i$|$(x_i - \text{mean})$|$(x_i - \text{mean})^2$ |
-
 | --- | --- | --- |
-
 | 4 | -2 | 4 |
-
 | 5 | -1 | 1 |
-
 | 6 | 0 | 0 |
-
 | 6 | 0 | 0 |
-
 | 7 | 1 | 1 |
-
 | 8 | 2 | 4 |
-
 | **Sum** | | **10** |
 
 
@@ -627,7 +608,9 @@ $$
 
 ## 7. Five-Number Summary and Boxplot Analysis
 
-<iframe src="boxplot_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
+[Click here to open boxplot_visualizer.html if the visualizer below does not load](boxplot_visualizer.html)
+
+<iframe src="./boxplot_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
 
 **Five-number summary:** Minimum, $Q_1$, Median, $Q_3$, Maximum.
 
@@ -731,7 +714,7 @@ This data is **negatively skewed (left-skewed)**.
 
 
 
-*Note on Skewness in Boxplots:* The position of the median line inside the box and the relative length of the whiskers can visually indicate skewness.
+* Note on Skewness in Boxplots:* The position of the median line inside the box and the relative length of the whiskers can visually indicate skewness.
 
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slide 58]
 
@@ -756,17 +739,11 @@ This data is **negatively skewed (left-skewed)**.
 
 
 | Components | Description |
-
 | :--- | :--- |
-
 | **X-Axis** | Horizontal axis, represents range of values, composed of bins. |
-
 | **Y-Axis** | Shows how often values appear on the X-axis (frequency). |
-
 | **Bins & Intervals** | Divide data into ranges on X-axis. Width determines range of values grouped. |
-
 | **Frequency** | Numerical data points falling within each bin. Height of bar. |
-
 | **Density** | Frequency divided by bin width. Used to normalize datasets of different sizes. |
 
 
@@ -788,15 +765,10 @@ This data is **negatively skewed (left-skewed)**.
 
 
 | Feature | Bar Graph | Histogram |
-
 | :--- | :--- | :--- |
-
 | **Dimensionality** | One dimension | Two dimensions |
-
 | **Representation of frequency** | Length of the bars | Area of the bar |
-
 | **Significance of Bar Width** | No special significance | Represents interval or bin |
-
 | **Spacing between bars** | Bars separated with equal spaces | Bars touch each other |
 
 
@@ -817,7 +789,9 @@ Histograms often tell more than boxplots. Two datasets might share the exact sam
 
 ### Normal Distribution
 
-<iframe src="distribution_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
+[Click here to open distribution_visualizer.html if the visualizer below does not load](distribution_visualizer.html)
+
+<iframe src="./distribution_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
 
 A continuous probability distribution representing data that is symmetrical, with most values clustered around the mean.
 
@@ -836,19 +810,12 @@ A continuous probability distribution representing data that is symmetrical, wit
 
 
 | Symbol | Meaning | Example |
-
 | :--- | :--- | :--- |
-
 | $f(x)$| Probability density at value$x$ | Height of curve |
-
 | $x$ | Observation | Scored 75 marks |
-
 | $\mu$ | Mean | Average = 70 |
-
 | $\sigma$ | Standard deviation | 10 marks |
-
 | $\pi$| Constant$\approx 3.1416$ | |
-
 | $e$| Euler's number$\approx 2.718$ | |
 
 
@@ -989,23 +956,14 @@ Provides a first look at bivariate data to see clusters, positive/negative corre
 
 
 | Question | Use This Plot | X-axis | Y-axis |
-
 | :--- | :--- | :--- | :--- |
-
 | Compare categories | **Bar Chart** | Category | Numerical Value |
-
 | Distribution of one variable | **Histogram** | Numerical intervals | Frequency |
-
 | Trend over time | **Line Chart** | Time | Numerical Value |
-
 | Relationship between 2 variables | **Scatter Plot** | Numerical Var 1 | Numerical Var 2 |
-
 | Parts of a whole | **Pie Chart** | Categories | Percentage |
-
 | Median, quartiles, outliers | **Box Plot** | Category | Numerical Value |
-
 | Value at every percentile | **Quantile Plot**| Percentiles | Data Values |
-
 | Compare 2 distributions / normality| **Q-Q Plot** | Quantiles of Data 1 | Quantiles of Data 2 |
 
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slide 98]

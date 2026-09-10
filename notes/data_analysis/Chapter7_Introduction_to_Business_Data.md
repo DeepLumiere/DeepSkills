@@ -81,15 +81,10 @@ flowchart LR
 
 
 | Category | Description | Real-World Enterprise Example |
-
 | :--- | :--- | :--- |
-
 | **Transaction Data** | Records of economic exchanges and commercial events. | Point-of-sale (POS) checkout logs, e-commerce cart payments, banking UPI transfers. |
-
 | **Behavioural / Service Data** | Records of customer interactions, service requests, and usage habits. | Customer support call recordings, helpdesk ticket resolution times, customer sentiment ratings. |
-
 | **Digital / Engagement Data** | Telemetry tracking digital product interactions and user navigation. | Daily unique web visits, clickstream logs, scroll depths, app bounce rates. |
-
 | **Financial Data** | Accounting metrics tracking monetary health and resource allocation. | Regional monthly revenue, cost of goods sold (COGS), operating margins, ad-spend burn rate. |
 
 
@@ -190,11 +185,8 @@ flowchart TD
 
 
 | Type | Definition | Characteristics | Enterprise Examples |
-
 | :--- | :--- | :--- | :--- |
-
 | **Structured Data** | Data organized in predefined schemas with rigid rows and columns. | Fits into relational database management systems (RDBMS) and spreadsheets; easily queried with SQL; highly standardized data types. | Sales tables, accounting ledgers, transaction records, inventory databases. |
-
 | **Unstructured Data** | Data lacking a formal data model or relational schema. | Heavy in text, multimedia, or freeform logs; requires preprocessing, natural language processing (NLP), or computer vision prior to analysis. | Support ticket text, recorded customer service audio, surveillance video, social media posts. |
 
 
@@ -204,11 +196,8 @@ flowchart TD
 
 
 | Origin | Definition | Governance & Control | Enterprise Examples |
-
 | :--- | :--- | :--- | :--- |
-
 | **Internal Data** | Generated directly by the organization's internal business operations and platforms. | High control, well-defined metadata, strict governance and privacy control. | CRM customer records, employee payroll logs, manufacturing machine telemetry, warehouse stock levels. |
-
 | **External Data** | Acquired from sources outside the direct boundaries of the organization. | Third-party dependency, variable quality, requires integration and entity matching. | Industry market share reports, competitor pricing web scrapers, macroeconomic indicators, consumer sentiment indices. |
 
 
@@ -289,17 +278,11 @@ flowchart LR
 
 
 | Stage | Primary Objective | Typical Activities | Common Industry Bottlenecks |
-
 | :--- | :--- | :--- | :--- |
-
 | **1. Collect** | Gather raw event records from distributed source systems. | API pulls, batch ETL extraction, database replication, stream listening. | API rate limits, network outages, schema drift. |
-
 | **2. Clean** | Rectify errors, resolve inconsistencies, and standardize formats. | Missing value imputation, deduplication, schema normalization, outlier flagging. | Consumes 60%?80% of analyst time in practice. |
-
 | **3. Analyse** | Identify mathematical relationships, variances, and predictive indicators. | Statistical aggregation, correlation, regression, clustering, cohort segmentation. | Algorithmic bias, spurious correlations. |
-
 | **4. Visualise** | Transform analytical outputs into intuitive graphical representations. | KPI dashboards, executive scorecards, interactive parameter sliders. | Chart clutter, misleading axes, high cognitive load. |
-
 | **5. Decide** | Empower business leaders to take timely, risk-mitigated actions. | Capital budget reallocation, product feature pivot, pricing adjustment. | Organizational inertia, lack of data literacy. |
 
 
@@ -373,15 +356,10 @@ flowchart TD
 
 
 | Attribute | Data Analyst | Business Intelligence (BI) Developer | Data Scientist |
-
 | :--- | :--- | :--- | :--- |
-
 | **Core Objective** | Answering immediate business questions using historical/current data. | Designing, building, and maintaining automated reporting architecture. | Developing predictive and prescriptive models for future uncertainty. |
-
 | **Primary Output** | Executive dashboards, ad-hoc exploratory reports, business insights. | Robust ETL/ELT pipelines, dimensional star-schemas, enterprise dashboards. | Machine learning pipelines, predictive scoring APIs, statistical forecasts. |
-
 | **Key Tooling** | SQL, Tableau, Power BI, Excel, basic Python/R. | SQL, dbt, Airflow, Snowflake/BigQuery, SSIS, DAX. | Python, PyTorch/TensorFlow, scikit-learn, Spark, statistics. |
-
 | **Temporal Focus** | Past and Present (Descriptive & Diagnostic). | Present and Operational (Infrastructure & Governance). | Future (Predictive & Prescriptive). |
 
 

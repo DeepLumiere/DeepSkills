@@ -253,17 +253,11 @@ A special type of record data where each record contains a set of items (e.g., s
 **Table: Market Basket Data Representation**
 
 | TID | ITEMS |
-
 |---|---|
-
 | 1 | Apple, Banana, Milk, Rice |
-
 | 2 | Guava, Curd, Rice |
-
 | 3 | Apple, Guava, Curd, Rice |
-
 | 4 | Banana, Milk |
-
 | 5 | Apple, Rice |
 
 
@@ -271,17 +265,11 @@ A special type of record data where each record contains a set of items (e.g., s
 **Table: Asymmetric Binary Attribute View**
 
 | TID | Apple | Banana | Curd | Guava | Milk | Rice |
-
 |---|---|---|---|---|---|---|
-
 | 1 | True | True | False | False | True | True |
-
 | 2 | False | False | True | True | False | True |
-
 | 3 | True | False | True | True | False | True |
-
 | 4 | False | True | False | False | True | False |
-
 | 5 | True | False | False | False | False | True |
 
 
@@ -329,13 +317,9 @@ A special case of a data matrix where attributes are of the same type and are as
 
 
 | Document | Term: text | Term: mining | Term: useful | Term: information |
-
 | :--- | :---: | :---: | :---: | :---: |
-
 | **D1** | 2 | 1 | 1 | 1 |
-
 | **D2** | 1 | 0 | 1 | 1 |
-
 | **D3** | 0 | 0 | 0 | 0 |
 
 [Source: 3.Dataset and Attributes.pdf, Slides 19-20]

@@ -107,15 +107,10 @@ Data attributes are classified into four hierarchical levels of measurement:
 
 
 | Measurement Scale | Ordering | Equal Intervals | True Absolute Zero | Allowed Mathematical Operations | Examples |
-
 | :--- | :---: | :---: | :---: | :--- | :--- |
-
 | **Nominal** | No | No | No | Equality ($=$/$\neq$), Mode, Frequency Count | Marital Status, Zip Codes, Eye Color |
-
 | **Ordinal** | Yes | No | No | Order ($<$/$>$), Median, Percentiles | Star Ratings (1–5), Letter Grades (A, B, C) |
-
 | **Interval** | Yes | Yes | No | Addition, Subtraction, Mean, Variance | Temperature (°C, °F), Calendar Years |
-
 | **Ratio** | Yes | Yes | Yes | Multiplication, Division, Ratios, Geometric Mean | Weight, Height, Income, Age |
 
 
@@ -162,7 +157,6 @@ flowchart TD
 
   $$
   X = \{14, 17, 18, 18, 22, 25, 26, 28, 30, 32\}
-  
 $$
 
 - **Advantage:** Retains $100\%$ precision of original data.
@@ -183,21 +177,18 @@ $$
 
     $$
     w = b - a
-    
 $$
 
   - **Midpoint ($x_i$):**
 
     $$
     x_i = \frac{a + b}{2}
-    
 $$
 
   - **Relative Frequency:**
 
     $$
     \text{Relative Frequency} = \frac{f_i}{N}
-    
 $$
 
 
@@ -284,28 +275,24 @@ $$
 
   $$
   \bar{x} = \frac{\sum x_i}{N}
-  
 $$
 
 - **Sample Variance:**
 
   $$
   s^2 = \frac{\sum (x_i - \bar{x})^2}{N - 1}
-  
 $$
 
 - **Class Midpoint:**
 
   $$
   x_i = \frac{a + b}{2}
-  
 $$
 
 - **Relative Frequency:**
 
   $$
   \text{RF}_i = \frac{f_i}{N}
-  
 $$
 
 

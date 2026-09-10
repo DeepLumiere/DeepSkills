@@ -65,15 +65,10 @@ In proximity analysis, data is organized into two primary mathematical structure
 
 
 | Characteristic | Data Matrix ($n \times p$) | Dissimilarity / Distance Matrix ($n \times n$) |
-
 | :--- | :--- | :--- |
-
 | **Dimensions** | $n$rows (data points)$\times$ $p$columns (attributes/features) |$n$rows$\times$ $n$ columns (pairwise distances) |
-
 | **Mode Type** | **Two-mode:** Rows and columns represent different entities (objects vs. attributes). | **Single-mode:** Rows and columns represent the same entities (objects vs. objects). |
-
 | **Entry Meaning** | $x_{if}$: Value of object $i$for attribute$f$. | $d(i,j)$: Pairwise dissimilarity between object $i$and object$j$. |
-
 | **Symmetry** | Asymmetric / Rectangular. | Symmetric ($d(i,j) = d(j,i)$) with main diagonal zero ($d(i,i)=0$). Stored as lower triangular. |
 
 
@@ -231,13 +226,9 @@ Binary attributes take only two states: $0$and$1$.
 
 
 | | Object $j = 1$| Object$j = 0$ | Row Sum |
-
 | :--- | :---: | :---: | :---: |
-
 | **Object $i = 1$** | $q$|$r$|$q + r$ |
-
 | **Object $i = 0$** | $s$|$t$|$s + t$ |
-
 | **Col Sum** | $q + s$|$r + t$|$p = q + r + s + t$ |
 
 
@@ -331,13 +322,9 @@ Given patient medical records with 1 symmetric attribute ($\text{Gender}$) and 6
 
 
 | Name | Gender | Fever | Cough | Test-1 | Test-2 | Test-3 | Test-4 |
-
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-
 | **Jack** | M | Y (1) | N (0) | P (1) | N (0) | N (0) | N (0) |
-
 | **Mary** | F | Y (1) | N (0) | P (1) | N (0) | P (1) | N (0) |
-
 | **Jim**  | M | Y (1) | P (1) | N (0) | N (0) | N (0) | N (0) |
 
 
@@ -562,7 +549,9 @@ A distance function $d(i,j)$ is a true **metric** if and only if it satisfies fo
 
 ### Special Cases of Minkowski Distance
 
-<iframe src="distance_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
+[Click here to open distance_visualizer.html if the visualizer below does not load](distance_visualizer.html)
+
+<iframe src="./distance_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
 
 ```mermaid
 flowchart TD
@@ -633,15 +622,10 @@ $$
 
 
 | Point | Attribute 1 ($x_1$) | Attribute 2 ($x_2$) |
-
 | :--- | :---: | :---: |
-
 | $x_1$|$1$|$2$ |
-
 | $x_2$|$3$|$5$ |
-
 | $x_3$|$2$|$0$ |
-
 | $x_4$|$4$|$5$ |
 
 
@@ -832,13 +816,9 @@ $$
 ### Feature-Specific Dissimilarity $d_{ij}^{(f)}$
 
 | Attribute Type $f$| Computation of$d_{ij}^{(f)}$ |
-
 | :--- | :--- |
-
 | **Binary or Nominal** | $d_{ij}^{(f)} = 0$if$x_{if} = x_{jf}$; otherwise $d_{ij}^{(f)} = 1$. |
-
 | **Numeric (Interval-Scaled)** | Normalized absolute difference: $d_{ij}^{(f)} = \frac{|x_{if} - x_{jf}|}{\max_h(x_{hf}) - \min_h(x_{hf})}$. |
-
 | **Ordinal** | Rank-normalize $z_{if} = \frac{r_{if} - 1}{M_f - 1}$, then calculate: $d_{ij}^{(f)} = |z_{if} - z_{jf}|$. |
 
 
@@ -1095,6 +1075,7 @@ $$
 While mathematical formulas (like Minkowski and Cosine) form the rigorous foundation of data mining, they are not abstract concepts?they are the direct engines behind massive enterprise value.
 
 ### Real-World Applications of Proximity
+
 1. **Customer Segmentation (CRM):** Calculating the Euclidean distance between customer vectors (age, income, purchase frequency) allows businesses to cluster similar customers and target them with tailored marketing campaigns.
 2. **Recommendation Engines:** Netflix and Amazon use Cosine Similarity to find users with viewing/purchase histories pointing in the "same direction" to serve highly accurate recommendations.
 3. **Fraud Detection:** Using Supremum ($L_\infty$) or Mahalanobis distance to identify credit card transactions that are mathematically too "distant" from a user's normal spending baseline, triggering an instant block.
@@ -1112,15 +1093,10 @@ These metrics feed directly into the Dashboards and Analytical Pipelines covered
 
 
 | Comparison Pair | Key Differentiating Principle |
-
 | :--- | :--- |
-
 | **Symmetric vs. Asymmetric Binary** | Symmetric variables treat $0-0$and$1-1$ matches equally ($q+t$in numerator); asymmetric variables exclude$0-0$ matches ($t$) entirely because negative co-occurrences are uninformative. |
-
 | **Data Matrix vs. Dissimilarity Matrix** | Data matrix is two-mode ($n \times p$) storing raw attribute values; Dissimilarity matrix is single-mode ($n \times n$), symmetric, triangular storing pairwise distances. |
-
 | **Standard Deviation vs. Mean Absolute Deviation** | $\sigma$ squares deviations, giving disproportionate weight to extreme outliers; MAD uses absolute deviations $|x_{if}-m_f|$, making it significantly more robust. |
-
 | **Euclidean Distance vs. Cosine Similarity** | Euclidean distance measures spatial length between vector tips (heavily affected by document word count); Cosine similarity measures angle between vector directions (invariant to scaling/length). |
 
 

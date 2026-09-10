@@ -251,7 +251,9 @@ flowchart TD
 
 ## 5. The Six Major Chart Families (Forms of Visualization)
 
-<iframe src="chart_family_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
+[Click here to open chart_family_visualizer.html if the visualizer below does not load](chart_family_visualizer.html)
+
+<iframe src="./chart_family_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
 
 Visual encodings are categorized into six foundational chart families based on the core analytical question they answer:
 
@@ -273,19 +275,12 @@ flowchart TD
 
 
 | Chart Family | Primary Question Answered | Canonical Chart Types | Ideal Data Encodings | Common Misuse / Trap |
-
 | :--- | :--- | :--- | :--- | :--- |
-
 | **Comparison** | *"How does category X compare against category Y?"* | Vertical Column chart, Horizontal Bar chart. | Discrete categorical axis + 1 continuous metric. | Unsorted bars with $>15$ categories; truncating the zero-baseline. |
-
 | **Trend** | *"How has metric X evolved across time?"* | Line chart, Area chart, Sparklines. | Continuous chronological time on X-axis + continuous metric on Y-axis. | Using line charts for discrete categorical items (implies nonexistent continuity). |
-
 | **Distribution** | *"How are individual observations spread out?"* | Histogram, Box plot, Density plot. | Continuous numeric variable binned into uniform intervals. | Selecting arbitrary bin widths that artificially mask data skewness. |
-
 | **Relationship** | *"Is variable X correlated with variable Y?"* | Scatter plot, Bubble chart (3 variables). | 2 (or 3) continuous numeric attributes plotted on orthogonal Cartesian axes. | Implying causal relationships when only statistical correlation exists. |
-
 | **Composition** | *"What proportions make up the total whole?"* | Stacked bar chart, Treemap, Donut/Pie chart. | Proportions summing to exactly $100\%$or$1.0$. | Using pie charts with more than $5$ slices (creates unreadable thin wedges). |
-
 | **Geographic** | *"Where are metrics spatially concentrated?"* | Choropleth map, Proportional symbol map. | Geospatial coordinates (latitude/longitude) or standard geographic boundaries. | Confusing geographical landmass area with population density or revenue scale. |
 
 
@@ -343,17 +338,11 @@ flowchart LR
 
 
 | Characteristic | Exploratory Visualization | Explanatory Visualization |
-
 | :--- | :--- | :--- |
-
 | **Primary User** | The data analyst / data scientist. | Business executives, department heads, clients. |
-
 | **Core Objective** | Hunting for hidden relationships, testing hypotheses, auditing data quality. | Communicating a single, validated finding or proposing action. |
-
 | **Design Priority** | Speed of iteration, breadth of exploration, high data density. | Visual clarity, cognitive simplicity, narrative focus, aesthetic polish. |
-
 | **Lifecycle** | Ephemeral: dozens of scratch charts generated and discarded. | Enduring: curated chart embedded in operational dashboards or board decks. |
-
 | **Visual Elements** | Raw axes, minimal annotation, exploratory facet grids. | Direct data labels, highlighted callouts, bold headline takeaways. |
 
 
@@ -363,15 +352,10 @@ flowchart LR
 
 
 | Dimension | Enterprise Dashboard | Business Report |
-
 | :--- | :--- | :--- |
-
 | **Data Recency** | Live, continuously streaming or near-real-time batch refresh. | Static snapshot frozen at a specific accounting cutoff. |
-
 | **User Interaction** | Dynamic: interactive dropdown filters, date sliders, drill-downs. | Static: read-only presentation (PDF, slide deck, printout). |
-
 | **Operational Role** | Continuous health monitoring and tactical operational triage. | Periodic strategic review, compliance audit, board governance. |
-
 | **Example** | Real-time e-commerce server load screen; fleet delivery GPS tracker. | Quarterly Business Review (QBR) presentation; annual financial report. |
 
 
@@ -497,15 +481,10 @@ flowchart LR
 
 
 | Comparison Pair | Key Differentiating Principle |
-
 | :--- | :--- |
-
 | **Exploratory vs. Explanatory** | Exploratory is analyst-facing for discovery (high speed, raw fidelity); Explanatory is stakeholder-facing for communication (high design, single clear narrative). |
-
 | **Dashboard vs. Report** | Dashboards are live, dynamic, and interactive for continuous operational monitoring; Reports are static, historical, and immutable for governance. |
-
 | **Bar Chart vs. Pie Chart** | Bar charts encode values as lengths against an aligned common baseline (linear perception); Pie charts encode values as angles and 2D areas (notoriously inaccurate human perception). |
-
 | **Line Chart vs. Column Chart** | Line charts imply continuous temporal progression between adjacent points; Column charts emphasize distinct, discrete categorical quantities. |
 
 

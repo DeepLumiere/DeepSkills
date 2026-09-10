@@ -43,13 +43,9 @@
 ### Examination Scheme
 
 | Component | Exam Duration | Weightage |
-
 | :--- | :--- | :--- |
-
 | **Continuous Evaluation (CE)** | Continuous Evaluation | $0.3$ |
-
 | **Semester End Exam (SEE)** | 3 Hrs | $0.4$ |
-
 | **Laboratory/Practical Work (LPW)** | Continuous Evaluation + 2 hrs Semester End LPW Exam | $0.3$ |
 
 
@@ -65,17 +61,11 @@
 ### Detailed Syllabus
 
 | Unit | Syllabus Content | Teaching Hours |
-
 | :--- | :--- | :--- |
-
 | **Unit-I** | **Introduction:** Data Understanding types of data, information and uncertainty, classes and attributes, interactions among attributes, relative distributions, summary statistics. **Data Quality:** inaccurate data, sparse data, missing data, insufficient data, imbalanced data | $10$ |
-
 | **Unit-II** | Definition, Purpose, Usage, **Business Data Visualization:** Features of Business Data, Different Visualization fields. Forms of Business Data Visualization. **Social Challenges:** data ownership, data security, ethics and privacy | $10$ |
-
 | **Unit-III** | **The Data:** Data Examination, Data Visualization Patterns, the Categories of Data Visualization. **Data Visualization:** using different tools - refine data and create, edit, alter, and display their visualizations (x-y graph, bar chart, pie chart, cube etc) | $10$ |
-
 | **Unit-IV** | **Data Reduction and Feature Enhancement:** standardizing data, sampling data, using principal components to eliminate attributes, limitations and pitfalls of principal component analysis (PCA), curse of dimensionality | $10$ |
-
 | **Unit-V** | **Showing Complex Data:** Organizational Models, Preattentive Variables, Sorting and Rearranging, Searching and Filtering, Datatips, Data Spotlight, Dynamic Queries, Data Brushing, Local Zooming, Sortable Table, Radial Table, Muti-Y Graphs, Treemap, Small Multiples | $5$ |
 
 
@@ -95,27 +85,16 @@
 ### Laboratory Practical Sessions
 
 | Phase | Practical Title | Hours | CLO |
-
 | :--- | :--- | :--- | :--- |
-
 | **Phase-1: Data Understanding** | 1. Study domains (Retail, Healthcare, etc.). Identify applications, dataset, importance, challenges. | $04$ | 1 |
-
 | | 2. Dataset characteristics, python visualization, insights, data cleaning using pandas. | $02$ | 2 |
-
 | **Phase-2: Summary Statistics** | 3. Five Number Summary, mode, midrange, outlier detection (Quartile method). | $02$ | 1 |
-
 | **Phase-3: Business Data Visualization** | 4. Tableau installation, configuration, features. | $02$ | 3 |
-
 | | 5. Case Study: Interactive Dashboard for KPI using Tableau. | $02$ | 2 |
-
 | **Phase-4: Data Quality (Preprocessing)** | 6. Smoothing, normalization, redundancy analysis (Pearson, Chi-Square), Discretization. | $04$ | 1 |
-
 | | 7. Data Reduction & Feature Enhancement: Dimensionality reduction, Feature selection. | $04$ | 1 |
-
 | **Phase-5: Data Analysis & Visualization** | 8. Classification Techniques & visualization. | $04$ | 3 |
-
 | | 9. Clustering Techniques & visualization. | $02$ | 3 |
-
 | | 10. Regression techniques & Tableau visualization. | $04$ | 3 |
 
 
@@ -315,17 +294,11 @@ flowchart LR
 ### Categories of Data
 
 | Type | Example | Use |
-
 | :--- | :--- | :--- |
-
 | **Structured Data** | Tables, Excel files, SQL databases | Easy to analyze |
-
 | **Unstructured Data** | Emails, images, videos, social media | Needs preprocessing |
-
 | **Semi-structured Data** | JSON, XML | Has some structure |
-
 | **Quantitative Data** | Numbers (e.g., age, income) | Statistical analysis |
-
 | **Qualitative Data** | Categories (e.g., gender, feedback) | Pattern recognition |
 
 
@@ -343,13 +316,9 @@ flowchart LR
 
 
 | Feature | Quantitative | Qualitative |
-
 | :--- | :--- | :--- |
-
 | **Nature** | Numerical | Descriptive |
-
 | **Measurability** | Can be measured | Cannot be measured directly |
-
 | **Examples** | Age, Salary, Height | Gender, Color, Department, Feedback |
 
 
@@ -379,17 +348,11 @@ Data in DAV projects is encountered in two primary structural representations:
 
 
 | Class Interval (CI) | Class Midpoint ($x_i$) | Frequency ($f_i$) | Cumulative Frequency ($CF$) |
-
 | :---: | :---: | :---: | :---: |
-
 | $10 - 15$|$12.5$|$2$|$2$ |
-
 | $15 - 20$|$17.5$|$2$|$4$ |
-
 | $20 - 25$|$22.5$|$3$|$7$ |
-
 | $25 - 30$|$27.5$|$3$|$10$ |
-
 | **Total** | — | $N = \sum f_i = 10$ | — |
 
 
@@ -460,11 +423,8 @@ flowchart TD
 
 
 | Framework | Core Focus | Primary Steps |
-
 | :--- | :--- | :--- |
-
 | **CRISP-DM** | Business-oriented data mining cycle | Business Understanding $\rightarrow$Data Understanding$\rightarrow$Data Prep$\rightarrow$Modeling$\rightarrow$Evaluation$\rightarrow$ Deployment |
-
 | **KDD Process** | Technical knowledge discovery in databases | Selection $\rightarrow$Preprocessing$\rightarrow$Transformation$\rightarrow$Data Mining$\rightarrow$ Interpretation/Evaluation |
 
 
@@ -495,15 +455,10 @@ flowchart LR
 
 
 | Type | Question | Primary Techniques | Example |
-
 | :--- | :--- | :--- | :--- |
-
 | **Descriptive** | What happened? | Summaries, Aggregations, Mean/Median | Monthly sales report |
-
 | **Diagnostic** | Why did it happen? | Drill-downs, Correlation, Root Cause | Investigating a regional sales drop |
-
 | **Predictive** | What will happen? | Regression, Time-series, ML | Sales forecast for Q4 |
-
 | **Prescriptive** | What should we do? | Optimization, Monte Carlo, Rules | Automated inventory reordering |
 
 
@@ -567,19 +522,12 @@ Depending on the goal, different visual components are used:
 
 
 | Tool Category | Examples | Strengths/Usage |
-
 | :--- | :--- | :--- |
-
 | **Spreadsheets** | LibreOffice, Excel, Google Docs | Basic tabular data manipulation and quick charts. |
-
 | **Statistical Programming Frameworks** | R (r-project.org), Pandas (pandas.pydata.org), STATA, SPSS | High performance data analysis, cleaning, ETL, EDA. |
-
 | **Geographic Information Systems (GIS)** | Quantum GIS, ArcGIS, GRASS | Spatial mapping and geographic analysis. |
-
 | **Visualization Libraries** | d3.js, Prefuse, Flare, Matplotlib, Seaborn, Plotly, ggplot2 | Custom, interactive, web-ready or statistical graphics. |
-
 | **Data Wrangling Tools** | Google Refine, Datawrangler | Specific tools for cleaning unstructured data. |
-
 | **Non-Programming Visualization / Enterprise BI** | ManyEyes, Tableau Public, Power BI | Drag-and-drop UI, rapid interactive dashboarding. |
 
 
@@ -601,17 +549,11 @@ Data visualization and analysis assist almost every company or sector that aims 
 
 
 | Industry | Use Case / Benefit |
-
 | :--- | :--- |
-
 | **Healthcare** | Hospitals use visualizations to track patient wait times and identify bottlenecks in the emergency department, allowing for better resource allocation. |
-
 | **Marketing** | Marketers visualize data from social media and website analytics to analyze campaign performance, understand consumer behavior/preferences, and identify trends. |
-
 | **Finance** | Professionals interpret complex financial data quickly. Investment firms use interactive charts to visualize stock prices or compare portfolios to spot anomalies impacting decisions. |
-
 | **Manufacturing** | Empowers manufacturers to optimize operations by monitoring KPIs. Visual metrics on throughput or defect rates help identify inefficiencies promptly. |
-
 | **Technology** | In cybersecurity, visualizations allow analysts to detect patterns in network traffic efficiently and respond swiftly to potential threats. |
 
 
@@ -657,15 +599,10 @@ Researchers and practitioners can leverage various public datasets for learning 
 
 
 | Scenario / Edge Case | Risk / Problem | Mitigation Strategy |
-
 | :--- | :--- | :--- |
-
 | **Zero Variance Feature** | Constant value column adds zero predictive signal | Drop feature before modeling |
-
 | **High Class Imbalance** | Predictive models ignore minority class | Resampling (SMOTE) or adjusted loss weights |
-
 | **Open-Ended Class Intervals** | Grouped table with "$>50$" or "$<10$" lacks exact midpoint | Estimate boundary using domain knowledge or adjacent step size |
-
 | **Conflicting Source Schema** | Different column names/units across integrated datasets | Standardization and explicit unit mapping |
 
 
