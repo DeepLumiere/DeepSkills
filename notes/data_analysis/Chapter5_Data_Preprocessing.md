@@ -1,10 +1,10 @@
+# Chapter 5 — Data Preprocessing
+
 > **Course:** Data Analysis and Visualization
 > **Primary Source:** 5. data_preprocessing.pdf
 > **Files Integrated:** `5. data_preprocessing.pdf`, `ch5_text.txt`
 
 ---
-
-# Chapter 5 — Data Preprocessing
 
 ## 1. Chapter Overview
 Data preprocessing is an indispensable step in the data mining and data engineering pipeline. Real-world raw data is inherently incomplete, noisy, and inconsistent. Without quality data, there can be no quality results. This chapter presents the complete data preprocessing pipeline, covering data cleaning (handling missing and noisy data), data integration (resolving conflicts and redundancies), data transformation (normalization and aggregation), data reduction, and data discretization.
@@ -15,22 +15,22 @@ Data preprocessing is an indispensable step in the data mining and data engineer
 
 ## 2. Fundamental Concepts
 
-### Why is Data Dirty?
+### 2.1 Why is Data Dirty?
 Data in the real world is frequently imperfect. The main categories of "dirty" data are:
 
-*   **Incomplete data:** Lacking attribute values, lacking certain attributes of interest, or containing only aggregate data.
-    *   *Causes:* "Not applicable" data value when collected; different considerations between the time of collection and analysis; human/hardware/software problems.
-    *   *Example:* `occupation=" "`
-*   **Noisy data:** Containing incorrect values, random errors, or outliers.
-    *   *Causes:* Faulty data collection instruments; human or computer error at data entry; errors in data transmission; technology limitations; inconsistent naming conventions.
-    *   *Example:* `Salary="-10"`
-*   **Inconsistent data:** Containing discrepancies in codes or names.
-    *   *Causes:* Different data sources; functional dependency violations (e.g., modifying some linked data without updating others); duplicate records.
-    *   *Example:* `Age="42"` but `Birthday="03/07/1997"`; rating was "1,2,3" but is now "A, B, C"; discrepancies between duplicate records.
+1. **Incomplete data:** Lacking attribute values, lacking certain attributes of interest, or containing only aggregate data.
+   - *Causes:* "Not applicable" data value when collected; different considerations between the time of collection and analysis; human/hardware/software problems.
+   - *Example:* `occupation=" "`
+2. **Noisy data:** Containing incorrect values, random errors, or outliers.
+   - *Causes:* Faulty data collection instruments; human or computer error at data entry; errors in data transmission; technology limitations; inconsistent naming conventions.
+   - *Example:* `Salary="-10"`
+3. **Inconsistent data:** Containing discrepancies in codes or names.
+   - *Causes:* Different data sources; functional dependency violations (e.g., modifying some linked data without updating others); duplicate records.
+   - *Example:* `Age="42"` but `Birthday="03/07/1997"`; rating was "1,2,3" but is now "A, B, C"; discrepancies between duplicate records.
 
 [Source: 5. data_preprocessing.pdf, Slides 2-3, 18]
 
-### Why Data Preprocessing is Important
+### 2.2 Why Data Preprocessing is Important
 
 *   **No quality data $\rightarrow$ No quality results.**
 *   Quality decisions require accurate, complete, and consistent data.

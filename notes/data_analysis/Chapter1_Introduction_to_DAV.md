@@ -1,16 +1,11 @@
-> **Course:** Data Analysis and Visualisation (3CS103ME24)
-
-> **Programme:** B.Tech (CSE), Integrated B.Tech (CSE)- MBA, and B.Tech (Interdisciplinary Minor in Data Science), Batch 2026-27, Term/Semester: 5th
-
-> **Faculty:** Dr Vrajesh Chawra (Course Coordinator), Dr Jaiprakash Verma, Dr. Preeti Kathiria, Dr. Shivani Pandya, Dr Jigna Patel
-
-> **Primary Sources:** `1.Introduction to DAV.pdf`, `ch1_text.txt`
-
-
-
 # Chapter 1 — Introduction to DAV
 
+> **Course:** Data Analysis and Visualisation (3CS103ME24)
+> **Programme:** B.Tech (CSE), Integrated B.Tech (CSE)- MBA, and B.Tech (Interdisciplinary Minor in Data Science), Batch 2026-27, Term/Semester: 5th
+> **Faculty:** Dr Vrajesh Chawra (Course Coordinator), Dr Jaiprakash Verma, Dr. Preeti Kathiria, Dr. Shivani Pandya, Dr Jigna Patel
+> **Primary Sources:** `1.Introduction to DAV.pdf`, `ch1_text.txt`
 
+---
 
 ## 1. Course Overview and Syllabus
 

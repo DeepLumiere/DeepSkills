@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q-Q Plot & Quantile Visualizer</title>
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .control-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border: 1px solid var(--border);
+            align-items: center;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            min-width: 180px;
+        }
+        label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background-color: var(--surface);
+        }
+        .plots-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 800px) {
+            .plots-grid { grid-template-columns: 1fr; }
+        }
+        .plot-card {
+            background: var(--surface);
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border: 1px solid var(--border);
+            height: 420px;
+        }
+        .table-card {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border: 1px solid var(--border);
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+        th, td {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        .diag-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .bg-normal { background: #dcfce7; color: #15803d; }
+        .bg-skewed { background: #fef3c7; color: #b45309; }
+        .bg-heavy { background: #fee2e2; color: #b91c1c; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="control-panel">
+        <div class="form-group">
+            <label for="preset-select">Distribution Preset</label>
+            <select id="preset-select" onchange="loadPreset()">
+                <option value="normal" selected>Normal Distribution (Good Fit)</option>
+                <option value="right-skewed">Right-Skewed Data (Positive Skew)</option>
+                <option value="left-skewed">Left-Skewed Data (Negative Skew)</option>
+                <option value="heavy-tails">Heavy-Tailed Data (Outliers)</option>
+                <option value="worked-example">Lecture Worked Example (n=9)</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="sample-size">Sample Size (n)</label>
+            <input type="number" id="sample-size" value="20" min="5" max="100" step="5" onchange="generateData()">
+        </div>
+
+        <div class="form-group">
+            <label>Diagnostic Assessment</label>
+            <div id="diag-status" class="diag-badge bg-normal">Normal Alignment</div>
+        </div>
+    </div>
+
+    <div class="plots-grid">
+        <div class="plot-card" id="qq-plot"></div>
+        <div class="plot-card" id="quantile-plot"></div>
+    </div>
+
+    <div class="table-card">
+        <h3 style="margin-top:0; margin-bottom:12px; font-size:1rem;">Quantile & Z-Score Computation Table</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank (i)</th>
+                    <th>Sample Value (xᵢ)</th>
+                    <th>Percentile Rank fᵢ = (i - 0.5)/n</th>
+                    <th>Actual Z-Score z = (xᵢ - x̄)/s</th>
+                    <th>Theoretical Z-Score Z = Φ⁻¹(fᵢ)</th>
+                    <th>Difference Δz</th>
+                </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Rational approximation for inverse normal CDF (Probit function)
+    function normSInv(p) {
+        if (p <= 0 || p >= 1) return 0;
+        const a = [-39.69683028665376, 220.9460984245205, -275.9285104469687, 138.3577518672690, -30.66479806614716, 2.506628277459239];
+        const b = [-54.47609879822406, 161.5858368580409, -155.6989798598866, 66.80131188771972, -13.28068155288572];
+        const c = [-0.007784894002430293, -0.2549732539343734, -6.657604641233842, -9.184824021200236, -1.026415291244439, -0.001664104278457788];
+        const d = [0.01174620020138676, 0.4074558296317203, 3.421652157053526, 6.782372138130948];
+        
+        let q, r;
+        if (p < 0.02425) {
+            q = Math.sqrt(-2 * Math.log(p));
+            return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+        } else if (p <= 0.97575) {
+            q = p - 0.5;
+            r = q * q;
+            return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q / (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+        } else {
+            q = Math.sqrt(-2 * Math.log(1 - p));
+            return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+        }
+    }
+
+    let currentData = [];
+
+    function loadPreset() {
+        generateData();
+    }
+
+    function generateData() {
+        const type = document.getElementById('preset-select').value;
+        const n = parseInt(document.getElementById('sample-size').value) || 20;
+        
+        currentData = [];
+
+        if (type === 'worked-example') {
+            currentData = [3.77, 4.25, 4.50, 5.19, 5.79, 5.89, 6.31, 6.79, 7.19];
+            document.getElementById('sample-size').value = 9;
+        } else {
+            for (let i = 0; i < n; i++) {
+                const u1 = Math.random();
+                const u2 = Math.random();
+                // Box-Muller transform
+                const z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+                
+                if (type === 'normal') {
+                    currentData.push(5.0 + 1.2 * z0);
+                } else if (type === 'right-skewed') {
+                    currentData.push(Math.exp(0.5 * z0) * 3);
+                } else if (type === 'left-skewed') {
+                    currentData.push(20 - Math.exp(0.5 * z0) * 3);
+                } else if (type === 'heavy-tails') {
+                    const sign = Math.random() > 0.5 ? 1 : -1;
+                    const val = (Math.random() < 0.15) ? sign * (4 + Math.random() * 4) : z0;
+                    currentData.push(10 + val * 2);
+                }
+            }
+        }
+
+        currentData.sort((a, b) => a - b);
+        updateVisualizations();
+    }
+
+    function updateVisualizations() {
+        const n = currentData.length;
+        const sum = currentData.reduce((a, b) => a + b, 0);
+        const mean = sum / n;
+        const variance = currentData.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / (n - 1 || 1);
+        const stdDev = Math.sqrt(variance);
+
+        const tableBody = document.getElementById('table-body');
+        tableBody.innerHTML = '';
+
+        const theoZList = [];
+        const actZList = [];
+        const percentiles = [];
+
+        for (let i = 1; i <= n; i++) {
+            const xVal = currentData[i - 1];
+            const f_i = (i - 0.5) / n;
+            const actZ = stdDev > 0 ? (xVal - mean) / stdDev : 0;
+            const theoZ = normSInv(f_i);
+            const diff = Math.abs(actZ - theoZ);
+
+            theoZList.push(theoZ);
+            actZList.push(actZ);
+            percentiles.push(f_i * 100);
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><b>${i}</b></td>
+                <td>${xVal.toFixed(2)}</td>
+                <td>${(f_i * 100).toFixed(1)}% (${f_i.toFixed(4)})</td>
+                <td>${actZ.toFixed(2)}</td>
+                <td>${theoZ.toFixed(2)}</td>
+                <td>${diff.toFixed(2)}</td>
+            `;
+            tableBody.appendChild(tr);
+        }
+
+        // Q-Q Plot (Theoretical Z vs Actual Z)
+        const minZ = Math.min(...theoZList, ...actZList) - 0.5;
+        const maxZ = Math.max(...theoZList, ...actZList) + 0.5;
+
+        const traceQQPoints = {
+            x: theoZList,
+            y: actZList,
+            mode: 'markers',
+            type: 'scatter',
+            marker: { color: '#2563eb', size: 9, symbol: 'circle' },
+            name: 'Sample Quantiles'
+        };
+
+        const traceQQRef = {
+            x: [minZ, maxZ],
+            y: [minZ, maxZ],
+            mode: 'lines',
+            type: 'scatter',
+            line: { color: '#ef4444', width: 2, dash: 'dash' },
+            name: 'y = x (Normal Reference)'
+        };
+
+        const layoutQQ = {
+            title: 'Q-Q Plot (Quantile-Quantile)',
+            margin: { t: 40, b: 40, l: 45, r: 20 },
+            xaxis: { title: 'Theoretical Z-Score (Standard Normal)', range: [minZ, maxZ] },
+            yaxis: { title: 'Actual Sample Z-Score', range: [minZ, maxZ] },
+            hovermode: 'closest',
+            showlegend: false
+        };
+
+        Plotly.newPlot('qq-plot', [traceQQRef, traceQQPoints], layoutQQ, {responsive: true, displayModeBar: false});
+
+        // Quantile Plot (Percentile vs Sample Value)
+        const traceQuantile = {
+            x: percentiles,
+            y: currentData,
+            mode: 'lines+markers',
+            type: 'scatter',
+            line: { color: '#16a34a', width: 2 },
+            marker: { color: '#16a34a', size: 6 },
+            name: 'Data Values'
+        };
+
+        const layoutQuantile = {
+            title: 'Quantile Plot (Percentile vs Value)',
+            margin: { t: 40, b: 40, l: 45, r: 20 },
+            xaxis: { title: 'Percentile Rank (%)', range: [0, 100] },
+            yaxis: { title: 'Data Value (xᵢ)' },
+            showlegend: false
+        };
+
+        Plotly.newPlot('quantile-plot', [traceQuantile], layoutQuantile, {responsive: true, displayModeBar: false});
+
+        // Update diagnostic badge
+        const preset = document.getElementById('preset-select').value;
+        const statusEl = document.getElementById('diag-status');
+        if (preset === 'normal' || preset === 'worked-example') {
+            statusEl.className = 'diag-badge bg-normal';
+            statusEl.innerText = '✅ Normal Distribution (Linear y = x)';
+        } else if (preset === 'right-skewed' || preset === 'left-skewed') {
+            statusEl.className = 'diag-badge bg-skewed';
+            statusEl.innerText = '⚠️ Skewed Distribution (Curved Trend)';
+        } else {
+            statusEl.className = 'diag-badge bg-heavy';
+            statusEl.innerText = '🚨 Heavy Tails / Outliers (End Deviations)';
+        }
+    }
+
+    // Initial run
+    generateData();
+</script>
+
+</body>
+</html>

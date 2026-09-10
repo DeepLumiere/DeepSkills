@@ -1,14 +1,10 @@
+# Chapter 4 — Statistical Descriptions of Data
+
 > **Course:** Data Analysis and Visualization
-
 > **Primary Source:** 4.Statistical Descriptions of Data_new.pdf
-
 > **Files Integrated:** `4.Statistical Descriptions of Data_new.pdf`, `ch4_text.txt`
 
 ---
-
-# Chapter 4 — Statistical Descriptions of Data
-
-
 
 ## 1. Chapter Overview
 
@@ -812,122 +808,179 @@ A continuous probability distribution representing data that is symmetrical, wit
 
 
 
-### Z-Scores
+### Z-Scores & Standardized Values
 
+The **Z-Score** (also known as the standard score) measures the signed distance of a data point from the mean in units of standard deviation.
 
+#### Formulas
 
-Z-score measures how many standard deviations a point is from the mean.
-
-* $z=0$: Data point equals mean.
-
-* $z>0$: Above average.
-
-* $z<0$: Below average.
-
-
-
-**Theoretical Z-Scores (Standard):**
-
-Pre-defined values based on percentiles:
-
-* 0% = -3.0
-
-* 10% = -1.28
-
-* 50% = 0
-
-* 90% = 1.28
-
-* 100% = 3.0
-
-
-
-**Actual Z-Score Formula:**
-
+**Sample Z-Score:**
 
 $$
-z = \frac{x - \bar{x}}{s}
+z_i = \frac{x_i - \bar{x}}{s}
 $$
+
+**Population Z-Score:**
+
+$$
+Z_i = \frac{X_i - \mu}{\sigma}
+$$
+
+**Where:**
+- $x_i$ / $X_i$ = Individual data observation
+- $\bar{x}$ / $\mu$ = Sample / Population Mean
+- $s$ / $\sigma$ = Sample / Population Standard Deviation
+
+#### Properties of Z-Scores:
+- **$z = 0$**: The observation equals the mean ($\bar{x}$).
+- **$z > 0$**: The observation is above the mean ($z = +1.5$ means $1.5\sigma$ above mean).
+- **$z < 0$**: The observation is below the mean ($z = -2.0$ means $2.0\sigma$ below mean).
+- **Standardized Mean & Variance:** Transforming a dataset to $z$-scores yields a transformed mean $\bar{z} = 0$ and standard deviation $s_z = 1$.
+
+#### Theoretical Z-Scores for Key Percentiles (Standard Normal $\mathcal{N}(0,1)$):
+
+| Percentile ($p$) | Cumulative Area | Theoretical Z-Score ($Z = \Phi^{-1}(p)$) |
+| :--- | :---: | :---: |
+| **0.1%** | $0.001$ | $-3.090$ |
+| **2.5%** | $0.025$ | $-1.960$ |
+| **5.0%** | $0.050$ | $-1.645$ |
+| **10.0%** | $0.100$ | $-1.282$ |
+| **25.0% ($Q_1$)** | $0.250$ | $-0.674$ |
+| **50.0% (Median)** | $0.500$ | $0.000$ |
+| **75.0% ($Q_3$)** | $0.750$ | $+0.674$ |
+| **90.0%** | $0.900$ | $+1.282$ |
+| **97.5%** | $0.975$ | $+1.960$ |
 
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 76-84]
 
+---
 
+### Quantile Plot & Q-Q Plot Visualizer
+
+[Click here to open qqplot_visualizer.html if the visualizer below does not load](qqplot_visualizer.html)
+
+<iframe src="./qqplot_visualizer.html" width="100%" height="700px" style="border:none; border-radius:12px; margin-bottom: 24px; background: white;"></iframe>
+
+---
 
 ### Quantile Plot
 
+A **Quantile Plot** is a simple graphical method to inspect the overall distribution of a continuous variable. It displays all data points sorted in ascending order paired with their percentile ranks.
 
+#### Formula for Percentile Rank ($f_i$):
 
-Displays all data to assess overall behavior. Each value $x_i$(sorted) is paired with$f_i$, indicating that approximately $100f_i\%$of data are$\le x_i$.
+$$
+f_i = \frac{i - 0.5}{n} \quad \text{for } i = 1, 2, \dots, n
+$$
+
+**Where:**
+- $i$ = Sorted rank of the observation ($1$-indexed)
+- $n$ = Total sample size
+- $f_i$ = Estimated cumulative probability (percentile rank), representing the fraction of data $\le x_i$
+
+**Plot Coordinates:** $(f_i, x_i)$ or $(100 \cdot f_i, x_i)$
 
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 85-86]
 
+---
 
+### Q-Q Plot (Quantile-Quantile Plot)
 
-### Q-Q Plot (Quantile-Quantile)
+A **Q-Q Plot** graphs the quantiles of a sample distribution against the corresponding theoretical quantiles of a reference distribution (typically the Standard Normal Distribution $\mathcal{N}(0,1)$). It is the definitive visual test for normality.
 
+#### Construction Pipeline
 
+```mermaid
+flowchart TD
+    RawData["Raw Dataset (n values)"] --> Sort["1. Sort Data in Ascending Order\nx₁ ≤ x₂ ≤ ... ≤ xₙ"]
+    Sort --> Stats["2. Compute Sample Stats\nMean (x̄) and Std Dev (s)"]
+    Stats --> Rank["3. Compute Percentile Rank fᵢ\nfᵢ = (i - 0.5) / n"]
+    Rank --> ActZ["4. Compute Actual Z-Score zᵢ\nzᵢ = (xᵢ - x̄) / s"]
+    Rank --> TheoZ["5. Compute Theoretical Z-Score Zᵢ\nZᵢ = Φ⁻¹(fᵢ) from Standard Normal"]
+    ActZ --> Plot["6. Plot Coordinates\n(Theoretical Zᵢ , Actual zᵢ)"]
+    TheoZ --> Plot
+    Plot --> Check{"Points align on\ny = x line?"}
+    Check -- Yes --> Normal["✅ Data is Normally Distributed"]
+    Check -- No --> NonNormal["⚠️ Data is Skewed or Heavy-Tailed"]
+```
 
-Graphs quantiles of one distribution against corresponding quantiles of another (or a theoretical normal distribution) to determine if they come from the same population.
+#### Mathematical Formulas
 
+1. **Theoretical Quantile Formula:**
 
+$$
+Z_{\text{theoretical}, i} = \Phi^{-1}\left(\frac{i - 0.5}{n}\right)
+$$
 
-### Worked Example: Q-Q Plot for Normality
+Where $\Phi^{-1}(p)$ is the inverse cumulative distribution function (Probit function) of the standard normal distribution $\mathcal{N}(0,1)$.
 
+2. **Actual Sample Z-Score Formula:**
 
+$$
+z_{\text{actual}, i} = \frac{x_i - \bar{x}}{s}
+$$
 
-**Given Data:** $7.19, 6.31, 5.89, 4.5, 3.77, 4.25, 5.19, 5.79, 6.79$ ($n=9$)
+3. **Plotted Coordinates:**
 
+$$
+(X, Y) = \left( Z_{\text{theoretical}, i}, z_{\text{actual}, i} \right) \quad \text{or} \quad \left( Z_{\text{theoretical}, i}, x_i \right)
+$$
 
+---
 
-**Step 1: Sort Data & Rank**
+### Complete Worked Numerical Trace: Q-Q Plot for Normality
 
-$3.77 (1), 4.25 (2), 4.50 (3), 5.19 (4), 5.79 (5), 5.89 (6), 6.31 (7), 6.79 (8), 7.19 (9)$.
+#### Given Sample Dataset ($n = 9$):
+$$X_{\text{raw}} = \{7.19, 6.31, 5.89, 4.50, 3.77, 4.25, 5.19, 5.79, 6.79\}$$
 
+#### Step 1: Sort Data and Assign Ranks ($i = 1 \dots 9$)
 
+$$X_{\text{sorted}} = [3.77, 4.25, 4.50, 5.19, 5.79, 5.89, 6.31, 6.79, 7.19]$$
 
-**Step 2: Mean and SD**
+#### Step 2: Compute Sample Statistics
 
-Mean $\bar{x} = 5.52$. SD $s = 1.108$.
+- **Sample Size ($n$):** $9$
+- **Sample Mean ($\bar{x}$):**
+  $$\bar{x} = \frac{3.77 + 4.25 + 4.50 + 5.19 + 5.79 + 5.89 + 6.31 + 6.79 + 7.19}{9} = \frac{49.68}{9} = 5.52$$
+- **Sample Variance ($s^2$):**
+  $$s^2 = \frac{\sum (x_i - 5.52)^2}{9 - 1} = \frac{9.814}{8} = 1.22685$$
+- **Sample Standard Deviation ($s$):**
+  $$s = \sqrt{1.22685} \approx 1.108$$
 
+#### Step 3: Compute All 9 Quantile Table Entries
 
+| Rank ($i$) | Sorted Value ($x_i$) | Formula $f_i = \frac{i - 0.5}{9}$ | Percentile $f_i$ | Actual Z-Score $z = \frac{x_i - 5.52}{1.108}$ | Theoretical Z-Score $Z = \Phi^{-1}(f_i)$ | Plotted Point $(Z_{\text{theo}}, z_{\text{act}})$ |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **1** | $3.77$ | $\frac{0.5}{9}$ | $0.0556$ ($5.6\%$) | $\frac{3.77 - 5.52}{1.108} = \mathbf{-1.58}$ | $\Phi^{-1}(0.0556) = \mathbf{-1.59}$ | $(-1.59, -1.58)$ |
+| **2** | $4.25$ | $\frac{1.5}{9}$ | $0.1667$ ($16.7\%$) | $\frac{4.25 - 5.52}{1.108} = \mathbf{-1.15}$ | $\Phi^{-1}(0.1667) = \mathbf{-0.97}$ | $(-0.97, -1.15)$ |
+| **3** | $4.50$ | $\frac{2.5}{9}$ | $0.2778$ ($27.8\%$) | $\frac{4.50 - 5.52}{1.108} = \mathbf{-0.92}$ | $\Phi^{-1}(0.2778) = \mathbf{-0.59}$ | $(-0.59, -0.92)$ |
+| **4** | $5.19$ | $\frac{3.5}{9}$ | $0.3889$ ($38.9\%$) | $\frac{5.19 - 5.52}{1.108} = \mathbf{-0.30}$ | $\Phi^{-1}(0.3889) = \mathbf{-0.28}$ | $(-0.28, -0.30)$ |
+| **5** | $5.79$ | $\frac{4.5}{9}$ | $0.5000$ ($50.0\%$) | $\frac{5.79 - 5.52}{1.108} = \mathbf{+0.24}$ | $\Phi^{-1}(0.5000) = \mathbf{0.00}$ | $(0.00, +0.24)$ |
+| **6** | $5.89$ | $\frac{5.5}{9}$ | $0.6111$ ($61.1\%$) | $\frac{5.89 - 5.52}{1.108} = \mathbf{+0.33}$ | $\Phi^{-1}(0.6111) = \mathbf{+0.28}$ | $(+0.28, +0.33)$ |
+| **7** | $6.31$ | $\frac{6.5}{9}$ | $0.7222$ ($72.2\%$) | $\frac{6.31 - 5.52}{1.108} = \mathbf{+0.71}$ | $\Phi^{-1}(0.7222) = \mathbf{+0.59}$ | $(+0.59, +0.71)$ |
+| **8** | $6.79$ | $\frac{7.5}{9}$ | $0.8333$ ($83.3\%$) | $\frac{6.79 - 5.52}{1.108} = \mathbf{+1.15}$ | $\Phi^{-1}(0.8333) = \mathbf{+0.97}$ | $(+0.97, +1.15)$ |
+| **9** | $7.19$ | $\frac{8.5}{9}$ | $0.9444$ ($94.4\%$) | $\frac{7.19 - 5.52}{1.108} = \mathbf{+1.51}$ | $\Phi^{-1}(0.9444) = \mathbf{+1.59}$ | $(+1.59, +1.51)$ |
 
-**Step 3: Actual Z-Scores ($z = \frac{x - 5.52}{1.108}$)**
+#### Step 4: Interpretation of Q-Q Plot Diagnostics
 
-* $3.77 \rightarrow -1.49$
+```mermaid
+flowchart LR
+    subgraph Patterns["Q-Q Plot Pattern Diagnostics"]
+        P1["<b>Linear Line (y = x)</b><br/>Normal Distribution"]
+        P2["<b>Upward Concave Curve</b><br/>Right-Skewed (Positive Skew)"]
+        P3["<b>Downward Convex Curve</b><br/>Left-Skewed (Negative Skew)"]
+        P4["<b>S-Shaped Curve</b><br/>Heavy Tails / Outliers (High Kurtosis)"]
+    end
+```
 
-* $5.79 \rightarrow 0.23$
-
-* $7.19 \rightarrow 1.42$
-
-*(Calculated for all values)*
-
-
-
-**Step 4: Percentile Rank**
-
-Formula: $\frac{i - 0.5}{n}$
-
-* Rank 1: $0.5/9 = 5.6\%$
-
-* Rank 5: $4.5/9 = 50\%$
-
-* Rank 9: $8.5/9 = 94.4\%$
-
-
-
-**Step 5: Theoretical Z-Scores (From standard normal table)**
-
-* $5.6\% \approx -1.60$
-
-* $50\% = 0$
-
-* $94.4\% \approx 1.58$
-
-
-
-**Step 6: Combine for Q-Q Plot**
-
-Points plotted as $(Theoretical Z, Actual Z)$. If data is normal, points align along the $y=x$ reference line.
+| Q-Q Plot Pattern | Visual Shape | Statistical Diagnosis | Corrective Action |
+| :--- | :--- | :--- | :--- |
+| **Points lie along $y = x$** | Straight $45^\circ$ line | Perfect Normal Distribution | No transformation needed |
+| **Points curve upward (Concave)** | Bends above $y=x$ at right end | Right-Skewed (Positively Skewed) | Apply Log or Square Root transform ($\log(X)$) |
+| **Points curve downward (Convex)** | Bends below $y=x$ at left end | Left-Skewed (Negatively Skewed) | Apply Square or Exponential transform ($X^2$) |
+| **Points flare out at ends (S-shape)** | Deviates sharply at extremes | Heavy Tails (Extreme Outliers / High Kurtosis) | Apply Robust Scaling or Trim Outliers |
+| **Parallel shift above/below** | Shifted intercept | Shifted Location (Mean difference) | Adjust baseline mean |
+| **Slope different from $1$** | Steeper or flatter slope | Difference in Scale (Std Dev difference) | Normalize standard deviation |
 
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 91-96]
 
