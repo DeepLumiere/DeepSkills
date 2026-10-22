@@ -62,13 +62,13 @@ flowchart TD
 ### Key Architectural Distinctions: Layer 4 vs Layer 3
 
 1. **Process-to-Process vs Host-to-Host:**
-   * The **Network Layer** provides logical communication between *hosts* (identified by IP addresses). It delivers a packet to the destination computer, but knows nothing about which software application on that computer needs the data.
-   * The **Transport Layer** provides logical communication between *processes* running on those hosts (identified by Port numbers / TSAPs).
+    * The **Network Layer** provides logical communication between *hosts* (identified by IP addresses). It delivers a packet to the destination computer, but knows nothing about which software application on that computer needs the data.
+    * The **Transport Layer** provides logical communication between *processes* running on those hosts (identified by Port numbers / TSAPs).
 2. **True End-to-End Operation:**
-   * Network-layer protocols (IP) run on intermediate routers. If an intermediate router drops a packet, IP makes no attempt to recover.
-   * Transport-layer code runs *only* on the source and destination hosts. Intermediate routers never inspect or modify Layer 4 transport headers (except for Layer 4-aware NATs and firewalls).
+    * Network-layer protocols (IP) run on intermediate routers. If an intermediate router drops a packet, IP makes no attempt to recover.
+    * Transport-layer code runs *only* on the source and destination hosts. Intermediate routers never inspect or modify Layer 4 transport headers (except for Layer 4-aware NATs and firewalls).
 3. **The UNIX Pipe Abstraction:**
-   * Like a standard UNIX pipe, a reliable connection-oriented transport connection guarantees that bytes injected by the sender emerge at the receiver in the exact same sequence with zero bit errors, zero duplicates, and zero gaps.
+    * Like a standard UNIX pipe, a reliable connection-oriented transport connection guarantees that bytes injected by the sender emerge at the receiver in the exact same sequence with zero bit errors, zero duplicates, and zero gaps.
 
 ---
 
@@ -78,6 +78,7 @@ flowchart TD
 
 **What it shows:**
 The transport layer acting as the bridge between application processes and the network infrastructure.
+
 * **TPDU (Transport Protocol Data Unit):** The data unit exchanged between peer transport entities (called **Segments** in TCP, **User Datagrams** in UDP).
 * **Layer Hierarchy:** Transport code utilizes Network Service Primitives (`N-UNITDATA.request`, `N-UNITDATA.indication`) to transmit and receive TPDUs encapsulated within network packets.
 
@@ -355,6 +356,7 @@ Although Transport protocols resemble Data Link protocols (both handle framing, 
 ![Figure 6.8: The Process Server (`inetd`) Architecture](../images/chapter6/ch6_process_server_portmapper.png)
 
 Running separate server daemons for hundreds of rarely used services (e.g., FTP, Telnet, finger) permanently wastes CPU and RAM.
+
 * **The Process Server Solution (`inetd` in UNIX):**
   1. A single master daemon (`inetd`) listens on dozens of service ports simultaneously.
   2. When a connection request arrives for service $X$, `inetd` accepts the connection, forks a new process, executes the dedicated server daemon for $X$, and transfers the socket file descriptor to the new daemon.
@@ -377,8 +379,8 @@ To ensure sequence numbers do not wrap around and collide with delayed packets:
 
 1. **Tomlinson's Clock-Driven Generator:** Each host maintains a continuous time-of-day clock that increments steadily at frequency $f$, even across OS reboots. When establishing a new connection, the host selects its **Initial Sequence Number (ISN)** from this clock.
 2. **The Forbidden Region:** A diagonally shaded region in the time-sequence number plane where sequence numbers are strictly illegal:
-   * Senders cannot transmit faster than the clock rate; otherwise, sequence numbers would enter the forbidden region from the left.
-   * If a machine crashes, it must sleep for $T$ seconds before rebooting to guarantee all pre-crash packets have died out of the subnet.
+    * Senders cannot transmit faster than the clock rate; otherwise, sequence numbers would enter the forbidden region from the left.
+    * If a machine crashes, it must sleep for $T$ seconds before rebooting to guarantee all pre-crash packets have died out of the subnet.
 
 [Source: Ch 6 Transport Layer.pdf, Slides 27–33]
 
@@ -398,19 +400,25 @@ The **Three-Way Handshake** (invented by Ray Tomlinson) reliably establishes a t
 1. **Message 1 (Host 1 $\to$ Host 2):** Host 1 chooses its Initial Sequence Number $x$ and transmits:
 
 $$
+
 \text{SYN}(seq = x)
+
 $$
 
 2. **Message 2 (Host 2 $\to$ Host 1):** Host 2 receives the SYN, records $x$, chooses its own Initial Sequence Number $y$, and returns:
 
 $$
+
 \text{SYN}(seq = y) + \text{ACK}(ack = x + 1)
+
 $$
 
 3. **Message 3 (Host 1 $\to$ Host 2):** Host 1 verifies that Host 2 acknowledged $x+1$, confirming that Host 2 is alive and responding to *this* specific connection attempt. Host 1 transmits:
 
 $$
+
 \text{ACK}(ack = y + 1) + \text{DATA}
+
 $$
 
 Connection is now fully synchronized and open in both directions.
@@ -423,17 +431,22 @@ Connection is now fully synchronized and open in both directions.
 
 **Scenario:**
 An old duplicate `SYN(seq = x)` from a long-dead session suddenly emerges from a router buffer and arrives at Host 2:
+
 1. Host 2 thinks a new connection is being requested and replies with:
 
 $$
+
 \text{SYN}(seq = y) + \text{ACK}(ack = x + 1)
+
 $$
 
 2. When Host 1 receives this packet, it checks its active connection table. Host 1 realizes it never sent a `SYN` with sequence number $x$!
 3. Host 1 rejects the phantom connection by sending a **Reset packet**:
 
 $$
+
 \text{RST}(seq = x + 1)
+
 $$
 
 4. Host 2 receives the RST and immediately aborts the half-open connection without allocating memory or delivering false data to the application.
@@ -446,6 +459,7 @@ $$
 
 **Worst-Case Scenario:**
 Both an old duplicate `SYN(seq = x)` AND an old duplicate `ACK` arrive:
+
 1. Host 2 receives old duplicate `SYN(seq = x)` and replies with `SYN(seq = y) + ACK(ack = x + 1)`.
 2. An old duplicate `ACK(ack = z)` arrives at Host 2. Host 2 inspects the acknowledgment number $z$. Since $z \ne y + 1$, Host 2 ignores it.
 3. Host 1 sends a formal `RST` to terminate the bogus handshake.
@@ -458,6 +472,7 @@ Both an old duplicate `SYN(seq = x)` AND an old duplicate `ACK` arrive:
 ## 6. Connection Release & The Two-Army Problem
 
 Releasing a connection can be designed as:
+
 * **Asymmetric Release:** Either host sends a `DISCONNECT` and abruptly terminates the connection.
   * *Flaw (Data Loss):* Host $A$ sends 10 packets, followed by a disconnect. If Host $B$ terminates immediately, any packets still in transit are destroyed!
 * **Symmetric Release:** The connection is treated as two independent simplex channels. Each direction must be explicitly and independently closed.
@@ -516,23 +531,27 @@ Managing buffer memory at the receiver is critical in transport protocols. Unlik
 
 #### Mechanism of Credit-Based Flow Control:
 1. **Decoupling Acknowledgment from Buffer Allocation:**
-   * In traditional sliding window protocols, an ACK implies authorization to send more data.
-   * In transport protocols, acknowledgments are completely **decoupled from buffer credits**.
-   * A transport TPDU contains two distinct feedback fields:
+    * In traditional sliding window protocols, an ACK implies authorization to send more data.
+    * In transport protocols, acknowledgments are completely **decoupled from buffer credits**.
+    * A transport TPDU contains two distinct feedback fields:
 
 $$
+
 \text{ACK Number} = \text{Next expected sequence number}
+
 $$
 
 
 $$
+
 \text{Window Credit} = \text{Number of additional bytes the receiver is willing to buffer}
+
 $$
 
 2. **Buffer Allocation Trace:**
-   * Receiver sends: $\text{ACK} = 0, \text{Window} = 8$. The sender is granted 8 credits and transmits 8 packets ($0$ to $7$).
-   * Receiver application reads 4 packets from the buffer. The receiver issues an update: $\text{ACK} = 4, \text{Window} = 4$.
-   * If the receiver application becomes sluggish and buffers saturate, the receiver advertises a **Zero Window** ($\text{Window} = 0$). The sender is strictly throttled and must cease transmission until a new credit update arrives.
+    * Receiver sends: $\text{ACK} = 0, \text{Window} = 8$. The sender is granted 8 credits and transmits 8 packets ($0$ to $7$).
+    * Receiver application reads 4 packets from the buffer. The receiver issues an update: $\text{ACK} = 4, \text{Window} = 4$.
+    * If the receiver application becomes sluggish and buffers saturate, the receiver advertises a **Zero Window** ($\text{Window} = 0$). The sender is strictly throttled and must cease transmission until a new credit update arrives.
 
 [Source: Ch 6 Transport Layer.pdf, Slides 41–42]
 
@@ -547,11 +566,11 @@ Transport entities optimize resource utilization by multiplexing connections acr
 ![Figure 6.16: Upward and Downward Multiplexing](../images/chapter6/ch6_upward_downward_multiplexing.png)
 
 1. **Upward Multiplexing:**
-   * Multiple distinct transport connections are aggregated and routed over a **single network-layer virtual circuit**.
-   * *Motivation:* In commercial telecommunications networks (e.g., X.25, ATM), carriers charge a setup fee and per-minute connection charge for each active virtual circuit. Upward multiplexing minimizes carrier connection costs by pooling user sessions into one circuit.
+    * Multiple distinct transport connections are aggregated and routed over a **single network-layer virtual circuit**.
+    * *Motivation:* In commercial telecommunications networks (e.g., X.25, ATM), carriers charge a setup fee and per-minute connection charge for each active virtual circuit. Upward multiplexing minimizes carrier connection costs by pooling user sessions into one circuit.
 2. **Downward Multiplexing (Inverse Multiplexing):**
-   * A single high-throughput transport connection is split across **multiple parallel network-layer circuits**.
-   * *Motivation:* When a user requires aggregate bandwidth exceeding the physical throughput of a single communication link (e.g., combining multiple DSL or cellular lines to stream 4K video).
+    * A single high-throughput transport connection is split across **multiple parallel network-layer circuits**.
+    * *Motivation:* When a user requires aggregate bandwidth exceeding the physical throughput of a single communication link (e.g., combining multiple DSL or cellular lines to stream 4K video).
 
 [Source: Ch 6 Transport Layer.pdf, Slide 43]
 
@@ -563,10 +582,12 @@ When a network router or host crashes and reboots during an active transport ses
 
 ### Crash Recovery State Analysis
 Consider a client transmitting data to a server. The server must acknowledge received TPDUs and write them to disk for the application. The server can be programmed in one of two ways:
+
 * **Strategy A (Acknowledge First):** Send ACK to client, then write TPDU to application.
 * **Strategy B (Write First):** Write TPDU to application, then send ACK to client.
 
 Now suppose the server crashes. The client can adopt one of two retransmission policies:
+
 * **Policy 1 (Always Retransmit):** Resend the unacknowledged TPDU upon reboot.
 * **Policy 2 (Never Retransmit):** Assume the TPDU was safely received.
 
@@ -593,6 +614,7 @@ The **User Datagram Protocol (UDP — RFC 768)** is an unreliable, connectionles
 ![Figure 6.17: Position of UDP in the TCP/IP Stack](../images/chapter6/ch6_udp_position_tcpip_stack.png)
 
 UDP is essentially an IP interface that adds two critical functions that raw IP cannot provide:
+
 1. **Port Addressing (Multiplexing/Demultiplexing):** Distinguishing between multiple application processes on the same host.
 2. **Error Detection (Checksum):** Verifying the payload data integrity (raw IP checks only the IP header!).
 
@@ -605,6 +627,7 @@ UDP is essentially an IP interface that adds two critical functions that raw IP 
 ![Figure 6.18: ICANN Transport Port Ranges](../images/chapter6/ch6_icann_port_ranges.png)
 
 Transport ports are 16-bit integers ($0$ to $65,535$), partitioned by ICANN into three distinct operational ranges:
+
 * **Well-Known Ports ($0$ to $1023$):** Assigned permanently to ubiquitous server daemons; requires administrative / root privileges to bind.
 * **Registered Ports ($1024$ to $49,151$):** Registered by software vendors for specific third-party applications (e.g., MySQL 3306, PostgreSQL 5432).
 * **Dynamic / Private / Ephemeral Ports ($49,152$ to $65,535$):** Allocated dynamically by the operating system for client-side outgoing connections.
@@ -802,21 +825,27 @@ The TCP header is variable in length: minimum 20 bytes (no options), maximum 60 
 1. **Step 1 (Client $\to$ Server):** Client sends active open:
 
 $$
+
 \text{SYN} = 1, \quad \text{seq} = \text{ISN}_C, \quad \text{ACK} = 0
+
 $$
 
    *(Consumes 1 sequence number).* Client enters `SYN_SENT`.
 2. **Step 2 (Server $\to$ Client):** Server accepts connection:
 
 $$
+
 \text{SYN} = 1, \quad \text{ACK} = 1, \quad \text{seq} = \text{ISN}_S, \quad \text{ack} = \text{ISN}_C + 1
+
 $$
 
    *(Consumes 1 sequence number).* Server enters `SYN_RCVD`.
 3. **Step 3 (Client $\to$ Server):** Client completes handshake:
 
 $$
+
 \text{SYN} = 0, \quad \text{ACK} = 1, \quad \text{seq} = \text{ISN}_C + 1, \quad \text{ack} = \text{ISN}_S + 1
+
 $$
 
    Client enters `ESTABLISHED`. Upon receiving this ACK, Server enters `ESTABLISHED`.
@@ -838,36 +867,46 @@ TCP termination is symmetric; each simplex stream must be closed independently.
 1. **Step 1 (Client $\to$ Server):** Client application calls `close()`. Client sends:
 
 $$
+
 \text{FIN} = 1, \quad \text{seq} = u
+
 $$
 
    Client enters `FIN_WAIT_1`.
+
 2. **Step 2 (Server $\to$ Client):** Server acknowledges FIN:
 
 $$
+
 \text{ACK} = 1, \quad \text{ack} = u + 1
+
 $$
 
    Client enters `FIN_WAIT_2`. Server enters `CLOSE_WAIT`.
-   * **Half-Close State:** The client can no longer send data, but it can **continue to receive data** from the server indefinitely!
+    * **Half-Close State:** The client can no longer send data, but it can **continue to receive data** from the server indefinitely!
 3. **Step 3 (Server $\to$ Client):** When the server finishes sending data, it calls `close()`:
 
 $$
+
 \text{FIN} = 1, \quad \text{seq} = v
+
 $$
 
    Server enters `LAST_ACK`.
+
 4. **Step 4 (Client $\to$ Server):** Client acknowledges the server's FIN:
 
 $$
+
 \text{ACK} = 1, \quad \text{ack} = v + 1
+
 $$
 
    Server immediately enters `CLOSED`.
-   * **TIME_WAIT State:** The client does *not* close immediately. It enters `TIME_WAIT` and starts a timer set to **$2\text{MSL}$ (typically 4 minutes)**.
-   * *Why TIME_WAIT is essential:*
-     1. If the client's final ACK is lost, the server will retransmit its FIN. The client must remain alive to re-acknowledge the FIN; otherwise, the server receives an RST and assumes connection error.
-     2. It allows all lingering packets in the network to die out before a new connection can legally reuse the same local port.
+    * **TIME_WAIT State:** The client does *not* close immediately. It enters `TIME_WAIT` and starts a timer set to **$2\text{MSL}$ (typically 4 minutes)**.
+    * *Why TIME_WAIT is essential:*
+      1. If the client's final ACK is lost, the server will retransmit its FIN. The client must remain alive to re-acknowledge the FIN; otherwise, the server receives an RST and assumes connection error.
+      2. It allows all lingering packets in the network to die out before a new connection can legally reuse the same local port.
 
 [Source: Ch 6 Transport Layer.pdf, Slides 76–80]
 
@@ -879,10 +918,13 @@ TCP enforces flow control using a **variable-size sliding window protocol**.
 The actual transmission window size $W$ at the sender is bounded by two independent constraints:
 
 $$
+
 W = \min(\text{rwnd}, \text{cwnd})
+
 $$
 
 Where:
+
 * $\text{rwnd}$ = **Receiver Advertised Window** (enforces flow control: protects receiver memory buffer).
 * $\text{cwnd}$ = **Congestion Window** (enforces congestion control: protects intermediate network links).
 
@@ -897,7 +939,7 @@ Where:
 1. **Closing (Left Wall Moves Right):** Occurs when the sender receives an ACK acknowledging bytes previously transmitted. The left wall shifts right, advancing the window.
 2. **Opening (Right Wall Moves Right):** Occurs when the receiving application reads bytes from its buffer, freeing space and allowing the receiver to advertise a larger window (`rwnd`).
 3. **Shrinking (Right Wall Moves Left):** Occurs if a receiver advertises a smaller window than before, attempting to pull back its window grant.
-   * **Strict Rule:** RFC 793 strongly discourages shrinking the window. Senders may have already transmitted data into the advertised window space; shrinking the window leads to false packet drops and corrupted states.
+    * **Strict Rule:** RFC 793 strongly discourages shrinking the window. Senders may have already transmitted data into the advertised window space; shrinking the window leads to false packet drops and corrupted states.
 
 ---
 
@@ -911,14 +953,18 @@ Where:
 * **Event 1:** Receiver receives bytes 201–205. The receiver application consumes nothing. The receiver returns:
 
 $$
+
 \text{ACK} = 206, \quad \text{rwnd} = 55
+
 $$
 
   *(Left wall moves right by 5 bytes; right wall stays stationary).*
 * **Event 2:** Receiver application reads 20 bytes from its receive buffer. Receiver returns:
 
 $$
+
 \text{ACK} = 206, \quad \text{rwnd} = 75
+
 $$
 
   *(Right wall moves right by 20 bytes: Window Opening).*
@@ -937,19 +983,21 @@ $$
 
 #### Solutions:
 1. **Clark's Solution (Receiver-Side):**
-   * The receiver is forbidden from sending a window update of 1 byte.
-   * The receiver must wait until it can advertise a window of at least:
+    * The receiver is forbidden from sending a window update of 1 byte.
+    * The receiver must wait until it can advertise a window of at least:
 
 $$
+
 \text{Advertised Window} \ge \min(\text{MSS}, \text{Buffer Size} / 2)
+
 $$
 
-   * Until then, the receiver advertises `rwnd = 0`.
+    * Until then, the receiver advertises `rwnd = 0`.
 2. **Nagle's Algorithm (Sender-Side):**
-   * If outgoing data is smaller than the Maximum Segment Size (MSS), the sender may transmit the first small chunk immediately.
-   * However, all subsequent small chunks **must be accumulated in the send buffer** until:
-     1. The sender accumulates enough bytes to form a full MSS segment, OR
-     2. All previously transmitted data has been acknowledged by the receiver.
+    * If outgoing data is smaller than the Maximum Segment Size (MSS), the sender may transmit the first small chunk immediately.
+    * However, all subsequent small chunks **must be accumulated in the send buffer** until:
+      1. The sender accumulates enough bytes to form a full MSS segment, OR
+      2. All previously transmitted data has been acknowledged by the receiver.
 
 [Source: TCP and UDP.pdf, Slides 65–75]
 
@@ -966,6 +1014,7 @@ TCP provides complete reliability over an unreliable IP network through **Error 
 ![Figure 6.32: TCP Normal Error Control Operation](../images/chapter6/ch6_tcp_normal_error_control.png)
 
 Under normal conditions:
+
 * Data segments carrying payload are transmitted.
 * The receiver sends cumulative ACKs acknowledging in-order data bytes. ACKs are piggybacked on reverse-path data segments whenever possible.
 
@@ -976,6 +1025,7 @@ Under normal conditions:
 ![Figure 6.33: Lost Segment and Retransmission Timeout (RTO)](../images/chapter6/ch6_tcp_lost_segment_timeout.png)
 
 When a segment is lost in transit:
+
 1. The sender starts a **Retransmission Timer (RTO)** whenever a segment is sent.
 2. If no ACK arrives before the RTO expires, the sender assumes the segment was lost and retransmits it.
 3. *Limitation:* The RTO timer is relatively coarse (often hundreds of milliseconds), causing the sender to idle during packet drops.
@@ -987,6 +1037,7 @@ When a segment is lost in transit:
 ![Figure 6.34: Fast Retransmission with Duplicate ACKs](../images/chapter6/ch6_tcp_fast_retransmit.png)
 
 To avoid waiting for the sluggish RTO timer:
+
 1. When a receiver receives an out-of-order segment (e.g., segment 3 arrives, but segment 2 is missing), it buffers segment 3 and **immediately re-sends an ACK for the last in-order byte** (acknowledging byte 1).
 2. If segments 4 and 5 also arrive, the receiver repeats the exact same ACK: generating **duplicate ACKs**.
 3. **The 3 Duplicate ACK Rule:** When the sender receives **three consecutive duplicate ACKs** for the same sequence number, it treats this as strong statistical proof that the missing segment was lost (and not merely reordered).
@@ -1035,13 +1086,17 @@ TCP dynamically regulates its transmission rate by adjusting the **Congestion Wi
 * **Growth Rule:** For *every individual ACK* received, `cwnd` increases by 1 MSS:
 
 $$
+
 \text{cwnd} \longleftarrow \text{cwnd} + 1\text{ MSS}
+
 $$
 
 * **Net Effect:** Because each segment generates an ACK, `cwnd` **doubles every Round-Trip Time (RTT)**:
 
 $$
+
 \text{Round 1: } 1\text{ MSS} \longrightarrow \text{Round 2: } 2\text{ MSS} \longrightarrow \text{Round 3: } 4\text{ MSS} \longrightarrow \text{Round 4: } 8\text{ MSS} \dots
+
 $$
 
 * Slow Start terminates when `cwnd` reaches the **Slow Start Threshold (`ssthresh`)**, at which point TCP transitions to Congestion Avoidance.
@@ -1058,7 +1113,9 @@ $$
 * **Growth Rule (Additive Increase):** `cwnd` increases by only **1 MSS per full RTT**:
 
 $$
+
 \text{For each ACK received: } \text{cwnd} \longleftarrow \text{cwnd} + \frac{1}{\text{cwnd}}\text{ MSS}
+
 $$
 
 * Senders probe for available bandwidth gently and linearly.
@@ -1079,12 +1136,19 @@ When congestion occurs, TCP detects it via either **Timeout (RTO)** or **3 Dupli
 
 #### 1. In the Case of Timeout (Severe Congestion):
 Both TCP Tahoe and TCP Reno react identically:
+
 $$
+
 \text{ssthresh} \longleftarrow \max\left(\frac{\text{cwnd}}{2}, 2\text{ MSS}\right)
+
 $$
+
 $$
+
 \text{cwnd} \longleftarrow 1\text{ MSS}
+
 $$
+
 The connection drops back into Slow Start from $1\text{ MSS}$.
 
 #### 2. In the Case of 3 Duplicate ACKs (Mild Congestion):
@@ -1096,13 +1160,17 @@ The connection drops back into Slow Start from $1\text{ MSS}$.
   * **Multiplicative Decrease:** Halves the threshold:
 
 $$
+
 \text{ssthresh} \longleftarrow \frac{\text{cwnd}}{2}
+
 $$
 
   * Sets `cwnd` to the new threshold plus 3 MSS (to account for the 3 buffered segments):
 
 $$
+
 \text{cwnd} \longleftarrow \text{ssthresh} + 3\text{ MSS}
+
 $$
 
   * Executes **Fast Recovery:** Skips Slow Start entirely and continues directly in **Congestion Avoidance (linear growth)**!
@@ -1141,7 +1209,9 @@ For each in-flight segment, measure the elapsed time $M$ between transmitting th
 Update the running exponential weighted average:
 
 $$
+
 SRTT \longleftarrow (1 - \alpha) \cdot SRTT + \alpha \cdot M
+
 $$
 
 *(Standard recommended weight: $\alpha = \frac{1}{8} = 0.125$).*
@@ -1150,7 +1220,9 @@ $$
 Compute the mean absolute deviation of RTT:
 
 $$
+
 RTTVAR \longleftarrow (1 - \beta) \cdot RTTVAR + \beta \cdot |SRTT - M|
+
 $$
 
 *(Standard recommended weight: $\beta = \frac{1}{4} = 0.25$).*
@@ -1158,7 +1230,9 @@ $$
 #### Step 4: Compute Retransmission Timeout ($RTO$)
 
 $$
+
 RTO = SRTT + 4 \cdot RTTVAR
+
 $$
 
 *(With the safety constraint: $\text{RTO} \ge 1.0\text{ second}$).*
@@ -1173,6 +1247,7 @@ $$
 
 #### The Ambiguity Problem:
 If segment 1 is sent at $t=0$, timed out at $t=1.0$, retransmitted at $t=1.0$, and an ACK arrives at $t=1.2$:
+
 * Did the ACK belong to the original transmission ($RTT = 1.2\text{ s}$)?
 * Or did it belong to the retransmission ($RTT = 0.2\text{ s}$)?
 There is no way to know! Updating $SRTT$ with false samples corrupts the timer.
@@ -1182,7 +1257,9 @@ There is no way to know! Updating $SRTT$ with false samples corrupts the timer.
 2. **Rule 2 (Exponential Timer Backoff):** Whenever a retransmission occurs, immediately double the current RTO:
 
 $$
+
 RTO_{\text{new}} = 2 \cdot RTO_{\text{old}}
+
 $$
 
    *(Up to an upper bound of 64 seconds).* Once an in-order, un-retransmitted segment is successfully acknowledged, recalculate RTO using Jacobson's formulas.
@@ -1198,6 +1275,7 @@ $$
 When the receiver advertises `rwnd = 0`, the sender halts and starts the **Persistence Timer**.
 When the timer expires, the sender transmits a **Probe Segment** containing 1 byte of dummy data.
 The receiver must reply to the probe with an ACK advertising its current window size.
+
 * If the window is still 0, the persistence timer doubles and resets.
 * If buffer space has opened, the new window grant unfreezes the connection!
 
@@ -1244,6 +1322,7 @@ The receiver must reply to the probe with an ACK advertising its current window 
 
 **Problem Statement:**
 A TCP connection is transmitting data across a high-speed network at a constant rate of $1\text{ Megabyte/second}$ ($1\text{ MB/s} = 10^6\text{ bytes/s}$). The connection begins with an Initial Sequence Number of $7000$.
+
 1. How long does it take before the 32-bit sequence number space wraps completely around and returns back to zero?
 2. If the transmission rate is upgraded to $1\text{ Gbps}$ ($1.25 \times 10^8\text{ bytes/s}$), what is the new wraparound time?
 
@@ -1255,17 +1334,29 @@ A TCP connection is transmitting data across a high-speed network at a constant 
 **Step-by-Step Calculation:**
 1. Because the sequence number space is circular ($2^{32}$ total bytes), the initial starting value ($7000$) is negligible when computing full wrap time.
    Total bytes before wrap:
+
    $$
+
    \text{Bytes} = 2^{32} = 4,294,967,296\text{ bytes}
+
    $$
+
 2. Wraparound time at $1\text{ MB/s}$:
+
    $$
+
    T_1 = \frac{2^{32}\text{ bytes}}{10^6\text{ bytes/s}} = 4294.97\text{ seconds} \approx \mathbf{71.58\text{ minutes}} \approx \mathbf{1.19\text{ hours}}
+
    $$
+
 3. Wraparound time at $1\text{ Gbps}$ ($R_2 = 10^9 / 8 = 125,000,000\text{ bytes/s}$):
+
    $$
+
    T_2 = \frac{4,294,967,296\text{ bytes}}{125,000,000\text{ bytes/s}} \approx \mathbf{34.36\text{ seconds}}
+
    $$
+
    *(Note: Because $34.36\text{ s} < \text{MSL} = 120\text{ s}$, standard TCP breaks at gigabit speeds! High-speed TCP must use the RFC 1323 PAWS — Protection Against Wrapped Sequences option).*
 
 **Final Answer:**
@@ -1284,6 +1375,7 @@ The following is an actual hexadecimal dump of an 8-byte UDP header captured fro
 06 32 00 0D 00 1C E2 17
 ```
 Decode this header and determine:
+
 1. The Source Port number (in decimal).
 2. The Destination Port number (in decimal).
 3. The Total Length of the user datagram (in decimal).
@@ -1293,27 +1385,43 @@ Decode this header and determine:
 
 **Step-by-Step Decoding:**
 1. **Source Port (Bytes 1–2: `06 32`):**
+
    $$
+
    \text{Hex } 0632_{16} = (6 \times 256) + (3 \times 16) + 2 = 1536 + 48 + 2 = \mathbf{1586}
+
    $$
+
 2. **Destination Port (Bytes 3–4: `00 0D`):**
+
    $$
+
    \text{Hex } 000D_{16} = 13_{10} = \mathbf{13}
+
    $$
+
 3. **Total Length (Bytes 5–6: `00 1C`):**
+
    $$
+
    \text{Hex } 001C_{16} = (1 \times 16) + 12 = \mathbf{28\text{ bytes}}
+
    $$
+
 4. **Length of Data Payload:**
+
    $$
+
    \text{Payload Length} = \text{Total Length} - \text{Header Length} = 28 - 8 = \mathbf{20\text{ bytes}}
+
    $$
+
 5. **Direction of Packet:**
-   * Source Port = $1586$ (Ephemeral client port $> 1023$).
-   * Destination Port = $13$ (Well-known server port $< 1024$).
-   * **Direction:** **Client to Server**.
+    * Source Port = $1586$ (Ephemeral client port $> 1023$).
+    * Destination Port = $13$ (Well-known server port $< 1024$).
+    * **Direction:** **Client to Server**.
 6. **Application Process:**
-   * Well-known port 13 corresponds to the **Daytime Protocol** (RFC 867).
+    * Well-known port 13 corresponds to the **Daytime Protocol** (RFC 867).
 
 [Source: cn_tutorial.pdf, Tutorial 10, Q4]
 
@@ -1323,6 +1431,7 @@ Decode this header and determine:
 
 **Problem Statement:**
 A client application uses UDP to transmit a tiny data payload of $16\text{ bytes}$ to a server. Calculate the transmission efficiency of this communication:
+
 1. At the UDP layer alone.
 2. At the combined IP + UDP level (assuming a standard 20-byte IPv4 header).
 
@@ -1333,18 +1442,31 @@ A client application uses UDP to transmit a tiny data payload of $16\text{ bytes
 
 **Step-by-Step Calculation:**
 1. **Efficiency at UDP Level:**
+
    $$
+
    \text{Total UDP Size} = 16 + 8 = 24\text{ bytes}
+
    $$
+
    $$
+
    \text{Efficiency}_{\text{UDP}} = \frac{\text{Useful Payload Bytes}}{\text{Total UDP Bytes}} = \frac{16}{24} = \frac{2}{3} \approx \mathbf{66.67\%}
+
    $$
+
 2. **Efficiency at IP + UDP Level:**
+
    $$
+
    \text{Total Packet Size} = 20\text{ (IP)} + 8\text{ (UDP)} + 16\text{ (Data)} = 44\text{ bytes}
+
    $$
+
    $$
+
    \text{Efficiency}_{\text{Total}} = \frac{16}{44} \approx \mathbf{36.36\%}
+
    $$
 
 [Source: cn_tutorial.pdf, Tutorial 10, Q3]
@@ -1358,21 +1480,25 @@ An application process generates an oversized message of $68,000\text{ bytes}$. 
 
 **Analysis & Solution:**
 1. **UDP Header Length Field Constraint:**
-   * The UDP Length field is an unsigned 16-bit integer:
+    * The UDP Length field is an unsigned 16-bit integer:
 
 $$
+
 \text{Maximum Possible Value} = 2^{16} - 1 = 65,535\text{ bytes}
-$$
-
-   * Because the UDP header consumes 8 bytes, the absolute maximum data payload UDP can theoretically carry is:
 
 $$
+
+    * Because the UDP header consumes 8 bytes, the absolute maximum data payload UDP can theoretically carry is:
+
+$$
+
 65,535 - 8 = 65,527\text{ bytes}
+
 $$
 
 2. **Conclusion:**
-   * A payload of $68,000\text{ bytes}$ **strictly exceeds the 16-bit capacity of the UDP header** ($68,000 > 65,527$).
-   * **Result:** It is physically impossible to transmit a 68,000-byte message in a single UDP datagram. The application layer must fragment the data into at least two separate UDP datagrams.
+    * A payload of $68,000\text{ bytes}$ **strictly exceeds the 16-bit capacity of the UDP header** ($68,000 > 65,527$).
+    * **Result:** It is physically impossible to transmit a 68,000-byte message in a single UDP datagram. The application layer must fragment the data into at least two separate UDP datagrams.
 
 [Source: cn_tutorial.pdf, Tutorial 10, Q2]
 
@@ -1383,6 +1509,7 @@ $$
 **Problem Statement:**
 A TCP connection has a current Smoothed Round-Trip Time of $SRTT = 100\text{ ms}$ and an RTT Deviation of $RTTVAR = 10\text{ ms}$. A new segment is transmitted, and its acknowledgment returns after $M = 140\text{ ms}$.
 Using standard Jacobson parameters ($\alpha = 0.125, \beta = 0.25$), compute:
+
 1. The new Smoothed RTT ($SRTT$).
 2. The new RTT Deviation ($RTTVAR$).
 3. The newly updated Retransmission Timeout ($RTO$).
@@ -1396,28 +1523,39 @@ Using standard Jacobson parameters ($\alpha = 0.125, \beta = 0.25$), compute:
 
 **Step-by-Step Calculation:**
 1. **Update Smoothed RTT ($SRTT$):**
+
    $$
+
    \begin{aligned}
    SRTT_1 &= (1 - \alpha) \cdot SRTT_0 + \alpha \cdot M \\
           &= (1 - 0.125) \cdot 100 + 0.125 \cdot 140 \\
           &= 87.5 + 17.5 = \mathbf{105\text{ ms}}
    \end{aligned}
+
    $$
+
 2. **Update RTT Deviation ($RTTVAR$):**
    Absolute error difference: $|SRTT_0 - M| = |100 - 140| = 40\text{ ms}$.
+
    $$
+
    \begin{aligned}
    RTTVAR_1 &= (1 - \beta) \cdot RTTVAR_0 + \beta \cdot |SRTT_0 - M| \\
             &= (1 - 0.25) \cdot 10 + 0.25 \cdot 40 \\
             &= 7.5 + 10 = \mathbf{17.5\text{ ms}}
    \end{aligned}
+
    $$
+
 3. **Compute Retransmission Timeout ($RTO$):**
+
    $$
+
    \begin{aligned}
    RTO &= SRTT_1 + 4 \cdot RTTVAR_1 \\
        &= 105 + 4 \cdot (17.5) = 105 + 70 = \mathbf{175\text{ ms}}
    \end{aligned}
+
    $$
 
 **Final Answer:**
@@ -1436,7 +1574,9 @@ Using standard Jacobson parameters ($\alpha = 0.125, \beta = 0.25$), compute:
 ### 1. Transmission Window Constraint
 
 $$
+
 W = \min(\text{rwnd}, \text{cwnd})
+
 $$
 
 * **Where:**
@@ -1449,7 +1589,9 @@ $$
 ### 2. TCP Sequence Space Wraparound Time
 
 $$
+
 T_{\text{wrap}} = \frac{2^{32} \text{ bytes}}{\text{Data Rate (bytes/sec)}}
+
 $$
 
 * **Where:**
@@ -1460,7 +1602,9 @@ $$
 ### 3. Jacobson's Smoothed RTT ($SRTT$)
 
 $$
+
 SRTT \longleftarrow (1 - \alpha) \cdot SRTT + \alpha \cdot M
+
 $$
 
 * **Where:**
@@ -1473,7 +1617,9 @@ $$
 ### 4. Jacobson's RTT Deviation ($RTTVAR$)
 
 $$
+
 RTTVAR \longleftarrow (1 - \beta) \cdot RTTVAR + \beta \cdot |SRTT - M|
+
 $$
 
 * **Where:**
@@ -1485,7 +1631,9 @@ $$
 ### 5. Retransmission Timeout ($RTO$)
 
 $$
+
 RTO = SRTT + 4 \cdot RTTVAR
+
 $$
 
 * **Condition:** $\text{RTO} \ge 1.0\text{ second}$ (safety floor).
@@ -1495,7 +1643,9 @@ $$
 ### 6. Karn's Exponential Backoff
 
 $$
+
 RTO_{\text{backoff}} = 2 \cdot RTO
+
 $$
 
 * **Condition:** Applied on every retransmission timeout up to 64 seconds.
@@ -1505,7 +1655,9 @@ $$
 ### 7. Additive Increase in Congestion Avoidance
 
 $$
+
 \text{cwnd} \longleftarrow \text{cwnd} + \frac{\text{MSS} \times \text{MSS}}{\text{cwnd}} \approx \text{cwnd} + 1\text{ MSS per RTT}
+
 $$
 
 ---
