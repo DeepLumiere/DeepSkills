@@ -74,7 +74,7 @@ flowchart TD
 
 ### Figure 6.1: Transport Layer Positioning and TPDUs
 
-![Figure 6.1: Transport Layer Positioning and TPDUs](images/chapter6/ch6_transport_service_interface.png)
+![Figure 6.1: Transport Layer Positioning and TPDUs](../images/chapter6/ch6_transport_service_interface.png)
 
 **What it shows:**
 The transport layer acting as the bridge between application processes and the network infrastructure.
@@ -85,7 +85,7 @@ The transport layer acting as the bridge between application processes and the n
 
 ### Figure 6.2: The Pipe Abstraction for Transport Streams
 
-![Figure 6.2: The Pipe Abstraction for Transport Streams](images/chapter6/ch6_unix_pipe_abstraction.png)
+![Figure 6.2: The Pipe Abstraction for Transport Streams](../images/chapter6/ch6_unix_pipe_abstraction.png)
 
 **What it shows:**
 The abstraction of a continuous, error-free byte pipe presented by TCP to application layer processes, masking all underlying network complexities (packet fragmentation, reordering, loss, and router delays).
@@ -96,7 +96,7 @@ The abstraction of a continuous, error-free byte pipe presented by TCP to applic
 
 ### Figure 6.3: Hierarchical Protocol Data Unit Encapsulation
 
-![Figure 6.3: Hierarchical Protocol Data Unit Encapsulation](images/chapter6/ch6_hierarchical_encapsulation.png)
+![Figure 6.3: Hierarchical Protocol Data Unit Encapsulation](../images/chapter6/ch6_hierarchical_encapsulation.png)
 
 **Encapsulation Flow:**
 1. **Application Layer:** Generates application message / user data.
@@ -164,7 +164,7 @@ To allow application programs to establish, utilize, and dismantle connections i
 
 ### Figure 6.4: Transport State Transition Diagram
 
-![Figure 6.4: Transport State Transition Diagram](images/chapter6/ch6_transport_state_transitions.png)
+![Figure 6.4: Transport State Transition Diagram](../images/chapter6/ch6_transport_state_transitions.png)
 
 **State Transition Sequence:**
 1. **Server Initialization:** Server executes `LISTEN`, transitioning from `IDLE` to `PASSIVE_WAIT`.
@@ -183,11 +183,11 @@ Developed in 1981 for BSD 4.2 UNIX, **Berkeley Sockets** became the universal st
 
 ### Figure 6.5: Berkeley Socket Primitives Table
 
-![Figure 6.5: Berkeley Socket Primitives Table](images/chapter6/ch6_berkeley_sockets_primitives.png)
+![Figure 6.5: Berkeley Socket Primitives Table](../images/chapter6/ch6_berkeley_sockets_primitives.png)
 
 ### Figure 6.6: Client-Server Socket Interaction Flow
 
-![Figure 6.6: Client-Server Socket Interaction Flow](images/chapter6/ch6_socket_server_flow.png)
+![Figure 6.6: Client-Server Socket Interaction Flow](../images/chapter6/ch6_socket_server_flow.png)
 
 ```mermaid
 sequenceDiagram
@@ -242,10 +242,10 @@ int main(int argc, char **argv) {
 
     // 1. Resolve remote server IP address
     h = gethostbyname(argv[1]);
-    
+
     // 2. Create client TCP socket endpoint
     s = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-    
+
     // 3. Configure server address structure
     memset(&channel, 0, sizeof(channel));
     channel.sin_family = AF_INET;
@@ -262,7 +262,7 @@ int main(int argc, char **argv) {
     while ((bytes = read(s, buf, BUF_SIZE)) > 0) {
         write(1, buf, bytes); // Output to stdout
     }
-    
+
     // 7. Cleanly close socket
     close(s);
     return 0;
@@ -304,7 +304,7 @@ int main() {
     while (1) {
         sa = accept(s, 0, 0); // Blocks waiting for client connection
         read(sa, buf, BUF_SIZE); // Read requested filename
-        
+
         fd = open(buf, O_RDONLY); // Open file on server disk
         while ((bytes = read(fd, buf, BUF_SIZE)) > 0) {
             write(sa, buf, bytes); // Stream file data across TCP
@@ -340,7 +340,7 @@ Although Transport protocols resemble Data Link protocols (both handle framing, 
 
 ### Figure 6.7: TSAP and NSAP Addressing Hierarchy
 
-![Figure 6.7: TSAP and NSAP Addressing Hierarchy](images/chapter6/ch6_tsap_nsap_addressing.png)
+![Figure 6.7: TSAP and NSAP Addressing Hierarchy](../images/chapter6/ch6_tsap_nsap_addressing.png)
 
 * **NSAP (Network Service Access Point):** The network address identifying a host interface (IP address).
 * **TSAP (Transport Service Access Point):** The transport endpoint identifying an application process (Port number).
@@ -352,7 +352,7 @@ Although Transport protocols resemble Data Link protocols (both handle framing, 
 
 ### Figure 6.8: The Process Server (`inetd`) Architecture
 
-![Figure 6.8: The Process Server (`inetd`) Architecture](images/chapter6/ch6_process_server_portmapper.png)
+![Figure 6.8: The Process Server (`inetd`) Architecture](../images/chapter6/ch6_process_server_portmapper.png)
 
 Running separate server daemons for hundreds of rarely used services (e.g., FTP, Telnet, finger) permanently wastes CPU and RAM.
 * **The Process Server Solution (`inetd` in UNIX):**
@@ -373,7 +373,7 @@ To ensure sequence numbers do not wrap around and collide with delayed packets:
 
 ### Figure 6.9: Forbidden Region in Sequence Number Allocation
 
-![Figure 6.9: Forbidden Region in Sequence Number Allocation](images/chapter6/ch6_forbidden_region_sequence_numbers.png)
+![Figure 6.9: Forbidden Region in Sequence Number Allocation](../images/chapter6/ch6_forbidden_region_sequence_numbers.png)
 
 1. **Tomlinson's Clock-Driven Generator:** Each host maintains a continuous time-of-day clock that increments steadily at frequency $f$, even across OS reboots. When establishing a new connection, the host selects its **Initial Sequence Number (ISN)** from this clock.
 2. **The Forbidden Region:** A diagonally shaded region in the time-sequence number plane where sequence numbers are strictly illegal:
@@ -392,37 +392,57 @@ The **Three-Way Handshake** (invented by Ray Tomlinson) reliably establishes a t
 
 ### Figure 6.10: Three-Way Handshake — Normal Connection Setup
 
-![Figure 6.10: Three-Way Handshake — Normal Connection Setup](images/chapter6/ch6_three_way_handshake_normal.png)
+![Figure 6.10: Three-Way Handshake — Normal Connection Setup](../images/chapter6/ch6_three_way_handshake_normal.png)
 
 #### Normal Three-Way Handshake Exchange:
 1. **Message 1 (Host 1 $\to$ Host 2):** Host 1 chooses its Initial Sequence Number $x$ and transmits:
-   $$\text{SYN}(seq = x)$$
+
+$$
+\text{SYN}(seq = x)
+$$
+
 2. **Message 2 (Host 2 $\to$ Host 1):** Host 2 receives the SYN, records $x$, chooses its own Initial Sequence Number $y$, and returns:
-   $$\text{SYN}(seq = y) + \text{ACK}(ack = x + 1)$$
+
+$$
+\text{SYN}(seq = y) + \text{ACK}(ack = x + 1)
+$$
+
 3. **Message 3 (Host 1 $\to$ Host 2):** Host 1 verifies that Host 2 acknowledged $x+1$, confirming that Host 2 is alive and responding to *this* specific connection attempt. Host 1 transmits:
-   $$\text{ACK}(ack = y + 1) + \text{DATA}$$
+
+$$
+\text{ACK}(ack = y + 1) + \text{DATA}
+$$
+
 Connection is now fully synchronized and open in both directions.
 
 ---
 
 ### Figure 6.11: Handling Delayed Duplicate SYN
 
-![Figure 6.11: Handling Delayed Duplicate SYN](images/chapter6/ch6_three_way_handshake_duplicate_syn.png)
+![Figure 6.11: Handling Delayed Duplicate SYN](../images/chapter6/ch6_three_way_handshake_duplicate_syn.png)
 
 **Scenario:**
 An old duplicate `SYN(seq = x)` from a long-dead session suddenly emerges from a router buffer and arrives at Host 2:
 1. Host 2 thinks a new connection is being requested and replies with:
-   $$\text{SYN}(seq = y) + \text{ACK}(ack = x + 1)$$
+
+$$
+\text{SYN}(seq = y) + \text{ACK}(ack = x + 1)
+$$
+
 2. When Host 1 receives this packet, it checks its active connection table. Host 1 realizes it never sent a `SYN` with sequence number $x$!
 3. Host 1 rejects the phantom connection by sending a **Reset packet**:
-   $$\text{RST}(seq = x + 1)$$
+
+$$
+\text{RST}(seq = x + 1)
+$$
+
 4. Host 2 receives the RST and immediately aborts the half-open connection without allocating memory or delivering false data to the application.
 
 ---
 
 ### Figure 6.12: Handling Delayed Duplicate SYN and Duplicate ACK
 
-![Figure 6.12: Handling Delayed Duplicate SYN and Duplicate ACK](images/chapter6/ch6_three_way_handshake_duplicate_syn_ack.png)
+![Figure 6.12: Handling Delayed Duplicate SYN and Duplicate ACK](../images/chapter6/ch6_three_way_handshake_duplicate_syn_ack.png)
 
 **Worst-Case Scenario:**
 Both an old duplicate `SYN(seq = x)` AND an old duplicate `ACK` arrive:
@@ -446,7 +466,7 @@ Releasing a connection can be designed as:
 
 ### Figure 6.13: The Two-Army Consensus Impossibility Proof
 
-![Figure 6.13: The Two-Army Consensus Impossibility Proof](images/chapter6/ch6_two_army_problem.png)
+![Figure 6.13: The Two-Army Consensus Impossibility Proof](../images/chapter6/ch6_two_army_problem.png)
 
 ### The Two-Army Problem (Gray's Paradox)
 
@@ -470,7 +490,7 @@ Releasing a connection can be designed as:
 
 ### Figure 6.14: Four Connection Release Scenarios with Timers
 
-![Figure 6.14: Four Connection Release Scenarios with Timers](images/chapter6/ch6_connection_release_scenarios.png)
+![Figure 6.14: Four Connection Release Scenarios with Timers](../images/chapter6/ch6_connection_release_scenarios.png)
 
 **Four Release Scenarios:**
 1. **Normal Case:** Host 1 sends `DR` (Disconnect Request), Host 2 sends `DR` + `ACK`, Host 1 sends final `ACK`. Connection closes cleanly.
@@ -492,15 +512,23 @@ Managing buffer memory at the receiver is critical in transport protocols. Unlik
 
 ### Figure 6.15: Dynamic Buffer Allocation & Sliding Window Credits
 
-![Figure 6.15: Dynamic Buffer Allocation & Sliding Window Credits](images/chapter6/ch6_dynamic_buffer_allocation.png)
+![Figure 6.15: Dynamic Buffer Allocation & Sliding Window Credits](../images/chapter6/ch6_dynamic_buffer_allocation.png)
 
 #### Mechanism of Credit-Based Flow Control:
 1. **Decoupling Acknowledgment from Buffer Allocation:**
    * In traditional sliding window protocols, an ACK implies authorization to send more data.
    * In transport protocols, acknowledgments are completely **decoupled from buffer credits**.
    * A transport TPDU contains two distinct feedback fields:
-     $$\text{ACK Number} = \text{Next expected sequence number}$$
-     $$\text{Window Credit} = \text{Number of additional bytes the receiver is willing to buffer}$$
+
+$$
+\text{ACK Number} = \text{Next expected sequence number}
+$$
+
+
+$$
+\text{Window Credit} = \text{Number of additional bytes the receiver is willing to buffer}
+$$
+
 2. **Buffer Allocation Trace:**
    * Receiver sends: $\text{ACK} = 0, \text{Window} = 8$. The sender is granted 8 credits and transmits 8 packets ($0$ to $7$).
    * Receiver application reads 4 packets from the buffer. The receiver issues an update: $\text{ACK} = 4, \text{Window} = 4$.
@@ -516,7 +544,7 @@ Transport entities optimize resource utilization by multiplexing connections acr
 
 ### Figure 6.16: Upward and Downward Multiplexing
 
-![Figure 6.16: Upward and Downward Multiplexing](images/chapter6/ch6_upward_downward_multiplexing.png)
+![Figure 6.16: Upward and Downward Multiplexing](../images/chapter6/ch6_upward_downward_multiplexing.png)
 
 1. **Upward Multiplexing:**
    * Multiple distinct transport connections are aggregated and routed over a **single network-layer virtual circuit**.
@@ -562,7 +590,7 @@ The **User Datagram Protocol (UDP — RFC 768)** is an unreliable, connectionles
 
 ### Figure 6.17: Position of UDP in the TCP/IP Stack
 
-![Figure 6.17: Position of UDP in the TCP/IP Stack](images/chapter6/ch6_udp_position_tcpip_stack.png)
+![Figure 6.17: Position of UDP in the TCP/IP Stack](../images/chapter6/ch6_udp_position_tcpip_stack.png)
 
 UDP is essentially an IP interface that adds two critical functions that raw IP cannot provide:
 1. **Port Addressing (Multiplexing/Demultiplexing):** Distinguishing between multiple application processes on the same host.
@@ -574,7 +602,7 @@ UDP is essentially an IP interface that adds two critical functions that raw IP 
 
 ### Figure 6.18: ICANN Transport Port Ranges
 
-![Figure 6.18: ICANN Transport Port Ranges](images/chapter6/ch6_icann_port_ranges.png)
+![Figure 6.18: ICANN Transport Port Ranges](../images/chapter6/ch6_icann_port_ranges.png)
 
 Transport ports are 16-bit integers ($0$ to $65,535$), partitioned by ICANN into three distinct operational ranges:
 * **Well-Known Ports ($0$ to $1023$):** Assigned permanently to ubiquitous server daemons; requires administrative / root privileges to bind.
@@ -598,7 +626,7 @@ The UDP header is fixed at exactly **8 bytes** (64 bits), minimizing protocol ov
 
 ### Figure 6.19: UDP User Datagram Header Format
 
-![Figure 6.19: UDP User Datagram Header Format](images/chapter6/ch6_udp_datagram_format.png)
+![Figure 6.19: UDP User Datagram Header Format](../images/chapter6/ch6_udp_datagram_format.png)
 
 ```text
  0                   1                   2                   3
@@ -623,7 +651,7 @@ The UDP header is fixed at exactly **8 bytes** (64 bits), minimizing protocol ov
 
 ### Figure 6.20: UDP Checksum Calculation with Pseudo-Header
 
-![Figure 6.20: UDP Checksum Calculation with Pseudo-Header](images/chapter6/ch6_udp_pseudo_header_checksum.png)
+![Figure 6.20: UDP Checksum Calculation with Pseudo-Header](../images/chapter6/ch6_udp_pseudo_header_checksum.png)
 
 To protect against misrouted packets, the UDP checksum calculation incorporates a fictitious 12-byte **Pseudo-Header** prepended to the UDP datagram:
 
@@ -649,7 +677,7 @@ To protect against misrouted packets, the UDP checksum calculation incorporates 
 
 ### Figure 6.21: UDP Port Queues
 
-![Figure 6.21: UDP Port Queues](images/chapter6/ch6_udp_port_queues.png)
+![Figure 6.21: UDP Port Queues](../images/chapter6/ch6_udp_port_queues.png)
 
 When UDP datagrams arrive for an application process, the operating system places them in an incoming queue associated with that port. If the application does not read datagrams fast enough, the queue overflows, and newly arrived datagrams are discarded without notification.
 
@@ -657,7 +685,7 @@ When UDP datagrams arrive for an application process, the operating system place
 
 ### Figure 6.22: UDP Multiplexing and Demultiplexing
 
-![Figure 6.22: UDP Multiplexing and Demultiplexing](images/chapter6/ch6_udp_multiplexing_demultiplexing.png)
+![Figure 6.22: UDP Multiplexing and Demultiplexing](../images/chapter6/ch6_udp_multiplexing_demultiplexing.png)
 
 * **Multiplexing:** Multiple application processes send datagrams through their respective sockets; UDP attaches port headers and passes them to the single IP entity.
 * **Demultiplexing:** When IP receives a packet with $\text{Protocol} = 17$, UDP inspects the Destination Port and delivers the payload to the matching application socket queue.
@@ -678,7 +706,7 @@ TCP views application data not as discrete packets, but as an unstructured, cont
 
 ### Figure 6.23: TCP Sending and Receiving Circular Buffers
 
-![Figure 6.23: TCP Sending and Receiving Circular Buffers](images/chapter6/ch6_tcp_sending_receiving_buffers.png)
+![Figure 6.23: TCP Sending and Receiving Circular Buffers](../images/chapter6/ch6_tcp_sending_receiving_buffers.png)
 
 * Both sender and receiver maintain circular memory buffers.
 * The sending application writes arbitrary byte chunks into the send buffer. TCP packages these bytes into **segments** sized up to the Maximum Segment Size (MSS) and transmits them across the network.
@@ -703,7 +731,7 @@ The TCP header is variable in length: minimum 20 bytes (no options), maximum 60 
 
 ### Figure 6.24: TCP Segment Format
 
-![Figure 6.24: TCP Segment Format](images/chapter6/ch6_tcp_segment_format.png)
+![Figure 6.24: TCP Segment Format](../images/chapter6/ch6_tcp_segment_format.png)
 
 ```text
  0                   1                   2                   3
@@ -741,7 +769,7 @@ The TCP header is variable in length: minimum 20 bytes (no options), maximum 60 
 
 ### Figure 6.25: TCP Control Flags
 
-![Figure 6.25: TCP Control Flags](images/chapter6/ch6_tcp_control_flags.png)
+![Figure 6.25: TCP Control Flags](../images/chapter6/ch6_tcp_control_flags.png)
 
 * **URG:** Urgent Pointer field is valid. Signals high-priority out-of-band data (e.g., Ctrl-C break).
 * **ACK:** Acknowledgment field is valid (set on every segment after initial SYN).
@@ -754,7 +782,7 @@ The TCP header is variable in length: minimum 20 bytes (no options), maximum 60 
 
 ### Figure 6.26: TCP Checksum with Pseudo-Header
 
-![Figure 6.26: TCP Checksum with Pseudo-Header](images/chapter6/ch6_tcp_pseudo_header_checksum.png)
+![Figure 6.26: TCP Checksum with Pseudo-Header](../images/chapter6/ch6_tcp_pseudo_header_checksum.png)
 
 10. **Urgent Pointer (16 bits):** Byte offset from sequence number indicating location of urgent data.
 11. **Options (Variable, 0 to 40 bytes):** Maximum Segment Size (MSS), Window Scale factor, Selective ACK (SACK), Timestamps.
@@ -769,16 +797,28 @@ The TCP header is variable in length: minimum 20 bytes (no options), maximum 60 
 
 ### Figure 6.27: TCP Connection Establishment Flow
 
-![Figure 6.27: TCP Connection Establishment Flow](images/chapter6/ch6_tcp_connection_establishment.png)
+![Figure 6.27: TCP Connection Establishment Flow](../images/chapter6/ch6_tcp_connection_establishment.png)
 
 1. **Step 1 (Client $\to$ Server):** Client sends active open:
-   $$\text{SYN} = 1, \quad \text{seq} = \text{ISN}_C, \quad \text{ACK} = 0$$
+
+$$
+\text{SYN} = 1, \quad \text{seq} = \text{ISN}_C, \quad \text{ACK} = 0
+$$
+
    *(Consumes 1 sequence number).* Client enters `SYN_SENT`.
 2. **Step 2 (Server $\to$ Client):** Server accepts connection:
-   $$\text{SYN} = 1, \quad \text{ACK} = 1, \quad \text{seq} = \text{ISN}_S, \quad \text{ack} = \text{ISN}_C + 1$$
+
+$$
+\text{SYN} = 1, \quad \text{ACK} = 1, \quad \text{seq} = \text{ISN}_S, \quad \text{ack} = \text{ISN}_C + 1
+$$
+
    *(Consumes 1 sequence number).* Server enters `SYN_RCVD`.
 3. **Step 3 (Client $\to$ Server):** Client completes handshake:
-   $$\text{SYN} = 0, \quad \text{ACK} = 1, \quad \text{seq} = \text{ISN}_C + 1, \quad \text{ack} = \text{ISN}_S + 1$$
+
+$$
+\text{SYN} = 0, \quad \text{ACK} = 1, \quad \text{seq} = \text{ISN}_C + 1, \quad \text{ack} = \text{ISN}_S + 1
+$$
+
    Client enters `ESTABLISHED`. Upon receiving this ACK, Server enters `ESTABLISHED`.
 
 ---
@@ -789,24 +829,40 @@ TCP termination is symmetric; each simplex stream must be closed independently.
 
 ### Figure 6.28: TCP Connection Termination Sequence
 
-![Figure 6.28: TCP Connection Termination Sequence](images/chapter6/ch6_tcp_connection_termination.png)
+![Figure 6.28: TCP Connection Termination Sequence](../images/chapter6/ch6_tcp_connection_termination.png)
 
 ### Figure 6.29: TCP Half-Close State Operation
 
-![Figure 6.29: TCP Half-Close State Operation](images/chapter6/ch6_tcp_half_close.png)
+![Figure 6.29: TCP Half-Close State Operation](../images/chapter6/ch6_tcp_half_close.png)
 
 1. **Step 1 (Client $\to$ Server):** Client application calls `close()`. Client sends:
-   $$\text{FIN} = 1, \quad \text{seq} = u$$
+
+$$
+\text{FIN} = 1, \quad \text{seq} = u
+$$
+
    Client enters `FIN_WAIT_1`.
 2. **Step 2 (Server $\to$ Client):** Server acknowledges FIN:
-   $$\text{ACK} = 1, \quad \text{ack} = u + 1$$
+
+$$
+\text{ACK} = 1, \quad \text{ack} = u + 1
+$$
+
    Client enters `FIN_WAIT_2`. Server enters `CLOSE_WAIT`.
    * **Half-Close State:** The client can no longer send data, but it can **continue to receive data** from the server indefinitely!
 3. **Step 3 (Server $\to$ Client):** When the server finishes sending data, it calls `close()`:
-   $$\text{FIN} = 1, \quad \text{seq} = v$$
+
+$$
+\text{FIN} = 1, \quad \text{seq} = v
+$$
+
    Server enters `LAST_ACK`.
 4. **Step 4 (Client $\to$ Server):** Client acknowledges the server's FIN:
-   $$\text{ACK} = 1, \quad \text{ack} = v + 1$$
+
+$$
+\text{ACK} = 1, \quad \text{ack} = v + 1
+$$
+
    Server immediately enters `CLOSED`.
    * **TIME_WAIT State:** The client does *not* close immediately. It enters `TIME_WAIT` and starts a timer set to **$2\text{MSL}$ (typically 4 minutes)**.
    * *Why TIME_WAIT is essential:*
@@ -836,7 +892,7 @@ Where:
 
 ### Figure 6.30: TCP Sliding Window Mechanics
 
-![Figure 6.30: TCP Sliding Window Mechanics](images/chapter6/ch6_tcp_sliding_window.png)
+![Figure 6.30: TCP Sliding Window Mechanics](../images/chapter6/ch6_tcp_sliding_window.png)
 
 1. **Closing (Left Wall Moves Right):** Occurs when the sender receives an ACK acknowledging bytes previously transmitted. The left wall shifts right, advancing the window.
 2. **Opening (Right Wall Moves Right):** Occurs when the receiving application reads bytes from its buffer, freeing space and allowing the receiver to advertise a larger window (`rwnd`).
@@ -849,14 +905,22 @@ Where:
 
 ### Figure 6.31: TCP Sliding Window Sequence Trace
 
-![Figure 6.31: TCP Sliding Window Sequence Trace](images/chapter6/ch6_tcp_sliding_window_trace.png)
+![Figure 6.31: TCP Sliding Window Sequence Trace](../images/chapter6/ch6_tcp_sliding_window_trace.png)
 
 * **Initial State:** Sender transmits bytes 201 to 260 based on initial $\text{rwnd} = 60$.
 * **Event 1:** Receiver receives bytes 201–205. The receiver application consumes nothing. The receiver returns:
-  $$\text{ACK} = 206, \quad \text{rwnd} = 55$$
+
+$$
+\text{ACK} = 206, \quad \text{rwnd} = 55
+$$
+
   *(Left wall moves right by 5 bytes; right wall stays stationary).*
 * **Event 2:** Receiver application reads 20 bytes from its receive buffer. Receiver returns:
-  $$\text{ACK} = 206, \quad \text{rwnd} = 75$$
+
+$$
+\text{ACK} = 206, \quad \text{rwnd} = 75
+$$
+
   *(Right wall moves right by 20 bytes: Window Opening).*
 
 [Source: Ch 6 Transport Layer.pdf, Slides 81–89]
@@ -875,7 +939,11 @@ Where:
 1. **Clark's Solution (Receiver-Side):**
    * The receiver is forbidden from sending a window update of 1 byte.
    * The receiver must wait until it can advertise a window of at least:
-     $$\text{Advertised Window} \ge \min(\text{MSS}, \text{Buffer Size} / 2)$$
+
+$$
+\text{Advertised Window} \ge \min(\text{MSS}, \text{Buffer Size} / 2)
+$$
+
    * Until then, the receiver advertises `rwnd = 0`.
 2. **Nagle's Algorithm (Sender-Side):**
    * If outgoing data is smaller than the Maximum Segment Size (MSS), the sender may transmit the first small chunk immediately.
@@ -895,7 +963,7 @@ TCP provides complete reliability over an unreliable IP network through **Error 
 
 ### Figure 6.32: TCP Normal Error Control Operation
 
-![Figure 6.32: TCP Normal Error Control Operation](images/chapter6/ch6_tcp_normal_error_control.png)
+![Figure 6.32: TCP Normal Error Control Operation](../images/chapter6/ch6_tcp_normal_error_control.png)
 
 Under normal conditions:
 * Data segments carrying payload are transmitted.
@@ -905,7 +973,7 @@ Under normal conditions:
 
 ### Figure 6.33: Lost Segment and Retransmission Timeout (RTO)
 
-![Figure 6.33: Lost Segment and Retransmission Timeout (RTO)](images/chapter6/ch6_tcp_lost_segment_timeout.png)
+![Figure 6.33: Lost Segment and Retransmission Timeout (RTO)](../images/chapter6/ch6_tcp_lost_segment_timeout.png)
 
 When a segment is lost in transit:
 1. The sender starts a **Retransmission Timer (RTO)** whenever a segment is sent.
@@ -916,7 +984,7 @@ When a segment is lost in transit:
 
 ### Figure 6.34: Fast Retransmission with Duplicate ACKs
 
-![Figure 6.34: Fast Retransmission with Duplicate ACKs](images/chapter6/ch6_tcp_fast_retransmit.png)
+![Figure 6.34: Fast Retransmission with Duplicate ACKs](../images/chapter6/ch6_tcp_fast_retransmit.png)
 
 To avoid waiting for the sluggish RTO timer:
 1. When a receiver receives an out-of-order segment (e.g., segment 3 arrives, but segment 2 is missing), it buffers segment 3 and **immediately re-sends an ACK for the last in-order byte** (acknowledging byte 1).
@@ -928,7 +996,7 @@ To avoid waiting for the sluggish RTO timer:
 
 ### Figure 6.35: Lost ACK & Deadlock Prevention
 
-![Figure 6.35: Lost ACK & Deadlock Prevention](images/chapter6/ch6_tcp_lost_ack_deadlock.png)
+![Figure 6.35: Lost ACK & Deadlock Prevention](../images/chapter6/ch6_tcp_lost_ack_deadlock.png)
 
 * **Lost ACK Correction:** Because ACKs are cumulative, if ACK 200 is lost but subsequent ACK 300 arrives successfully, the sender knows that all bytes up to 299 were received; the loss of ACK 200 causes zero harm.
 * **Deadlock Prevention:** If a receiver advertises `rwnd = 0`, the sender stops transmitting. Later, when buffer space opens, the receiver sends `rwnd = 2000`. If this window update packet is lost, the sender waits forever for a window update, and the receiver waits forever for data: a **deadlock**!
@@ -944,7 +1012,7 @@ When offered traffic exceeds network line capacity, intermediate router queues o
 
 ### Figure 6.36: Network Performance Under Congestion
 
-![Figure 6.36: Network Performance Under Congestion](images/chapter6/ch6_network_performance_congestion.png)
+![Figure 6.36: Network Performance Under Congestion](../images/chapter6/ch6_network_performance_congestion.png)
 
 * As network load increases, throughput initially matches offered load.
 * Near capacity, router buffers saturate, delays soar to infinity, and packet drops trigger massive retransmissions, driving effective throughput to near zero (**Congestion Collapse**).
@@ -961,13 +1029,21 @@ TCP dynamically regulates its transmission rate by adjusting the **Congestion Wi
 
 ### Figure 6.37: TCP Slow Start Phase
 
-![Figure 6.37: TCP Slow Start Phase](images/chapter6/ch6_tcp_slow_start.png)
+![Figure 6.37: TCP Slow Start Phase](../images/chapter6/ch6_tcp_slow_start.png)
 
 * **Initialization:** When a connection starts, $\text{cwnd} = 1\text{ MSS}$.
 * **Growth Rule:** For *every individual ACK* received, `cwnd` increases by 1 MSS:
-  $$\text{cwnd} \longleftarrow \text{cwnd} + 1\text{ MSS}$$
+
+$$
+\text{cwnd} \longleftarrow \text{cwnd} + 1\text{ MSS}
+$$
+
 * **Net Effect:** Because each segment generates an ACK, `cwnd` **doubles every Round-Trip Time (RTT)**:
-  $$\text{Round 1: } 1\text{ MSS} \longrightarrow \text{Round 2: } 2\text{ MSS} \longrightarrow \text{Round 3: } 4\text{ MSS} \longrightarrow \text{Round 4: } 8\text{ MSS} \dots$$
+
+$$
+\text{Round 1: } 1\text{ MSS} \longrightarrow \text{Round 2: } 2\text{ MSS} \longrightarrow \text{Round 3: } 4\text{ MSS} \longrightarrow \text{Round 4: } 8\text{ MSS} \dots
+$$
+
 * Slow Start terminates when `cwnd` reaches the **Slow Start Threshold (`ssthresh`)**, at which point TCP transitions to Congestion Avoidance.
 
 ---
@@ -976,11 +1052,15 @@ TCP dynamically regulates its transmission rate by adjusting the **Congestion Wi
 
 ### Figure 6.38: TCP Congestion Avoidance Phase
 
-![Figure 6.38: TCP Congestion Avoidance Phase](images/chapter6/ch6_tcp_congestion_avoidance.png)
+![Figure 6.38: TCP Congestion Avoidance Phase](../images/chapter6/ch6_tcp_congestion_avoidance.png)
 
 * Once $\text{cwnd} \ge \text{ssthresh}$, exponential doubling stops.
 * **Growth Rule (Additive Increase):** `cwnd` increases by only **1 MSS per full RTT**:
-  $$\text{For each ACK received: } \text{cwnd} \longleftarrow \text{cwnd} + \frac{1}{\text{cwnd}}\text{ MSS}$$
+
+$$
+\text{For each ACK received: } \text{cwnd} \longleftarrow \text{cwnd} + \frac{1}{\text{cwnd}}\text{ MSS}
+$$
+
 * Senders probe for available bandwidth gently and linearly.
 
 ---
@@ -989,11 +1069,11 @@ TCP dynamically regulates its transmission rate by adjusting the **Congestion Wi
 
 ### Figure 6.39: TCP Congestion Policy: Tahoe vs Reno
 
-![Figure 6.39: TCP Congestion Policy: Tahoe vs Reno](images/chapter6/ch6_tcp_tahoe_reno_phases.png)
+![Figure 6.39: TCP Congestion Policy: Tahoe vs Reno](../images/chapter6/ch6_tcp_tahoe_reno_phases.png)
 
 ### Figure 6.40: TCP Congestion Window Evolution Trace
 
-![Figure 6.40: TCP Congestion Window Evolution Trace](images/chapter6/ch6_tcp_congestion_window_trace.png)
+![Figure 6.40: TCP Congestion Window Evolution Trace](../images/chapter6/ch6_tcp_congestion_window_trace.png)
 
 When congestion occurs, TCP detects it via either **Timeout (RTO)** or **3 Duplicate ACKs**:
 
@@ -1014,9 +1094,17 @@ The connection drops back into Slow Start from $1\text{ MSS}$.
 * **TCP Reno (Modern — Fast Recovery):**
   * Recognizes that duplicate ACKs mean packets are still flowing through the network!
   * **Multiplicative Decrease:** Halves the threshold:
-    $$\text{ssthresh} \longleftarrow \frac{\text{cwnd}}{2}$$
+
+$$
+\text{ssthresh} \longleftarrow \frac{\text{cwnd}}{2}
+$$
+
   * Sets `cwnd` to the new threshold plus 3 MSS (to account for the 3 buffered segments):
-    $$\text{cwnd} \longleftarrow \text{ssthresh} + 3\text{ MSS}$$
+
+$$
+\text{cwnd} \longleftarrow \text{ssthresh} + 3\text{ MSS}
+$$
+
   * Executes **Fast Recovery:** Skips Slow Start entirely and continues directly in **Congestion Avoidance (linear growth)**!
 
 [Source: Ch 6 Transport Layer.pdf, Slides 98–104]
@@ -1044,7 +1132,7 @@ Setting RTO too short causes unnecessary spurious retransmissions; setting RTO t
 
 ### Figure 6.41: Jacobson's RTT & RTO Calculation
 
-![Figure 6.41: Jacobson's RTT & RTO Calculation](images/chapter6/ch6_tcp_rto_jacobson_algorithm.png)
+![Figure 6.41: Jacobson's RTT & RTO Calculation](../images/chapter6/ch6_tcp_rto_jacobson_algorithm.png)
 
 #### Step 1: Measure Sample RTT ($M$)
 For each in-flight segment, measure the elapsed time $M$ between transmitting the segment and receiving its ACK.
@@ -1081,7 +1169,7 @@ $$
 
 ### Figure 6.42: Karn's Algorithm for Retransmitted Segments
 
-![Figure 6.42: Karn's Algorithm for Retransmitted Segments](images/chapter6/ch6_karns_algorithm.png)
+![Figure 6.42: Karn's Algorithm for Retransmitted Segments](../images/chapter6/ch6_karns_algorithm.png)
 
 #### The Ambiguity Problem:
 If segment 1 is sent at $t=0$, timed out at $t=1.0$, retransmitted at $t=1.0$, and an ACK arrives at $t=1.2$:
@@ -1092,7 +1180,11 @@ There is no way to know! Updating $SRTT$ with false samples corrupts the timer.
 #### Karn's Rules:
 1. **Rule 1:** Never measure sample RTT ($M$) for any segment that has been retransmitted. Discard the sample!
 2. **Rule 2 (Exponential Timer Backoff):** Whenever a retransmission occurs, immediately double the current RTO:
-   $$RTO_{\text{new}} = 2 \cdot RTO_{\text{old}}$$
+
+$$
+RTO_{\text{new}} = 2 \cdot RTO_{\text{old}}
+$$
+
    *(Up to an upper bound of 64 seconds).* Once an in-order, un-retransmitted segment is successfully acknowledged, recalculate RTO using Jacobson's formulas.
 
 ---
@@ -1101,7 +1193,7 @@ There is no way to know! Updating $SRTT$ with false samples corrupts the timer.
 
 ### Figure 6.43: TCP Persistence Timer & Zero-Window Probes
 
-![Figure 6.43: TCP Persistence Timer & Zero-Window Probes](images/chapter6/ch6_persistence_timer_zero_window.png)
+![Figure 6.43: TCP Persistence Timer & Zero-Window Probes](../images/chapter6/ch6_persistence_timer_zero_window.png)
 
 When the receiver advertises `rwnd = 0`, the sender halts and starts the **Persistence Timer**.
 When the timer expires, the sender transmits a **Probe Segment** containing 1 byte of dummy data.
@@ -1267,9 +1359,17 @@ An application process generates an oversized message of $68,000\text{ bytes}$. 
 **Analysis & Solution:**
 1. **UDP Header Length Field Constraint:**
    * The UDP Length field is an unsigned 16-bit integer:
-     $$\text{Maximum Possible Value} = 2^{16} - 1 = 65,535\text{ bytes}$$
+
+$$
+\text{Maximum Possible Value} = 2^{16} - 1 = 65,535\text{ bytes}
+$$
+
    * Because the UDP header consumes 8 bytes, the absolute maximum data payload UDP can theoretically carry is:
-     $$65,535 - 8 = 65,527\text{ bytes}$$
+
+$$
+65,535 - 8 = 65,527\text{ bytes}
+$$
+
 2. **Conclusion:**
    * A payload of $68,000\text{ bytes}$ **strictly exceeds the 16-bit capacity of the UDP header** ($68,000 > 65,527$).
    * **Result:** It is physically impossible to transmit a 68,000-byte message in a single UDP datagram. The application layer must fragment the data into at least two separate UDP datagrams.
