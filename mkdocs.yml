@@ -40,7 +40,6 @@ theme:
   features:
     - navigation.instant        # Smooth client-side routing
     - navigation.tracking       # Active header scroll tracking
-    - navigation.sections       # Sidebar folder section headers
     - navigation.indexes        # Clickable section index links
     - navigation.top            # Back to top button
     - navigation.footer         # Next/Prev footer navigation
@@ -59,7 +58,6 @@ extra_javascript:
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
   - javascripts/mermaid-init.js
-  - javascripts/nav-dropdown.js
   - javascripts/iframe-resize.js
 
 markdown_extensions:
@@ -116,6 +114,8 @@ nav:
       - "Chapter 1: Introduction & Architecture": computer_networks/Chapter_1_Introduction.md
       - "Chapter 3: Data Link Layer": computer_networks/Chapter_3_Data_Link_Layer.md
       - "Chapter 4: MAC Sublayer": computer_networks/Chapter_4_MAC_Layer.md
+      - "Chapter 5: Network Layer": computer_networks/Chapter_5_Network_Layer.md
+      - "Chapter 6: Transport Layer": computer_networks/Chapter_6_Transport_Layer.md
       - "Review & Exam Practice": computer_networks/CompNet_ClassTest.md
   - Hardware & Microprocessors:
       - "01 Assembler Directives": hardware_and_microprocessors/01_Directives_In_Depth.md

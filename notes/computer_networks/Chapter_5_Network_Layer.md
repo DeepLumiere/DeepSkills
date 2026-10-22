@@ -1,3 +1,5 @@
+# Chapter 5 — Network Layer
+
 
 ## 1. Chapter Overview & Store-and-Forward Architecture
 
@@ -56,7 +58,7 @@ In a store-and-forward packet-switched network:
 
 ### Figure 5.1: Store-and-Forward Packet Switching Architecture
 
-![Figure 5.1: Store-and-Forward Packet Switching Architecture](images/chapter5/ch5_store_and_forward.png)
+![Figure 5.1: Store-and-Forward Packet Switching Architecture](../images/chapter5/ch5_store_and_forward.png)
 
 **What it shows:**
 The physical and logical separation between end systems (hosts located on customer premises LANs) and the network core (the carrier's subnet composed of routers interconnected by transmission lines).
@@ -149,7 +151,7 @@ In a datagram network:
 
 ### Figure 5.2: Datagram Network Routing Tables & Forwarding
 
-![Figure 5.2: Datagram Network Routing Tables & Forwarding](images/chapter5/ch5_datagram_routing_tables.png)
+![Figure 5.2: Datagram Network Routing Tables & Forwarding](../images/chapter5/ch5_datagram_routing_tables.png)
 
 **What it shows:**
 A 6-node datagram subnet ($A, B, C, D, E, F$) routing packets independently from Host 1 to Host 2.
@@ -180,7 +182,7 @@ In a virtual-circuit network:
 
 ### Figure 5.3: Virtual-Circuit Routing Tables and Label Swapping
 
-![Figure 5.3: Virtual-Circuit Routing Tables and Label Swapping](images/chapter5/ch5_virtual_circuit_tables.png)
+![Figure 5.3: Virtual-Circuit Routing Tables and Label Swapping](../images/chapter5/ch5_virtual_circuit_tables.png)
 
 **What it shows:**
 The internal routing and forwarding state maintained inside router tables across a virtual-circuit subnet.
@@ -188,7 +190,11 @@ The internal routing and forwarding state maintained inside router tables across
 **Components:**
 * **Host $H_1$ and Host $H_2$:** Communicating end systems.
 * **Virtual Circuit Table:** A 4-column translation table inside each router:
-  $$	ext{Table Columns: } [	ext{Incoming Interface}, 	ext{Incoming VCI}, 	ext{Outgoing Interface}, 	ext{Outgoing VCI}]$$
+
+$$
+ext{Table Columns: } [	ext{Incoming Interface}, 	ext{Incoming VCI}, 	ext{Outgoing Interface}, 	ext{Outgoing VCI}]
+$$
+
 
 **Flow / Operation:**
 A packet arrives at Router $A$ from Host $H_1$ on Interface 1 bearing VCI = 1. Router $A$'s table translates `(Interface 1, VCI 1) -> (Interface 2, VCI 1)`. At downstream Router $C$, incoming `(Interface 1, VCI 1)` is translated to `(Interface 2, VCI 2)`. Because labels are local to each individual physical link, two unrelated virtual circuits sharing the same physical link never conflict as long as each possesses a unique local identifier.
@@ -199,7 +205,7 @@ A packet arrives at Router $A$ from Host $H_1$ on Interface 1 bearing VCI = 1. R
 
 ### Figure 5.4: Virtual-Circuit vs Datagram Tradeoffs
 
-![Figure 5.4: Virtual-Circuit vs Datagram Tradeoffs](images/chapter5/ch5_vc_vs_datagram_comparison.png)
+![Figure 5.4: Virtual-Circuit vs Datagram Tradeoffs](../images/chapter5/ch5_vc_vs_datagram_comparison.png)
 
 **What it shows:**
 A systematic comparison of design attributes between virtual-circuit and datagram network architectures.
@@ -269,7 +275,7 @@ Fairness and efficiency are fundamentally at war in network routing:
 
 ### Figure 5.5: Fairness vs Efficiency Tradeoff
 
-![Figure 5.5: Fairness vs Efficiency Tradeoff](images/chapter5/ch5_fairness_vs_efficiency.png)
+![Figure 5.5: Fairness vs Efficiency Tradeoff](../images/chapter5/ch5_fairness_vs_efficiency.png)
 
 **What it shows:**
 A linear network topology where four local flows ($A 	o A', B 	o B', C 	o C', D 	o D'$) compete against one long-distance cross-network flow ($X 	o X'$).
@@ -310,7 +316,7 @@ If router $J$ is on the optimal path from router $I$ to router $K$, then the opt
 3. Now assume there exists a better route from $J$ to $K$, designated as $r'_{J 	o K}$, such that $	ext{Cost}(r'_{J 	o K}) < 	ext{Cost}(r_{J 	o K})$.
 4. By concatenating path $r_{I 	o J}$ with the purported superior path $r'_{J 	o K}$, we construct an alternative end-to-end path from $I$ to $K$ with cost:
    $$
-   	ext{Cost}(r'_{I 	o K}) = 	ext{Cost}(r_{I 	o J}) + 	ext{Cost}(r'_{J 	o K}) < 	ext{Cost}(r_{I 	o J}) + 	ext{Cost}(r_{J 	o K}) = 	ext{Cost}(r_{I 	o K})
+	ext{Cost}(r'_{I 	o K}) = 	ext{Cost}(r_{I 	o J}) + 	ext{Cost}(r'_{J 	o K}) < 	ext{Cost}(r_{I 	o J}) + 	ext{Cost}(r_{J 	o K}) = 	ext{Cost}(r_{I 	o K})
    $$
 5. This strictly contradicts our initial premise that $r_{I 	o K}$ was the optimal path. Therefore, no superior route from $J$ to $K$ can exist, and the subpath $r_{J 	o K}$ must itself be optimal. $lacksquare$
 
@@ -330,7 +336,7 @@ The set of all optimal paths from all network sources converging toward a single
 
 ### Figure 5.6: The Optimality Principle & Sink Tree
 
-![Figure 5.6: The Optimality Principle & Sink Tree](images/chapter5/ch5_sink_tree_optimality.png)
+![Figure 5.6: The Optimality Principle & Sink Tree](../images/chapter5/ch5_sink_tree_optimality.png)
 
 **What it shows:**
 (a) A general mesh network of 8 routers ($A$ through $H$). (b) The optimal sink tree rooted at destination Router $B$, minimizing total hop count.
@@ -368,7 +374,7 @@ Dijkstra's algorithm computes the single-source shortest path tree from a design
 2. **Neighbor Relaxation:**
    * For each tentative neighbor $v \in T$ adjacent to current node $curr$:
      $$
-     	ext{If } d_{curr} + 	ext{Cost}(curr, v) < d_v \implies 	ext{Update label: } d_v = d_{curr} + 	ext{Cost}(curr, v), \quad p_v = curr
+	ext{If } d_{curr} + 	ext{Cost}(curr, v) < d_v \implies 	ext{Update label: } d_v = d_{curr} + 	ext{Cost}(curr, v), \quad p_v = curr
      $$
 3. **Select Next Permanent Node:**
    * Scan all tentative nodes in set $T$. Identify the node $k \in T$ with the minimum tentative distance $d_k$:
@@ -387,7 +393,7 @@ Dijkstra's algorithm computes the single-source shortest path tree from a design
 
 ### Figure 5.7: Dijkstra's Algorithm Step-by-Step Execution
 
-![Figure 5.7: Dijkstra's Algorithm Step-by-Step Execution](images/chapter5/ch5_dijkstra_algorithm.png)
+![Figure 5.7: Dijkstra's Algorithm Step-by-Step Execution](../images/chapter5/ch5_dijkstra_algorithm.png)
 
 **What it shows:**
 The step-by-step evolution of permanent labels (shaded circles) and tentative labels as Dijkstra's algorithm finds the shortest path from Source $A$ to Destination $D$.
@@ -419,14 +425,15 @@ The step-by-step evolution of permanent labels (shaded circles) and tentative la
    * Router $I$ recalculates its cost to every destination $K$ using:
 
 $$
-D(I, K) = \min_{J \in 	ext{Neighbors}} \left[ c(I, J) + D(J, K) ight]
+D(I, K) = \min_{J \in 	ext{Neighbors}} \left[ c(I, J) + D(J, K)
+ight]
 $$
 
 ---
 
 ### Figure 5.8: Distance Vector Routing Table Update
 
-![Figure 5.8: Distance Vector Routing Table Update](images/chapter5/ch5_distance_vector_routing.png)
+![Figure 5.8: Distance Vector Routing Table Update](../images/chapter5/ch5_distance_vector_routing.png)
 
 **What it shows:**
 How Router $J$ recalculates its routing table using distance vectors received from its four active neighbors ($A, I, H, K$).
@@ -455,7 +462,7 @@ The core structural vulnerability of Distance Vector routing is its asymmetric r
 
 ### Figure 5.9: The Count-to-Infinity Problem
 
-![Figure 5.9: The Count-to-Infinity Problem](images/chapter5/ch5_count_to_infinity.png)
+![Figure 5.9: The Count-to-Infinity Problem](../images/chapter5/ch5_count_to_infinity.png)
 
 **What it shows:**
 A 5-node linear network ($A-B-C-D-E$) demonstrating (a) rapid convergence when node $A$ comes up, versus (b) catastrophic counting to infinity when node $A$ goes down.
@@ -487,7 +494,7 @@ To mitigate two-node routing loops, protocols implement **Split Horizon with Poi
 
 ### Figure 5.10: Split Horizon with Poison Reverse
 
-![Figure 5.10: Split Horizon with Poison Reverse](images/chapter5/ch5_split_horizon_poison_reverse.png)
+![Figure 5.10: Split Horizon with Poison Reverse](../images/chapter5/ch5_split_horizon_poison_reverse.png)
 
 **What it shows:**
 The suppression of routing loops between adjacent routers.
@@ -532,7 +539,7 @@ When a router boots, it broadcasts a special `HELLO` packet on all its outgoing 
 
 ### Figure 5.11: Link State Neighbor Discovery & Designated Routers
 
-![Figure 5.11: Link State Neighbor Discovery & Designated Routers](images/chapter5/ch5_link_state_hello_discovery.png)
+![Figure 5.11: Link State Neighbor Discovery & Designated Routers](../images/chapter5/ch5_link_state_hello_discovery.png)
 
 **What it shows:**
 Nine routers connected to a shared multi-access broadcast LAN discovering adjacencies via `HELLO` packets.
@@ -562,7 +569,7 @@ Once neighbor identities and link metrics are established, each router construct
 
 ### Figure 5.12: Link State Packets for a Sample Network
 
-![Figure 5.12: Link State Packets for a Sample Network](images/chapter5/ch5_link_state_packets.png)
+![Figure 5.12: Link State Packets for a Sample Network](../images/chapter5/ch5_link_state_packets.png)
 
 **What it shows:**
 (a) A sample 6-router topology ($A, B, C, D, E, F$) with link costs. (b) The exact Link State Packets generated by each of the 6 routers.
@@ -601,7 +608,7 @@ Flooding distributes LSPs to all routers. To avoid broadcast storms and infinite
 
 ### Figure 5.13: Link State Global Database & Local Map
 
-![Figure 5.13: Link State Global Database & Local Map](images/chapter5/ch5_link_state_global_map.png)
+![Figure 5.13: Link State Global Database & Local Map](../images/chapter5/ch5_link_state_global_map.png)
 
 **What it shows:**
 Once reliable flooding completes, every router in the network possesses the exact same set of LSPs in its Link State Database (LSDB).
@@ -626,7 +633,7 @@ To achieve scalability, routers are partitioned into **hierarchical regions**, c
 
 ### Figure 5.14: Hierarchical Routing Table Reduction
 
-![Figure 5.14: Hierarchical Routing Table Reduction](images/chapter5/ch5_hierarchical_routing.png)
+![Figure 5.14: Hierarchical Routing Table Reduction](../images/chapter5/ch5_hierarchical_routing.png)
 
 **What it shows:**
 A 17-router network divided into 5 regions. Router $1A$'s routing table is compared: (b) under flat routing (requiring 17 entries) versus (c) under 2-level hierarchical routing (requiring only 7 entries).
@@ -666,7 +673,7 @@ Broadcast routing delivers a single packet from a source to *all* nodes in the n
 
 ### Figure 5.15: Reverse Path Forwarding (RPF) Algorithm
 
-![Figure 5.15: Reverse Path Forwarding (RPF) Algorithm](images/chapter5/ch5_reverse_path_forwarding.png)
+![Figure 5.15: Reverse Path Forwarding (RPF) Algorithm](../images/chapter5/ch5_reverse_path_forwarding.png)
 
 **What it shows:**
 (a) A network topology. (b) The sink tree for Source $I$. (c) The packet forwarding tree created by the Reverse Path Forwarding rule.
@@ -687,7 +694,7 @@ Multicast routing delivers a packet to a well-defined subset of stations called 
 
 ### Figure 5.16: Multicast Routing & Pruned Spanning Trees
 
-![Figure 5.16: Multicast Routing & Pruned Spanning Trees](images/chapter5/ch5_multicast_routing.png)
+![Figure 5.16: Multicast Routing & Pruned Spanning Trees](../images/chapter5/ch5_multicast_routing.png)
 
 **What it shows:**
 (a) A network containing two multicast groups (Group 1 and Group 2). (b) The spanning tree for Group 1. (c) The pruned multicast tree rooted at Router $C$.
@@ -744,7 +751,7 @@ Networks deploy congestion control mechanisms operating across different time sc
 
 ### Figure 5.17: Route Flapping in Traffic-Aware Routing
 
-![Figure 5.17: Route Flapping in Traffic-Aware Routing](images/chapter5/ch5_traffic_aware_routing_oscillation.png)
+![Figure 5.17: Route Flapping in Traffic-Aware Routing](../images/chapter5/ch5_traffic_aware_routing_oscillation.png)
 
 **What it shows:**
 Instability caused by routing protocols dynamically shifting traffic onto unloaded paths.
@@ -774,7 +781,7 @@ Where:
 
 ### Figure 5.18: EWMA Queue Length Tracking & Throttling
 
-![Figure 5.18: EWMA Queue Length Tracking & Throttling](images/chapter5/ch5_ewma_traffic_throttling.png)
+![Figure 5.18: EWMA Queue Length Tracking & Throttling](../images/chapter5/ch5_ewma_traffic_throttling.png)
 
 **What it shows:**
 Filtering out brief transient traffic spikes while reliably catching sustained congestion trends. When $q_{\text{avg}}$ crosses a warning threshold, the router activates traffic throttling.
@@ -789,7 +796,7 @@ Rather than waiting for packets to drop, modern IP networks use **Explicit Conge
 
 ### Figure 5.19: Explicit Congestion Notification (ECN) Header Bits
 
-![Figure 5.19: Explicit Congestion Notification (ECN) Header Bits](images/chapter5/ch5_ecn_explicit_congestion.png)
+![Figure 5.19: Explicit Congestion Notification (ECN) Header Bits](../images/chapter5/ch5_ecn_explicit_congestion.png)
 
 **What it shows:**
 The two least-significant bits of the IPv4 Differentiated Services (DiffServ) / Traffic Class byte:
@@ -808,8 +815,8 @@ When an intermediate router detects queue buildup, instead of dropping the packe
 
 ### Figure 5.20: Choke Packets: End-to-End vs Hop-by-Hop
 
-![Figure 5.20: Choke Packets: End-to-End vs Hop-by-Hop](images/chapter5/ch5_choke_packets.png)
-![Figure 5.21: Hop-by-Hop Choke Packet Flow](images/chapter5/ch5_hop_by_hop_choke_packets.png)
+![Figure 5.20: Choke Packets: End-to-End vs Hop-by-Hop](../images/chapter5/ch5_choke_packets.png)
+![Figure 5.21: Hop-by-Hop Choke Packet Flow](../images/chapter5/ch5_hop_by_hop_choke_packets.png)
 
 **Comparison:**
 1. **End-to-End Choke Packets:** A congested intermediate router generates an ICMP Source Quench / Choke packet and sends it straight back to the originating source host.
@@ -824,7 +831,7 @@ When an intermediate router detects queue buildup, instead of dropping the packe
 
 ### Figure 5.22: Random Early Detection (RED) Queue Thresholds
 
-![Figure 5.22: Random Early Detection (RED) Queue Thresholds](images/chapter5/ch5_random_early_detection_red.png)
+![Figure 5.22: Random Early Detection (RED) Queue Thresholds](../images/chapter5/ch5_random_early_detection_red.png)
 
 **What it shows:**
 Router buffer management using two queue thresholds: $TH_{\min}$ and $TH_{\max}$.
@@ -857,7 +864,7 @@ When buffers overflow completely, routers must discard packets:
 
 ### Figure 5.23: Jitter Control via Playback Buffers
 
-![Figure 5.23: Jitter Control via Playback Buffers](images/chapter5/ch5_jitter_playback_buffering.png)
+![Figure 5.23: Jitter Control via Playback Buffers](../images/chapter5/ch5_jitter_playback_buffering.png)
 
 **What it shows:**
 Packets leaving the source at exact periodic intervals ($1, 2, 3, 4$), arriving at the destination with highly irregular transit delays, and being restored to a perfectly uniform playback cadence by holding them in a receiver **playback buffer**.
@@ -874,7 +881,7 @@ Traffic shaping regulates the rate at which hosts inject packets into the networ
 
 ### Figure 5.24: The Leaky Bucket Algorithm
 
-![Figure 5.24: The Leaky Bucket Algorithm](images/chapter5/ch5_leaky_bucket.png)
+![Figure 5.24: The Leaky Bucket Algorithm](../images/chapter5/ch5_leaky_bucket.png)
 
 **Operation:**
 * The leaky bucket is modeled as a container with a small hole in the bottom.
@@ -886,7 +893,7 @@ Traffic shaping regulates the rate at which hosts inject packets into the networ
 
 ### Figure 5.25: The Token Bucket Algorithm
 
-![Figure 5.25: The Token Bucket Algorithm](images/chapter5/ch5_token_bucket.png)
+![Figure 5.25: The Token Bucket Algorithm](../images/chapter5/ch5_token_bucket.png)
 
 **Operation:**
 * A token generator deposits tokens into the bucket at a constant rate of $\rho$ tokens per second.
@@ -902,7 +909,7 @@ Traffic shaping regulates the rate at which hosts inject packets into the networ
 
 ### Figure 5.26: Token Bucket Maximum Burst Duration Calculation
 
-![Figure 5.26: Token Bucket Maximum Burst Duration Calculation](images/chapter5/ch5_token_bucket_burst_calculation.png)
+![Figure 5.26: Token Bucket Maximum Burst Duration Calculation](../images/chapter5/ch5_token_bucket_burst_calculation.png)
 
 ### Mathematical Derivation of Maximum Burst Time ($S$)
 
@@ -949,7 +956,7 @@ When multiple packet queues at an output port contend for transmission, the **pa
 
 ### Figure 5.27: FIFO vs Fair Queuing
 
-![Figure 5.27: FIFO vs Fair Queuing](images/chapter5/ch5_packet_scheduling_fifo_fair_queuing.png)
+![Figure 5.27: FIFO vs Fair Queuing](../images/chapter5/ch5_packet_scheduling_fifo_fair_queuing.png)
 
 **Comparison:**
 1. **First-In, First-Out (FIFO):** Packets are transmitted strictly in the order they arrived. Unfair: an aggressive, high-rate flow fills the queue, locking out well-behaved, low-rate flows.
@@ -960,7 +967,7 @@ When multiple packet queues at an output port contend for transmission, the **pa
 
 ### Figure 5.28: Weighted Fair Queuing (WFQ)
 
-![Figure 5.28: Weighted Fair Queuing (WFQ)](images/chapter5/ch5_weighted_fair_queuing.png)
+![Figure 5.28: Weighted Fair Queuing (WFQ)](../images/chapter5/ch5_weighted_fair_queuing.png)
 
 **Operation of Bit-by-Bit Weighted Fair Queuing (WFQ):**
 WFQ computes the hypothetical finishing time of every packet under idealized bit-by-bit round-robin multiplexing.
@@ -998,7 +1005,7 @@ When two networks of the same type (e.g., two IPv6 networks) are separated by an
 
 ### Figure 5.29: Tunneling IPv6 Packets over an IPv4 Network
 
-![Figure 5.29: Tunneling IPv6 Packets over an IPv4 Network](images/chapter5/ch5_tunneling_ipv6_over_ipv4.png)
+![Figure 5.29: Tunneling IPv6 Packets over an IPv4 Network](../images/chapter5/ch5_tunneling_ipv6_over_ipv4.png)
 
 **What it shows:**
 An IPv6 packet traversing an intermediate IPv4-only carrier network.
@@ -1028,7 +1035,7 @@ When a router receives a packet larger than the outgoing interface's MTU, it mus
 
 ### Figure 5.30: Transparent vs Non-Transparent Fragmentation
 
-![Figure 5.30: Transparent vs Non-Transparent Fragmentation](images/chapter5/ch5_packet_fragmentation_trace.png)
+![Figure 5.30: Transparent vs Non-Transparent Fragmentation](../images/chapter5/ch5_packet_fragmentation_trace.png)
 
 1. **Transparent Fragmentation:**
    * An oversized packet is fragmented upon entering a small-MTU network.
@@ -1049,7 +1056,7 @@ IPv4 supports non-transparent fragmentation using three dedicated header fields:
 
 ### Figure 5.31: IPv4 Fragmentation Header Fields
 
-![Figure 5.31: IPv4 Fragmentation Header Fields](images/chapter5/ch5_ip_fragmentation_fields.png)
+![Figure 5.31: IPv4 Fragmentation Header Fields](../images/chapter5/ch5_ip_fragmentation_fields.png)
 
 1. **Identification (16 bits):** A unique sequence number assigned by the source host to identify all fragments belonging to the same original datagram.
 2. **Flags (3 bits):**
@@ -1084,7 +1091,7 @@ Every IPv4 packet consists of a mandatory 20-byte base header, followed by optio
 
 ### Figure 5.32: Detailed IPv4 Header Layout
 
-![Figure 5.32: Detailed IPv4 Header Layout](images/chapter5/ch5_ipv4_header_format.png)
+![Figure 5.32: Detailed IPv4 Header Layout](../images/chapter5/ch5_ipv4_header_format.png)
 
 ```text
  0                   1                   2                   3
@@ -1171,7 +1178,7 @@ Historically (RFC 791), IPv4 divided the 32-bit address space into rigid classes
 
 ### Figure 5.33: Classful vs CIDR Slash Notation
 
-![Figure 5.33: Classful vs CIDR Slash Notation](images/chapter5/ch5_ip_address_classes_cidr.png)
+![Figure 5.33: Classful vs CIDR Slash Notation](../images/chapter5/ch5_ip_address_classes_cidr.png)
 
 ### Classless Inter-Domain Routing (CIDR — RFC 1519)
 CIDR completely eliminated address classes. An IP address is split into an arbitrary-length prefix (the Network Prefix) and Host bits using **slash notation (`/n`)**:
@@ -1194,7 +1201,7 @@ The packet is forwarded according to the routing table entry that has the **long
 
 ### Figure 5.34: Longest Prefix Matching Lookup Example
 
-![Figure 5.34: Longest Prefix Matching Lookup Example](images/chapter5/ch5_longest_prefix_match.png)
+![Figure 5.34: Longest Prefix Matching Lookup Example](../images/chapter5/ch5_longest_prefix_match.png)
 
 **Routing Table Entries:**
 ```text
@@ -1238,7 +1245,7 @@ Three address ranges are reserved for private internal enterprise networks and a
 
 ### Figure 5.35: Basic NAT / NAPT Operation & Port Translation
 
-![Figure 5.35: Basic NAT / NAPT Operation & Port Translation](images/chapter5/ch5_nat_operation.png)
+![Figure 5.35: Basic NAT / NAPT Operation & Port Translation](../images/chapter5/ch5_nat_operation.png)
 
 **How NAT (NAPT) Operates:**
 1. **Outbound Packet:** Host `192.168.1.100` sends an HTTP request from port `5001` to a public web server `198.51.100.1:80`.
@@ -1246,7 +1253,11 @@ Three address ranges are reserved for private internal enterprise networks and a
    * The router replaces internal source IP `192.168.1.100` with its single public IP address `203.0.113.1`.
    * The router allocates an unused public TCP source port (e.g., `45001`) and rewrites the source port.
    * It enters the mapping in its **NAT Translation Table**:
-     $$\text{NAT Entry: } [192.168.1.100:5001 \longleftrightarrow 203.0.113.1:45001]$$
+
+$$
+\text{NAT Entry: } [192.168.1.100:5001 \longleftrightarrow 203.0.113.1:45001]
+$$
+
    * The router recalculates IP and TCP checksums and forwards the packet onto the Internet.
 3. **Inbound Reply:** When the web server replies to `203.0.113.1:45001`:
    * The NAT router queries its table for port `45001`.
@@ -1260,7 +1271,11 @@ Three address ranges are reserved for private internal enterprise networks and a
 By default, NAT routers drop unsolicited incoming connection attempts from the public Internet because no corresponding translation entry exists in the table.
 To host a publicly accessible server (e.g., a web server on internal host `192.168.1.50:80`):
 * The administrator configures a static rule in the NAT table:
-  $$\text{Static Rule: } [\text{Public IP } 203.0.113.1:\text{Port } 80 \longrightarrow 192.168.1.50:\text{Port } 80]$$
+
+$$
+\text{Static Rule: } [\text{Public IP } 203.0.113.1:\text{Port } 80 \longrightarrow 192.168.1.50:\text{Port } 80]
+$$
+
 * All incoming packets arriving on public port 80 are automatically redirected to `192.168.1.50`.
 
 ---
@@ -1292,7 +1307,7 @@ Designed to permanently resolve IPv4 address exhaustion, **IPv6** (RFC 8200) exp
 
 ### Figure 5.36: IPv6 Fixed Base Header Format
 
-![Figure 5.36: IPv6 Fixed Base Header Format](images/chapter5/ch5_ipv6_header_format.png)
+![Figure 5.36: IPv6 Fixed Base Header Format](../images/chapter5/ch5_ipv6_header_format.png)
 
 ```text
  0                   1                   2                   3
@@ -1334,7 +1349,7 @@ Designed to permanently resolve IPv4 address exhaustion, **IPv6** (RFC 8200) exp
 
 ### Figure 5.37: IPv6 Extension Header Chaining
 
-![Figure 5.37: IPv6 Extension Header Chaining](images/chapter5/ch5_ipv6_extension_headers.png)
+![Figure 5.37: IPv6 Extension Header Chaining](../images/chapter5/ch5_ipv6_extension_headers.png)
 
 **Daisy-Chaining Architecture:**
 Instead of variable options inside the base header, IPv6 chains optional **Extension Headers** in a linked-list fashion between the base header and the transport layer protocol:
@@ -1357,7 +1372,7 @@ ICMP (RFC 792) provides feedback about network-layer communication errors. ICMP 
 
 ### Figure 5.38: ICMP Message Format and Types
 
-![Figure 5.38: ICMP Message Format and Types](images/chapter5/ch5_icmp_message_types.png)
+![Figure 5.38: ICMP Message Format and Types](../images/chapter5/ch5_icmp_message_types.png)
 
 #### Common ICMP Message Types:
 * **Type 0:** Echo Reply (Ping response).
@@ -1380,7 +1395,7 @@ ARP (RFC 826) dynamically maps a known logical IP address (Layer 3) to an unknow
 
 ### Figure 5.39: ARP Request and Reply Operation
 
-![Figure 5.39: ARP Request and Reply Operation](images/chapter5/ch5_arp_operation.png)
+![Figure 5.39: ARP Request and Reply Operation](../images/chapter5/ch5_arp_operation.png)
 
 #### ARP Protocol Flow:
 1. **ARP Cache Lookup:** Host $A$ checks its local ARP cache table. If the entry exists, it frames and transmits immediately.
@@ -1402,7 +1417,7 @@ DHCP (RFC 2131) automatically assigns IP addresses, subnet masks, default gatewa
 
 ### Figure 5.40: DHCP DORA Four-Step Exchange
 
-![Figure 5.40: DHCP DORA Four-Step Exchange](images/chapter5/ch5_dhcp_dora_process.png)
+![Figure 5.40: DHCP DORA Four-Step Exchange](../images/chapter5/ch5_dhcp_dora_process.png)
 
 #### The DORA Exchange:
 1. **Discover (Client $\to$ Server):** Client broadcasts `DHCPDISCOVER` using source IP `0.0.0.0` and destination IP `255.255.255.255` on UDP port 67.
@@ -1422,7 +1437,7 @@ MPLS (RFC 3031) integrates the high-speed forwarding simplicity of Layer 2 virtu
 
 ### Figure 5.41: MPLS 32-Bit Shim Header Layout
 
-![Figure 5.41: MPLS 32-Bit Shim Header Layout](images/chapter5/ch5_mpls_shim_header.png)
+![Figure 5.41: MPLS 32-Bit Shim Header Layout](../images/chapter5/ch5_mpls_shim_header.png)
 
 An MPLS **shim header** (32 bits) is inserted between the Layer 2 frame header and the Layer 3 IP header (Layer 2.5):
 * **Label (20 bits):** The local index for forwarding lookups.
@@ -1453,7 +1468,7 @@ OSPF (RFC 2328) is a link-state IGP that uses Dijkstra's algorithm.
 
 ### Figure 5.42: OSPF Hierarchical Areas and Router Roles
 
-![Figure 5.42: OSPF Hierarchical Areas and Router Roles](images/chapter5/ch5_ospf_hierarchical_areas.png)
+![Figure 5.42: OSPF Hierarchical Areas and Router Roles](../images/chapter5/ch5_ospf_hierarchical_areas.png)
 
 #### OSPF Two-Level Area Hierarchy:
 * **Backbone Area (Area 0):** The central core to which all other areas must physically connect.
@@ -1471,11 +1486,15 @@ BGP-4 (RFC 4271) is the de facto inter-domain routing protocol of the global Int
 
 ### Figure 5.43: BGP Path-Vector Route Propagation Across Autonomous Systems
 
-![Figure 5.43: BGP Path-Vector Route Propagation Across Autonomous Systems](images/chapter5/ch5_bgp_route_propagation.png)
+![Figure 5.43: BGP Path-Vector Route Propagation Across Autonomous Systems](../images/chapter5/ch5_bgp_route_propagation.png)
 
 #### Path Vector Architecture & Loop Elimination:
 * Unlike distance vector protocols, BGP does not advertise distance metrics. Instead, BGP advertises the **complete sequence of Autonomous System Numbers (AS-Path)** traversed to reach a destination prefix:
-  $$\text{Route to } 198.51.100.0/24 \colon [\text{AS 100} \to \text{AS 300} \to \text{AS 500}]$$
+
+$$
+\text{Route to } 198.51.100.0/24 \colon [\text{AS 100} \to \text{AS 300} \to \text{AS 500}]
+$$
+
 * **Loop Detection:** When router $R$ receives a BGP route advertisement, it scans the AS-Path attribute. If its *own* AS number is already in the list, a routing loop exists; the route is discarded instantly!
 * **Policy-Based Routing:** BGP decisions are based on business and political agreements (transit vs peering), not shortest physical distance.
 
@@ -1491,7 +1510,7 @@ Mobile IP (RFC 5944) enables mobile nodes to travel across different foreign net
 
 ### Figure 5.44: Mobile IP Triangle Routing and Tunneling
 
-![Figure 5.44: Mobile IP Triangle Routing and Tunneling](images/chapter5/ch5_mobile_ip_triangle_routing.png)
+![Figure 5.44: Mobile IP Triangle Routing and Tunneling](../images/chapter5/ch5_mobile_ip_triangle_routing.png)
 
 #### Key Architectural Entities:
 1. **Mobile Node (MN):** The wandering device.
