@@ -123,7 +123,11 @@ nav:
       - "03 8086 Instruction Set": hardware_and_microprocessors/03_8086_Instruction_Set_Comprehensive.md
       - "04 8086 Strings & Loops": hardware_and_microprocessors/04_8086_String_Operations_and_Looping.md
       - "05 8086 Stack & Modular": hardware_and_microprocessors/05_8086_Stack_Operations_and_Modular_Programming.md
-      - "Class Test Master Guide": hardware_and_microprocessors/Microprocessors_and_Interfacing_ClassTest.md
+      - "Macros and Interrupts": hardware_and_microprocessors/macros-and-interrupts.md
+      - "Modular Programming": hardware_and_microprocessors/modular-programming.md
+      - "Procedures": hardware_and_microprocessors/procedures.md
+      - "String Instructions": hardware_and_microprocessors/string-instructions.md
+
   - Data Communication:
       - "Chapter 1: Overview": data_communication/DC_Chapter1_Notes.md
       - "Chapter 2: Physical Layer": data_communication/DC_Chapter2_Notes.md
