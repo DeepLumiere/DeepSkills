@@ -91,11 +91,18 @@
   overflow: hidden;
 }
 
-/* Primary nav dropdown and right pane removal */
-.md-sidebar--secondary {
-  display: none;
+/* Remove Table of Contents from secondary sidebar and primary navigation */
+.md-sidebar--secondary,
+.md-nav--primary .md-nav--secondary {
+  display: none !important;
 }
 
+/* Make logo clickable */
+.md-header__button.md-logo {
+  cursor: pointer;
+}
+
+/* Left sidebar closable behavior */
 @media screen and (min-width: 76.25em) {
   .md-grid {
     max-width: 70rem;
@@ -103,6 +110,25 @@
 
   .md-content {
     margin-left: 0;
+  }
+
+  body.sidebar-closed .md-sidebar--primary {
+    display: none !important;
+  }
+
+  body.sidebar-closed .md-content {
+    margin-left: 0 !important;
+    max-width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 76.234375em) {
+  .md-header__button.md-logo {
+    display: inline-block !important;
+  }
+
+  .md-header__button[for="__drawer"] {
+    display: none !important;
   }
 }
 
