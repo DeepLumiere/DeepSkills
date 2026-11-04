@@ -19,21 +19,21 @@ graph TD
     A --> C["Unsupervised Learning<br/>(Zero Ground Truth U)"]
     A --> D["Semi-Supervised Learning (SSL)<br/>(Small L + Abundant U)"]
     A --> E["Reinforcement Learning (RL)<br/>(Trial-and-Error Reward Feedback)"]
-    
+
     D --> D1["LU Learning<br/>(Labeled + Unlabeled)"]
     D --> D2["PU Learning<br/>(Positive + Unlabeled)"]
-    
+
     D1 --> D1a["Co-Training<br/>(Multi-View Feature Split)"]
     D1 --> D1b["Self-Training<br/>(Single-View Incremental Pseudo-Labeling)"]
-    
+
     D2 --> D2a["Two-Step Approach<br/>(Step 1: Identify RN via NB Spy; Step 2: Supervised Inductive Learning)"]
     D2 --> D2b["Direct / Biased Learning<br/>(Biased Penalized Loss Optimization)"]
-    
+
     E --> E1["Model-Based RL<br/>(Learn or Given Transition P and Reward R)"]
     E --> E2["Model-Free RL<br/>(Experience-Driven Value/Policy Optimization)"]
     E2 --> E2a["Q-Learning<br/>(Off-Policy TD Control)"]
     E2 --> E2b["Policy Optimization<br/>(Direct Policy Search / Gradient)"]
-    
+
     A --> F["Deep Learning (Hierarchical Representation Learning)"]
     F --> F1["Unsupervised Pretrained Networks (UPNs)<br/>(Autoencoders, DBNs, GANs)"]
     F --> F2["Convolutional Neural Networks (CNNs)<br/>(Spatial Receptive Fields: LeNet, ResNet, YOLO)"]
@@ -42,6 +42,7 @@ graph TD
 ```
 
 ### Component Breakdown & Flow Analysis
+
 1. **Taxonomic Hierarchy**: Machine learning branches fundamentally into data-driven static learning (Supervised, Unsupervised, Semi-Supervised) and sequential interactive learning (Reinforcement Learning). Deep Learning serves as a representation-learning engine underpinning modern implementations across all paradigms.
 2. **Semi-Supervised Sub-branches**: SSL bifurcates based on label availability: Labeled-and-Unlabeled (LU) learning exploits small positive/negative sets with large unlabeled pools; Positive-and-Unlabeled (PU) learning handles scenarios where negative ground truth is entirely unobserved.
 3. **Reinforcement Learning Spectrum**: RL branches into Model-Based methods (where the transition dynamics $P(s' \mid s, a)$ are known or explicitly estimated) and Model-Free methods (such as Q-Learning and Policy Gradients) that directly estimate action values from trajectory interactions.
@@ -99,33 +100,37 @@ graph LR
         L["Small Labeled Pool L<br/>{(x1, y1), ..., (xL, yL)}"]
         U["Abundant Unlabeled Pool U<br/>{xL+1, ..., xL+U}"]
     end
-    
+
     subgraph Underlying Geometry
         M["Data Manifold / Distribution P(X)"]
     end
-    
+
     subgraph Target Inference
         C["Classifier f(x)"]
     end
-    
+
     L --> C
     U --> M
     M -. Guides Decision Boundary .-> C
 ```
 
 ### Definition: Semi-Supervised Learning (SSL)
+
 **Meaning:** A branch of machine learning that combines a small amount of labeled data with a large amount of unlabeled data during training to construct superior predictive models compared to using labeled data alone.  
 **Formal definition:** Given an input space $\mathcal{X}$, an output label space $\mathcal{Y}$, a small labeled dataset $\mathcal{D}_L = \{(x_i, y_i)\}_{i=1}^{|L|}$ drawn i.i.d. from distribution $P(X, Y)$, and an unlabeled dataset $\mathcal{D}_U = \{x_j\}_{j=|L|+1}^{|L|+|U|}$ drawn i.i.d. from the marginal distribution $P(X)$ with $|U| \gg |L|$, the objective is to learn a hypothesis $f: \mathcal{X} \to \mathcal{Y}$ achieving lower generalization error than any hypothesis trained exclusively on $\mathcal{D}_L$.  
 **Intuition:** The unlabeled data reveals the structural geometric manifold and clustering density of the input space $P(X)$. Assuming that the conditional label distribution $P(Y \mid X)$ varies smoothly over high-density regions of $P(X)$, the unlabeled points act as geometric scaffolding that pushes decision boundaries into low-density separation zones.  
 **Example:** In web document classification, we may possess 50 manually classified web pages (e.g., Computer Science vs. Non-Computer Science) and 50,000 unclassified web pages. By evaluating word co-occurrence statistics across the 50,000 pages, the classifier learns vocabulary correlations that dramatically improve classification on the 50 labeled examples.
 
 ### Core Assumptions of Semi-Supervised Learning
+
 For unlabeled data to provide informative value regarding $P(Y \mid X)$, the marginal distribution $P(X)$ must contain information about the conditional distribution $P(Y \mid X)$. This relies on three mathematical assumptions:
+
 1. **The Smoothness Assumption**: If two points $x_1, x_2 \in \mathcal{X}$ are close in the input space in a high-density region, their corresponding labels $y_1, y_2$ should be identical. Conversely, if two points are separated by a low-density region, their labels can differ.
 2. **The Cluster Assumption**: The input data points form discrete clusters, and points residing within the same cluster share the same class label. Consequently, decision boundaries must pass through low-density regions rather than cutting through dense clusters.
 3. **The Manifold Assumption**: High-dimensional input data $x \in \mathbb{R}^D$ approximately lies on a lower-dimensional manifold $\mathcal{M} \subset \mathbb{R}^d$ where $d \ll D$. Unlabeled data allows the algorithm to estimate the intrinsic geodesic distances along the manifold.
 
 ### Mathematical Formulation: Graph-Based SSL and Label Propagation
+
 A canonical mathematical framework for SSL is graph-based label propagation, which formalizes the smoothness assumption over a weighted neighborhood graph $G = (V, E)$. Let nodes $V = L \cup U$ represent all data points. Edge weights $W_{ij}$ represent pairwise affinity, typically defined via the Gaussian Radial Basis Function (RBF) kernel:
 
 $$
@@ -155,6 +160,7 @@ Y_L^{(t+1)} = Y_L^{(0)}
 $$
 
 #### Derivation of Closed-Form Harmonic Solution
+
 At convergence ($t \to \infty$), the unlabeled soft labels satisfy the fixed-point harmonic equation:
 
 $$
@@ -201,16 +207,16 @@ graph TD
     subgraph Co-Training Architecture
         X["Instance x"] --> X1["Feature View x1<br/>(e.g., Webpage Body Text)"]
         X --> X2["Feature View x2<br/>(e.g., Inbound Anchor Text)"]
-        
+
         X1 --> F1["Classifier f1"]
         X2 --> F2["Classifier f2"]
-        
+
         L["Labeled Pool L"] --> F1
         L --> F2
-        
+
         F1 -- "Classify U & select top n1, n2 confident items" --> PL1["Add to L with pseudo-labels"]
         F2 -- "Classify U & select top n1, n2 confident items" --> PL2["Add to L with pseudo-labels"]
-        
+
         PL1 --> L
         PL2 --> L
         U["Unlabeled Pool U"] -.-> F1
@@ -221,12 +227,14 @@ graph TD
 ### 2.1 Co-Training (Multi-View Learning)
 
 ### Definition: Co-Training
+
 **Meaning:** A semi-supervised multi-view learning algorithm that splits the feature representation of each instance into two conditionally independent, redundant views, trains a separate classifier on each view using labeled data, and uses each classifier's most confident predictions on unlabeled data to augment the training set of the other.  
 **Formal definition:** Given instances $x \in \mathcal{X}$ partitioned into two disjoint feature representations $x = (x_1, x_2) \in \mathcal{X}_1 \times \mathcal{X}_2$, co-training learns two distinct hypotheses $f_1: \mathcal{X}_1 \to \mathcal{Y}$ and $f_2: \mathcal{X}_2 \to \mathcal{Y}$. In each iteration, $f_1$ selects a set of unlabeled instances $E_1 \subset U$ with highest confidence predictions and appends $(x, f_1(x_1))$ to $L$; simultaneously, $f_2$ selects confident instances $E_2 \subset U$ and appends $(x, f_2(x_2))$ to $L$.  
 **Intuition:** Two different "experts" inspect the same phenomenon through distinct sensory channels. If Expert 1 is confident about an instance that Expert 2 finds ambiguous, Expert 1 provides a high-confidence pseudo-label, effectively teaching Expert 2, and vice-versa.  
 **Example:** Classifying web pages into academic vs. non-academic. View 1 ($x_1$) consists of words appearing inside the web page text. View 2 ($x_2$) consists of words appearing in the anchor text of inbound hyperlinks pointing to that page from external sites. Either view is independently sufficient to determine the page's category.
 
 #### Algorithmic Specification: Co-Training Algorithm
+
 The formal procedure defined in the slides operates iteratively as follows:
 
 ```text
@@ -246,6 +254,7 @@ Algorithm co-training(L, U)
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slides 4-5]
 
 #### Multi-View Hypothesis Combination
+
 When the co-training iterations terminate, the algorithm outputs two distinct models, $f_1$ and $f_2$. To classify an unseen test query $x = (x_1, x_2)$, the outputs of both classifiers are combined. For probabilistic models such as Naive Bayes, the joint posterior class probability is obtained by multiplying the independent probability scores:
 
 $$
@@ -273,18 +282,20 @@ $$
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slide 6]
 
 #### Fundamental Theoretical Assumptions of Co-Training
+
 Co-training guarantees provable PAC-style error reduction if and only if two core mathematical assumptions hold:
+
 1. **Compatibility Assumption**: The data distribution is compatible with the target concept across both views. That is, for almost all instances $x$, the true target function $f^*(x)$ is identical to the optimal functions defined on each view:
-   
-   $$
+
+$$
    f(x) = f_1(x_1) = f_2(x_2) = c \quad \text{for most examples } x
-   $$
+$$
 
 2. **Conditional Independence Assumption**: The feature subsets $X_1$ and $X_2$ are conditionally independent given the class label $c$:
-   
-   $$
+
+$$
    P(x_1, x_2 \mid c) = P(x_1 \mid c) P(x_2 \mid c)
-   $$
+$$
 
 *Real-World Caveat (Movie Sentiment Analysis):* The slides examine a real-world case study: classifying movie sentiment (Positive vs. Negative). View 1 consists of the movie metadata/review text, while View 2 consists of user likes and dislikes. The conditional independence assumption asserts that the number of likes/dislikes is completely unrelated to the textual features of the movie review *except* through the overall sentiment/quality of the film. In practice, this assumption is often violated because reviewers frequently react directly to specific dialogue, actors, or marketing campaigns present in the metadata, introducing cross-view correlations. However, empirical co-training often exhibits strong performance even under moderate violations of conditional independence.
 
@@ -309,6 +320,7 @@ graph TD
 ```
 
 ### Definition: Self-Training
+
 **Meaning:** An incremental semi-supervised learning algorithm that trains a single classifier on the available labeled data using all features, applies the classifier to the unlabeled pool, selects the most confidently predicted instances to augment the labeled pool with their pseudo-labels, and retrains itself iteratively.  
 **Formal definition:** Given labeled set $L$ and unlabeled set $U$, self-training minimizes empirical risk over an iteratively augmented set $L^{(t+1)} = L^{(t)} \cup \{(x_u, \hat{y}_u) \mid x_u \in U, \max_{c} P_f(c \mid x_u) \ge \tau\}$, where $\hat{y}_u = \arg\max_{c} P_f(c \mid x_u)$, $\tau$ is a confidence threshold, and $f^{(t+1)}$ is refitted on $L^{(t+1)}$ until a termination criterion is met.  
 **Intuition:** The classifier uses its own predictions to teach itself ("bootstrapping"). By accepting its own most certain inferences as established truth, it shifts its decision boundary away from regions of high unlabeled density.  
@@ -357,14 +369,14 @@ graph TD
         P["Confirmed Positive Set P (y = +1)"]
         U["Unlabeled Pool U (Hidden Positives + True Negatives)"]
     end
-    
+
     subgraph Step 1: Reliable Negative Identification
         U --> SpyCheck["Step 1: NB Spy Technique / Rocchio Filter"]
         P --> SpyCheck
         SpyCheck --> RN["Reliable Negative Set RN (y = -1)"]
         SpyCheck --> Q["Likely Positives / Ambiguous (U - RN)<br/>[Discarded or iteratively refined]"]
     end
-    
+
     subgraph Step 2: Supervised Inductive Learning
         P --> ModelTrain["Step 2: Train Binary Classifier (NB, SVM, Logistic)"]
         RN --> ModelTrain
@@ -373,6 +385,7 @@ graph TD
 ```
 
 ### Definition: Positive and Unlabeled Learning (PU Learning)
+
 **Meaning:** A form of semi-supervised binary classification in which the training dataset consists exclusively of labeled positive instances and unlabeled instances, with no confirmed negative instances provided.  
 **Formal definition:** Given a training corpus $\mathcal{D} = P \cup U$, where $P = \{x_i \mid y_i = +1\}$ and $U = \{x_j \mid y_j \in \{+1, -1\}\}$, the goal is to induce a binary classification rule $f: \mathcal{X} \to \{+1, -1\}$ that accurately recovers true positive and true negative states for all instances.  
 **Intuition:** Rather than treating the unlabeled set as negative (which introduces severe label noise), PU learning treats $U$ as an uncurated mixture. By extracting instances from $U$ that are maximally distant from $P$, the algorithm synthesizes an artificial negative training set.  
@@ -381,13 +394,16 @@ graph TD
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slide 9]
 
 ### 3.1 The Two-Step Approach to PU Learning
+
 As defined in the slides, the predominant methodology for PU learning is the **Two-Step Approach**:
+
 1. **Step 1: Identifying a set of Reliable Negative documents ($RN$) from the unlabeled set $U$.**
 2. **Step 2: Building a classifier using $P$ and $RN$.** This step applies a standard supervised learning algorithm (e.g., Naive Bayes or Support Vector Machines) once or iteratively, depending on the quality and cardinality of $RN$. The ambiguous set $U \setminus RN$ is discarded.
 
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slide 10]
 
 #### Step 1: Naive Bayes Spy Technique
+
 To identify reliable negatives without manual intervention, the **Naive Bayes Technique for Step 1** operates via the following protocol:
 
 ```text
@@ -404,7 +420,9 @@ In the formal literature, this is generalized by the **Spy Technique**: a small 
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slide 11]
 
 #### Step 2: Classifier Building and Iterative Refinement
+
 In the second step:
+
 - A supervised learning algorithm (such as Naive Bayes, Support Vector Machines, or Logistic Regression) is trained exclusively on $P$ (labeled +1) and $RN$ (labeled -1).
 - The residual ambiguous set $U \setminus RN$ is discarded to eliminate positive false-negative label noise.
 - *Condition for Success:* This two-step method achieves high classification accuracy if the extracted set $RN$ is sufficiently large and contains a high concentration of true negative documents with minimal false-negative contamination.
@@ -422,17 +440,18 @@ graph LR
     subgraph Environment Dynamics
         Env["Environment<br/>(State Transitions P, Reward Function R)"]
     end
-    
+
     subgraph Autonomous Agent
         Agent["Agent<br/>(Policy π, Value Function Q)"]
     end
-    
+
     Agent -- "Action: a_t" --> Env
     Env -- "State: s_t+1" --> Agent
     Env -- "Scalar Reward: r_t+1" --> Agent
 ```
 
 ### Definition: Reinforcement Learning (RL)
+
 **Meaning:** A computational paradigm wherein an agent learns optimal decision-making rules by executing actions in an environment and observing resulting scalar reward signals, aiming to maximize long-term cumulative return.  
 **Formal definition:** RL is formalized as a Markov Decision Process (MDP) defined by a 5-tuple $\langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma \rangle$, where $\mathcal{S}$ is the state space, $\mathcal{A}$ is the action space, $\mathcal{P}(s' \mid s, a) = \mathbb{P}(S_{t+1} = s' \mid S_t = s, A_t = a)$ is the transition probability distribution, $\mathcal{R}(s, a) = \mathbb{E}[R_{t+1} \mid S_t = s, A_t = a]$ is the reward function, and $\gamma \in [0, 1)$ is the temporal discount factor. The objective is to find an optimal policy $\pi^* = \arg\max_\pi \mathbb{E}_\pi [\sum_{t=0}^\infty \gamma^t R_{t+1}]$.  
 **Intuition:** Similar to training a dog with treats: the dog is not told how to contract its muscles, but when its actions lead to a desirable outcome, the behavior is reinforced via positive feedback.  
@@ -463,6 +482,7 @@ Q^\pi(s, a) = \mathbb{E}_\pi \left[ G_t \mid S_t = s, A_t = a \right]
 $$
 
 #### Derivation of the Bellman Expectation Equation for $Q^\pi(s, a)$
+
 Expanding the return $G_t$ recursively:
 
 $$
@@ -476,6 +496,7 @@ Q^\pi(s, a) = \mathcal{R}(s, a) + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P}(s
 $$
 
 #### Derivation of the Bellman Optimality Equation
+
 Under an optimal policy $\pi^*$, the agent selects the action that maximizes expected future return at every step: $\pi^*(a \mid s) = 1$ for $a = \arg\max_{a'} Q^*(s, a')$. Therefore:
 
 $$
@@ -518,15 +539,16 @@ $$
 graph TD
     RL["Reinforcement Learning Algorithms"] --> MB["Model-Based RL"]
     RL --> MF["Model-Free RL"]
-    
+
     MB --> MBL["Learn the Model<br/>(Fit P and R from transitions, then plan)"]
     MB --> MBG["Given the Model<br/>(Dynamic Programming, Value Iteration, Policy Iteration)"]
-    
+
     MF --> QL["Value-Based: Q-Learning<br/>(Learn action-value function Q directly from experience)"]
     MF --> PO["Policy Optimization<br/>(Direct policy search via Policy Gradients / Actor-Critic)"]
 ```
 
 The slides categorize RL algorithms into two foundational archetypes:
+
 1. **Model-Based RL**:
    - **Given the Model**: The agent possesses full prior knowledge of the transition probabilities $\mathcal{P}(s' \mid s, a)$ and reward function $\mathcal{R}(s, a)$ (e.g., Chess, AlphaZero's tree search engine, Classical Dynamic Programming).
    - **Learn the Model**: The agent interacts with an unknown environment to construct an empirical statistical model $\hat{\mathcal{P}}$ and $\hat{\mathcal{R}}$, subsequently executing planning algorithms (e.g., Dyna-Q, Model Predictive Control) on its learned model.
@@ -556,6 +578,7 @@ The slides categorize RL algorithms into two foundational archetypes:
 ## 5. Q-Learning Algorithm and the 6-Room Environment
 
 ### 5.1 The Q-Learning Algorithm Specification
+
 The Q-Learning algorithm presented on Slide 14 is defined as follows:
 
 ```text
@@ -609,6 +632,7 @@ graph LR
 ```
 
 #### Graph Connectivity and State-Transition Rules
+
 - **Room 0**: Directly connected exclusively to Room 4.
 - **Room 1**: Directly connected to Room 3, and opens into Room 5 (Goal).
 - **Room 2**: Directly connected exclusively to Room 3.
@@ -617,6 +641,7 @@ graph LR
 - **Room 5**: The target goal state (outside). Directly connects back to Room 1 and Room 4, and possesses an absorbing self-loop with reward 100.
 
 #### Formal Environment Reward Matrix $R$
+
 Actions represent moving from current state $i$ to adjacent state $j$. If no door connects Room $i$ to Room $j$, the action is physically impossible, designated by reward $-1$. Valid transitions yield reward $0$, while transitions entering the goal (Room 5) yield reward $100$:
 
 $$
@@ -652,20 +677,21 @@ The discount parameter is fixed across all episodes at $\gamma = 0.8$.
 ### 5.3 Detailed Algorithmic Execution: Episodes 1 and 2
 
 #### Episode 1 Trace (Initial State: Room 1)
+
 1. **Current State:** $s = 1$. Target Goal: Room 5.
 2. **Admissible Actions from State 1:** Examining Row 1 of matrix $R$, non-negative entries exist for columns 3 ($R(1,3) = 0$) and 5 ($R(1,5) = 100$). Thus, $\mathcal{A}(1) = \{3, 5\}$.
 3. **Action Selection:** The agent selects action $a = 5$.
 4. **Next State Transition:** The agent enters state $s' = 5$.
 5. **Evaluate Next State Maximizer:** Inspecting row 5 of the current $Q$ matrix, all entries are zero: $\max_{a'} Q(5, a') = \max\{Q(5,1), Q(5,4), Q(5,5)\} = \max\{0, 0, 0\} = 0$.
 6. **Bellman Update:**
-   
-   $$
+
+$$
    Q(1, 5) = R(1, 5) + 0.8 \times \max\left[ Q(5, 1), Q(5, 4), Q(5, 5) \right]
-   $$
-   
-   $$
+$$
+
+$$
    Q(1, 5) = 100 + 0.8 \times 0 = 100
-   $$
+$$
 
 7. **State Advancement:** Current state becomes $s = 5$. Because Room 5 is the terminal goal state, Episode 1 terminates.
 
@@ -685,34 +711,35 @@ $$
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slides 16-17]
 
 #### Episode 2 Trace (Initial State: Room 3)
+
 1. **Current State:** $s = 3$. Target Goal: Room 5.
 2. **Admissible Actions from State 3:** Examining Row 3 of matrix $R$, non-negative entries exist for columns 1 ($R(3,1) = 0$), 2 ($R(3,2) = 0$), and 4 ($R(3,4) = 0$). Thus, $\mathcal{A}(3) = \{1, 2, 4\}$.
 3. **Action Selection:** The agent selects action $a = 1$.
 4. **Next State Transition:** Next state is $s' = 1$.
 5. **Evaluate Next State Maximizer:** Row 1 of current $Q$ contains entries $Q(1,3) = 0$ and $Q(1,5) = 100$:
-   
-   $$
+
+$$
    \max_{a'} Q(1, a') = \max\{Q(1, 3), Q(1, 5)\} = \max\{0, 100\} = 100
-   $$
+$$
 
 6. **Bellman Update for $(3, 1)$:**
-   
-   $$
+
+$$
    Q(3, 1) = R(3, 1) + 0.8 \times \max\left[ Q(1, 3), Q(1, 5) \right]
-   $$
-   
-   $$
+$$
+
+$$
    Q(3, 1) = 0 + 0.8 \times 100 = 80
-   $$
+$$
 
 7. **State Advancement:** Current state becomes $s = 1$. State 1 is not the goal; the episode continues.
 8. **Step 2 from State 1:** Admissible actions are $\mathcal{A}(1) = \{3, 5\}$. Agent selects action $a = 5$.
 9. **Next State Transition:** Successor state is $s' = 5$.
 10. **Bellman Update for $(1, 5)$:**
-    
-    $$
+
+$$
     Q(1, 5) = R(1, 5) + 0.8 \times \max\left[ Q(5, 1), Q(5, 4), Q(5, 5) \right] = 100 + 0.8 \times 0 = 100
-    $$
+$$
 
 11. **State Advancement:** Current state becomes $s = 5$. Goal reached; Episode 2 terminates.
 
@@ -736,64 +763,66 @@ $$
 ### 5.4 Asymptotic Convergence, Normalization, and Optimal Policy Extraction
 
 #### Mathematical Derivation of Converged Values
+
 As the number of training episodes $N \to \infty$, value propagation reaches a unique fixed-point equilibrium.
+
 1. **Self-Loop Equilibrium at Goal State 5**:
-   
-   $$
+
+$$
    Q^*(5, 5) = R(5, 5) + \gamma Q^*(5, 5) \implies Q^*(5, 5) = 100 + 0.8 Q^*(5, 5)
-   $$
-   
-   $$
+$$
+
+$$
    (1 - 0.8) Q^*(5, 5) = 100 \implies 0.2 Q^*(5, 5) = 100 \implies Q^*(5, 5) = \frac{100}{0.2} = 500
-   $$
+$$
 
 2. **Immediate Successor Inflow to Goal ($1 \to 5$ and $4 \to 5$)**:
-   
-   $$
+
+$$
    Q^*(1, 5) = R(1, 5) + 0.8 \max_{a'} Q^*(5, a') = 100 + 0.8 \times 500 = 500
-   $$
-   
-   $$
+$$
+
+$$
    Q^*(4, 5) = R(4, 5) + 0.8 \max_{a'} Q^*(5, a') = 100 + 0.8 \times 500 = 500
-   $$
+$$
 
 3. **Two-Step Inflow to Goal ($3 \to 1$, $3 \to 4$, $0 \to 4$)**:
-   
-   $$
+
+$$
    Q^*(3, 1) = R(3, 1) + 0.8 \max_{a'} Q^*(1, a') = 0 + 0.8 \times 500 = 400
-   $$
-   
-   $$
+$$
+
+$$
    Q^*(3, 4) = R(3, 4) + 0.8 \max_{a'} Q^*(4, a') = 0 + 0.8 \times 500 = 400
-   $$
-   
-   $$
+$$
+
+$$
    Q^*(0, 4) = R(0, 4) + 0.8 \max_{a'} Q^*(4, a') = 0 + 0.8 \times 500 = 400
-   $$
-   
-   $$
+$$
+
+$$
    Q^*(5, 1) = R(5, 1) + 0.8 \max_{a'} Q^*(1, a') = 0 + 0.8 \times 500 = 400
-   $$
-   
-   $$
+$$
+
+$$
    Q^*(5, 4) = R(5, 4) + 0.8 \max_{a'} Q^*(4, a') = 0 + 0.8 \times 500 = 400
-   $$
+$$
 
 4. **Three-Step Inflow to Goal ($2 \to 3$, $1 \to 3$, $4 \to 3$, $4 \to 0$)**:
-   
-   $$
+
+$$
    Q^*(2, 3) = R(2, 3) + 0.8 \max_{a'} Q^*(3, a') = 0 + 0.8 \times 400 = 320
-   $$
-   
-   $$
+$$
+
+$$
    Q^*(1, 3) = R(1, 3) + 0.8 \times 400 = 320, \quad Q^*(4, 3) = 0 + 0.8 \times 400 = 320, \quad Q^*(4, 0) = 0 + 0.8 \times 400 = 320
-   $$
+$$
 
 5. **Four-Step Inflow ($3 \to 2$)**:
-   
-   $$
+
+$$
    Q^*(3, 2) = R(3, 2) + 0.8 \max_{a'} Q^*(2, a') = 0 + 0.8 \times 320 = 256
-   $$
+$$
 
 #### Final Converged $Q^*$ Matrix (Slide 22)
 
@@ -809,6 +838,7 @@ Q^* = \begin{bmatrix}
 $$
 
 #### Normalized Percentage Matrix $Q_{norm}$ (Slide 22)
+
 Dividing all non-zero entries by the maximum value ($500$) and scaling to 100%:
 
 $$
@@ -831,7 +861,9 @@ $$
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slide 22]
 
 #### Optimal Policy Path Extraction (Slide 23)
+
 The optimal policy $\pi^*(s) = \arg\max_a Q^*(s, a)$ defines the shortest, highest-reward escape route from any room in the facility:
+
 - **From Room 2:** $\arg\max_a Q^*(2, a) = 3$ (Value: 64%). Path: $2 \to 3 \to 1 \to 5$ or $2 \to 3 \to 4 \to 5$.
 - **From Room 0:** $\arg\max_a Q^*(0, a) = 4$ (Value: 80%). Path: $0 \to 4 \to 5$.
 - **From Room 3:** Tie between Action 1 (80%) and Action 4 (80%). Paths: $3 \to 1 \to 5$ or $3 \to 4 \to 5$.
@@ -863,7 +895,7 @@ graph TD
     AI["Artificial Intelligence<br/>(Broad science of simulating human intelligence)"]
     ML["Machine Learning<br/>(Algorithms that learn rules and patterns from data)"]
     DL["Deep Learning<br/>(Multi-layer neural representations learned end-to-end)"]
-    
+
     AI --> ML --> DL
 ```
 
@@ -917,19 +949,19 @@ graph TD
     DL --> CNN["2. Convolutional Neural Networks (CNNs)"]
     DL --> RNN["3. Recurrent Neural Networks (RNNs)"]
     DL --> RecNN["4. Recursive Neural Networks"]
-    
+
     UPN --> AE["Autoencoders"]
     UPN --> DBN["Deep Belief Networks (DBNs)"]
     UPN --> GAN["Generative Adversarial Networks (GANs)"]
-    
+
     CNN --> LeNet["LeNet-5 / AlexNet / VGGNet"]
     CNN --> ResNet["GoogLeNet / ResNet / DenseNet"]
     CNN --> Det["RCNN / YOLO / SegNet / SqueezeNet"]
-    
+
     RNN --> Hop["Hopfield Networks"]
     RNN --> LSTM["Long Short-Term Memory (LSTM)"]
     RNN --> GRU["Gated Recurrent Unit (GRU)"]
-    
+
     RecNN --> RAE["Recursive Autoencoders"]
     RecNN --> RNTN["Recursive Neural Tensor Networks (RNTNs)"]
 ```
@@ -941,6 +973,7 @@ graph TD
 ### 6.3 Architecture Breakdown, Models, and Real-World Applications
 
 #### 1. Unsupervised Pretrained Networks (UPNs)
+
 - **Primary Concepts:** Architectures designed to learn compressed data representations, density distributions, or generative models without target supervision.
 - **Representative Models:**
   - **Autoencoders:** Encoder-decoder networks forcing representations through a low-dimensional bottleneck to minimize reconstruction loss $\|x - g(f(x))\|^2$.
@@ -951,6 +984,7 @@ graph TD
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slide 27]
 
 #### 2. Convolutional Neural Networks (CNNs)
+
 - **Primary Concepts:** Feedforward neural networks designed for spatially structured grid data. Employs sparse local connectivity, parameter sharing across space, and translation-invariant pooling.
 - **Key Architectural Milestone Models:**
   - *LeNet-5 (1998):* Foundational document recognition CNN introducing Conv-Pool-Conv-Pool-FC staging.
@@ -969,34 +1003,35 @@ graph TD
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slides 28-29]
 
 #### 3. Recurrent Neural Networks (RNNs)
+
 - **Primary Concepts:** Neural architectures incorporating directed cyclic connections that maintain an internal hidden state vector $h_t = f(W_{hh} h_{t-1} + W_{xh} x_t + b)$, allowing them to process sequential inputs of variable length.
 - **Representative Models:**
   - **Hopfield Networks:** Content-addressable recurrent associative memory networks with symmetric synaptic weights and binary threshold units.
   - **Long Short-Term Memory (LSTM):** Overcomes vanishing gradients in standard RNNs using a constant error carousel and gating mechanisms:
-    
-    $$
+
+$$
     f_t = \sigma(W_f [h_{t-1}, x_t] + b_f) \quad \text{(Forget Gate)}
-    $$
-    
-    $$
+$$
+
+$$
     i_t = \sigma(W_i [h_{t-1}, x_t] + b_i) \quad \text{(Input Gate)}
-    $$
-    
-    $$
+$$
+
+$$
     \tilde{C}_t = \tanh(W_c [h_{t-1}, x_t] + b_c) \quad \text{(Candidate Memory)}
-    $$
-    
-    $$
+$$
+
+$$
     C_t = f_t \odot C_{t-1} + i_t \odot \tilde{C}_t \quad \text{(Cell State Update)}
-    $$
-    
-    $$
+$$
+
+$$
     o_t = \sigma(W_o [h_{t-1}, x_t] + b_o) \quad \text{(Output Gate)}
-    $$
-    
-    $$
+$$
+
+$$
     h_t = o_t \odot \tanh(C_t) \quad \text{(Hidden State)}
-    $$
+$$
 
   - **Gated Recurrent Unit (GRU):** Compact recurrent variant merging cell and hidden states, using reset ($r_t$) and update ($z_t$) gates.
 - **Core Use Cases:** Sentiment classification, automated image captioning (CNN visual encoder + RNN text decoder), neural machine translation, video action captioning.
@@ -1004,6 +1039,7 @@ graph TD
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slide 30]
 
 #### 4. Recursive Neural Networks
+
 - **Primary Concepts:** Generalization of recurrent networks from linear temporal sequences to non-linear hierarchical tree structures. The network recursively combines child representations into parent representations using shared compositional weights.
 - **Representative Models:**
   - **Recursive Autoencoder (RAE):** Greedily merges child node pairs in syntactic trees while minimizing local reconstruction error.
@@ -1021,11 +1057,14 @@ graph TD
 ### Problem 1: Co-Training Multi-View Worked Problem
 
 #### Problem Statement
+
 A research laboratory is building an automated system to classify academic publications into two categories: **Class $c_1$ = Artificial Intelligence (AI)** and **Class $c_2$ = Systems/Hardware (SYS)**. Each paper is represented across two distinct, redundant feature views:
+
 - **View 1 ($x_1$):** Title/Abstract keyword features, represented by two binary indicators $w_1$ (contains *"neural"*) and $w_2$ (contains *"gradient"*).
 - **View 2 ($x_2$):** Citation/Venue keyword features, represented by two binary indicators $u_1$ (contains *"conference"*) and $u_2$ (contains *"benchmark"*).
 
 The current pool consists of 4 labeled papers ($L$) and 6 unlabeled papers ($U$):
+
 - **Labeled Set $L$:**
   - $d_1$: $x_1 = (1, 0)$, $x_2 = (1, 0)$, True Label: $c_1$ (AI)
   - $d_2$: $x_1 = (1, 1)$, $x_2 = (1, 0)$, True Label: $c_1$ (AI)
@@ -1040,6 +1079,7 @@ The current pool consists of 4 labeled papers ($L$) and 6 unlabeled papers ($U$)
   - $u_6$: $x_1 = (0, 1)$, $x_2 = (0, 1)$
 
 **Task Execution Requirements:**
+
 1. Train initial Naive Bayes classifiers $f_1$ (using View 1) and $f_2$ (using View 2) on labeled set $L$ using Laplace (add-1) smoothing.
 2. Evaluate all 6 unlabeled instances in $U$ under both $f_1$ and $f_2$.
 3. Execute one full co-training iteration with selection parameters $n_1 = 1$ (one paper for class $c_1$) and $n_2 = 1$ (one paper for class $c_2$):
@@ -1050,6 +1090,7 @@ The current pool consists of 4 labeled papers ($L$) and 6 unlabeled papers ($U$)
 ---
 
 #### Step 1: Train Initial Classifiers $f_1$ and $f_2$ on Labeled Set $L$
+
 Labeled set $L$ contains $|L| = 4$ papers: 2 from class $c_1$ ($d_1, d_2$) and 2 from class $c_2$ ($d_3, d_4$).
 Class priors:
 
@@ -1058,6 +1099,7 @@ P(c_1) = \frac{2}{4} = 0.5, \quad P(c_2) = \frac{2}{4} = 0.5
 $$
 
 ##### View 1 Parameter Estimation ($f_1$ operating on $w_1, w_2$):
+
 With Laplace smoothing, the probability of binary feature $w_k = 1$ given class $c$ is:
 
 $$
@@ -1066,60 +1108,62 @@ $$
 
 - For class $c_1$ ($d_1, d_2$):
   - $w_1$ values: $d_1 = 1, d_2 = 1 \implies \text{Count} = 2$.
-    
-    $$
+
+$$
     P(w_1 = 1 \mid c_1) = \frac{2 + 1}{2 + 2} = \frac{3}{4} = 0.75, \quad P(w_1 = 0 \mid c_1) = 0.25
-    $$
+$$
 
   - $w_2$ values: $d_1 = 0, d_2 = 1 \implies \text{Count} = 1$.
-    
-    $$
+
+$$
     P(w_2 = 1 \mid c_1) = \frac{1 + 1}{2 + 2} = \frac{2}{4} = 0.50, \quad P(w_2 = 0 \mid c_1) = 0.50
-    $$
+$$
 
 - For class $c_2$ ($d_3, d_4$):
   - $w_1$ values: $d_3 = 0, d_4 = 0 \implies \text{Count} = 0$.
-    
-    $$
+
+$$
     P(w_1 = 1 \mid c_2) = \frac{0 + 1}{2 + 2} = \frac{1}{4} = 0.25, \quad P(w_1 = 0 \mid c_2) = 0.75
-    $$
+$$
 
   - $w_2$ values: $d_3 = 1, d_4 = 0 \implies \text{Count} = 1$.
-    
-    $$
+
+$$
     P(w_2 = 1 \mid c_2) = \frac{1 + 1}{2 + 2} = \frac{2}{4} = 0.50, \quad P(w_2 = 0 \mid c_2) = 0.50
-    $$
+$$
 
 ##### View 2 Parameter Estimation ($f_2$ operating on $u_1, u_2$):
+
 - For class $c_1$ ($d_1, d_2$):
   - $u_1$ values: $d_1 = 1, d_2 = 1 \implies \text{Count} = 2$.
-    
-    $$
+
+$$
     P(u_1 = 1 \mid c_1) = \frac{2 + 1}{4} = 0.75, \quad P(u_1 = 0 \mid c_1) = 0.25
-    $$
+$$
 
   - $u_2$ values: $d_1 = 0, d_2 = 0 \implies \text{Count} = 0$.
-    
-    $$
+
+$$
     P(u_2 = 1 \mid c_1) = \frac{0 + 1}{4} = 0.25, \quad P(u_2 = 0 \mid c_1) = 0.75
-    $$
+$$
 
 - For class $c_2$ ($d_3, d_4$):
   - $u_1$ values: $d_3 = 0, d_4 = 0 \implies \text{Count} = 0$.
-    
-    $$
+
+$$
     P(u_1 = 1 \mid c_2) = \frac{0 + 1}{4} = 0.25, \quad P(u_1 = 0 \mid c_2) = 0.75
-    $$
+$$
 
   - $u_2$ values: $d_3 = 1, d_4 = 1 \implies \text{Count} = 2$.
-    
-    $$
+
+$$
     P(u_2 = 1 \mid c_2) = \frac{2 + 1}{4} = 0.75, \quad P(u_2 = 0 \mid c_2) = 0.25
-    $$
+$$
 
 ---
 
 #### Step 2: Posterior Probabilities on Unlabeled Set $U$
+
 For any instance with feature vector $z$, the posterior is:
 
 $$
@@ -1133,6 +1177,7 @@ P(c_1 \mid z) = \frac{P(z \mid c_1)}{P(z \mid c_1) + P(z \mid c_2)}
 $$
 
 ##### Evaluating $f_1$ across View 1 ($x_1$):
+
 - For $x_1 = (1, 1)$ ($u_3$):
   - $P(x_1 \mid c_1) = 0.75 \times 0.50 = 0.375$
   - $P(x_1 \mid c_2) = 0.25 \times 0.50 = 0.125$
@@ -1151,6 +1196,7 @@ $$
   - $P(c_1 \mid x_1) = 0.250 \implies P(c_2 \mid x_1) = 0.750$
 
 ##### Evaluating $f_2$ across View 2 ($x_2$):
+
 - For $x_2 = (1, 0)$ ($u_2, u_5$):
   - $P(x_2 \mid c_1) = 0.75 \times 0.75 = 0.5625$
   - $P(x_2 \mid c_2) = 0.25 \times 0.25 = 0.0625$
@@ -1171,6 +1217,7 @@ $$
 ---
 
 #### Step 3: Co-Training Selection and Pseudo-Labeling ($n_1 = 1, n_2 = 1$)
+
 - **Classifier $f_1$ Selection:**
   - Most confident for Class $c_1$: $u_3$ and $u_5$ both have $P(c_1 \mid x_1) = 0.750$. We break the tie systematically by selecting $u_5$. Pseudo-label $(u_5, c_1)$ is added to $L$.
   - Most confident for Class $c_2$: $u_4$ and $u_6$ both have $P(c_2 \mid x_1) = 0.750$. We break the tie by selecting $u_6$. Pseudo-label $(u_6, c_2)$ is added to $L$.
@@ -1180,14 +1227,17 @@ $$
 
 **Updated Labeled Set $L$:**
 $L$ now contains the original 4 papers plus 4 newly pseudo-labeled papers:
+
 - $L = \{d_1, d_2, d_3, d_4\} \cup \{u_5(c_1), u_6(c_2), u_2(c_1), u_1(c_2)\}$.
 - Note that $u_1$ and $u_2$, which were ambiguous under View 1 ($P = 0.75 / 0.25$), were resolved with high certainty ($P = 0.90$) by View 2, illustrating how multi-view co-training transfers information between views.
 
 ---
 
 #### Step 4: Joint Multi-View Posterior Prediction on Query Document $u_1$
+
 Test query $u_1$ has feature views $x_1 = (1, 0)$ and $x_2 = (0, 1)$.
 Under the independent base classifiers:
+
 - View 1: $P(c_1 \mid x_1) = 0.750, \quad P(c_2 \mid x_1) = 0.250$
 - View 2: $P(c_1 \mid x_2) = 0.100, \quad P(c_2 \mid x_2) = 0.900$
 
@@ -1218,7 +1268,9 @@ $$
 ### Problem 2: PU Learning Two-Step Method with Naive Bayes Spy Technique
 
 #### Problem Statement
+
 An information retrieval engine needs to build a binary document filter to identify **Cybersecurity Threat Reports ($y = +1$)**. The training set contains confirmed positive threat reports ($P$) and an uncurated pool of general text documents ($U$):
+
 - Positive Set $P$: $|P| = 8$ documents.
 - Unlabeled Set $U$: $|U| = 10$ documents ($u_1 \dots u_{10}$).
 
@@ -1226,6 +1278,7 @@ Each document is represented across a vocabulary of three salient keywords:
 $V = \{\text{malware}, \text{exploit}, \text{firewall}\}$.
 
 **Empirical Keyword Frequency Distributions:**
+
 - In Positive Set $P$ (Total 8 docs):
   - $\text{Count}(\text{malware}) = 7$
   - $\text{Count}(\text{exploit}) = 6$
@@ -1236,12 +1289,14 @@ $V = \{\text{malware}, \text{exploit}, \text{firewall}\}$.
   - $\text{Count}(\text{firewall}) = 4$
 
 **Four Specific Unlabeled Documents to Evaluate:**
+
 - $u_1 = (1, 1, 0)$ [Contains *malware*, *exploit*]
 - $u_2 = (0, 0, 1)$ [Contains *firewall* only]
 - $u_3 = (0, 0, 0)$ [Contains none of the keywords]
 - $u_4 = (1, 1, 1)$ [Contains all three keywords]
 
 **Task Execution Requirements:**
+
 1. Execute **Step 1 (NB Spy Technique)**:
    - Introduce a spy subset $S \subset P$ of size $|S| = 2$ with keyword profiles $s_1 = (1, 0, 1)$ and $s_2 = (0, 1, 1)$.
    - Remaining positive set is $P' = P \setminus S$ ($|P'| = 6$).
@@ -1254,32 +1309,39 @@ $V = \{\text{malware}, \text{exploit}, \text{firewall}\}$.
 ---
 
 #### Step 1: Model Training on $P'$ vs. $(U \cup S)$
+
 - Positive training pool: $P'$ ($|P'| = 6$).
 - Negative training pool: $U \cup S$ ($|U \cup S| = 10 + 2 = 12$).
 - Class priors:
-  
-  $$
+
+$$
   P(+1) = \frac{6}{18} = \frac{1}{3} \approx 0.3333, \quad P(-1) = \frac{12}{18} = \frac{2}{3} \approx 0.6667
-  $$
+$$
 
 ##### Feature Counts in $P'$ ($|P'| = 6$):
+
 Subtracting the two spies $s_1=(1,0,1)$ and $s_2=(0,1,1)$ from original counts:
+
 - $\text{malware}$: $7 - 1 = 6$
 - $\text{exploit}$: $6 - 1 = 5$
 - $\text{firewall}$: $5 - 2 = 3$
 
 With Laplace smoothing ($N=6$, denominator $= 6+2 = 8$):
+
 - $P(w_1=1 \mid +1) = \frac{6+1}{8} = \frac{7}{8} = 0.875, \quad P(w_1=0 \mid +1) = 0.125$
 - $P(w_2=1 \mid +1) = \frac{5+1}{8} = \frac{6}{8} = 0.750, \quad P(w_2=0 \mid +1) = 0.250$
 - $P(w_3=1 \mid +1) = \frac{3+1}{8} = \frac{4}{8} = 0.500, \quad P(w_3=0 \mid +1) = 0.500$
 
 ##### Feature Counts in $U \cup S$ ($|U \cup S| = 12$):
+
 Adding counts from $U$ and spies $s_1, s_2$:
+
 - $\text{malware}$: $3 + 1 + 0 = 4$
 - $\text{exploit}$: $2 + 0 + 1 = 3$
 - $\text{firewall}$: $4 + 1 + 1 = 6$
 
 With Laplace smoothing ($N=12$, denominator $= 12+2 = 14$):
+
 - $P(w_1=1 \mid -1) = \frac{4+1}{14} = \frac{5}{14} \approx 0.3571, \quad P(w_1=0 \mid -1) = \frac{9}{14} \approx 0.6429$
 - $P(w_2=1 \mid -1) = \frac{3+1}{14} = \frac{4}{14} \approx 0.2857, \quad P(w_2=0 \mid -1) = \frac{10}{14} \approx 0.7143$
 - $P(w_3=1 \mid -1) = \frac{6+1}{14} = \frac{7}{14} = 0.5000, \quad P(w_3=0 \mid -1) = 0.5000$
@@ -1295,62 +1357,69 @@ $$
 $$
 
 ##### 1. Spy $s_1 = (1, 0, 1)$:
+
 - Positive: $\mathcal{L}(+1 \mid s_1) = \frac{1}{3} \times (0.875) \times (0.250) \times (0.500) = \frac{1}{3} \times 0.109375 \approx 0.03646$
 - Negative: $\mathcal{L}(-1 \mid s_1) = \frac{2}{3} \times \left(\frac{5}{14}\right) \times \left(\frac{10}{14}\right) \times (0.500) = \frac{2}{3} \times 0.12755 \approx 0.08503$
 - Posterior:
-  
-  $$
+
+$$
   P(+1 \mid s_1) = \frac{0.03646}{0.03646 + 0.08503} = \frac{0.03646}{0.12149} \approx 0.3001 \quad (30.01\%)
-  $$
+$$
 
 ##### 2. Spy $s_2 = (0, 1, 1)$:
+
 - Positive: $\mathcal{L}(+1 \mid s_2) = \frac{1}{3} \times (0.125) \times (0.750) \times (0.500) = \frac{1}{3} \times 0.046875 \approx 0.015625$
 - Negative: $\mathcal{L}(-1 \mid s_2) = \frac{2}{3} \times \left(\frac{9}{14}\right) \times \left(\frac{4}{14}\right) \times (0.500) = \frac{2}{3} \times 0.09184 \approx 0.06122$
 - Posterior:
-  
-  $$
+
+$$
   P(+1 \mid s_2) = \frac{0.015625}{0.015625 + 0.06122} = \frac{0.015625}{0.07685} \approx 0.2033 \quad (20.33\%)
-  $$
+$$
 
 ##### 3. Document $u_1 = (1, 1, 0)$:
+
 - Positive: $\mathcal{L}(+1 \mid u_1) = \frac{1}{3} \times (0.875) \times (0.750) \times (0.500) = \frac{1}{3} \times 0.328125 \approx 0.10938$
 - Negative: $\mathcal{L}(-1 \mid u_1) = \frac{2}{3} \times \left(\frac{5}{14}\right) \times \left(\frac{4}{14}\right) \times (0.500) = \frac{2}{3} \times 0.05102 \approx 0.03401$
 - Posterior:
-  
-  $$
+
+$$
   P(+1 \mid u_1) = \frac{0.10938}{0.10938 + 0.03401} = \frac{0.10938}{0.14339} \approx 0.7628 \quad (76.28\%)
-  $$
+$$
 
 ##### 4. Document $u_2 = (0, 0, 1)$:
+
 - Positive: $\mathcal{L}(+1 \mid u_2) = \frac{1}{3} \times (0.125) \times (0.250) \times (0.500) = \frac{1}{3} \times 0.015625 \approx 0.00521$
 - Negative: $\mathcal{L}(-1 \mid u_2) = \frac{2}{3} \times \left(\frac{9}{14}\right) \times \left(\frac{10}{14}\right) \times (0.500) = \frac{2}{3} \times 0.22959 \approx 0.15306$
 - Posterior:
-  
-  $$
+
+$$
   P(+1 \mid u_2) = \frac{0.00521}{0.00521 + 0.15306} = \frac{0.00521}{0.15827} \approx 0.0329 \quad (3.29\%)
-  $$
+$$
 
 ##### 5. Document $u_3 = (0, 0, 0)$:
+
 - Positive: $\mathcal{L}(+1 \mid u_3) = \frac{1}{3} \times (0.125) \times (0.250) \times (0.500) = 0.00521$
 - Negative: $\mathcal{L}(-1 \mid u_3) = \frac{2}{3} \times \left(\frac{9}{14}\right) \times \left(\frac{10}{14}\right) \times (0.500) = 0.15306$
 - Posterior:
-  
-  $$
+
+$$
   P(+1 \mid u_3) \approx 0.0329 \quad (3.29\%)
-  $$
+$$
 
 ##### 6. Document $u_4 = (1, 1, 1)$:
+
 - Positive: $\mathcal{L}(+1 \mid u_4) = \frac{1}{3} \times (0.875) \times (0.750) \times (0.500) = 0.10938$
 - Negative: $\mathcal{L}(-1 \mid u_4) = \frac{2}{3} \times \left(\frac{5}{14}\right) \times \left(\frac{4}{14}\right) \times (0.500) = 0.03401$
 - Posterior:
-  
-  $$
+
+$$
   P(+1 \mid u_4) \approx 0.7628 \quad (76.28\%)
-  $$
+$$
 
 ---
 
 #### Step 3: Threshold Determination and Extraction of $RN$
+
 The spy threshold $t$ is set to the minimum posterior probability among the spies:
 
 $$
@@ -1364,6 +1433,7 @@ RN = \{ u \in U \mid P(+1 \mid u) < 0.2033 \}
 $$
 
 Evaluating the candidate documents:
+
 - $u_1: P(+1 \mid u_1) = 0.7628 \ge 0.2033 \implies \text{Not in } RN$ (Likely Positive).
 - $u_2: P(+1 \mid u_2) = 0.0329 < 0.2033 \implies u_2 \in RN$.
 - $u_3: P(+1 \mid u_3) = 0.0329 < 0.2033 \implies u_3 \in RN$.
@@ -1374,7 +1444,9 @@ Evaluating the candidate documents:
 ---
 
 #### Step 4: Classifier Induction in Step 2
+
 In Step 2:
+
 1. Recombine the full original positive set $P$ (all 8 instances, re-absorbing the spies $s_1, s_2$) with class label $+1$.
 2. Pair $P$ with the newly extracted set $RN = \{u_2, u_3\}$ labeled as $-1$.
 3. Discard the ambiguous instances $U \setminus RN = \{u_1, u_4, \dots\}$ from this training phase.
@@ -1387,6 +1459,7 @@ In Step 2:
 ### Problem 3: Q-Learning 6-Room Environment Full Trace
 
 #### Problem Statement
+
 An autonomous agent navigates a 6-room building (Rooms $0, 1, 2, 3, 4, 5$). Room 5 is an outside exit designated as the goal state. The connectivity graph, reward matrix $R$, and initial zero matrix $Q$ are defined identically to Slides 14-23. The discount factor is $\gamma = 0.8$.
 
 ```
@@ -1400,6 +1473,7 @@ Room 5 <--> Room 1, Room 4, Room 5 (Self-Loop Exit)
 ```
 
 **Task Execution Requirements:**
+
 1. Execute **Episode 1** starting at Room 1:
    - Detail admissible actions, action selection, and Bellman update for transition $1 \to 5$.
 2. Execute **Episode 2** starting at Room 3:
@@ -1412,21 +1486,22 @@ Room 5 <--> Room 1, Room 4, Room 5 (Self-Loop Exit)
 ---
 
 #### Step 1: Episode 1 Trace (Initial State: Room 1)
+
 - **Initial Setup:** $Q = \mathbf{0}_{6 \times 6}$, $\gamma = 0.8$.
 - **Admissible Actions from Room 1:** $\mathcal{A}(1) = \{3, 5\}$.
 - **Action Selection:** Agent selects action $a = 5$.
 - **State Transition:** Enters next state $s' = 5$.
 - **Successor State Maximizer:** Inspecting Row 5 of matrix $Q$:
-  
-  $$
+
+$$
   \max_{a' \in \{1, 4, 5\}} Q(5, a') = \max\{Q(5, 1), Q(5, 4), Q(5, 5)\} = \max\{0, 0, 0\} = 0
-  $$
+$$
 
 - **Q-Value Computation:**
-  
-  $$
+
+$$
   Q(1, 5) = R(1, 5) + \gamma \times \max_{a'} Q(5, a') = 100 + 0.8 \times 0 = 100
-  $$
+$$
 
 - **State Update:** Next state is 5 (Goal). Episode 1 terminates.
 
@@ -1448,21 +1523,22 @@ $$
 ---
 
 #### Step 2: Episode 2 Trace (Initial State: Room 3)
+
 - **Step 1: Current State $s = 3$.**
   - **Admissible Actions from Room 3:** $\mathcal{A}(3) = \{1, 2, 4\}$.
   - **Action Selection:** Agent selects action $a = 1$.
   - **State Transition:** Successor state is $s' = 1$.
   - **Successor State Maximizer:** Inspecting Row 1 of current $Q$:
-    
-    $$
+
+$$
     \max_{a' \in \{3, 5\}} Q(1, a') = \max\{Q(1, 3), Q(1, 5)\} = \max\{0, 100\} = 100
-    $$
+$$
 
   - **Q-Value Computation:**
-    
-    $$
+
+$$
     Q(3, 1) = R(3, 1) + 0.8 \times \max\left[ Q(1, 3), Q(1, 5) \right] = 0 + 0.8 \times 100 = 80
-    $$
+$$
 
   - **State Update:** Current state becomes $s = 1$. Not goal; continue episode.
 
@@ -1471,16 +1547,16 @@ $$
   - **Action Selection:** Agent selects action $a = 5$.
   - **State Transition:** Successor state is $s' = 5$.
   - **Successor State Maximizer:** Inspecting Row 5 of current $Q$:
-    
-    $$
+
+$$
     \max_{a' \in \{1, 4, 5\}} Q(5, a') = \max\{0, 0, 0\} = 0
-    $$
+$$
 
   - **Q-Value Computation:**
-    
-    $$
+
+$$
     Q(1, 5) = R(1, 5) + 0.8 \times \max_{a'} Q(5, a') = 100 + 0.8 \times 0 = 100
-    $$
+$$
 
   - **State Update:** Current state becomes $s = 5$ (Goal). Episode 2 terminates.
 
@@ -1502,78 +1578,80 @@ $$
 ---
 
 #### Step 3: Derivation of the Fully Converged $Q^*$ Matrix
+
 Let the system undergo infinite exploratory episodes. The values converge to the unique solution of the Bellman optimality system:
+
 1. **Goal Self-Loop $(5, 5)$**:
-   
-   $$
+
+$$
    Q^*(5, 5) = 100 + 0.8 \max\{Q^*(5, 1), Q^*(5, 4), Q^*(5, 5)\} = 100 + 0.8 Q^*(5, 5) \implies Q^*(5, 5) = 500
-   $$
+$$
 
 2. **Actions Leading to State 5 ($1 \to 5$ and $4 \to 5$)**:
-   
-   $$
+
+$$
    Q^*(1, 5) = 100 + 0.8 Q^*(5, 5) = 100 + 0.8(500) = 500
-   $$
-   
-   $$
+$$
+
+$$
    Q^*(4, 5) = 100 + 0.8 Q^*(5, 5) = 100 + 0.8(500) = 500
-   $$
+$$
 
 3. **Actions Leading to State 1 or State 4**:
    - From Room 3 to Room 1:
-     
-     $$
+
+$$
      Q^*(3, 1) = 0 + 0.8 \max_{a'} Q^*(1, a') = 0 + 0.8(500) = 400
-     $$
+$$
 
    - From Room 3 to Room 4:
-     
-     $$
+
+$$
      Q^*(3, 4) = 0 + 0.8 \max_{a'} Q^*(4, a') = 0 + 0.8(500) = 400
-     $$
+$$
 
    - From Room 0 to Room 4:
-     
-     $$
+
+$$
      Q^*(0, 4) = 0 + 0.8 \max_{a'} Q^*(4, a') = 0 + 0.8(500) = 400
-     $$
+$$
 
    - From Room 5 back to Rooms 1 and 4:
-     
-     $$
+
+$$
      Q^*(5, 1) = 0 + 0.8(500) = 400, \quad Q^*(5, 4) = 0 + 0.8(500) = 400
-     $$
+$$
 
 4. **Actions Leading to State 3 or State 0**:
    - From Room 2 to Room 3:
-     
-     $$
+
+$$
      Q^*(2, 3) = 0 + 0.8 \max_{a'} Q^*(3, a') = 0 + 0.8(400) = 320
-     $$
+$$
 
    - From Room 1 to Room 3:
-     
-     $$
+
+$$
      Q^*(1, 3) = 0 + 0.8(400) = 320
-     $$
+$$
 
    - From Room 4 to Room 3:
-     
-     $$
+
+$$
      Q^*(4, 3) = 0 + 0.8(400) = 320
-     $$
+$$
 
    - From Room 4 to Room 0:
-     
-     $$
+
+$$
      Q^*(4, 0) = 0 + 0.8 \max_{a'} Q^*(0, a') = 0 + 0.8(400) = 320
-     $$
+$$
 
 5. **Action from Room 3 to Room 2**:
-   
-   $$
+
+$$
    Q^*(3, 2) = 0 + 0.8 \max_{a'} Q^*(2, a') = 0 + 0.8(320) = 256
-   $$
+$$
 
 Full Converged Matrix $Q^*$:
 
@@ -1593,7 +1671,9 @@ $$
 ---
 
 #### Step 4: Normalized Percentage Matrix $Q_{\text{norm}}$
+
 Dividing each entry by the maximum value ($500$) and multiplying by 100:
+
 - $500 / 500 = 100\%$
 - $400 / 500 = 80\%$
 - $320 / 500 = 64\%$
@@ -1615,7 +1695,9 @@ $$
 ---
 
 #### Step 5: Optimal Path Policy Navigation
+
 Using the greedy policy $\pi^*(s) = \arg\max_a Q^*(s, a)$:
+
 - **Start at Room 2:** $\arg\max_a Q(2, a) = 3$. From 3, agent can choose either 1 or 4 (both 80%). From 1 or 4, move directly to 5.
   - Path 1: $2 \to 3 \to 1 \to 5$
   - Path 2: $2 \to 3 \to 4 \to 5$
@@ -1637,7 +1719,9 @@ Using the greedy policy $\pi^*(s) = \arg\max_a Q^*(s, a)$:
 ### Problem 4: Deep Learning CNN Output Dimension & Parameter Calculation
 
 #### Problem Statement
+
 An autonomous driving perception subsystem processes color road-scene images through a deep convolutional neural network. The initial processing stages consist of an input RGB image followed by a convolutional layer and a max-pooling layer:
+
 - **Input Tensor ($\mathbf{X}$):** Width $W_{\text{in}} = 32$, Height $H_{\text{in}} = 32$, Color Channels $C_{\text{in}} = 3$ (RGB image shape: $32 \times 32 \times 3$).
 - **Convolutional Layer ($\text{Conv}_1$):**
   - Number of filters: $K = 16$
@@ -1651,6 +1735,7 @@ An autonomous driving perception subsystem processes color road-scene images thr
   - Zero-padding: $P_{\text{pool}} = 0$
 
 **Task Execution Requirements:**
+
 1. State the exact mathematical dimensional formula for convolutional layers and compute the spatial height, width, and channel depth of the output feature map produced by $\text{Conv}_1$.
 2. Calculate the exact number of learnable parameters (weights and biases) in layer $\text{Conv}_1$.
 3. Compute the computational cost in Multiply-Accumulate (MAC) operations required for a single forward pass through $\text{Conv}_1$.
@@ -1660,6 +1745,7 @@ An autonomous driving perception subsystem processes color road-scene images thr
 ---
 
 #### Step 1: Spatial Dimension Computation for $\text{Conv}_1$
+
 The general mathematical formula determining the spatial output dimension of a convolutional layer along any axis is:
 
 $$
@@ -1667,6 +1753,7 @@ O = \left\lfloor \frac{W - F + 2P}{S} \right\rfloor + 1
 $$
 
 Substituting the given values:
+
 - $W_{\text{in}} = 32$
 - Filter size $F = 5$
 - Padding $P = 2$
@@ -1693,47 +1780,53 @@ $$
 ---
 
 #### Step 2: Learnable Parameter Count for $\text{Conv}_1$
+
 Each filter in a convolutional layer must span the entire channel depth of the input volume ($C_{\text{in}} = 3$).
+
 1. **Weights per filter:**
-   
-   $$
+
+$$
    \text{Weights}_{\text{filter}} = F_w \times F_h \times C_{\text{in}} = 5 \times 5 \times 3 = 75 \text{ weights}
-   $$
+$$
 
 2. **Biases per filter:**
-   
-   $$
+
+$$
    \text{Biases}_{\text{filter}} = 1 \text{ bias}
-   $$
+$$
 
 3. **Total parameters per filter:**
-   
-   $$
+
+$$
    \text{Params}_{\text{filter}} = 75 + 1 = 76
-   $$
+$$
 
 4. **Total parameters across all $K = 16$ filters:**
-   
-   $$
+
+$$
    \text{Total Parameters} = K \times (F_w \times F_h \times C_{\text{in}} + 1) = 16 \times 76 = 1,216 \text{ parameters}
-   $$
+$$
 
 ---
 
 #### Step 3: Computational Cost (MAC Operations) for $\text{Conv}_1$
+
 Computing each output activation in the $32 \times 32 \times 16$ feature map requires taking the dot product between a $5 \times 5 \times 3$ kernel and a local receptive field.
+
 - Dot product size per activation: $5 \times 5 \times 3 = 75$ multiplications and additions.
 - Total activations generated: $W_{\text{out}} \times H_{\text{out}} \times C_{\text{out}} = 32 \times 32 \times 16 = 16,384$ activations.
 - Total Multiply-Accumulate (MAC) operations:
-  
-  $$
+
+$$
   \text{Total MACs} = 16,384 \times 75 = 1,228,800 \text{ MACs} \quad (\approx 1.23 \times 10^6 \text{ operations})
-  $$
+$$
 
 ---
 
 #### Step 4: Dimension and Parameter Calculation for Max-Pooling Layer $\text{Pool}_1$
+
 The max-pooling layer operates independently across each feature channel with no cross-channel mixing.
+
 - Pooling window: $F_{\text{pool}} = 2$
 - Stride: $S_{\text{pool}} = 2$
 - Padding: $P_{\text{pool}} = 0$
@@ -1761,7 +1854,9 @@ $$
 ---
 
 #### Step 5: Parameter Comparison with a Fully Connected Layer
+
 If an equivalent fully connected layer were used to project the $32 \times 32 \times 3$ input volume ($3,072$ scalar features) into a hidden layer of identical output capacity ($32 \times 32 \times 16 = 16,384$ hidden units):
+
 - Weight matrix dimensions: $3,072 \times 16,384 = 50,331,648$ weights.
 - Bias terms: $16,384$ biases.
 - Total parameters: $50,331,648 + 16,384 = 50,348,032$ parameters ($\approx 50.35 \text{ million parameters}$).
@@ -1933,30 +2028,35 @@ $$
 ### Consolidated Definition Sheet
 
 ### Definition: Co-Training
+
 **Meaning:** A multi-view semi-supervised learning paradigm that trains two independent classifiers on separate, redundant feature views and uses each model's most confident predictions to expand the training data of the other.  
 **Formal definition:** An algorithm that learns functions $f_1: \mathcal{X}_1 \to \mathcal{Y}$ and $f_2: \mathcal{X}_2 \to \mathcal{Y}$ over partitioned feature spaces $\mathcal{X} = \mathcal{X}_1 \times \mathcal{X}_2$, iteratively augmenting labeled set $L$ with top confident instances $E_1 \subset U$ from $f_1$ and $E_2 \subset U$ from $f_2$.  
 **Intuition:** Two observers viewing the same object from different perspectives cross-validate and teach each other.  
 **Example:** Classifying web pages using page text (View 1) and inbound hyperlink anchor text (View 2).
 
 ### Definition: Self-Training
+
 **Meaning:** A single-view semi-supervised learning algorithm where a model is trained on labeled data, predicts labels for unlabeled data, adds its most confident predictions into the labeled set, and retrains iteratively.  
 **Formal definition:** An incremental procedure updating labeled training set $L^{(t+1)} = L^{(t)} \cup \{(x_u, \hat{y}_u) \mid x_u \in U, P(y \mid x_u) \ge \tau\}$ and refitting a single hypothesis $f$ over all features.  
 **Intuition:** A student who studies an answer key, tests themselves on unannotated exercises, assumes their highest-confidence answers are correct, and studies them as established facts.  
 **Example:** Semi-supervised OCR where high-confidence letter classifications are iteratively incorporated into the training set.
 
 ### Definition: PU Learning (Positive and Unlabeled Learning)
+
 **Meaning:** Binary classification where training data consists exclusively of confirmed positive examples and unannotated examples, with no certified negative examples.  
 **Formal definition:** Inducing binary classifier $f: \mathcal{X} \to \{+1, -1\}$ from dataset $\mathcal{D} = P \cup U$, where $P = \{x \mid y = +1\}$ and $U = \{x \mid y \in \{+1, -1\}\}$.  
 **Intuition:** Separating target signals from background noise when only target examples have been explicitly flagged.  
 **Example:** Identifying fraudulent transactions when only known fraud cases have been confirmed, while unflagged transactions contain both legitimate transactions and undiscovered fraud.
 
 ### Definition: Q-Learning
+
 **Meaning:** A model-free, off-policy reinforcement learning algorithm that learns the optimal action-value function directly from experience without requiring an environmental transition model.  
 **Formal definition:** An algorithm that updates state-action values via Temporal Difference (TD) learning: $Q(s, a) \leftarrow Q(s, a) + \alpha [R(s, a) + \gamma \max_{a'} Q(s', a') - Q(s, a)]$, converging asymptotically to the optimal action-value function $Q^*(s, a)$.  
 **Intuition:** An explorer mapping a maze by logging the quality of every path taken, gradually learning the shortest route to the exit through trial and error.  
 **Example:** The 6-room navigation agent learning optimal paths to Room 5 using reward matrix $R$ and discount factor $\gamma = 0.8$.
 
 ### Definition: Deep Learning
+
 **Meaning:** A subfield of machine learning based on multi-layered artificial neural networks capable of end-to-end representation learning directly from raw inputs.  
 **Formal definition:** A class of representation learning methods with multiple levels of non-linear transformations composing simple but non-linear modules, each transforming the representation at one level into a higher, slightly more abstract level.  
 **Intuition:** Instead of humans handcrafting feature detectors, the neural network learns low-level edge detectors in early layers, textural patterns in middle layers, and complete object parts in deeper layers automatically.  
@@ -1967,6 +2067,7 @@ $$
 ## 9. Exam-Oriented Review
 
 ### Important Concepts & Distinctions
+
 - **SSL Trade-off:** SSL is effective when the marginal distribution $P(X)$ contains structural information about the conditional distribution $P(Y \mid X)$ via the smoothness, cluster, or manifold assumptions. If these assumptions fail, unlabeled data can degrade generalization performance.
 - **Co-Training vs. Self-Training:** Co-training requires two independent, sufficient feature views ($X_1, X_2$) and is resilient against error cascading; self-training requires only a single view but is prone to confirmation bias.
 - **PU Learning Strategy:** Treating unlabeled data $U$ as negative introduces false-negative label noise. The two-step approach resolves this by using an extraction heuristic (e.g., the Naive Bayes Spy Technique) to isolate a Reliable Negative set ($RN$) before running supervised training.
@@ -1977,37 +2078,49 @@ $$
 ### Potential Exam Questions Across Formats
 
 #### Short-Answer Questions (2-3 Marks)
+
 1. **Explain the conditional independence assumption in co-training.**  
    *Answer:* The conditional independence assumption states that feature sub-views $X_1$ and $X_2$ are statistically independent given the true class label: $P(x_1, x_2 \mid c) = P(x_1 \mid c) P(x_2 \mid c)$. This ensures that high-confidence predictions made by classifier $f_1$ on View 1 provide genuinely informative, non-redundant training instances for classifier $f_2$ on View 2.
+
 2. **Why does naive self-training suffer from confirmation bias?**  
    *Answer:* In self-training, a single model generates pseudo-labels for unlabeled data. If an early prediction is incorrect but assigned high model confidence, this mislabeled instance is incorporated into the training set, causing the model to reinforce and compound its own errors across subsequent iterations.
+
 3. **Define the role of the discount factor $\gamma$ in reinforcement learning.**  
    *Answer:* The discount factor $\gamma \in [0, 1)$ balances immediate versus future rewards. It determines the present value of delayed rewards ($G_t = \sum \gamma^k R_{t+k+1}$) and guarantees mathematical convergence of infinite-horizon cumulative return series.
+
 4. **State two key differences between classical machine learning and deep learning pipelines.**  
    *Answer:* Classical ML requires manual, handcrafted feature engineering separate from classifier training, and its performance plateaus on large datasets. Deep learning learns hierarchical feature representations end-to-end directly from raw data and continues to scale in accuracy as data volume grows.
 
 #### Medium-Length Analytical Questions (5-7 Marks)
+
 1. **Describe the Two-Step Approach to Positive and Unlabeled (PU) Learning. How does the Naive Bayes Spy technique identify the Reliable Negative ($RN$) set?**  
    *Answer:* The two-step approach handles binary classification when negative examples are unobserved. Step 1 extracts a Reliable Negative set ($RN$) from $U$, and Step 2 trains a supervised classifier (e.g., SVM or Naive Bayes) on $P$ and $RN$, discarding ambiguous instances. In the Spy technique, a small set of known positive instances (spies $S \subset P$) are inserted into $U$. A base Naive Bayes classifier is trained treating $P \setminus S$ as positive and $U \cup S$ as negative. Evaluating the model yields predicted probabilities for all instances; setting the decision threshold to the minimum probability observed among the spies ($t = \min_{s \in S} P(+1 \mid s)$) ensures that instances scoring below $t$ can be reliably identified as negatives.
+
 2. **Derive the Bellman Optimality Equation for state-action value function $Q^*(s, a)$ starting from the recursive definition of discounted return.**  
    *Answer:* Expand $G_t = R_{t+1} + \gamma G_{t+1}$ and take the conditional expectation to obtain:  
    $Q^\pi(s, a) = \mathcal{R}(s, a) + \gamma \sum_{s'} \mathcal{P}(s' \mid s, a) \sum_{a'} \pi(a' \mid s') Q^\pi(s', a')$.  
    Under an optimal policy $\pi^*$, the agent selects the action that maximizes future expected return, so $\sum_{a'} \pi^*(a' \mid s') Q^*(s', a') = \max_{a'} Q^*(s', a')$.  
    Substituting this yields the Bellman Optimality Equation:  
    $Q^*(s, a) = \mathcal{R}(s, a) + \gamma \sum_{s'} \mathcal{P}(s' \mid s, a) \max_{a'} Q^*(s', a')$.
+
 3. **Compare Convolutional Neural Networks (CNNs), Recurrent Neural Networks (RNNs), and Unsupervised Pretrained Networks (UPNs) in terms of architectural inductive biases, parameter sharing, and primary applications.**  
    *Answer:* Structure comparisons across:
+
    - *CNNs:* Inductive bias assumes spatial translation invariance and local feature locality; parameters are shared across spatial convolutional kernels; applied to computer vision and 1D signals.
    - *RNNs:* Inductive bias assumes temporal invariance across sequential steps; parameters are shared across time steps in recurrent transitions; applied to text, speech, and time-series forecasting.
    - *UPNs (Autoencoders, GANs, DBNs):* Inductive bias assumes data resides on a lower-dimensional manifold or can be generated from latent distributions; trained without labels to capture density distributions or feature representations.
 
 #### Comprehensive Design & Numerical Problems (10-15 Marks)
+
 1. **Complete Co-Training Multi-View System Design & Numerical Problem.**  
    *Answer Reference:* See Section 7, Problem 1 for full step-by-step arithmetic, Naive Bayes likelihood estimation with Laplace smoothing, confident sample selection ($n_1=1, n_2=1$), and multi-view posterior combination.
+
 2. **Complete 6-Room Q-Learning Numerical Simulation.**  
    *Answer Reference:* See Section 7, Problem 3 for the complete step-by-step trace of Episode 1 ($Q(1,5)=100$), Episode 2 ($Q(3,1)=80$), mathematical convergence derivations to maximum value 500, normalized percentage matrix, and optimal policy extraction.
+
 3. **Deep CNN Architecture Design and Dimensional Parameter Trace.**  
    *Answer Reference:* See Section 7, Problem 4 for the complete output tensor dimensional derivation ($\lfloor \frac{W - F + 2P}{S} \rfloor + 1 = 32$), parameter calculations ($1,216$ parameters), MAC operation counting ($1,228,800$ MACs), pooling transformations, and comparison against fully connected layer parameter scaling.
 
 ---
+
 *End of Chapter 7 Notes. All core concepts, algorithms, formal definitions, and numerical examples from SSL, RL and Intro to Deep Learning.pdf (32 Slides) have been fully integrated.*
