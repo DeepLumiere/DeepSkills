@@ -121,6 +121,7 @@ nav:
       - "Chapter 4: MAC Sublayer": computer_networks/Chapter_4_MAC_Layer.md
       - "Chapter 5: Network Layer": computer_networks/Chapter_5_Network_Layer.md
       - "Chapter 6: Transport Layer": computer_networks/Chapter_6_Transport_Layer.md
+      - "Chapter 7: Application Layer": computer_networks/Chapter_7_Application_Layer.md
       - "Review & Exam Practice": computer_networks/CompNet_ClassTest.md
   - Hardware & Microprocessors:
       - "01 Assembler Directives": hardware_and_microprocessors/01_Directives_In_Depth.md
