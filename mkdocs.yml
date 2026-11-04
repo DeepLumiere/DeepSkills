@@ -143,6 +143,11 @@ nav:
       - "Chapter 8: Multiplexing": data_communication/DC_Chapter8_Notes.md
       - "Chapter 10: Switching": data_communication/DC_Chapter10_Notes.md
   - Data Analysis & Visualization:
+      - "UNIT 1": data_analysis/Unit_1_notes.md
+      - "UNIT 2": data_analysis/Unit_2_notes.md
+      - "UNIT 3": data_analysis/Unit_3_notes.md
+      - "UNIT 4": data_analysis/Unit_4_notes.md
+      - "UNIT 5": data_analysis/Unit_5_notes.md
       - "Chapter 1: Intro to DAV": data_analysis/Chapter1_Introduction_to_DAV.md
       - "Chapter 2: Types of Data": data_analysis/Chapter2_Types_of_Data.md
       - "Chapter 3: Dataset & Attributes": data_analysis/Chapter3_Dataset_and_Attributes.md
@@ -152,6 +157,7 @@ nav:
       - "Chapter 7: Intro to Business Data": data_analysis/Chapter7_Introduction_to_Business_Data.md
       - "Chapter 8: Data Visualization": data_analysis/Chapter8_Business_Data_Visualization_Definition_Purpose_Usage.md
       - "Chapter 9: Features of Business Data": data_analysis/Chapter9_Features_of_Business_Data.md
+  
   - Full Stack Web Development:
       - "Unit 1: Full Stack Basics & REST": web_development/Unit_01_Full_Stack_Basics.md
       - "Unit 2: Frontend Frameworks": web_development/Unit_02_Frontend_Frameworks.md
