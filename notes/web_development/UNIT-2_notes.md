@@ -253,7 +253,8 @@ Art Direction alters the crop, aspect ratio, or focal point of an image across d
 
 Explore how device viewports, aspect ratios, and media query breakpoints interact dynamically in real time:
 
-<iframe src="./interactive/viewport-simulator.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="Viewport Simulator"></iframe>
+<iframe src="../interactive/viewport-simulator.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="Viewport Simulator"></iframe>
+<p style="text-align: right; margin-top: -10px; font-size: 0.85rem;"><a href="../interactive/viewport-simulator.html" target="_blank" rel="noopener noreferrer">🔗 Open Viewport Simulator in new tab</a></p>
 
 ---
 
@@ -512,7 +513,8 @@ The HTML5 Drag and Drop (DnD) interface uses an event-driven messaging model cen
 
 Interact with live Geolocation, Web Storage inspection, and Drag and Drop functionality below:
 
-<iframe src="./interactive/html5-apis-sandbox.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="HTML5 APIs Sandbox"></iframe>
+<iframe src="../interactive/html5-apis-sandbox.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="HTML5 APIs Sandbox"></iframe>
+<p style="text-align: right; margin-top: -10px; font-size: 0.85rem;"><a href="../interactive/html5-apis-sandbox.html" target="_blank" rel="noopener noreferrer">🔗 Open HTML5 APIs Sandbox in new tab</a></p>
 
 ---
 
@@ -621,9 +623,11 @@ Legacy utility CSS frameworks pre-compiled every possible variant into massive s
 
 Evaluate grid systems and utility classes interactively in these sandboxes:
 
-<iframe src="./interactive/bootstrap5-grid-demo.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="Bootstrap 5 Grid Demo"></iframe>
+<iframe src="../interactive/bootstrap5-grid-demo.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="Bootstrap 5 Grid Demo"></iframe>
+<p style="text-align: right; margin-top: -10px; font-size: 0.85rem;"><a href="../interactive/bootstrap5-grid-demo.html" target="_blank" rel="noopener noreferrer">🔗 Open Bootstrap 5 Grid Demo in new tab</a></p>
 
-<iframe src="./interactive/tailwind-utility-styler.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="Tailwind Utility Styler"></iframe>
+<iframe src="../interactive/tailwind-utility-styler.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="Tailwind Utility Styler"></iframe>
+<p style="text-align: right; margin-top: -10px; font-size: 0.85rem;"><a href="../interactive/tailwind-utility-styler.html" target="_blank" rel="noopener noreferrer">🔗 Open Tailwind Utility Styler in new tab</a></p>
 
 ---
 
@@ -818,7 +822,8 @@ app.directive('focus-highlight', {
 
 Test reactive data binding, directive toggling, and computed properties in this live sandbox:
 
-<iframe src="./interactive/vue-directives-lab.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="Vue Directives Lab"></iframe>
+<iframe src="../interactive/vue-directives-lab.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="Vue Directives Lab"></iframe>
+<p style="text-align: right; margin-top: -10px; font-size: 0.85rem;"><a href="../interactive/vue-directives-lab.html" target="_blank" rel="noopener noreferrer">🔗 Open Vue Directives Lab in new tab</a></p>
 
 ---
 
@@ -1046,9 +1051,11 @@ function SeatBookingDashboard({ movieId, ticketUnitPrice }) {
 
 Inspect Virtual DOM diffing in real time and test component state in these interactive visualizers:
 
-<iframe src="./interactive/virtual-dom-reconciliation.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="Virtual DOM Reconciliation Visualizer"></iframe>
+<iframe src="../interactive/virtual-dom-reconciliation.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="Virtual DOM Reconciliation Visualizer"></iframe>
+<p style="text-align: right; margin-top: -10px; font-size: 0.85rem;"><a href="../interactive/virtual-dom-reconciliation.html" target="_blank" rel="noopener noreferrer">🔗 Open Virtual DOM Reconciliation Visualizer in new tab</a></p>
 
-<iframe src="./interactive/react-components-studio.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="React Components Studio"></iframe>
+<iframe src="../interactive/react-components-studio.html" width="100%" height="520" style="border: 1px solid #e2e8f0; border-radius: 8px; margin: 16px 0;" title="React Components Studio"></iframe>
+<p style="text-align: right; margin-top: -10px; font-size: 0.85rem;"><a href="../interactive/react-components-studio.html" target="_blank" rel="noopener noreferrer">🔗 Open React Components Studio in new tab</a></p>
 
 ---
 
