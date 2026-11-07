@@ -972,6 +972,7 @@ flowchart TD
 ## 5.3 Microtask Queues: process.nextTick() vs Promise Queue
 
 Microtask queues execute immediately after synchronous code completes, before the event loop advances:
+
 1. **`process.nextTick()` Queue:** Highest priority. Drained before any event loop phase transitions.
 2. **Promise Reactions Queue:** Handles `.then()`, `.catch()`, and `async/await`. Drained immediately after `process.nextTick()`.
 
@@ -1385,6 +1386,7 @@ module.exports = app;
 ### Question 1: Explain the Model-View-Controller (MVC) architectural pattern with a neat component interaction diagram.
 
 **Marking Scheme:**
+
 - Definition and primary purpose (1 Mark)
 - Clear explanation of Model, View, and Controller responsibilities (2 Marks)
 - Component interaction diagram / flowchart (1 Mark)
@@ -1413,11 +1415,13 @@ flowchart LR
 ### Question 2: Differentiate between Inversion of Control (IoC) and Dependency Injection (DI). Why is Constructor Injection preferred over Field Injection?
 
 **Marking Scheme:**
+
 - Distinction between IoC (principle) and DI (pattern) (2 Marks)
 - Architectural problems of Field Injection (1.5 Marks)
 - Concrete advantages of Constructor Injection (1.5 Marks)
 
 **Model Answer:**
+
 - **Inversion of Control (IoC):** A high-level architectural principle wherein the framework controls program execution flow and object lifecycles ("Hollywood Principle").
 - **Dependency Injection (DI):** A concrete design pattern implementing IoC. Rather than an object instantiating collaborating dependencies via `new ClassName()`, dependencies are supplied ("injected") by an external container.
 
@@ -1433,6 +1437,7 @@ flowchart LR
 ### Question 3: Explain the Richardson Maturity Model (RMM) for REST APIs with practical examples for each level.
 
 **Marking Scheme:**
+
 - Definition of RMM (1 Mark)
 - Level 0, Level 1, Level 2, Level 3 explanations with concrete URIs/payloads (1 Mark per Level = 4 Marks)
 
@@ -1441,10 +1446,13 @@ The **Richardson Maturity Model (RMM)** grades APIs across four evolutionary tie
 
 - **Level 0 (The Swamp of POX):** Uses HTTP strictly as a transport tunnel. All operations target a single endpoint URI using a single HTTP method (`POST`).
   *Example:* `POST /api/service` with payload `{"action": "cancelOrder", "id": 101}`. Always returns `200 OK`.
+
 - **Level 1 (Resources):** Introduces distinct URIs for individual resources, but continues using a single verb (`POST`) for all operations.
   *Example:* `POST /api/orders/101/cancel`.
+
 - **Level 2 (HTTP Verbs & Status Codes):** Employs standard HTTP verbs (`GET`, `POST`, `PUT`, `DELETE`) according to their formal semantic definitions, returning standard HTTP status codes (`200`, `201`, `204`, `404`).
   *Example:* `DELETE /api/orders/101` returns `204 No Content`.
+
 - **Level 3 (Hypermedia Controls / HATEOAS):** Responses contain navigable hypermedia controls (`_links`) informing clients of available state transitions dynamically.
   *Example:*
   ```json
@@ -1463,6 +1471,7 @@ The **Richardson Maturity Model (RMM)** grades APIs across four evolutionary tie
 ### Question 4: Compare the concurrency and execution model of Spring Boot (Tomcat thread-per-request) and Node.js (libuv event loop).
 
 **Marking Scheme:**
+
 - Detailed description of Spring Boot Tomcat thread pool model (2 Marks)
 - Detailed description of Node.js single-threaded event loop model (2 Marks)
 - Comparative workload suitability analysis (1 Mark)
@@ -1494,6 +1503,7 @@ flowchart TD
 ### Question 5: What is an idempotent HTTP method? Differentiate between PUT and PATCH with respect to request payloads and idempotency.
 
 **Marking Scheme:**
+
 - Mathematical and architectural definition of idempotency (1.5 Marks)
 - Semantic definition of `PUT` (1.5 Marks)
 - Semantic definition of `PATCH` (1.5 Marks)
@@ -1518,6 +1528,7 @@ An HTTP method is **Idempotent** if executing multiple identical requests produc
 ### Question 6: Describe the complete 10-step request processing lifecycle of Spring MVC DispatcherServlet from the arrival of an HTTP request to the flushing of the response. Include a detailed sequence diagram.
 
 **Marking Scheme:**
+
 - Comprehensive Front Controller Pattern explanation (1.5 Marks)
 - Detailed, accurate enumeration of all 10 canonical steps (5 Marks)
 - Clean, syntactically correct Sequence Diagram (2 Marks)
@@ -1572,6 +1583,7 @@ sequenceDiagram
 ### Question 7: Design and implement a robust, production-grade Express.js application handling a RESTful resource (`/api/v1/products`). Your solution must include custom request logging, request body validation, modular routing, and a 4-argument centralized error-handling middleware. Explain how libuv manages asynchronous non-blocking I/O during database queries.
 
 **Marking Scheme:**
+
 - Architectural explanation of libuv, event loop, and thread pool during async I/O (3 Marks)
 - Custom Request Logging Middleware with execution timing (1.5 Marks)
 - Robust Input Validation Middleware (1.5 Marks)
@@ -1582,6 +1594,7 @@ sequenceDiagram
 
 #### Part 1: How libuv Manages Asynchronous Non-Blocking I/O
 When an Express.js route executes an asynchronous database query or network call:
+
 1. The V8 call stack executes the query initiation function (e.g., `db.query()`).
 2. libuv checks the nature of the operation:
    - For **network socket operations** (TCP connection to a database like PostgreSQL or MongoDB), libuv registers the file descriptor with the OS kernel's native event demultiplexer (`epoll` on Linux, `kqueue` on macOS, `IOCP` on Windows). No worker threads are blocked.
@@ -1682,6 +1695,7 @@ app.listen(3000, () => console.log('Server listening on port 3000'));
 ### Question 8: What are the core architectural constraints of REST? Explain why statelessness is critical for horizontal scalability. Detail how Content Negotiation works in Spring Boot and provide a complete implementation of a REST Controller supporting both JSON and XML responses with global exception handling.
 
 **Marking Scheme:**
+
 - Detailed explanation of Fielding's 6 REST constraints (2 Marks)
 - In-depth architectural analysis of Statelessness and Horizontal Scalability (2 Marks)
 - Explanation of Content Negotiation mechanics (`Accept`, `Content-Type`, `HttpMessageConverter`) (2 Marks)
@@ -1700,10 +1714,12 @@ app.listen(3000, () => console.log('Server listening on port 3000'));
 
 #### Part 2: Why Statelessness is Critical for Horizontal Scalability
 In a **stateful architecture**, user session state (e.g., shopping cart, authentication login) is stored in server memory (e.g., `HttpSession`). This introduces severe scalability constraints:
+
 - **Sticky Sessions:** Load balancers must route all subsequent requests from a specific client to the exact same physical server instance. If that instance crashes, the user's session data is lost.
 - **Horizontal Auto-Scaling Failures:** New server instances cannot handle traffic from existing users without complex distributed session replication mechanisms (e.g., Redis session clustering), which introduces network overhead and synchronization bottlenecks.
 
 In a **stateless architecture**:
+
 - No session state is retained in server RAM. Authentication is verified through cryptographic tokens (JWTs) or stateless credentials provided in each request header (`Authorization: Bearer <token>`).
 - Any arbitrary server instance in an auto-scaling cluster can process any incoming request identically.
 - If a server instance fails, the load balancer routes traffic to a healthy instance with zero disruption to the user experience.
@@ -1729,6 +1745,7 @@ flowchart TD
 
 #### Part 3: Content Negotiation Mechanics
 Content Negotiation allows a client and server to agree on the data representation exchanged over HTTP:
+
 - **`Accept` Header (Client to Server):** Specifies the MIME types the client can process (e.g., `Accept: application/json, application/xml;q=0.9`).
 - **`Content-Type` Header:** Informs the recipient of the media format contained in the request or response body.
 - **Spring Boot Resolution:** When a controller returns an object, Spring's `ContentNegotiationManager` inspects the request's `Accept` header. It iterates through registered `HttpMessageConverter` beans:

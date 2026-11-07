@@ -827,6 +827,7 @@ Z_i = \frac{X_i - \mu}{\sigma}
 $$
 
 **Where:**
+
 - $x_i$ / $X_i$ = Individual data observation
 - $\bar{x}$ / $\mu$ = Sample / Population Mean
 - $s$ / $\sigma$ = Sample / Population Standard Deviation
@@ -874,6 +875,7 @@ f_i = \frac{i - 0.5}{n} \quad \text{for } i = 1, 2, \dots, n
 $$
 
 **Where:**
+
 - $i$ = Sorted rank of the observation ($1$-indexed)
 - $n$ = Total sample size
 - $f_i$ = Estimated cumulative probability (percentile rank), representing the fraction of data $\le x_i$
@@ -931,21 +933,37 @@ $$
 ### Complete Worked Numerical Trace: Q-Q Plot for Normality
 
 #### Given Sample Dataset ($n = 9$):
-$$X_{\text{raw}} = \{7.19, 6.31, 5.89, 4.50, 3.77, 4.25, 5.19, 5.79, 6.79\}$$
+
+$$
+X_{\text{raw}} = \{7.19, 6.31, 5.89, 4.50, 3.77, 4.25, 5.19, 5.79, 6.79\}
+$$
 
 #### Step 1: Sort Data and Assign Ranks ($i = 1 \dots 9$)
 
-$$X_{\text{sorted}} = [3.77, 4.25, 4.50, 5.19, 5.79, 5.89, 6.31, 6.79, 7.19]$$
+$$
+X_{\text{sorted}} = [3.77, 4.25, 4.50, 5.19, 5.79, 5.89, 6.31, 6.79, 7.19]
+$$
 
 #### Step 2: Compute Sample Statistics
 
 - **Sample Size ($n$):** $9$
 - **Sample Mean ($\bar{x}$):**
-  $$\bar{x} = \frac{3.77 + 4.25 + 4.50 + 5.19 + 5.79 + 5.89 + 6.31 + 6.79 + 7.19}{9} = \frac{49.68}{9} = 5.52$$
+
+$$
+\bar{x} = \frac{3.77 + 4.25 + 4.50 + 5.19 + 5.79 + 5.89 + 6.31 + 6.79 + 7.19}{9} = \frac{49.68}{9} = 5.52
+$$
+
 - **Sample Variance ($s^2$):**
-  $$s^2 = \frac{\sum (x_i - 5.52)^2}{9 - 1} = \frac{9.814}{8} = 1.22685$$
+
+$$
+s^2 = \frac{\sum (x_i - 5.52)^2}{9 - 1} = \frac{9.814}{8} = 1.22685
+$$
+
 - **Sample Standard Deviation ($s$):**
-  $$s = \sqrt{1.22685} \approx 1.108$$
+
+$$
+s = \sqrt{1.22685} \approx 1.108
+$$
 
 #### Step 3: Compute All 9 Quantile Table Entries
 

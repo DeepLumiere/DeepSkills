@@ -100,6 +100,7 @@ The abstraction of a continuous, error-free byte pipe presented by TCP to applic
 ![Figure 6.3: Hierarchical Protocol Data Unit Encapsulation](../images/chapter6/ch6_hierarchical_encapsulation.png)
 
 **Encapsulation Flow:**
+
 1. **Application Layer:** Generates application message / user data.
 2. **Transport Layer:** Prepends a Transport Header (e.g., TCP 20-byte header with source/dest ports, sequence numbers) to form a **Segment (TPDU)**.
 3. **Network Layer:** Prepends an IP Header (source/dest IP, TTL) to form a **Packet (Datagram)**.
@@ -168,6 +169,7 @@ To allow application programs to establish, utilize, and dismantle connections i
 ![Figure 6.4: Transport State Transition Diagram](../images/chapter6/ch6_transport_state_transitions.png)
 
 **State Transition Sequence:**
+
 1. **Server Initialization:** Server executes `LISTEN`, transitioning from `IDLE` to `PASSIVE_WAIT`.
 2. **Client Connection:** Client executes `CONNECT`, generating a `CONNECTION REQUEST` TPDU and entering `ACTIVE_WAIT`.
 3. **Establishment:** Server receives the request, sends `CONNECTION ACCEPTED`, and transitions to `CONNECTED`. Client receives the acceptance and transitions to `CONNECTED`.
@@ -486,11 +488,13 @@ Releasing a connection can be designed as:
 ### The Two-Army Problem (Gray's Paradox)
 
 **The Scenario:**
+
 * Blue Army 1 and Blue Army 2 are camped in the hills surrounding White Army in the valley.
 * If both Blue armies attack simultaneously, they win. If either attacks alone, White Army destroys them.
 * The only communication between Blue 1 and Blue 2 is by sending messengers through the hostile valley, where messengers may be captured.
 
 **The Paradox:**
+
 1. Blue 1 sends a messenger: *"Attack at dawn tomorrow."*
 2. Blue 1 cannot attack because it does not know if the messenger was captured.
 3. Blue 2 receives the message and sends an acknowledgment back: *"Agreed, attacking at dawn."*
@@ -508,6 +512,7 @@ Releasing a connection can be designed as:
 ![Figure 6.14: Four Connection Release Scenarios with Timers](../images/chapter6/ch6_connection_release_scenarios.png)
 
 **Four Release Scenarios:**
+
 1. **Normal Case:** Host 1 sends `DR` (Disconnect Request), Host 2 sends `DR` + `ACK`, Host 1 sends final `ACK`. Connection closes cleanly.
 2. **Final ACK Lost:** Host 1 sends final `ACK`, but it is dropped. Host 2's disconnect timer expires; Host 2 closes anyway.
 3. **Repeated DR Loss:** Host 2's `DR` is lost repeatedly. Host 1's timer expires; Host 1 releases its resources.
@@ -831,6 +836,7 @@ $$
 $$
 
    *(Consumes 1 sequence number).* Client enters `SYN_SENT`.
+
 2. **Step 2 (Server $\to$ Client):** Server accepts connection:
 
 $$
@@ -840,6 +846,7 @@ $$
 $$
 
    *(Consumes 1 sequence number).* Server enters `SYN_RCVD`.
+
 3. **Step 3 (Client $\to$ Server):** Client completes handshake:
 
 $$
@@ -883,6 +890,7 @@ $$
 $$
 
    Client enters `FIN_WAIT_2`. Server enters `CLOSE_WAIT`.
+
     * **Half-Close State:** The client can no longer send data, but it can **continue to receive data** from the server indefinitely!
 3. **Step 3 (Server $\to$ Client):** When the server finishes sending data, it calls `close()`:
 
@@ -903,6 +911,7 @@ $$
 $$
 
    Server immediately enters `CLOSED`.
+
     * **TIME_WAIT State:** The client does *not* close immediately. It enters `TIME_WAIT` and starts a timer set to **$2\text{MSL}$ (typically 4 minutes)**.
     * *Why TIME_WAIT is essential:*
       1. If the client's final ACK is lost, the server will retransmit its FIN. The client must remain alive to re-acknowledge the FIN; otherwise, the server receives an RST and assumes connection error.
@@ -959,6 +968,7 @@ $$
 $$
 
   *(Left wall moves right by 5 bytes; right wall stays stationary).*
+
 * **Event 2:** Receiver application reads 20 bytes from its receive buffer. Receiver returns:
 
 $$
@@ -1327,11 +1337,13 @@ A TCP connection is transmitting data across a high-speed network at a constant 
 2. If the transmission rate is upgraded to $1\text{ Gbps}$ ($1.25 \times 10^8\text{ bytes/s}$), what is the new wraparound time?
 
 **Given:**
+
 * Sequence Number Space = $2^{32} = 4,294,967,296\text{ unique sequence numbers}$
 * Initial Sequence Number $\text{ISN} = 7000$
 * Data Rate $R_1 = 1\text{ MB/s} = 10^6\text{ bytes/s}$
 
 **Step-by-Step Calculation:**
+
 1. Because the sequence number space is circular ($2^{32}$ total bytes), the initial starting value ($7000$) is negligible when computing full wrap time.
    Total bytes before wrap:
 
@@ -1360,6 +1372,7 @@ A TCP connection is transmitting data across a high-speed network at a constant 
    *(Note: Because $34.36\text{ s} < \text{MSL} = 120\text{ s}$, standard TCP breaks at gigabit speeds! High-speed TCP must use the RFC 1323 PAWS — Protection Against Wrapped Sequences option).*
 
 **Final Answer:**
+
 * At $1\text{ MB/s}$: **$4295\text{ seconds}$ ($71.58\text{ minutes}$)**.
 * At $1\text{ Gbps}$: **$34.36\text{ seconds}$**.
 
@@ -1384,6 +1397,7 @@ Decode this header and determine:
 6. The client/server application process involved.
 
 **Step-by-Step Decoding:**
+
 1. **Source Port (Bytes 1–2: `06 32`):**
 
    $$
@@ -1436,11 +1450,13 @@ A client application uses UDP to transmit a tiny data payload of $16\text{ bytes
 2. At the combined IP + UDP level (assuming a standard 20-byte IPv4 header).
 
 **Given:**
+
 * Payload Data = $16\text{ bytes}$
 * UDP Header = $8\text{ bytes}$
 * IPv4 Header = $20\text{ bytes}$
 
 **Step-by-Step Calculation:**
+
 1. **Efficiency at UDP Level:**
 
    $$
@@ -1479,6 +1495,7 @@ A client application uses UDP to transmit a tiny data payload of $16\text{ bytes
 An application process generates an oversized message of $68,000\text{ bytes}$. Can this message be transmitted across the Internet using a single UDP user datagram? Explain the mathematical constraints.
 
 **Analysis & Solution:**
+
 1. **UDP Header Length Field Constraint:**
     * The UDP Length field is an unsigned 16-bit integer:
 
@@ -1515,6 +1532,7 @@ Using standard Jacobson parameters ($\alpha = 0.125, \beta = 0.25$), compute:
 3. The newly updated Retransmission Timeout ($RTO$).
 
 **Given:**
+
 * Initial $SRTT_0 = 100\text{ ms}$
 * Initial $RTTVAR_0 = 10\text{ ms}$
 * Measured Sample $M = 140\text{ ms}$
@@ -1522,6 +1540,7 @@ Using standard Jacobson parameters ($\alpha = 0.125, \beta = 0.25$), compute:
 * $\beta = 0.25 = \frac{1}{4}$
 
 **Step-by-Step Calculation:**
+
 1. **Update Smoothed RTT ($SRTT$):**
 
    $$
@@ -1559,6 +1578,7 @@ Using standard Jacobson parameters ($\alpha = 0.125, \beta = 0.25$), compute:
    $$
 
 **Final Answer:**
+
 * $SRTT = \mathbf{105\text{ ms}}$
 * $RTTVAR = \mathbf{17.5\text{ ms}}$
 * $RTO = \mathbf{175\text{ ms}}$

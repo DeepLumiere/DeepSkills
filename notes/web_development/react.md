@@ -66,6 +66,7 @@ const element = React.createElement('h1', { className: 'title' }, 'Hello, ', nam
 ```
 
 **JSX Rules:**
+
 - Use `className` instead of `class`
 - Use `htmlFor` instead of `for`
 - All tags must be closed: `<br />`, `<img />`

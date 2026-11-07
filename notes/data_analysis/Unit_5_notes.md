@@ -1,10 +1,10 @@
 # Chapter 5 — Advanced Visualisation, Visual Analytics & Specialized Graphical Topologies
 
-> **Course Code:** 3CS103ME24  
-> **Course Title:** Data Analysis and Visualisation (DAV)  
-> **Academic Program:** B.Tech Computer Science & Engineering, Semester V  
-> **Institution:** Nirma University  
-> **Primary Instructor:** Mr. Pramathesh Shukla (Senior Data Analyst, Business Intelligence & Analytics)  
+> **Course Code:** 3CS103ME24
+> **Course Title:** Data Analysis and Visualisation (DAV)
+> **Academic Program:** B.Tech Computer Science & Engineering, Semester V
+> **Institution:** Nirma University
+> **Primary Instructor:** Mr. Pramathesh Shukla (Senior Data Analyst, Business Intelligence & Analytics)
 > **Primary Source Files Integrated:**
 > - `Session6_Small_Multiples.pdf` (32 slides, Lecture Date: 23 September 2026)
 > - `Session7_Organisational_Models.pptx` (Lecture Date: 24 September 2026)
@@ -32,6 +32,7 @@ The syllabus of Unit 5 focuses on transforming complex, high-dimensional, and mu
 ## Section Narrative Spines & Pedagogical Flow
 
 To prevent disconnected concept enumeration, each section of these study notes is governed by a distinct **narrative spine**:
+
 - **Section 1 (Small Multiples):** Explains how human visual processing circumvents working-memory bottlenecks when multi-category comparisons are partitioned across identical, aligned visual facets rather than stacked into an unreadable "spaghetti chart."
 - **Section 2 (Perceptual Variables & Visual Hierarchy):** Connects neuro-cognitive preattentive sensory registration (<200 ms) to Edward Tufte's Data-Ink ratio and Cleveland & McGill's empirical psychophysical accuracy rankings, structuring the 3-tier enterprise dashboard layout.
 - **Section 3 (Visual Analytics & Interaction):** Transitions from static visual displays to dynamic human-in-the-loop visual analytics, formalizing Shneiderman's Mantra and the 4 fundamental interaction primitives.
@@ -92,20 +93,20 @@ flowchart TD
 
 ### Definition: Small Multiples (Trellis Display / Lattice Chart)
 
-**Meaning:**  
+**Meaning:**
 A visual design technique that takes a single chart template and replicates it across multiple adjacent sub-panels, each displaying an isolated slice of the data across a uniform coordinate framework.
 
-**Formal Definition:**  
+**Formal Definition:**
 A Trellis or Small Multiple display is a parameterized mapping:
 $$
 f: C_k \to \mathcal{G}(X, Y \mid \theta_0)
 $$
 where $C = \{c_1, c_2, \dots, c_K\}$ represents a discrete categorical conditioning dimension, and each sub-graph $\mathcal{G}_k$ renders the quantitative relationship between variables $X$ and $Y$ using a strictly invariant coordinate transformation $\theta_0$ (identical physical width, height, axis limits, and aspect ratio).
 
-**Intuition:**  
+**Intuition:**
 Instead of forcing the human brain to disentangle 10 overlapping lines on one chart, the analyst gives each entity its own clean, quiet box. The eye sweeps effortlessly across the grid, instantly spotting spikes, troughs, and outliers because every box follows identical visual rules.
 
-**Example:**  
+**Example:**
 A smartphone weather application displaying a 7-day forecast using 7 small, identical vertical cards side by side (Monday through Sunday), where each card features an identically scaled bar or temperature sparkline.
 
 [Source: `Session6_Small_Multiples.pdf`, Slides 3–6]
@@ -115,6 +116,7 @@ A smartphone weather application displaying a 7-day forecast using 7 small, iden
 ### Neuro-Cognitive Foundations of Pattern Spotting
 
 The efficacy of Small Multiples is grounded in human sensory perception:
+
 - **Visual Cortex Parallelism:** The human visual cortex processes parallel sensory inputs across the field of view in under 1 second ($<1000\text{ ms}$). When spatial structures are held identical, cognitive energy is not wasted decoding varying axes, legends, or color keys.
 - **Pattern Spotting Mechanism:** When multiple visual objects share identical geometries, any deviation in height, slope, or position creates immediate visual pop-out. The observer does not need to read numerical labels; the visual cortex registers the anomaly instantaneously.
 - **Tabular Reading vs. Visual Scanning:** Reading numbers from a tabular matrix requires serial, conscious, foveal scanning (left-to-right, top-to-bottom) mediated by working memory. Small multiples leverage preattentive parallel visual decoding, reducing cognitive cycle time by over 80%.
@@ -194,11 +196,13 @@ flowchart LR
 
 ### Concrete Case Scenarios from Course Materials
 
-- **Scenario A: 18 Students' Academic Examination Scores:**  
+- **Scenario A: 18 Students' Academic Examination Scores:**
   Arranged as a $2 \times 9$ matrix of identical bar cards. Rather than reading a dense mark sheet, the educator scans 18 cards simultaneously. High-performing students (scores $>85$) pop out in emerald green, while students requiring academic intervention (scores $<40$) register in alert crimson.
-- **Scenario B: 12 Retail Stores Across a Commercial Chain:**  
+
+- **Scenario B: 12 Retail Stores Across a Commercial Chain:**
   Arranged in a $2 \times 6$ grid. Store 1 through Store 12 display monthly sales bars on identical scales. Outlier stores suffering supply-chain stockouts are identified in under 1 second without inspecting raw spreadsheets.
-- **Scenario C: 6-Year Geopolitical Election Map Multiples:**  
+
+- **Scenario C: 6-Year Geopolitical Election Map Multiples:**
   Instead of bar or line marks, each sub-panel contains an identical choropleth map representing consecutive election cycles (2020 to 2025). The viewer tracks the geographic migration of political coalitions across time without cognitive dissonance.
 
 [Source: `Session6_Small_Multiples.pdf`, Slides 10, 21, 23]
@@ -207,11 +211,13 @@ flowchart LR
 
 ### Tableau 3-Step Construction Workflow
 
-1. **Step 1: Data Connection & Baseline Chart Generation:**  
+1. **Step 1: Data Connection & Baseline Chart Generation:**
    Drag the quantitative measure (e.g., `SUM(Sales)`) to **Rows** and the primary dimension (e.g., continuous `Order_Date` or discrete `Sub-Category`) to **Columns**. Establish the base line or bar chart.
-2. **Step 2: Conditioning Shelf Partitioning:**  
+
+2. **Step 2: Conditioning Shelf Partitioning:**
    Drag the categorical grouping dimension (e.g., `Store_Location`, `Region`, `Department`) onto the **Columns** shelf (for horizontal layout) or **Rows** shelf (for vertical stacking), or both (to create a 2D matrix grid). Tableau automatically partitions the single chart into adjacent, synchronized trellis panels.
-3. **Step 3: Axis Synchronization & Styling Simplification:**  
+
+3. **Step 3: Axis Synchronization & Styling Simplification:**
    Right-click the vertical axis $\to$ ensure `Uniform axis range for all rows and columns` is selected. Remove unnecessary zero lines, lighten horizontal gridlines, format title labels to concise bold text, and assign a uniform monochromatic color palette.
 
 [Source: `Session6_Small_Multiples.pdf`, Slide 25]
@@ -245,6 +251,7 @@ flowchart TD
 ### Preattentive Visual Processing (< 200 ms)
 
 Human vision operates in two distinct computational stages:
+
 1. **Preattentive Processing:** Occurs automatically, rapidly ($<200\text{ ms}$), and unconsciously across large areas of the visual field. It extracts low-level physical features without focused attention.
 2. **Attentive Processing:** Operates sequentially, slowly ($>250\text{ ms}$), and consciously, focusing on localized features to read text, decode numerical values, and synthesize complex relationships.
 
@@ -374,14 +381,12 @@ Color must never be deployed decoratively; it serves strict semantic functions:
 | :--- | :--- | :--- | :--- |
 | **Categorical (Nominal)** | Distinct hues with uniform visual luminance and saturation | Unordered qualitative discrete classes ($c_i \neq c_j$) | Customer Segments, Departments, Server Types |
 | **Sequential** | Monotonic gradient of single hue from light (low) to dark (high) | Continuous, ordered, non-negative quantitative data ($x \ge 0$) | Total Headcount, Population Density, Invoice Totals |
-| **Diverging** | Two contrasting hues separated by a neutral midpoint (white/gray) | Ordered data with a critical central threshold or zero baseline | Profit vs Loss ($-\$ \leftrightarrow +\
-$$
-), YoY Growth Rate ($\pm \%$) |
-$$
+| **Diverging** | Two contrasting hues separated by a neutral midpoint (white/gray) | Ordered data with a critical central threshold or zero baseline | Profit vs Loss ($-\text{USD} \leftrightarrow +\text{USD}$), YoY Growth Rate ($\pm \%$) |
 | **Alert / RAG** | Red (Critical / Danger), Amber (Warning), Green (Normal) | Qualitative operational threshold compliance | SLA breaches, ICU bed saturation, claim denials |
 
 #### Colorblind Accessibility Mandate
 Standard Red-Green palettes fail for the 8% of male users with congenital color vision deficiencies (Deuteranopia and Protanopia). Designers must adopt accessible alternatives:
+
 - Substitute Red-Green with **Navy Blue (Positive / Gain) versus Vermilion Orange (Negative / Loss)**.
 - Augment color encodings with redundant visual channels (e.g., text labels, directional arrows, distinct geometric shapes).
 
@@ -564,13 +569,15 @@ Here, $T$ denotes the complete natural periodicity (e.g., $T = 24\text{ hours}$ 
 
 #### Resolving Extreme Scale Disparity:
 In industrial monitoring, analysts frequently compare two metrics that share an identical timeline but operate on radically incompatible numerical scales. For example, in the CRSI Market Intelligence study:
+
 - Metric 1: **Steel Producer Price Index (PPI)** $\approx 4,000$ points.
 - Metric 2: **Total US Construction Spending** $\approx \$20,000,000$ ($20\text{ Million USD}$).
 
-If plotted on a single shared vertical axis spanning 0 to 20,000,000, the Steel PPI line (values near 4,000) collapses into a flat, indistinguishable horizontal line along the bottom axis. 
+If plotted on a single shared vertical axis spanning 0 to 20,000,000, the Steel PPI line (values near 4,000) collapses into a flat, indistinguishable horizontal line along the bottom axis.
 
-**The Structural Solution:**  
+**The Structural Solution:**
 Implement a **Multi-Y (Dual-Axis) Graph**:
+
 - Metric 1 (Steel PPI) is plotted against the **Left Vertical Axis** (Scale: $0\text{K}$ to $4\text{K}$).
 - Metric 2 (Construction Spending) is plotted against the **Right Vertical Axis** (Scale: $\$0\text{M}$ to $\$20\text{M}$).
 - Both metrics share the **Horizontal Axis** (Timeline: 2015 to 2026).
@@ -584,7 +591,7 @@ flowchart TD
         HA["Shared Horizontal Time Axis: Years 2015 to 2026"]
         L1["Line 1: Steel Index (Color: Teal #0F766E)"]
         L2["Line 2: Construction ($) (Color: Amber #D97706)"]
-        
+
         LA --- L1
         RA --- L2
         L1 --- HA
@@ -623,7 +630,7 @@ flowchart LR
 ### 3. Treemaps (Hierarchical Space-Filling Tessellation)
 
 #### Mathematical & Geometric Topology:
-A Treemap displays hierarchical, part-to-whole categorical data through recursive space-filling planar partitioning. The total canvas area represents 100% of the aggregated measure. 
+A Treemap displays hierarchical, part-to-whole categorical data through recursive space-filling planar partitioning. The total canvas area represents 100% of the aggregated measure.
 
 Let a category set have positive quantitative weights $W = \{w_1, w_2, \dots, w_n\}$ within a bounding canvas of total area $A_{\text{total}} = \text{Width} \times \text{Height}$. The area $a_i$ allocated to rectangle $R_i$ is strictly proportional to its relative weight:
 $$
@@ -684,7 +691,7 @@ In Session 9 (Slides 21–26), the curriculum synthesizes all theoretical princi
 flowchart TD
     subgraph DashboardCanvas ["CRSI Market Intelligence Dashboard (Fixed Layout 1440 x 900)"]
         direction TB
-        
+
         subgraph HeaderSection ["Executive Narrative Headline Banner (Top)"]
             H1["'Steel prices are up 9.87% YoY as of May 2026, while construction spending growth has slowed to under 1%...<br/>Texas led job gains (+28,600), while California posted steepest losses (-13,800) - clear Sun Belt vs. coastal divergence.'"]
         end
@@ -718,26 +725,31 @@ flowchart TD
 
 ### Deconstruction of the 5 Core Dashboard Components
 
-1. **The Executive Headline Narrative Banner:**  
+1. **The Executive Headline Narrative Banner:**
    Positioned at the top of the canvas. Instead of a generic title (e.g., *"Steel and Construction Report"*), it provides an actionable executive summary:
    > *"Steel prices are up 9.87% year-over-year as of May 2026, while construction spending growth has slowed to under 1% — input costs are outpacing project demand, creating margin pressure for steel reinforcement buyers. Texas led construction job gains (+28,600), while California posted the steepest losses (-13,800) — a clear Sun Belt vs. coastal divergence in regional demand."*
-2. **The 4 Executive KPI Hero Cards (Tier 1 BANs):**  
+2. **The 4 Executive KPI Hero Cards (Tier 1 BANs):**
    - **Steel YoY Growth:** `9.87%` (Input cost inflation)
    - **Construction YoY Growth:** `0.88%` (Market demand stagnation)
    - **Steel MoM Growth:** `1.63%` (Short-term acceleration)
-   - **Construction MoM Growth:** `0.37%` (Short-term flattening)  
+   - **Construction MoM Growth:** `0.37%` (Short-term flattening)
    Each card displays a 24pt bold number paired with an explicit temporal baseline label.
-3. **Dual Macroeconomic Trend Views (Tier 2):**  
+
+3. **Dual Macroeconomic Trend Views (Tier 2):**
    Rather than falling into the **Two-Axis Trap** by superimposing Steel PPI and Construction Spending onto a single deceptive dual-axis plot, the architect placed two coordinated line charts side by side:
+
    - Chart A: Steel Price Producer Index from 2015 to 2026 (Scale: 0 to 4K).
    - Chart B: Total US Construction Spending from 2015 to 2026 (Scale: $0 to $20M).
    This allows direct visual comparison of cyclical shapes and trajectories without generating spurious line intersections.
-4. **Geospatial State Employment Choropleth Map (Tier 2):**  
+
+4. **Geospatial State Employment Choropleth Map (Tier 2):**
    Encodes net 12-month construction job changes across all 50 US states using a diverging palette:
+
    - **Navy Blue:** Positive employment expansion (Texas leading with $+28,600$ positions).
    - **Vermilion Orange:** Contraction and employment decline (California posting $-13,800$ losses).
    The viewer decodes the macroeconomic geographic migration (Sun Belt boom vs. Coastal contraction) in under 2 seconds.
-5. **Continuous Temporal Parameter Slider (Interaction Engine):**  
+
+5. **Continuous Temporal Parameter Slider (Interaction Engine):**
    Positioned in the upper right quadrant. Dragging the slider dynamically re-filters all 4 KPI BAN cards, updates the macro trend lines, and re-calculates state employment gains across the map with sub-100 ms latency.
 
 [Source: `Session9_Radial_MultiY_Treemaps_.pdf`, Slides 21–25; `Tableau Demo Solution.twbx`]
@@ -926,7 +938,7 @@ $$
 
 **Goal:** Prove mathematically, using Stevens' Power Law, why human observers experience non-linear underestimation when decoding 2D Area encodings (Treemaps, Proportional Circles, Bubble Charts) compared to 1D Length encodings (Bar Charts), explaining the Cleveland & McGill hierarchy ranking.
 
-**Starting Point:**  
+**Starting Point:**
 Stevens' Psychophysical Power Law relates perceived sensation $\psi$ to physical stimulus intensity $I$:
 $$
 \psi(I) = k \cdot I^\beta
@@ -964,7 +976,7 @@ $$
 R_{\text{perceived, area}} \approx 5.62 \ll 10.0 = R_{\text{true}}
 $$
 
-**Interpretation:**  
+**Interpretation:**
 When an analyst doubles or increases a circle or rectangle's area by a factor of 10, the human visual cortex perceives an increase of only $\sim 5.6$-fold. Viewers systematically underestimate large areas unless explicit data labels are printed inside the marks. This empirical mathematical reality places Position and Length at Ranks 1–3 of the Cleveland-McGill hierarchy, while Area drops to Rank 5.
 
 [Source: `Session7_Organisational_Models.pptx`]
@@ -975,9 +987,10 @@ When an analyst doubles or increases a circle or rectangle's area by a factor of
 
 ### Numerical Problem 1: Quantitative Audit of Data-Ink Ratio & Chartjunk Optimization
 
-**Examination Level:** 10 Marks  
-**Problem Statement:**  
+**Examination Level:** 10 Marks
+**Problem Statement:**
 An analytics team deployed an operational dashboard displaying monthly departmental server expenses. A UI audit evaluates the ink consumption across a $1000 \times 600\text{ pixel}$ canvas (Total Canvas Area $= 600,000\text{ px}^2$). The physical pixel breakdown reveals:
+
 - Total active screen pixels consumed by graphic elements: $180,000\text{ pixels}$.
 - Essential data-ink (bars, line trajectories, and numerical value labels): $54,000\text{ pixels}$.
 - Heavy decorative drop shadows and pseudo-3D bevels: $45,000\text{ pixels}$.
@@ -985,6 +998,7 @@ An analytics team deployed an operational dashboard displaying monthly departmen
 - Dense black coordinate gridlines and redundant axis border frames: $30,000\text{ pixels}$.
 
 **Required Targets:**
+
 1. Compute the baseline **Data-Ink Ratio ($\text{DIR}_{\text{initial}}$)** and the **Chartjunk Ratio**.
 2. Formulate an engineering remediation plan removing non-data ink.
 3. Compute the re-engineered **Data-Ink Ratio ($\text{DIR}_{\text{final}}$)** assuming all 3D bevels and saturated cards are eliminated, and gridlines are replaced by subtle 1px dashed rules consuming only $4,500\text{ pixels}$.
@@ -1010,6 +1024,7 @@ $$
 $$
 
 **Step 2: Remediation Plan Execution**
+
 - Eliminate 3D bevels and drop shadows $\to$ Recover $45,000\text{ pixels}$.
 - Replace saturated dark background containers with pure white background `#FFFFFF` $\to$ Recover $51,000\text{ pixels}$.
 - Replace heavy black gridlines ($30,000\text{ pixels}$) with minimal dashed rules ($4,500\text{ pixels}$) $\to$ Net non-data ink becomes $4,500\text{ pixels}$.
@@ -1029,8 +1044,8 @@ By eliminating chartjunk, the Data-Ink Ratio improved from an unacceptable **$30
 
 ### Numerical Problem 2: Transforming Disparate Physical Measurements into a Normalized Base-100 Multi-Series Chart
 
-**Examination Level:** 12 Marks  
-**Problem Statement:**  
+**Examination Level:** 12 Marks
+**Problem Statement:**
 An executive visual analytics team at CRSI is analyzing steel input costs against commercial construction spending over a 5-year macro cycle ($2020$ to $2024$). The raw data records:
 
 | Observation Year ($t$) | Steel Producer Price Index ($S_t$, Points) | Total Construction Spending ($C_t$, Billions USD) |
@@ -1042,6 +1057,7 @@ An executive visual analytics team at CRSI is analyzing steel input costs agains
 | **2024** | 2,600 | \$1,560 Billion |
 
 **Required Targets:**
+
 1. Demonstrate the failure mode of plotting both series on a single unnormalized Cartesian axis ($0$ to $\$1,600$).
 2. Calculate the Normalized Base-100 Relative Growth Indices ($I_{S, t}$ and $I_{C, t}$) for all years taking $2020$ as Base Year ($I_{2020} = 100.0$).
 3. Compute the Year-over-Year ($\text{YoY}$) percentage growth rates for both series for 2021.
@@ -1087,23 +1103,25 @@ $$
 \text{YoY}_{\text{Construct}, 2021} = \left(\frac{1,260 - 1,200}{1,200}\right) \times 100\% = \frac{60}{1,200} \times 100\% = \mathbf{+5.0\%}
 $$
 
-**Step 4: Analytical Conclusion:**  
+**Step 4: Analytical Conclusion:**
 In 2021, steel input costs exploded by $+80.0\%$ while project demand expanded by only $+5.0\%$, producing severe contractor margin compression. By converting both disparate metrics to a shared Base-100 Relative Index on a single vertical axis, both series can be compared honestly without using misleading dual axes. The 2024 convergence at index $130.0$ demonstrates that over the 5-year cycle, both steel prices and construction spending expanded by exactly $+30.0\%$ relative to their 2020 baselines.
 
 ---
 
 ### Numerical Problem 3: Squarified Treemap Recursive Coordinate Partitioning
 
-**Examination Level:** 15 Marks  
-**Problem Statement:**  
+**Examination Level:** 15 Marks
+**Problem Statement:**
 An e-commerce executive dashboard partitions a total marketing revenue canvas of width $W = 1000\text{ pixels}$ and height $H = 600\text{ pixels}$ ($A_{\text{total}} = 600,000\text{ px}^2$). The portfolio consists of 4 commercial product categories whose revenue totals are:
+
 - Category A (Electronics): $\$450,000$ ($45\%$)
 - Category B (Apparel): $\$270,000$ ($27\%$)
 - Category C (Home Goods): $\$180,000$ ($18\%$)
-- Category D (Accessories): $\$100,000$ ($10\%$)  
+- Category D (Accessories): $\$100,000$ ($10\%$)
 Total Revenue $= \$1,000,000$.
 
 **Required Targets:**
+
 1. Compute the exact pixel area allocated to each category rectangle ($a_A, a_B, a_C, a_D$).
 2. Perform a vertical split partitioning Category A along the left canvas boundary. Calculate its width $w_A$, height $h_A$, and aspect ratio $\rho(A)$.
 3. Partition the remaining canvas area among Categories B, C, and D. Calculate the dimensions and aspect ratios for Category B under a horizontal sub-split.
@@ -1116,6 +1134,7 @@ Total Canvas Area $A = 1000 \times 600 = 600,000\text{ px}^2$.
 $$
 a_i = A \times \left(\frac{\text{Revenue}_i}{\text{Total Revenue}}\right)
 $$
+
 - $a_A = 600,000 \times 0.45 = \mathbf{270,000\text{ px}^2}$
 - $a_B = 600,000 \times 0.27 = \mathbf{162,000\text{ px}^2}$
 - $a_C = 600,000 \times 0.18 = \mathbf{108,000\text{ px}^2}$
@@ -1143,7 +1162,7 @@ $$
 $$
 a_{\text{rem}} = 550 \times 600 = 330,000\text{ px}^2
 $$
-Here, $h_{\text{rem}} = 600 > w_{\text{rem}} = 550$. The algorithm splits horizontally across the width $w_{\text{rem}} = 550$.  
+Here, $h_{\text{rem}} = 600 > w_{\text{rem}} = 550$. The algorithm splits horizontally across the width $w_{\text{rem}} = 550$.
 Let Category B occupy a horizontal strip spanning full remaining width $w_B = 550\text{ pixels}$:
 $$
 w_B = 550\text{ pixels}
@@ -1218,15 +1237,16 @@ flowchart TD
     AntiPattern -.->|"Refactored into Structured Layout"| TrellisSolution
 ```
 
-**What It Shows:**  
+**What It Shows:**
 The architectural comparison between an unreadable spaghetti chart and an organized $3 \times 3$ Small Multiples trellis display.
 
 **Component Breakdown:**
+
 - **Spaghetti Canvas:** Overcrowded multi-line plot with severe line crossings and legend-lookup fatigue.
 - **Trellis Panels (M1–M9):** Nine independent, non-occluded sub-plots.
 - **Scale Invariance Baseline:** Every row and column enforces an identical vertical axis scale ($0$ to $100\text{K}$).
 
-**Flow Description:**  
+**Flow Description:**
 Raw multi-series data flows into partitioned sub-panels. Instead of disentangling overlapping trajectories, the human eye performs parallel visual sweeps across rows and columns, instantly identifying outlier trajectories.
 
 [Source: `Session6_Small_Multiples.pdf`, Slides 8–9]
@@ -1250,10 +1270,10 @@ graph TD
     Rank1 --> Rank2 --> Rank3 --> Rank4 --> Rank5 --> Rank6 --> Rank7
 ```
 
-**What It Shows:**  
+**What It Shows:**
 The empirical perceptual accuracy hierarchy established by Cleveland and McGill (1984), ranking human quantitative decoding capability from highest to lowest accuracy.
 
-**Key Analytical Insight:**  
+**Key Analytical Insight:**
 Encodings at Ranks 1 and 2 (Position) provide direct, linear sensory decoding. Encodings at Ranks 5 to 7 (Area, Volume, Color Saturation) suffer from severe psychophysical perceptual compression, requiring explicit on-mark numerical labeling.
 
 [Source: `Session7_Organisational_Models.pptx`]
@@ -1285,10 +1305,11 @@ sequenceDiagram
     Note over Analyst: Analyst inspects cohort distribution<br/>across all three dimensions simultaneously!
 ```
 
-**What It Shows:**  
+**What It Shows:**
 The cross-view linking and brushing architecture connecting three coordinated worksheets (Scatter Plot, Bar Chart, and Geographic Choropleth Map).
 
 **Component Breakdown:**
+
 - **Primary Interaction View (Scatter):** Captures user bounding box selection.
 - **Relational Interactivity Engine:** Broadcasts selected record IDs across shared schema keys.
 - **Dependent Target Views (Bar & Map):** Concurrently illuminate the active cohort while retaining peripheral context via desaturation.
@@ -1322,10 +1343,10 @@ flowchart LR
     Cartesian --> TransformationMath --> Polar
 ```
 
-**What It Shows:**  
+**What It Shows:**
 The geometric translation from a rectilinear Cartesian bar chart to a 360-degree polar radial table.
 
-**Operational Application:**  
+**Operational Application:**
 Continuous cyclical phenomena (such as 24-hour datacenter power demand or 12-month epidemiological cycles) achieve natural perceptual continuity in polar space, eliminating the artificial gap between the first and last time points.
 
 [Source: `Session9_Radial_MultiY_Treemaps_.pdf`, Slides 5–6]
@@ -1361,7 +1382,7 @@ flowchart TD
     DeceptivePlot -.->|"Mathematically Refactored Into"| HonestSolution
 ```
 
-**What It Shows:**  
+**What It Shows:**
 The visual danger of independent dual-axis scaling (creating false line intersections and deceptive slopes) compared to the mathematically rigorous Base-100 Relative Growth Index.
 
 [Source: `Session9_Radial_MultiY_Treemaps_.pdf`, Slides 9–14]
@@ -1451,6 +1472,7 @@ The visual danger of independent dual-axis scaling (creating false line intersec
 $$
 \text{DIR} = \frac{\text{Data-Ink}}{\text{Total Ink Used to Print the Graphic}} = 1.0 - \text{Chartjunk Ratio}
 $$
+
 - $\text{Data-Ink}$: Area of ink displaying non-redundant data marks ($\text{px}^2$).
 - $\text{Total Ink}$: Total area of ink across all elements ($\text{px}^2$).
 - Range: $[0.0, 1.0]$ (Target: $> 0.85$).
@@ -1462,6 +1484,7 @@ $$
 $$
 r_i = r_{\text{inner}} + \left(\frac{v_i - V_{\min}}{V_{\max} - V_{\min}}\right) \cdot (r_{\text{outer}} - r_{\text{inner}})
 $$
+
 - $\theta_i, r_i$: Polar coordinates of mark (radians, pixels).
 - $T$: Cycle period ($24\text{ hours}$ or $12\text{ months}$).
 - $\theta_0$: Angular offset ($90^\circ$ for 12 o'clock).
@@ -1470,6 +1493,7 @@ $$
 $$
 \rho(R) = \max\left(\frac{w}{h}, \frac{h}{w}\right) \ge 1.0
 $$
+
 - $w, h$: Rectangle dimensions in screen pixels.
 - Optimal square: $\rho = 1.0$; Acceptable threshold: $\rho \le 2.0$.
 
@@ -1477,6 +1501,7 @@ $$
 $$
 I_t = \left(\frac{X_t}{X_{\text{base}}}\right) \times 100
 $$
+
 - $I_t$: Normalized index points ($I_{\text{base}} = 100.0$).
 - $X_t, X_{\text{base}}$: Observed metric value and base period value.
 
@@ -1484,12 +1509,14 @@ $$
 $$
 \text{YoY}_t = \left(\frac{V_t - V_{t-12}}{V_{t-12}}\right) \times 100\%, \quad \text{MoM}_t = \left(\frac{V_t - V_{t-1}}{V_{t-1}}\right) \times 100\%
 $$
+
 - $V_t$: Quantitative metric value at observation period $t$.
 
 #### 6. Stevens' Psychophysical Power Law (Perceived Magnitude)
 $$
 \psi(I) = k \cdot I^\beta
 $$
+
 - $\beta \approx 1.0$ for Aligned Length; $\beta \approx 0.75$ for 2D Area; $\beta \approx 0.55$ for 3D Volume.
 
 ---
@@ -1519,51 +1546,54 @@ $$
 
 #### A. 2-Mark Short Definition Questions
 
-**Q1: Define a Small Multiple display and state its primary cognitive advantage.**  
+**Q1: Define a Small Multiple display and state its primary cognitive advantage.**
 *Model Answer:* A Small Multiple (Trellis display) is an arrangement of identical, adjacent sub-charts sharing uniform coordinate scales, each displaying an isolated slice of data. Its primary cognitive advantage is leveraging the visual cortex's parallel processing capability to spot anomalies and outliers in under 1 second without working-memory fatigue. `[Source: Session6_Small_Multiples.pdf, Slides 5, 7]`
 
-**Q2: What is "Scale Invariance" and why is it mandatory in trellis charts?**  
+**Q2: What is "Scale Invariance" and why is it mandatory in trellis charts?**
 *Model Answer:* Scale Invariance mandates that every sub-box in a small multiples grid enforce identical coordinate ranges and zero baselines. It is mandatory because allowing independent axes distorts visual magnitude, making minor variations look identical to massive swings and invalidating visual comparisons. `[Source: Session6_Small_Multiples.pdf, Slide 11]`
 
-**Q3: State the Cleveland & McGill Perceptual Hierarchy Rank 1 and Rank 7 graphical tasks.**  
+**Q3: State the Cleveland & McGill Perceptual Hierarchy Rank 1 and Rank 7 graphical tasks.**
 *Model Answer:* Rank 1 (highest accuracy) is **Position along a common aligned scale** (e.g., standard bar charts). Rank 7 (lowest quantitative accuracy) is **Color Saturation / Shading Intensity** (e.g., choropleth maps). `[Source: Session7_Organisational_Models.pptx]`
 
-**Q4: Differentiate between Data Brushing and Data Filtering.**  
+**Q4: Differentiate between Data Brushing and Data Filtering.**
 *Model Answer:* Filtering deletes unselected rows from the canvas, eliminating peripheral context. Brushing retains all data points on screen, highlighting selected records in bright accent color while fading unselected marks to muted gray, preserving global context. `[Source: Session8_Interactive_Charts_.pdf, Slide 22]`
 
-**Q5: What is the "Two-Axis Trap" in Multi-Y graphs?**  
+**Q5: What is the "Two-Axis Trap" in Multi-Y graphs?**
 *Model Answer:* The Two-Axis Trap occurs when independent vertical scales create false visual line intersections and spurious visual correlations that do not reflect true mathematical relationships, deceiving viewers. `[Source: Session9_Radial_MultiY_Treemaps_.pdf, Slide 14]`
 
-**Q6: Formulate Ben Shneiderman's Information Seeking Mantra.**  
+**Q6: Formulate Ben Shneiderman's Information Seeking Mantra.**
 *Model Answer:* *"Overview first, zoom and filter, then details-on-demand."* `[Source: Session8_Interactive_Charts_.pdf, Slide 27]`
 
 ---
 
 #### B. 5-Mark Conceptual Analytical Questions
 
-**Q7: Explain the 3-Tier Enterprise Dashboard Visual Architecture, detailing the purpose and components of each tier.**  
-*Model Answer:*  
+**Q7: Explain the 3-Tier Enterprise Dashboard Visual Architecture, detailing the purpose and components of each tier.**
+*Model Answer:*
 The 3-tier architecture organizes visual information by cognitive priority:
+
 1. **Tier 1 (Hero BAN Cards):** Located at the very top. Presents 3–5 high-level executive KPIs in bold typography (24pt+) paired with temporal deltas ($\pm \% \text{ YoY/MoM}$). Delivers an instant organizational pulse check.
 2. **Tier 2 (Macro Trends & Geospatial Choropleths):** Located in the central body. Provides multi-year trajectories (line charts) and geographic distributions (choropleth maps) to reveal historical context and spatial patterns.
-3. **Tier 3 (Granular Detail Tables):** Located at the bottom. Supplies itemized tabular cross-tabs and transactional records, allowing operational analysts to conduct root-cause audits.  
+3. **Tier 3 (Granular Detail Tables):** Located at the bottom. Supplies itemized tabular cross-tabs and transactional records, allowing operational analysts to conduct root-cause audits.
 This structure satisfies both time-constrained executives and detail-oriented operational analysts. `[Source: Session7_Organisational_Models.pptx; Session9_Radial_MultiY_Treemaps_.pdf, Slide 26]`
 
-**Q8: Compare Treemaps and Pie Charts regarding aspect ratio, scalability, and screen space efficiency.**  
-*Model Answer:*  
+**Q8: Compare Treemaps and Pie Charts regarding aspect ratio, scalability, and screen space efficiency.**
+*Model Answer:*
+
 1. **Scalability:** Pie charts fail when categories exceed 5–7, degenerating into unreadable slivers. Treemaps scale gracefully to 50–100+ categories via recursive rectangular subdivision.
 2. **Aspect Ratio Optimization:** Pie slices rely on angles and curved arcs (Cleveland-McGill Rank 4). Squarified treemaps optimize rectangular aspect ratios toward 1:1 ($\rho \approx 1$), providing clear surfaces for internal text labels.
 3. **Screen Space Utilization:** Pie charts waste rectangular canvas corners. Treemaps achieve 100% space-filling efficiency, consuming the entire rectangular display.
 4. **Multi-Variable Encoding:** Treemaps encode two distinct metrics simultaneously (Area for Volume, Color for Performance/Margin); pie charts can encode only a single quantitative measure. `[Source: Session9_Radial_MultiY_Treemaps_.pdf, Slides 15–20]`
 
-**Q9: Analyze Edward Tufte's Data-Ink Ratio. How does eliminating chartjunk improve cognitive velocity?**  
-*Model Answer:*  
-Tufte defines the Data-Ink Ratio as $\text{DIR} = \frac{\text{Data-Ink}}{\text{Total Ink}}$.  
+**Q9: Analyze Edward Tufte's Data-Ink Ratio. How does eliminating chartjunk improve cognitive velocity?**
+*Model Answer:*
+Tufte defines the Data-Ink Ratio as $\text{DIR} = \frac{\text{Data-Ink}}{\text{Total Ink}}$.
 Chartjunk encompasses non-data ink: artificial 3D bevels, drop shadows, heavy black gridlines, redundant borders, and decorative wallpapers. When chartjunk is present, the human visual cortex must parse extraneous sensory edges and textures before extracting meaning, consuming limited working memory. Eliminating chartjunk directs 100% of preattentive sensory registration to substantive data variations, accelerating cognitive decoding and preventing visual fatigue. `[Source: Session7_Organisational_Models.pptx]`
 
-**Q10: Detail the negative constraints of visual interactivity. When should interactive visualizations be avoided?**  
-*Model Answer:*  
+**Q10: Detail the negative constraints of visual interactivity. When should interactive visualizations be avoided?**
+*Model Answer:*
 Interactive mechanisms should be avoided in three major scenarios:
+
 1. **Static Distribution Media:** On printed executive memos, paper lab submissions, or PDF document exports, interactive sliders and tooltips become useless artifacts.
 2. **Formal Executive Presentations:** Live interactive filtering during keynote presentations introduces technical latency, awkward mouse hunting, and audience detachment; static spotlight graphics with clear callouts are far superior.
 3. **Over-Interaction Anti-Pattern:** Adding 15+ filter dropdowns overwhelms users. Furthermore, if database query latency exceeds 500 ms, user cognitive flow collapses. Dashboards must also provide an explicit 1-click **"Reset All Filters"** button to prevent users from becoming trapped in confusing filtered states. `[Source: Session8_Interactive_Charts_.pdf, Slide 29]`
@@ -1572,15 +1602,17 @@ Interactive mechanisms should be avoided in three major scenarios:
 
 #### C. 10–15 Mark Executive Visual Analytics Case Studies
 
-**Q11: Executive Visual Analytics Architecture Case Study — Macroeconomic Market Intelligence Dashboard**  
-*Marks:* 15 Marks  
-*Problem Context:*  
+**Q11: Executive Visual Analytics Architecture Case Study — Macroeconomic Market Intelligence Dashboard**
+*Marks:* 15 Marks
+*Problem Context:*
 You are appointed Lead Visual Analytics Architect for the Concrete Reinforcing Steel Institute (CRSI). The executive committee requires an enterprise decision-support dashboard tracking steel pricing and US construction spending. You are provided with:
+
 - Macroeconomic time-series ($2015-2026$): Steel PPI (range: $1,800$ to $4,200$ points) and Total US Construction Spending (range: $\$10\text{M}$ to $\$22\text{M}$).
 - State-level construction employment statistics: Texas gained $+28,600$ jobs; California lost $-13,800$ jobs.
 - Executive stakeholder needs: Instant pulse check, regional migration patterns, and historical trajectory tracking.
 
 *Your Deliverables:*
+
 1. **Architectural Layout Wireframe:** Design a comprehensive 3-tier dashboard layout (Fixed canvas $1440 \times 900\text{ px}$) detailing container hierarchy, component placement, and typographic scale.
 2. **Metric & KPI Engineering:** Specify the exact formulas for 4 Tier 1 BAN cards covering Year-over-Year ($\text{YoY}$) and Month-over-Month ($\text{MoM}$) rates for both steel and construction.
 3. **Multi-Y vs. Dual Chart Decision:** Critique why superimposing Steel PPI and Construction Spending onto a single dual-axis plot introduces the "Two-Axis Trap." Provide the proper structural alternative.
@@ -1590,6 +1622,7 @@ You are appointed Lead Visual Analytics Architect for the Concrete Reinforcing S
 *Model Solution:*
 
 **1. Architectural Layout Wireframe (Fixed Canvas $1440 \times 900\text{ px}$)**
+
 - **Header Container ($1440 \times 90\text{ px}$):**
   - Left: Title `CRSI Market Intelligence Dashboard` in 18pt Bold Navy `#0F172A`.
   - Subtitle Narrative Banner: 10pt Regular Slate `#475569`: *"Steel prices up 9.87% YoY as of May 2026; construction growth slowed to 0.88%. Texas leads employment (+28,600), California posts steepest losses (-13,800)."*
@@ -1622,15 +1655,18 @@ $$
 $$
 
 **3. Multi-Y Architecture Critique & Resolution**
+
 - *The Flaw:* Combining Steel PPI ($\sim 4,000$) and Construction Spending ($\sim \$20\text{M}$) onto a single dual-axis chart creates an artificial line intersection (the "Two-Axis Trap"). Viewers misinterpret this as steel prices overtaking construction spending, when in reality the crossing point is an arbitrary artifact of vertical scale calibration.
 - *The Proper Alternative:* Deploy two synchronized, vertically stacked macro trend plots sharing an identical horizontal time axis ($2015-2026$). This preserves scale independence while allowing direct visual comparison of slope, acceleration, and inflection points without deceptive line crossings.
 
 **4. Color & Geospatial Channel Strategy**
+
 - **Diverging Palette:** Navy Blue (`#1E3A8A`) for job gains ($+28,600$ in Texas) converging through neutral light gray (`#F1F5F9`) at $0$ to Vermilion Orange (`#EA580C`) for job losses ($-13,800$ in California).
 - **Accessibility:** Completely avoids red-green combinations, ensuring full legibility for deuteranopic and protanopic users.
 - **Cognitive Velocity:** Decodes the Sun Belt economic expansion versus Coastal economic contraction in under 2 seconds.
 
 **5. Interactive Analytics Engine Implementation**
+
 - **Data Spotlight:** Clicking Texas on the map highlights Texas employment across all views while desaturating other states to 25% opacity.
 - **Dynamic Queries:** The continuous `Year of Date` slider filters all 4 BAN cards, macro trends, and map layers with $<100\text{ ms}$ in-memory response latency.
 - **Data Brushing:** Selecting a 12-month window on the Steel Price Trend highlights corresponding construction spending and map values.
@@ -1638,12 +1674,13 @@ $$
 
 ---
 
-**Q12: Healthcare Operations Visual Analytics Case Study — Emergency Room Intake & Bed Saturation**  
-*Marks:* 15 Marks  
-*Problem Context:*  
+**Q12: Healthcare Operations Visual Analytics Case Study — Emergency Room Intake & Bed Saturation**
+*Marks:* 15 Marks
+*Problem Context:*
 A major metropolitan hospital network operates an inpatient command center monitoring 13,214 patient encounters across 7 clinical departments. The Chief Operating Officer reports severe emergency intake congestion, uneven ICU bed escalation, and excessive length of stay (LOS).
 
 *Your Deliverables:*
+
 1. **Small Multiples Trellis Matrix Design:** Specify the design of a $2 \times 4$ small multiples grid comparing daily arrival surge curves across all 7 departments plus total hospital throughput.
 2. **Heatmap Matrix Architecture:** Formulate the dimension shelves and color palette for a 2D Day-Hour congestion highlight matrix (`admission_day_name` $\times$ `admission_hour_formatted`).
 3. **Preattentive Safety Alert Strategy:** Detail the visual variables used to spotlight patients with critical NEWS2 scores ($\ge 7$) and high comorbidity indexes ($\ge 3$).
@@ -1652,12 +1689,14 @@ A major metropolitan hospital network operates an inpatient command center monit
 *Model Solution:*
 
 **1. Small Multiples Trellis Matrix Design**
+
 - **Conditioning Shelf:** Partition the view by `department` across 2 rows and 4 columns.
 - **Scale Invariance Rule:** The vertical axis (Arrival Volume) is strictly fixed from $0$ to $150\text{ patients/hour}$ across all 8 panels.
 - **Mark Selection:** Line marks over continuous 24-hour time ($00:00$ to $23:00$).
 - **Color Discipline:** Uniform slate blue `#3B82F6` across all panels. Departments where current arrival volume exceeds bed capacity by $>15\%$ trigger an automatic alert red `#EF4444` line mark.
 
 **2. Day-Hour Arrival Congestion Heatmap Matrix**
+
 - **Rows Shelf:** Upfront dimension `admission_day_name` (Ordered manually: `Mon, Tue, Wed, Thu, Fri, Sat, Sun`).
 - **Columns Shelf:** Upfront dimension `admission_hour_formatted` (`00:00` to `23:00`).
 - **Mark Type:** Square.
@@ -1665,12 +1704,14 @@ A major metropolitan hospital network operates an inpatient command center monit
 - **Operational Insight:** Instantly reveals peak arrival spikes (Monday morning elective intake at 08:00–10:00 and Saturday night emergency surges at 22:00–02:00), enabling data-driven clinical shift staffing.
 
 **3. Preattentive Clinical Triage Strategy**
+
 - **Chart Type:** Four-Quadrant Scatter Plot.
 - **Horizontal Axis (X):** `comorbidity_index_actual` ($0$ to $8$). Reference line at $CCI = 3$.
 - **Vertical Axis (Y):** `news2_acuity_score_actual` ($0$ to $18$). Reference line at $NEWS2 = 7$.
 - **Preattentive Color pop-out:** The Upper-Right quadrant (*Critical Risk: High CCI / High NEWS2*) is assigned Alert Crimson `#991B1B`. Patients in this quadrant pop out preattentively in $<200\text{ ms}$, prioritizing immediate ICU bed transfers. Mark size encodes `length_of_stay_days_actual`.
 
 **4. Focus + Context Viz-in-Tooltip Configuration**
+
 - Create a dedicated micro-sheet: `Tooltip_Demographics` (Horizontal bar chart of patient gender and socioeconomic tier).
 - Open the main departmental workload chart `Ops_Dept_Workload_ICU` $\to$ edit Tooltip editor $\to$ insert sheet:
   ```text

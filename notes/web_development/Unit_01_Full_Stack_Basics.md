@@ -131,6 +131,7 @@ sequenceDiagram
 
 #### Statelessness of HTTP & State Persistence
 HTTP is inherently a **stateless protocol**—each request-response transaction is completely independent; the server retains zero memory of previous interactions. To maintain user identity across requests (e.g., shopping carts, authenticated sessions), modern full-stack architectures employ state preservation mechanisms:
+
 - **Session-Cookie Architecture:** The server creates a session store record, assigns a unique `SessionID`, and sets it in an HTTP cookie (`Set-Cookie: session_id=...; HttpOnly; Secure`). The browser automatically includes this cookie in subsequent requests.
 - **Token-Based Architecture (JWT - JSON Web Token):** The server signs a cryptographically verifiable token containing user claims (`id`, `role`, `exp`) and returns it in a JSON response. The client explicitly attaches it in the request header: `Authorization: Bearer <jwt_token>`. This maintains server-side statelessness, enabling horizontal scaling across multi-server cloud clusters.
 
@@ -463,11 +464,11 @@ The comparison between JSON and XML is one of the most frequently tested theoret
 ```mermaid
 flowchart LR
     subgraph JSON_Payload["JSON: 52 Bytes"]
-        J["{"id":101,"name":"Alice","active":true}"]
+        J["{&quot;id&quot;:101, &quot;name&quot;:&quot;Alice&quot;, &quot;active&quot;:true}"]
     end
 
     subgraph XML_Payload["XML: 114 Bytes (219% larger)"]
-        X["<student><id>101</id><name>Alice</name><active>true</active></student>"]
+        X["&lt;student&gt;&lt;id&gt;101&lt;/id&gt;&lt;name&gt;Alice&lt;/name&gt;&lt;active&gt;true&lt;/active&gt;&lt;/student&gt;"]
     end
 ```
 
@@ -491,14 +492,15 @@ In distributed systems, memory structures cannot be directly transmitted over ne
 
 ```mermaid
 flowchart LR
-    A["Live In-Memory JavaScript Object<br>(Heap Memory, Pointers, Functions)"] 
-    -->|"Serialization / Stringify<br>(Marshalling)"| B["Standardized JSON UTF-8 String<br>'{"id":101,"name":"Alice"}'"]
+    A["Live In-Memory JavaScript Object<br>(Heap Memory, Pointers, Functions)"]
+    -->|"Serialization / Stringify<br>(Marshalling)"| B["Standardized JSON UTF-8 String<br>{&quot;id&quot;:101, &quot;name&quot;:&quot;Alice&quot;}"]
     B -->|"Deserialization / Parse<br>(Unmarshalling)"| C["Reconstructed In-Memory Object<br>(New Memory Allocation in Target Heap)"]
 ```
 
 - **Serialization (Marshalling / Stringification):**
   The deterministic algorithmic process of translating a live, in-memory object graph into a sequential, platform-independent text format (JSON string) suitable for network transmission or disk persistence.
   *In JavaScript:* `const jsonText = JSON.stringify(data);`
+
 - **Deserialization (Unmarshalling / Parsing):**
   The reverse process of reading a sequential JSON text stream, validating its structural syntax against grammar rules, and allocating a corresponding native object tree in the host language's heap memory.
   *In JavaScript:* `const liveObject = JSON.parse(jsonText);`
@@ -1727,13 +1729,16 @@ $$
 
 - **JSON Serialization Memory Footprint Ratio:**
   $$
-  	ext{Memory Overhead} = rac{	ext{JSON String Size (Bytes)}}{	ext{Raw Binary Data Size (Bytes)}} 	imes 100\%
+	ext{Memory Overhead} =
+rac{	ext{JSON String Size (Bytes)}}{	ext{Raw Binary Data Size (Bytes)}} 	imes 100\%
   $$
 
 - **Bootstrap 5 Responsive Grid Width Equation:**
   For an element spanning $C$ columns in a 12-column grid container with width $W_{	ext{container}}$:
   $$
-  	ext{Width}_{	ext{element}} = \left( rac{C}{12} ight) 	imes 100\%
+	ext{Width}_{	ext{element}} = \left(
+rac{C}{12}
+ight) 	imes 100\%
   $$
 
 ---
@@ -1765,11 +1770,13 @@ $$
 ### Question 1: Explain the 3-Tier Enterprise Architecture and state the strict separation rules.
 **Model Answer:**
 The 3-tier architecture isolates enterprise software into three independent computing layers:
+
 1. **Presentation Tier (UI Layer):** Renders graphics, captures user interactions, and formats display data (HTML5, CSS3, React, Vue).
 2. **Business Tier (Logic Layer):** Encapsulates core validation algorithms, transaction processing, and computational business rules (Node.js, Express, Spring Boot, Django).
 3. **Data Access Tier (Database Layer):** Manages physical data storage, CRUD execution, and transaction persistence (PostgreSQL, MongoDB, MySQL).
 
 **Strict Communication Rules:**
+
 - The Presentation Tier communicates **only** with the Business Tier; it never directly queries the database.
 - The Business Tier must be **Presentation-Agnostic** (operates identically whether consumed by a Web browser, Mobile iOS app, or CLI tool) and **Database-Agnostic** (abstracted from the physical DBMS engine via ORMs/drivers).
 - The Data Access Tier communicates **only** with the Business Tier.
@@ -1778,6 +1785,7 @@ The 3-tier architecture isolates enterprise software into three independent comp
 
 ### Question 2: Differentiate between React.js and Vue.js in terms of architecture, data binding, and learning curve.
 **Model Answer:**
+
 - **Architecture:** React is an unopinionated UI library focusing solely on the View layer (requiring third-party libraries for routing and state management). Vue is a progressive, full-featured framework offering official core libraries (Vue Router, Pinia).
 - **Data Binding:** React strictly enforces **uni-directional (one-way) data flow**; state flows downward via read-only props, and mutations require explicit event handlers (`onChange`). Vue provides **two-way data binding** via the `v-model` directive for form controls alongside one-way props.
 - **Syntax:** React utilizes JSX (JavaScript XML) inside pure JavaScript functions. Vue uses HTML-based templates inside Single File Components (`.vue`) uniting `<template>`, `<script>`, and `<style scoped>`.
@@ -1789,11 +1797,13 @@ The 3-tier architecture isolates enterprise software into three independent comp
 ### Question 3: Why should a developer choose Tailwind CSS over Bootstrap 5? Explain the Utility-First paradigm.
 **Model Answer:**
 Bootstrap 5 is an **opinionated, component-based framework** providing pre-styled components (like `.btn`, `.card`, `.modal`). While fast for initial prototyping, it suffers from several limitations:
+
 1. All Bootstrap sites share a uniform, recognizable aesthetic unless extensively overridden with custom CSS.
 2. Production CSS bundles remain large (~150KB–280KB) because unused component classes are often packaged into the build.
 3. Customizing components leads to CSS specificity conflicts and bloated override stylesheets.
 
 **Why Tailwind CSS (Utility-First Paradigm):**
+
 - **Atomic Classes:** Instead of providing pre-designed buttons, Tailwind provides low-level utility classes (`flex`, `bg-blue-600`, `px-4`, `py-2`, `rounded-lg`) that compose directly inside markup.
 - **Zero CSS Specificity Wars:** Eliminates cascading stylesheet conflicts because styles are applied locally at flat specificity.
 - **Just-In-Time (JIT) Purging:** Tailwind's compiler scans project source files and generates *only* the CSS classes actually utilized in markup. Production stylesheets are routinely under $10	ext{KB}$ gzipped.
@@ -1805,6 +1815,7 @@ Bootstrap 5 is an **opinionated, component-based framework** providing pre-style
 ### Question 4: Compare JSON and XML. Why has JSON completely replaced XML in modern REST APIs?
 **Model Answer:**
 JSON has supplanted XML as the global standard for web API data interchange due to five critical factors:
+
 1. **Lightweight Syntax:** JSON uses minimal punctuation delimiters (`{}`, `[]`, `:`), whereas XML requires verbose opening and closing tags (`<name>Alice</name>`), resulting in significantly smaller network payloads and faster transmission speeds.
 2. **Native JavaScript Serialization:** JSON is a direct subset of JavaScript syntax. Browsers can parse JSON in native C++ using `JSON.parse()` at orders of magnitude faster speeds than XML `DOMParser`.
 3. **First-Class Native Types:** JSON inherently supports Strings, Numbers, Booleans, Arrays, and `null`. In XML, every value is fundamentally text, requiring manual data type casting on the client and server.

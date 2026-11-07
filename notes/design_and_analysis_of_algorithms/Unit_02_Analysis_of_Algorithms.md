@@ -1197,11 +1197,14 @@ flowchart TD
 
     R12 --> M4["Merged: (189, 451)"]
 
-    M1 and M2 --> ML["Merged Left: (2, 98, 521, 724)"]
+    M1 --> ML["Merged Left: (2, 98, 521, 724)"]
+    M2 --> ML
 
-    M3 and M4 --> MR["Merged Right: (31, 189, 451, 529)"]
+    M3 --> MR["Merged Right: (31, 189, 451, 529)"]
+    M4 --> MR
 
-    ML and MR --> Final["Final Sorted Array: (2, 31, 98, 189, 451, 521, 529, 724)"]
+    ML --> Final["Final Sorted Array: (2, 31, 98, 189, 451, 521, 529, 724)"]
+    MR --> Final
 
 ```
 
@@ -1316,11 +1319,11 @@ def Partition(T, i, j):
 
 flowchart TD
 
-    Step1["Array: [42, 23, 74, 11, 65, 58, 94, 36, 99, 87"] | Pivot p = 42'] --> Scan1["Scan: k stops at 74 (>42), l stops at 36 (<=42)"]
+    Step1["Array: [42, 23, 74, 11, 65, 58, 94, 36, 99, 87] | Pivot p = 42"] --> Scan1["Scan: k stops at 74 (&gt;42), l stops at 36 (&lt;=42)"]
 
     Scan1 --> Swap1["Swap T[k] and T[l] -> Array: [42, 23, 36, 11, 65, 58, 94, 74, 99, 87]"]
 
-    Swap1 --> Scan2["Scan: k stops at 65 (>42), l stops at 11 (<=42). Crosses! (k > l)"]
+    Swap1 --> Scan2["Scan: k stops at 65 (&gt;42), l stops at 11 (&lt;=42). Crosses! (k &gt; l)"]
 
     Scan2 --> PivotSwap["Swap Pivot T[i] with T[l] (42 with 11)"]
 

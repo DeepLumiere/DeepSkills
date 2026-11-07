@@ -3684,7 +3684,7 @@ accept. [Faculty — Slide 49 / General — Slide
 
 
 
-### 6.3 Protocol 4: One-Bit Sliding Window (Wₛ = 1, = 1$)
+### 6.3 Protocol 4: One-Bit Sliding Window ($W_s = 1, W_r = 1$)
 
 
 

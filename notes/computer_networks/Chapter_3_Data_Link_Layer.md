@@ -677,7 +677,7 @@ Transmission errors on physical lines are caused by thermal noise, electromagnet
 
 
 
-An $(n, k)$block code takes an$m$-bit dataword and appends $r$check bits to create an$n$-bit **codeword**, where $n = m + r$. The code rate is $\f\frac{m}{n}$.
+An $(n, k)$block code takes an$m$-bit dataword and appends $r$check bits to create an$n$-bit **codeword**, where $n = m + r$. The code rate is $\frac{m}{n}$.
 
 
 
@@ -1120,7 +1120,7 @@ An $m$-bit message is represented by polynomial $M(x)$of degree$m-1$. The sender
 
 
 $$
-\f\frac{x^r M(x)}{G(x)} = Q(x) \oplus \f\frac{R(x)}{G(x)}
+\frac{x^r M(x)}{G(x)} = Q(x) \oplus \frac{R(x)}{G(x)}
 $$
 
 
@@ -1163,7 +1163,7 @@ The receiver divides the incoming bit stream $T(x) \oplus E(x)$by$G(x)$:
 
 
 $$
-\f\frac{T(x) \oplus E(x)}{G(x)} = \f\frac{T(x)}{G(x)} \oplus \f\frac{E(x)}{G(x)} = 0 \oplus \f\frac{E(x)}{G(x)}
+\frac{T(x) \oplus E(x)}{G(x)} = \frac{T(x)}{G(x)} \oplus \frac{E(x)}{G(x)} = 0 \oplus \frac{E(x)}{G(x)}
 $$
 
 
@@ -1470,7 +1470,7 @@ In high-bandwidth or long-delay links (e.g., satellite links or fiber-optic WANs
 Consider a $50\text{ kbps}$satellite channel with a$500\text{ ms}$ round-trip propagation delay ($\text{RTT} = 500\text{ ms}$, one-way $T_p = 250\text{ ms}$). Suppose a station uses Stop-and-Wait to send $1000\text{-bit}$ frames:
 
 
-* **Frame Transmission Time:** $T_{\text{trans}} = \f\frac{1000\text{ bits}}{50,000\text{ bps}} = 20\text{ ms} = 0.020\text{ s}$.
+* **Frame Transmission Time:** $T_{\text{trans}} = \frac{1000\text{ bits}}{50,000\text{ bps}} = 20\text{ ms} = 0.020\text{ s}$.
 
 
 * **Timeline:** At $t = 0\text{ ms}$, sender starts transmitting frame 0. At $t = 20\text{ ms}$, frame 0 is fully sent onto the wire. At $t = 270\text{ ms}$, frame 0 fully arrives at the satellite receiver. At $t = 520\text{ ms}$, the ACK arrives back at the sender.
@@ -1482,7 +1482,7 @@ Consider a $50\text{ kbps}$satellite channel with a$500\text{ ms}$ round-trip pr
 
 
 
-Let $T_{\text{trans}} = \f\frac{L}{R}$be frame transmission time, and$T_{\text{prop}} = \f\frac{D}{v}$ be one-way propagation delay. Define normalized propagation delay:
+Let $T_{\text{trans}} = \frac{L}{R}$be frame transmission time, and$T_{\text{prop}} = \frac{D}{v}$ be one-way propagation delay. Define normalized propagation delay:
 
 
 
@@ -1492,7 +1492,7 @@ Let $T_{\text{trans}} = \f\frac{L}{R}$be frame transmission time, and$T_{\text{p
 
 
 $$
-a = \f\frac{T_{\text{prop}}}{T_{\text{trans}}}
+a = \frac{T_{\text{prop}}}{T_{\text{trans}}}
 $$
 
 
@@ -1509,7 +1509,7 @@ The link utilization (efficiency) of Stop-and-Wait ARQ is:
 
 
 $$
-\eta_{\text{Stop-and-Wait}} = \f\frac{T_{\text{trans}}}{T_{\text{trans}} + 2 T_{\text{prop}}} = \f\frac{1}{1 + 2a}
+\eta_{\text{Stop-and-Wait}} = \frac{T_{\text{trans}}}{T_{\text{trans}} + 2 T_{\text{prop}}} = \frac{1}{1 + 2a}
 $$
 
 
@@ -1529,7 +1529,7 @@ To achieve $100\%$ channel utilization, the sender must transmit frames continuo
 
 
 $$
-W_s \ge 1 + 2a = 1 + 2 \cdot \text{BDP}_{\text{frames}} = 1 + \f\frac{2 \times T_{\text{prop}}}{T_{\text{trans}}}
+W_s \ge 1 + 2a = 1 + 2 \cdot \text{BDP}_{\text{frames}} = 1 + \frac{2 \times T_{\text{prop}}}{T_{\text{trans}}}
 $$
 
 
@@ -1766,7 +1766,7 @@ When sender and receiver windows are equal ($W_s = W_r$):
 
 
 $$
-W_s = W_r \le 2^{n-1} = \f\frac{2^n}{2}
+W_s = W_r \le 2^{n-1} = \frac{2^n}{2}
 $$
 
 
@@ -2196,10 +2196,10 @@ ADSL connects millions of home subscribers to the Internet over copper local loo
 Let a station transmit a frame of $L$bits over a channel with bit rate$R$bps, distance$D$meters, and propagation speed$v$ m/s.
 
 
-* Frame transmission time: $T_t = \f\frac{L}{R}$
+* Frame transmission time: $T_t = \frac{L}{R}$
 
 
-* One-way propagation delay: $T_p = \f\frac{D}{v}$
+* One-way propagation delay: $T_p = \frac{D}{v}$
 
 
 * Round-Trip Time: $\text{RTT} = 2 T_p$
@@ -2228,7 +2228,7 @@ $$
 
 
 
-Where $a = \f\frac{T_p}{T_t} = \f\frac{D \cdot R}{v \cdot L}$.
+Where $a = \frac{T_p}{T_t} = \frac{D \cdot R}{v \cdot L}$.
 
 
 
@@ -2244,7 +2244,7 @@ The link utilization (efficiency) $\eta$ is the ratio of useful transmission tim
 
 
 $$
-\eta = \f\frac{T_t}{T_{\text{total}}} = \f\frac{T_t}{T_t + 2 T_p} = \f\frac{1}{1 + 2a}
+\eta = \frac{T_t}{T_{\text{total}}} = \frac{T_t}{T_t + 2 T_p} = \frac{1}{1 + 2a}
 $$
 
 
@@ -2282,7 +2282,7 @@ For a sender window size $W_s$:
 
 
 $$
-\eta = \f\frac{W_s \cdot T_t}{T_t + 2 T_p} = \f\frac{W_s}{1 + 2a}
+\eta = \frac{W_s \cdot T_t}{T_t + 2 T_p} = \frac{W_s}{1 + 2a}
 $$
 
 
@@ -3966,7 +3966,7 @@ A system uses the Stop-and-Wait protocol. If each packet carries $1000\text{ bit
 
 
 $$
-N = \f\frac{10^6\text{ bits}}{10^3\text{ bits/packet}} = 1000\text{ packets}
+N = \frac{10^6\text{ bits}}{10^3\text{ bits/packet}} = 1000\text{ packets}
 $$
 
 
@@ -3983,7 +3983,7 @@ $$
 
 
 $$
-T_p = \f\frac{5 \times 10^6\text{ m}}{2 \times 10^8\text{ m/s}} = 0.025\text{ s} = 25\text{ ms}
+T_p = \frac{5 \times 10^6\text{ m}}{2 \times 10^8\text{ m/s}} = 0.025\text{ s} = 25\text{ ms}
 $$
 
 
@@ -4088,7 +4088,7 @@ If the bandwidth of a line is $1\text{ Mbps}$, one-way propagation delay is $20\
 
 
 $$
-T_t = \f\frac{8000\text{ bits}}{10^6\text{ bps}} = 8\text{ ms} = 0.008\text{ s}
+T_t = \frac{8000\text{ bits}}{10^6\text{ bps}} = 8\text{ ms} = 0.008\text{ s}
 $$
 
 
@@ -4139,7 +4139,7 @@ $$
 
 
 $$
-\eta = \f\frac{T_t}{T_{\text{total}}} = \f\frac{8\text{ ms}}{48\text{ ms}} = \f\frac{1}{6} \approx 16.667\%
+\eta = \frac{T_t}{T_{\text{total}}} = \frac{8\text{ ms}}{48\text{ ms}} = \frac{1}{6} \approx 16.667\%
 $$
 
 
@@ -4210,7 +4210,7 @@ If bit rate is $10\text{ kbps}$and one-way propagation delay is$40\text{ ms}$, f
 
 
 $$
-\eta = \f\frac{T_t}{T_t + 2 T_p} = \f\frac{1}{1 + 2a} = 0.5
+\eta = \frac{T_t}{T_t + 2 T_p} = \frac{1}{1 + 2a} = 0.5
 $$
 
 
@@ -4228,7 +4228,7 @@ $$
 
 
 
-2. Since $a = \f\frac{T_p}{T_t}$:
+2. Since $a = \frac{T_p}{T_t}$:
 
 
 
@@ -4238,7 +4238,7 @@ $$
 
 
 $$
-\f\frac{T_p}{T_t} = 0.5 \implies T_t = 2 T_p = 2 \times 40\text{ ms} = 80\text{ ms} = 0.080\text{ s}
+\frac{T_p}{T_t} = 0.5 \implies T_t = 2 T_p = 2 \times 40\text{ ms} = 80\text{ ms} = 0.080\text{ s}
 $$
 
 
@@ -4329,7 +4329,7 @@ The distance from Earth to a distant planet is approximately $9 \times 10^{10}\t
 
 
 $$
-T_p = \f\frac{9 \times 10^{10}\text{ m}}{3 \times 10^8\text{ m/s}} = 300\text{ seconds}
+T_p = \frac{9 \times 10^{10}\text{ m}}{3 \times 10^8\text{ m/s}} = 300\text{ seconds}
 $$
 
 
@@ -4346,7 +4346,7 @@ $$
 
 
 $$
-T_t = \f\frac{256,000\text{ bits}}{64 \times 10^6\text{ bps}} = 0.004\text{ s} = 4\text{ ms}
+T_t = \frac{256,000\text{ bits}}{64 \times 10^6\text{ bps}} = 0.004\text{ s} = 4\text{ ms}
 $$
 
 
@@ -4363,7 +4363,7 @@ $$
 
 
 $$
-a = \f\frac{T_p}{T_t} = \f\frac{300}{0.004} = 75,000
+a = \frac{T_p}{T_t} = \frac{300}{0.004} = 75,000
 $$
 
 
@@ -4380,7 +4380,7 @@ $$
 
 
 $$
-\eta = \f\frac{1}{1 + 2a} = \f\frac{1}{1 + 2(75000)} = \f\frac{1}{150,001} \approx 6.667 \times 10^{-6} = 6.67 \times 10^{-4}\%
+\eta = \frac{1}{1 + 2a} = \frac{1}{1 + 2(75000)} = \frac{1}{150,001} \approx 6.667 \times 10^{-6} = 6.67 \times 10^{-4}\%
 $$
 
 
@@ -4491,7 +4491,7 @@ $$
 
 
 $$
-T_t = \f\frac{512\text{ bits}}{1.536 \times 10^6\text{ bps}} = 0.000333\text{ s} = 0.333\text{ ms} \approx 0.300\text{ ms}
+T_t = \frac{512\text{ bits}}{1.536 \times 10^6\text{ bps}} = 0.000333\text{ s} = 0.333\text{ ms} \approx 0.300\text{ ms}
 $$
 
 
@@ -4525,7 +4525,7 @@ $$
 
 
 $$
-N_{\text{frames}} = \f\frac{36.3\text{ ms}}{0.3\text{ ms/frame}} = 121\text{ frames}
+N_{\text{frames}} = \frac{36.3\text{ ms}}{0.3\text{ ms/frame}} = 121\text{ frames}
 $$
 
 
@@ -4847,7 +4847,7 @@ The receiver performs modulo-2 division by generator polynomial $G(x)$:
 
 
 $$
-\f\frac{R(x)}{G(x)} = \f\frac{T(x)}{G(x)} \oplus \f\frac{E(x)}{G(x)} = 0 \oplus \f\frac{E(x)}{G(x)}
+\frac{R(x)}{G(x)} = \frac{T(x)}{G(x)} \oplus \frac{E(x)}{G(x)} = 0 \oplus \frac{E(x)}{G(x)}
 $$
 
 
@@ -5194,7 +5194,7 @@ Setting $W_s = W_r = 2^{n-1}$ is an absolute mathematical boundary.
 5. CRC polynomial codes use modulo-2 binary division. Standard CRC-32 detects all single, double, odd, and burst errors $\le 32$ bits.
 
 
-6. Stop-and-Wait efficiency is $\f\frac{1}{1+2a}$; pipelined sliding window achieves $100\%$efficiency when$W_s \ge 1 + 2a$.
+6. Stop-and-Wait efficiency is $\frac{1}{1+2a}$; pipelined sliding window achieves $100\%$efficiency when$W_s \ge 1 + 2a$.
 
 
 7. Maximum window size limits: Go-Back-N requires $W_s \le 2^n - 1$; Selective Repeat requires $W_s = W_r \le 2^{n-1}$.
@@ -5268,7 +5268,7 @@ $$
 
 
 $$
-T(x) = x^r M(x) \oplus R(x), \quad \text{where } \f\frac{x^r M(x)}{G(x)} = Q(x) \oplus \f\frac{R(x)}{G(x)}
+T(x) = x^r M(x) \oplus R(x), \quad \text{where } \frac{x^r M(x)}{G(x)} = Q(x) \oplus \frac{R(x)}{G(x)}
 $$
 
 
@@ -5285,7 +5285,7 @@ $$
 
 
 $$
-a = \f\frac{T_{\text{prop}}}{T_{\text{trans}}} = \f\frac{D \cdot R}{v \cdot L}
+a = \frac{T_{\text{prop}}}{T_{\text{trans}}} = \frac{D \cdot R}{v \cdot L}
 $$
 
 
@@ -5302,7 +5302,7 @@ $$
 
 
 $$
-\eta_{\text{Stop-and-Wait}} = \f\frac{T_{\text{trans}}}{T_{\text{trans}} + 2 T_{\text{prop}}} = \f\frac{1}{1 + 2a}
+\eta_{\text{Stop-and-Wait}} = \frac{T_{\text{trans}}}{T_{\text{trans}} + 2 T_{\text{prop}}} = \frac{1}{1 + 2a}
 $$
 
 
@@ -5319,7 +5319,7 @@ $$
 
 
 $$
-\eta_{\text{Sliding Window}} = \min\left(1.0, \; \f\frac{W_s}{1 + 2a}\r\right)
+\eta_{\text{Sliding Window}} = \min\left(1.0, \; \frac{W_s}{1 + 2a}\right)
 $$
 
 
@@ -5503,7 +5503,7 @@ $$
 
 
 $$
-T_{\text{trans}} = \f\frac{12,000\text{ bits}}{5,000,000\text{ bps}} = 0.0024\text{ seconds} = 2.4\text{ ms}
+T_{\text{trans}} = \frac{12,000\text{ bits}}{5,000,000\text{ bps}} = 0.0024\text{ seconds} = 2.4\text{ ms}
 $$
 
 
@@ -5546,7 +5546,7 @@ $$
 
 
 $$
-T_t = \f\frac{8000}{10^7} = 0.8\text{ ms} = 0.0008\text{ s}
+T_t = \frac{8000}{10^7} = 0.8\text{ ms} = 0.0008\text{ s}
 $$
 
 
@@ -5557,7 +5557,7 @@ $$
 
 
 $$
-W = \f\frac{\text{RTT} + T_t}{T_t} = \f\frac{0.1008\text{ s}}{0.0008\text{ s}} = 126\text{ frames}
+W = \frac{\text{RTT} + T_t}{T_t} = \frac{0.1008\text{ s}}{0.0008\text{ s}} = 126\text{ frames}
 $$
 
 

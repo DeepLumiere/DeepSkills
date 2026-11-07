@@ -1043,6 +1043,7 @@ END START
 3. **What is the difference between `JA` and `JG` conditional jump instructions?**
 
    *Answer:* `JA` (Jump if Above) performs an **unsigned comparison**: tests $CF = 0 \land ZF = 0$. `JG` (Jump if Greater) performs a **signed comparison**: tests $(SF \oplus OF = 0) \land ZF = 0$. Example: If `AX = FFFFh` and `BX = 0001h`:
+
    - Unsigned: `FFFFh > 0001h` (65535 > 1) → `JA` takes the jump.
    - Signed: `FFFFh = -1 < +1` → `JG` does NOT jump.
 
@@ -1053,6 +1054,7 @@ END START
 5. **Write the machine code byte for the instruction `JZ NEXT` where `NEXT` is 5 bytes ahead.**
 
    *Answer:*
+
    - Opcode for `JZ` = `74H`.
    - $D_8 = \text{Target} - \text{Next Instruction} = +5$.
    - Machine code: `74 05H`. (Positive = forward jump of 5 bytes.)
@@ -1060,6 +1062,7 @@ END START
 6. **What are the differences between `REP MOVSB` and `REPE CMPSB`?**
 
    *Answer:*
+
    - `REP MOVSB` terminates only when `CX = 0`. It copies `CX` bytes unconditionally from `DS:SI` to `ES:DI`. It does not test any flags.
    - `REPE CMPSB` terminates when `CX = 0` **OR** `ZF = 0` (mismatch found). It compares without copying and sets all status flags based on the byte comparison result. It is used to detect the first difference between two strings.
 
@@ -1091,6 +1094,7 @@ END START
 10. **Trace through `REPE CMPSB` comparing "HELLO" and "HELLX" (CX = 5). What is the state of ZF, CF, SI, DI and CX after the instruction completes?**
 
     *Answer:*
+
     - Iteration 1: `[SI]='H'` vs `[DI]='H'` → Equal, ZF=1, CX=4, SI++, DI++.
     - Iteration 2: `'E'` vs `'E'` → Equal, ZF=1, CX=3.
     - Iteration 3: `'L'` vs `'L'` → Equal, ZF=1, CX=2.
@@ -1272,6 +1276,7 @@ END START
 ```
 
 **Trace of `NOT CX` Trick:**
+
 - Before scan: CX = FFFFh
 - Null found at position 8 (0-indexed): CX decremented 9 times → CX = FFFFh − 9 = FFF6h
 - `NOT FFF6h` = `0009h`

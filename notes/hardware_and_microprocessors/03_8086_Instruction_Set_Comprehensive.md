@@ -10,6 +10,7 @@
 ## 1. Chapter Overview
 
 This chapter delivers an exhaustive, textbook-grade presentation of the Intel 8086 16-bit instruction architecture. It covers:
+
 1. The **7 core addressing modes** with effective address calculations, advantages, limitations, and circuit diagrams.
 2. The **machine code instruction format** (Opcode, Direction bit $D$, Word bit $W$, Mode bits $\text{MOD}$, Register bits $\text{REG}$, and Register/Memory bits $R/M$), including segment overrides and execution timing penalties (even vs odd memory boundaries).
 3. The **complete 8086 instruction set**: Data Transfer, Arithmetic (including BCD/ASCII adjustments), Bitwise Logic, Shift/Rotate operations, Flag Manipulation, and Processor Control instructions — **every instruction with full assembly code examples**.
@@ -40,6 +41,7 @@ An addressing mode defines how the Execution Unit (EU) and Bus Interface Unit (B
 
 #### 1. Register Addressing Mode
 The operand is stored entirely within one of the internal 8-bit or 16-bit CPU registers.
+
 - **Mathematical Formula:** $EA = R$ (No memory access required).
 - **Valid Registers:** 8-bit (`AL, AH, BL, BH, CL, CH, DL, DH`) or 16-bit (`AX, BX, CX, DX, SP, BP, SI, DI`).
 - **Forbidden Transfers:**
@@ -57,6 +59,7 @@ XCHG AX, CX      ; Swap AX and CX (exchange via register mode)
 
 #### 2. Immediate Addressing Mode
 The operand is constant numerical data encoded directly into the instruction byte sequence following the opcode.
+
 - **Constraints:**
   - Cannot move immediate data directly into Segment Registers (`DS, ES, SS, CS`). Must route via general register:
     ```assembly
@@ -76,10 +79,13 @@ ADD AX, 100      ; Add decimal 100 (0064H) to AX
 
 #### 3. Direct Addressing Mode
 The 16-bit effective address ($EA$) is explicitly specified as a constant displacement within square brackets `[ ]`.
+
 - **Formula:** $\text{Physical Address} = \text{DS} \times 10\text{H} + \text{Disp16}$
 - **Worked Example:** If $\text{DS} = 2000\text{H}$ and instruction is `MOV DL, [2440H]`:
 
-$$\text{Physical Address} = 20000\text{H} + 2440\text{H} = 22440\text{H}$$
+$$
+\text{Physical Address} = 20000\text{H} + 2440\text{H} = 22440\text{H}
+$$
 
 ```assembly
 MOV DL, [2440H]       ; Load byte at DS:2440H into DL
@@ -92,12 +98,15 @@ ADD AX, COUNT         ; Add memory variable COUNT to AX
 
 #### 4. Register Indirect Addressing Mode
 The effective address of the operand in memory is held in a base register (`BX`, `BP`) or index register (`SI`, `DI`).
+
 - **Segment Association Rules:**
   - `BX`, `SI`, `DI` default to **Data Segment (DS)**.
   - `BP` defaults to **Stack Segment (SS)**.
 - **Worked Example:** If $\text{SS} = 2000\text{H}$, $\text{BP} = 0111\text{H}$, instruction is `MOV [BP], DL`:
 
-$$\text{Physical Address} = 20000\text{H} + 0111\text{H} = 20111\text{H}$$
+$$
+\text{Physical Address} = 20000\text{H} + 0111\text{H} = 20111\text{H}
+$$
 
 ```assembly
 MOV CX, [BX]          ; Load word at DS:BX into CX
@@ -110,13 +119,18 @@ MOV AL, [BP]          ; Load byte from SS:BP (stack frame)
 
 #### 5. Base Relative Addressing Mode
 The effective address is computed by adding an 8-bit or 16-bit signed displacement to a Base register (`BX` or `BP`).
+
 - **Formula:** $EA = [\text{BX/BP}] + \text{Displacement}$
 - **Displacement Ranges:** 8-bit signed ($-128$ to $+127$) or 16-bit signed ($-32,768$ to $+32,767$).
 - **Worked Example:** If $\text{DS} = 4000\text{H}$, $\text{BX} = 2000\text{H}$, and instruction is `MOV AX, [BX + 10H]`:
 
-$$EA = 2000\text{H} + 0010\text{H} = 2010\text{H}$$
+$$
+EA = 2000\text{H} + 0010\text{H} = 2010\text{H}
+$$
 
-$$\text{Physical Address} = 40000\text{H} + 2010\text{H} = 42010\text{H}$$
+$$
+\text{Physical Address} = 40000\text{H} + 2010\text{H} = 42010\text{H}
+$$
 
 ```assembly
 MOV AX, [BX + 10H]    ; Load word at DS:(BX+10H)
@@ -129,12 +143,17 @@ MOV [BP - 2], AX      ; Store AX into local variable on stack
 
 #### 6. Indexed Relative Addressing Mode
 The effective address is computed by adding a signed displacement to an Index register (`SI` or `DI`).
+
 - **Formula:** $EA = [\text{SI/DI}] + \text{Displacement}$ (Default segment: **DS**).
 - **Worked Example:** If $\text{DS} = 2000\text{H}$, $\text{SI} = 5000\text{H}$, and $\text{ARRAY} = 1234\text{H}$, instruction `MOV DX, ARRAY[SI]`:
 
-$$EA = 5000\text{H} + 1234\text{H} = 6234\text{H}$$
+$$
+EA = 5000\text{H} + 1234\text{H} = 6234\text{H}
+$$
 
-$$\text{Physical Address} = 20000\text{H} + 6234\text{H} = 26234\text{H}$$
+$$
+\text{Physical Address} = 20000\text{H} + 6234\text{H} = 26234\text{H}
+$$
 
 ```assembly
 MOV DX, ARRAY[SI]     ; Load word from ARRAY + SI offset
@@ -147,13 +166,18 @@ MOV TABLE[DI], BL     ; Store BL into lookup table at DI offset
 
 #### 7. Base Indexed Relative Addressing Mode
 Combines one base register (`BX` or `BP`), one index register (`SI` or `DI`), and an optional displacement.
+
 - **Formula:** $EA = [\text{BX/BP}] + [\text{SI/DI}] + \text{Displacement}$
   - Default Segment is **SS** if `BP` is used; otherwise defaults to **DS**.
 - **Worked Example:** If $\text{DS} = 1200\text{H}$, $\text{BX} = 1000\text{H}$, $\text{SI} = 2000\text{H}$, $\text{BETA} = 1234\text{H}$:
 
-$$EA = 1000\text{H} + 2000\text{H} + 1234\text{H} = 4234\text{H}$$
+$$
+EA = 1000\text{H} + 2000\text{H} + 1234\text{H} = 4234\text{H}
+$$
 
-$$\text{Physical Address} = 12000\text{H} + 4234\text{H} = 16234\text{H}$$
+$$
+\text{Physical Address} = 12000\text{H} + 4234\text{H} = 16234\text{H}
+$$
 
 ```assembly
 MOV AX, BETA[BX][SI]  ; Load word from BETA + BX + SI (2D array access)
@@ -220,21 +244,26 @@ Byte 6:  High-order Immediate Data (if present)
 - Direction: Data moves into `CL` (Register) → $D = 1$
 - Width: `CL` is 8-bit byte → $W = 0$
   $\implies \text{Byte 1} = 1000\,1010_2 = \mathbf{8AH}$
+
 - Mode: Indirect `[BX]` with no displacement → $\text{MOD} = 00$
 - Register `CL`: $\text{REG} = 001$
 - R/M for `[BX]`: $\text{R/M} = 111$
   $\implies \text{Byte 2} = 00\,001\,111_2 = \mathbf{0FH}$
+
 - **Final Machine Code:** `8A 0FH` (2 bytes).
 
 #### Example 3.2: Encode `MOV CS:[BX], DL` (Segment Override Prefix)
 When an operand accesses a segment other than its default, the assembler prepends a 1-byte **Segment Override Prefix**:
+
 - Prefix for `CS`: `0010 1110_2 = 2EH`
 - Opcode `MOV`: `100010`
 - Direction: Data moves from `DL` (REG) to memory → $D = 0$
 - Width: `DL` is Byte → $W = 0$
   $\implies \text{Byte 2} = 1000\,1000_2 = \mathbf{88H}$
+
 - $\text{MOD} = 00$, $\text{REG} = 010$ (`DL`), $\text{R/M} = 111$ (`[BX]`)
   $\implies \text{Byte 3} = 00\,010\,111_2 = \mathbf{17H}$
+
 - **Final Machine Code:** `2E 88 17H` (3 bytes).
 
 ---
@@ -258,6 +287,7 @@ When an operand accesses a segment other than its default, the assembler prepend
 #### Critical Bus Boundary Penalty Rule
 A 16-bit word aligned at an **even memory address** is transferred in **1 bus cycle (4 T-states)** with $\overline{\text{BHE}} = 0$ and $A_0 = 0$.
 A 16-bit word located at an **odd memory address** requires **2 separate bus cycles (8 T-states)**:
+
 1. Low byte read from odd address ($A_0 = 1, \overline{\text{BHE}} = 1$).
 2. High byte read from next even address ($A_0 = 0, \overline{\text{BHE}} = 0$).
 This incurs a **4 clock cycle penalty** (+4 cycles) per memory word access!
@@ -520,17 +550,20 @@ JZ  EXIT              ; Jump if tested bits are both zero
 flowchart LR
     subgraph Shift_Left["SHL / SAL: Shift Left"]
         direction LR
-        CF1[CF] <--|MSB out| RegL["D7 ... D0"] <--|0 shifted in| Zero1[0]
+        Zero1[0] -->|"0 shifted in"| RegL["D7 ... D0"]
+        RegL -->|"MSB out"| CF1[CF]
     end
 
     subgraph Shift_Right["SHR: Shift Logical Right"]
         direction LR
-        Zero2[0] -->|0 shifted in| RegR["D7 ... D0"] -->|LSB out| CF2[CF]
+        Zero2[0] -->|"0 shifted in"| RegR["D7 ... D0"]
+        RegR -->|"LSB out"| CF2[CF]
     end
 
     subgraph SAR_Right["SAR: Shift Arithmetic Right"]
         direction LR
-        SignBit["Sign (D7)"] -->|Preserve Sign| RegSAR["D7 ... D0"] -->|LSB out| CF3[CF]
+        SignBit["Sign (D7)"] -->|"Preserve Sign"| RegSAR["D7 ... D0"]
+        RegSAR -->|"LSB out"| CF3[CF]
     end
 ```
 
@@ -832,6 +865,7 @@ POPF                  ; Pop 16-bit word from stack into Flags (ALL flags restore
 
 1. **Calculate the execution time for `ADD AX, [BX+SI+0100H]` on a 5 MHz 8086.**
    *Solution:*
+
    - Clock period $T = \frac{1}{5\text{ MHz}} = 0.2\,\mu\text{s}$.
    - Memory to register addition: $\text{Base Clocks} = 9 + EA$.
    - $EA$ for Based Indexed Relative ($\text{BX}+\text{SI}+\text{Disp}$) = 11 clock cycles.

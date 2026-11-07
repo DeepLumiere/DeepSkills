@@ -1,9 +1,9 @@
 # Complete Machine Learning Notes: Neural Networks and Clustering
 
-> **Course Code:** 3CS526CC23  
-> **Course Title:** Machine Learning and its Applications  
-> **Primary Source:** Faculty Lecture Slides - Nirma University  
-> **Files Integrated:** NN and Clustering.pdf (52 Slides)  
+> **Course Code:** 3CS526CC23
+> **Course Title:** Machine Learning and its Applications
+> **Primary Source:** Faculty Lecture Slides - Nirma University
+> **Files Integrated:** NN and Clustering.pdf (52 Slides)
 
 ---
 
@@ -512,10 +512,10 @@ $$
 
 ### Definition: Perceptron
 
-**Meaning:**  
+**Meaning:**
 A Perceptron is a supervised learning classifier that maps an incoming feature vector to a binary class decision by computing a linear combination of features and applying a hard threshold activation function.
 
-**Formal Definition:**  
+**Formal Definition:**
 A mathematical operator $P: \mathbb{R}^n \to \{0, 1\}$ defined as:
 
 $$
@@ -524,10 +524,10 @@ $$
 
 where $\mathbf{w} \in \mathbb{R}^n$ is the synaptic weight vector, $b \in \mathbb{R}$ is the bias scalar, and $\mathbf{x} \in \mathbb{R}^n$ is the input pattern.
 
-**Intuition:**  
+**Intuition:**
 The perceptron establishes a flat decision boundary across the input space. All points lying on or to one side of the hyperplane are classified as Class 1, while points on the opposing side are assigned to Class 0.
 
-**Example:**  
+**Example:**
 Classifying patient medical indicators (e.g., blood glucose and insulin levels) into diabetic ($1$) or non-diabetic ($0$).
 
 ---
@@ -572,19 +572,19 @@ If the training dataset is linearly separable, the Perceptron Learning Rule is g
 
 ### Key Practical Issues in Perceptron Design
 
-1. **Why Use Bias ($b$)?**  
+1. **Why Use Bias ($b$)?**
    Without an independent bias parameter ($b=0$), the separating hyperplane is constrained to pass through the coordinate origin: $\mathbf{w}^T \mathbf{x} = 0$. Including $b$ allows the decision boundary to translate anywhere in the coordinate space.
 
-2. **Termination Criteria:**  
+2. **Termination Criteria:**
    Learning halts when: (a) Zero misclassification errors occur across an entire epoch, (b) The total squared error drops below a predefined tolerance, or (c) A preset maximum epoch budget is exhausted.
 
-3. **Role of Learning Rate ($\eta$):**  
+3. **Role of Learning Rate ($\eta$):**
    Controls the step size of weight corrections. An excessively large $\eta$ causes erratic oscillations around the optimal boundary, while an overly small $\eta$ requires excessive training iterations.
 
-4. **Handling Non-Numeric Inputs:**  
+4. **Handling Non-Numeric Inputs:**
    Qualitative or categorical attributes must be converted to numerical representations using techniques such as one-hot encoding or ordinal feature scaling before presentation to the perceptron.
 
-5. **Epoch Definition:**  
+5. **Epoch Definition:**
    An epoch represents exactly one complete sequential pass of all training instances through the network.
 
 ---
@@ -606,7 +606,7 @@ graph LR
 #### Decision Logic and Failure Modes
 
 - **One-Hot Encoding Criterion:** A presented pattern $\mathbf{x}$ is classified as belonging to Class $i$ if and only if the $i$-th perceptron fires ($y_i = 1$) and all other perceptrons remain inactive ($y_j = 0$ for all $j \neq i$).
-- **Ambiguity and Failure Modes:**  
+- **Ambiguity and Failure Modes:**
   - **Dead Zone / Null Classification:** If all perceptrons output zero ($\sum_k y_k = 0$), the pattern lies in an unassigned region; the network fails to classify.
   - **Conflict Zone / Overlap:** If two or more perceptrons output one simultaneously ($\sum_k y_k \ge 2$), the decision boundaries overlap, creating an ambiguous prediction.
 
@@ -1276,6 +1276,7 @@ O_6 = \frac{1}{1 + e^{-(-0.1046)}} = \frac{1}{1 + e^{0.1046}} = \frac{1}{1 + 1.1
 $$
 
 *Forward Pass Summary Table:*
+
 | Unit $j$ | Net Input $I_j$ | Output Activation $O_j$ |
 | :---: | :---: | :---: |
 | **4** | $-0.7000$ | $0.332$ |
@@ -1323,6 +1324,7 @@ Err_4 = (0.332)(1 - 0.332) [(0.1311)(-0.3)] = (0.332)(0.668)(-0.03933) = (0.2217
 $$
 
 *Error Gradient Summary Table:*
+
 | Unit $j$ | Output $O_j$ | Error Gradient $Err_j$ |
 | :---: | :---: | :---: |
 | **6** | $0.474$ | $+0.1311$ |
@@ -1663,7 +1665,7 @@ Across both training epochs, the three neurons specialize into distinct feature 
 
 - **Neuron C** captures high-magnitude input samples ($\mathbf{x}_1, \mathbf{x}_6$).
 - **Neuron B** specializes in patterns dominated by the third coordinate with small first components ($\mathbf{x}_3$).
-- **Neuron A** captures distributed low-magnitude and origin-adjacent patterns ($\mathbf{x}_2, \mathbf{x}_4, \mathbf{x}_5$).  
+- **Neuron A** captures distributed low-magnitude and origin-adjacent patterns ($\mathbf{x}_2, \mathbf{x}_4, \mathbf{x}_5$).
 Neuron A won three patterns per epoch, while C won two and B won one, illustrating that cluster density and initial positioning govern winning frequency.
 
 ---
@@ -1730,7 +1732,7 @@ $$
 \text{Neuron } B \longleftrightarrow \text{Neuron } A \longleftrightarrow \text{Neuron } C
 $$
 
-The grid distances are $d_{grid}(B, A) = 1$, $d_{grid}(A, C) = 1$, and $d_{grid}(B, C) = 2$.  
+The grid distances are $d_{grid}(B, A) = 1$, $d_{grid}(A, C) = 1$, and $d_{grid}(B, C) = 2$.
 The dataset consists of the six 3D vectors from Problem 3 presented cyclically:
 
 $$
@@ -1747,7 +1749,7 @@ The neighborhood radius $D(t)$ and learning rate $\eta(t)$ follow the schedule:
 
 - For $t \le 6$: $D(t) = 1$ (BMU and its immediate 1-hop lattice neighbors update); $\eta(t) = 0.5$.
 - For $7 \le t \le 12$: $D(t) = 0$ (only BMU updates, winner-take-all); $\eta(t) = 0.25$.
-- For $t \ge 13$: $D(t) = 0$; $\eta(t) = 0.10$.  
+- For $t \ge 13$: $D(t) = 0$; $\eta(t) = 0.10$.
 Execute the trace for 15 iterations and analyze inter-neuron distance evolution.
 
 ---
@@ -1867,10 +1869,10 @@ Cluster analysis aims to partition an unlabeled set of observations into groups 
 
 ### Definition: K-Means Clustering
 
-**Meaning:**  
+**Meaning:**
 K-Means is an iterative, centroid-based partitioning algorithm that divides an unlabeled dataset into $K$ non-overlapping clusters by minimizing the total squared distance between data points and their assigned cluster means.
 
-**Formal Definition:**  
+**Formal Definition:**
 Given a dataset $D = \{\mathbf{x}_1, \mathbf{x}_2, \dots, \mathbf{x}_n\}$ with $\mathbf{x}_i \in \mathbb{R}^d$, K-Means partitions $D$ into $K$ disjoint clusters $\mathcal{C} = \{C_1, C_2, \dots, C_K\}$ that minimize the **Within-Cluster Sum of Squares (WCSS)** objective function:
 
 $$
@@ -1883,10 +1885,10 @@ $$
 \boldsymbol{\mu}_k = \frac{1}{|C_k|} \sum_{\mathbf{x} \in C_k} \mathbf{x}
 $$
 
-**Intuition:**  
+**Intuition:**
 The algorithm acts as an alternating minimization process: it assigns points to the nearest current cluster center, recalculates the centers as the means of the newly formed clusters, and repeats until the centroids stabilize.
 
-**Example:**  
+**Example:**
 Customer segmentation in e-commerce grouping consumers by annual expenditure and site browsing duration.
 
 ---
@@ -1917,20 +1919,20 @@ $$
 
 ### Definition: K-Medoids Clustering (PAM - Partitioning Around Medoids)
 
-**Meaning:**  
+**Meaning:**
 K-Medoids is a partitioning clustering algorithm that designates actual observed data points (**medoids**) as cluster centers instead of fictitious arithmetic means, making it substantially more robust to noise and extreme outliers.
 
-**Formal Definition:**  
+**Formal Definition:**
 Given an arbitrary dissimilarity metric $d(\mathbf{x}_i, \mathbf{x}_j)$, K-Medoids identifies $K$ representative medoid objects $\{m_1, m_2, \dots, m_K\} \subset D$ that minimize the total absolute dissimilarity:
 
 $$
 J_{medoid} = \sum_{k=1}^K \sum_{\mathbf{x}_i \in C_k} d(\mathbf{x}_i, m_k)
 $$
 
-**Intuition:**  
+**Intuition:**
 Just as the median is more robust than the mean in univariate statistics, using an actual observed data point as the cluster representative prevents extreme outlier values from shifting the cluster center.
 
-**Example:**  
+**Example:**
 Clustering DNA sequences or graph structures where arithmetic means cannot be computed, but pairwise sequence alignments provide valid distances.
 
 ---

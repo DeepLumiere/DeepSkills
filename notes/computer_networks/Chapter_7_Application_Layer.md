@@ -1,10 +1,10 @@
 # Complete Computer Networks Notes: Application Layer
 
-> **Course Code:** Computer Networks (CompNet)  
-> **Course Title:** Computer Networks & Data Communications  
-> **Primary Source:** Computer Networks, Fifth Edition (Tanenbaum & Wetherall) — Chapter 7: The Application Layer (Sections 7.1–7.6)  
-> **Supplementary Sources:** `Computer_Networks_Question_Bank.pdf` (Unit 5: Application Layer), `CN_Application_Layer.pdf` (Slides/Pages 1–36), IETF RFC Technical Specifications (RFC 1034, RFC 1035, RFC 1939, RFC 2045–2049, RFC 2326, RFC 2616, RFC 3261, RFC 3501, RFC 3550, RFC 3986, RFC 5321, RFC 5322, RFC 6455, RFC 7230–7235, RFC 7540, RFC 9000, RFC 9114)  
-> **Files Integrated:** `section_7_1_dns.md`, `section_7_2_email.md`, `section_7_3_web.md`, `section_7_4_streaming.md`, `section_7_5_7_6_content_delivery.md`  
+> **Course Code:** Computer Networks (CompNet)
+> **Course Title:** Computer Networks & Data Communications
+> **Primary Source:** Computer Networks, Fifth Edition (Tanenbaum & Wetherall) — Chapter 7: The Application Layer (Sections 7.1–7.6)
+> **Supplementary Sources:** `Computer_Networks_Question_Bank.pdf` (Unit 5: Application Layer), `CN_Application_Layer.pdf` (Slides/Pages 1–36), IETF RFC Technical Specifications (RFC 1034, RFC 1035, RFC 1939, RFC 2045–2049, RFC 2326, RFC 2616, RFC 3261, RFC 3501, RFC 3550, RFC 3986, RFC 5321, RFC 5322, RFC 6455, RFC 7230–7235, RFC 7540, RFC 9000, RFC 9114)
+> **Files Integrated:** `section_7_1_dns.md`, `section_7_2_email.md`, `section_7_3_web.md`, `section_7_4_streaming.md`, `section_7_5_7_6_content_delivery.md`
 
 ---
 
@@ -60,7 +60,7 @@ flowchart TD
 
     NetA <--> Router1
     Router2 <--> NetB
-    AppA -.->|Logical End-to-End Application Protocol Exchange (HTTP, DNS, SMTP)| AppB
+    AppA -.->|"Logical End-to-End Application Protocol Exchange (HTTP, DNS, SMTP)"| AppB
 ```
 
 ### Architectural Paradigms: Client-Server vs. Peer-to-Peer (P2P)
@@ -69,12 +69,14 @@ Modern distributed network applications are engineered around two fundamental ar
 
 #### 1. Client-Server Architecture
 In the classic Client-Server model, service provision is sharply asymmetric:
+
 - **Server Characteristics:** A dedicated, always-on host that listens continuously on a well-known, standardized Transport Service Access Point (TSAP / Port Number) for incoming connection requests. Servers possess permanent, globally routable Internet Protocol (IP) addresses. In commercial production, a single physical server is replaced by massive data centers and elastic server farms to handle millions of simultaneous queries.
 - **Client Characteristics:** End-user host programs (such as web browsers or mobile apps) that initiate communication on demand to request services from the server. Clients typically have dynamic, ephemeral IP addresses assigned by local networks via Dynamic Host Configuration Protocol (DHCP) and do not communicate directly with other clients.
 - **Structural Bottleneck:** Centralized servers represent single points of failure and throughput bottlenecks. As the client population grows linearly, server bandwidth and computational capacity must be scaled vertically or horizontally at substantial operational cost.
 
 #### 2. Peer-to-Peer (P2P) Architecture
 In contrast, the P2P model eliminates reliance on dedicated, central server infrastructure:
+
 - **Peer Characteristics:** Arbitrary, intermittently connected end systems (called **peers**) communicate directly with one another. Each participating peer acts simultaneously as both a client (requesting resources) and a server (supplying resources) — a dual role termed a **servent** (server-client).
 - **Self-Scalability:** P2P architectures exhibit native self-scalability: every newly joined peer adds processing capacity and outbound upload bandwidth to the system while simultaneously consuming inbound download bandwidth.
 - **Structural Challenges:** P2P systems face severe administrative and protocol design hurdles, including high churn (peers joining and departing without warning), complex decentralized searching, Network Address Translation (NAT) traversal barriers, and lack of central trust or authentication authority.
@@ -97,6 +99,7 @@ In contrast, the P2P model eliminates reliance on dedicated, central server infr
 ### The Socket Interface & Transport Layer Boundary
 
 A critical conceptual distinction in network engineering is the boundary between a **Network Application** and an **Application Layer Protocol**:
+
 - **Network Application:** A complete software package consisting of collaborating software programs running simultaneously on two or more distinct end-system hosts across the network (for example, the Apache HTTP Server software communicating with the Mozilla Firefox Web Browser).
 - **Application Layer Protocol:** The formal, standardized ruleset (such as Hypertext Transfer Protocol / HTTP, RFC 7230) that defines the syntax, semantics, synchronization, and error-handling procedures for messages exchanged between application processes.
 
@@ -119,7 +122,7 @@ flowchart LR
         Transport <--> Buffers
     end
 
-    App <-->|read() / write()\nsendto() / recvfrom()| Sock
+    App <-->|"read() / write()\nsendto() / recvfrom()"| Sock
     Sock <--> Transport
 ```
 
@@ -130,6 +133,7 @@ flowchart LR
 
 #### Transport Services Required by Applications
 Different application classes demand distinct performance guarantees from the underlying transport layer:
+
 1. **Data Integrity & Reliability:** Applications like file transfer (FTP), remote shell (SSH), and web browsing (HTTP) cannot tolerate a single corrupted or missing bit, requiring the 100% reliable, byte-stream delivery guaranteed by the Transmission Control Protocol (TCP). Conversely, real-time multimedia streaming and VoIP tolerate minor packet loss but cannot endure retransmission delays, making User Datagram Protocol (UDP) the superior choice.
 2. **Throughput & Bandwidth:** Bandwidth-sensitive applications require guaranteed transmission rates (e.g., 25 Mbps for 4K video streams), whereas elastic applications (email, DNS, text messaging) gracefully adapt to whatever throughput is available.
 3. **Timing & Latency:** Interactive gaming, video teleconferencing, and industrial telemetry mandate strict end-to-end packet delay upper bounds (typically $< 150 \text{ ms}$).
@@ -235,16 +239,26 @@ graph TD
 
 #### Formal FQDN Syntax and Structural Constraints
 A **Fully Qualified Domain Name (FQDN)** represents the complete, absolute path from a specific node up to the root of the tree:
+
 1. **Label Syntax:** Each node in the tree is identified by a label. Labels are alphanumeric strings that may also contain hyphens (`-`). A label cannot start or end with a hyphen.
 2. **Label Length Constraint:** Each individual label must contain between $1$ and $63$ octets (characters) inclusive:
-   $$1 \le L_{\text{label}} \le 63 \text{ octets}$$
+
+$$
+1 \le L_{\text{label}} \le 63 \text{ octets}
+$$
+
 3. **Total FQDN Length Constraint:** The total length of a complete FQDN, including all label characters and length octets, cannot exceed $255$ octets:
-   $$L_{\text{FQDN}} \le 255 \text{ octets}$$
+
+$$
+L_{\text{FQDN}} \le 255 \text{ octets}
+$$
+
 4. **Case-Insensitivity:** DNS labels are strictly case-insensitive per RFC 1035: `EXAMPLE.COM`, `Example.Com`, and `example.com` refer to the identical node in the database.
 5. **Absolute vs. Relative Names:** An FQDN ends with an explicit trailing period representing the root (e.g., `robotics.cs.mit.edu.`). In contrast, a relative domain name omits the trailing dot (e.g., `robotics.cs`), instructing the operating system's resolver to append default local search domains (such as `.mit.edu`).
 
 #### Classification Taxonomy of Top-Level Domains (TLDs)
 The DNS hierarchy immediately below the root is partitioned into four major TLD categories:
+
 1. **Generic TLDs (gTLDs):**
    - *Legacy 7 gTLDs (RFC 1591):* Established in 1984: `.com` (commercial enterprises), `.edu` (accredited 4-year degree-granting educational institutions), `.gov` (United States federal governmental agencies), `.mil` (United States military), `.org` (non-profit organizations), `.net` (network infrastructure and internet service providers), and `.int` (international organizations created by intergovernmental treaties).
    - *New gTLDs (ICANN 2012+ Expansion):* The Internet Corporation for Assigned Names and Numbers (ICANN) expanded the gTLD namespace to over 1,200 specialized string identifiers, including technical and commercial strings (`.app`, `.dev`, `.cloud`, `.tech`, `.ai`, `.io`).
@@ -294,7 +308,10 @@ The database records that populate DNS zone files and wire messages are structur
 
 #### The Canonical 5-Tuple Structure
 Conceptually and in standard zone master file syntax (RFC 1035), every resource record is defined as a 5-tuple:
-$$\text{RR} = (\text{Name}, \text{TTL}, \text{Class}, \text{Type}, \text{Value})$$
+
+$$
+\text{RR} = (\text{Name}, \text{TTL}, \text{Class}, \text{Type}, \text{Value})
+$$
 
 | Field Component | Size / Format | Description & Operational Functionality |
 | :--- | :--- | :--- |
@@ -328,6 +345,7 @@ $$\text{RR} = (\text{Name}, \text{TTL}, \text{Class}, \text{Type}, \text{Value})
 
 ##### 1. SOA (Start of Authority, Type 6)
 Every valid DNS zone file must begin with exactly one Start of Authority (`SOA`) record. The SOA record marks the apex of the zone and dictates global operational and replication parameters:
+
 - `MNAME` (Primary Master Name Server): The FQDN of the primary authoritative name server where master zone updates originate (e.g., `ns1.example.com.`).
 - `RNAME` (Responsible Person Mailbox): The email address of the zone administrator. Because the `@` symbol represents the current domain origin in zone file syntax, the `@` is replaced with a period (e.g., `hostmaster.example.com.` translates to `hostmaster@example.com`).
 - `SERIAL` (Zone Serial Number): A 32-bit unsigned version number incremented upon every zone modification. Secondary servers compare their local serial against the master's serial during zone refresh checks. Standard convention formats the serial as `YYYYMMDDnn` (where `nn` is a two-digit revision counter).
@@ -338,14 +356,17 @@ Every valid DNS zone file must begin with exactly one Start of Authority (`SOA`)
 
 ##### 2. A (Host IPv4 Address, Type 1)
 Maps a symbolic hostname to a standard 32-bit (4-octet) IPv4 address.
+
 - *Syntax:* `example.com. 3600 IN A 93.184.216.34`
 
 ##### 3. AAAA (Host IPv6 Address, Type 28)
 Maps a symbolic hostname to a 128-bit (16-octet) IPv6 address per RFC 3596 (colloquially termed "quad-A" because 128 bits is quadruple the 32 bits of an IPv4 `A` record).
+
 - *Syntax:* `example.com. 3600 IN AAAA 2606:2800:220:1:248:1893:25c8:1946`
 
 ##### 4. MX (Mail Exchanger, Type 15)
 Directs incoming electronic mail destined for a domain to the appropriate Mail Transfer Agent (MTA) server. The MX record payload consists of two fields:
+
 1. `Preference / Priority`: A 16-bit unsigned integer ($0 \text{ to } 65535$). Lower numerical values denote higher delivery priority.
 2. `Mail Server Hostname`: The FQDN of the destination mail server (must resolve to an `A` or `AAAA` record; cannot point to a CNAME).
 - *Syntax:*
@@ -357,21 +378,25 @@ Directs incoming electronic mail destined for a domain to the appropriate Mail T
 
 ##### 5. CNAME (Canonical Name, Type 5)
 Creates an alias pointing to the canonical (true) domain name. When a resolver encounters a CNAME record during resolution, it restarts the lookup using the canonical target name.
+
 - *Syntax:* `www.example.com. 3600 IN CNAME example.com.`
 - **Critical RFC Restriction:** A CNAME record cannot co-exist with any other resource record type for the same owner name (with the sole exception of DNSSEC security records RRSIG and NSEC). Specifically, an apex domain name (e.g., `example.com`) cannot have a CNAME because it must also hold SOA and NS records.
 
 ##### 6. PTR (Pointer, Type 12)
 Used for Reverse DNS lookups to map an IP address back to its canonical hostname:
+
 - **IPv4 Reverse Lookup:** The 4 octets of the IPv4 address are reversed and appended to the special infrastructure domain `.in-addr.arpa.` (e.g., for IP `192.0.2.45`, the query name is `45.2.0.192.in-addr.arpa.`).
 - **IPv6 Reverse Lookup:** The 32 hexadecimal nibbles of the 128-bit IPv6 address are reversed, separated by dots, and appended to `.ip6.arpa.`.
 - *Syntax:* `45.2.0.192.in-addr.arpa. 3600 IN PTR server1.example.com.`
 
 ##### 7. NS (Name Server, Type 2)
 Identifies an authoritative name server for the zone or delegates a subdomain to an external server.
+
 - *Syntax:* `example.com. 86400 IN NS ns1.example.com.`
 
 ##### 8. TXT (Text, Type 16)
 Holds arbitrary text strings up to 255 characters per string. While originally designed for human-readable notes, TXT records are universally utilized for modern domain security authentication:
+
 - *Sender Policy Framework (SPF, RFC 7208):* Advertises authorized outgoing mail server IPs:
   ```text
   example.com. IN TXT "v=spf1 ip4:192.0.2.0/24 include:_spf.google.com ~all"
@@ -381,6 +406,7 @@ Holds arbitrary text strings up to 255 characters per string. While originally d
 
 ##### 9. SRV (Service Locator, Type 33)
 A generalized service location record (RFC 2782) that allows clients to locate servers providing specific services (such as SIP, LDAP, XMPP, or Kerberos) without hardcoding port numbers or server names.
+
 - *Standard Format:* `_service._proto.name. TTL Class SRV Priority Weight Port Target.`
 - *Syntax:* `_sip._tcp.example.com. 3600 IN SRV 10 60 5060 sipserver.example.com.`
   - `Priority` (16 bits): Lower value = higher priority.
@@ -466,18 +492,34 @@ Because domain names frequently repeat across the Question, Answer, Authority, a
 ##### 1. Algorithmic Transformation
 - In standard DNS wire format, each label is preceded by a 1-octet length indicator ($1 \text{ to } 63$, whose two high-order bits are `00`).
 - If the first two bits of a length octet are `11` (binary `11000000_2 = 0xC0`), the remaining 14 bits represent an unsigned integer offset pointing to a prior location in the DNS message:
-  $$\text{Pointer Value} = \texttt{0xC000} \lor \text{Offset}$$
+
+$$
+\text{Pointer Value} = \texttt{0xC000} \lor \text{Offset}
+$$
+
 - The resolver reads the label sequence starting at `Offset` bytes from the very first byte of the 12-byte DNS message header.
 
 ##### 2. Worked Compression Trace Example
 Suppose a DNS response message contains the following Question and Answer sections:
+
 - **Question Section at Offset 12:** The query for `www.example.com` is encoded in wire format as:
-  $$\texttt{03} \, \texttt{'w'} \, \texttt{'w'} \, \texttt{'w'} \, \texttt{07} \, \texttt{'e'} \, \texttt{'x'} \, \texttt{'a'} \, \texttt{'m'} \, \texttt{'p'} \, \texttt{'l'} \, \texttt{'e'} \, \texttt{03} \, \texttt{'c'} \, \texttt{'o'} \, \texttt{'m'} \, \texttt{00}$$
+
+$$
+\texttt{03} \, \texttt{'w'} \, \texttt{'w'} \, \texttt{'w'} \, \texttt{07} \, \texttt{'e'} \, \texttt{'x'} \, \texttt{'a'} \, \texttt{'m'} \, \texttt{'p'} \, \texttt{'l'} \, \texttt{'e'} \, \texttt{03} \, \texttt{'c'} \, \texttt{'o'} \, \texttt{'m'} \, \texttt{00}
+$$
   Notice that the sub-string `example.com` begins at **Offset 16** (12 header bytes + 1 length byte + 3 bytes for `www` = Byte 16).
+
 - **Answer Section Encoding:** The answering resource record must specify the owner name `www.example.com`. Instead of transmitting all 17 bytes again, the encoder emits a 2-byte pointer:
-  $$\texttt{0xC00C} \implies \text{Offset } 12 \text{ (references } \texttt{www.example.com}\text{)}$$
+
+$$
+\texttt{0xC00C} \implies \text{Offset } 12 \text{ (references } \texttt{www.example.com}\text{)}
+$$
+
 - If an authoritative NS record later in the Authority section specifies `ns1.example.com`, the encoder emits:
-  $$\texttt{03} \, \texttt{'n'} \, \texttt{'s'} \, \texttt{'1'} \, \texttt{0xC010}$$
+
+$$
+\texttt{03} \, \texttt{'n'} \, \texttt{'s'} \, \texttt{'1'} \, \texttt{0xC010}
+$$
   Here, `0xC010` is a 2-byte pointer referencing Byte Offset 16 (`example.com`), saving 12 bytes of payload.
 
 ---
@@ -497,7 +539,7 @@ flowchart TD
     TLD -->|4. Referral: example.com NS + Glue| LocalDNS
     LocalDNS -->|5. Iterative Query| Auth["Authoritative Name Servers\n(ns1.example.com)"]
     Auth -->|6. Authoritative Answer: A=93.184.216.34| LocalDNS
-    LocalDNS -->|Final Answer (Cached)| Client
+    LocalDNS -->|"Final Answer (Cached)"| Client
 ```
 
 1. **Root Name Servers:**
@@ -533,13 +575,13 @@ sequenceDiagram
     Note over Local,Auth: Iterative Resolution Phase (RD=0)
     Local->>Root: Iterative Query: A www.example.com
     Root-->>Local: Referral: NS for .com + Glue IP for TLD
-    
+
     Local->>TLD: Iterative Query: A www.example.com
     TLD-->>Local: Referral: NS for example.com + Glue IP for Auth
-    
+
     Local->>Auth: Iterative Query: A www.example.com
     Auth-->>Local: Authoritative Response (AA=1): A = 93.184.216.34 (TTL=3600)
-    
+
     Note over Local: Caches RR locally for 3600 seconds
     Local-->>Host: Final Response: A = 93.184.216.34
 ```
@@ -573,14 +615,23 @@ Without caching, the global DNS architecture would collapse under the volume of 
 
 ##### 1. Positive Caching
 When a resolver receives an authoritative answer, it stores the resource record set (`RRset`) in its local memory cache alongside an expiration timestamp:
-$$\text{Expiration Time} = T_{\text{received}} + \text{TTL}$$
+
+$$
+\text{Expiration Time} = T_{\text{received}} + \text{TTL}
+$$
+
 - Subsequent requests for the same domain name originating from any local host are satisfied immediately from cache with zero upstream network traffic.
 - Intermediate referral records (`NS` records for `.com` with typical TTLs of 2 days = 172,800 seconds) remain cached across queries, allowing resolvers to bypass Root and TLD servers entirely for subsequent queries within that TLD.
 
 ##### 2. Negative Caching (RFC 2308)
 When an authoritative name server reports that a domain does not exist (`RCODE=3` / `NXDOMAIN`) or that the domain exists but holds no records of the requested type (`NODATA` / `NoError` with `ANCOUNT=0`), the resolver caches this negative result:
+
 - **Negative TTL Calculation:** The resolver caches the non-existence result for a duration defined by:
-  $$\text{Negative TTL} = \min(\text{SOA.MINIMUM}, \text{SOA.TTL})$$
+
+$$
+\text{Negative TTL} = \min(\text{SOA.MINIMUM}, \text{SOA.TTL})
+$$
+
 - **Protection Mechanism:** Negative caching prevents broken applications or malicious attack scripts from generating infinite query storms against root and authoritative servers by repeatedly requesting non-existent names.
 
 ---
@@ -597,7 +648,7 @@ flowchart TD
     CheckSize -- "Yes (TC = 1)" --> Truncated["Server Sets Truncation Bit (TC=1)\nPayload Truncated"]
     Truncated --> TCP_Fallback["Client Drops UDP Datagram\nEstablishes TCP Connection (Port 53)"]
     TCP_Fallback --> TCP_Success["Complete: Receive Full Response over TCP"]
-    
+
     ZoneTransfer["Zone Transfer (AXFR / IXFR)"] --> Direct_TCP["Direct TCP Port 53 Connection\n(Multi-packet reliability)"]
 ```
 
@@ -608,11 +659,13 @@ flowchart TD
 
 ##### 2. TCP Port 53 (Fallback & Bulk Transfer)
 TCP Port 53 is invoked under two mandatory operational conditions:
+
 1. **Truncation Fallback (`TC=1`):** If a response payload exceeds 512 octets (or the advertised EDNS0 buffer size), the server truncates the answer section, sets the Truncation flag (`TC=1`), and transmits the partial packet. Upon receiving `TC=1`, the client drops the UDP packet, initiates a 3-way TCP handshake to port 53, and re-issues the query reliably.
 2. **Zone Transfers (AXFR / IXFR):** Secondary name servers synchronize zone databases from primary masters using Authoritative Zone Transfer (**AXFR**, RFC 5936) or Incremental Zone Transfer (**IXFR**, RFC 1995). Because zone files can span tens of megabytes, TCP's reliable sliding-window stream is strictly required.
 
 ##### 3. EDNS0 (Extension Mechanisms for DNS - RFC 6891)
 To prevent the latency penalty of falling back to TCP for modern responses (especially large DNSSEC cryptographic keys and signatures), EDNS0 introduces a pseudo-record termed the **OPT Resource Record** placed in the Additional Information Section:
+
 - Allows the client to advertise a larger UDP receive buffer size (typically **1232 to 4096 octets**).
 - Adds extended flag bits and support for larger response codes, enabling DNSSEC-signed responses to traverse UDP safely without triggering `TC=1`.
 
@@ -624,6 +677,7 @@ Plain DNS transmits all queries and replies in cleartext over unauthenticated UD
 
 ##### 1. Vulnerability: The Kaminsky Cache Poisoning Attack
 In 2008, security researcher Dan Kaminsky demonstrated a devastating cache poisoning exploit:
+
 - **Vulnerability Mechanism:** A plain DNS transaction is authenticated solely by matching two 16-bit fields: the transaction **ID** ($2^{16} = 65,536$ combinations) and the client UDP **source port** (historically fixed at port 53, providing zero entropy).
 - **The Exploit:** An attacker floods a target local recursive resolver with queries for random, non-existent subdomains under a victim domain (e.g., `random1.example.com`, `random2.example.com`).
 - Simultaneously, the attacker floods the resolver with thousands of forged authoritative responses claiming to be from the authoritative server, guessing the 16-bit transaction ID.
@@ -695,7 +749,7 @@ void resolve_hostname(const char *hostname) {
     printf("Initiating DNS Resolution for Target: %s\n", hostname);
     printf("============================================================\n");
 
-    /* 
+    /*
      * Step 1: Initialize the 'hints' structure.
      * Setting hints to zero guarantees no undefined flags are passed.
      */
@@ -704,13 +758,13 @@ void resolve_hostname(const char *hostname) {
     hints.ai_socktype = SOCK_STREAM; /* TCP stream socket type */
     hints.ai_flags = AI_CANONNAME;   /* Return the canonical name of the host */
 
-    /* 
+    /*
      * Step 2: Invoke getaddrinfo().
      * Resolves the hostname and allocates a dynamically linked list of addrinfo structs.
      */
     status = getaddrinfo(hostname, NULL, &hints, &result);
     if (status != 0) {
-        fprintf(stderr, "getaddrinfo error for '%s': %s\n", 
+        fprintf(stderr, "getaddrinfo error for '%s': %s\n",
                 hostname, gai_strerror(status));
         return;
     }
@@ -720,7 +774,7 @@ void resolve_hostname(const char *hostname) {
         printf("Canonical Name (CNAME Target): %s\n\n", result->ai_canonname);
     }
 
-    /* 
+    /*
      * Step 3: Iterate through the returned linked list of address structures.
      */
     int record_count = 0;
@@ -743,7 +797,7 @@ void resolve_hostname(const char *hostname) {
             continue; /* Unknown protocol family */
         }
 
-        /* 
+        /*
          * Step 4: Convert binary network IP address into human-readable presentation string.
          */
         if (inet_ntop(rp->ai_family, addr, ip_string, sizeof(ip_string)) != NULL) {
@@ -755,7 +809,7 @@ void resolve_hostname(const char *hostname) {
 
     printf("\nTotal matching address records found: %d\n", record_count);
 
-    /* 
+    /*
      * Step 5: Deallocate the dynamically linked list.
      * Failure to invoke freeaddrinfo() causes a severe kernel memory leak.
      */
@@ -772,7 +826,7 @@ int main(int argc, char *argv[]) {
 
 #### Detailed Code Walkthrough and Operational Analysis
 1. **Header Inclusion & Portability:** `<netdb.h>` defines `struct addrinfo` and `getaddrinfo()`; `<arpa/inet.h>` supplies `inet_ntop()`.
-2. **The `hints` Configuration:** 
+2. **The `hints` Configuration:**
    - `hints.ai_family = AF_UNSPEC`: Configures the resolver to return both IPv4 (`AF_INET`) and IPv6 (`AF_INET6`) addresses seamlessly.
    - `hints.ai_flags = AI_CANONNAME`: Prompts the DNS subsystem to follow any `CNAME` chains and populate `result->ai_canonname` with the primary canonical domain name.
 3. **Execution and Error Handling:** `getaddrinfo()` returns integer `0` on success. On failure, it returns non-zero error constants (`EAI_NONAME`, `EAI_AGAIN`, `EAI_FAIL`) decoded into human-readable text via `gai_strerror()`.
@@ -787,6 +841,7 @@ int main(int argc, char *argv[]) {
 A host computer configured with a Local DNS Resolver requests the IPv4 address (`A` record) for `www.physics.oxford.ac.uk`. The Local DNS Resolver's cache is currently completely cold (contains no records for `oxford.ac.uk`, `.ac.uk`, `.uk`, or root).
 
 The network round-trip times (RTT) between communicating entities are measured as follows:
+
 - Client Host to Local DNS Resolver: $RTT_0 = 4 \text{ ms}$
 - Local DNS Resolver to Root Server: $RTT_{\text{root}} = 28 \text{ ms}$
 - Local DNS Resolver to `.uk` ccTLD Server: $RTT_{\text{TLD}} = 32 \text{ ms}$
@@ -796,6 +851,7 @@ The network round-trip times (RTT) between communicating entities are measured a
 Processing delay at each name server is $T_{\text{proc}} = 1.5 \text{ ms}$.
 
 **Calculate:**
+
 1. The total elapsed resolution delay under **Iterative Resolution** performed by the Local DNS Resolver.
 2. The total elapsed resolution delay if the system operated under **Full Recursive Resolution** chaining from server to server.
 3. The expected resolution delay if the Local DNS Resolver achieves an $80\%$ cache hit ratio on subsequent queries.
@@ -843,6 +899,7 @@ $$
 
 ##### Step 1: Calculate Iterative Resolution Latency ($T_{\text{iterative}}$)
 The resolution requires four sequential iterative queries by the Local Resolver:
+
 1. Local Resolver $\to$ Root Server: $28 \text{ ms} + 1.5 \text{ ms} = 29.5 \text{ ms}$
 2. Local Resolver $\to$ `.uk` TLD Server: $32 \text{ ms} + 1.5 \text{ ms} = 33.5 \text{ ms}$
 3. Local Resolver $\to$ `.ac.uk` Sub-TLD Server: $30 \text{ ms} + 1.5 \text{ ms} = 31.5 \text{ ms}$
@@ -915,7 +972,7 @@ flowchart LR
         MUA1["Mail User Agent (MUA)\nAlice (Client)"]
         MSA["Message Submission Agent (MSA)\nPort 587 (SMTP-AUTH / TLS)"]
         MTA1["Origin Mail Transfer Agent (MTA)\nPostfix / Exim (Port 25)"]
-        
+
         MUA1 -->|SMTP Submission\nPort 587| MSA
         MSA --> MTA1
     end
@@ -923,26 +980,27 @@ flowchart LR
     subgraph PublicInternet ["Public Internet Transit"]
         DNS["DNS Server\nMX Record Resolution"]
         MTA1 -.->|Queries MX| DNS
-        MTA1 ==>|SMTP Relay\nPort 25 (TCP)| MTA2["Destination MTA\nmail.example.com"]
+        MTA1 ==>|"SMTP Relay\nPort 25 (TCP)"| MTA2["Destination MTA\nmail.example.com"]
     end
 
     subgraph ReceiverDomain ["Destination Administrative Domain (example.com)"]
         MDA["Mail Delivery Agent (MDA / LDA)\nDovecot LDA / Procmail"]
         Store[("Persistent Mailbox Store\n(Maildir / mbox)")]
         MUA2["Mail User Agent (MUA)\nBob (Client)"]
-        
+
         MTA2 -->|Local Pipeline| MDA
         MDA -->|Atomic Write| Store
-        Store -->|POP3 (110/995) or\nIMAP4 (143/993)| MUA2
+        Store -->|"POP3 (110/995) or\nIMAP4 (143/993)"| MUA2
     end
 ```
 
 #### Figure 7.7: End-to-End Functional Architecture of the Internet Email System
 
-**What it shows:**  
+**What it shows:**
 The end-to-end traversal path of an email message from the sender's client software through submission, transport relay across the public Internet, local delivery, and eventual mailbox retrieval.
 
 **Components:**
+
 * **Mail User Agent (MUA):** The client program used by human senders and receivers to compose, read, organize, and manage email.
 * **Message Submission Agent (MSA):** A specialized mail server entry point operating under RFC 6409 on **Transmission Control Protocol (TCP)** port 587 that receives outbound messages from authenticated MUAs, validates formatting, and hands them to the local MTA.
 * **Mail Transfer Agent (MTA):** An always-on system daemon operating on TCP port 25 that routes and relays email across the Internet using the **Simple Mail Transfer Protocol (SMTP)** based on target domain **Mail Exchanger (MX)** records.
@@ -950,6 +1008,7 @@ The end-to-end traversal path of an email message from the sender's client softw
 * **Persistent Mailbox Store:** A non-volatile server-side storage subsystem holding stored messages until accessed or deleted.
 
 **Flow / Relationship:**
+
 1. The sender (Alice) drafts an email in her MUA and initiates submission over TCP port 587 to her local MSA, authenticating via SMTP-AUTH.
 2. The MSA validates message headers, enforces local policy, and transfers the message to the origin MTA.
 3. The origin MTA issues a **Domain Name System (DNS)** query for the recipient's domain (`example.com`) requesting `MX` records to locate the destination MTA.
@@ -957,7 +1016,7 @@ The end-to-end traversal path of an email message from the sender's client softw
 5. The destination MTA hands the message to the local MDA, which commits the data to the recipient's persistent mailbox store.
 6. The recipient (Bob) launches his MUA and retrieves or synchronizes the message using **Post Office Protocol version 3 (POP3)** or **Internet Message Access Protocol version 4 (IMAP4)**.
 
-**Key observations:**  
+**Key observations:**
 SMTP is exclusively a *push* protocol used for submission and inter-server relay. It cannot be used for final retrieval because user devices lack persistent IP addresses, are frequently powered down or behind firewalls, and cannot run listening port 25 server daemons.
 
 ---
@@ -1094,6 +1153,7 @@ Improperly engineered vacation agents introduce two severe failure modes:
 
 ##### Architectural Mitigations
 To eliminate these hazards, robust vacation agents implement strict verification algorithms:
+
 * They inspect incoming headers for mailing list markers: `Precedence: bulk`, `Precedence: list`, `List-Id:`, or `Auto-Submitted: auto-generated`. If detected, no reply is generated.
 * They maintain a local persistent database (or hash table) of recipient email addresses paired with timestamps. An auto-reply is dispatched to a given sender only once within a configurable cooldown interval (e.g., once every 7 days).
 * They verify that the user's explicit email address appears in the `To:` or `Cc:` field of the incoming message; messages delivered via `Bcc:` or mailing list expansion are ignored.
@@ -1133,6 +1193,7 @@ The table below catalogs the principal RFC 5322 header fields, categorized by th
 #### MIME: Multipurpose Internet Mail Extensions (RFC 2045–2049)
 
 The original RFC 822 specification suffered from five crippling technical constraints:
+
 1. It supported only 7-bit US-ASCII character encoding (values 0–127). Characters with values 128–255 (vital for French, German, Spanish, Cyrillic, Greek, etc.) were either stripped or garbled.
 2. It lacked native mechanisms for transmitting non-textual binary payloads (images, compiled binaries, compressed archives, audio, video).
 3. It possessed no standard conventions for describing the media type or encoding format of message content.
@@ -1284,17 +1345,26 @@ $$
 
 When the total input stream length $N$ in octets is not evenly divisible by 3, trailing padding characters (`=`) are appended according to strict modulo arithmetic:
 
-1. **Case 1: $N \pmod 3 = 0$**  
-   The binary stream cleanly fills all 24-bit blocks. No padding characters are added.  
-   $$\text{Block output: } 4 \text{ characters, } 0 \text{ equal signs.}$$
+1. **Case 1: $N \pmod 3 = 0$**
+   The binary stream cleanly fills all 24-bit blocks. No padding characters are added.
 
-2. **Case 2: $N \pmod 3 = 1$ (1 leftover byte, 8 bits)**  
-   The single 8-bit octet is shifted left by 4 zero bits to form two 6-bit indices ($I_0$ and $I_1$). The remaining two 6-bit slots cannot be filled from input data and are replaced with two explicit padding characters (`==`):  
-   $$\text{Block output: } \Sigma[I_0] \, \Sigma[I_1] \, \texttt{==}$$
+$$
+\text{Block output: } 4 \text{ characters, } 0 \text{ equal signs.}
+$$
 
-3. **Case 3: $N \pmod 3 = 2$ (2 leftover bytes, 16 bits)**  
-   The two 8-bit octets (16 bits) are shifted left by 2 zero bits to form three 6-bit indices ($I_0$, $I_1$, and $I_2$). The final fourth slot is replaced with one padding character (`=`):  
-   $$\text{Block output: } \Sigma[I_0] \, \Sigma[I_1] \, \Sigma[I_2] \, \texttt{=}$$
+2. **Case 2: $N \pmod 3 = 1$ (1 leftover byte, 8 bits)**
+   The single 8-bit octet is shifted left by 4 zero bits to form two 6-bit indices ($I_0$ and $I_1$). The remaining two 6-bit slots cannot be filled from input data and are replaced with two explicit padding characters (`==`):
+
+$$
+\text{Block output: } \Sigma[I_0] \, \Sigma[I_1] \, \texttt{==}
+$$
+
+3. **Case 3: $N \pmod 3 = 2$ (2 leftover bytes, 16 bits)**
+   The two 8-bit octets (16 bits) are shifted left by 2 zero bits to form three 6-bit indices ($I_0$, $I_1$, and $I_2$). The final fourth slot is replaced with one padding character (`=`):
+
+$$
+\text{Block output: } \Sigma[I_0] \, \Sigma[I_1] \, \Sigma[I_2] \, \texttt{=}
+$$
 
 ---
 
@@ -1307,7 +1377,11 @@ When the total input stream length $N$ in octets is not evenly divisible by 3, t
   * `'a'` = ASCII decimal 97 = $\texttt{01100001}_2$
   * `'n'` = ASCII decimal 110 = $\texttt{01101110}_2$
 * **Step 2: Concatenate into 24-bit register $B_{24}$:**
-  $$B_{24} = \texttt{01001101 01100001 01101110}_2$$
+
+$$
+B_{24} = \texttt{01001101 01100001 01101110}_2
+$$
+
 * **Step 3: Segment into four 6-bit index groups:**
   * Group 0: $\texttt{010011}_2 = 19_{10}$
   * Group 1: $\texttt{010110}_2 = 22_{10}$
@@ -1324,7 +1398,11 @@ When the total input stream length $N$ in octets is not evenly divisible by 3, t
 * **Input String**: `"M"` (1 ASCII character, $N=1$, $1 \pmod 3 = 1$)
 * **Step 1: Binary representation**: `'M'` = $\texttt{01001101}_2$.
 * **Step 2: Pad with 4 zero bits to create two 6-bit units:**
-  $$\texttt{01001101}_2 + \texttt{0000}_2 = \texttt{010011 010000}_2$$
+
+$$
+\texttt{01001101}_2 + \texttt{0000}_2 = \texttt{010011 010000}_2
+$$
+
   * Group 0: $\texttt{010011}_2 = 19_{10} \to \Sigma[19] = \texttt{'T'}$
   * Group 1: $\texttt{010000}_2 = 16_{10} \to \Sigma[16] = \texttt{'Q'}$
 * **Step 3: Append two padding characters for the missing 12 bits:**
@@ -1336,7 +1414,11 @@ When the total input stream length $N$ in octets is not evenly divisible by 3, t
   * `'M'` = $\texttt{01001101}_2$, `'a'` = $\texttt{01100001}_2$.
   * Combined 16 bits: $\texttt{01001101 01100001}_2$.
 * **Step 2: Pad with 2 zero bits to create three 6-bit units:**
-  $$\texttt{01001101 01100001}_2 + \texttt{00}_2 = \texttt{010011 010110 000100}_2$$
+
+$$
+\texttt{01001101 01100001}_2 + \texttt{00}_2 = \texttt{010011 010110 000100}_2
+$$
+
   * Group 0: $\texttt{010011}_2 = 19_{10} \to \Sigma[19] = \texttt{'T'}$
   * Group 1: $\texttt{010110}_2 = 22_{10} \to \Sigma[22] = \texttt{'W'}$
   * Group 2: $\texttt{000100}_2 = 4_{10} \to \Sigma[4] = \texttt{'E'}$
@@ -1347,10 +1429,11 @@ When the total input stream length $N$ in octets is not evenly divisible by 3, t
 
 #### Worked Numerical Example 2: Textbook Chapter 7 Problem 11
 
-**Problem Statement:**  
+**Problem Statement:**
 A binary file is 4,560 bytes long. How long will it be if encoded using Base64 encoding, with a `<CRLF>` pair inserted after every 110 bytes sent and at the end?
 
 **Given Data:**
+
 * Raw binary file size: $N = 4,560$ bytes.
 * Encoding scheme: Base64.
 * Line wrapping requirement: `<CRLF>` inserted after every $L = 110$ encoded bytes.
@@ -1359,7 +1442,7 @@ A binary file is 4,560 bytes long. How long will it be if encoded using Base64 e
 
 **Step-by-Step Mathematical Derivation:**
 
-* **Step 1: Calculate raw Base64 character count prior to line formatting.**  
+* **Step 1: Calculate raw Base64 character count prior to line formatting.**
   Check divisibility of $N$ by 3:
   $$
   4560 \pmod 3 = 0 \quad (4560 = 3 \times 1520)
@@ -1369,7 +1452,7 @@ A binary file is 4,560 bytes long. How long will it be if encoded using Base64 e
   C_{\text{base}} = 4 \times \left(\frac{4560}{3}\right) = 4 \times 1520 = 6,080 \text{ Base64 characters}
   $$
 
-* **Step 2: Compute full-length lines and line breaks.**  
+* **Step 2: Compute full-length lines and line breaks.**
   With line length $L = 110$ characters:
   $$
   \text{Number of full 110-character lines} = \left\lfloor \frac{6080}{110} \right\rfloor = \left\lfloor 55.2727 \right\rfloor = 55 \text{ full lines}
@@ -1385,7 +1468,7 @@ A binary file is 4,560 bytes long. How long will it be if encoded using Base64 e
   $$
   Thus, there are 55 full lines of 110 characters, followed by a 56th partial line of 30 characters.
 
-* **Step 4: Determine the total number of `<CRLF>` insertions.**  
+* **Step 4: Determine the total number of `<CRLF>` insertions.**
   * Each of the 55 full lines is terminated by a `<CRLF>` pair $\implies 55$ line breaks.
   * The problem statement explicitly requires a `<CRLF>` pair "at the end" (terminating the final 30-character line) $\implies 1$ additional line break.
   * Total `<CRLF>` pairs inserted:
@@ -1393,13 +1476,13 @@ A binary file is 4,560 bytes long. How long will it be if encoded using Base64 e
     N_{\text{CRLF}} = 55 + 1 = 56 \text{ pairs}
     $$
 
-* **Step 5: Calculate total wire byte size.**  
+* **Step 5: Calculate total wire byte size.**
   Each `<CRLF>` pair comprises 2 bytes:
   $$
   \text{Total Size} = C_{\text{base}} + (N_{\text{CRLF}} \times 2) = 6,080 + (56 \times 2) = 6,080 + 112 = 6,192 \text{ bytes}
   $$
 
-**Final Answer:**  
+**Final Answer:**
 The encoded file will be exactly **6,192 bytes** long.
 
 ---
@@ -1415,6 +1498,7 @@ While Base64 is optimal for dense binary streams, it introduces an unnecessary 3
    $$
    \text{Encoded Byte} = \texttt{"="} + \text{Hex}_{16}(\text{Octet})
    $$
+
    * Example: The character `é` (Latin-1 decimal 233, hexadecimal `E9`) is encoded as `=E9`.
    * Example: The literal equals symbol `=` (decimal 61, hexadecimal `3D`) is encoded as `=3D`.
 4. **Soft Line Breaks:** Lines of Quoted-Printable text must not exceed 76 characters. If a line is wrapped by the encoder, an equals sign `=` immediately precedes the line break (`=\r\n`). The receiving MUA strips the trailing `=` and joins the lines seamlessly without introducing a paragraph break.
@@ -1435,25 +1519,25 @@ sequenceDiagram
 
     Note over C,S: 1. TCP Handshake on Port 25
     S-->>C: 220 mail.example.com ESMTP Postfix (Debian/GNU)
-    
+
     Note over C,S: 2. Capability Negotiation
     C->>S: EHLO client.network.org
     S-->>C: 250-mail.example.com greets client.network.org<br/>250-SIZE 52428800<br/>250-8BITMIME<br/>250-STARTTLS<br/>250-PIPELINING<br/>250 OK
-    
+
     Note over C,S: 3. Mail Transaction Envelope
     C->>S: MAIL FROM:<alice@network.org>
     S-->>C: 250 2.1.0 Sender ok
-    
+
     C->>S: RCPT TO:<bob@example.com>
     S-->>C: 250 2.1.5 Recipient ok
-    
+
     Note over C,S: 4. Message Ingestion
     C->>S: DATA
     S-->>C: 354 End data with <CRLF>.<CRLF>
-    
+
     C->>S: From: alice@network.org<br/>To: bob@example.com<br/>Subject: System Status<br/><br/>Server migration complete.<br/>.
     S-->>C: 250 2.0.0 Ok: queued as 4Y8Z2A11
-    
+
     Note over C,S: 5. Connection Termination
     C->>S: QUIT
     S-->>C: 221 2.0.0 mail.example.com Service closing transmission channel
@@ -1461,14 +1545,16 @@ sequenceDiagram
 
 #### Figure 7.15: Complete Protocol Exchange Sequence of an SMTP Session
 
-**What it shows:**  
+**What it shows:**
 The exact message sequence chart of an **Extended SMTP (ESMTP)** transaction transferring an email from an originating MTA to a destination server.
 
 **Components:**
+
 * **Client (Sending MTA):** Initiates the outbound TCP connection on port 25 and transmits commands (`EHLO`, `MAIL FROM`, `RCPT TO`, `DATA`, `QUIT`).
 * **Server (Receiving MTA):** Listens on port 25, advertises service capabilities, validates sender and recipient addresses, accepts data blocks, and enqueues messages.
 
 **Flow / Relationship:**
+
 1. The client opens a TCP connection to port 25 of the destination MTA. The server speaks first, sending greeting banner code `220`.
 2. The client transmits `EHLO client.network.org` to negotiate extensions. The server returns multiline `250` response codes advertising supported ESMTP verbs (`STARTTLS`, `SIZE`, `8BITMIME`).
 3. The client establishes the envelope sender via `MAIL FROM:<alice@network.org>`. The server confirms receipt with `250`.
@@ -1478,7 +1564,7 @@ The exact message sequence chart of an **Extended SMTP (ESMTP)** transaction tra
 7. The server acknowledges durable spooling with code `250` containing the queue identifier.
 8. The client releases the session via `QUIT`; the server terminates the TCP connection with `221`.
 
-**Key observations:**  
+**Key observations:**
 Notice that the envelope sender specified in `MAIL FROM:` does not have to match the author declared in the header `From:` line. This architectural separation permits automated bounce routing, but creates the fundamental vulnerability that enables email address spoofing.
 
 ---
@@ -1651,16 +1737,16 @@ The Post Office Protocol version 3 was engineered in the era of single desktop c
 ```mermaid
 stateDiagram-v2
     [*] --> Authorization: TCP Connect (Port 110 / 995)
-    
+
     state Authorization {
         [*] --> AwaitingUser
         AwaitingUser --> AwaitingPass: USER <username> (+OK)
         AwaitingPass --> Authenticated: PASS <password> (+OK)
         AwaitingPass --> [*]: -ERR (Invalid credentials)
     }
-    
+
     Authorization --> Transaction: Authentication Succeeded
-    
+
     state Transaction {
         [*] --> MailboxLocked: Exclusive Mailbox Lock Acquired
         MailboxLocked --> MailboxLocked: STAT (Returns count & bytes)
@@ -1669,29 +1755,31 @@ stateDiagram-v2
         MailboxLocked --> MailboxLocked: DELE <n> (Marks message n for deletion)
         MailboxLocked --> MailboxLocked: RSET (Clears all deletion marks)
     }
-    
+
     Transaction --> Update: QUIT Command Issued
-    
+
     state Update {
         [*] --> PhysicalPurge: Unlinks messages marked with DELE
         PhysicalPurge --> UnlockMailbox: Releases exclusive lock
         UnlockMailbox --> [*]
     }
-    
+
     Update --> [*]: Socket Closed
 ```
 
 ##### Figure 7.16: POP3 Finite-State Machine Transition Model
 
-**What it shows:**  
+**What it shows:**
 The three distinct operational states of the POP3 protocol engine (Authorization, Transaction, and Update) and the commands permitted within each phase.
 
 **Components:**
+
 * **Authorization State:** The client must prove identity using `USER` and `PASS` commands (or `APOP` MD5 challenge-response). The server acquires an exclusive lock on the user's mailbox file.
 * **Transaction State:** The client inspects mailbox status (`STAT`), lists message numbers and sizes (`LIST`), downloads message bodies (`RETR <n>`), and marks unwanted messages for removal (`DELE <n>`).
 * **Update State:** Triggered strictly when the client issues `QUIT`. The server permanently unlinks all messages marked with `DELE`, releases the exclusive lock, and terminates the TCP session.
 
 **Flow / Relationship:**
+
 1. Client establishes a TCP connection on port 110 (plaintext) or port 995 (POP3S over TLS). Server issues `+OK POP3 server ready`.
 2. Client transmits `USER bob` $\to$ Server returns `+OK`.
 3. Client transmits `PASS secret` $\to$ Server acquires exclusive lock and returns `+OK Mailbox open, 3 messages`.
@@ -1699,7 +1787,7 @@ The three distinct operational states of the POP3 protocol engine (Authorization
 5. Client flags message 1 for deletion: `DELE 1` $\to$ Server returns `+OK Message 1 marked for deletion`.
 6. Client ends session: `QUIT` $\to$ Server enters Update phase, physically purges message 1, releases lock, and closes connection.
 
-**Key observations:**  
+**Key observations:**
 If a network disconnect occurs or the client crashes *prior* to issuing `QUIT`, the POP3 session terminates abnormally, no messages are deleted, and all marked deletions are rolled back.
 
 ##### Download-and-Delete versus Download-and-Keep Semantics
@@ -1715,29 +1803,30 @@ To overcome the multi-device limitations of POP3, Mark Crispin developed the **I
 ```mermaid
 stateDiagram-v2
     [*] --> NonAuthenticated: TCP Connect (Port 143 / 993)
-    
+
     NonAuthenticated --> Authenticated: LOGIN / AUTHENTICATE (+OK)
     NonAuthenticated --> Logout: LOGOUT / Connection Lost
-    
+
     Authenticated --> Selected: SELECT <mailbox> / EXAMINE <mailbox>
     Authenticated --> Authenticated: CREATE / DELETE / RENAME / LIST / STATUS
     Authenticated --> Logout: LOGOUT
-    
+
     Selected --> Authenticated: CLOSE (Expunges \Deleted)
     Selected --> Selected: FETCH (Headers / Body / Flags)
     Selected --> Selected: STORE (Add / Remove Flags)
     Selected --> Selected: SEARCH / COPY / EXPUNGE
     Selected --> Logout: LOGOUT
-    
+
     Logout --> [*]: TCP Connection Terminated
 ```
 
 ##### Figure 7.17: IMAP4 Protocol State Architecture
 
-**What it shows:**  
+**What it shows:**
 The four discrete operational states of the IMAP4rev1 protocol engine: Non-Authenticated, Authenticated, Selected, and Logout.
 
 **Components:**
+
 1. **Non-Authenticated State:** The initial state established upon TCP connection. The client must authenticate via `LOGIN` or `AUTHENTICATE` (using SASL mechanisms).
 2. **Authenticated State:** The client has proven its identity. It can now execute folder management commands (`CREATE`, `DELETE`, `RENAME`, `LIST`, `LSUB`, `STATUS`) across the server-side directory hierarchy.
 3. **Selected State:** The client selects a specific mailbox folder using `SELECT <name>` (read-write) or `EXAMINE <name>` (read-only). Within this state, the client can access message content (`FETCH`), modify status metadata (`STORE`), execute server-side searches (`SEARCH`), and purge deleted messages (`EXPUNGE`).
@@ -1872,6 +1961,7 @@ flowchart TD
 
 #### 1. Web Browser Subsystems
 A modern Web browser is among the most sophisticated distributed client software systems in computer science. Internally, a browser coordinates seven discrete functional subsystems:
+
 - **User Interface (UI)** — Encompasses every visible element outside the primary document display window, including the universal address bar (omnibox), back/forward navigation buttons, bookmarking controls, and developer tooling.
 - **Browser Engine** — Acts as the operational marshal across components, orchestrating high-level actions between the user interface and the rendering engine.
 - **Rendering Engine** — Parses downloaded HyperText Markup Language (HTML) and Cascading Style Sheets (CSS) documents, constructs the in-memory structural representations, and calculates visual layout geometry for screen output. Prominent engines include **Blink** (Chromium, Google Chrome, Microsoft Edge), **Gecko** (Mozilla Firefox), and **WebKit** (Apple Safari).
@@ -1906,6 +1996,7 @@ flowchart TD
 
 ##### Thread-per-Connection vs. Event-Driven Concurrency
 Origin servers typically adhere to one of two structural execution paradigms:
+
 - **Thread- or Process-Driven Servers (e.g., Apache HTTP Server with Prefork/Worker MPM)**:
   - Allocates an operating system process or thread to each active client TCP connection.
   - While simple to program, this approach incurs substantial context-switching overhead and memory consumption (typically 1–8 MB per thread stack).
@@ -1933,21 +2024,21 @@ Resource identification on the World Wide Web is unified under the formal framew
 ```
 
 ##### Definition: Uniform Resource Identifier (URI)
-**Meaning:** The comprehensive, abstract taxonomy of all formatted character strings used to identify an abstract or physical resource across the Internet.  
-**Formal Definition:** An identifier that conforms to the generic syntax defined in RFC 3986, consisting of a sequence of characters structured as a scheme and scheme-specific data components.  
-**Intuition:** The overarching superset. Every URL and every URN is by definition a URI.  
+**Meaning:** The comprehensive, abstract taxonomy of all formatted character strings used to identify an abstract or physical resource across the Internet.
+**Formal Definition:** An identifier that conforms to the generic syntax defined in RFC 3986, consisting of a sequence of characters structured as a scheme and scheme-specific data components.
+**Intuition:** The overarching superset. Every URL and every URN is by definition a URI.
 **Example:** `https://www.ietf.org/rfc/rfc3986.txt` and `urn:ietf:rfc:3986` are both valid URIs.
 
 ##### Definition: Uniform Resource Locator (URL)
-**Meaning:** A specific class of URI that identifies a resource by specifying its primary access mechanism (network protocol) and logical network location.  
-**Formal Definition:** A URI that provides the explicit means of locating the resource by describing its primary access mechanism (e.g., its network "location" such as `http`, `ftp`, or `mailto`).  
-**Intuition:** An address that tells a client both *where* a resource lives and *how* to contact it. If the resource is moved to a different domain or server path, the URL breaks (resulting in a `404 Not Found`).  
+**Meaning:** A specific class of URI that identifies a resource by specifying its primary access mechanism (network protocol) and logical network location.
+**Formal Definition:** A URI that provides the explicit means of locating the resource by describing its primary access mechanism (e.g., its network "location" such as `http`, `ftp`, or `mailto`).
+**Intuition:** An address that tells a client both *where* a resource lives and *how* to contact it. If the resource is moved to a different domain or server path, the URL breaks (resulting in a `404 Not Found`).
 **Example:** `https://cs.stanford.edu:443/people/eroberts/courses/soco/projects/`
 
 ##### Definition: Uniform Resource Name (URN)
-**Meaning:** A persistent, location-independent identifier that identifies a resource by name in a designated namespace.  
-**Formal Definition:** A URI that remains globally unique and persistent across time even when the resource ceases to exist or relocates to another network address, operating under the `urn:` scheme prefix (RFC 2141 / RFC 8141).  
-**Intuition:** Like a human's Social Security Number (SSN) or a book's ISBN: it uniquely identifies the entity forever, regardless of where the entity physically moves.  
+**Meaning:** A persistent, location-independent identifier that identifies a resource by name in a designated namespace.
+**Formal Definition:** A URI that remains globally unique and persistent across time even when the resource ceases to exist or relocates to another network address, operating under the `urn:` scheme prefix (RFC 2141 / RFC 8141).
+**Intuition:** Like a human's Social Security Number (SSN) or a book's ISBN: it uniquely identifies the entity forever, regardless of where the entity physically moves.
 **Example:** `urn:isbn:0132126958` (identifies Tanenbaum's Computer Networks 5th Edition) or `urn:ietf:rfc:2616`.
 
 ---
@@ -2026,13 +2117,21 @@ Because URIs must be transmitted safely across arbitrary transport links and his
 
 1. **Unreserved Characters (Never Encoded)**:
    - Characters that have no special syntactic reservation in the URI grammar:
-   $$\Sigma_{\text{unreserved}} = \{\texttt{A-Z}, \; \texttt{a-z}, \; \texttt{0-9}, \; \texttt{-}, \; \texttt{\_}, \; \texttt{.}, \; \texttt{\sim}\}$$
+
+$$
+\Sigma_{\text{unreserved}} = \{\texttt{A-Z}, \; \texttt{a-z}, \; \texttt{0-9}, \; \texttt{-}, \; \texttt{\_}, \; \texttt{.}, \; \texttt{\sim}\}
+$$
+
 2. **Reserved Characters (Syntactic Delimiters)**:
    - Characters that possess special structural meaning as delimiters within URI components:
-   $$\Sigma_{\text{reserved}} = \{\texttt{:}, \; \texttt{/}, \; \texttt{?}, \; \texttt{\#}, \; \texttt{[}, \; \texttt{]}, \; \texttt{@}, \; \texttt{!}, \; \texttt{\$}, \; \texttt{\&}, \; \texttt{'}, \; \texttt{(}, \; \texttt{)}, \; \texttt{*}, \; \texttt{+}, \; \texttt{,}, \; \texttt{;}, \; \texttt{=}\}$$
+
+$$
+\Sigma_{\text{reserved}} = \{\texttt{:}, \; \texttt{/}, \; \texttt{?}, \; \texttt{\#}, \; \texttt{[}, \; \texttt{]}, \; \texttt{@}, \; \texttt{!}, \; \texttt{\$}, \; \texttt{\&}, \; \texttt{'}, \; \texttt{(}, \; \texttt{)}, \; \texttt{*}, \; \texttt{+}, \; \texttt{,}, \; \texttt{;}, \; \texttt{=}\}
+$$
 
 ##### The Percent-Encoding Algorithm:
 Whenever a reserved character is used for ordinary data rather than its designated syntactic delimiting purpose—or whenever an arbitrary byte outside US-ASCII (such as non-Latin Unicode characters or binary values) is included—it **must** be percent-encoded:
+
 - The byte is converted into its 2-digit uppercase hexadecimal representation: $\text{Hex}(B) \in [00, \text{FF}]$.
 - A literal percent symbol (`%`) is prepended to the hexadecimal pair.
 
@@ -2062,6 +2161,7 @@ A **static Web page** is a fixed hypermedia document stored on the server's file
 
 #### 1. HTML5 Structural Semantics and Document Object Model (DOM)
 HTML5 organizes content hierarchically through semantic elements. When a browser ingests an HTML byte stream, it does not display text line-by-line; instead, it parses the markup into an in-memory tree called the **Document Object Model (DOM)**.
+
 - **Bytes $\to$ Characters**: The browser decodes raw wire bytes (e.g., `0x3C`, `0x68`, `0x74`, `0x6D`, `0x6C`) into characters based on the declared character encoding (e.g., `UTF-8`).
 - **Characters $\to$ Tokens**: A state-machine tokenizer parses characters into distinct opening tags, closing tags, attribute pairs, and text literals.
 - **Tokens $\to$ Nodes**: Tokens are converted into node objects containing properties, attributes, and event listeners.
@@ -2083,6 +2183,7 @@ HTML5 organizes content hierarchically through semantic elements. When a browser
 
 #### 2. CSS Styling, Cascade Resolution, and the Box Model
 While HTML defines structural semantics, Cascading Style Sheets (CSS) dictate presentation. When styles conflict, the browser resolves precedence using a deterministic cascade order:
+
 1. **Importance**: Styles marked `!important` override normal declarations.
 2. **Origin**: Author styles (page developer) override User styles (custom reader stylesheets), which override User-Agent defaults (browser built-in styles).
 3. **Specificity**: Calculated as a 3-tuple vector `(a, b, c)`:
@@ -2125,10 +2226,10 @@ The **Critical Rendering Path (CRP)** is the sequence of algorithmic transformat
 flowchart TD
     HTMLBytes["HTML Bytes from Network"] -->|Tokenizer & Tree Builder| DOM["DOM Tree (Document Object Model)"]
     CSSBytes["CSS Bytes from Network"] -->|CSS Rule Tokenizer| CSSOM["CSSOM Tree (CSS Object Model)"]
-    
+
     DOM --> RenderTree["Render Tree Construction\n(Visible DOM Nodes + Computed Styles)"]
     CSSOM --> RenderTree
-    
+
     RenderTree -->|Calculate Geometry| Layout["Layout / Reflow Phase\n(Box coordinates, widths, heights in px)"]
     Layout -->|Draw Vector Primitives| Paint["Painting Phase\n(Rasterization: text, colors, shadows, borders)"]
     Paint -->|Layer Stacking & GPU| Composite["Compositing Phase\n(GPU Texture Blending -> Display Buffer)"]
@@ -2180,7 +2281,11 @@ To understand modern dynamic architectures, students must grasp the progression 
 - **Architecture**: A standardized protocol allowing an HTTP server to forward an incoming client request to an external executable program (written in C, Perl, or Shell scripts).
 - **Execution Mechanism**:
   - For *every single* incoming HTTP request, the Web server invokes the operating system system call:
-  $$\text{fork}() \longrightarrow \text{exec}()$$
+
+$$
+\text{fork}() \longrightarrow \text{exec}()
+$$
+
   - Request metadata and query parameters are injected into the child process through OS environment variables (`REQUEST_METHOD`, `QUERY_STRING`, `CONTENT_LENGTH`, `HTTP_USER_AGENT`).
   - Request body payloads (such as POST forms) are streamed to the child's standard input (`stdin`).
   - The script computes the response and writes raw HTTP headers and HTML payload to standard output (`stdout`), which the Web server relays back to the client.
@@ -2235,11 +2340,12 @@ sequenceDiagram
     Note over Browser: User clicks "View Comments"<br/>JS executes fetch('/api/comments')
     Browser->>Server: GET /api/comments (JSON Payload)
     Server-->>Browser: [{"id": 1, "text": "Great post!"}]
-    Note over Browser: JS updates DOM dynamically!<br/>Zero page reload; continuous user experience.
+    Note over Browser: JS updates DOM dynamically!<br/>Zero page reload, continuous user experience.
 ```
 
 ##### 1. AJAX (`fetch()` vs. `XMLHttpRequest`)
 **Asynchronous JavaScript and XML (AJAX)** allows a browser-resident script to issue asynchronous HTTP requests in the background without disturbing the currently rendered page:
+
 - **`XMLHttpRequest` (Legacy)**: Introduced by Microsoft in 1999; relies on nested event callbacks (`onreadystatechange`), often leading to deeply nested, unmaintainable code ("callback hell").
 - **`fetch()` API (Modern W3C Standard)**: A clean, Promise-based API integrated with asynchronous control flow (`async`/`await`):
   ```javascript
@@ -2267,9 +2373,9 @@ sequenceDiagram
 
     Note over Client,Server: Phase 1: HTTP Upgrade Handshake
     Client->>Server: GET /chat HTTP/1.1<br/>Host: example.com<br/>Upgrade: websocket<br/>Connection: Upgrade<br/>Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==<br/>Sec-WebSocket-Version: 13
-    
+
     Server-->>Client: HTTP/1.1 101 Switching Protocols<br/>Upgrade: websocket<br/>Connection: Upgrade<br/>Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
-    
+
     Note over Client,Server: Phase 2: Full-Duplex Binary Framing
     Client->>Server: WebSocket Binary/Text Frame (Masked, 2-10 byte header)
     Server-->>Client: WebSocket Binary/Text Frame (Unmasked)
@@ -2313,9 +2419,9 @@ sequenceDiagram
 
     Note over Browser,Server: 1. Authentication Transaction
     Browser->>Server: POST /login (Credentials: user & pass)
-    Server->>DB: Validates credentials; generates Session ID
+    Server->>DB: Validates credentials, generates Session ID
     DB-->>Server: Session ID = "SESS_9876543210"
-    Server-->>Browser: HTTP/1.1 200 OK<br/>Set-Cookie: sid=SESS_9876543210; Path=/; Secure; HttpOnly; SameSite=Strict
+    Server-->>Browser: HTTP/1.1 200 OK<br/>Set-Cookie: sid=SESS_9876543210, Path=/, Secure, HttpOnly, SameSite=Strict
     Note over Browser: Stores cookie securely in cookie jar
 
     Note over Browser,Server: 2. Subsequent Authenticated Request
@@ -2379,7 +2485,11 @@ flowchart LR
 ##### 1. HTTP/1.0 (RFC 1945 - 1996): Non-Persistent Connections
 - **Design**: Operates on a non-persistent connection model by default.
 - **Mechanics**: Every single Web resource requires establishing a new TCP connection:
-  $$\text{TCP Handshake (1 RTT)} \longrightarrow \text{HTTP Request/Response (1 RTT)} \longrightarrow \text{TCP Teardown}$$
+
+$$
+\text{TCP Handshake (1 RTT)} \longrightarrow \text{HTTP Request/Response (1 RTT)} \longrightarrow \text{TCP Teardown}
+$$
+
 - **Performance Deficiencies**:
   - Establishing a Web page with 1 base HTML file and $N = 20$ embedded images requires 21 independent TCP connections.
   - Incurs 21 round-trip times (RTTs) of handshake latency overhead.
@@ -2428,10 +2538,18 @@ flowchart LR
 #### 2. HTTP Request Methods Taxonomy
 
 HTTP defines a set of request methods that specify the desired action to be performed on a target resource. Methods are categorized by two fundamental mathematical properties:
+
 - **Safety**: A method is **Safe** if invoking it produces no side-effects or state mutations on the origin server. Formally, let $s \in S$ be the server state:
-  $$\text{Safe}: \quad f(s) = s$$
+
+$$
+\text{Safe}: \quad f(s) = s
+$$
+
 - **Idempotence**: A method is **Idempotent** if the side-effects of executing $N$ identical requests are identical to executing a single request ($N \ge 1$):
-  $$\text{Idempotent}: \quad f(f(s)) = f(s)$$
+
+$$
+\text{Idempotent}: \quad f(f(s)) = f(s)
+$$
 
 | Method | Request Body | Response Body | Safe? | Idempotent? | Cacheable? | RFC 9110 Primary Semantic Meaning |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
@@ -2512,7 +2630,7 @@ sequenceDiagram
     Note over Client,Origin: Subsequent Request (After Max-Age Expires)
     Note over Client: Cache entry is Stale! Must revalidate.
     Client->>Origin: GET /logo.png HTTP/1.1<br/>Host: example.com<br/>If-None-Match: "v104-a78b"<br/>If-Modified-Since: Sun, 01 Nov 2026 10:00:00 GMT
-    
+
     alt Content Unchanged at Server
         Origin-->>Client: HTTP/1.1 304 Not Modified<br/>Cache-Control: max-age=86400<br/>ETag: "v104-a78b"<br/><br/>[NO BODY TRANSMITTED!]
         Note over Client: Updates cache freshness for 24h.<br/>Saved 512 KB of bandwidth!
@@ -2532,6 +2650,7 @@ sequenceDiagram
 
 ##### Conditional Validation Tokens:
 When a cached object's `max-age` expires, the cache revalidates freshness using conditional validation headers:
+
 1. **Weak / Time-Based Validator (`Last-Modified` / `If-Modified-Since`)**:
    - Server provides timestamp: `Last-Modified: Sun, 01 Nov 2026 12:00:00 GMT`.
    - On revalidation, client transmits: `If-Modified-Since: Sun, 01 Nov 2026 12:00:00 GMT`.
@@ -2660,36 +2779,80 @@ A user navigates to a Web page consisting of **1 base HTML document** and **$N =
 ##### Part A: Solution (Negligible Transmission Delay, $T_{\text{trans}} = 0$)
 
 1. **Non-Persistent Sequential HTTP/1.0**:
-   $$T = 2(N + 1) \cdot RTT = 2(10 + 1) \times 50\text{ ms} = 22 \times 50\text{ ms} = \mathbf{1100\text{ ms}}$$
+
+$$
+T = 2(N + 1) \cdot RTT = 2(10 + 1) \times 50\text{ ms} = 22 \times 50\text{ ms} = \mathbf{1100\text{ ms}}
+$$
+
 2. **Non-Persistent Parallel HTTP/1.0 ($P = 4$)**:
-   $$\text{Batches} = \left\lceil \frac{N}{P} \right\rceil = \left\lceil \frac{10}{4} \right\rceil = 3 \text{ batches}$$
-   $$T = 2 \cdot RTT + 3 \times (2 \cdot RTT) = 2(50) + 3 \times 100 = 100 + 300 = \mathbf{400\text{ ms}}$$
+
+$$
+\text{Batches} = \left\lceil \frac{N}{P} \right\rceil = \left\lceil \frac{10}{4} \right\rceil = 3 \text{ batches}
+$$
+
+$$
+T = 2 \cdot RTT + 3 \times (2 \cdot RTT) = 2(50) + 3 \times 100 = 100 + 300 = \mathbf{400\text{ ms}}
+$$
+
 3. **Persistent Non-Pipelined HTTP/1.1**:
-   $$T = (N + 2) \cdot RTT = (10 + 2) \times 50\text{ ms} = 12 \times 50\text{ ms} = \mathbf{600\text{ ms}}$$
+
+$$
+T = (N + 2) \cdot RTT = (10 + 2) \times 50\text{ ms} = 12 \times 50\text{ ms} = \mathbf{600\text{ ms}}
+$$
+
 4. **Persistent Pipelined HTTP/1.1 / HTTP/2 Multiplexed**:
-   $$T = 3 \cdot RTT = 3 \times 50\text{ ms} = \mathbf{150\text{ ms}}$$
+
+$$
+T = 3 \cdot RTT = 3 \times 50\text{ ms} = \mathbf{150\text{ ms}}
+$$
+
 5. **HTTP/3 (QUIC 0-RTT Connection Resumption)**:
-   $$T = 1 \cdot RTT = 1 \times 50\text{ ms} = \mathbf{50\text{ ms}}$$
+
+$$
+T = 1 \cdot RTT = 1 \times 50\text{ ms} = \mathbf{50\text{ ms}}
+$$
 
 ##### Part B: Solution (With Transmission Delays Included)
 - Total transmission time across all objects:
-  $$\sum T_{\text{trans}} = T_{\text{trans}, 0} + 10 \times T_{\text{trans}, i} = 15\text{ ms} + 10(10\text{ ms}) = 115\text{ ms}$$
+
+$$
+\sum T_{\text{trans}} = T_{\text{trans}, 0} + 10 \times T_{\text{trans}, i} = 15\text{ ms} + 10(10\text{ ms}) = 115\text{ ms}
+$$
 
 1. **Non-Persistent Sequential HTTP/1.0**:
-   $$T = 1100\text{ ms} + 115\text{ ms} = \mathbf{1215\text{ ms}}$$
+
+$$
+T = 1100\text{ ms} + 115\text{ ms} = \mathbf{1215\text{ ms}}
+$$
+
 2. **Non-Persistent Parallel HTTP/1.0 ($P = 4$)**:
    - In each parallel batch of $P = 4$ objects, objects are transmitted concurrently over 4 sockets. Assuming sufficient link capacity:
-     $$\max_{j \in \text{batch}} T_{\text{trans}, j} = 10\text{ ms}$$
+
+$$
+\max_{j \in \text{batch}} T_{\text{trans}, j} = 10\text{ ms}
+$$
+
    - Base page takes: $2 \times 50 + 15 = 115\text{ ms}$.
    - 3 batches take: $3 \times (2 \times 50 + 10) = 3 \times 110 = 330\text{ ms}$.
    - Total latency: $115 + 330 = \mathbf{445\text{ ms}}$.
 3. **Persistent Non-Pipelined HTTP/1.1**:
-   $$T = 600\text{ ms} + 115\text{ ms} = \mathbf{715\text{ ms}}$$
+
+$$
+T = 600\text{ ms} + 115\text{ ms} = \mathbf{715\text{ ms}}
+$$
+
 4. **HTTP/2 Multiplexed**:
    - Over a single connection, the total transmission time is $115\text{ ms}$:
-   $$T = 150\text{ ms} + 115\text{ ms} = \mathbf{265\text{ ms}}$$
+
+$$
+T = 150\text{ ms} + 115\text{ ms} = \mathbf{265\text{ ms}}
+$$
+
 5. **HTTP/3 (0-RTT Resumption)**:
-   $$T = 50\text{ ms} + 115\text{ ms} = \mathbf{165\text{ ms}}$$
+
+$$
+T = 50\text{ ms} + 115\text{ ms} = \mathbf{165\text{ ms}}
+$$
 
 ##### Latency Comparison Summary Table:
 
@@ -2765,6 +2928,7 @@ Modern mobile web engineering relies on a single unified codebase that adapts dy
 
 ##### 1. Responsive Web Design (RWD)
 Pioneered by Ethan Marcotte in 2010, RWD relies on three technical principles:
+
 - **Fluid Grid Layouts**: Document element dimensions are expressed in relative units (percentages `%`, `rem`, `vw/vh`) rather than fixed absolute pixels (`px`), allowing layouts to scale fluidly with screen width.
 - **Flexible Media**: Images and embedded videos are constrained so they never exceed their containing element:
   ```css
@@ -2788,6 +2952,7 @@ Pioneered by Ethan Marcotte in 2010, RWD relies on three technical principles:
 
 ##### 2. Progressive Web Apps (PWAs)
 Progressive Web Apps allow standard Web applications to provide native mobile app capabilities:
+
 - **Service Workers**: Event-driven JavaScript workers that run in the background, independent of the Web page. A Service Worker acts as a client-side programmable network proxy: it intercepts outgoing HTTP requests and can serve responses directly from the local Cache API when offline.
 - **Web App Manifest (`manifest.json`)**: A JSON configuration file defining app metadata (icons, splash screens, launch orientation, and display mode `fullscreen` or `standalone`), enabling the site to be installed to the user's home screen.
 - **Push Notifications**: Enables servers to wake up background service workers and display native notifications via the Web Push API, even when the browser is closed.
@@ -2807,13 +2972,13 @@ flowchart TD
     Crawler -->|Fetch HTTP / HTML| Parser[HTML Parser & Extractor]
     Parser -->|Discovered Hyperlinks| Filter{Deduplication & robots.txt}
     Filter -->|Valid New URLs| Frontier
-    
+
     Parser -->|Raw Document Text| Tokenizer[Tokenizer, Stemmer, Normalizer]
     Tokenizer --> PostingLists[Inverted Index Posting Lists]
-    
+
     Parser -->|Link Graph Topology| GraphBuilder[Web Hyperlink Graph G = V, E]
     GraphBuilder --> PageRank[PageRank Power Iteration Engine]
-    
+
     UserQuery[User Search Query] --> QueryProcessor[Query Parser & TF-IDF / BM25 Scorer]
     PostingLists --> QueryProcessor
     PageRank --> RankingEngine[Final Ranking & Relevance Scoring]
@@ -2823,6 +2988,7 @@ flowchart TD
 
 #### 1. Web Crawler / Spider Architecture
 A **Web Crawler** (or spider) is an automated distributed program that systematically traverses the Web by downloading pages and following hyperlinks.
+
 - **The URL Frontier**: A distributed priority queue that manages URLs waiting to be crawled. It balances two competing objectives:
   - **Freshness**: Re-crawling rapidly changing pages (news, stock feeds) more frequently than static documents.
   - **Politeness**: Throttling requests to avoid overloading origin servers (e.g., maintaining per-host queues with minimum wait times between successive requests).
@@ -2896,8 +3062,13 @@ graph LR
 
 ##### 1. The Random Surfer Intuition
 Imagine a hypothetical user navigating the Web. The surfer lands on a page and clicks an outbound hyperlink chosen uniformly at random. However, a user does not surf forever; after a while, they grow bored and "teleport" to an arbitrary page anywhere on the Web.
+
 - **$d$ (Damping Factor)**: The probability that the surfer continues by following an outbound link on the current page. Empirically, Page and Brin set:
-  $$d \approx 0.85$$
+
+$$
+d \approx 0.85
+$$
+
 - **$1 - d$**: The probability that the surfer teleports to an arbitrary page chosen uniformly from the entire set of $N$ indexed pages ($1 - d = 0.15$).
 
 ---
@@ -2953,12 +3124,20 @@ Where $\mathbf{E} = \mathbf{1} \mathbf{1}^T$ is an $N \times N$ matrix of all on
 
 ##### Convergence Guarantee via the Perron-Frobenius Theorem:
 Because $0 < d < 1$ and every entry of $\mathbf{E}$ is $1$, every element of the Google Matrix is strictly positive:
-$$G_{ij} > 0 \quad \forall i, j$$
+
+$$
+G_{ij} > 0 \quad \forall i, j
+$$
 Consequently, $\mathbf{G}$ is a **stochastic, irreducible, and aperiodic** Markov transition matrix. By the **Perron-Frobenius Theorem**:
+
 1. The dominant eigenvalue of $\mathbf{G}$ is strictly equal to $\lambda_1 = 1$.
 2. All other eigenvalues have magnitude strictly less than 1 ($|\lambda_i| \le d < 1$ for $i \ge 2$).
 3. There exists a unique, strictly positive stationary probability vector $\mathbf{r}$ satisfying:
-   $$\mathbf{r} = \mathbf{G} \mathbf{r}$$
+
+$$
+\mathbf{r} = \mathbf{G} \mathbf{r}
+$$
+
 4. The power iteration sequence $\mathbf{r}^{(k+1)} = \mathbf{G} \mathbf{r}^{(k)}$ converges to $\mathbf{r}$ regardless of the initial starting distribution vector $\mathbf{r}^{(0)}$.
 
 ---
@@ -2984,7 +3163,11 @@ flowchart LR
 
 ##### 2. Dead Ends / Dangling Nodes (Zero Out-Degree)
 - **Pathology**: Pages with no outbound links ($L(p_j) = 0$). In matrix $\mathbf{H}$, the corresponding column $j$ contains all zeros, making $\mathbf{H}$ substochastic. Over successive iterations, rank leaks out of the system:
-  $$\sum_{i=1}^N PR^{(k)}(p_i) \longrightarrow 0 \quad \text{as } k \to \infty$$
+
+$$
+\sum_{i=1}^N PR^{(k)}(p_i) \longrightarrow 0 \quad \text{as } k \to \infty
+$$
+
 - **Mathematical Remedy**: Dangling nodes are patched by replacing their all-zero column with a uniform distribution vector $\frac{1}{N}\mathbf{1}$. In physical terms, when a surfer reaches a dead end, they choose an arbitrary page uniformly at random.
 
 ---
@@ -2993,6 +3176,7 @@ flowchart LR
 
 ##### Problem Statement:
 Consider a simplified Web graph consisting of $N = 3$ pages: $A$, $B$, and $C$.
+
 - Page $A$ contains links pointing to both Page $B$ and Page $C$ ($L(A) = 2$).
 - Page $B$ contains a link pointing to Page $C$ only ($L(B) = 1$).
 - Page $C$ contains a link pointing to Page $A$ only ($L(C) = 1$).
@@ -3007,6 +3191,7 @@ Consider a simplified Web graph consisting of $N = 3$ pages: $A$, $B$, and $C$.
 
 ##### Step 1: Formulate the Hyperlink Transition Matrix $\mathbf{H}$
 Columns represent the source page ($A, B, C$) and rows represent the destination page ($A, B, C$):
+
 - Column 1 ($A$): $L(A) = 2$. Distributes $1/2$ to $B$ and $1/2$ to $C$: $[0, 1/2, 1/2]^T$.
 - Column 2 ($B$): $L(B) = 1$. Distributes $1$ to $C$: $[0, 0, 1]^T$.
 - Column 3 ($C$): $L(C) = 1$. Distributes $1$ to $A$: $[1, 0, 0]^T$.
@@ -3029,7 +3214,10 @@ Check: Every column sums to $1.0$, confirming $\mathbf{H}$ is column-stochastic.
 
 ##### Step 2: Formulate the Google Matrix $\mathbf{G}$
 The teleportation component with $N = 3$ and $d = 0.85$ is:
-$$\frac{1 - d}{N} = \frac{1 - 0.85}{3} = \frac{0.15}{3} = 0.05$$
+
+$$
+\frac{1 - d}{N} = \frac{1 - 0.85}{3} = \frac{0.15}{3} = 0.05
+$$
 Applying $\mathbf{G} = d \mathbf{H} + \frac{1 - d}{N} \mathbf{E}$:
 
 $$
@@ -3054,6 +3242,7 @@ Check: Each column sum is $0.05 + 0.475 + 0.475 = 1.0000$.
 
 ##### Step 3: Write the System of Scalar Equations
 Using $PR(p_i) = \frac{1 - d}{N} + d \sum_{p_j \in M(p_i)} \frac{PR(p_j)}{L(p_j)}$:
+
 - In-links to $A$: $M(A) = \{C\} \implies PR(A) = 0.05 + 0.85 \cdot PR(C)$
 - In-links to $B$: $M(B) = \{A\} \implies PR(B) = 0.05 + 0.85 \left(\frac{PR(A)}{2}\right) = 0.05 + 0.425 \cdot PR(A)$
 - In-links to $C$: $M(C) = \{A, B\} \implies PR(C) = 0.05 + 0.85 \left(\frac{PR(A)}{2} + \frac{PR(B)}{1}\right) = 0.05 + 0.425 \cdot PR(A) + 0.85 \cdot PR(B)$
@@ -3077,7 +3266,10 @@ PR^{(1)}(C) &= 0.05 + 0.425(0.333333) + 0.85(0.333333) = 0.05 + 0.141667 + 0.283
 $$
 
 Normalization Check:
-$$\sum PR^{(1)} = 0.333333 + 0.191667 + 0.475000 = 1.000000$$
+
+$$
+\sum PR^{(1)} = 0.333333 + 0.191667 + 0.475000 = 1.000000
+$$
 
 ###### Iteration 2 ($k = 2$):
 $$
@@ -3089,7 +3281,10 @@ PR^{(2)}(C) &= 0.05 + 0.425(0.333333) + 0.85(0.191667) = 0.05 + 0.141667 + 0.162
 $$
 
 Normalization Check:
-$$\sum PR^{(2)} = 0.453750 + 0.191667 + 0.354584 = 1.000001 \approx 1.0$$
+
+$$
+\sum PR^{(2)} = 0.453750 + 0.191667 + 0.354584 = 1.000001 \approx 1.0
+$$
 
 ---
 
@@ -3097,10 +3292,16 @@ $$\sum PR^{(2)} = 0.453750 + 0.191667 + 0.354584 = 1.000001 \approx 1.0$$
 To determine the steady-state vector $\mathbf{r}^* = [PR(A), PR(B), PR(C)]^T$, solve the scalar system under the normalization constraint $PR(A) + PR(B) + PR(C) = 1$:
 
 From the equation for $A$:
-$$PR(C) = \frac{PR(A) - 0.05}{0.85}$$
+
+$$
+PR(C) = \frac{PR(A) - 0.05}{0.85}
+$$
 
 From the equation for $B$:
-$$PR(B) = 0.05 + 0.425 \cdot PR(A)$$
+
+$$
+PR(B) = 0.05 + 0.425 \cdot PR(A)
+$$
 
 Substitute $PR(B)$ and $PR(C)$ into the normalization equation:
 $$
@@ -3122,11 +3323,20 @@ PR(A) = \frac{0.8575}{2.21125} &\approx \mathbf{0.387790}
 $$
 
 Now calculate $PR(B)$ and $PR(C)$:
-$$PR(B) = 0.05 + 0.425(0.387790) = 0.05 + 0.164811 = \mathbf{0.214811}$$
-$$PR(C) = \frac{0.387790 - 0.05}{0.85} = \frac{0.337790}{0.85} = \mathbf{0.397399}$$
+
+$$
+PR(B) = 0.05 + 0.425(0.387790) = 0.05 + 0.164811 = \mathbf{0.214811}
+$$
+
+$$
+PR(C) = \frac{0.387790 - 0.05}{0.85} = \frac{0.337790}{0.85} = \mathbf{0.397399}
+$$
 
 Final Normalization Check:
-$$0.387790 + 0.214811 + 0.397399 = 1.000000$$
+
+$$
+0.387790 + 0.214811 + 0.397399 = 1.000000
+$$
 
 ##### Final Answer:
 $$
@@ -3147,6 +3357,7 @@ $$
 The transmission of real-time multimedia over the global Internet represents one of the most demanding challenges in modern computer networking. Unlike traditional elastic data applications such as electronic mail, file transfer, and static web browsing—which demand absolute bit-level reliability while tolerating arbitrary queuing delays—digital audio and video streaming invert these transport layer priorities. Human sensory systems can tolerate minor, localized data corruption or packet loss, but are intolerant of excessive end-to-end delay, interarrival jitter, and playback stalls.
 
 Multimedia networking broadly encompasses three distinct operational paradigms:
+
 1. **Streaming Stored Media:** Pre-recorded audio and video assets (such as movies, television series, and musical tracks on services like Netflix, YouTube, and Spotify) where the complete content resides on storage servers and is delivered on demand with client-side playout buffering to absorb network jitter.
 2. **Streaming Live Media:** Real-time broadcasts of unfolding events (such as sports events, breaking news, and esports streaming) where media is encoded on the fly and distributed with end-to-end propagation latencies typically constrained to three to five seconds.
 3. **Real-Time Interactive Conferencing:** Bi-directional, conversational multimedia communications (such as VoIP telephony, Zoom, Microsoft Teams, and WebRTC video calls) where human interactivity imposes strict, non-negotiable one-way latency thresholds of under 150 milliseconds.
@@ -3170,6 +3381,7 @@ Audio signals originate in the physical universe as continuous, time-varying lon
 #### 1. Analog Sound Fundamentals
 
 Human auditory perception is governed by two physical characteristics:
+
 - **Frequency ($f$):** Measured in Hertz ($\text{Hz}$, cycles per second), acoustic frequency determines the perceived musical pitch of the sound. The normal human ear exhibits an audible frequency sensitivity range extending from approximately $20\text{ Hz}$ at the lowest audible bass rumble to $20{,}000\text{ Hz}$ ($20\text{ kHz}$) at the highest audible treble tones. Infrasound frequencies ($f < 20\text{ Hz}$) and ultrasound frequencies ($f > 20\text{ kHz}$) remain imperceptible to human ears.
 - **Amplitude and Sound Pressure Level (SPL):** The amplitude of the physical acoustic wave determines its perceived loudness. Because the human auditory system perceives acoustic intensity logarithmically over a wide dynamic range, sound pressure level is measured on the logarithmic decibel ($\text{dB}$) scale:
 
@@ -3189,7 +3401,7 @@ The dynamic range of the human auditory system spans from $0\text{ dB}$ (the abs
 
 #### 2. Pulse Code Modulation (PCM)
 
-To store, process, and transmit continuous analog acoustic waves across digital packet networks, the continuous signal must be converted into a discrete sequence of binary digits through the process of Pulse Code Modulation (PCM). 
+To store, process, and transmit continuous analog acoustic waves across digital packet networks, the continuous signal must be converted into a discrete sequence of binary digits through the process of Pulse Code Modulation (PCM).
 
 ```mermaid
 flowchart LR
@@ -3201,13 +3413,14 @@ flowchart LR
 ```
 
 ##### Figure 7.1: Pulse Code Modulation (PCM) Processing Pipeline
-**What it shows:** The five sequential transformations converting an analog sound pressure wave into an uncompressed digital PCM bitstream.  
+**What it shows:** The five sequential transformations converting an analog sound pressure wave into an uncompressed digital PCM bitstream.
 **Components:**
+
 - **Anti-Aliasing Filter:** An analog low-pass filter that eliminates all spectral energy above the Nyquist cutoff frequency $f_{\max}$.
 - **Periodic Sampler:** Discretizes the continuous-time axis by capturing the signal's instantaneous amplitude at uniform intervals $T_s = 1/f_s$.
 - **Amplitude Quantizer:** Discretizes the continuous-voltage axis by rounding each infinite-precision sample to the nearest discrete quantization level.
-- **Binary Encoder:** Assigns a unique $b$-bit binary code to each quantized level.  
-**Flow / Relationship:** Physical audio $\to$ Analog LPF $\to$ Sampled PAM pulses $\to$ Quantized discrete levels $\to$ Serial binary stream.  
+- **Binary Encoder:** Assigns a unique $b$-bit binary code to each quantized level.
+**Flow / Relationship:** Physical audio $\to$ Analog LPF $\to$ Sampled PAM pulses $\to$ Quantized discrete levels $\to$ Serial binary stream.
 **Key observations:** Quantization is the only lossy step in the PCM pipeline; sampling is completely reversible if the Nyquist criterion is satisfied.
 
 ##### The Four Stages of PCM
@@ -3231,7 +3444,7 @@ The mathematical foundation of digital signal processing was formulated by Harry
 
 #### Theorem: Nyquist-Shannon Sampling Theorem
 
-**Statement:**  
+**Statement:**
 A continuous-time, bandlimited signal $x(t)$ containing no frequency components higher than $f_{\max}\text{ Hz}$ can be captured, represented, and perfectly reconstructed without any loss of information from its discrete samples if and only if the sampling frequency $f_s$ satisfies:
 
 $$
@@ -3287,7 +3500,7 @@ Assuming the input signal exercises the quantizer across multiple levels without
 
 **Goal:** Derive the theoretical relationship between the number of quantization bits $b$ and the resulting signal-to-quantization-noise ratio ($\text{SNR}_{\text{dB}}$) for a full-scale sinusoidal input.
 
-**Starting point:**  
+**Starting point:**
 The quantization noise variance (noise power) $N_q$ is calculated from the uniform probability density function $p(e) = \frac{1}{\Delta}$:
 
 $$
@@ -3337,7 +3550,7 @@ $$
 \text{SNR}_{\text{dB}} \approx 6.02 \cdot b + 1.76 \text{ dB}
 $$
 
-**Interpretation:**  
+**Interpretation:**
 Every additional bit of quantization depth $b$ increases the dynamic range and signal fidelity by approximately $6.02\text{ dB}$. Thus, a 16-bit audio system delivers a theoretical SNR of:
 
 $$
@@ -3367,6 +3580,7 @@ $$
 
 ##### Telephony Standard: G.711 PCM (PSTN Toll Quality)
 In traditional digital telephony networks (Public Switched Telephone Network, PSTN), human speech is bandlimited to the voice frequency range of $300\text{ Hz}$ to $3400\text{ Hz}$, which conveys intelligible spoken conversation. To accommodate an anti-aliasing guard band, the cutoff is placed at $f_{\max} = 4\text{ kHz}$.
+
 - Number of channels: $N_{\text{channels}} = 1$ (monaural)
 - Sampling rate: $f_s = 2 \times 4\text{ kHz} = 8\text{ kHz}$ ($8{,}000\text{ samples/sec}$)
 - Quantization depth: $b = 8\text{ bits/sample}$ (using logarithmic companding: $\mu$-law in North America and Japan, A-law in Europe)
@@ -3380,6 +3594,7 @@ This $64\text{ kbps}$ stream forms the basic digital signal rate 0 (DS0), the bu
 
 ##### High-Fidelity Audio Standard: Compact Disc Digital Audio (CD-DA / Red Book)
 The Compact Disc (CD) audio standard was engineered to reproduce the full audible spectrum up to $20\text{ kHz}$ for high-fidelity music.
+
 - Number of channels: $N_{\text{channels}} = 2$ (stereo: left and right channels)
 - Sampling rate: $f_s = 44.1\text{ kHz}$ ($44{,}100\text{ samples/sec}$)
 - Quantization depth: $b = 16\text{ bits/sample}$ (linear uniform quantization)
@@ -3389,22 +3604,24 @@ $$
 R_{\text{CD}} = 2 \times 44{,}100\text{ samples/sec} \times 16\text{ bits/sample} = 1{,}411{,}200\text{ bps} = 1.4112\text{ Mbps}
 $$
 
-> **Why $44.1\text{ kHz}$?**  
+> **Why $44.1\text{ kHz}$?**
 > To capture the maximum human audible frequency $f_{\max} = 20\text{ kHz}$, the theoretical minimum Nyquist rate is $40\text{ kHz}$. However, physical analog anti-aliasing filters cannot drop infinitely steeply from passband to stopband; they require a finite transition band of approximately $10\%$ to roll off smoothly without introducing phase distortion. Sampling at $44.1\text{ kHz}$ provides a $2.05\text{ kHz}$ transition band between $20\text{ kHz}$ and the half-sampling Nyquist folding limit of $22.05\text{ kHz}$. Historically, $44{,}100$ was also divisible by both NTSC ($60\text{ Hz}$) and PAL ($50\text{ Hz}$) video line structures, enabling early digital audio masters to be recorded onto video tape recorders.
 
 ---
 
 #### Worked Numerical Problem: Audio Storage and Streaming Bitrates
 
-**Problem Statement:**  
+**Problem Statement:**
 A classical music concert lasts exactly $74\text{ minutes}$ and is recorded in uncompressed Compact Disc stereo format ($44.1\text{ kHz}$, $16\text{-bit}$, stereo).
+
 1. Calculate the total storage space required to store this uncompressed recording in megabytes ($\text{MB}$ where $1\text{ MB} = 10^6\text{ bytes}$) and mebibytes ($\text{MiB}$ where $1\text{ MiB} = 2^{20}\text{ bytes}$).
 2. If this audio is compressed using an Advanced Audio Coding (AAC) encoder at $128\text{ kbps}$, calculate the compression ratio achieved and determine the time required to download the compressed file across a residential broadband link with a sustained downlink throughput of $25\text{ Mbps}$.
 
 **Solution:**
 
-**Step 1: Calculate total uncompressed storage size**  
+**Step 1: Calculate total uncompressed storage size**
 Given:
+
 - Duration $T = 74\text{ minutes} = 74 \times 60 = 4{,}440\text{ seconds}$
 - Bitrate $R_{\text{CD}} = 1{,}411{,}200\text{ bits/second}$
 
@@ -3432,7 +3649,7 @@ $$
 \text{Size}_{\text{MiB}} = \frac{783{,}216{,}000}{1{,}048{,}576} \approx 746.93\text{ MiB}
 $$
 
-**Step 2: Calculate compressed file size and compression ratio**  
+**Step 2: Calculate compressed file size and compression ratio**
 Compressed Bitrate $R_{\text{AAC}} = 128\text{ kbps} = 128{,}000\text{ bps}$.
 
 $$
@@ -3451,14 +3668,14 @@ $$
 
 The AAC encoder achieves a data reduction of approximately $90.93\%$.
 
-**Step 3: Calculate download time over $25\text{ Mbps}$ link**  
+**Step 3: Calculate download time over $25\text{ Mbps}$ link**
 Downlink speed $C = 25\text{ Mbps} = 25{,}000{,}000\text{ bps}$.
 
 $$
 T_{\text{download}} = \frac{\text{Compressed Bits}}{C} = \frac{568{,}320{,}000\text{ bits}}{25{,}000{,}000\text{ bits/second}} \approx 22.73\text{ seconds}
 $$
 
-**Interpretation:**  
+**Interpretation:**
 While an uncompressed CD stream would require over $4\text{ minutes}$ ($250.6\text{ s}$) to transfer and demands a continuous $1.41\text{ Mbps}$ bandwidth pipeline, the $128\text{ kbps}$ AAC stream transfers in under $23\text{ seconds}$ and streams smoothly over constrained mobile connections with perceptual transparency.
 
 ---
@@ -3479,17 +3696,20 @@ flowchart TD
 
 ##### 1. The Absolute Threshold of Hearing (ATH)
 The human ear does not exhibit a flat frequency response. The Absolute Threshold of Hearing (ATH) curve defines the minimum sound pressure level ($\text{dB}$) in quiet required for a pure sinusoidal tone to be detected by human ears as a function of frequency.
+
 - The human ear is most sensitive between $2\text{ kHz}$ and $5\text{ kHz}$, the frequency band corresponding to human vocal resonance and infant cries, where the threshold drops close to $0\text{ dB}$.
 - At low frequencies (e.g., $50\text{ Hz}$), the threshold rises steeply to over $40\text{ dB}$; sound energy below this curve is inaudible.
 - Perceptual encoders immediately discard all spectral components whose energy falls below the ATH curve.
 
 ##### 2. Frequency (Spectral) Masking
 When a high-energy acoustic tone (a **masker**, such as an organ pipe at $1000\text{ Hz}$) sounds simultaneously with a lower-energy tone at a neighboring frequency (e.g., a quiet flute at $1100\text{ Hz}$), the quieter sound is rendered completely inaudible. The louder tone raises the auditory threshold across a localized frequency range called a **critical band** (measured on the Bark scale).
+
 - Any spectral signal or quantization noise falling beneath this elevated masking curve is inaudible.
 - Perceptual encoders calculate the **Signal-to-Mask Ratio (SMR)** across each subband. If the quantizer injects noise below the masking curve, the listener hears no distortion, allowing the encoder to allocate very few bits (or even zero bits) to masked frequency bins.
 
 ##### 3. Temporal Masking
 Auditory masking also extends across the time domain before and after an acoustic event:
+
 - **Pre-Masking (Backward Masking):** For a duration of approximately $5\text{ to }20\text{ milliseconds}$ *prior* to the onset of a sudden loud sound (such as a cymbal strike or gunshot), weaker sounds are inaudible. This occurs because the human brain requires approximately $20\text{ ms}$ to process auditory stimuli; the louder, high-energy neurological signal overtakes the pre-existing weak signal in the auditory pathway.
 - **Post-Masking (Forward Masking):** After a loud sound abruptly stops, the hearing threshold requires $50\text{ to }200\text{ milliseconds}$ to decay back down to the baseline quiet threshold. During this recovery period, weaker sounds falling beneath the decaying decay envelope cannot be perceived.
 
@@ -3506,13 +3726,14 @@ flowchart LR
 ```
 
 ##### Figure 7.2: Psychoacoustic Perceptual Audio Encoder Architecture
-**What it shows:** The dual-path architecture of a perceptual audio encoder (such as MPEG-1 Audio Layer III / MP3).  
+**What it shows:** The dual-path architecture of a perceptual audio encoder (such as MPEG-1 Audio Layer III / MP3).
 **Components:**
+
 - **Analysis Filterbank / MDCT:** Decomposes the time-domain waveform into narrow frequency subbands.
 - **Psychoacoustic Model:** Simultaneously evaluates the spectral energy using a Fast Fourier Transform (FFT) to determine dynamic masking thresholds.
 - **Dynamic Bit Allocation:** Allocates available bits to subbands where the Signal-to-Mask Ratio (SMR) is highest, ensuring quantization noise is shaped below the masking curve.
-- **Huffman Coding:** Losslessly packs quantized indices into the final bitstream.  
-**Flow / Relationship:** Time-domain audio splits into spectral decomposition and psychoacoustic masking calculation, which converge at bit allocation and quantization.  
+- **Huffman Coding:** Losslessly packs quantized indices into the final bitstream.
+**Flow / Relationship:** Time-domain audio splits into spectral decomposition and psychoacoustic masking calculation, which converge at bit allocation and quantization.
 **Key observations:** Loss occurs exclusively at the non-uniform quantizer guided by the psychoacoustic model; entropy coding is strictly lossless.
 
 ---
@@ -3520,6 +3741,7 @@ flowchart LR
 #### 7. MP3 vs AAC Architecture
 
 The two most widely deployed perceptual audio standards are MP3 and AAC:
+
 - **MP3 (MPEG-1 Audio Layer III):** Introduced in 1993, MP3 employs a hybrid filterbank consisting of a 32-band polyphase quadrature filter (PQF) followed by an 18-point Modified Discrete Cosine Transform (MDCT). This hybrid architecture causes aliasing artifacts between subbands. MP3 operates with fixed 576-sample or 192-sample frames.
 - **AAC (Advanced Audio Coding - MPEG-4 Part 3):** Standardized in 1997 as the successor to MP3, AAC eliminates the hybrid filterbank in favor of a pure 1024-point MDCT (or 2048-point in MPEG-4 AAC), eliminating filterbank aliasing. AAC incorporates **Temporal Noise Shaping (TNS)** to control quantization noise in transient attacks, **Predictive Coding**, and **Variable Block Lengths** (switching dynamically from 1024-sample long windows down to 128-sample short windows to eliminate pre-echo artifacts on sharp percussive transients).
 
@@ -3544,6 +3766,7 @@ Video is perceived by the human visual system as continuous motion, but is physi
 #### 1. Human Visual Persistence & Flicker Fusion Frequency
 
 Digital video systems exploit two fundamental characteristics of the human eye:
+
 - **Persistence of Vision:** The physiological phenomenon whereby the human retina and visual cortex retain the visual impression of an image for approximately $1/16\text{ to }1/20\text{ of a second}$ ($50\text{--}60\text{ ms}$) after the light stimulus ceases. When still images displaying incremental positional changes are presented at rates exceeding $15\text{ to }18\text{ frames per second (fps)}$, the brain fuses them into smooth, continuous motion.
 - **Critical Flicker Fusion Frequency (FFF):** The threshold frequency at which an intermittent, flashing light stimulus ceases to appear as distinct flashes and is perceived as completely steady, continuous illumination. For human photopic (daylight) vision, the FFF is approximately $50\text{ to }60\text{ Hz}$. If a display refreshes below this threshold (e.g., at $30\text{ Hz}$), the viewer perceives a fatiguing visual flicker, even though the motion itself appears smooth.
 
@@ -3566,15 +3789,18 @@ flowchart TD
 
 ##### 1. Progressive Scanning ($p$)
 In progressive scanning (e.g., 720p, 1080p, 4K 2160p), every horizontal raster scan line of the frame (lines 1, 2, 3, 4, ..., $H$) is traced sequentially from the top-left corner to the bottom-right corner in a single vertical pass.
+
 - **Advantages:** Produces crisp, artifact-free images during fast motion; displays text cleanly without vertical jitter; serves as the native display mode for modern LCD, LED, OLED, and computer displays.
 - **Bandwidth Demand:** Requires twice the transmission bandwidth of an interlaced signal having identical spatial dimensions and frame rate.
 
 ##### 2. Interlaced Scanning ($i$)
 In interlaced scanning (e.g., legacy NTSC 480i, PAL 576i, HDTV 1080i), each full visual frame is partitioned into two spatially complementary **fields**:
+
 - **Odd Field (Top Field):** Contains only the odd-numbered raster lines (1, 3, 5, 7, ...).
 - **Even Field (Bottom Field):** Contains only the even-numbered raster lines (2, 4, 6, 8, ...).
 
 The odd field is scanned and transmitted first, followed $1/50\text{ s}$ or $1/60\text{ s}$ later by the even field. The phosphor persistence of the display tube and human visual persistence fuse the alternating fields into an apparently complete, continuous image.
+
 - **Advantage:** Doubles the apparent temporal refresh rate (e.g., $60\text{ fields/sec}$ instead of $30\text{ frames/sec}$), raising the display above the Flicker Fusion Frequency while halving the transmission bandwidth.
 - **Disadvantage:** Produces **interlacing artifacts** (combing or "feathering") when capturing fast-moving horizontal objects, because the object moves during the $1/60\text{ s}$ time gap between the capture of the odd field and the even field. Displaying interlaced content on progressive screens requires computational de-interlacing filters.
 
@@ -3595,10 +3821,12 @@ Raw digital images captured by camera sensors record three primary color compone
 
 ##### The Biological Foundation: Luminance vs Chrominance
 The human retina contains two classes of photoreceptor cells:
+
 - **Rods:** Approximately $120\text{ million}$ rod cells, sensitive purely to monochrome luminous intensity (brightness/luminance) across low light conditions.
 - **Cones:** Only $6\text{ to }7\text{ million}$ cone cells, responsible for color vision (chrominance) under photopic daylight conditions. Cones are concentrated in the fovea centralis.
 
 Because rods outnumber cones by nearly 20 to 1, the human visual system possesses high spatial resolving power for fine luminance edges (brightness contrasts), but low spatial resolution for color differences. Video compression standards exploit this asymmetry by converting RGB color space into **YCbCr** color space:
+
 - **$Y$ (Luminance):** The grayscale brightness component, carrying all high-frequency structural detail and sharp edges.
 - **$Cb$ (Chroma Blue):** The blue-difference chrominance component ($B - Y$).
 - **$Cr$ (Chroma Red):** The red-difference chrominance component ($R - Y$).
@@ -3617,6 +3845,7 @@ Green is given the largest weighting ($58.7\%$) because the human eye is most se
 
 ##### Chroma Subsampling Schemes
 Because the human eye cannot resolve fine spatial color detail, the $Cb$ and $Cr$ channels can be filtered and downsampled across horizontal and vertical dimensions without noticeable perceptual loss. Subsampling is denoted using the standard **$J:a:b$** notation referencing a grid of $J=4$ pixels across by 2 pixels high:
+
 - **$J$:** Horizontal sampling reference width (always 4).
 - **$a$:** Number of chrominance samples ($Cb, Cr$) in the first row of 4 pixels.
 - **$b$:** Number of additional chrominance samples in the second row of 4 pixels.
@@ -3658,6 +3887,7 @@ R_{\text{raw}} = 1920 \times 1080 \times 60 \times 12\text{ bits} \approx 1{,}49
 $$
 
 Transmitting a $1.5\text{ Gbps}$ stream to millions of residential consumers is infeasible. Video compression algorithms bridge this gap by exploiting two types of redundancy:
+
 - **Spatial Redundancy (Intra-frame):** The statistical correlation among spatially adjacent pixels within the same image frame.
 - **Temporal Redundancy (Inter-frame):** The statistical correlation among successive image frames across time.
 
@@ -3682,6 +3912,7 @@ flowchart TD
 
 ##### Spatial Compression Engine: 2D DCT and Quantization
 Spatial compression within a single frame operates identically to the baseline JPEG compression standard:
+
 1. **Block Partitioning:** The image is partitioned into non-overlapping blocks of $8 \times 8$ pixels (or variable transform blocks from $4 \times 4$ to $32 \times 32$ in modern codecs like H.264 and HEVC).
 2. **Two-Dimensional Discrete Cosine Transform (2D DCT):** Converts spatial pixel values $f(x, y)$ into frequency-domain coefficients $F(u, v)$:
 
@@ -3690,6 +3921,7 @@ F(u, v) = \frac{1}{4} C(u) C(v) \sum_{x=0}^{7} \sum_{y=0}^{7} f(x, y) \cos\left[
 $$
 
 where $C(w) = 1/\sqrt{2}$ for $w = 0$, and $C(w) = 1$ for $w > 0$. The transform packs the majority of spatial energy into the single top-left **DC coefficient** ($u=0, v=0$, representing average block illumination); the remaining 63 **AC coefficients** represent progressively higher spatial frequencies.
+
 3. **Quantization Matrix:** The 64 DCT coefficients are divided element-by-element by a perceptual quantization matrix $Q(u, v)$ and rounded to the nearest integer:
 
 $$
@@ -3697,11 +3929,13 @@ F_q(u, v) = \operatorname{round}\left(\frac{F(u, v)}{Q(u, v)}\right)
 $$
 
 High-frequency entries in $Q(u, v)$ contain large integers, causing subtle, imperceptible high-frequency AC coefficients to round cleanly to zero. This is the sole lossy step in spatial compression.
+
 4. **Zig-Zag Scanning:** Reorders the 2D $8 \times 8$ matrix into a 1D vector of 64 coefficients by tracing diagonally from top-left (low frequencies) to bottom-right (high frequencies). This groups the trailing zeros together.
 5. **Entropy Coding:** Encodes non-zero values and zero-run lengths using Run-Length Encoding (RLE) followed by Huffman coding or Context-Adaptive Binary Arithmetic Coding (CABAC).
 
 ##### Temporal Compression Engine: Motion Estimation & Compensation
 Because video frames are captured at intervals of $1/30\text{ s}$ or $1/60\text{ s}$, consecutive frames are nearly identical, differing only by camera pans or localized object movement.
+
 1. **Macroblock Motion Estimation:** The encoder partitions the current frame into $16 \times 16$ pixel macroblocks. For each macroblock, the encoder searches within a bounded search window $[-p, +p]$ in a previously encoded reference frame to find the closest matching block that minimizes the Sum of Absolute Differences (SAD):
 
 $$
@@ -3729,7 +3963,7 @@ flowchart LR
     P4["P-Frame (Frame 4)\n- Forward predicted from I1\n- Motion vectors + Residual\n- Compression: ~30:1"]
     B2["B-Frame (Frame 2)\n- Bi-directionally interpolated\n- References I1 and P4\n- Compression: ~50:1\n- Highest efficiency"]
     B3["B-Frame (Frame 3)\n- Bi-directionally interpolated\n- References I1 and P4\n- Compression: ~50:1"]
-    
+
     I1 -->|Forward Prediction| P4
     I1 -->|Forward Reference| B2
     P4 -->|Backward Reference| B2
@@ -3738,12 +3972,13 @@ flowchart LR
 ```
 
 ##### Figure 7.3: MPEG Frame Dependency and Group of Pictures Architecture
-**What it shows:** Coding dependencies among Intra (I), Predictive (P), and Bi-directional (B) frames within an MPEG Group of Pictures.  
+**What it shows:** Coding dependencies among Intra (I), Predictive (P), and Bi-directional (B) frames within an MPEG Group of Pictures.
 **Components:**
+
 - **I-frame:** Encoded independently of all other frames.
 - **P-frame:** Forward-predicted from the preceding reference frame (I or P).
-- **B-frame:** Bi-directionally predicted from both the preceding and following reference frames.  
-**Flow / Relationship:** Solid arrows denote prediction dependencies. B-frames require both past and future reference frames to be decoded before they can be reconstructed.  
+- **B-frame:** Bi-directionally predicted from both the preceding and following reference frames.
+**Flow / Relationship:** Solid arrows denote prediction dependencies. B-frames require both past and future reference frames to be decoded before they can be reconstructed.
 **Key observations:** B-frames offer the highest compression ratios but introduce decoding delay and reordering overhead.
 
 ##### Frame Types
@@ -3764,6 +3999,7 @@ flowchart LR
 
 ##### Group of Pictures (GOP) Structure
 A video stream is organized into repeating structures called a **Group of Pictures (GOP)**. A GOP is characterized by two parameters:
+
 - **$N$ (GOP Length):** The total number of frames between successive I-frames (typically $N=12$ or $15$ frames, spanning approximately $0.5\text{ seconds}$).
 - **$M$ (Anchor Distance):** The distance between reference frames (typically $M=3$, meaning every third frame is an I or P frame).
 
@@ -3787,13 +4023,13 @@ sequenceDiagram
     participant Enc as Video Source / Encoder
     participant Net as Network Transmission
     participant Dec as Decoder / Display Buffer
-    
+
     Note over Enc: Display Order: I1, B2, B3, P4, B5, B6, P7
     Note over Enc: Reorder: Future P4 moved ahead of B2, B3
     Enc->>Net: 1. Send Frame I1 (Decode Anchor)
     Net->>Dec: Receive and Decode I1 (Hold in Reference Buffer)
     Enc->>Net: 2. Send Frame P4 (Future Reference)
-    Net->>Dec: Receive and Decode P4 (Hold in Reference Buffer; Display I1)
+    Net->>Dec: Receive and Decode P4 (Hold in Reference Buffer, Display I1)
     Enc->>Net: 3. Send Frame B2 (Interpolated from I1 and P4)
     Net->>Dec: Decode B2 using I1 & P4 -> Display B2
     Enc->>Net: 4. Send Frame B3 (Interpolated from I1 and P4)
@@ -3802,6 +4038,7 @@ sequenceDiagram
 
 ##### Comparison of Frame Orders
 Consider a video sequence with $M=3$:
+
 - **Display (Capture / Presentation) Order:**
 
 $$
@@ -3839,6 +4076,7 @@ Streaming stored media refers to the on-demand delivery of pre-recorded audio an
 #### 1. Media Streaming vs Download-and-Play
 
 In the early architecture of the World Wide Web, media files were retrieved via standard file transfer protocols (FTP or HTTP `GET`) under the **Download-and-Play** paradigm:
+
 - The entire multi-gigabyte video file had to be transferred across the transport link and written to the client's local hard drive before the media player could parse headers and initiate playback.
 - The playout delay experienced by the user equaled the total transfer time:
 
@@ -3849,6 +4087,7 @@ $$
 - If a user watched only the first 3 minutes of a 2-hour movie, downloading the entire file wasted bandwidth and storage.
 
 In contrast, **Media Streaming** decouples transmission from total duration:
+
 - Video playback commences within a few seconds after filling a modest client-side buffer.
 - Media data is continuously downloaded, decoded, and rendered in real time, while previously viewed chunks are discarded from volatile memory.
 
@@ -3863,11 +4102,11 @@ flowchart LR
     subgraph ServerSide ["Media Streaming Server"]
         EncMedia["Constant Bitrate Media Stream\n(R_playout bits/sec)"]
     end
-    
+
     subgraph NetworkTransit ["Jittery Packet Network"]
         EncMedia -->|Packet Jitter, Delay Spikes| NetTransit["Variable Arrival Rate r(t)"]
     end
-    
+
     subgraph ClientSide ["Client Receiver Subsystem"]
         NetTransit --> InBuffer["Client Playout Buffer B(t)\n(Initial Playout Delay: tp seconds)"]
         InBuffer --> PlayoutEngine["Video Decoder & Display\n(Drains at steady rate P bits/sec)"]
@@ -3878,12 +4117,14 @@ flowchart LR
 If a client decoder attempted to render packets immediately upon arrival, variations in network delay would cause the video to freeze whenever a packet arrived late, producing an unwatchable, stuttering display.
 
 To neutralize jitter, the client establishes a FIFO **playout buffer** and defers the start of playback by an initial **playout delay** $t_p$ (typically 2 to 10 seconds):
+
 - Media packets arriving across the jittery network are stored in the buffer.
 - The playout engine drains the buffer at a constant, steady rate $P$ corresponding to the media presentation rate.
 - As long as the cumulative playout delay $t_p$ exceeds the maximum network jitter peak, late-arriving packets are absorbed within the buffer before their scheduled presentation deadlines, producing smooth, continuous rendering.
 
 ##### Mathematical Buffer Model & Differential Equation
 Let:
+
 - $r(t)$ denote the instantaneous network arrival throughput (bits/second) entering the client buffer at time $t$.
 - $P$ denote the constant media consumption playout bitrate (bits/second) drained by the video decoder.
 - $B(t)$ denote the client buffer fill level (measured in bits or seconds of playable video) at time $t$.
@@ -3901,11 +4142,14 @@ B(t) = B(t_0) + \int_{t_0}^{t} \left[r(\tau) - P\right] \, d\tau
 $$
 
 Three operational regimes govern buffer behavior:
-1. **Buffer Accumulation ($r(t) > P$):**  
+
+1. **Buffer Accumulation ($r(t) > P$):**
    When network throughput exceeds the video bitrate, $\frac{dB(t)}{dt} > 0$. The buffer fill level rises, building a safety cushion against future network slowdowns.
-2. **Buffer Depletion ($r(t) < P$):**  
+
+2. **Buffer Depletion ($r(t) < P$):**
    When network congestion causes throughput to fall below the video bitrate, $\frac{dB(t)}{dt} < 0$. The client sustains continuous playback by draining its buffered reserve.
-3. **Buffer Starvation / Rebuffering Stall ($B(t) = 0$):**  
+
+3. **Buffer Starvation / Rebuffering Stall ($B(t) = 0$):**
    If network throughput remains suppressed for long enough that the buffer drains completely to zero ($B(t) \le 0$), the decoder runs out of data. Video playback freezes, a rebuffering spinner is presented to the user, and playback cannot resume until the buffer accumulates data up to a safety restart threshold $B_{\text{resume}}$.
 
 ---
@@ -3928,26 +4172,27 @@ sequenceDiagram
     autonumber
     participant C as Client (Media Player)
     participant S as Streaming Server
-    
+
     C->>S: 1. DESCRIBE rtsp://media.example.com/movie.mp4 RTSP/1.0 (CSeq: 1)
     S-->>C: 2. RTSP/1.0 200 OK (Content-Type: application/sdp, CSeq: 1)
-    
-    C->>S: 3. SETUP rtsp://media.example.com/movie.mp4/trackID=1 RTSP/1.0<br/>Transport: RTP/AVP;unicast;client_port=5004-5005 (CSeq: 2)
+
+    C->>S: 3. SETUP rtsp://media.example.com/movie.mp4/trackID=1 RTSP/1.0<br/>Transport: RTP/AVP,unicast,client_port=5004-5005 (CSeq: 2)
     S-->>C: 4. RTSP/1.0 200 OK (Session: 12345678, Transport: server_port=6000-6001, CSeq: 2)
-    
+
     C->>S: 5. PLAY rtsp://media.example.com/movie.mp4 RTSP/1.0<br/>Session: 12345678, Range: npt=0- (CSeq: 3)
     S-->>C: 6. RTSP/1.0 200 OK (CSeq: 3)
-    
+
     Note over C,S: Media Data Flows Out-of-Band via UDP (RTP Port 5004 / RTCP Port 5005)
     S-->>C: RTP Data Packets (Video/Audio)
     C-->>S: RTCP Quality Feedback Packets
-    
+
     C->>S: 7. TEARDOWN rtsp://media.example.com/movie.mp4 RTSP/1.0<br/>Session: 12345678 (CSeq: 4)
     S-->>C: 8. RTSP/1.0 200 OK (CSeq: 4)
 ```
 
 ##### Why RTSP Failed Commercially Across the Public Internet
 Despite its design, RTSP has been largely replaced in commercial consumer streaming (Netflix, YouTube, Amazon Prime) by HTTP-based adaptive streaming due to three architectural obstacles:
+
 1. **Firewall and NAT Traversal Obstacles:** Corporate and residential firewalls routinely block arbitrary incoming UDP traffic. Because RTSP dynamically negotiates ephemeral UDP port pairs for RTP/RTCP transport, network address translators (NATs) and firewalls drop media packets unless configured with complex Application Layer Gateways (ALGs).
 2. **Server-Side Statefulness:** RTSP servers must maintain persistent, stateful connection contexts (session IDs, current playout offsets, client port assignments) for every active viewer. When millions of concurrent users stream media, maintaining this state exhausts server memory and impedes horizontal scale-out across distributed cloud server farms.
 3. **Incompatibility with Web Caching Infrastructure:** RTSP streams cannot be cached by standard HTTP forward proxies, reverse proxies, or commercial Content Delivery Network (CDN) edge servers, which are built to cache and deliver standard HTTP/HTTPS traffic.
@@ -3972,15 +4217,15 @@ flowchart TD
         AdaptSet1["AdaptationSet 1: Video (H.264 / H.265)"]
         AdaptSet2["AdaptationSet 2: Audio (AAC / Dolby Digital)"]
         AdaptSet3["AdaptationSet 3: Subtitles (WebVTT)"]
-        
+
         Period --> AdaptSet1
         Period --> AdaptSet2
         Period --> AdaptSet3
-        
+
         Rep1["Representation 1: 1080p @ 6.0 Mbps\nChunk_1080p_1.m4s, Chunk_1080p_2.m4s, ..."]
         Rep2["Representation 2: 720p @ 3.0 Mbps\nChunk_720p_1.m4s, Chunk_720p_2.m4s, ..."]
         Rep3["Representation 3: 480p @ 1.2 Mbps\nChunk_480p_1.m4s, Chunk_480p_2.m4s, ..."]
-        
+
         AdaptSet1 --> Rep1
         AdaptSet1 --> Rep2
         AdaptSet1 --> Rep3
@@ -3988,18 +4233,20 @@ flowchart TD
 ```
 
 ##### Figure 7.4: DASH Media Presentation Description (MPD) Hierarchical Structure
-**What it shows:** The XML metadata hierarchy of an ISO/IEC 23009-1 DASH manifest file.  
+**What it shows:** The XML metadata hierarchy of an ISO/IEC 23009-1 DASH manifest file.
 **Components:**
+
 - **MPD Root:** The container document defining presentation duration and streaming type (static stored vs dynamic live).
 - **Period:** Defines a temporal interval within the media timeline (e.g., chapters or commercial ad breaks).
 - **AdaptationSet:** Groups interchangeable media alternatives (e.g., video tracks, multilingual audio tracks, subtitle streams).
 - **Representation:** Defines a specific encoding format at a given bitrate, resolution, frame rate, and codec.
-- **Segment:** The discrete HTTP URL targets corresponding to playable 2-to-10 second media chunks.  
-**Flow / Relationship:** Client downloads MPD manifest $\to$ parses available AdaptationSets $\to$ selects appropriate initial Representation $\to$ iteratively requests individual Segments via HTTP `GET`.  
+- **Segment:** The discrete HTTP URL targets corresponding to playable 2-to-10 second media chunks.
+**Flow / Relationship:** Client downloads MPD manifest $\to$ parses available AdaptationSets $\to$ selects appropriate initial Representation $\to$ iteratively requests individual Segments via HTTP `GET`.
 **Key observations:** Because chunks start with IDR I-frames, the player can dynamically switch Representations between any two chunks based on network conditions.
 
 ##### Client-Side Adaptive Bitrate (ABR) Algorithms
 As the client downloads consecutive media chunks, its **Adaptive Bitrate (ABR)** engine dynamically monitors network conditions and buffer levels to select the highest sustainable representation bitrate $R_k$ for chunk $k+1$.
+
 1. **Throughput-Based (Rate-Based) ABR:**
    - The player measures the download time $T_{\text{dl}, k}$ and chunk size $S_k$ of the most recent chunk to calculate the instantaneous network throughput:
 
@@ -4045,6 +4292,7 @@ Live media streaming involves the distribution of ongoing, real-time events as t
 #### 1. Live Broadcast Latency Constraints & Latency Classes
 
 In live broadcasting, media cannot be pre-encoded or cached ahead of time; each chunk must be captured, encoded, chunked, distributed, and displayed in real time.
+
 - **The Spoiler Problem:** Traditional broadcast television (cable, terrestrial, satellite) distributes signals with end-to-end latencies of $3\text{ to }5\text{ seconds}$ behind live real-world action. When legacy OTT streaming services introduced $30\text{ to }60\text{ second}$ streaming delays, viewers streaming sports events suffered "spoilers" when neighbors cheered for a goal 45 seconds before the event rendered on the stream.
 - **Latency Classes:**
   1. **Standard Latency (Legacy HLS/DASH):** $15\text{ to }30\text{ seconds}$. Employs 6-second chunks and conservative 3-chunk client buffers.
@@ -4053,6 +4301,7 @@ In live broadcasting, media cannot be pre-encoded or cached ahead of time; each 
 
 ##### Low-Latency Chunking with CMAF
 To slash latency without sacrificing HTTP CDN caching compatibility, modern live streaming employs the **Common Media Application Format (CMAF)** chunking architecture:
+
 - A standard 2-second media fragment is sliced into small sub-chunks called **CMAF Chunks** (each spanning $200\text{ to }500\text{ milliseconds}$).
 - The origin server streams these tiny chunks using **HTTP/1.1 Chunked Transfer Encoding** or **HTTP/2-HTTP/3 Multiplexing**.
 - Rather than waiting for an entire 2-second fragment to complete encoding, the CDN edge and client media player ingest and decode the early CMAF sub-chunks while the latter part of the fragment is still being recorded at the venue, reducing latency down to 1–3 seconds.
@@ -4073,14 +4322,14 @@ flowchart TD
         RouterB --> Host2["Viewer 2"]
         RouterC --> Host3["Viewer 3"]
     end
-    
+
     subgraph AppLayer ["2. Application-Layer Multicast (P2P ALM)"]
         Source2["Live Source"] --> PeerA["Superpeer A"]
         PeerA --> PeerB["Peer B"]
         PeerA --> PeerC["Peer C"]
         PeerB --> PeerD["Peer D"]
     end
-    
+
     subgraph CDNLayer ["3. CDN Edge Distribution (Modern Standard)"]
         Source3["Live Origin"] --> CDNCache["CDN Shield Cache"]
         CDNCache --> PoP1["CDN Edge PoP 1"]
@@ -4097,6 +4346,7 @@ flowchart TD
 
 ##### Why IP Multicast Failed Commercially Across the Public Internet
 Despite its theoretical efficiency, IP multicast was never successfully deployed across the commercial inter-domain Internet. Four structural problems caused its failure:
+
 1. **Lack of Inter-Domain Billing Models:** In the public Internet, Internet Service Providers (ISPs) peer and exchange traffic under strict bilateral transit and settlement agreements. In multicast, a single packet entering an ISP's network can replicate into thousands of packets exiting to downstream peers. ISPs could not determine how to meter, bill, or settle cross-network multicast traffic, and systematically disabled multicast routing across Autonomous System (AS) boundaries.
 2. **Core Router State Explosion:** Core routers in the Default-Free Zone (DFZ) must maintain per-group multicast forwarding state trees in expensive Ternary Content-Addressable Memory (TCAM). Scaling this state to millions of independent broadcast channels risked destabilizing global routing tables.
 3. **Absence of End-to-End Congestion Control:** IP multicast runs over UDP. Designing a fair, window-based congestion control mechanism that scales across heterogeneous receivers (where some viewers connect via gigabit fiber and others via congested wireless links) without dropping to the lowest common denominator proved intractable.
@@ -4134,7 +4384,7 @@ Interactive human conversation imposes strict timing bounds defined by human psy
 
 #### Theorem: ITU-T Recommendation G.114 Latency Bounds
 
-**Statement:**  
+**Statement:**
 International Telecommunication Union (ITU-T) Recommendation G.114 specifies the acceptable one-way end-to-end propagation delay limits for high-quality, natural interactive speech communication:
 
 $$
@@ -4153,6 +4403,7 @@ $$
 
 ##### Why TCP Retransmission Fails Real-Time Deadlines
 While TCP provides an ordered, reliable byte-stream for data transfer, its operational mechanisms conflict with the deadlines of real-time conversational media:
+
 1. **Head-of-Line (HOL) Blocking:** TCP guarantees in-order delivery. If a single packet is dropped by an intermediate router, TCP halts delivery of all subsequent packets in the receiver's socket buffer until the missing packet is retransmitted and acknowledged.
 2. **Retransmission Latency Overhead:** Detecting a packet loss via three duplicate ACKs or a Retransmission Timeout (RTO) and receiving the retransmitted packet consumes at least one additional Round-Trip Time ($1\text{ RTT}$):
 
@@ -4161,10 +4412,12 @@ T_{\text{recovery}} \ge 1.5 \times \text{RTT}
 $$
 
 On an intercontinental link with an RTT of $150\text{ ms}$, recovering a lost packet takes over $225\text{ ms}$, exceeding the $150\text{ ms}$ G.114 playout threshold. The retransmitted data arrives far too late to be inserted into the ongoing speech conversation, rendering it useless.
+
 3. **Congestion Window Halving:** Upon detecting packet loss, TCP assumes network congestion and halves its congestion window (`cwnd`), throttling transmission throughput just when timely delivery is critical.
 
 ##### Transport Solution: UDP with FEC and PLC
 Interactive multimedia uses the **User Datagram Protocol (UDP)**, which transmits packets without connection handshakes, retransmissions, or Head-of-Line blocking. Packet loss is mitigated using two application-layer techniques:
+
 - **Forward Error Correction (FEC):** The sender injects redundancy into the media stream. Under media-independent XOR parity FEC, an extra parity packet is transmitted for every $k$ media packets, enabling the receiver to mathematically recover any single lost packet within the block without retransmission delay. Under media-dependent FEC, the sender appends a low-bitrate copy of packet $n-1$ into packet $n$; if packet $n-1$ is lost, its low-fidelity backup is extracted from packet $n$.
 - **Packet Loss Concealment (PLC):** If a packet is lost and cannot be recovered via FEC, the receiver's audio decoder synthesizes replacement audio (using pitch-period waveform replication or autoregressive interpolation) to bridge the missing $20\text{ ms}$ audio gap without introducing silence clicks or pops.
 
@@ -4222,6 +4475,7 @@ The RTP Control Protocol (RTCP) is the out-of-band telemetry companion to RTP. W
 
 ##### RTCP Bandwidth Throttling Rule
 To prevent control traffic from overwhelming the network in large conferences, RTCP traffic is strictly capped:
+
 - Total RTCP control traffic must not exceed **$5\%$ of the total negotiated session bandwidth**.
 - Senders receive $25\%$ of this RTCP budget ($1.25\%$ of session bandwidth).
 - Receivers share the remaining $75\%$ of the RTCP budget ($3.75\%$ of session bandwidth).
@@ -4251,6 +4505,7 @@ $$
 
 ##### Derivation of Transit Difference $D(i-1, i)$
 Let:
+
 - $S_i$ be the RTP transmission timestamp of packet $i$ (measured in sender clock ticks).
 - $R_i$ be the local arrival time of packet $i$ (measured in receiver clock ticks, scaled to the RTP timestamp frequency).
 
@@ -4286,40 +4541,42 @@ sequenceDiagram
     participant Alice as Alice (Caller / UAC)
     participant Proxy as SIP Proxy Server
     participant Bob as Bob (Callee / UAS)
-    
+
     Alice->>Proxy: 1. INVITE sip:bob@example.com (Includes SDP Offer)
     Proxy-->>Alice: 2. 100 Trying (Hop-by-hop acknowledgment)
     Proxy->>Bob: 3. INVITE sip:bob@192.0.2.20 (Locates Bob via Registrar)
     Bob-->>Proxy: 4. 180 Ringing (Phone ringing alert)
     Proxy-->>Alice: 5. 180 Ringing
-    
+
     Note over Bob: Bob answers the call
     Bob-->>Proxy: 6. 200 OK (Includes SDP Answer)
     Proxy-->>Alice: 7. 200 OK (Call accepted)
-    
+
     Alice->>Bob: 8. ACK (Direct end-to-end 3-way handshake completion)
-    
+
     Note over Alice,Bob: Bi-Directional Peer-to-Peer Media Session via RTP / UDP
     Alice<<-->>Bob: Full-Duplex RTP Media (Audio / Video)
     Alice<<-->>Bob: Periodic RTCP Control Telemetry
-    
+
     Note over Alice: Alice hangs up call
     Alice->>Bob: 9. BYE
     Bob-->>Alice: 10. 200 OK
 ```
 
 ##### Figure 7.5: SIP Trapezoid Call Setup and Media Session Flow
-**What it shows:** The signaling sequence to establish and tear down a SIP session via a proxy server, transitioning to peer-to-peer RTP media transport.  
+**What it shows:** The signaling sequence to establish and tear down a SIP session via a proxy server, transitioning to peer-to-peer RTP media transport.
 **Components:**
+
 - **User Agent Client (UAC):** The calling entity (Alice) initiating requests.
 - **User Agent Server (UAS):** The called entity (Bob) receiving requests and returning responses.
-- **SIP Proxy Server:** Resolves target addresses via a Location Service and routes signaling messages.  
-**Flow / Relationship:**  
+- **SIP Proxy Server:** Resolves target addresses via a Location Service and routes signaling messages.
+**Flow / Relationship:**
+
 1. `INVITE` carrying an SDP Offer traverses the proxy to Bob.
 2. Bob alerts Alice with `180 Ringing`.
 3. When Bob answers, a `200 OK` carrying an SDP Answer completes negotiations.
 4. Alice sends `ACK` directly to Bob, completing the Three-Way Handshake.
-5. Signaling terminates; media flows directly peer-to-peer over RTP/UDP.  
+5. Signaling terminates; media flows directly peer-to-peer over RTP/UDP.
 **Key observations:** Media bypasses the SIP proxy entirely, preserving proxy capacity and minimizing media latency.
 
 ##### Core SIP Methods
@@ -4360,14 +4617,14 @@ flowchart TD
         Term2["H.323 Terminal 2\n(Callee)"]
         MCU["Multipoint Control Unit (MCU)\n(Multi-party Conferencing)"]
         GW["H.323 Gateway\n(Protocol & Media Translation)"]
-        
+
         GK <-->|RAS H.225.0| Term1
         GK <-->|RAS H.225.0| Term2
         Term1 <-->|Q.931 Call Signaling / H.245 Control| Term2
         Term1 <--> MCU
         Term2 <--> MCU
     end
-    
+
     subgraph LegacyNet ["Legacy Switched Networks"]
         GW <-->|SS7 / ISDN PRI| PSTN["PSTN / ISDN Carrier Network"]
     end
@@ -4385,6 +4642,7 @@ flowchart TD
 
 ##### The H.323 Protocol Stack
 Unlike SIP's text-based architecture, H.323 utilizes binary-encoded messages specified via Abstract Syntax Notation One (ASN.1) and Packed Encoding Rules (PER):
+
 - **Call Signaling (Q.931 / H.225.0):** Operates over TCP (port 1720) to establish, ring, and terminate calls.
 - **Control & Capability Negotiation (H.245):** Operates over TCP to negotiate supported codecs, determine master/slave roles, and open logical media channels.
 - **Registration, Admission, and Status (RAS):** Operates over UDP (port 1719) between terminals and the gatekeeper.
@@ -4419,6 +4677,7 @@ The exponential expansion of global Internet traffic has fundamentally transform
 
 #### 1. Growth and Composition of Modern Internet Traffic
 Modern Internet traffic is overwhelmingly dominated by high-bandwidth continuous media and dynamic web services. Global traffic measurements consistently indicate:
+
 - **Continuous Media Dominance:** Streaming video (e.g., Netflix, YouTube, Disney+, TikTok) and audio platforms constitute greater than $75\%$ to $80\%$ of all downstream Internet traffic at peak hours.
 - **Web and API Transactions:** Interactive web applications, REST/GraphQL APIs, social media feeds, and software updates comprise the majority of the remaining $20\%$.
 - **The Capacity-Bandwidth Gap:** Core Internet backbone transit links cannot scale proportionally to unconstrained video demand if every stream is retrieved from origin servers across transatlantic or transcontinental links.
@@ -4456,6 +4715,7 @@ $$
 
 ##### What It Represents
 Zipf's Law captures the power-law concentration of human interest. The exponent $\alpha$ dictates the skew:
+
 - When $\alpha = 0$, requests are uniformly distributed across all $N$ objects ($P(r) = 1/N$), rendering caching largely ineffective.
 - When $\alpha \to 1$ (standard Web/video traffic), the distribution exhibits a "Heavy Head" (a few top ranks generate massive aggregate demand) and a "Long Tail" (millions of objects each requested rarely).
 
@@ -4484,7 +4744,7 @@ Large-scale Internet services cannot be sustained by a single physical host. Ins
 ```mermaid
 flowchart TD
     Clients["Client Hosts (Internet)"] -->|Public VIP: 203.0.113.10| LB["Load Balancer (L4 / L7 Switch)"]
-    
+
     subgraph Farm ["Datacenter Private Server Farm (RIPs)"]
         S1["Server 1 (10.0.0.1)\nApp / Microservice"]
         S2["Server 2 (10.0.0.2)\nApp / Microservice"]
@@ -4494,7 +4754,7 @@ flowchart TD
         S2 --> DB
         S3 --> DB
     end
-    
+
     LB -->|Dispatched Request| S1
     LB -->|Dispatched Request| S2
     LB -->|Dispatched Request| S3
@@ -4543,10 +4803,10 @@ flowchart LR
         C1 --> FP
         C2 --> FP
     end
-    
+
     Internet(("Public Internet"))
     FP -->|Masked Request| Internet
-    
+
     subgraph Provider ["Origin Server Infrastructure"]
         RP["Reverse Proxy\n(Nginx / HAProxy / Cloudflare)"]
         OS1["Web Server 1"]
@@ -4612,6 +4872,7 @@ sequenceDiagram
 
 ##### Consistency: Expiration vs Strong Revalidation
 To prevent caches from serving stale content when origin assets change, HTTP provides two consistency mechanisms:
+
 1. **TTL Expiration (Weak / Heuristic Consistency):**
    - Origin specifies freshness duration via `Cache-Control: max-age=<seconds>` (or legacy `Expires:` header).
    - While `Current_Age < max-age`, the cache serves the copy directly without contacting the origin.
@@ -4623,6 +4884,7 @@ To prevent caches from serving stale content when origin assets change, HTTP pro
 
 ##### Cache Eviction Algorithms
 When cache storage reaches physical capacity, an eviction policy decides which object to discard:
+
 - **Least Recently Used (LRU):**
   - Discards the item that has not been accessed for the longest period.
   - Implemented via a hash map coupled with a doubly-linked list providing $O(1)$ lookup and $O(1)$ update.
@@ -4633,8 +4895,12 @@ When cache storage reaches physical capacity, an eviction policy decides which o
 - **GreedyDual-Size (GD-Size):**
   - Explicitly tailored for web caching where objects have variable sizes ($s_i$) and retrieval costs ($c_i$).
   - Assigns an $H$-value to each object $i$:
-    $$H_i = L + \frac{c_i}{s_i}$$
+
+$$
+H_i = L + \frac{c_i}{s_i}
+$$
     where $L$ is a global aging clock set to the $H$-value of the most recently evicted object, $c_i$ is the cost to fetch object $i$ (e.g., latency or transfer cost), and $s_i$ is the size in bytes.
+
   - Evicts the object with minimum $H_i$. When an object is re-accessed, its $H_i$ is updated using the current $L$.
   - Advantage: Strongly biases retention toward small, high-latency objects, maximizing both document hit ratio and byte hit ratio.
 
@@ -4644,6 +4910,7 @@ When cache storage reaches physical capacity, an eviction policy decides which o
 
 #### 1. CDN Architecture: Origins, PoPs, and Surrogates
 A **Content Delivery Network (CDN)** is a geographically distributed network of surrogate cache servers deployed across the global Internet.
+
 - **Origin Server:** The authoritative source of truth maintained by the content provider (e.g., web app, video repository).
 - **Points of Presence (PoPs):** Datacenter installations located inside major metropolitan areas and Internet Exchange Points (IXPs), colocated within tier-1 and eyeball ISP networks.
 - **Edge Surrogate Servers:** High-performance caching nodes inside PoPs that store static files, video segments, and web assets, terminating user TCP/TLS connections within a single network hop.
@@ -4651,29 +4918,29 @@ A **Content Delivery Network (CDN)** is a geographically distributed network of 
 ```mermaid
 graph TD
     Origin["Authoritative Origin Server\n(e.g., US-East Datacenter)"]
-    
+
     subgraph IXP1 ["Europe PoP (Frankfurt IXP)"]
         E1["Edge Surrogate 1"]
         E2["Edge Surrogate 2"]
     end
-    
+
     subgraph IXP2 ["Asia-Pacific PoP (Tokyo IXP)"]
         E3["Edge Surrogate 3"]
         E4["Edge Surrogate 4"]
     end
-    
+
     subgraph IXP3 ["North America PoP (Chicago IXP)"]
         E5["Edge Surrogate 5"]
         E6["Edge Surrogate 6"]
     end
-    
+
     Origin -->|Origin Shield Distribution| E1
     Origin -->|Origin Shield Distribution| E3
     Origin -->|Origin Shield Distribution| E5
-    
-    ClientEU["European Users"] -->|Low Latency (<15ms)| E1
-    ClientAP["Asian Users"] -->|Low Latency (<15ms)| E3
-    ClientUS["US Users"] -->|Low Latency (<15ms)| E5
+
+    ClientEU["European Users"] -->|"Low Latency (&lt;15ms)"| E1
+    ClientAP["Asian Users"] -->|"Low Latency (&lt;15ms)"| E3
+    ClientUS["US Users"] -->|"Low Latency (&lt;15ms)"| E5
 ```
 
 ---
@@ -4684,6 +4951,7 @@ To deliver content from the optimal edge server, the CDN must transparently inte
 
 ##### 1. DNS-Based Request Routing
 DNS routing uses the Domain Name System to return IP addresses customized to the client's topological location.
+
 - **Operation:**
   1. Content provider configures an alias record: `video.example.com CNAME video.example.com.cdnprovider.net`.
   2. When the user resolves the hostname, the query reaches the CDN's Authoritative DNS Server.
@@ -4699,7 +4967,7 @@ sequenceDiagram
     participant LDNS as Local DNS Resolver (ISP)
     participant CDNDNS as CDN Authoritative DNS
     participant Edge as Closest CDN Edge PoP
-    
+
     Client->>LDNS: Resolve video.example.com
     LDNS->>CDNDNS: Iterative Query (with EDNS0 Client Subnet: 198.51.100.0/24)
     Note over CDNDNS: Computes closest PoP to client subnet
@@ -4711,6 +4979,7 @@ sequenceDiagram
 
 ##### 2. Anycast BGP Routing
 Anycast routing delegates path optimization directly to the Internet's core routing protocol (Border Gateway Protocol [BGP]).
+
 - **Operation:**
   - Every CDN PoP worldwide advertises the **exact same IP address prefix** (e.g., `203.0.113.0/24`) to peer routers via BGP.
   - When a client sends packets to `203.0.113.50`, intermediate Internet routers consult their BGP routing tables and forward packets along the shortest AS-Path.
@@ -4760,7 +5029,10 @@ B_{\text{origin}} = (1 - H) \cdot B_{\text{total}}
 $$
 
 If a site generates $B_{\text{total}} = 100\text{ Gbps}$ of user demand and achieves an edge hit ratio $H = 0.95$ ($95\%$), the bandwidth demanded from origin transit drops to:
-$$B_{\text{origin}} = (1 - 0.95) \cdot 100\text{ Gbps} = 5\text{ Gbps}$$
+
+$$
+B_{\text{origin}} = (1 - 0.95) \cdot 100\text{ Gbps} = 5\text{ Gbps}
+$$
 representing a massive $95\%$ reduction in origin compute, storage I/O, and transit costs.
 
 ---
@@ -4785,7 +5057,7 @@ flowchart TD
         G2 --- G3["Peer 3"]
         G2 --- G4["Peer 4"]
         G4 --- G5["Peer 5"]
-        Note over G1,G5: Queries broadcast with TTL hops (Broadcast storm risk)
+        %% Note: Queries broadcast with TTL hops (Broadcast storm risk)
     end
 
     subgraph Gen3 ["3. Hierarchical Superpeers (KaZaA / Skype)"]
@@ -4802,7 +5074,7 @@ flowchart TD
         D2 --- D3(("Node 32"))
         D3 --- D4(("Node 48"))
         D4 --- D1
-        Note over D1,D4: Deterministic key-to-node placement; O(log N) routing
+        %% Note: Deterministic key-to-node placement, O(log N) routing
     end
 ```
 
@@ -4834,14 +5106,14 @@ BitTorrent (developed by Bram Cohen) is the preeminent swarming protocol designe
 ```mermaid
 flowchart TD
     DotTorrent[".torrent Metainfo File\n- Tracker URL\n- Piece Size (e.g., 512 KB)\n- SHA-1 Hashes of all Pieces\n- InfoHash = SHA1(info_dict)"]
-    
+
     subgraph Swarm ["BitTorrent Swarm Overlay"]
         Tracker["Central Tracker / DHT\nMaintains Peer List"]
         Seeder["Seeder\n(Holds 100% of Pieces)"]
         LeecherA["Leecher A\n(Holds Pieces 1, 3, 5)"]
         LeecherB["Leecher B\n(Holds Pieces 2, 4, 5)"]
         LeecherC["Leecher C\n(Holds Pieces 1, 2)"]
-        
+
         Tracker -.->|Returns Peer IP:Port List| LeecherA
         Seeder -->|Uploads Rarest Pieces| LeecherA
         LeecherA <==>|Tit-for-Tat Piece Trading| LeecherB
@@ -4852,17 +5124,20 @@ flowchart TD
 
 ##### 1. The `.torrent` Metainfo File & Swarm Discovery
 A file is partitioned into equal-sized **Pieces** (typically $256\text{ KB}$ to $2\text{ MB}$, further subdivided into $16\text{ KB}$ sub-blocks for network transmission). The `.torrent` file contains:
+
 - `announce`: URL of the tracker server.
 - `piece length`: Byte size of each piece.
 - `pieces`: Concatenated 20-byte SHA-1 cryptographic hashes of every individual piece.
 - `info_hash`: The 20-byte SHA-1 hash of the bencoded `info` dictionary. This serves as the immutable global identifier of the swarm.
 
 Peers discover each other either via:
+
 - **Centralized Trackers:** HTTP/UDP announce exchanges where peers periodically report download/upload progress and receive a random set of active peer `IP:Port` pairs.
 - **Trackerless DHT (Kademlia / Mainline DHT):** Each peer acts as a DHT node storing contact information for swarms whose `info_hash` is numerically close to the node's DHT identifier.
 
 ##### 2. Piece Selection Algorithms
 Peers download pieces concurrently from multiple swarm members using three heuristic policies:
+
 1. **Rarest-First Algorithm:**
    - Each peer continuously monitors the bitfields of all connected neighbors to compute the local availability count of every piece.
    - The peer prioritizes requesting pieces that have the lowest replication count across its neighbors.
@@ -4879,6 +5154,7 @@ Peers download pieces concurrently from multiple swarm members using three heuri
 
 ##### 3. Choking and the Tit-for-Tat Incentive Mechanism
 To resolve the classic economic "Free-Rider Problem" (where selfish peers download without uploading), BitTorrent enforces a game-theoretic **Tit-for-Tat (TFT)** bandwidth reciprocation policy:
+
 - **Choking:** A peer "chokes" a neighbor by refusing to upload data to it, though control signaling and download requests continue to flow.
 - **Regular Unchoking (Every 10 Seconds):**
   - A peer ranks all interested neighbors by the rate at which they are *uploading data to this peer* over the preceding 20-second rolling window.
@@ -4899,8 +5175,15 @@ Distributed Hash Tables decouple application lookup from physical network topolo
 
 ##### Consistent Hashing
 - Both nodes (computers) and keys (files/resources) are mapped into a unified **1-Dimensional circular identifier space** of size $2^m$ modulo $2^m$ using a cryptographic hash function (typically SHA-1, $m = 160$ bits):
-  $$\text{Node ID} = \text{SHA-1}(\text{IP Address} : \text{Port}) \bmod 2^m$$
-  $$\text{Key ID} = \text{SHA-1}(\text{Resource Name}) \bmod 2^m$$
+
+$$
+\text{Node ID} = \text{SHA-1}(\text{IP Address} : \text{Port}) \bmod 2^m
+$$
+
+$$
+\text{Key ID} = \text{SHA-1}(\text{Resource Name}) \bmod 2^m
+$$
+
 - Identifiers are ordered cyclically on an identifier ring from $0$ to $2^m - 1$, where $2^m - 1$ wraps around to $0$.
 
 ---
@@ -4920,7 +5203,7 @@ graph TD
         N42(("Node 42"))
         N53(("Node 53"))
         N60(("Node 60"))
-        
+
         N0 -->|successor| N10
         N10 -->|successor| N19
         N19 -->|successor| N28
@@ -4929,7 +5212,7 @@ graph TD
         N42 -->|successor| N53
         N53 -->|successor| N60
         N60 -->|successor| N0
-        
+
         K14["Key K14\nStored on N19"] -.-> N19
         K24["Key K24\nStored on N28"] -.-> N28
         K38["Key K38\nStored on N42"] -.-> N42
@@ -4939,7 +5222,11 @@ graph TD
 
 ##### 1. Successor Mapping Rule
 - **Definition of $\text{successor}(k)$:** The successor of key $k$ is the first active node whose identifier is equal to or follows $k$ clockwise along the identifier ring:
-  $$\text{successor}(k) = \min \{ n \in \text{Nodes} : n \ge k \pmod{2^m} \}$$
+
+$$
+\text{successor}(k) = \min \{ n \in \text{Nodes} : n \ge k \pmod{2^m} \}
+$$
+
 - Every key $k$ is assigned to and stored at $\text{successor}(k)$.
 - *Trivial Linear Routing:* If each node maintains only its immediate clockwise successor pointer, a lookup for key $k$ traverses the ring node-by-node, requiring $O(N)$ message hops in an $N$-node network.
 
@@ -4955,37 +5242,67 @@ $$
 ##### Finger Table Structural Properties
 - Entry $i$ points to the node responsible for the identifier located $2^{i-1}$ units clockwise from $n$.
 - The interval covered by finger entry $i$ is:
-  $$I_i = \left[ (n + 2^{i-1}) \bmod 2^m, \ (n + 2^i) \bmod 2^m \right)$$
+
+$$
+I_i = \left[ (n + 2^{i-1}) \bmod 2^m, \ (n + 2^i) \bmod 2^m \right)
+$$
+
 - The span of intervals doubles with each successive entry ($2^0=1, 2^1=2, 2^2=4, \dots, 2^{m-1}$).
 
 ##### 3. Chord Routing Algorithm & Distance Halving Mechanics
 When node $n$ executes or forwards a lookup query for key $k$:
+
 1. **Immediate Successor Check:** If $k \in (n, \text{successor}(n)]$, the target node is simply $\text{successor}(n)$. The query completes in 1 hop.
 2. **Finger Table Scan:** If $k$ lies further clockwise, node $n$ scans its Finger Table *backwards* from entry $m$ down to $1$ to find the highest finger node that strictly precedes $k$:
-   $$\text{closest\_preceding\_node}(k) = \max \{ \text{finger}[i] : \text{finger}[i] \in (n, k) \}$$
+
+$$
+\text{closest\_preceding\_node}(k) = \max \{ \text{finger}[i] : \text{finger}[i] \in (n, k) \}
+$$
+
 3. **Forwarding:** Node $n$ forwards the lookup query to this closest preceding node.
 
 ##### Mathematical Proof of $O(\log N)$ Lookup Complexity
 - Let the clockwise distance on the ring from node $n$ to target key $k$ be $D$.
 - By forwarding the query to $\text{closest\_preceding\_node}(k)$, the query leaps across the largest power-of-two interval that does not overshoot $k$.
 - Consequently, the remaining distance $D'$ from the forwarded node to $k$ satisfies:
-  $$D' < \frac{D}{2}$$
+
+$$
+D' < \frac{D}{2}
+$$
+
 - Because the distance between the query and the target key is strictly halved at each intermediate hop, the total number of hops required to reach $\text{successor}(k)$ is strictly bounded by:
-  $$\text{Hops} \le O(\log_2 2^m) = O(m)$$
+
+$$
+\text{Hops} \le O(\log_2 2^m) = O(m)
+$$
+
 - In a balanced network populated by $N$ nodes, the expected number of hops is:
-  $$\mathbb{E}[\text{Hops}] = \frac{1}{2} \log_2 N = O(\log N)$$
+
+$$
+\mathbb{E}[\text{Hops}] = \frac{1}{2} \log_2 N = O(\log N)
+$$
+
 - Each node requires only $m = O(\log N)$ routing state entries.
 
 ##### 4. Node Joins, Leaves, and Ring Stabilization
 To maintain correctness in dynamic overlays subject to high peer churn:
+
 - **Node Join Protocol:**
   1. A joining node $n$ contacts an arbitrary known active bootstrap node.
   2. Node $n$ queries the bootstrap node to locate its immediate successor:
-     $$n.\text{successor} = \text{bootstrap.find\_successor}(n)$$
+
+$$
+n.\text{successor} = \text{bootstrap.find\_successor}(n)
+$$
+
   3. Node $n$ initializes its own finger table and sets its predecessor to `nil`.
 - **Periodic Stabilization Routine (`stabilize()`):**
   - Every node $n$ periodically asks its successor $s$ for $s$'s predecessor $x$:
-    $$\text{Node } n \text{ queries } s.\text{predecessor} \to x$$
+
+$$
+\text{Node } n \text{ queries } s.\text{predecessor} \to x
+$$
+
   - If $x$ has joined between $n$ and $s$ (i.e., $x \in (n, s)$), node $n$ updates its successor: $n.\text{successor} = x$.
   - Node $n$ then sends a `notify(n)` message to its successor $s$, alerting $s$ to verify whether $n$ should become $s$'s new predecessor.
 - **Successor List Fault-Tolerance:**
@@ -5003,7 +5320,7 @@ flowchart TD
     subgraph Synthesis ["Application Layer Architectural Synthesis"]
         direction TB
         Root["Core Architectural Dimensions"]
-        
+
         Root --> Dim1["1. Framing & Encoding\n- Textual ASCII: HTTP/1.1, SMTP, POP3, FTP-Control\n- Binary Wire: DNS, HTTP/2, HTTP/3, BitTorrent"]
         Root --> Dim2["2. State Management\n- Stateless: HTTP, DNS\n- Stateful: FTP, POP3, IMAP, BGP"]
         Root --> Dim3["3. Transport Layer Binding\n- TCP: Reliable stream (HTTP/1.1, HTTP/2, SMTP)\n- UDP: Low-latency / Transactional (DNS, DHCP, RTP)\n- QUIC: UDP multiplexing, 0-RTT, zero HOL (HTTP/3)"]
@@ -5012,13 +5329,14 @@ flowchart TD
 ```
 
 ##### Figure 7.18: Taxonomy of Application Layer Architectural Dimensions
-**What it shows:** A synthesized taxonomy categorizing the foundational design dimensions, framing trade-offs, state models, and delivery paradigms of Application Layer protocols.  
+**What it shows:** A synthesized taxonomy categorizing the foundational design dimensions, framing trade-offs, state models, and delivery paradigms of Application Layer protocols.
 **Components:**
+
 - **Framing & Encoding:** Contrast between human-readable ASCII text protocols and deterministic binary bit-field protocols.
 - **State Management:** Stateless horizontally scalable models versus stateful transactional session models.
 - **Transport Binding:** Selection criteria across TCP, UDP, and QUIC based on delay tolerance, reliability, and multiplexing requirements.
-- **Delivery Paradigms:** Evolution from centralized origins to edge caching, CDNs, and decentralized swarms.  
-**Flow / Relationship:** Top-down synthesis showing how functional requirements dictate protocol framing, session state, and underlying transport selection.  
+- **Delivery Paradigms:** Evolution from centralized origins to edge caching, CDNs, and decentralized swarms.
+**Flow / Relationship:** Top-down synthesis showing how functional requirements dictate protocol framing, session state, and underlying transport selection.
 **Key observations:** Modern application protocols consistently trend away from textual framing and TCP toward binary framing over UDP/QUIC with decentralized edge delivery.
 
 ---
@@ -5060,6 +5378,7 @@ Application protocols choose their transport layer bindings based on the strict 
 
 ### 4. Content Delivery Evolution: Centralized vs CDN vs P2P
 The history of content delivery reflects a continual migration toward topologically adjacent, distributed architectures:
+
 1. **Centralized Client-Server:** Monolithic origin handles all compute and transit. Subject to $O(N)$ bandwidth cost scaling, distance latency penalties, and catastrophic single-point bottlenecks.
 2. **Content Delivery Networks (CDNs):** Deploys surrogate cache servers at the network edge, utilizing intelligent Anycast BGP or DNS steering to absorb the "Heavy Head" of Zipf distributions. Transforms global latency from transcontinental transit scales ($>100\text{ ms}$) to local edge scales ($<15\text{ ms}$).
 3. **Peer-to-Peer Swarming (P2P):** Decentralizes content distribution completely, turning consumers into distributors. Solves the flash-crowd scaling problem by enabling aggregate upload capacity to scale dynamically and automatically with download demand.
@@ -5261,6 +5580,7 @@ The following five numerical problems represent comprehensive, university-level 
 
 #### Problem Statement
 A high-fidelity audio signal has a maximum frequency component of $f_{\max} = 20\text{ kHz}$. The continuous acoustic waveform is digitized using Pulse Code Modulation (PCM) for optical distribution on a standard audio Compact Disc (CD).
+
 1. Determine the theoretical minimum Nyquist sampling rate, and contrast it with the standard CD sampling frequency of $f_s = 44.1\text{ kHz}$.
 2. If each sample is quantized uniformly using $n = 16\text{ bits/sample}$, calculate the theoretical Signal-to-Quantization-Noise Ratio ($SNR_{\text{quant}}$) in decibels (dB).
 3. Calculate the uncompressed raw digital bitrate generated by a two-channel (stereophonic) recording.
@@ -5328,9 +5648,16 @@ $$
 $$
 
 - In Decimal Megabytes ($1\text{ MB} = 10^6\text{ bytes}$):
-  $$\text{Capacity (MB)} = \frac{783,216,000}{10^6} = \mathbf{783.216\text{ MB}}$$
+
+$$
+\text{Capacity (MB)} = \frac{783,216,000}{10^6} = \mathbf{783.216\text{ MB}}
+$$
+
 - In Binary Mebibytes ($1\text{ MiB} = 2^{20} = 1,048,576\text{ bytes}$):
-  $$\text{Capacity (MiB)} = \frac{783,216,000}{1,048,576} \approx \mathbf{746.93\text{ MiB}}$$
+
+$$
+\text{Capacity (MiB)} = \frac{783,216,000}{1,048,576} \approx \mathbf{746.93\text{ MiB}}
+$$
 
 #### Step 5: MP3 Codec Compression Ratio & Bandwidth Savings
 The Compression Ratio ($CR$) achieved by compressing the $1.4112\text{ Mbps}$ stream down to $128\text{ kbps}$ is:
@@ -5360,13 +5687,18 @@ $$
 
 #### Problem Statement
 A high-definition video camera captures Full HD video at a spatial resolution of $1920 \times 1080$ pixels at a temporal frame rate of $F = 60\text{ frames/second}$ (progressive scan, 1080p60).
+
 1. Calculate the uncompressed raw video bitrate if each pixel is represented in 24-bit TrueColor RGB format (8 bits each for Red, Green, and Blue).
 2. To exploit human visual system physiology (insensitivity to high-frequency chrominance detail), the video is converted to YUV space and subjected to **YUV 4:2:0 Chroma Subsampling**.
    - Show how the effective bits-per-pixel ($\text{bpp}_{YUV420}$) is calculated.
    - Calculate the resulting raw uncompressed video bitrate and the raw storage size of one uncompressed 4:2:0 frame.
 3. The subsampled video stream is encoded using an MPEG video codec operating with a Group of Pictures (GOP) structure of length $N = 12\text{ frames}$. The frame display order within the GOP is:
-   $$\text{GOP} = [I, B_1, B_2, P_1, B_3, B_4, P_2, B_5, B_6, P_3, B_7, B_8]$$
+
+$$
+\text{GOP} = [I, B_1, B_2, P_1, B_3, B_4, P_2, B_5, B_6, P_3, B_7, B_8]
+$$
    Empirical spatial and temporal compression achieves the following average compression ratios for each frame type:
+
    - $I$-Frames (Intra-coded): $C_I = 15 : 1$
    - $P$-Frames (Forward predicted): $C_P = 40 : 1$
    - $B$-Frames (Bidirectionally predicted): $C_B = 80 : 1$
@@ -5408,10 +5740,17 @@ $$
 
 #### Step 2: YUV 4:2:0 Chroma Subsampling Analysis
 In YUV 4:2:0:
+
 - The luminance component ($Y$) is sampled at full resolution: $1\text{ sample/pixel} \times 8\text{ bits} = 8\text{ bits/pixel}$.
 - Chrominance components ($U$ and $V$) are subsampled horizontally by a factor of 2 and vertically by a factor of 2. That is, a single $U$ sample and a single $V$ sample are shared across a $2 \times 2$ block of 4 pixels:
-  $$\text{Bits from } U = \frac{8\text{ bits}}{4\text{ pixels}} = 2\text{ bits/pixel}$$
-  $$\text{Bits from } V = \frac{8\text{ bits}}{4\text{ pixels}} = 2\text{ bits/pixel}$$
+
+$$
+\text{Bits from } U = \frac{8\text{ bits}}{4\text{ pixels}} = 2\text{ bits/pixel}
+$$
+
+$$
+\text{Bits from } V = \frac{8\text{ bits}}{4\text{ pixels}} = 2\text{ bits/pixel}
+$$
 
 Total effective bits per pixel:
 
@@ -5435,12 +5774,24 @@ $$
 
 #### Step 3: MPEG GOP Compressed Frame Sizes
 Using the respective compression ratios:
+
 - **Compressed $I$-Frame Size ($S_I$):**
-  $$S_I = \frac{S_{\text{raw}}}{C_I} = \frac{3,110,400\text{ bytes}}{15} = \mathbf{207,360\text{ bytes}}$$
+
+$$
+S_I = \frac{S_{\text{raw}}}{C_I} = \frac{3,110,400\text{ bytes}}{15} = \mathbf{207,360\text{ bytes}}
+$$
+
 - **Compressed $P$-Frame Size ($S_P$):**
-  $$S_P = \frac{S_{\text{raw}}}{C_P} = \frac{3,110,400\text{ bytes}}{40} = \mathbf{77,760\text{ bytes}}$$
+
+$$
+S_P = \frac{S_{\text{raw}}}{C_P} = \frac{3,110,400\text{ bytes}}{40} = \mathbf{77,760\text{ bytes}}
+$$
+
 - **Compressed $B$-Frame Size ($S_B$):**
-  $$S_B = \frac{S_{\text{raw}}}{C_B} = \frac{3,110,400\text{ bytes}}{80} = \mathbf{38,880\text{ bytes}}$$
+
+$$
+S_B = \frac{S_{\text{raw}}}{C_B} = \frac{3,110,400\text{ bytes}}{80} = \mathbf{38,880\text{ bytes}}
+$$
 
 #### Step 4: Total Data Volume per 12-Frame GOP
 The GOP consists of $1\times I$, $3\times P$, and $8\times B$ frames:
@@ -5495,6 +5846,7 @@ $$
 
 #### Problem Statement
 A video streaming client plays continuous video using Dynamic Adaptive Streaming over HTTP (DASH). The video is encoded in chunks of fixed media playout duration $\tau = 4\text{ seconds}$ across three representations:
+
 - Low (480p): $R_1 = 1.0\text{ Mbps}$ (Segment size $S_1 = 4.0\text{ Mbits} = 500\text{ KB}$)
 - Medium (720p): $R_2 = 2.5\text{ Mbps}$ (Segment size $S_2 = 10.0\text{ Mbits} = 1.25\text{ MB}$)
 - High (1080p): $R_3 = 5.0\text{ Mbps}$ (Segment size $S_3 = 20.0\text{ Mbits} = 2.50\text{ MB}$)
@@ -5502,10 +5854,12 @@ A video streaming client plays continuous video using Dynamic Adaptive Streaming
 The client maintains a playout buffer with maximum capacity $B_{\max} = 30\text{ seconds}$. Playout begins only after the buffer accumulates a startup prebuffering threshold of $B_{\text{start}} = 8\text{ seconds}$ (exactly 2 complete segments).
 
 The available network throughput $C(t)$ exhibits the following time profile:
+
 - Phase 1 ($0 \le t \le 20\text{ s}$): $C_1 = 6.0\text{ Mbps}$
 - Phase 2 ($t > 20\text{ s}$): Sudden network congestion causes available bandwidth to drop to $C_2 = 1.5\text{ Mbps}$.
 
 The client requests segments sequentially over a persistent HTTP/1.1 connection. Neglecting HTTP request header overhead:
+
 1. Determine the download time and the client buffer level at the moment playout initiates ($t_{\text{start}}$).
 2. Trace the segment downloads during Phase 1 assuming the client requests the highest representation whose encoding bitrate is strictly less than estimated network throughput ($R_k < C$).
 3. Trace the impact of the network drop at $t = 20\text{ seconds}$ on buffer drainage. Determine if a playout freeze (rebuffering stall) occurs if the client fails to downshift representation immediately, and calculate the exact time $t_{\text{stall}}$ when playout freezes.
@@ -5515,10 +5869,19 @@ The client requests segments sequentially over a persistent HTTP/1.1 connection.
 
 #### Playout Buffer Dynamic Model
 Let $B(t)$ denote the playout buffer level in seconds of media at real time $t$.
+
 - While prebuffering ($t < t_{\text{start}}$), playout is paused; the buffer accumulates media:
-  $$\frac{dB(t)}{dt} = \frac{\tau}{T_{\text{download}}}$$
+
+$$
+\frac{dB(t)}{dt} = \frac{\tau}{T_{\text{download}}}
+$$
+
 - During active playout ($t \ge t_{\text{start}}$), the media consumer drains the buffer at a constant rate of $1.0\text{ second of video per real second}$. Simultaneously, new segments refill the buffer:
-  $$\frac{dB(t)}{dt} = \frac{\tau}{T_{\text{download}}} - 1 = \frac{C(t)}{R_k} - 1$$
+
+$$
+\frac{dB(t)}{dt} = \frac{\tau}{T_{\text{download}}} - 1 = \frac{C(t)}{R_k} - 1
+$$
+
 - A playout stall occurs if $B(t)$ drops to $0$.
 
 ---
@@ -5527,23 +5890,44 @@ Let $B(t)$ denote the playout buffer level in seconds of media at real time $t$.
 
 #### Step 1: Startup Phase ($B_{\text{start}} = 8\text{ seconds}$)
 At $t = 0$, the client starts with an empty buffer ($B(0) = 0$). To play conservatively, the client fetches the first two segments at the Low representation $R_1 = 1.0\text{ Mbps}$ ($S_1 = 4.0\text{ Mbits}$).
+
 - Throughput: $C_1 = 6.0\text{ Mbps}$.
 - Download time for Segment 1:
-  $$T_{\text{dl}, 1} = \frac{S_1}{C_1} = \frac{4.0\text{ Mb}}{6.0\text{ Mbps}} = \frac{2}{3}\text{ s} \approx 0.667\text{ seconds}$$
+
+$$
+T_{\text{dl}, 1} = \frac{S_1}{C_1} = \frac{4.0\text{ Mb}}{6.0\text{ Mbps}} = \frac{2}{3}\text{ s} \approx 0.667\text{ seconds}
+$$
   At $t = 0.667\text{ s}$, Segment 1 is stored. Buffer $B = 4\text{ s}$.
+
 - Download time for Segment 2:
-  $$T_{\text{dl}, 2} = \frac{S_1}{C_1} = 0.667\text{ seconds}$$
+
+$$
+T_{\text{dl}, 2} = \frac{S_1}{C_1} = 0.667\text{ seconds}
+$$
   At $t = 0.667 + 0.667 = 1.333\text{ seconds}$, Segment 2 is stored.
+
 - Playout Startup Condition Met:
-  $$B(1.333) = 4 + 4 = \mathbf{8.0\text{ seconds}} = B_{\text{start}}$$
+
+$$
+B(1.333) = 4 + 4 = \mathbf{8.0\text{ seconds}} = B_{\text{start}}
+$$
   Playout initiates at **$t_{\text{start}} = 1.333\text{ seconds}$**.
 
 #### Step 2: Active Playout during Phase 1 ($1.333\text{ s} \le t \le 20\text{ s}$)
 Having measured $C_1 = 6.0\text{ Mbps}$, the client steps up to High representation $R_3 = 5.0\text{ Mbps}$ ($S_3 = 20\text{ Mbits}$, duration $\tau = 4\text{ s}$).
+
 - Download time per High segment:
-  $$T_{\text{dl}, k} = \frac{S_3}{C_1} = \frac{20.0\text{ Mb}}{6.0\text{ Mbps}} = 3.333\text{ seconds}$$
+
+$$
+T_{\text{dl}, k} = \frac{S_3}{C_1} = \frac{20.0\text{ Mb}}{6.0\text{ Mbps}} = 3.333\text{ seconds}
+$$
+
 - Because $T_{\text{dl}} = 3.333\text{ s} < \tau = 4.0\text{ s}$, the buffer refills faster than it drains:
-  $$\Delta B = \tau - T_{\text{dl}} = 4.0 - 3.333 = +0.667\text{ seconds per segment}$$
+
+$$
+\Delta B = \tau - T_{\text{dl}} = 4.0 - 3.333 = +0.667\text{ seconds per segment}
+$$
+
 - Let us trace downloads between $t = 1.333$ and $t = 20.0\text{ s}$ ($\Delta t = 18.667\text{ s}$):
   - Segment 3 (High): Finishes at $t = 1.333 + 3.333 = 4.667\text{ s}$. Buffer: $8.0 - 3.333 + 4.0 = \mathbf{8.667\text{ s}}$.
   - Segment 4 (High): Finishes at $t = 4.667 + 3.333 = 8.000\text{ s}$. Buffer: $8.667 - 3.333 + 4.0 = \mathbf{9.333\text{ s}}$.
@@ -5552,34 +5936,66 @@ Having measured $C_1 = 6.0\text{ Mbps}$, the client steps up to High representat
   - Segment 7 (High): Finishes at $t = 14.667 + 3.333 = 18.000\text{ s}$. Buffer: $10.667 - 3.333 + 4.0 = \mathbf{11.333\text{ s}}$.
   - At $t = 18.000\text{ s}$, Segment 8 (High) begins downloading.
   - At $t = 20.000\text{ s}$, exactly $2.0\text{ seconds}$ have elapsed into Segment 8's transfer. Playout has drained $2.0\text{ seconds}$ of buffer:
-    $$B(20.0) = 11.333 - 2.0 = \mathbf{9.333\text{ seconds}}$$
+
+$$
+B(20.0) = 11.333 - 2.0 = \mathbf{9.333\text{ seconds}}
+$$
     Data transferred of Segment 8 during these 2 seconds:
-    $$\text{Data} = 2.0\text{ s} \times 6.0\text{ Mbps} = 12.0\text{ Mbits}$$
+
+$$
+\text{Data} = 2.0\text{ s} \times 6.0\text{ Mbps} = 12.0\text{ Mbits}
+$$
     Remaining data for Segment 8: $20.0 - 12.0 = 8.0\text{ Mbits}$.
 
 #### Step 3: Network Drop at $t = 20\text{ s}$ Without Immediate Adaptation
 At $t = 20.0\text{ s}$, bandwidth drops to $C_2 = 1.5\text{ Mbps}$.
+
 - Time to finish the remaining $8.0\text{ Mbits}$ of Segment 8:
-  $$\Delta t_{\text{finish}} = \frac{8.0\text{ Mb}}{1.5\text{ Mbps}} = 5.333\text{ seconds}$$
+
+$$
+\Delta t_{\text{finish}} = \frac{8.0\text{ Mb}}{1.5\text{ Mbps}} = 5.333\text{ seconds}
+$$
   Segment 8 completes at $t = 20.0 + 5.333 = 25.333\text{ seconds}$.
+
 - Buffer level at completion of Segment 8:
-  $$B(25.333) = B(20.0) - 5.333 + 4.0 = 9.333 - 5.333 + 4.0 = \mathbf{8.000\text{ seconds}}$$
+
+$$
+B(25.333) = B(20.0) - 5.333 + 4.0 = 9.333 - 5.333 + 4.0 = \mathbf{8.000\text{ seconds}}
+$$
+
 - Suppose client continues unadapted to request Segment 9 at High representation ($S_3 = 20.0\text{ Mb}$):
   - Download time for Segment 9:
-    $$T_{\text{dl}, 9} = \frac{20.0\text{ Mb}}{1.5\text{ Mbps}} = \mathbf{13.333\text{ seconds}}$$
+
+$$
+T_{\text{dl}, 9} = \frac{20.0\text{ Mb}}{1.5\text{ Mbps}} = \mathbf{13.333\text{ seconds}}
+$$
+
   - At completion, time would be $t = 25.333 + 13.333 = 38.667\text{ s}$.
   - But the buffer at $t = 25.333\text{ s}$ holds only $8.000\text{ seconds}$ of media!
   - Therefore, the buffer will hit zero and **stall** when:
-    $$t_{\text{stall}} = 25.333 + 8.000 = \mathbf{33.333\text{ seconds}}$$
+
+$$
+t_{\text{stall}} = 25.333 + 8.000 = \mathbf{33.333\text{ seconds}}
+$$
+
   - Playout freezes at **$t = 33.333\text{ s}$**, and stays stalled until Segment 9 completes at $t = 38.667\text{ s}$ (a grueling **$5.334\text{-second}$ rebuffering freeze**).
 
 #### Step 4: Prevention via Adaptive Bitrate (ABR) Switching
 If the ABR algorithm detects the bandwidth drop at $t = 25.333\text{ s}$ ($C_{\text{est}} = 1.5\text{ Mbps}$) and immediately switches Segment 9 to Low representation $R_1 = 1.0\text{ Mbps}$ ($S_1 = 4.0\text{ Mb}$):
+
 - Download time for Segment 9:
-  $$T_{\text{dl}, 9} = \frac{4.0\text{ Mb}}{1.5\text{ Mbps}} = 2.667\text{ seconds}$$
+
+$$
+T_{\text{dl}, 9} = \frac{4.0\text{ Mb}}{1.5\text{ Mbps}} = 2.667\text{ seconds}
+$$
+
 - Media added $\tau = 4.0\text{ s} > T_{\text{dl}} = 2.667\text{ s}$.
 - Buffer level after Segment 9:
-  $$B(25.333 + 2.667) = B(28.0) = 8.000 - 2.667 + 4.000 = \mathbf{9.333\text{ seconds}}$$
+
+$$
+B(25.333 + 2.667) = B(28.0) = 8.000 - 2.667 + 4.000 = \mathbf{9.333\text{ seconds}}
+$$
+
 - Playout continues completely uninterrupted, **zero stalling occurs**, and the buffer safely rebuilds.
 
 ---
@@ -5596,10 +6012,17 @@ If the ABR algorithm detects the bandwidth drop at $t = 25.333\text{ s}$ ($C_{\t
 
 #### Problem Statement
 A structured Peer-to-Peer Distributed Hash Table operates using the **Chord protocol** over a 6-bit identifier space ($m = 6$, modulo $2^6 = 64$). The network contains eight active nodes whose identifiers are:
-$$V = \{N3, N10, N19, N28, N35, N42, N53, N60\}$$
+
+$$
+V = \{N3, N10, N19, N28, N35, N42, N53, N60\}
+$$
 
 1. Using the Chord key assignment invariant ($\text{successor}(k)$), determine which active node stores each of the following five resource keys:
-   $$K14, \ K24, \ K38, \ K58, \ K62$$
+
+$$
+K14, \ K24, \ K38, \ K58, \ K62
+$$
+
 2. Construct the complete 6-entry **Finger Table for Node $N10$** and **Node $N35$**, specifying for each entry $i \in \{1, 2, 3, 4, 5, 6\}$:
    - The finger index $i$.
    - The finger target start value: $s = (n + 2^{i-1}) \bmod 64$.
@@ -5623,6 +6046,7 @@ $$V = \{N3, N10, N19, N28, N35, N42, N53, N60\}$$
 
 #### Step 1: Key Assignment via $\text{successor}(k)$ Rule
 By definition, $\text{successor}(k)$ is the first active node with identifier $\ge k$ (wrapping around to 0):
+
 - For $K14$: Smallest active node $\ge 14$ is **$N19$**.
 - For $K24$: Smallest active node $\ge 24$ is **$N28$**.
 - For $K38$: Smallest active node $\ge 38$ is **$N42$**.
@@ -5703,7 +6127,10 @@ Target key: $k = 58$.
    - Node $N10$ Fingers: $[N19, N19, N19, N19, N28, N42]$
    - Node $N35$ Fingers: $[N42, N42, N42, N53, N53, N3]$
 3. Routing Path for Key $K58$:
-   $$\mathbf{N10 \longrightarrow N42 \longrightarrow N53 \longrightarrow N60}$$
+
+$$
+\mathbf{N10 \longrightarrow N42 \longrightarrow N53 \longrightarrow N60}
+$$
    Lookup successfully resolved in **3 network hops** (within $O(\log_2 8) = 3$ hops).
 
 ---
@@ -5714,6 +6141,7 @@ Target key: $k = 58$.
 An educational institution with $M = 2,000$ client workstations is connected to the Internet via a dedicated $C_{\text{access}} = 100\text{ Mbps}$ symmetrical leased access link. On average, the campus users generate an aggregate request arrival rate of $\lambda = 150\text{ requests/second}$ for web documents and streaming segments. The average requested object size is $S = 800\text{ KB} = 6.4\text{ Mbits}$.
 
 Network latency measurements establish:
+
 - Local campus LAN round-trip time: $T_{\text{LAN}} = 2\text{ ms}$.
 - Round-trip time from the campus boundary to origin servers across the commercial Internet transit core: $T_{\text{Internet}} = 80\text{ ms}$.
 - Round-trip time to an edge Point of Presence (PoP) operated by a Content Delivery Network (CDN) at the local ISP: $T_{\text{CDN}} = 10\text{ ms}$.
@@ -5725,6 +6153,7 @@ Content access follows a Zipf-like popularity distribution across a catalog of $
 3. Calculate the average effective retrieval latency ($T_{\text{eff}}$) experienced by a student workstation:
    a) When all requests must be served by origin servers across the Internet (no caching).
    b) Under the active CDN caching deployment ($H = 0.72$).
+
 4. If commercial Internet transit bandwidth costs the institution $\$0.02\text{ per Gigabyte (GB)}$ of data transferred across the access link, calculate the monthly financial cost savings (assuming a 30-day month of continuous operation).
 
 ---
@@ -5751,7 +6180,10 @@ B_{\text{demand}} = \lambda \times S = 150\text{ req/s} \times 6.4\text{ Mbits/r
 $$
 
 *Access Link Feasibility:*
-$$B_{\text{demand}} = 960\text{ Mbps} \gg C_{\text{access}} = 100\text{ Mbps}$$
+
+$$
+B_{\text{demand}} = 960\text{ Mbps} \gg C_{\text{access}} = 100\text{ Mbps}
+$$
 Link utilization would be $\rho = \frac{960}{100} = 9.6$ ($960\%$). By the $M/M/1$ queueing model, because arrival rate vastly exceeds service rate ($\rho > 1$), queue lengths grow toward infinity, packet loss reaches nearly $90\%$, and the access link suffers **catastrophic congestive collapse**. Without caching, servicing this user community over a $100\text{ Mbps}$ link is completely impossible.
 
 #### Step 2: Access Link Traffic with CDN Caching
@@ -5767,14 +6199,23 @@ $$
 
 ##### Scenario A: Without Caching (Theoretical Baseline)
 Each request incurs LAN delay plus full Internet origin transit delay:
-$$T_{\text{origin}} = T_{\text{LAN}} + T_{\text{Internet}} = 2\text{ ms} + 80\text{ ms} = \mathbf{82.0\text{ ms}}$$
+
+$$
+T_{\text{origin}} = T_{\text{LAN}} + T_{\text{Internet}} = 2\text{ ms} + 80\text{ ms} = \mathbf{82.0\text{ ms}}
+$$
 
 ##### Scenario B: With CDN Caching ($H = 0.72$)
 A cache hit is served from the edge PoP with latency:
-$$T_{\text{hit}} = T_{\text{LAN}} + T_{\text{CDN}} = 2\text{ ms} + 10\text{ ms} = 12.0\text{ ms}$$
+
+$$
+T_{\text{hit}} = T_{\text{LAN}} + T_{\text{CDN}} = 2\text{ ms} + 10\text{ ms} = 12.0\text{ ms}
+$$
 
 A cache miss is served from the origin with latency:
-$$T_{\text{miss}} = T_{\text{LAN}} + T_{\text{Internet}} = 2\text{ ms} + 80\text{ ms} = 82.0\text{ ms}$$
+
+$$
+T_{\text{miss}} = T_{\text{LAN}} + T_{\text{Internet}} = 2\text{ ms} + 80\text{ ms} = 82.0\text{ ms}
+$$
 
 The average effective retrieval latency $T_{\text{eff}}$ is:
 
@@ -5791,22 +6232,40 @@ T_{\text{eff}} = 8.64\text{ ms} + 22.96\text{ ms} = \mathbf{31.60\text{ ms}}
 $$
 
 *Latency Improvement:*
-$$\text{Latency Reduction} = \frac{82.0 - 31.6}{82.0} \times 100\% = \mathbf{61.46\%}$$
+
+$$
+\text{Latency Reduction} = \frac{82.0 - 31.6}{82.0} \times 100\% = \mathbf{61.46\%}
+$$
 Average response latency drops from $82.0\text{ ms}$ down to $31.6\text{ ms}$.
 
 #### Step 4: Monthly Financial Transit Cost Savings
 Total seconds in a 30-day month:
-$$T_{\text{month}} = 30\text{ days} \times 24\text{ hours/day} \times 3,600\text{ s/hour} = 2,592,000\text{ seconds}$$
+
+$$
+T_{\text{month}} = 30\text{ days} \times 24\text{ hours/day} \times 3,600\text{ s/hour} = 2,592,000\text{ seconds}
+$$
 
 Total data requested by campus in 30 days:
-$$\text{Total Bytes Demanded} = \lambda \times S_{\text{bytes}} \times T_{\text{month}}$$
-$$\text{Total Bytes} = 150\text{ req/s} \times (800,000\text{ bytes}) \times 2,592,000\text{ s} = 311,040,000,000,000\text{ bytes} \approx 311,040\text{ GB}$$
+
+$$
+\text{Total Bytes Demanded} = \lambda \times S_{\text{bytes}} \times T_{\text{month}}
+$$
+
+$$
+\text{Total Bytes} = 150\text{ req/s} \times (800,000\text{ bytes}) \times 2,592,000\text{ s} = 311,040,000,000,000\text{ bytes} \approx 311,040\text{ GB}
+$$
 
 Data volume offloaded by the cache ($72\%$):
-$$\text{Bytes Offloaded} = 0.72 \times 311,040\text{ GB} = \mathbf{223,948.8\text{ GB}}$$
+
+$$
+\text{Bytes Offloaded} = 0.72 \times 311,040\text{ GB} = \mathbf{223,948.8\text{ GB}}
+$$
 
 Monthly monetary transit cost savings:
-$$\text{Savings} = 223,948.8\text{ GB} \times \$0.02/\text{GB} = \mathbf{\$4,478.98\text{ per month}}$$
+
+$$
+\text{Savings} = 223,948.8\text{ GB} \times \$0.02/\text{GB} = \mathbf{\$4,478.98\text{ per month}}
+$$
 
 ---
 
@@ -5907,15 +6366,34 @@ $$
 ### 6. HTTP Latency Models Across Connection Paradigms
 
 1. **Non-Persistent Sequential HTTP/1.0:**
-   $$T = 2(N + 1) \cdot RTT + \sum_{i=0}^{N} T_{\text{trans}, i}$$
+
+$$
+T = 2(N + 1) \cdot RTT + \sum_{i=0}^{N} T_{\text{trans}, i}
+$$
+
 2. **Non-Persistent with $P$ Parallel Connections:**
-   $$T = 2 \cdot RTT + \left\lceil \frac{N}{P} \right\rceil \cdot (2 \cdot RTT + T_{\text{trans}})$$
+
+$$
+T = 2 \cdot RTT + \left\lceil \frac{N}{P} \right\rceil \cdot (2 \cdot RTT + T_{\text{trans}})
+$$
+
 3. **Persistent Non-Pipelined HTTP/1.1:**
-   $$T = (N + 2) \cdot RTT + \sum_{i=0}^{N} T_{\text{trans}, i}$$
+
+$$
+T = (N + 2) \cdot RTT + \sum_{i=0}^{N} T_{\text{trans}, i}
+$$
+
 4. **Persistent Pipelined HTTP/1.1 & HTTP/2 Multiplexing:**
-   $$T = 3 \cdot RTT + \sum_{i=0}^{N} T_{\text{trans}, i}$$
+
+$$
+T = 3 \cdot RTT + \sum_{i=0}^{N} T_{\text{trans}, i}
+$$
+
 5. **HTTP/3 (QUIC) 0-RTT Connection Resumption:**
-   $$T = 1 \cdot RTT + \sum_{i=0}^{N} T_{\text{trans}, i}$$
+
+$$
+T = 1 \cdot RTT + \sum_{i=0}^{N} T_{\text{trans}, i}
+$$
 
 #### Symbol Definitions
 | Symbol | Meaning | Units / Range |
@@ -6169,6 +6647,7 @@ This rapid review glossary provides dictionary-grade, precise definitions for 38
        a) Queries a Root Server, which returns a referral containing the `NS` and glue `A` records for the `.com` TLD.
        b) Queries the `.com` TLD server, which returns a referral containing the `NS` records of the authoritative server for `example.com`.
        c) Queries the Authoritative Name Server for `example.com`, which returns the final `A` record (`93.184.216.34`) with a designated Time-to-Live (TTL).
+
      - The Local Resolver caches the record for TTL seconds and delivers the resolved IP back to the client.
 
 ---
@@ -6284,7 +6763,11 @@ This rapid review glossary provides dictionary-grade, precise definitions for 38
   2. **The TLS 1.3 Handshake Protocol Flow:**
      - **Step 1 (Client Hello):** Client initiates a TCP 3-way handshake over port 443, then transmits `ClientHello` containing supported cipher suites, protocol versions (TLS 1.3), random client nonce, and a Diffie-Hellman Key Share ($g^a \bmod p$).
      - **Step 2 (Server Hello & Key Generation):** Server responds with `ServerHello` containing selected cipher suite, server key share ($g^b \bmod p$), server digital certificate (X.509), and a digital signature verifying certificate ownership. Both parties independently compute the master symmetric session key via Ephemeral Diffie-Hellman:
-       $$K = (g^a)^b = (g^b)^a \pmod p$$
+
+$$
+K = (g^a)^b = (g^b)^a \pmod p
+$$
+
      - **Step 3 (Certificate Verification):** The client's browser verifies the server's certificate against hardcoded root CA public keys embedded in the OS trust store (verifying signature chain, validity dates, revocation status via OCSP, and domain name matching).
      - **Step 4 (Encrypted Session Data Transfer):** Once the session key is derived, subsequent HTTP requests and responses are encrypted using high-performance symmetric authenticated ciphers (e.g., AES-256-GCM or ChaCha20-Poly1305).
 

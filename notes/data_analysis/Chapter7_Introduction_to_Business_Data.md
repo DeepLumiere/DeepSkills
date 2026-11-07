@@ -327,6 +327,7 @@ flowchart TD
 
 **Question Statement:**  
 An enterprise e-commerce platform executes a major festive marketing campaign across three advertising channels:
+
 * **Search Ads (Google):** Spend = $\$60,000$, Revenue Generated = $\$360,000$, New Customers Acquired = $600$
 * **Social Ads (Meta):** Spend = $\$40,000$, Revenue Generated = $\$80,000$, New Customers Acquired = $250$
 * **Video Ads (YouTube):** Spend = $\$20,000$, Revenue Generated = $\$30,000$, New Customers Acquired = $100$
@@ -334,6 +335,7 @@ An enterprise e-commerce platform executes a major festive marketing campaign ac
 **Given Enterprise Parameters:** Average Revenue Per User ($\text{ARPU}$) = $\$50$ / month, Gross Margin = $70\%$, Average Customer Lifespan = $18$ months.
 
 **Task Requirements:**  
+
 1. Trace the raw event data flow through all 5 stages of the Analytics Pipeline ($\text{Collect} \rightarrow \text{Clean} \rightarrow \text{Analyse} \rightarrow \text{Visualise} \rightarrow \text{Decide}$). [3 Marks]
 2. Calculate channel-specific Return on Ad Spend ($\text{ROAS}$) and Customer Acquisition Cost ($\text{CAC}$) for Search, Social, and Video. [3 Marks]
 3. Calculate Customer Lifetime Value ($\text{LTV}$) and the overall enterprise $\text{LTV : CAC}$ ratio across all campaign customers. [2 Marks]
@@ -353,26 +355,56 @@ An enterprise e-commerce platform executes a major festive marketing campaign ac
 ##### Part 2: Channel-Specific ROAS & CAC Calculations
 
 * **Search Ads (Google):**
-  $$\text{ROAS}_{\text{Search}} = \frac{\$360,000}{\$60,000} = \mathbf{6.00 \quad (600\%)}$$
-  $$\text{CAC}_{\text{Search}} = \frac{\$60,000}{600} = \mathbf{\$100.00}$$
+
+$$
+\text{ROAS}_{\text{Search}} = \frac{\$360,000}{\$60,000} = \mathbf{6.00 \quad (600\%)}
+$$
+
+$$
+\text{CAC}_{\text{Search}} = \frac{\$60,000}{600} = \mathbf{\$100.00}
+$$
 
 * **Social Ads (Meta):**
-  $$\text{ROAS}_{\text{Social}} = \frac{\$80,000}{\$40,000} = \mathbf{2.00 \quad (200\%)}$$
-  $$\text{CAC}_{\text{Social}} = \frac{\$40,000}{250} = \mathbf{\$160.00}$$
+
+$$
+\text{ROAS}_{\text{Social}} = \frac{\$80,000}{\$40,000} = \mathbf{2.00 \quad (200\%)}
+$$
+
+$$
+\text{CAC}_{\text{Social}} = \frac{\$40,000}{250} = \mathbf{\$160.00}
+$$
 
 * **Video Ads (YouTube):**
-  $$\text{ROAS}_{\text{Video}} = \frac{\$30,000}{\$20,000} = \mathbf{1.50 \quad (150\%)}$$
-  $$\text{CAC}_{\text{Video}} = \frac{\$20,000}{100} = \mathbf{\$200.00}$$
+
+$$
+\text{ROAS}_{\text{Video}} = \frac{\$30,000}{\$20,000} = \mathbf{1.50 \quad (150\%)}
+$$
+
+$$
+\text{CAC}_{\text{Video}} = \frac{\$20,000}{100} = \mathbf{\$200.00}
+$$
 
 ##### Part 3: LTV & Overall Enterprise LTV : CAC Ratio
 
 1. **Calculate LTV:**
-   $$\text{LTV} = \text{ARPU} \times \text{Lifespan} \times \text{Gross Margin} = \$50 \times 18 \times 0.70 = \mathbf{\$630.00}$$
+
+$$
+\text{LTV} = \text{ARPU} \times \text{Lifespan} \times \text{Gross Margin} = \$50 \times 18 \times 0.70 = \mathbf{\$630.00}
+$$
 
 2. **Compute Total Campaign CAC:**
-   $$\text{Total Spend} = 60,000 + 40,000 + 20,000 = \$120,000$$
-   $$\text{Total Customers Acquired} = 600 + 250 + 100 = 950$$
-   $$\text{Blended CAC} = \frac{\$120,000}{950} = \mathbf{\$126.32}$$
+
+$$
+\text{Total Spend} = 60,000 + 40,000 + 20,000 = \$120,000
+$$
+
+$$
+\text{Total Customers Acquired} = 600 + 250 + 100 = 950
+$$
+
+$$
+\text{Blended CAC} = \frac{\$120,000}{950} = \mathbf{\$126.32}
+$$
 
 3. **Compute Channel-Specific & Overall LTV : CAC Ratios:**
    * **Search LTV : CAC:** $\frac{\$630}{\$100} = \mathbf{6.30}$ *(Excellent, $\ge 3.0$)*
@@ -388,6 +420,7 @@ Search Ads generate an exceptional $\text{ROAS}$ of $6.00$ ($\text{LTV:CAC} = 6.
 ### Question 2 [10 Marks] — Enterprise Analytics Triad & Data Classification Matrix
 
 **Question Statement:**  
+
 1. **Analytics Roles Triad [5 Marks]:** Construct a comprehensive comparison table contrasting **Data Analyst**, **Business Intelligence (BI) Developer**, and **Data Scientist** across Core Objective, Primary Deliverables, Technical Stack, Temporal Focus, and Primary Stakeholder.
 2. **Data Classification Matrix [5 Marks]:** Classify the following 4 enterprise scenarios across (a) Structure (Structured, Semi-Structured, Unstructured) and (b) Origin (Internal, External), and state their database storage requirements:
    * Scenario A: An SAP ERP general ledger billing table.

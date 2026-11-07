@@ -65,6 +65,7 @@ In a store-and-forward packet-switched network:
 The physical and logical separation between end systems (hosts located on customer premises LANs) and the network core (the carrier's subnet composed of routers interconnected by transmission lines).
 
 **Components:**
+
 * **Hosts ($H_1, H_2$):** User computing devices running user applications that generate and consume data. Hosts contain all 7 layers of the network protocol stack.
 * **Routers ($R_A, R_B, R_C, R_D, R_E, R_F$):** Dedicated network-layer switching computers whose sole task is moving packets from incoming lines to outgoing lines. Routers only implement Layers 1, 2, and 3.
 * **Transmission Lines:** High-speed point-to-point physical circuits (copper, optical fiber, wireless microwave) connecting router pairs.
@@ -159,6 +160,7 @@ In a datagram network:
 A 6-node datagram subnet ($A, B, C, D, E, F$) routing packets independently from Host 1 to Host 2.
 
 **Components:**
+
 * **Hosts:** Host 1 connected to ingress router $A$; Host 2 connected to egress router $F$.
 * **Routers:** $A, B, C, D, E, F$.
 * **Routing Table at Router $A$:** Maps destination addresses to outgoing physical lines.
@@ -191,6 +193,7 @@ In a virtual-circuit network:
 The internal routing and forwarding state maintained inside router tables across a virtual-circuit subnet.
 
 **Components:**
+
 * **Host $H_1$ and Host $H_2$:** Communicating end systems.
 * **Virtual Circuit Table:** A 4-column translation table inside each router:
 
@@ -287,6 +290,7 @@ Fairness and efficiency are fundamentally at war in network routing:
 A linear network topology where four local flows ($A \to A', B \to B', C \to C', D \to D'$) compete against one long-distance cross-network flow ($X \to X'$).
 
 **Analysis:**
+
 * **Maximizing Global Efficiency:** If the objective is to maximize total aggregate packets delivered per second, the network should allocate 100% of line capacity to the local flows $A \to A', B \to B', C \to C', D \to D'$. Each local packet traverses exactly one hop, maximizing channel utilization per packet. The long flow $X \to X'$ traverses four hops and consumes four times as much line capacity per packet; shutting off $X \to X'$ yields the highest overall network throughput.
 * **Maximizing Fairness:** Fairness demands that flow $X \to X'$ receive an equitable share of link bandwidth, even though doing so drastically reduces the total number of packets the network can deliver per unit time.
 * **Design Conclusion:** Routing algorithms must adopt objective cost functions (such as min-max fairness) that prevent complete starvation of long-distance traffic while maintaining high channel utilization.
@@ -318,6 +322,7 @@ Routing algorithms are divided into two fundamental classes:
 If router $J$ is on the optimal path from router $I$ to router $K$, then the optimal path from $J$ to $K$ also falls along the exact same path.
 
 **Proof by Contradiction:**
+
 1. Suppose a route $r_{I \to K}$ is the optimal (lowest-cost) path from $I$ to $K$, passing through intermediate router $J$.
 2. Decompose path $r_{I \to K}$ into two segments: $r_{I \to J}$ (from $I$ to $J$) and $r_{J \to K}$ (from $J$ to $K$).
 3. Now assume there exists a better route from $J$ to $K$, designated as $r'_{J \to K}$, such that $\text{Cost}(r'_{J \to K}) < \text{Cost}(r_{J \to K})$.
@@ -339,6 +344,7 @@ If router $J$ is on the optimal path from router $I$ to router $K$, then the opt
 The set of all optimal paths from all network sources converging toward a single destination node forms a directed tree rooted at that destination. This tree is called a **Sink Tree**.
 
 **Properties:**
+
 * A tree contains no cycles or closed loops.
 * A packet directed along the branches of a sink tree will always reach its destination in a finite number of hops without encountering routing loops.
 * Because a network with $N$ routers has $N$ potential destinations, there are exactly $N$ distinct sink trees in any functioning subnet.
@@ -372,12 +378,14 @@ Dijkstra's algorithm computes the single-source shortest path tree from a design
 **Purpose:** Compute the minimum-cost sink tree from a starting source node to every node in the network.
 
 **Data Structures:**
+
 * Each node $i$ maintains a label $(d_i, p_i)$, where $d_i$ is the current best-known path distance from the source, and $p_i$ is the predecessor node along that path.
 * Two sets of nodes are maintained:
   * **Tentative Set ($T$):** Nodes whose shortest paths have not yet been proven optimal.
   * **Permanent Set ($P$):** Nodes whose absolute shortest path from the source has been finalized and will never change.
 
 **Procedure:**
+
 1. **Initialization:**
     * Make the source node permanent with distance 0: Label $(\text{Source}) = (0, -)$. Place in set $P$.
     * Initialize all other nodes $u \in V \setminus \{\text{Source}\}$ as tentative with infinite distance: Label $(u) = (\infty, -)$. Place in set $T$.
@@ -404,6 +412,7 @@ Dijkstra's algorithm computes the single-source shortest path tree from a design
     * If all destination nodes are permanent, stop. Otherwise, set $curr = k$ and repeat from Step 2.
 
 **Complexity:**
+
 * Simple array implementation: $O(|V|^2)$.
 * Binary heap priority queue implementation: $O(|E| + |V| \log |V|)$.
 * Fibonacci heap implementation: $O(|E| + |V| \log |V|)$.
@@ -460,6 +469,7 @@ $$
 How Router $J$ recalculates its routing table using distance vectors received from its four active neighbors ($A, I, H, K$).
 
 **Detailed Calculation:**
+
 * Router $J$ measures delays to its neighbors: to $A = 8\text{ ms}$, to $I = 10\text{ ms}$, to $H = 12\text{ ms}$, to $K = 6\text{ ms}$.
 * Neighbors send vectors giving their delays to destination $G$: $A$ claims 18 ms, $I$ claims 31 ms, $H$ claims 6 ms, $K$ claims 31 ms.
 * Router $J$ computes total path delay to $G$ via each neighbor:
@@ -522,6 +532,7 @@ To mitigate two-node routing loops, protocols implement **Split Horizon with Poi
 The suppression of routing loops between adjacent routers.
 
 **Mechanism:**
+
 * **Simple Split Horizon:** If node $C$ routes traffic to destination $A$ through next-hop neighbor $B$, then $C$ must *never* advertise reachability to $A$ back to $B$. In its periodic updates sent out interface $C-B$, node $C$ simply omits destination $A$.
 * **Poison Reverse:** Instead of omitting the route, $C$ explicitly advertises destination $A$ back to $B$ with an infinite cost metric ($\text{Distance} = \infty$). This ensures that if link $A-B$ goes down, $B$ will never consider $C$ as an alternate route to $A$.
 * **Limitation:** Split Horizon with Poison Reverse completely eliminates two-node loops. However, it **fails to prevent three-node or multi-node loops** (e.g., $A-B-C-D-A$), where circular dependency spans three or more routers. To completely eliminate loops, networks must transition to Link State protocols or Path Vector protocols.
@@ -862,6 +873,7 @@ When an intermediate router detects queue buildup, instead of dropping the packe
 ![Figure 5.21: Hop-by-Hop Choke Packet Flow](../images/chapter5/ch5_hop_by_hop_choke_packets.png)
 
 **Comparison:**
+
 1. **End-to-End Choke Packets:** A congested intermediate router generates an ICMP Source Quench / Choke packet and sends it straight back to the originating source host.
     * *Drawback:* Propagation delay is large. In high-speed wide-area networks, millions of bytes continue to pour into the congested router before the source receives the choke packet and slows down.
 2. **Hop-by-Hop Choke Packets:** The choke packet takes effect at *every intermediate hop* along the reverse path. Router $R_2$ immediately throttles traffic from upstream router $R_1$, forcing $R_1$ to buffer packets and throttle its own upstream links. Relief at the congestion point is immediate ($O(1)$ local link delay).
@@ -880,6 +892,7 @@ When an intermediate router detects queue buildup, instead of dropping the packe
 Router buffer management using two queue thresholds: $TH_{\min}$ and $TH_{\max}$.
 
 **RED Drop Probability Function:**
+
 * If $q_{\text{avg}} < TH_{\min}$: No packets are dropped; all incoming packets are queued.
 * If $TH_{\min} \le q_{\text{avg}} \le TH_{\max}$: Packets are dropped with a linear probability $P$:
 
@@ -932,6 +945,7 @@ Traffic shaping regulates the rate at which hosts inject packets into the networ
 ![Figure 5.24: The Leaky Bucket Algorithm](../images/chapter5/ch5_leaky_bucket.png)
 
 **Operation:**
+
 * The leaky bucket is modeled as a container with a small hole in the bottom.
 * Regardless of how bursty water (data packets) pours into the top of the bucket, water leaks out the hole at a strictly **constant, uniform rate** $\rho$.
 * If incoming data exceeds the bucket's storage capacity $C$, the bucket overflows, and excess packets are immediately discarded (or marked as low priority).
@@ -944,6 +958,7 @@ Traffic shaping regulates the rate at which hosts inject packets into the networ
 ![Figure 5.25: The Token Bucket Algorithm](../images/chapter5/ch5_token_bucket.png)
 
 **Operation:**
+
 * A token generator deposits tokens into the bucket at a constant rate of $\rho$ tokens per second.
 * The bucket has a finite storage capacity of $C$ tokens. If tokens arrive when the bucket is full, they spill over and are discarded.
 * When a packet of size $b$ bytes arrives:
@@ -1028,6 +1043,7 @@ When multiple packet queues at an output port contend for transmission, the **pa
 ![Figure 5.27: FIFO vs Fair Queuing](../images/chapter5/ch5_packet_scheduling_fifo_fair_queuing.png)
 
 **Comparison:**
+
 1. **First-In, First-Out (FIFO):** Packets are transmitted strictly in the order they arrived. Unfair: an aggressive, high-rate flow fills the queue, locking out well-behaved, low-rate flows.
 2. **Round-Robin Fair Queuing (FQ):** The scheduler maintains a separate queue for each flow. The transmitter visits each non-empty queue in cyclic order, sending one packet from each.
     * *Flaw:* If Flow 1 sends 1000-byte packets and Flow 2 sends 100-byte packets, Flow 1 receives $10\times$ as much bandwidth!
@@ -1083,6 +1099,7 @@ When two networks of the same type (e.g., two IPv6 networks) are separated by an
 An IPv6 packet traversing an intermediate IPv4-only carrier network.
 
 **Operation:**
+
 1. **Encapsulation at Ingress Router:** When the IPv6 packet arrives at the entrance of the IPv4 network, the ingress gateway router treats the entire IPv6 packet (header plus payload) as raw uninterpreted data. It prepends an IPv4 header whose destination address is the egress tunnel router.
 2. **Transit:** Intermediate IPv4 routers inspect only the outer IPv4 header, forwarding the packet as standard IPv4 traffic.
 3. **Decapsulation at Egress Router:** The egress router strips off the outer IPv4 header, extracts the original IPv6 packet intact, and injects it into the destination IPv6 network.
@@ -1288,6 +1305,7 @@ Default:  0.0.0.0/0        -> Outgoing Interface Router 2
 ```
 
 **Worked Lookups:**
+
 1. Packet arrives for `135.46.63.10`:
     * Binary of 3rd octet 63 = `00111111_2`.
     * Matches `135.46.60.0/22` (range `135.46.60.0` to `135.46.63.255`).
@@ -1325,6 +1343,7 @@ Three address ranges are reserved for private internal enterprise networks and a
 ![Figure 5.35: Basic NAT / NAPT Operation & Port Translation](../images/chapter5/ch5_nat_operation.png)
 
 **How NAT (NAPT) Operates:**
+
 1. **Outbound Packet:** Host `192.168.1.100` sends an HTTP request from port `5001` to a public web server `198.51.100.1:80`.
 2. **NAT Translation:** When the packet reaches the border router:
     * The router replaces internal source IP `192.168.1.100` with its single public IP address `203.0.113.1`.
@@ -1530,6 +1549,7 @@ An MPLS **shim header** (32 bits) is inserted between the Layer 2 frame header a
 * **Time to Live (TTL — 8 bits):** Copied from IP TTL to prevent forwarding loops.
 
 **Forwarding Operation:**
+
 * **Ingress Label Edge Router (LER):** Classifies incoming IP packet into a Forwarding Equivalence Class (FEC), prepends an MPLS shim header, and forwards it onto a **Label Switched Path (LSP)**.
 * **Label Switch Router (LSR):** In the carrier core, routers ignore the IP header entirely. They perform high-speed $O(1)$ exact-match lookups on the 20-bit label, swap the label for an outgoing label, and forward the packet.
 * **Egress LER:** Strips the MPLS header (Penultimate Hop Popping / PHP) and forwards standard IP.
@@ -1687,6 +1707,7 @@ A computer on a $50\text{ Mbps}$ network is regulated by a token bucket. The tok
 2. The total data volume transmitted during this maximum burst.
 
 **Given:**
+
 * Bucket Capacity $C = 1,000,000\text{ bytes}$
 * Token Fill Rate $\rho = 10,000,000\text{ bytes/s}$
 * Maximum Transmission Speed $M = 50,000,000\text{ bytes/s}$
@@ -1700,6 +1721,7 @@ S = \frac{C}{M - \rho}
 $$
 
 **Step-by-Step Calculation:**
+
 1. Substitute the given values into the burst duration formula:
 
 $$
@@ -1723,6 +1745,7 @@ $$
 $$
 
 **Final Answer:**
+
 * Maximum Burst Duration: **$25\text{ ms}$** ($0.025\text{ s}$)
 * Total Data Transmitted: **$1.25\text{ MB}$** ($10\text{ Megabits}$)
 
@@ -1736,6 +1759,7 @@ $$
 A token bucket scheme is used for traffic shaping. A new token is deposited into the bucket every $5\,\mu\text{s}$. Each token authorizes the transmission of one short packet containing 48 bytes of data. What is the maximum long-term sustainable data rate in Mbps?
 
 **Given:**
+
 * Token interval $T = 5\,\mu\text{s} = 5 \times 10^{-6}\text{ s}$
 * Data per token $L = 48\text{ bytes} = 48 \times 8 = 384\text{ bits}$
 
@@ -1771,6 +1795,7 @@ The maximum sustainable data rate is **$76.8\text{ Mbps}$**.
 In a leaky bucket used to regulate liquid flow, water leaks out at a constant rate of $5\text{ gallons/minute}$. An input burst of $100\text{ gallons/minute}$ enters the bucket for $12\text{ seconds}$, followed by $48\text{ seconds}$ of complete silence (no input). How many gallons of liquid are left in the bucket at the end of the full 60-second cycle?
 
 **Given:**
+
 * Output leak rate $r = 5\text{ gal/min} = \frac{5}{60}\text{ gal/s} = \frac{1}{12}\text{ gal/s}$
 * Input rate during burst $i = 100\text{ gal/min} = \frac{100}{60}\text{ gal/s} = \frac{5}{3}\text{ gal/s}$
 * Burst duration $t_1 = 12\text{ s}$
@@ -1778,6 +1803,7 @@ In a leaky bucket used to regulate liquid flow, water leaks out at a constant ra
 * Total time $T = 60\text{ s}$
 
 **Step-by-Step Calculation:**
+
 1. Calculate total liquid entering the bucket during the 12-second burst:
 
 $$
@@ -1878,6 +1904,7 @@ A regional ISP is granted a contiguous block of 16,384 IPv4 addresses starting a
 4. The exact starting network address and ending broadcast address for the first two sub-ISPs.
 
 **Step-by-Step Calculation:**
+
 1. **Analyze Initial Block:**
     * Total addresses = $16,384 = 2^{14}$.
     * Host bits = $14 \implies$ Prefix bits = $32 - 14 = 18$.
@@ -1919,6 +1946,7 @@ A router receives routing updates for four contiguous `/21` network prefixes:
 If all four prefixes share the identical outgoing interface, determine whether they can be aggregated into a single supernet prefix. If so, determine the aggregated prefix and subnet mask.
 
 **Step-by-Step Calculation:**
+
 1. Examine the varying 3rd octet of each network address in binary:
     * $96  = 64 + 32       = \mathbf{01100}000_2$
     * $104 = 64 + 32 + 8   = \mathbf{01101}000_2$
@@ -1950,6 +1978,7 @@ The four routes aggregate perfectly into **`57.6.96.0/19`** with subnet mask **`
 For a network of 4800 routers organized into a 3-level hierarchy ($k$ clusters, each containing $k$ regions, each containing $k$ routers), determine the optimal value of $k$ to minimize the total size of the routing table at each router.
 
 **Step-by-Step Calculation:**
+
 1. A router in a 3-level hierarchy must maintain entries for:
     * All routers within its own local region: $k$ entries.
     * All other regions within its own cluster: $(k - 1)$ entries.
@@ -1986,11 +2015,13 @@ For a network of 4800 routers organized into a 3-level hierarchy ($k$ clusters, 
 A high-speed router transmits standard IPv4 packets of fixed length $1024\text{ bytes}$ (header + payload). Assuming that packets live in the network for a maximum packet lifetime of $T = 10\text{ seconds}$, calculate the maximum physical line speed (in Mbps) before the 16-bit IP Identification field wraps around and risks packet corruption.
 
 **Given:**
+
 * Packet Length $L = 1024\text{ bytes} = 8192\text{ bits}$
 * Maximum Packet Lifetime $T = 10\text{ s}$
 * ID Space = $2^{16} = 65,536\text{ unique IDs}$
 
 **Calculation:**
+
 1. Total unique bits that can be transmitted within window $T$:
 
 $$

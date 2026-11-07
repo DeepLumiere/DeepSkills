@@ -193,11 +193,15 @@ $$
 * **Q3 Average Ratio:** $0.900$
 * **Q4 Average Ratio:** $1.428$
 
-$$\text{Sum of Ratios} = 0.872 + 1.252 + 0.900 + 1.428 = 4.452$$
+$$
+\text{Sum of Ratios} = 0.872 + 1.252 + 0.900 + 1.428 = 4.452
+$$
 
 #### Step 2: Normalize Seasonal Indices (Ensuring sum equals $4.0$)
 
-$$\text{Normalization Factor} = \frac{4.00}{4.452} \approx 0.8985$$
+$$
+\text{Normalization Factor} = \frac{4.00}{4.452} \approx 0.8985
+$$
 
 * **$S_{\text{Q1}} = 0.872 \times 0.8985 = \mathbf{0.783} \quad (21.7\% \text{ below average baseline})$**
 * **$S_{\text{Q2}} = 1.252 \times 0.8985 = \mathbf{1.125} \quad (12.5\% \text{ above average baseline})$**
@@ -334,6 +338,7 @@ An enterprise e-commerce platform records 8 quarters of quarterly sales revenue 
 | | Q4 | $\$240$ |
 
 **Task Requirements:**  
+
 1. State the Multiplicative Time-Series Decomposition Model ($Y_t = T_t \times S_t \times A_t$) and explain each component. [2 Marks]
 2. Compute the 4-Quarter Centered Moving Average Trend ($T_t$) for all eligible quarters. [3 Marks]
 3. Calculate the Seasonal-Irregular ratios ($\frac{Y_t}{T_t}$) and derive the normalized Quarterly Seasonal Indices ($S_{\text{Q1}}, S_{\text{Q2}}, S_{\text{Q3}}, S_{\text{Q4}}$). [3 Marks]
@@ -347,6 +352,7 @@ An enterprise e-commerce platform records 8 quarters of quarterly sales revenue 
 $$
 Y_t = T_t \times S_t \times A_t
 $$
+
 * $Y_t$: Observed raw time-series metric at time $t$.
 * $T_t$: Long-term monotonic trend component.
 * $S_t$: Seasonal index component (repeating annual cycle, centered at $1.0$).
@@ -385,6 +391,7 @@ To calculate centered moving average for 4 quarters (even period $k=4$), compute
 * **Sum of Raw Ratios:** $0.7742 + 1.1077 + 0.7719 + 1.3445 = 3.9983 \approx 4.00$
 
 Since the sum is virtually $4.00$, the normalized Seasonal Indices are:
+
 * **$S_{\text{Q1}} = \mathbf{0.774} \quad (22.6\% \text{ below annual baseline})$**
 * **$S_{\text{Q2}} = \mathbf{1.108} \quad (10.8\% \text{ above annual baseline})$**
 * **$S_{\text{Q3}} = \mathbf{0.772} \quad (22.8\% \text{ below annual baseline})$**
@@ -395,6 +402,7 @@ Since the sum is virtually $4.00$, the normalized Seasonal Indices are:
   $$
   d_t = \frac{Y_{\text{Q4}}}{S_{\text{Q4}}} = \frac{\$240}{1.345} = \mathbf{\$178.44}
   $$
+
 * **Business Takeaway:** Although actual Q4 raw sales were $\$240$, the true underlying baseline trend performance (excluding the $34.5\%$ holiday surge) is $\$178.44$. Inventory managers must plan Q4 stock additions based on $1.345 \times \text{Baseline}$ to avoid Q4 stockouts. $\blacksquare$
 
 ---
@@ -402,6 +410,7 @@ Since the sum is virtually $4.00$, the normalized Seasonal Indices are:
 ### Question 2 [10 Marks] — The 5 V's of Big Data & Shneiderman's Dashboard Mantra
 
 **Question Statement:**  
+
 1. **The 5 V's Architecture Alignment [5 Marks]:** Construct a comprehensive table for the 5 V's (Volume, Velocity, Variety, Veracity, Value) detailing Definition, Real-World Enterprise Example, and Required Technology Stack Response.
 2. **Shneiderman's Mantra UI Architecture [5 Marks]:** Explain Ben Shneiderman's Visual Information Seeking Mantra ("Overview first, zoom and filter, then details-on-demand") and sketch a 3-tier enterprise dashboard layout incorporating this principle.
 
@@ -453,6 +462,7 @@ $$
 
 **Question Statement:**  
 An enterprise retail chain operates three regional branches:
+
 * **Branch A:** 100 sales transactions, average purchase = $\$10$
 * **Branch B:** 900 sales transactions, average purchase = $\$50$
 
@@ -469,14 +479,26 @@ A simple average treats both branches with equal $50\%$ weight ($\frac{1}{2} + \
 ##### Part 2: Weighted Average Derivation
 
 1. **Calculate Total Revenue for Branch A:**
-   $$\text{Revenue}_A = N_A \times \bar{x}_A = 100 \times \$10 = \$1,000$$
+
+$$
+\text{Revenue}_A = N_A \times \bar{x}_A = 100 \times \$10 = \$1,000
+$$
 
 2. **Calculate Total Revenue for Branch B:**
-   $$\text{Revenue}_B = N_B \times \bar{x}_B = 900 \times \$50 = \$45,000$$
+
+$$
+\text{Revenue}_B = N_B \times \bar{x}_B = 900 \times \$50 = \$45,000
+$$
 
 3. **Calculate Total Revenue & Total Transactions:**
-   $$\text{Total Revenue} = \$1,000 + \$45,000 = \$46,000$$
-   $$\text{Total Transactions} = 100 + 900 = 1,000$$
+
+$$
+\text{Total Revenue} = \$1,000 + \$45,000 = \$46,000
+$$
+
+$$
+\text{Total Transactions} = 100 + 900 = 1,000
+$$
 
 4. **Compute True Weighted Average ($\bar{X}_{\text{Weighted}}$):**
    $$

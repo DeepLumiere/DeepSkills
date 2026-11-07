@@ -217,6 +217,7 @@ SegmentName  ENDS
 ```
 
 **Rules:**
+
 - Segments with **different names** cannot be combined.
 - Same-named segments with **no combine-type** cause a **linker error**.
 - The combine-type determines the linkage behavior.
@@ -313,6 +314,7 @@ IOBUF ENDS
 ```
 
 **Use cases:**
+
 - I/O port buffers at known fixed addresses
 - Special memory-mapped hardware registers
 - BIOS data area at fixed locations
@@ -424,10 +426,12 @@ NEXT    LABEL WORD      ; NEXT = name for the next address after VALUE; no memor
 ```
 
 **LABEL:**
+
 - Gives a name and type to a position
 - Does **not** allocate new memory
 
 **Use cases:**
+
 - Referencing a stack position (e.g., `TOS LABEL WORD` at the end of a stack segment)
 - Providing alternative types to the same memory location
 
@@ -602,6 +606,7 @@ $$
 ### Worked Example
 
 Given:
+
 - Segment = `1234H`
 - Offset = `0050H`
 
@@ -720,6 +725,7 @@ END
 | `EXTRN OUTPUT:FAR` | `PUBLIC OUTPUT` | Module 3 |
 
 **Key points:**
+
 - `DS` is loaded for `LOCAL_DATA` (local segment).
 - Before accessing `VAR2`, `ES` is explicitly loaded using `SEG VAR2`.
 - `JMP OUTPUT` is a FAR jump; both CS and IP are provided by the linker.

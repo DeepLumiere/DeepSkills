@@ -318,6 +318,7 @@ flowchart LR
    $$
    \text{Lie Factor} = \frac{\text{Size of Effect Shown in Graphic}}{\text{Size of Effect in Underlying Data}}
    $$
+
    * $\text{Lie Factor} = 1.0 \implies$ Honest, distortion-free graphic.
    * $\text{Lie Factor} > 1.05 \text{ or } < 0.95 \implies$ Deceptive visualization!
 
@@ -352,6 +353,7 @@ flowchart LR
 ### Question 1 [10 Marks] — Tufte's Data-Ink Ratio, Lie Factor & Graphic Deception Analysis
 
 **Question Statement:**  
+
 1. **Mathematical Definitions [3 Marks]:** Define Edward Tufte's **Data-Ink Ratio**, **Chartjunk Ratio**, and **Lie Factor** mathematically. State the acceptable threshold bounds for an honest visualization.
 2. **Deception Calculation [4 Marks]:** An enterprise infographic displays annual profit growth from $\$10 \text{ million}$ to $\$30 \text{ million}$ (a $200\%$ real economic increase). To emphasize growth, the graphic designer scaled a 3D gold-bar icon's height, width, and depth by $300\%$ each ($3\times$), causing the visual 3D volume to expand from $1 \text{ cm}^3$ to $27 \text{ cm}^3$ ($2600\%$ graphical increase).
    * Calculate Tufte's Lie Factor.
@@ -367,12 +369,14 @@ flowchart LR
   $$
   \text{Data-Ink Ratio} = \frac{\text{Data-Ink}}{\text{Total Ink Used in Graphic}} = 1 - \text{Chartjunk Ratio}
   $$
+
   * *Target Benchmark:* Maximized close to $1.0$.
 
 * **Lie Factor:**
   $$
   \text{Lie Factor} = \frac{\text{Size of Effect Shown in Graphic}}{\text{Size of Effect in Underlying Data}}
   $$
+
   * *Acceptable Bounds:* $0.95 \le \text{Lie Factor} \le 1.05$.
   * *Deceptive Bounds:* $\text{Lie Factor} > 1.05$ (Over-exaggeration) or $< 0.95$ (Under-statement).
 
@@ -404,6 +408,7 @@ Replace the 3D volume icon with a clean, 2D Vertical Column Chart or Horizontal 
 ### Question 2 [10 Marks] — Comprehensive Chart Selection & Anti-Pattern Refactoring
 
 **Question Statement:**  
+
 1. **Master Chart Selection Matrix [5 Marks]:** Construct a matrix for the 6 Foundational Chart Families (Comparison, Trend, Distribution, Relationship, Composition, Geographic) detailing Core Question, Ideal Data Encodings, and Baseline Rules.
 2. **Anti-Pattern Refactoring [5 Marks]:** Refactor two classic visual anti-patterns:
    * **Anti-Pattern A:** A 15-slice 3D Pie Chart displaying regional customer breakdown.
@@ -447,6 +452,7 @@ Rank six visual channels (Position along common scale, Length, Angle/Slope, Area
 
 ##### Part 1: Bertin & Mackinlay's Perceptual Accuracy Hierarchy
 Quantitative visual attributes are ranked from highest to lowest human perceptual accuracy:
+
 1. **Position along a Common Scale (Highest Accuracy):** Standard Bar Charts, Scatter Plots.
 2. **Position along Non-Aligned Scales:** Faceted Small Multiples.
 3. **Length / Distance:** Unaligned Bar Segments.

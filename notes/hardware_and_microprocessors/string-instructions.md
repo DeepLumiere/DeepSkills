@@ -11,6 +11,7 @@
 The 8086 provides a dedicated set of **String Manipulation Instructions** that operate on blocks of memory, one byte or word at a time, using a fixed pair of registers (`SI` for source, `DI` for destination). Their real power comes from **REP prefixes** that allow an entire block operation — copy, compare, search, fill — to be expressed in just two or three lines of assembly, replacing explicit loops.
 
 This chapter covers:
+
 - The five core string instructions: `MOVSB/W`, `LODSB/W`, `STOSB/W`, `CMPSB/W`, `SCASB/W`
 - The three repeat prefixes: `REP`, `REPE/REPZ`, `REPNE/REPNZ`
 - The Direction Flag (`DF`) and its role in auto-incrementing/decrementing pointer registers
@@ -82,6 +83,7 @@ MOVSB                ; ES:[2000H] = DS:[1000H], SI→1001H, DI→2001H
 ```
 
 After execution:
+
 - `ES:[2000H]` = old `DS:[1000H]`
 - `SI` = `1001H`, `DI` = `2001H`
 
@@ -290,6 +292,7 @@ while (CX ≠ 0) AND (ZF = 1):
 ```
 
 Stops when either:
+
 1. `CX` reaches 0 (all elements compared, all equal), **or**
 2. `ZF = 0` (a mismatch was found)
 
@@ -322,6 +325,7 @@ while (CX ≠ 0) AND (ZF = 0):
 ```
 
 Stops when either:
+
 1. `CX` reaches 0 (searched entire buffer, not found), **or**
 2. `ZF = 1` (a match was found)
 
@@ -397,6 +401,7 @@ END START
 ```
 
 **Flow:**
+
 1. Both DS and ES point to the same DATA segment.
 2. SI → `STR1`, DI → `STR2`.
 3. Each `MOVSB` copies one byte and advances both pointers.

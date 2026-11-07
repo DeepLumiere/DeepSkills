@@ -10,6 +10,7 @@
 ## 1. Why Machine Encoding Matters
 
 When you write `MOV CL, [BX]` in TASM, the assembler converts it into a sequence of binary/hex bytes. Understanding this translation process lets you:
+
 - **Decode** hex dumps from debuggers
 - **Calculate** machine code for exam problems
 - **Understand** why some instructions are larger/faster than others
@@ -293,20 +294,27 @@ The table below shows **all major 8086 opcodes**. Entries marked ⭐ are the one
 ### ⭐ Problem 1: Encode `MOV CL, [BX]`
 
 **Step 1 — Identify the operation:**
+
 - `MOV` = opcode `100010`
 - Destination is `CL` (register), Source is `[BX]` (memory)
 - Data flows TO register CL → **D = 1**
 - `CL` is 8-bit → **W = 0**
 
 **Step 2 — Byte 1:**
-$$\text{Byte 1} = \underbrace{100010}_{\text{opcode}} \underbrace{1}_D \underbrace{0}_W = 1000\,1010_2 = \mathbf{8AH}$$
+
+$$
+\text{Byte 1} = \underbrace{100010}_{\text{opcode}} \underbrace{1}_D \underbrace{0}_W = 1000\,1010_2 = \mathbf{8AH}
+$$
 
 **Step 3 — Byte 2 (MOD-REG-R/M):**
+
 - `[BX]` = Register Indirect, no displacement → **MOD = 00**
 - `CL` → REG code = `001`
 - `[BX]` → R/M code = `111`
 
-$$\text{Byte 2} = \underbrace{00}_{\text{MOD}} \underbrace{001}_{\text{REG=CL}} \underbrace{111}_{\text{R/M=[BX]}} = 0000\,1111_2 = \mathbf{0FH}$$
+$$
+\text{Byte 2} = \underbrace{00}_{\text{MOD}} \underbrace{001}_{\text{REG=CL}} \underbrace{111}_{\text{R/M=[BX]}} = 0000\,1111_2 = \mathbf{0FH}
+$$
 
 **Final Machine Code: `8A 0F`** (2 bytes)
 
@@ -315,19 +323,26 @@ $$\text{Byte 2} = \underbrace{00}_{\text{MOD}} \underbrace{001}_{\text{REG=CL}} 
 ### ⭐ Problem 2: Encode `MOV BX, DX`
 
 **Step 1:**
+
 - Both operands are registers → **MOD = 11**
 - Data moves FROM DX TO BX → **D = 1** (BX is destination → BX is in REG field)
 - 16-bit word → **W = 1**
 
 **Step 2 — Byte 1:**
-$$\text{Byte 1} = 1000\,1011_2 = \mathbf{8BH}$$
+
+$$
+\text{Byte 1} = 1000\,1011_2 = \mathbf{8BH}
+$$
 
 **Step 3 — Byte 2:**
+
 - MOD = `11` (register-to-register)
 - REG = `BX` = `011`
 - R/M = `DX` = `010`
 
-$$\text{Byte 2} = \underbrace{11}_{\text{MOD}} \underbrace{011}_{\text{REG=BX}} \underbrace{010}_{\text{R/M=DX}} = 1101\,1010_2 = \mathbf{DAH}$$
+$$
+\text{Byte 2} = \underbrace{11}_{\text{MOD}} \underbrace{011}_{\text{REG=BX}} \underbrace{010}_{\text{R/M=DX}} = 1101\,1010_2 = \mathbf{DAH}
+$$
 
 **Final Machine Code: `8B DA`** (2 bytes)
 
@@ -336,22 +351,32 @@ $$\text{Byte 2} = \underbrace{11}_{\text{MOD}} \underbrace{011}_{\text{REG=BX}} 
 ### ⭐ Problem 3: Encode `MOV [BX + 10H], DL`
 
 **Step 1:**
+
 - Data flows FROM DL (register) TO `[BX+10H]` (memory)
 - DL is source → DL is in REG field → **D = 0**
 - `DL` is 8-bit → **W = 0**
 
 **Step 2 — Byte 1:**
-$$\text{Byte 1} = \underbrace{100010}_{\text{opcode}} \underbrace{0}_D \underbrace{0}_W = 1000\,1000_2 = \mathbf{88H}$$
+
+$$
+\text{Byte 1} = \underbrace{100010}_{\text{opcode}} \underbrace{0}_D \underbrace{0}_W = 1000\,1000_2 = \mathbf{88H}
+$$
 
 **Step 3 — Byte 2:**
+
 - `[BX + 10H]` = Base Relative with 8-bit displacement → **MOD = 01**
 - REG = `DL` = `010`
 - R/M = `[BX]` = `111`
 
-$$\text{Byte 2} = \underbrace{01}_{\text{MOD}} \underbrace{010}_{\text{REG=DL}} \underbrace{111}_{\text{R/M=[BX]}} = 0101\,0111_2 = \mathbf{57H}$$
+$$
+\text{Byte 2} = \underbrace{01}_{\text{MOD}} \underbrace{010}_{\text{REG=DL}} \underbrace{111}_{\text{R/M=[BX]}} = 0101\,0111_2 = \mathbf{57H}
+$$
 
 **Step 4 — Byte 3 (8-bit displacement):**
-$$\text{Byte 3} = 10H = \mathbf{10H}$$
+
+$$
+\text{Byte 3} = 10H = \mathbf{10H}
+$$
 
 **Final Machine Code: `88 57 10`** (3 bytes)
 
@@ -363,6 +388,7 @@ $$\text{Byte 3} = 10H = \mathbf{10H}$$
 `CS:` prefix = `2EH` → this goes BEFORE the instruction
 
 **Step 2 — Main instruction (same as `MOV [BX], DL`):**
+
 - D = 0 (DL = source = REG), W = 0 (byte)
 - Byte 1 = `88H`
 - MOD = `00` (no displacement), REG = `DL` = `010`, R/M = `[BX]` = `111`
@@ -375,19 +401,29 @@ $$\text{Byte 3} = 10H = \mathbf{10H}$$
 ### ⭐ Problem 5: Encode `MOV AX, [2040H]` (Direct Addressing)
 
 **Step 1:**
+
 - Direct addressing, AX is destination → D = 1, W = 1
 
 **Byte 1:**
-$$\text{Byte 1} = 1000\,1011_2 = \mathbf{8BH}$$
+
+$$
+\text{Byte 1} = 1000\,1011_2 = \mathbf{8BH}
+$$
 
 **Byte 2:**
+
 - `[2040H]` → Direct mode: MOD = `00`, R/M = `110` (special case = direct!)
 - AX → REG = `000`
 
-$$\text{Byte 2} = \underbrace{00}_{\text{MOD}} \underbrace{000}_{\text{REG=AX}} \underbrace{110}_{\text{R/M=direct}} = 0000\,0110_2 = \mathbf{06H}$$
+$$
+\text{Byte 2} = \underbrace{00}_{\text{MOD}} \underbrace{000}_{\text{REG=AX}} \underbrace{110}_{\text{R/M=direct}} = 0000\,0110_2 = \mathbf{06H}
+$$
 
 **Bytes 3–4 (16-bit address, little-endian):**
-$$\text{Byte 3} = 40\text{H (low)}, \quad \text{Byte 4} = 20\text{H (high)}$$
+
+$$
+\text{Byte 3} = 40\text{H (low)}, \quad \text{Byte 4} = 20\text{H (high)}
+$$
 
 **Final Machine Code: `8B 06 40 20`** (4 bytes)
 
@@ -396,16 +432,20 @@ $$\text{Byte 3} = 40\text{H (low)}, \quad \text{Byte 4} = 20\text{H (high)}$$
 ### ⭐ Problem 6: Encode `ADD CX, [BX + SI]`
 
 **Step 1:**
+
 - ADD opcode (register ← memory): `0000 001W` → W=1 → `03H`
 - D = 1 (CX is destination)
 
 **Byte 1:** `03H`
 
 **Byte 2:**
+
 - `[BX + SI]` → Base Indexed, no displacement → MOD = `00`, R/M = `000`
 - CX → REG = `001`
 
-$$\text{Byte 2} = \underbrace{00}_{\text{MOD}} \underbrace{001}_{\text{REG=CX}} \underbrace{000}_{\text{R/M=[BX+SI]}} = 0000\,1000_2 = \mathbf{08H}$$
+$$
+\text{Byte 2} = \underbrace{00}_{\text{MOD}} \underbrace{001}_{\text{REG=CX}} \underbrace{000}_{\text{R/M=[BX+SI]}} = 0000\,1000_2 = \mathbf{08H}
+$$
 
 **Final Machine Code: `03 08`** (2 bytes)
 
@@ -416,7 +456,10 @@ $$\text{Byte 2} = \underbrace{00}_{\text{MOD}} \underbrace{001}_{\text{REG=CX}} 
 This is one of the most exam-tested encoding topics.
 
 **The Formula:**
-$$D_8 = \text{Target Address} - \text{Address of Next Instruction After Jump}$$
+
+$$
+D_8 = \text{Target Address} - \text{Address of Next Instruction After Jump}
+$$
 
 **Code fragment (with addresses):**
 ```
@@ -428,12 +471,19 @@ Address  Code
 ```
 
 **Calculation:**
-$$D_8 = \text{AGAIN} - \text{Next} = 0050\text{H} - 0058\text{H} = -8_{10}$$
+
+$$
+D_8 = \text{AGAIN} - \text{Next} = 0050\text{H} - 0058\text{H} = -8_{10}
+$$
 
 **Convert −8 to 2's complement byte:**
-$$+8_{10} = 0000\,1000_2 \xrightarrow{\text{2's comp}} 1111\,1000_2 = F8\text{H}$$
+
+$$
++8_{10} = 0000\,1000_2 \xrightarrow{\text{2's comp}} 1111\,1000_2 = F8\text{H}
+$$
 
 **Machine code for `JNS AGAIN`:**
+
 - JNS opcode = `79H`
 - Displacement = `F8H`
 - **Result: `79 F8`**
@@ -450,7 +500,9 @@ $$+8_{10} = 0000\,1000_2 \xrightarrow{\text{2's comp}} 1111\,1000_2 = F8\text{H}
 0108H:   TARGET: MOV AX, 0
 ```
 
-$$D_8 = 0108\text{H} - 0102\text{H} = +6_{10} = 06\text{H}$$
+$$
+D_8 = 0108\text{H} - 0102\text{H} = +6_{10} = 06\text{H}
+$$
 
 **Result: `E2 06`** — LOOP opcode + displacement `+6`
 
@@ -459,11 +511,13 @@ $$D_8 = 0108\text{H} - 0102\text{H} = +6_{10} = 06\text{H}$$
 ### ⭐ Problem 9: Decode `8A 47 05` — What instruction is this?
 
 **Step 1 — Byte 1 = `8AH` = `1000 1010`:**
+
 - Opcode = `100010` = MOV register/memory
 - D = `1` → destination is REG
 - W = `0` → byte operation
 
 **Step 2 — Byte 2 = `47H` = `0100 0111`:**
+
 - MOD = `01` → 8-bit displacement follows
 - REG = `000` → AL (W=0 → byte)
 - R/M = `111` → `[BX]`
@@ -477,8 +531,12 @@ $$D_8 = 0108\text{H} - 0102\text{H} = +6_{10} = 06\text{H}$$
 ### ⭐ Problem 10: Encode `PUSH AX`
 
 **Short form PUSH for registers:**
+
 - PUSH AX uses the short encoding `0101 0rrr` where `rrr` = AX code = `000`
-$$\text{PUSH AX} = 0101\,0000_2 = \mathbf{50H}$$
+
+$$
+\text{PUSH AX} = 0101\,0000_2 = \mathbf{50H}
+$$
 
 **Single byte instruction!**
 

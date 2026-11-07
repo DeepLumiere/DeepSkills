@@ -480,7 +480,7 @@ flowchart LR
 
         direction LR
 
-        A2[Mode] == B2[Median] == C2[Mean]
+        A2[Mode] --- B2[Median] --- C2[Mean]
 
     end
 
