@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue.js 3 Core Directives Interactive Laboratory</title>
+  <!-- Vue 3 CDN with fallback capability -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-surface: #1e293b;
+      --bg-card: #283548;
+      --border-dark: #334155;
+      --vue-green: #42b883;
+      --vue-dark: #35495e;
+      --accent-glow: rgba(66, 184, 131, 0.25);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      padding-bottom: 40px;
+      line-height: 1.5;
+    }
+
+    header.app-header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-dark);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .vue-logo-badge {
+      background: #42b883;
+      color: #0f172a;
+      font-weight: 900;
+      font-size: 13px;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    /* Tab Navigation */
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-dark);
+      padding: 4px;
+      border-radius: 8px;
+      border: 1px solid var(--border-dark);
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: white;
+    }
+
+    .tab-btn.active {
+      background: #42b883;
+      color: #0f172a;
+      box-shadow: 0 2px 8px var(--accent-glow);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--vue-green);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 850px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .input-control, .select-control {
+      width: 100%;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-dark);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .input-control:focus, .select-control:focus {
+      border-color: var(--vue-green);
+    }
+
+    .btn {
+      background: var(--vue-green);
+      color: #0f172a;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--border-dark);
+    }
+
+    .btn-outline:hover {
+      background: var(--bg-card);
+      border-color: var(--vue-green);
+    }
+
+    .code-box {
+      background: #090d16;
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 12px;
+      color: #e2e8f0;
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+
+    .c-dir { color: #42b883; font-weight: 700; }
+    .c-str { color: #6ee7b7; }
+    .c-prop { color: #f59e0b; }
+    .c-val { color: #38bdf8; }
+
+    /* Directive Highlights */
+    .interactive-preview {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 18px;
+      min-height: 180px;
+    }
+
+    .list-item-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .list-item-card:hover {
+      border-color: var(--vue-green);
+      transform: translateX(4px);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="vueApp">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <span class="vue-logo-badge">VUE 3</span>
+        <h1 style="font-size:18px; font-weight:700;">Core Directives Interactive Playground</h1>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs">
+        <button class="tab-btn" :class="{ active: currentTab === 'vmodel' }" @click="currentTab = 'vmodel'">
+          v-model
+        </button>
+        <button class="tab-btn" :class="{ active: currentTab === 'vbind' }" @click="currentTab = 'vbind'">
+          v-bind (:)
+        </button>
+        <button class="tab-btn" :class="{ active: currentTab === 'vif' }" @click="currentTab = 'vif'">
+          v-if vs v-show
+        </button>
+        <button class="tab-btn" :class="{ active: currentTab === 'vfor' }" @click="currentTab = 'vfor'">
+          v-for (Keys)
+        </button>
+        <button class="tab-btn" :class="{ active: currentTab === 'custom' }" @click="currentTab = 'custom'">
+          Custom Directives
+        </button>
+      </nav>
+    </header>
+
+    <div class="container">
+
+      <!-- ======================================================= -->
+      <!-- TAB 1: v-model Two-Way Data Binding                     -->
+      <!-- ======================================================= -->
+      <div class="card" v-show="currentTab === 'vmodel'">
+        <div class="card-title">
+          <span>🔄 v-model: Two-Way Reactive Data Binding</span>
+          <span style="font-size:12px; color:var(--text-muted); font-weight:normal;">Inputs &harr; View State Sync</span>
+        </div>
+
+        <div class="grid-2">
+          <!-- Form Controls -->
+          <div>
+            <div class="form-group">
+              <label>Text Input (v-model="userName")</label>
+              <input type="text" class="input-control" v-model="userName" placeholder="Enter full name...">
+            </div>
+
+            <div class="form-group">
+              <label>Number Slider (v-model.number="proficiency") : {{ proficiency }}%</label>
+              <input type="range" class="w-full" style="accent-color:#42b883;" min="0" max="100" v-model.number="proficiency">
+            </div>
+
+            <div class="form-group">
+              <label>Framework Specialization (Radio)</label>
+              <div style="display:flex; gap:16px; font-size:13px; margin-top:4px;">
+                <label style="cursor:pointer; display:flex; align-items:center; gap:6px;">
+                  <input type="radio" value="Vue.js" v-model="selectedFramework"> Vue.js
+                </label>
+                <label style="cursor:pointer; display:flex; align-items:center; gap:6px;">
+                  <input type="radio" value="React" v-model="selectedFramework"> React
+                </label>
+                <label style="cursor:pointer; display:flex; align-items:center; gap:6px;">
+                  <input type="radio" value="Angular" v-model="selectedFramework"> Angular
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Active Developer Status (Checkbox)</label>
+              <label style="cursor:pointer; display:flex; align-items:center; gap:8px; font-size:13px;">
+                <input type="checkbox" v-model="isActiveDev"> Open to Collaboration
+              </label>
+            </div>
+          </div>
+
+          <!-- Live Reactive State Inspector -->
+          <div>
+            <label style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">
+              Live Reactive State (data())
+            </label>
+            <div class="code-box">
+<pre style="margin:0;">{
+  <span class="c-prop">userName</span>: <span class="c-str">"{{ userName }}"</span>,
+  <span class="c-prop">proficiency</span>: <span class="c-val">{{ proficiency }}</span>,
+  <span class="c-prop">framework</span>: <span class="c-str">"{{ selectedFramework }}"</span>,
+  <span class="c-prop">isActiveDev</span>: <span class="c-val">{{ isActiveDev }}</span>
+}</pre>
+            </div>
+
+            <!-- Preview Card -->
+            <div class="interactive-preview" style="margin-top:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <strong style="font-size:15px; color:#42b883;">{{ userName || 'Anonymous Developer' }}</strong>
+                <span style="font-size:11px; padding:2px 8px; border-radius:12px; background:#334155;">{{ selectedFramework }}</span>
+              </div>
+              <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">
+                Proficiency Level: <strong>{{ proficiency }}%</strong>
+              </p>
+              <div style="width:100%; height:6px; background:#1e293b; border-radius:3px; overflow:hidden; margin-top:8px;">
+                <div :style="{ width: proficiency + '%', height: '100%', background: '#42b883', transition: 'width 0.2s' }"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================= -->
+      <!-- TAB 2: v-bind Dynamic Attributes & Classes              -->
+      <!-- ======================================================= -->
+      <div class="card" v-show="currentTab === 'vbind'">
+        <div class="card-title">
+          <span>🔗 v-bind (:) Dynamic Attributes, Classes &amp; Styles</span>
+          <span style="font-size:12px; color:var(--text-muted); font-weight:normal;">Attribute Interpolation</span>
+        </div>
+
+        <div class="grid-2">
+          <!-- Controls -->
+          <div>
+            <div class="form-group">
+              <label>Toggle Button Disabled State (:disabled)</label>
+              <button class="btn btn-outline" @click="isButtonDisabled = !isButtonDisabled">
+                Toggle Disabled: {{ isButtonDisabled }}
+              </button>
+            </div>
+
+            <div class="form-group">
+              <label>Box Background Color (:style="{ backgroundColor }")</label>
+              <div style="display:flex; gap:10px; align-items:center;">
+                <input type="color" v-model="boxBgColor" style="cursor:pointer; width:40px; height:36px; border:none; border-radius:4px; background:transparent;">
+                <span style="font-family:monospace; font-size:13px;">{{ boxBgColor }}</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Card Border Radius (:style="{ borderRadius: radius + 'px' }") : {{ boxRadius }}px</label>
+              <input type="range" min="0" max="40" v-model.number="boxRadius" style="width:100%; accent-color:#42b883;">
+            </div>
+
+            <div class="form-group">
+              <label>Dynamic Class Flag (:class="{ 'border-glow': hasGlow }")</label>
+              <label style="cursor:pointer; display:flex; align-items:center; gap:8px; font-size:13px;">
+                <input type="checkbox" v-model="hasGlow"> Enable Glowing Shadow
+              </label>
+            </div>
+          </div>
+
+          <!-- Dynamic Output Stage -->
+          <div>
+            <label style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">
+              Rendered Target with Bound Attributes
+            </label>
+
+            <div class="interactive-preview" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;">
+              <div :style="{ backgroundColor: boxBgColor, borderRadius: boxRadius + 'px', boxShadow: hasGlow ? '0 0 20px #42b883' : 'none' }"
+                   style="width: 140px; height: 100px; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; transition:all 0.3s; text-shadow:0 1px 3px rgba(0,0,0,0.5);">
+                Bound Box
+              </div>
+
+              <button class="btn" :disabled="isButtonDisabled" :title="'Button status: ' + (isButtonDisabled ? 'Disabled' : 'Enabled')">
+                {{ isButtonDisabled ? '🚫 Disabled via :disabled' : '✅ Active Action Button' }}
+              </button>
+            </div>
+
+            <div class="code-box" style="margin-top:14px;">
+              <span class="c-dir">:disabled</span>=<span class="c-str">"{{ isButtonDisabled }}"</span><br>
+              <span class="c-dir">:style</span>=<span class="c-str">"{ backgroundColor: '{{ boxBgColor }}', borderRadius: '{{ boxRadius }}px' }"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================= -->
+      <!-- TAB 3: v-if / v-else vs v-show                          -->
+      <!-- ======================================================= -->
+      <div class="card" v-show="currentTab === 'vif'">
+        <div class="card-title">
+          <span>⚡ Conditional Rendering: v-if / v-else vs. v-show</span>
+          <span style="font-size:12px; color:var(--text-muted); font-weight:normal;">DOM Destruction vs. CSS Display</span>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div class="form-group">
+              <label>Exam Score Slider: {{ examScore }} / 100</label>
+              <input type="range" min="0" max="100" v-model.number="examScore" style="width:100%; accent-color:#42b883;">
+            </div>
+
+            <div class="form-group">
+              <label>v-show Visibility Toggle</label>
+              <button class="btn btn-outline" @click="showSecretInfo = !showSecretInfo">
+                Toggle v-show (Current: {{ showSecretInfo }})
+              </button>
+            </div>
+
+            <div class="code-box" style="margin-top:16px;">
+              <strong>Key Architectural Difference:</strong><br>
+              • <code style="color:#42b883;">v-if</code> completely tears down and recreates event listeners and child components from the Real DOM tree.<br>
+              • <code style="color:#38bdf8;">v-show</code> always renders the element into the Real DOM tree and strictly toggles the CSS <code style="color:#f59e0b;">display: none;</code> property.
+            </div>
+          </div>
+
+          <!-- Live Conditional Display -->
+          <div>
+            <label style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">
+              v-if / v-else-if / v-else Dynamic Evaluation
+            </label>
+
+            <!-- Conditional Blocks -->
+            <div v-if="examScore >= 80" style="background:#065f46; border:1px solid #10b981; border-radius:8px; padding:16px; margin-bottom:12px;">
+              <strong style="color:#6ee7b7; font-size:15px;">🏆 High Distinction (v-if)</strong>
+              <p style="font-size:13px; color:#d1fae5; margin-top:4px;">Exceptional academic performance! Score is &ge; 80.</p>
+            </div>
+
+            <div v-else-if="examScore >= 50" style="background:#854d0e; border:1px solid #f59e0b; border-radius:8px; padding:16px; margin-bottom:12px;">
+              <strong style="color:#fde047; font-size:15px;">📜 Passed Module (v-else-if)</strong>
+              <p style="font-size:13px; color:#fef3c7; margin-top:4px;">Good effort. Score is between 50 and 79.</p>
+            </div>
+
+            <div v-else style="background:#881337; border:1px solid #ef4444; border-radius:8px; padding:16px; margin-bottom:12px;">
+              <strong style="color:#fca5a5; font-size:15px;">⚠️ Remedial Required (v-else)</strong>
+              <p style="font-size:13px; color:#fee2e2; margin-top:4px;">Score is below passing threshold (&lt; 50).</p>
+            </div>
+
+            <!-- v-show Demonstration -->
+            <label style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block; margin-top:16px;">
+              v-show Persistent Element
+            </label>
+            <div v-show="showSecretInfo" style="background:#1e293b; border:1px dashed #38bdf8; border-radius:8px; padding:12px;">
+              <span style="font-size:13px; color:#38bdf8;">👁️ Visible via v-show (Inspect element in DevTools to see inline style="display: none;" when toggled off).</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================= -->
+      <!-- TAB 4: v-for List Rendering with Keys                   -->
+      <!-- ======================================================= -->
+      <div class="card" v-show="currentTab === 'vfor'">
+        <div class="card-title">
+          <span>📋 v-for: Reactive List Rendering with :key</span>
+          <button class="btn" @click="addCourseModule()">+ Add Topic</button>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; gap:12px; flex-wrap:wrap;">
+          <input type="text" class="input-control" v-model="filterText" placeholder="Filter topics..." style="max-width:300px;">
+          <button class="btn btn-outline" @click="shuffleList()">🔀 Shuffle Order</button>
+        </div>
+
+        <div style="margin-top:10px;">
+          <div v-for="(module, index) in filteredModules" :key="module.id" class="list-item-card">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="font-size:11px; font-weight:700; background:#334155; padding:2px 8px; border-radius:10px;">#{{ module.id }}</span>
+              <div>
+                <strong style="font-size:14px; color:white;">{{ module.title }}</strong>
+                <span style="font-size:11px; color:#42b883; margin-left:8px;">{{ module.level }}</span>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-outline" style="padding:4px 8px; font-size:11px;" @click="removeModule(module.id)">✕ Delete</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-box" style="margin-top:16px;">
+<span class="c-dir">&lt;div</span> <span class="c-dir">v-for</span>=<span class="c-str">"(module, index) in filteredModules"</span> <span class="c-dir">:key</span>=<span class="c-str">"module.id"</span><span class="c-dir">&gt;</span>
+  <span class="c-dir">&lt;span&gt;</span>{{ module.title }}<span class="c-dir">&lt;/span&gt;</span>
+<span class="c-dir">&lt;/div&gt;</span>
+        </div>
+      </div>
+
+      <!-- ======================================================= -->
+      <!-- TAB 5: Custom Directives (v-focus & v-highlight)        -->
+      <!-- ======================================================= -->
+      <div class="card" v-show="currentTab === 'custom'">
+        <div class="card-title">
+          <span>🛠️ Custom Vue Directives: v-focus &amp; v-highlight</span>
+          <span style="font-size:12px; color:var(--text-muted); font-weight:normal;">Custom DOM Hook Extensions</span>
+        </div>
+
+        <div class="grid-2">
+          <!-- Live Interactive Usage -->
+          <div>
+            <div class="form-group">
+              <label>1. Custom Directive: v-focus</label>
+              <p style="font-size:13px; color:var(--text-muted); margin-bottom:8px;">
+                Automatically calls <code style="color:#42b883;">el.focus()</code> when the element is mounted into the DOM.
+              </p>
+              <div v-if="showSearchInput">
+                <input type="text" class="input-control" v-focus placeholder="I was automatically focused on mount!">
+              </div>
+              <button class="btn btn-outline" style="margin-top:8px;" @click="showSearchInput = !showSearchInput">
+                {{ showSearchInput ? 'Hide & Unmount Input' : 'Mount Input (Triggers v-focus)' }}
+              </button>
+            </div>
+
+            <div class="form-group" style="margin-top:24px;">
+              <label>2. Custom Directive: v-highlight:background</label>
+              <p style="font-size:13px; color:var(--text-muted); margin-bottom:8px;">
+                Inspects arguments and dynamic values to alter element styling.
+              </p>
+              <p v-highlight:background="highlightColor" style="padding:10px 14px; border-radius:6px; color:#0f172a; font-weight:600; display:inline-block;">
+                This element is highlighted by v-highlight directive!
+              </p>
+
+              <div style="margin-top:10px; display:flex; gap:10px;">
+                <button class="btn btn-outline" style="padding:4px 10px; font-size:12px;" @click="highlightColor = '#a7f3d0'">Emerald</button>
+                <button class="btn btn-outline" style="padding:4px 10px; font-size:12px;" @click="highlightColor = '#fef08a'">Yellow</button>
+                <button class="btn btn-outline" style="padding:4px 10px; font-size:12px;" @click="highlightColor = '#bae6fd'">Sky Blue</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Architecture & Lifecycle -->
+          <div>
+            <label style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">
+              Directive Definition Code
+            </label>
+            <div class="code-box">
+<span class="c-prop">// 1. v-focus Registration</span>
+app.<span class="c-dir">directive</span>(<span class="c-str">'focus'</span>, {
+  <span class="c-prop">mounted</span>(el) {
+    el.<span class="c-val">focus</span>();
+  }
+});
+
+<span class="c-prop">// 2. v-highlight Registration</span>
+app.<span class="c-dir">directive</span>(<span class="c-str">'highlight'</span>, {
+  <span class="c-prop">mounted</span>(el, binding) {
+    el.style.backgroundColor = binding.value || <span class="c-str">'#fef08a'</span>;
+  },
+  <span class="c-prop">updated</span>(el, binding) {
+    el.style.backgroundColor = binding.value;
+  }
+});
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Initialize Vue 3 App
+    const { createApp } = Vue;
+
+    const app = createApp({
+      data() {
+        return {
+          currentTab: 'vmodel',
+          userName: 'Alex Mercer',
+          proficiency: 85,
+          selectedFramework: 'Vue.js',
+          isActiveDev: true,
+
+          // v-bind data
+          isButtonDisabled: false,
+          boxBgColor: '#3b82f6',
+          boxRadius: 16,
+          hasGlow: true,
+
+          // v-if data
+          examScore: 88,
+          showSecretInfo: true,
+
+          // v-for data
+          filterText: '',
+          nextModuleId: 105,
+          courseModules: [
+            { id: 101, title: 'Reactivity System & Proxies', level: 'Intermediate' },
+            { id: 102, title: 'Single File Components (SFC)', level: 'Beginner' },
+            { id: 103, title: 'Composition API & Composables', level: 'Advanced' },
+            { id: 104, title: 'Virtual DOM Diffing Engine', level: 'Advanced' }
+          ],
+
+          // custom directives data
+          showSearchInput: true,
+          highlightColor: '#fef08a'
+        };
+      },
+      computed: {
+        filteredModules() {
+          if (!this.filterText) return this.courseModules;
+          const q = this.filterText.toLowerCase();
+          return this.courseModules.filter(m => m.title.toLowerCase().includes(q));
+        }
+      },
+      methods: {
+        addCourseModule() {
+          const title = prompt('Enter new topic title:', 'State Management with Pinia');
+          if (!title) return;
+          this.courseModules.push({
+            id: this.nextModuleId++,
+            title: title,
+            level: 'Elective'
+          });
+        },
+        removeModule(id) {
+          this.courseModules = this.courseModules.filter(m => m.id !== id);
+        },
+        shuffleList() {
+          this.courseModules.sort(() => Math.random() - 0.5);
+        }
+      }
+    });
+
+    // Custom Directive 1: v-focus
+    app.directive('focus', {
+      mounted(el) {
+        el.focus();
+      }
+    });
+
+    // Custom Directive 2: v-highlight
+    app.directive('highlight', {
+      mounted(el, binding) {
+        if (binding.arg === 'background') {
+          el.style.backgroundColor = binding.value || '#fef08a';
+        } else {
+          el.style.color = binding.value || '#42b883';
+        }
+      },
+      updated(el, binding) {
+        if (binding.arg === 'background') {
+          el.style.backgroundColor = binding.value;
+        } else {
+          el.style.color = binding.value;
+        }
+      }
+    });
+
+    app.mount('#vueApp');
+  </script>
+</body>
+</html>

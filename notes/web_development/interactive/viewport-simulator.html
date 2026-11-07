@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viewport & Media Query Breakpoint Simulator</title>
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-tertiary: #334155;
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    header.control-bar {
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 50;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    h1.app-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .controls-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-group {
+      display: flex;
+      background-color: var(--bg-primary);
+      border-radius: 8px;
+      padding: 3px;
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-preset {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-preset:hover {
+      color: var(--text-main);
+      background-color: var(--bg-tertiary);
+    }
+
+    .btn-preset.active {
+      background-color: var(--accent);
+      color: #0f172a;
+      box-shadow: 0 2px 8px var(--accent-glow);
+    }
+
+    .dimension-inputs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--bg-primary);
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      font-size: 13px;
+    }
+
+    .dimension-inputs label {
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .dimension-inputs input[type="number"] {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--accent);
+      width: 60px;
+      font-weight: 700;
+      font-size: 14px;
+      text-align: center;
+      outline: none;
+      border-radius: 4px;
+    }
+
+    .dimension-inputs input[type="number"]:focus {
+      border-color: var(--accent);
+      background: var(--bg-secondary);
+    }
+
+    .tool-btn {
+      background-color: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .tool-btn:hover {
+      background-color: #475569;
+      border-color: var(--accent);
+    }
+
+    .ruler-container {
+      background: #111827;
+      border-bottom: 1px solid var(--border-color);
+      padding: 6px 20px 8px;
+      position: relative;
+      user-select: none;
+    }
+
+    .breakpoint-bar {
+      height: 22px;
+      position: relative;
+      background: #1e293b;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .bp-segment {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .bp-segment.active {
+      box-shadow: inset 0 -3px 0 var(--accent);
+      filter: brightness(1.3);
+    }
+
+    .bp-xs  { width: 39.9%; background: #334155; color: #94a3b8; }
+    .bp-sm  { width: 13.3%; background: #1e3a8a; color: #93c5fd; }
+    .bp-md  { width: 15.6%; background: #065f46; color: #6ee7b7; }
+    .bp-lg  { width: 14.4%; background: #854d0e; color: #fde047; }
+    .bp-xl  { width: 13.9%; background: #701a75; color: #f5d0fe; }
+    .bp-xxl { width: 2.9%;  background: #831843; color: #fbcfe8; }
+
+    .indicator-arrow {
+      position: absolute;
+      top: -2px;
+      width: 2px;
+      height: 32px;
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 10;
+      transition: left 0.1s linear;
+    }
+
+    .indicator-arrow::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -4px;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 6px solid #38bdf8;
+    }
+
+    .workspace {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 120px);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .viewport-stage {
+      flex: 1;
+      background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+      padding: 30px;
+      position: relative;
+    }
+
+    .device-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      background: #0f172a;
+      overflow: hidden;
+    }
+
+    .device-header {
+      width: 100%;
+      height: 30px;
+      background: #1e293b;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      font-size: 11px;
+      color: var(--text-muted);
+      user-select: none;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .viewport-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #ffffff;
+      overflow: auto;
+    }
+
+    .inspector-sidebar {
+      width: 360px;
+      background: var(--bg-secondary);
+      border-left: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      font-size: 13px;
+    }
+
+    .sidebar-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .badge-tag {
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    .sidebar-section {
+      padding: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat-card {
+      background: var(--bg-primary);
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .stat-value.highlight {
+      color: var(--accent);
+    }
+
+    .rule-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .rule-card.active {
+      border-color: var(--success);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .rule-card.inactive {
+      opacity: 0.5;
+    }
+
+    .rule-text {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .rule-status {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .status-active {
+      background: var(--success);
+      color: #0f172a;
+    }
+
+    .status-inactive {
+      background: #475569;
+      color: #94a3b8;
+    }
+
+    .code-box {
+      background: #090d16;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 11px;
+      color: #cbd5e1;
+      overflow-x: auto;
+      line-height: 1.5;
+      border: 1px solid var(--border-color);
+    }
+
+    .code-keyword { color: #f472b6; }
+    .code-prop { color: #38bdf8; }
+    .code-val { color: #a7f3d0; }
+  </style>
+</head>
+<body>
+
+  <header class="control-bar">
+    <div class="brand-section">
+      <span class="brand-badge">UNIT-2 CSS3</span>
+      <h1 class="app-title">Viewport &amp; Media Query Breakpoint Simulator</h1>
+    </div>
+
+    <div class="controls-group">
+      <div class="btn-group">
+        <button class="btn-preset" data-w="375" data-h="667" onclick="setPreset(375, 667, this)">
+          📱 Mobile (375px)
+        </button>
+        <button class="btn-preset active" data-w="768" data-h="1024" onclick="setPreset(768, 1024, this)">
+          📟 Tablet (768px)
+        </button>
+        <button class="btn-preset" data-w="1024" data-h="768" onclick="setPreset(1024, 768, this)">
+          💻 Laptop (1024px)
+        </button>
+        <button class="btn-preset" data-w="1440" data-h="900" onclick="setPreset(1440, 900, this)">
+          🖥️ Desktop (1440px)
+        </button>
+      </div>
+
+      <div class="dimension-inputs">
+        <label>W</label>
+        <input type="number" id="inputWidth" value="768" min="320" max="1920" onchange="onDimensionChange()">
+        <span>×</span>
+        <label>H</label>
+        <input type="number" id="inputHeight" value="1024" min="320" max="1440" onchange="onDimensionChange()">
+      </div>
+
+      <button class="tool-btn" onclick="rotateViewport()" title="Rotate Orientation">
+        🔄 Rotate
+      </button>
+
+      <div class="dimension-inputs">
+        <label>Zoom</label>
+        <select id="scaleSelect" onchange="applyZoom()" style="background:transparent; color:var(--accent); border:none; font-weight:700; outline:none; cursor:pointer;">
+          <option value="1" style="background:#1e293b;">100%</option>
+          <option value="0.85" style="background:#1e293b;">85%</option>
+          <option value="0.7" selected style="background:#1e293b;">70%</option>
+          <option value="0.5" style="background:#1e293b;">50%</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <div class="ruler-container">
+    <div class="breakpoint-bar">
+      <div class="bp-segment bp-xs" id="seg-xs">xs (&lt;576px)</div>
+      <div class="bp-segment bp-sm" id="seg-sm">sm (&ge;576px)</div>
+      <div class="bp-segment bp-md" id="seg-md">md (&ge;768px)</div>
+      <div class="bp-segment bp-lg" id="seg-lg">lg (&ge;992px)</div>
+      <div class="bp-segment bp-xl" id="seg-xl">xl (&ge;1200px)</div>
+      <div class="bp-segment bp-xxl" id="seg-xxl">xxl</div>
+      <div class="indicator-arrow" id="rulerIndicator" style="left: 53.3%;"></div>
+    </div>
+  </div>
+
+  <div class="workspace">
+    <div class="viewport-stage" id="stageArea">
+      <div class="device-wrapper" id="deviceWrapper" style="width: 768px; height: 1024px; transform: scale(0.7); transform-origin: center top;">
+        <div class="device-header">
+          <div class="window-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <div id="deviceTitleBar">Viewport: 768 × 1024 px</div>
+          <div style="font-size:10px; opacity:0.7;">Interactive Responsive Demo</div>
+        </div>
+
+        <iframe class="viewport-frame" id="simulatedIframe" srcdoc='<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      background: #f8fafc;
+      line-height: 1.5;
+    }
+
+    .navbar {
+      background: #1e293b;
+      color: #ffffff;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-brand {
+      font-weight: 800;
+      font-size: 18px;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-item a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-item a:hover {
+      color: #38bdf8;
+    }
+
+    .nav-btn {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .hamburger-btn {
+      display: none;
+      background: transparent;
+      border: 1px solid #475569;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .mobile-drawer {
+      display: none;
+      background: #0f172a;
+      padding: 16px 20px;
+      border-bottom: 2px solid #38bdf8;
+    }
+
+    .mobile-drawer.open {
+      display: block;
+      animation: slideDown 0.25s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .mobile-drawer ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .mobile-drawer a {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 15px;
+      display: block;
+      padding: 6px 0;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0284c7 0%, #1e1b4b 100%);
+      color: white;
+      padding: clamp(24px, 5vw, 60px) 20px;
+      text-align: center;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      font-size: clamp(22px, 4vw + 8px, 42px);
+      font-weight: 800;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: clamp(14px, 2vw, 17px);
+      max-width: 650px;
+      margin: 0 auto 20px;
+      color: #e0f2fe;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    .section-heading {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    .section-sub {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    }
+
+    .card-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    @media (max-width: 767.98px) {
+      .nav-menu { display: none; }
+      .hamburger-btn { display: block; }
+      .hero-actions { flex-direction: column; width: 100%; }
+      .btn-primary, .btn-secondary { width: 100%; }
+    }
+
+    @media (min-width: 576px) {
+      .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 992px) {
+      .card-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .card-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .breakpoint-callout {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: #1e40af;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .active-bp-pill {
+      background: #3b82f6;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span>⚡</span> NextGen Studio
+    </div>
+    <ul class="nav-menu">
+      <li class="nav-item"><a href="#">Home</a></li>
+      <li class="nav-item"><a href="#">Grid System</a></li>
+      <li class="nav-item"><a href="#">Components</a></li>
+      <li class="nav-item"><a href="#">Breakpoints</a></li>
+      <li><button class="nav-btn">Get Started</button></li>
+    </ul>
+    <button class="hamburger-btn" onclick="toggleMenu()" aria-label="Toggle navigation">
+      ☰
+    </button>
+  </nav>
+
+  <div class="mobile-drawer" id="mobileDrawer">
+    <ul>
+      <li><a href="#" onclick="toggleMenu()">Home</a></li>
+      <li><a href="#" onclick="toggleMenu()">Grid System</a></li>
+      <li><a href="#" onclick="toggleMenu()">Components</a></li>
+      <li><a href="#" onclick="toggleMenu()">Breakpoints</a></li>
+      <li><button class="nav-btn" style="width:100%; margin-top:8px;">Get Started</button></li>
+    </ul>
+  </div>
+
+  <section class="hero">
+    <div class="hero-tag">CSS3 Media Queries in Action</div>
+    <h1>Fluid, Responsive Design</h1>
+    <p>This layout automatically adapts its navigation, typography, grid structure, and buttons as the viewport shrinks and expands.</p>
+    <div class="hero-actions">
+      <button class="btn-primary">Explore Documentation</button>
+      <button class="btn-secondary">View CSS Rules</button>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="breakpoint-callout">
+      <div>
+        <strong>Current Media Query Status:</strong>
+        <span id="bpDescription">Evaluating viewport...</span>
+      </div>
+      <span class="active-bp-pill" id="activePill">xs</span>
+    </div>
+
+    <h2 class="section-heading">Responsive Grid System</h2>
+    <p class="section-sub">1 col on mobile (&lt;576px) &rarr; 2 cols on tablet (&ge;576px) &rarr; 3 cols on desktop (&ge;992px) &rarr; 4 cols on wide (&ge;1200px).</p>
+
+    <div class="card-grid">
+      <div class="feature-card">
+        <div class="card-icon">📐</div>
+        <div class="card-title">Fluid Layouts</div>
+        <div class="card-desc">Calculated with CSS clamp() and flexbox percentages for smooth transitions.</div>
+      </div>
+      <div class="feature-card">
+        <div class="card-icon">📱</div>
+        <div class="card-title">Mobile Hamburger</div>
+        <div class="card-desc">Desktop navigation neatly compresses into an active hamburger menu under 768px.</div>
+      </div>
+      <div class="feature-card">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Performance First</div>
+        <div class="card-desc">Pure CSS3 media queries without heavy JavaScript layout thrashing.</div>
+      </div>
+      <div class="feature-card">
+        <div class="card-icon">🎯</div>
+        <div class="card-title">Breakpoint Accuracy</div>
+        <div class="card-desc">Follows standard industry breakpoints matching Bootstrap and Tailwind.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const drawer = document.getElementById("mobileDrawer");
+      drawer.classList.toggle("open");
+    }
+
+    function updatePills() {
+      const w = window.innerWidth;
+      const pill = document.getElementById("activePill");
+      const desc = document.getElementById("bpDescription");
+
+      if (w < 576) {
+        pill.innerText = "xs (<576px)";
+        desc.innerText = "Mobile Phone: Single-column stack & hamburger menu";
+      } else if (w < 768) {
+        pill.innerText = "sm (576-767px)";
+        desc.innerText = "Large Mobile / Phablet: 2-column grid, hamburger menu";
+      } else if (w < 992) {
+        pill.innerText = "md (768-991px)";
+        desc.innerText = "Tablet Portrait: Full desktop horizontal navbar, 2 columns";
+      } else if (w < 1200) {
+        pill.innerText = "lg (992-1199px)";
+        desc.innerText = "Tablet Landscape / Laptop: 3-column grid layout";
+      } else if (w < 1400) {
+        pill.innerText = "xl (1200-1399px)";
+        desc.innerText = "Desktop: 4-column expanded grid";
+      } else {
+        pill.innerText = "xxl (≥1400px)";
+        desc.innerText = "Ultra-Wide Monitor: Max-width constrained container";
+      }
+    }
+
+    window.addEventListener("resize", updatePills);
+    window.addEventListener("DOMContentLoaded", updatePills);
+  </script>
+</body>
+</html>'></iframe>
+      </div>
+    </div>
+
+    <aside class="inspector-sidebar">
+      <div class="sidebar-header">
+        <span>CSS Media Query Inspector</span>
+        <span class="badge-tag" id="currentBpBadge">md</span>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-title">Active Viewport Dimensions</div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-label">Viewport Width</div>
+            <div class="stat-value highlight" id="metricWidth">768 px</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Viewport Height</div>
+            <div class="stat-value" id="metricHeight">1024 px</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Aspect Ratio</div>
+            <div class="stat-value" id="metricRatio">3:4</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Orientation</div>
+            <div class="stat-value" id="metricOrientation">Portrait</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-title">Media Query Rule Evaluator</div>
+
+        <div class="rule-card" id="rule-xs">
+          <div>
+            <div class="rule-text">@media (max-width: 575.98px)</div>
+            <div style="font-size:11px; color:var(--text-muted);">xs: Extra Small / Mobile stack</div>
+          </div>
+          <span class="rule-status status-inactive" id="status-xs">Inactive</span>
+        </div>
+
+        <div class="rule-card" id="rule-sm">
+          <div>
+            <div class="rule-text">@media (min-width: 576px)</div>
+            <div style="font-size:11px; color:var(--text-muted);">sm: 2-column card grid</div>
+          </div>
+          <span class="rule-status status-active" id="status-sm">Active</span>
+        </div>
+
+        <div class="rule-card" id="rule-md">
+          <div>
+            <div class="rule-text">@media (min-width: 768px)</div>
+            <div style="font-size:11px; color:var(--text-muted);">md: Uncollapse navbar / full menu</div>
+          </div>
+          <span class="rule-status status-active" id="status-md">Active</span>
+        </div>
+
+        <div class="rule-card" id="rule-lg">
+          <div>
+            <div class="rule-text">@media (min-width: 992px)</div>
+            <div style="font-size:11px; color:var(--text-muted);">lg: 3-column card grid</div>
+          </div>
+          <span class="rule-status status-inactive" id="status-lg">Inactive</span>
+        </div>
+
+        <div class="rule-card" id="rule-xl">
+          <div>
+            <div class="rule-text">@media (min-width: 1200px)</div>
+            <div style="font-size:11px; color:var(--text-muted);">xl: 4-column card grid</div>
+          </div>
+          <span class="rule-status status-inactive" id="status-xl">Inactive</span>
+        </div>
+
+        <div class="rule-card" id="rule-xxl">
+          <div>
+            <div class="rule-text">@media (min-width: 1400px)</div>
+            <div style="font-size:11px; color:var(--text-muted);">xxl: Extra-extra large layout</div>
+          </div>
+          <span class="rule-status status-inactive" id="status-xxl">Inactive</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section" style="flex:1;">
+        <div class="section-title">Active CSS Implementation</div>
+        <div class="code-box" id="codeSnippet">
+<span class="code-keyword">@media</span> (<span class="code-prop">min-width</span>: 768px) {
+  <span class="code-prop">.nav-menu</span> { <span class="code-keyword">display</span>: <span class="code-val">flex</span>; }
+  <span class="code-prop">.hamburger-btn</span> { <span class="code-keyword">display</span>: <span class="code-val">none</span>; }
+  <span class="code-prop">.card-grid</span> { <span class="code-keyword">grid-template-columns</span>: <span class="code-val">repeat(2, 1fr)</span>; }
+}
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    let currentWidth = 768;
+    let currentHeight = 1024;
+    let currentScale = 0.7;
+
+    const deviceWrapper = document.getElementById('deviceWrapper');
+    const inputWidth = document.getElementById('inputWidth');
+    const inputHeight = document.getElementById('inputHeight');
+    const metricWidth = document.getElementById('metricWidth');
+    const metricHeight = document.getElementById('metricHeight');
+    const metricRatio = document.getElementById('metricRatio');
+    const metricOrientation = document.getElementById('metricOrientation');
+    const currentBpBadge = document.getElementById('currentBpBadge');
+    const deviceTitleBar = document.getElementById('deviceTitleBar');
+    const rulerIndicator = document.getElementById('rulerIndicator');
+    const codeSnippet = document.getElementById('codeSnippet');
+
+    function gcd(a, b) {
+      return b === 0 ? a : gcd(b, a % b);
+    }
+
+    function calculateAspectRatio(w, h) {
+      const d = gcd(w, h);
+      return `${Math.round(w / d)}:${Math.round(h / d)}`;
+    }
+
+    function setPreset(w, h, btnElement) {
+      document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+      if (btnElement) btnElement.classList.add('active');
+
+      currentWidth = w;
+      currentHeight = h;
+      inputWidth.value = w;
+      inputHeight.value = h;
+      updateSimulator();
+    }
+
+    function onDimensionChange() {
+      let w = parseInt(inputWidth.value, 10);
+      let h = parseInt(inputHeight.value, 10);
+      if (isNaN(w) || w < 320) w = 320;
+      if (isNaN(h) || h < 320) h = 320;
+      currentWidth = w;
+      currentHeight = h;
+      updateSimulator();
+    }
+
+    function rotateViewport() {
+      const temp = currentWidth;
+      currentWidth = currentHeight;
+      currentHeight = temp;
+      inputWidth.value = currentWidth;
+      inputHeight.value = currentHeight;
+      updateSimulator();
+    }
+
+    function applyZoom() {
+      const select = document.getElementById('scaleSelect');
+      currentScale = parseFloat(select.value);
+      deviceWrapper.style.transform = `scale(${currentScale})`;
+    }
+
+    function updateSimulator() {
+      deviceWrapper.style.width = `${currentWidth}px`;
+      deviceWrapper.style.height = `${currentHeight}px`;
+
+      metricWidth.textContent = `${currentWidth} px`;
+      metricHeight.textContent = `${currentHeight} px`;
+      metricRatio.textContent = calculateAspectRatio(currentWidth, currentHeight);
+      metricOrientation.textContent = currentWidth >= currentHeight ? 'Landscape' : 'Portrait';
+      deviceTitleBar.textContent = `Viewport: ${currentWidth} × ${currentHeight} px`;
+
+      const maxRulerWidth = 1440;
+      const pct = Math.min(100, Math.max(0, (currentWidth / maxRulerWidth) * 100));
+      rulerIndicator.style.left = `${pct}%`;
+
+      ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'].forEach(bp => {
+        const seg = document.getElementById(`seg-${bp}`);
+        if (seg) seg.classList.remove('active');
+      });
+
+      const ruleXs = currentWidth < 576;
+      const ruleSm = currentWidth >= 576;
+      const ruleMd = currentWidth >= 768;
+      const ruleLg = currentWidth >= 992;
+      const ruleXl = currentWidth >= 1200;
+      const ruleXxl = currentWidth >= 1400;
+
+      let activeBp = 'xs';
+      if (ruleXxl) activeBp = 'xxl';
+      else if (ruleXl) activeBp = 'xl';
+      else if (ruleLg) activeBp = 'lg';
+      else if (ruleMd) activeBp = 'md';
+      else if (ruleSm) activeBp = 'sm';
+
+      currentBpBadge.textContent = activeBp.toUpperCase();
+      const segElem = document.getElementById(`seg-${activeBp}`);
+      if (segElem) segElem.classList.add('active');
+
+      setRuleStatus('xs', ruleXs);
+      setRuleStatus('sm', ruleSm);
+      setRuleStatus('md', ruleMd);
+      setRuleStatus('lg', ruleLg);
+      setRuleStatus('xl', ruleXl);
+      setRuleStatus('xxl', ruleXxl);
+
+      updateCodeSnippet(activeBp);
+
+      const iframe = document.getElementById('simulatedIframe');
+      if (iframe && iframe.contentWindow && iframe.contentWindow.updatePills) {
+        iframe.contentWindow.updatePills();
+      }
+    }
+
+    function setRuleStatus(bp, isActive) {
+      const card = document.getElementById(`rule-${bp}`);
+      const badge = document.getElementById(`status-${bp}`);
+      if (isActive) {
+        card.className = 'rule-card active';
+        badge.className = 'rule-status status-active';
+        badge.textContent = 'Active';
+      } else {
+        card.className = 'rule-card inactive';
+        badge.className = 'rule-status status-inactive';
+        badge.textContent = 'Inactive';
+      }
+    }
+
+    function updateCodeSnippet(bp) {
+      let code = '';
+      if (bp === 'xs') {
+        code = `<span class="code-keyword">/* Mobile Breakpoint (<576px) */</span>\n` +
+               `<span class="code-prop">.nav-menu</span> { <span class="code-keyword">display</span>: <span class="code-val">none</span>; }\n` +
+               `<span class="code-prop">.hamburger-btn</span> { <span class="code-keyword">display</span>: <span class="code-val">block</span>; }\n` +
+               `<span class="code-prop">.card-grid</span> { <span class="code-keyword">grid-template-columns</span>: <span class="code-val">repeat(1, 1fr)</span>; }\n` +
+               `<span class="code-prop">.btn-primary</span> { <span class="code-keyword">width</span>: <span class="code-val">100%</span>; }`;
+      } else if (bp === 'sm') {
+        code = `<span class="code-keyword">@media</span> (<span class="code-prop">min-width</span>: 576px) {\n` +
+               `  <span class="code-prop">.card-grid</span> { <span class="code-keyword">grid-template-columns</span>: <span class="code-val">repeat(2, 1fr)</span>; }\n` +
+               `  <span class="code-prop">.hamburger-btn</span> { <span class="code-keyword">display</span>: <span class="code-val">block</span>; }\n` +
+               `  <span class="code-prop">.nav-menu</span> { <span class="code-keyword">display</span>: <span class="code-val">none</span>; }\n` +
+               `}`;
+      } else if (bp === 'md') {
+        code = `<span class="code-keyword">@media</span> (<span class="code-prop">min-width</span>: 768px) {\n` +
+               `  <span class="code-prop">.nav-menu</span> { <span class="code-keyword">display</span>: <span class="code-val">flex</span>; }\n` +
+               `  <span class="code-prop">.hamburger-btn</span> { <span class="code-keyword">display</span>: <span class="code-val">none</span>; }\n` +
+               `  <span class="code-prop">.card-grid</span> { <span class="code-keyword">grid-template-columns</span>: <span class="code-val">repeat(2, 1fr)</span>; }\n` +
+               `}`;
+      } else if (bp === 'lg') {
+        code = `<span class="code-keyword">@media</span> (<span class="code-prop">min-width</span>: 992px) {\n` +
+               `  <span class="code-prop">.card-grid</span> { <span class="code-keyword">grid-template-columns</span>: <span class="code-val">repeat(3, 1fr)</span>; }\n` +
+               `  <span class="code-prop">.nav-menu</span> { <span class="code-keyword">gap</span>: <span class="code-val">28px</span>; }\n` +
+               `}`;
+      } else {
+        code = `<span class="code-keyword">@media</span> (<span class="code-prop">min-width</span>: 1200px) {\n` +
+               `  <span class="code-prop">.card-grid</span> { <span class="code-keyword">grid-template-columns</span>: <span class="code-val">repeat(4, 1fr)</span>; }\n` +
+               `  <span class="code-prop">.container</span> { <span class="code-keyword">max-width</span>: <span class="code-val">1200px</span>; }\n` +
+               `}`;
+      }
+      codeSnippet.innerHTML = code;
+    }
+
+    updateSimulator();
+    applyZoom();
+  </script>
+</body>
+</html>

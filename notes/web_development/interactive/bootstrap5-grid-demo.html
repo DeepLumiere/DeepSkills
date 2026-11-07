@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap 5 12-Column Grid Interactive Studio</title>
+  <!-- Bootstrap 5 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-surface: #1e293b;
+      --bg-subtle: #334155;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --text-light: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-dark: #334155;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    /* Top Navigation / Header */
+    .app-header {
+      background-color: var(--bg-surface);
+      border-bottom: 1px solid var(--border-dark);
+      padding: 16px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .badge-unit {
+      background: linear-gradient(135deg, #7952b3, #4f46e5);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Live Breakpoint Bar */
+    .bp-bar {
+      display: flex;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .bp-tag {
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 4px;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+
+    .bp-tag.active {
+      background: #7952b3;
+      color: white;
+      box-shadow: 0 0 10px rgba(121, 82, 179, 0.5);
+    }
+
+    /* Studio Card */
+    .studio-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-title-custom {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* 12-Column Guide Grid */
+    .grid-guide-container {
+      position: relative;
+      background: #090d16;
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .guide-columns {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .guide-col {
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px dashed rgba(56, 189, 248, 0.3);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      padding: 6px 0;
+      border-radius: 4px;
+    }
+
+    /* Live Bootstrap Stage */
+    .bootstrap-stage {
+      background: #111827;
+      border: 2px dashed var(--border-dark);
+      border-radius: 8px;
+      padding: 20px;
+      min-height: 180px;
+    }
+
+    /* Demo Column Cards inside Stage */
+    .demo-col-box {
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+
+    .demo-col-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      border-color: var(--accent);
+    }
+
+    .demo-col-box.selected {
+      outline: 3px solid #38bdf8;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+    }
+
+    .col-badge-num {
+      position: absolute;
+      top: 4px;
+      left: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-size: 10px;
+    }
+
+    /* Controls Panel */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .form-group-custom label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      display: block;
+      text-transform: uppercase;
+    }
+
+    .form-select-custom, .form-input-custom {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-dark);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      width: 100%;
+      outline: none;
+    }
+
+    .form-select-custom:focus, .form-input-custom:focus {
+      border-color: var(--accent);
+    }
+
+    /* Code Snippet Box */
+    .code-box {
+      background: #090d16;
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 12px;
+      color: #e2e8f0;
+      overflow-x: auto;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-dark);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      background: #475569;
+    }
+
+    .btn-action {
+      background: var(--bg-subtle);
+      color: white;
+      border: 1px solid var(--border-dark);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-action:hover {
+      background: #475569;
+      border-color: var(--accent);
+    }
+
+    .btn-preset {
+      background: transparent;
+      border: 1px solid var(--border-dark);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .btn-preset:hover {
+      color: white;
+      border-color: var(--accent);
+      background: rgba(56, 189, 248, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="container-fluid header-content">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge-unit">Bootstrap 5.3</span>
+        <h1 class="h5 m-0 fw-bold">12-Column Responsive Grid Visualizer</h1>
+      </div>
+
+      <!-- Live Breakpoint Tag Bar -->
+      <div class="bp-bar" id="breakpointBar">
+        <span class="bp-tag" id="bp-xs">xs (&lt;576px)</span>
+        <span class="bp-tag" id="bp-sm">sm (&ge;576px)</span>
+        <span class="bp-tag" id="bp-md">md (&ge;768px)</span>
+        <span class="bp-tag" id="bp-lg">lg (&ge;992px)</span>
+        <span class="bp-tag" id="bp-xl">xl (&ge;1200px)</span>
+        <span class="bp-tag" id="bp-xxl">xxl (&ge;1400px)</span>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn-action" onclick="addColumn()">+ Add Column</button>
+        <button class="btn-action" onclick="removeColumn()">- Remove Column</button>
+        <button class="btn-action" onclick="resetToPreset('responsive')">↺ Reset</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container-xl">
+    <!-- Presets Bar -->
+    <div class="d-flex gap-2 flex-wrap mb-3 align-items-center">
+      <span style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Quick Presets:</span>
+      <button class="btn-preset" onclick="resetToPreset('responsive')">Responsive Stacking (12 &rarr; 6 &rarr; 4 &rarr; 3)</button>
+      <button class="btn-preset" onclick="resetToPreset('equal')">Equal 3 Columns (col-md-4)</button>
+      <button class="btn-preset" onclick="resetToPreset('offset')">Offset Centered (col-md-6 offset-md-3)</button>
+      <button class="btn-preset" onclick="resetToPreset('order')">Reordered Columns (order-first / last)</button>
+      <button class="btn-preset" onclick="resetToPreset('mixed')">Sidebar &amp; Content (col-md-4 / col-md-8)</button>
+    </div>
+
+    <!-- 12-Column Background Ruler -->
+    <div class="grid-guide-container">
+      <div style="font-size:11px; font-weight:700; color:var(--text-muted); margin-bottom:6px; display:flex; justify-content:space-between;">
+        <span>12-COLUMN BASELINE GRID REFERENCE</span>
+        <span id="windowMetric">Current Window: Calculating...</span>
+      </div>
+      <div class="guide-columns">
+        <div class="guide-col">1</div>
+        <div class="guide-col">2</div>
+        <div class="guide-col">3</div>
+        <div class="guide-col">4</div>
+        <div class="guide-col">5</div>
+        <div class="guide-col">6</div>
+        <div class="guide-col">7</div>
+        <div class="guide-col">8</div>
+        <div class="guide-col">9</div>
+        <div class="guide-col">10</div>
+        <div class="guide-col">11</div>
+        <div class="guide-col">12</div>
+      </div>
+    </div>
+
+    <!-- Live Bootstrap Container Stage -->
+    <div class="studio-card">
+      <div class="card-title-custom">
+        <span>Live Rendered &lt;div class="container-fluid"&gt; &rarr; &lt;div class="row"&gt;</span>
+        <span style="font-size:12px; color:var(--text-muted); font-weight:normal;">Click any column below to edit its classes</span>
+      </div>
+
+      <div class="bootstrap-stage">
+        <div class="container-fluid p-0">
+          <div class="row" id="liveGridRow">
+            <!-- Columns injected by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Column & Row Inspector -->
+    <div class="row g-3">
+      <!-- Column Class Customizer -->
+      <div class="col-lg-6">
+        <div class="studio-card h-100">
+          <div class="card-title-custom">
+            <span>⚙️ Selected Column Inspector (<span id="selectedColLabel">Column 1</span>)</span>
+          </div>
+
+          <div class="controls-grid">
+            <div class="form-group-custom">
+              <label>Width (xs default)</label>
+              <select class="form-select-custom" id="selColXs" onchange="updateSelectedColumn()">
+                <option value="col-12">col-12 (100%)</option>
+                <option value="col-6">col-6 (50%)</option>
+                <option value="col-4">col-4 (33.3%)</option>
+                <option value="col-3">col-3 (25%)</option>
+                <option value="col-2">col-2 (16.6%)</option>
+                <option value="col-1">col-1 (8.3%)</option>
+                <option value="col-auto">col-auto</option>
+              </select>
+            </div>
+
+            <div class="form-group-custom">
+              <label>Width (md &ge;768px)</label>
+              <select class="form-select-custom" id="selColMd" onchange="updateSelectedColumn()">
+                <option value="">None (inherit)</option>
+                <option value="col-md-12">col-md-12</option>
+                <option value="col-md-8">col-md-8</option>
+                <option value="col-md-6" selected>col-md-6</option>
+                <option value="col-md-4">col-md-4</option>
+                <option value="col-md-3">col-md-3</option>
+                <option value="col-md-auto">col-md-auto</option>
+              </select>
+            </div>
+
+            <div class="form-group-custom">
+              <label>Width (lg &ge;992px)</label>
+              <select class="form-select-custom" id="selColLg" onchange="updateSelectedColumn()">
+                <option value="">None (inherit)</option>
+                <option value="col-lg-12">col-lg-12</option>
+                <option value="col-lg-6">col-lg-6</option>
+                <option value="col-lg-4" selected>col-lg-4</option>
+                <option value="col-lg-3">col-lg-3</option>
+                <option value="col-lg-2">col-lg-2</option>
+              </select>
+            </div>
+
+            <div class="form-group-custom">
+              <label>Width (xl &ge;1200px)</label>
+              <select class="form-select-custom" id="selColXl" onchange="updateSelectedColumn()">
+                <option value="">None (inherit)</option>
+                <option value="col-xl-6">col-xl-6</option>
+                <option value="col-xl-4">col-xl-4</option>
+                <option value="col-xl-3" selected>col-xl-3</option>
+                <option value="col-xl-2">col-xl-2</option>
+              </select>
+            </div>
+
+            <div class="form-group-custom">
+              <label>Offset (offset-*)</label>
+              <select class="form-select-custom" id="selColOffset" onchange="updateSelectedColumn()">
+                <option value="" selected>No offset</option>
+                <option value="offset-1">offset-1</option>
+                <option value="offset-2">offset-2</option>
+                <option value="offset-3">offset-3</option>
+                <option value="offset-md-2">offset-md-2</option>
+                <option value="offset-md-3">offset-md-3</option>
+                <option value="offset-lg-2">offset-lg-2</option>
+              </select>
+            </div>
+
+            <div class="form-group-custom">
+              <label>Reorder (order-*)</label>
+              <select class="form-select-custom" id="selColOrder" onchange="updateSelectedColumn()">
+                <option value="" selected>Default DOM order</option>
+                <option value="order-first">order-first</option>
+                <option value="order-last">order-last</option>
+                <option value="order-1">order-1</option>
+                <option value="order-2">order-2</option>
+                <option value="order-3">order-3</option>
+                <option value="order-md-first">order-md-first</option>
+                <option value="order-md-last">order-md-last</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row Alignment & Gutters -->
+      <div class="col-lg-6">
+        <div class="studio-card h-100">
+          <div class="card-title-custom">
+            <span>📐 Row Alignment &amp; Gutter Controls</span>
+          </div>
+
+          <div class="controls-grid">
+            <div class="form-group-custom">
+              <label>Horizontal Alignment (justify-content-*)</label>
+              <select class="form-select-custom" id="selRowJustify" onchange="updateRowClasses()">
+                <option value="" selected>justify-content-start (Default)</option>
+                <option value="justify-content-center">justify-content-center</option>
+                <option value="justify-content-end">justify-content-end</option>
+                <option value="justify-content-between">justify-content-between</option>
+                <option value="justify-content-around">justify-content-around</option>
+                <option value="justify-content-evenly">justify-content-evenly</option>
+              </select>
+            </div>
+
+            <div class="form-group-custom">
+              <label>Vertical Alignment (align-items-*)</label>
+              <select class="form-select-custom" id="selRowAlign" onchange="updateRowClasses()">
+                <option value="" selected>align-items-start (Default)</option>
+                <option value="align-items-center">align-items-center</option>
+                <option value="align-items-end">align-items-end</option>
+              </select>
+            </div>
+
+            <div class="form-group-custom">
+              <label>Gutters (g-*, gx-*, gy-*)</label>
+              <select class="form-select-custom" id="selRowGutters" onchange="updateRowClasses()">
+                <option value="g-3" selected>g-3 (1rem / 16px gutter)</option>
+                <option value="g-0">g-0 (No gutter)</option>
+                <option value="g-1">g-1 (0.25rem)</option>
+                <option value="g-2">g-2 (0.5rem)</option>
+                <option value="g-4">g-4 (1.5rem)</option>
+                <option value="g-5">g-5 (3rem)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Code Snippet Box -->
+          <div style="margin-top:20px;">
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:6px;">GENERATED BOOTSTRAP 5 HTML:</div>
+            <div class="code-box">
+              <button class="copy-btn" onclick="copyHtmlSnippet()">Copy HTML</button>
+              <pre id="htmlSnippetDisplay" style="margin:0;"></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // State of Grid Columns
+    let columns = [
+      { id: 1, xs: 'col-12', md: 'col-md-6', lg: 'col-lg-4', xl: 'col-xl-3', offset: '', order: '', title: 'Card 1' },
+      { id: 2, xs: 'col-12', md: 'col-md-6', lg: 'col-lg-4', xl: 'col-xl-3', offset: '', order: '', title: 'Card 2' },
+      { id: 3, xs: 'col-12', md: 'col-md-6', lg: 'col-lg-4', xl: 'col-xl-3', offset: '', order: '', title: 'Card 3' },
+      { id: 4, xs: 'col-12', md: 'col-md-6', lg: 'col-lg-4', xl: 'col-xl-3', offset: '', order: '', title: 'Card 4' }
+    ];
+
+    let selectedColIndex = 0;
+    let rowJustify = '';
+    let rowAlign = '';
+    let rowGutters = 'g-3';
+
+    function renderGrid() {
+      const liveGridRow = document.getElementById('liveGridRow');
+      liveGridRow.innerHTML = '';
+
+      // Set row class list
+      liveGridRow.className = `row ${rowGutters} ${rowJustify} ${rowAlign}`.trim();
+
+      columns.forEach((col, idx) => {
+        const colDiv = document.createElement('div');
+        const classNames = [col.xs, col.md, col.lg, col.xl, col.offset, col.order].filter(Boolean).join(' ');
+        colDiv.className = classNames;
+
+        const isSelected = (idx === selectedColIndex);
+        colDiv.innerHTML = `
+          <div class="demo-col-box ${isSelected ? 'selected' : ''}" onclick="selectColumn(${idx})">
+            <span class="col-badge-num">#${col.id}</span>
+            <div style="font-size:14px; font-weight:700; margin-bottom:4px;">${col.title}</div>
+            <div style="font-family:monospace; font-size:11px; opacity:0.9;">${classNames}</div>
+          </div>
+        `;
+        liveGridRow.appendChild(colDiv);
+      });
+
+      updateCodeSnippet();
+    }
+
+    function selectColumn(idx) {
+      selectedColIndex = idx;
+      const col = columns[idx];
+      document.getElementById('selectedColLabel').textContent = `Column ${col.id}`;
+
+      document.getElementById('selColXs').value = col.xs || 'col-12';
+      document.getElementById('selColMd').value = col.md || '';
+      document.getElementById('selColLg').value = col.lg || '';
+      document.getElementById('selColXl').value = col.xl || '';
+      document.getElementById('selColOffset').value = col.offset || '';
+      document.getElementById('selColOrder').value = col.order || '';
+
+      renderGrid();
+    }
+
+    function updateSelectedColumn() {
+      if (selectedColIndex < 0 || selectedColIndex >= columns.length) return;
+      const col = columns[selectedColIndex];
+
+      col.xs = document.getElementById('selColXs').value;
+      col.md = document.getElementById('selColMd').value;
+      col.lg = document.getElementById('selColLg').value;
+      col.xl = document.getElementById('selColXl').value;
+      col.offset = document.getElementById('selColOffset').value;
+      col.order = document.getElementById('selColOrder').value;
+
+      renderGrid();
+    }
+
+    function updateRowClasses() {
+      rowJustify = document.getElementById('selRowJustify').value;
+      rowAlign = document.getElementById('selRowAlign').value;
+      rowGutters = document.getElementById('selRowGutters').value;
+      renderGrid();
+    }
+
+    let nextColId = 5;
+    function addColumn() {
+      if (columns.length >= 12) {
+        alert('Maximum 12 columns supported in visualizer demo.');
+        return;
+      }
+      columns.push({
+        id: nextColId++,
+        xs: 'col-12',
+        md: 'col-md-6',
+        lg: 'col-lg-4',
+        xl: 'col-xl-3',
+        offset: '',
+        order: '',
+        title: `Card ${columns.length + 1}`
+      });
+      selectedColIndex = columns.length - 1;
+      selectColumn(selectedColIndex);
+    }
+
+    function removeColumn() {
+      if (columns.length <= 1) {
+        alert('At least 1 column is required.');
+        return;
+      }
+      columns.pop();
+      if (selectedColIndex >= columns.length) {
+        selectedColIndex = columns.length - 1;
+      }
+      selectColumn(selectedColIndex);
+    }
+
+    function resetToPreset(preset) {
+      if (preset === 'responsive') {
+        columns = [
+          { id: 1, xs: 'col-12', md: 'col-md-6', lg: 'col-lg-4', xl: 'col-xl-3', offset: '', order: '', title: 'Card 1' },
+          { id: 2, xs: 'col-12', md: 'col-md-6', lg: 'col-lg-4', xl: 'col-xl-3', offset: '', order: '', title: 'Card 2' },
+          { id: 3, xs: 'col-12', md: 'col-md-6', lg: 'col-lg-4', xl: 'col-xl-3', offset: '', order: '', title: 'Card 3' },
+          { id: 4, xs: 'col-12', md: 'col-md-6', lg: 'col-lg-4', xl: 'col-xl-3', offset: '', order: '', title: 'Card 4' }
+        ];
+        rowJustify = '';
+        rowAlign = '';
+        rowGutters = 'g-3';
+      } else if (preset === 'equal') {
+        columns = [
+          { id: 1, xs: 'col-12', md: 'col-md-4', lg: '', xl: '', offset: '', order: '', title: 'Equal Col 1' },
+          { id: 2, xs: 'col-12', md: 'col-md-4', lg: '', xl: '', offset: '', order: '', title: 'Equal Col 2' },
+          { id: 3, xs: 'col-12', md: 'col-md-4', lg: '', xl: '', offset: '', order: '', title: 'Equal Col 3' }
+        ];
+      } else if (preset === 'offset') {
+        columns = [
+          { id: 1, xs: 'col-12', md: 'col-md-6', lg: '', xl: '', offset: 'offset-md-3', order: '', title: 'Centered Card' }
+        ];
+      } else if (preset === 'order') {
+        columns = [
+          { id: 1, xs: 'col-12', md: 'col-md-4', lg: '', xl: '', offset: '', order: 'order-last', title: 'DOM #1 (order-last)' },
+          { id: 2, xs: 'col-12', md: 'col-md-4', lg: '', xl: '', offset: '', order: '', title: 'DOM #2 (Normal)' },
+          { id: 3, xs: 'col-12', md: 'col-md-4', lg: '', xl: '', offset: '', order: 'order-first', title: 'DOM #3 (order-first)' }
+        ];
+      } else if (preset === 'mixed') {
+        columns = [
+          { id: 1, xs: 'col-12', md: 'col-md-4', lg: '', xl: '', offset: '', order: '', title: 'Sidebar (col-md-4)' },
+          { id: 2, xs: 'col-12', md: 'col-md-8', lg: '', xl: '', offset: '', order: '', title: 'Main Content (col-md-8)' }
+        ];
+      }
+
+      document.getElementById('selRowJustify').value = rowJustify;
+      document.getElementById('selRowAlign').value = rowAlign;
+      document.getElementById('selRowGutters').value = rowGutters;
+      selectColumn(0);
+    }
+
+    function updateCodeSnippet() {
+      const rowClasses = `row ${rowGutters} ${rowJustify} ${rowAlign}`.replace(/\s+/g, ' ').trim();
+      let lines = [`<div class="container-fluid">`, `  <div class="${rowClasses}">`];
+
+      columns.forEach(col => {
+        const classes = [col.xs, col.md, col.lg, col.xl, col.offset, col.order].filter(Boolean).join(' ');
+        lines.push(`    <div class="${classes}">`);
+        lines.push(`      <div class="p-3 border bg-light">${col.title}</div>`);
+        lines.push(`    </div>`);
+      });
+
+      lines.push(`  </div>`);
+      lines.push(`</div>`);
+
+      document.getElementById('htmlSnippetDisplay').textContent = lines.join('\n');
+    }
+
+    function copyHtmlSnippet() {
+      const code = document.getElementById('htmlSnippetDisplay').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        alert('Bootstrap HTML snippet copied to clipboard!');
+      });
+    }
+
+    function updateBreakpointTags() {
+      const w = window.innerWidth;
+      document.getElementById('windowMetric').textContent = `Current Window Width: ${w}px`;
+
+      ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'].forEach(bp => {
+        const el = document.getElementById(`bp-${bp}`);
+        if (el) el.classList.remove('active');
+      });
+
+      let active = 'xs';
+      if (w >= 1400) active = 'xxl';
+      else if (w >= 1200) active = 'xl';
+      else if (w >= 992) active = 'lg';
+      else if (w >= 768) active = 'md';
+      else if (w >= 576) active = 'sm';
+
+      const activeEl = document.getElementById(`bp-${active}`);
+      if (activeEl) activeEl.classList.add('active');
+    }
+
+    window.addEventListener('resize', updateBreakpointTags);
+    window.addEventListener('DOMContentLoaded', () => {
+      updateBreakpointTags();
+      selectColumn(0);
+    });
+  </script>
+</body>
+</html>
