@@ -163,13 +163,15 @@ nav:
   - Full Stack Web Development:
       - "Unit 1: Full Stack Basics & REST": web_development/Unit_01_Full_Stack_Basics.md
       - "Unit 2: Frontend Frameworks": web_development/Unit_02_Frontend_Frameworks.md
+      - "UNIT 2v2: Frontend Frameworks": web_development/UNIT-2_notes.md
+      - "UNIT 3: Backend Frameworks": web_development/UNIT-3_notes.md
+      - "UNIT 4: Database Integrations": web_development/UNIT-4_notes.md
+      - "UNIT 5: Manage and Deploy Applications": web_development/UNIT-5_notes.md
       - "JSON — Data Interchange Format": web_development/json.md
       - "Bootstrap 5 — Component Framework": web_development/bootstrap.md
       - "Tailwind CSS — Utility-First Framework": web_development/tailwind.md
       - "Vue.js — Progressive Framework": web_development/vuejs.md
       - "React.js — Component Library": web_development/react.md
-      - "Unit 1 Exam Questions": web_development/unit_1_questions.md
-
 extra:
   analytics:
     provider: google
