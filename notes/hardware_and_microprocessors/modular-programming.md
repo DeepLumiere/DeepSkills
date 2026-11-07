@@ -840,7 +840,6 @@ $$
 | STACK | Sum | End-to-end | Unified stack |
 | AT | As declared | Fixed absolute | Hardware I/O |
 | MEMORY | As declared | At top of load module | Overlay buffer |
-
 | Stage | What is resolved |
 | :---- | :--------------- |
 | Assembly | Offsets of local variables/labels |

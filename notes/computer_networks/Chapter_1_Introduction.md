@@ -47,29 +47,11 @@
 
 
 | Source File | Content / Role | Chapter Integration |
-
-
-
 | :--- | :--- | :--- |
-
-
-
 | `Ch 1 Introduction.pdf` (52 slides) | Primary lecture presentation covering network uses, hardware, topologies, software layering, OSI/TCP-IP models, history, standards, and transmission metrics. | Main text, core concepts, reference models, and primary diagram references. |
-
-
-
 | `Chapter1-Introduction.pdf` (58 slides) | Supplementary presentation with detailed layer primitives, design issues, and protocol hierarchies. | Cross-verified concepts, enhanced definitions, and design principles. |
-
-
-
 | `CN_Numericals_Data_Communication.pdf` (25 pages) | Dedicated problem set covering Nyquist/Shannon capacity, baud rate, propagation delays, and topologies. | Section 12 (Worked Numerical Problems) & Section 9 (Formulas). |
-
-
-
 | `cn_tutorial.pdf` (Tutorial 1) | Course tutorial covering network transmission, RTT, and channel calculations. | Integrated into Section 12 (Worked Problems) & Section 17 (Exam Review). |
-
-
-
 | `Computer_Networks_Question_Bank.pdf` (Unit 1) | Official question bank containing Unit 1 MCQs, short questions, and numerical problems. | Integrated into Section 17 (Exam-Oriented Review). |
 
 
@@ -519,25 +501,10 @@ Networks are classified by transmission technology into two broad categories:
 
 
 | Topology | Best-Case Hops | Average-Case Hops | Worst-Case Hops | Fault Tolerance & Complexity |
-
-
-
 | :--- | :---: | :---: | :---: | :--- |
-
-
-
 | **Star** | $2$|$2$|$2$ | Central switch failure isolates all nodes; cable breaks affect only one node. |
-
-
-
 | **Bidirectional Ring** | $1$|$\approx \dfrac{n}{4}$|$\left\lfloor \dfrac{n}{2} \right\rfloor$ | Single link break can be bypassed in bidirectional ring; ring re-routing needed. |
-
-
-
 | **Full Mesh** | $1$|$1$|$1$| Maximum redundancy; requires$\dfrac{n(n-1)}{2}$ full-duplex physical links. |
-
-
-
 | **Tree / Hierarchical** | $2$|$O(\log n)$|$2 \cdot \text{depth}$ | Root node congestion; failure of parent isolates subtrees. |
 
 
@@ -579,29 +546,11 @@ Networks are classified hierarchically by their physical dimensions and geograph
 
 
 | Category | Inter-processor Distance | Location / Domain | Typical Technologies & Examples |
-
-
-
 | :--- | :--- | :--- | :--- |
-
-
-
 | **PAN** (Personal Area Network) | $1\text{ m}$to$10\text{ m}$ | Person's immediate workspace | Bluetooth (IEEE 802.15.1), ZigBee (802.15.4), UWB, RFID |
-
-
-
 | **LAN** (Local Area Network) | $10\text{ m}$to$1\text{ km}$ | Room, office suite, building, campus | Switched Ethernet (IEEE 802.3), Wi-Fi (IEEE 802.11) |
-
-
-
 | **MAN** (Metropolitan Area Network) | $10\text{ km}$ | Entire city or municipality | Cable television networks, Metro Ethernet, WiMAX (802.16) |
-
-
-
 | **WAN** (Wide Area Network) | $100\text{ km}$to$1000\text{ km}$ | Country, continent | Telecom carrier backbones, ISP core networks, SONET/SDH |
-
-
-
 | **Internet** | $> 10,000\text{ km}$ | Global planet | Worldwide interconnected network of autonomous systems (AS) |
 
 
@@ -851,33 +800,12 @@ Layers offer two distinct types of service to the layers above them:
 
 
 | Architectural Feature | Connection-Oriented Service | Connectionless Service |
-
-
-
 | :--- | :--- | :--- |
-
-
-
 | **Analogy** | Telephone system | Postal mail service |
-
-
-
 | **Operating Phases** | Three phases: Connection Establishment $\to$Data Transfer$\to$ Connection Release | Single phase: Independent message transmission with no setup |
-
-
-
 | **Packet Addressing** | Connection identifier / VC ID used after setup; full address only at setup | Every individual packet carries complete source and destination addresses |
-
-
-
 | **Packet Ordering** | Strict FIFO order guaranteed; packets follow the established path | Packets may follow different routes and arrive out of order |
-
-
-
 | **Subnet State** | Routers maintain state information per active connection | Routers maintain no connection state; stateless packet forwarding |
-
-
-
 | **Service Sub-types** | 1. Reliable message stream (e.g., file transfer)<br>2. Reliable byte stream (e.g., remote login / SSH)<br>3. Unreliable connection (e.g., digitized voice) | 1. Unreliable datagram (e.g., DNS, UDP)<br>2. Acknowledged datagram (e.g., Wi-Fi, text alerts)<br>3. Request-Reply query service (e.g., RPC) |
 
 
@@ -927,33 +855,12 @@ A service is specified by a set of **primitives** (system calls or API operation
 
 
 | Primitive | Direction | Functionality |
-
-
-
 | :--- | :--- | :--- |
-
-
-
 | `LISTEN` | Server $\to$ OS | Block waiting for an incoming connection request. |
-
-
-
 | `CONNECT` | Client $\to$ OS | Establish a connection with a specified peer address (sends connection request). |
-
-
-
 | `ACCEPT` | Server $\to$ OS | Accept an incoming connection request from a client. |
-
-
-
 | `RECEIVE` | Either $\to$ OS | Block waiting for incoming data. |
-
-
-
 | `SEND` | Either $\to$ OS | Transmit data over the established connection. |
-
-
-
 | `DISCONNECT` | Either $\to$ OS | Terminate the connection gracefully or abruptly. |
 
 
@@ -1599,37 +1506,13 @@ flowchart LR
 
 
 | Architectural Dimension | OSI Reference Model | TCP/IP Reference Model |
-
-
-
 | :--- | :--- | :--- |
-
-
-
 | **Number of Layers** | 7 Layers (Physical, Data Link, Network, Transport, Session, Presentation, Application) | 4 Layers (Link, Internet, Transport, Application) |
-
-
-
 | **Architectural Philosophy** | Conceptual model created *before* protocols were invented; highly formal. | Practical model created *after* protocols were already implemented and deployed. |
-
-
-
 | **Service, Interface, Protocol Distinction** | Explicit and rigorous separation of services, interfaces, and protocols. | Loose separation; protocols came first and the model was just a description. |
-
-
-
 | **Network Layer Service** | Supports both connection-oriented and connectionless services in the network layer. | Supports *only* connectionless service (IP) in the internet layer. |
-
-
-
 | **Transport Layer Service** | Supports *only* connection-oriented service in the transport layer. | Supports both connection-oriented (TCP) and connectionless (UDP) in transport. |
-
-
-
 | **Presentation & Session Layers** | Dedicated Presentation and Session layers with standardized functions. | No Session or Presentation layers; functions implemented inside applications if needed. |
-
-
-
 | **Protocol Dominance** | Protocols were complex and rarely deployed commercially. | Protocols (IP, TCP, UDP, HTTP) form the universal basis of the global Internet. |
 
 
@@ -3359,37 +3242,13 @@ The commercial, hierarchical topology governing the global Internet:
 
 
 | OSI Layer (7 Layers) | TCP/IP Layer (4 Layers) | Hybrid Layer (5 Layers) | Primary Architectural Function | Key Representative Protocols / Standards |
-
-
-
 | :--- | :--- | :--- | :--- | :--- |
-
-
-
 | **7. Application** | **4. Application** | **5. Application** | User-level network services & APIs | HTTP, HTTPS, FTP, SMTP, DNS, SSH, Telnet |
-
-
-
 | **6. Presentation** | *(Inside Application)* | *(Inside Application)* | Data translation, encryption, compression | ASN.1, MIME, TLS/SSL, JPEG |
-
-
-
 | **5. Session** | *(Inside Application)* | *(Inside Application)* | Dialog control, session checkpoints | NetBIOS, RPC, ISO 8327 |
-
-
-
 | **4. Transport** | **3. Transport** | **4. Transport** | End-to-end reliability, flow control, ports | TCP, UDP, SCTP |
-
-
-
 | **3. Network** | **2. Internet** | **3. Network** | Routing, logical addressing, congestion control | IPv4, IPv6, ICMP, ARP, OSPF, BGP |
-
-
-
 | **2. Data Link** | **1. Link** | **2. Data Link** | Node-to-node framing, error check, MAC | Ethernet (802.3), Wi-Fi (802.11), PPP, HDLC |
-
-
-
 | **1. Physical** | *(Hardware interface)* | **1. Physical** | Transmission of raw bits, electrical signals | RS-232, 100Base-TX, Optical Fiber, DSL |
 
 
@@ -3423,33 +3282,12 @@ The commercial, hierarchical topology governing the global Internet:
 
 
 | Criterion | Connection-Oriented Service | Connectionless Service |
-
-
-
 | :--- | :--- | :--- |
-
-
-
 | **Setup Phase** | Explicit connection setup before transmission | No prior handshake or setup phase |
-
-
-
 | **Routing Mode** | Packets follow the same pre-established virtual circuit | Each packet (datagram) is routed independently |
-
-
-
 | **Arrival Order** | Packets guaranteed to arrive in transmitted sequence | Packets may arrive out of order or via different paths |
-
-
-
 | **Header Overhead** | Low per-packet overhead (small VC identifier) | High per-packet overhead (full source & destination IP) |
-
-
-
 | **Router Failure Impact** | All active connections traversing the failed router terminate | Packets dynamically detour around failed router |
-
-
-
 | **Typical Examples** | TCP, X.25, ATM, Frame Relay, telephone calls | UDP, IP, Ethernet, SMS, postal mail |
 
 
@@ -3483,25 +3321,10 @@ The commercial, hierarchical topology governing the global Internet:
 
 
 | Transmission Medium | Physical Description | Typical Bandwidth / Data Rate | Max Distance / Attenuation | Electromagnetic Immunity |
-
-
-
 | :--- | :--- | :--- | :--- | :--- |
-
-
-
 | **Twisted Pair (UTP/STP)** | Two insulated copper wires twisted to cancel EMI | 10 Mbps to 1 Gbps (Cat 5e/Cat 6a) | Up to $100\text{ m}$ per segment | Moderate susceptibility to noise |
-
-
-
 | **Coaxial Cable** | Solid copper core surrounded by dielectric and braided shield | 10 Mbps to 1 Gbps | Up to $500\text{ m}$ (10Base5) | Good immunity to noise |
-
-
-
 | **Fiber Optic Cable** | Glass/plastic core transmitting modulated light pulses | $> 100\text{ Gbps}$ to Terabits/sec | Tens of kilometers without repeaters | Complete immunity to EMI and RFI |
-
-
-
 | **Wireless (Radio/Microwave)** | Unbounded atmospheric electromagnetic wave propagation | 1 Mbps to Multi-Gbps (Wi-Fi, 5G) | Varies from meters to global satellite | Highly susceptible to interference and weather |
 
 

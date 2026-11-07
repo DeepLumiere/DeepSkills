@@ -811,7 +811,6 @@ $$
 | Parameter mechanism | Textual substitution | Registers / stack |
 | Label conflicts | Possible (use LOCAL) | No (scope is proc) |
 | Best for | Short, repeated code | Long, frequently reused code |
-
 | Feature | INT n | CALL |
 | :------ | :---- | :--- |
 | Saves to stack | FLAGS + CS + IP | IP (NEAR) or CS+IP (FAR) |

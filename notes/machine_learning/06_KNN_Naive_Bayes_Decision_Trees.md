@@ -87,17 +87,11 @@ flowchart LR
 
 
 | Characteristic | Lazy Learners (KNN) | Eager Probabilistic (Naïve Bayes) | Eager Rule-Based (Decision Trees) |
-
 | :--- | :--- | :--- | :--- |
-
 | **Model Nature** | Non-parametric, instance-storing | Parametric generative probabilistic | Non-parametric hierarchical rule induction |
-
 | **Training Complexity** | $O(1)$(trivial storage) |$O(m \cdot d)$(frequency counting / stats) |$O(d \cdot m \log m)$ (sorting & splitting) |
-
 | **Inference Complexity** | $O(m \cdot d)$(exhaustive distance calculation) |$O(K \cdot d)$(evaluating class likelihoods) |$O(\text{tree depth}) \le O(d)$ |
-
 | **Memory Footprint** | $O(m \cdot d)$(retains entire training set) |$O(K \cdot d)$(stores class priors & likelihoods) |$O(\text{node count})$ (compact tree) |
-
 | **Interpretability** | Low (no explicit global rules) | Moderate (probabilistic evidence weights) | High (human-readable if-then rules) |
 
 
@@ -473,17 +467,11 @@ $$
 >
 
 > | Instance | Age ($X_1$) | Income ($X_2$) | Risk Class ($Y$) |
-
 > | :---: | :---: | :---: | :---: |
-
 > | **A** | 25 | 40 | Low Risk ($+1$) |
-
 > | **B** | 35 | 60 | Low Risk ($+1$) |
-
 > | **C** | 45 | 80 | High Risk ($-1$) |
-
 > | **D** | 20 | 20 | High Risk ($-1$) |
-
 > | **E** | 50 | 120 | Low Risk ($+1$) |
 
 >
@@ -559,17 +547,11 @@ Normalized Training Table:
 
 
 | Instance | Age ($X_1'$) | Income ($X_2'$) | Class ($Y$) |
-
 | :---: | :---: | :---: | :---: |
-
 | **A** | $\frac{25-20}{30} = 0.1667$|$\frac{40-20}{100} = 0.2000$ | Low Risk ($+1$) |
-
 | **B** | $\frac{35-20}{30} = 0.5000$|$\frac{60-20}{100} = 0.4000$ | Low Risk ($+1$) |
-
 | **C** | $\frac{45-20}{30} = 0.8333$|$\frac{80-20}{100} = 0.6000$ | High Risk ($-1$) |
-
 | **D** | $\frac{20-20}{30} = 0.0000$|$\frac{20-20}{100} = 0.0000$ | High Risk ($-1$) |
-
 | **E** | $\frac{50-20}{30} = 1.0000$|$\frac{120-20}{100} = 1.0000$ | Low Risk ($+1$) |
 
 
@@ -870,19 +852,12 @@ Vocabulary: $V = \{\text{team}, \text{win}, \text{game}, \text{vote}, \text{elec
 
 
 | Document | Text Contents | team | win | game | vote | election | True Class |
-
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-
 | **D1** | team team win game game win | 2 | 2 | 2 | 0 | 0 | **Sports** |
-
 | **D2** | team win win game team game | 2 | 2 | 2 | 0 | 0 | **Sports** |
-
 | **D3** | team team win game win team | 3 | 2 | 1 | 0 | 0 | **Sports** |
-
 | **D4** | team vote vote election election game game | 1 | 0 | 2 | 2 | 2 | **Politics** |
-
 | **D5** | team vote election game game vote | 1 | 0 | 2 | 2 | 1 | **Politics** |
-
 | **D6** | team team vote vote election game | 2 | 0 | 1 | 2 | 1 | **Politics** |
 
 
@@ -1075,19 +1050,12 @@ Where $N_k$is the total number of documents in class$C_k$.
 >
 
 > | Email ID | Win ($x_1$) | Free ($x_2$) | Hello ($x_3$) | Class ($y$) |
-
 > | :---: | :---: | :---: | :---: | :--- |
-
 > | **1** | 1 | 1 | 0 | **Spam** ($C_1$) |
-
 > | **2** | 1 | 0 | 0 | **Spam** ($C_1$) |
-
 > | **3** | 0 | 1 | 0 | **Spam** ($C_1$) |
-
 > | **4** | 0 | 0 | 1 | **Ham** ($C_2$) |
-
 > | **5** | 0 | 0 | 1 | **Ham** ($C_2$) |
-
 > | **6** | 1 | 0 | 1 | **Ham** ($C_2$) |
 
 >
@@ -1232,35 +1200,20 @@ $$
 >
 
 > | Instance | Temperature ($x_1$) | Humidity ($x_2$) | Play ($y$) |
-
 > | :---: | :---: | :---: | :---: |
-
 > | 1 | 85 | 85 | **No** |
-
 > | 2 | 80 | 90 | **No** |
-
 > | 3 | 65 | 70 | **No** |
-
 > | 4 | 72 | 95 | **No** |
-
 > | 5 | 71 | 80 | **No** |
-
 > | 6 | 83 | 78 | **Yes** |
-
 > | 7 | 70 | 96 | **Yes** |
-
 > | 8 | 68 | 80 | **Yes** |
-
 > | 9 | 64 | 65 | **Yes** |
-
 > | 10 | 69 | 79 | **Yes** |
-
 > | 11 | 75 | 80 | **Yes** |
-
 > | 12 | 75 | 70 | **Yes** |
-
 > | 13 | 72 | 90 | **Yes** |
-
 > | 14 | 81 | 75 | **Yes** |
 
 >
@@ -1380,11 +1333,8 @@ A confusion matrix summarizes predicted outcomes against actual target labels:
 
 
 | | Actual Positive ($y=1$) | Actual Negative ($y=0$) |
-
 | :--- | :--- | :--- |
-
 | **Predicted Positive ($\hat{y}=1$)** | **True Positive (TP)** | **False Positive (FP)** (Type I Error) |
-
 | **Predicted Negative ($\hat{y}=0$)** | **False Negative (FN)** (Type II Error) | **True Negative (TN)** |
 
 
@@ -1707,35 +1657,20 @@ $$
 
 
 | Day | Outlook | Temperature | Humidity | Wind | Play Tennis ($y$) |
-
 | :---: | :--- | :--- | :--- | :--- | :---: |
-
 | D1 | Sunny | Hot | High | Weak | **No** |
-
 | D2 | Sunny | Hot | High | Strong | **No** |
-
 | D3 | Overcast | Hot | High | Weak | **Yes** |
-
 | D4 | Rain | Mild | High | Weak | **Yes** |
-
 | D5 | Rain | Cool | Normal | Weak | **Yes** |
-
 | D6 | Rain | Cool | Normal | Strong | **No** |
-
 | D7 | Overcast | Cool | Normal | Strong | **Yes** |
-
 | D8 | Sunny | Mild | High | Weak | **No** |
-
 | D9 | Sunny | Cool | Normal | Weak | **Yes** |
-
 | D10 | Rain | Mild | Normal | Weak | **Yes** |
-
 | D11 | Sunny | Mild | Normal | Strong | **Yes** |
-
 | D12 | Overcast | Mild | High | Strong | **Yes** |
-
 | D13 | Overcast | Hot | Normal | Weak | **Yes** |
-
 | D14 | Rain | Mild | High | Strong | **No** |
 
 
@@ -2091,23 +2026,14 @@ To prevent selecting attributes with near-zero Information Gain whose Split Info
 >
 
 > | Employee_ID | Department | Performance_Rating | Promoted ($y$) |
-
 > | :---: | :---: | :---: | :---: |
-
 > | E1 | Sales | High | Yes |
-
 > | E2 | Sales | High | Yes |
-
 > | E3 | Sales | Medium | No |
-
 > | E4 | IT | High | Yes |
-
 > | E5 | IT | High | Yes |
-
 > | E6 | IT | Medium | No |
-
 > | E7 | IT | Medium | No |
-
 > | E8 | Sales | Medium | No |
 
 >
@@ -2285,27 +2211,16 @@ CART selects the split maximizing $\Delta\text{Gini}(A)$ (minimizing weighted Gi
 >
 
 > | ID | CGPA | Interactiveness | Practical Knowledge | Communication Skills | Job Offer ($y$) |
-
 > | :---: | :---: | :---: | :--- | :--- | :---: |
-
 > | 1 | $\ge 9$ | Yes | Very Good | Good | **Yes** |
-
 > | 2 | $\ge 8$ | No | Good | Moderate | **Yes** |
-
 > | 3 | $\ge 9$ | No | Average | Poor | **No** |
-
 > | 4 | $< 8$ | No | Average | Good | **No** |
-
 > | 5 | $\ge 8$ | Yes | Good | Moderate | **Yes** |
-
 > | 6 | $\ge 9$ | Yes | Good | Moderate | **Yes** |
-
 > | 7 | $< 8$ | Yes | Good | Poor | **No** |
-
 > | 8 | $\ge 9$ | No | Very Good | Good | **Yes** |
-
 > | 9 | $\ge 8$ | Yes | Good | Good | **Yes** |
-
 > | 10 | $\ge 8$ | Yes | Average | Good | **Yes** |
 
 
@@ -2516,23 +2431,14 @@ Where $R(T)$is training error rate,$|T|$is the number of terminal leaves, and$\a
 
 
 | Criterion | K-Nearest Neighbors (KNN) | Naïve Bayes Classifiers | ID3 Decision Trees | C4.5 Decision Trees | CART Decision Trees |
-
 | :--- | :--- | :--- | :--- | :--- | :--- |
-
 | **Model Type** | Non-parametric, lazy | Parametric generative | Non-parametric rule tree | Non-parametric rule tree | Non-parametric binary tree |
-
 | **Splitting / Choice Metric** | Distance / Similarity | Joint likelihood probability | Shannon Information Gain | Information Gain Ratio | Gini Impurity Index |
-
 | **Branching Structure**| Implicit local Voronoi cells | No explicit tree | Multi-way categorical branches | Multi-way & binary splits | Strict binary branching |
-
 | **Feature Types** | Continuous / Dense numeric | Count (Multi), Binary (Bernoulli), Continuous (Gauss) | Categorical discrete | Categorical & continuous | Categorical & continuous |
-
 | **Missing Value Handling**| Requires imputation prior to run | Omit missing attribute in likelihood | Requires pre-processing | Proportional fractional weights | Surrogate split variables |
-
 | **Training Complexity**| $O(1)$(trivial storage) |$O(m \cdot d)$(frequency counting) |$O(d \cdot m \log m)$|$O(d \cdot m \log m)$|$O(d \cdot m \log m)$ |
-
 | **Inference Complexity**| $O(m \cdot d)$(distance computation) |$O(K \cdot d)$(likelihood evaluations) |$O(\text{tree depth}) \le O(d)$|$O(\text{tree depth}) \le O(d)$|$O(\text{tree depth}) \le O(d)$ |
-
 | **Primary Limitation**| Curse of dimensionality; sensitive to outliers | Unrealistic feature independence assumption | High-cardinality attribute bias | High memory during recursive tree build | Sensitive to class imbalance |
 
 

@@ -53,15 +53,10 @@ The principle of optimality states that "in an optimal sequence of decisions or 
 ### Greedy vs DP vs D&C Comparison
 
 | Feature | Greedy Approach | Dynamic Programming | Divide & Conquer |
-
 | :--- | :--- | :--- | :--- |
-
 | **Completeness/Optimality** | Sometimes optimal (local optimum) | Always yields global optimum | Yields exact solution |
-
 | **Subproblems** | No overlapping subproblems | Overlapping subproblems | Non-overlapping subproblems |
-
 | **Direction** | Top-down decision making | Typically Bottom-up | Top-down |
-
 | **Applicability** | Fractional Knapsack, MST | 0/1 Knapsack, LCS, Matrix Chain | Merge Sort, Quick Sort |
 
 
@@ -162,19 +157,12 @@ We want to calculate $C(5,2)$. We create a table up to $n=5$and$r=2$.
 
 
 | i / j | 0 | 1 | 2 |
-
 | :--- | :--- | :--- | :--- |
-
 | **0** | 1 | - | - |
-
 | **1** | 1 | 1 | - |
-
 | **2** | 1 | 2 | 1 |
-
 | **3** | 1 | 3 | 3 |
-
 | **4** | 1 | 4 | 6 |
-
 | **5** | 1 | 5 | 10 |
 
 
@@ -225,15 +213,10 @@ $$
 
 
 | Coin (i) \ Amount (j) | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-
 | **0 (No coins)** | 0 | $\infty$|$\infty$|$\infty$|$\infty$|$\infty$|$\infty$|$\infty$|$\infty$ |
-
 | **1 (d=1)** | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-
 | **2 (d=1, 4)** | 0 | 1 | 2 | 3 | 1 | 2 | 3 | 4 | 2 |
-
 | **3 (d=1, 4, 6)** | 0 | 1 | 2 | 3 | 1 | 2 | 1 | 2 | 2 |
 
 
@@ -401,15 +384,10 @@ $m[1,1] = m[2,2] = m[3,3] = m[4,4] = 0$
 **Optimal Matrix Table `m`:**
 
 |   | 1 (A) | 2 (B) | 3 (C) | 4 (D) |
-
 | :--- | :--- | :--- | :--- | :--- |
-
 | **1** | 0 | 120 | 88 | 158 |
-
 | **2** | - | 0 | 48 | 104 |
-
 | **3** | - | - | 0 | 84 |
-
 | **4** | - | - | - | 0 |
 
 
@@ -510,23 +488,14 @@ Let's compute the DP table $c[i,j]$:
 
 
 | | $\emptyset$ | B | D | C | A | B | A |
-
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-
 | **$\emptyset$** | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-
 | **A** | 0 | 0 | 0 | 0 | 1 | 1 | 1 |
-
 | **B** | 0 | 1 | 1 | 1 | 1 | 2 | 2 |
-
 | **C** | 0 | 1 | 1 | 2 | 2 | 2 | 2 |
-
 | **B** | 0 | 1 | 1 | 2 | 2 | 3 | 3 |
-
 | **D** | 0 | 1 | 2 | 2 | 2 | 3 | 3 |
-
 | **A** | 0 | 1 | 2 | 2 | 3 | 3 | 4 |
-
 | **B** | 0 | 1 | 2 | 2 | 3 | 4 | 4 |
 
 
@@ -599,19 +568,12 @@ DP Table for $K[i, w]$:
 
 
 | i \ w | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
-
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-
 | **0** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-
 | **1 (w=1,v=1)** | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-
 | **2 (w=2,v=6)** | 0 | 1 | 6 | 7 | 7 | 7 | 7 | 7 | 7 | 7 | 7 | 7 |
-
 | **3 (w=5,v=18)**| 0 | 1 | 6 | 7 | 7 | 18 | 19 | 24 | 25 | 25 | 25 | 25 |
-
 | **4 (w=6,v=22)**| 0 | 1 | 6 | 7 | 7 | 18 | 22 | 24 | 28 | 29 | 29 | 40 |
-
 | **5 (w=7,v=28)**| 0 | 1 | 6 | 7 | 7 | 18 | 22 | 28 | 29 | 34 | 35 | 40 |
 
 
@@ -715,15 +677,10 @@ Consider a graph with 4 vertices and edges:
 **Initialization $D^{(0)}$:**
 
 |   | 1 | 2 | 3 | 4 |
-
 | :--- | :--- | :--- | :--- | :--- |
-
 | **1** | 0 | 50 | $\infty$|$\infty$ |
-
 | **2** | $\infty$ | 0 | 15 | 5 |
-
 | **3** | 15 | $\infty$| 0 |$\infty$ |
-
 | **4** | 30 | $\infty$ | 5 | 0 |
 
 
@@ -811,19 +768,12 @@ If any diagonal element $D^{(n)}[i,i] < 0$, it means there is a negative weight 
 
 
 | Problem | Recurrence | Table Size | Time | Space |
-
 | :--- | :--- | :--- | :--- | :--- |
-
 | **Binomial Coefficient** | $C(n,r) = C(n-1,r-1) + C(n-1,r)$|$n \times r$|$O(n \cdot r)$|$O(n \cdot r)$ |
-
 | **Coin Change** | $C[i,j] = \min(C[i-1,j], 1 + C[i,j-d_i])$|$N \times A$|$O(N \cdot A)$|$O(N \cdot A)$ |
-
 | **0/1 Knapsack** | $K[i,w] = \max(K[i-1,w], v_i + K[i-1,w-w_i])$|$N \times W$|$O(N \cdot W)$|$O(N \cdot W)$ |
-
 | **LCS** | $c[i,j] = \max(c[i-1,j], c[i,j-1])$(if$X_i \neq Y_j$) | $m \times n$|$O(m \cdot n)$|$O(m \cdot n)$ |
-
 | **Matrix Chain** | $m[i,j] = \min_{k} \{ m[i,k] + m[k+1,j] + p_{i-1} p_k p_j \}$|$n \times n$|$O(n^3)$|$O(n^2)$ |
-
 | **Floyd-Warshall**| $D^{(k)}[i,j] = \min(D^{(k-1)}[i,j], D^{(k-1)}[i,k] + D^{(k-1)}[k,j])$| $V \times V$|$O(V^3)$|$O(V^2)$ |
 
 

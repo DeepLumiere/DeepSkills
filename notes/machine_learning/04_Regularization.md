@@ -325,17 +325,11 @@ flowchart TD
 
 
 | Formula Name | Expression |
-
 |---|---|
-
 | Regularized Cost Function ($L_2$) | $J(\theta) = \frac{1}{2m} \left[ \sum_{i=1}^m (h_\theta(x^{(i)}) - y^{(i)})^2 + \lambda \sum_{j=1}^n \theta_j^2 \right]$ |
-
 | Regularized GD Update ($\theta_0$) | $\theta_0 := \theta_0 - \alpha \frac{1}{m} \sum_{i=1}^m (h_\theta(x^{(i)}) - y^{(i)}) x_0^{(i)}$ |
-
 | Regularized GD Update ($\theta_j, j \ge 1$) | $\theta_j := \theta_j \left(1 - \alpha \frac{\lambda}{m}\right) - \alpha \frac{1}{m} \sum_{i=1}^m (h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)}$ |
-
 | Regularized Normal Equation | $\theta = \left( X^T X + \lambda L \right)^{-1} X^T y$ |
-
 | Weight Decay Factor | $1 - \alpha \frac{\lambda}{m} < 1$ |
 
 
@@ -502,21 +496,13 @@ $$
 
 
 | Regularization $\lambda$| Penalty Type | Weight$\theta_1$(Initial: 4.0) | Weight$\theta_2$(Initial: 1.2) | Weight$\theta_3$ (Initial: 0.4) | Sparsity (Zero Weights) |
-
 | :---: | :---: | :---: | :---: | :---: | :---: |
-
 | **$\lambda = 0.0$** | OLS (Baseline) | $4.000$|$1.200$|$0.400$ | 0 / 3 (Dense) |
-
 | **$\lambda = 0.5$** | Ridge ($L_2$) | $\frac{4.0}{1.5} = \mathbf{2.667}$|$\frac{1.2}{1.5} = \mathbf{0.800}$|$\frac{0.4}{1.5} = \mathbf{0.267}$ | 0 / 3 (Dense) |
-
 | **$\lambda = 0.5$** | Lasso ($L_1$) | $4.0 - 0.25 = \mathbf{3.750}$|$1.2 - 0.25 = \mathbf{0.950}$|$0.4 - 0.25 = \mathbf{0.150}$ | 0 / 3 (Dense) |
-
 | **$\lambda = 1.0$** | Ridge ($L_2$) | $\frac{4.0}{2.0} = \mathbf{2.000}$|$\frac{1.2}{2.0} = \mathbf{0.600}$|$\frac{0.4}{2.0} = \mathbf{0.200}$ | 0 / 3 (Dense) |
-
 | **$\lambda = 1.0$** | Lasso ($L_1$) | $4.0 - 0.5 = \mathbf{3.500}$|$1.2 - 0.5 = \mathbf{0.700}$|$\max(0, 0.4 - 0.5) = \mathbf{0.000}$ | **1 / 3 ($\theta_3$ Eliminated!)** |
-
 | **$\lambda = 2.0$** | Ridge ($L_2$) | $\frac{4.0}{3.0} = \mathbf{1.333}$|$\frac{1.2}{3.0} = \mathbf{0.400}$|$\frac{0.4}{3.0} = \mathbf{0.133}$ | 0 / 3 (Dense) |
-
 | **$\lambda = 2.0$** | Lasso ($L_1$) | $4.0 - 1.0 = \mathbf{3.000}$|$1.2 - 1.0 = \mathbf{0.200}$|$\max(0, 0.4 - 1.0) = \mathbf{0.000}$ | **1 / 3 ($\theta_3$ Eliminated!)** |
 
 
@@ -526,19 +512,12 @@ $$
 
 
 | Dimension | Ridge Regression ($L_2$) | Lasso Regression ($L_1$) | Elastic Net ($L_1 + L_2$) |
-
 | :--- | :--- | :--- | :--- |
-
 | **Regularization Term** | $\lambda \sum_{j=1}^n \theta_j^2$|$\lambda \sum_{j=1}^n |\theta_j|$|$r\lambda \sum |\theta_j| + \frac{1-r}{2}\lambda \sum \theta_j^2$ |
-
 | **Geometric Constraint** | Circular / Hypersphere ($L_2$ ball) | Diamond / Polyhedron with sharp corners | Rounded Diamond |
-
 | **Sparsity** | No (Smooth shrinking towards 0) | **Yes** (Intersects axes at sharp vertices) | **Yes** |
-
 | **Feature Selection** | Retains all features | Automatic feature elimination | Automatic feature elimination |
-
 | **Collinear Features** | Shrinks correlated weights equally | Arbitrarily picks one, zeroes others | Groups and retains correlated features |
-
 | **Analytical Solution** | Closed form: $(X^T X + \lambda I)^{-1} X^T Y$ | No closed form; requires Coordinate Descent | Coordinate Descent |
 
 

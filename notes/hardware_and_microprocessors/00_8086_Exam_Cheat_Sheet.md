@@ -166,7 +166,6 @@ Byte 2:  [MOD(2)] [REG(3)] [R/M(3)]
 | `SCASB/W` | `AL/AX − [ES:DI]` (flags) | All | DI ±1/±2 |
 | `LODSB/W` | `AL/AX ← [DS:SI]` | None | SI ±1/±2 |
 | `STOSB/W` | `[ES:DI] ← AL/AX` | None | DI ±1/±2 |
-
 | Prefix | Terminates When | Used With |
 |:---|:---|:---|
 | `REP` | CX = 0 | MOVS, STOS |

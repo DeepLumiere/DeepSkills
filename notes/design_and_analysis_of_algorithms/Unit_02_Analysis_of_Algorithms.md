@@ -152,15 +152,10 @@ $$
 #### Step Count Table for Growth of $n$:
 
 | $n$ | Total Executed Steps ($2n + 3$) | Growth Property |
-
 | :---: | :---: | :--- |
-
 | **10** | 23 steps | Dominating term is $n$. |
-
 | **100** | 203 steps | Constant $+3$ becomes negligible. |
-
 | **1,000** | 2,003 steps | Time grows strictly linearly with $n$. |
-
 | **10,000** | 20,003 steps | Linear scaling $\Theta(n)$. |
 
 
@@ -902,27 +897,16 @@ $$
 
 
 | # | Recurrence Relation | $a$|$b$|$n^{\log_b a}$|$f(n)$| Master Case | Solution$T(n)$ | Detailed Step-by-Step Explanation |
-
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-
 | **1** | $T(n) = 4 T(n/2) + n$| 4 | 2 |$n^2$|$n$| Case 1 |$\Theta(n^2)$|$f(n) = n = \mathcal{O}(n^{2-1})$with$\epsilon = 1$. The leaf levels dominate the complexity. |
-
 | **2** | $T(n) = 4 T(n/2) + n^2$| 4 | 2 |$n^2$|$n^2$ | Case 2 ($k=0$) | $\Theta(n^2 \log n)$|$f(n) = n^2 = \Theta(n^2 \log^0 n)$. Balanced work at all levels. |
-
 | **3** | $T(n) = 4 T(n/2) + n^3$| 4 | 2 |$n^2$|$n^3$| Case 3 |$\Theta(n^3)$|$f(n) = n^3 = \Omega(n^{2+1})$with$\epsilon=1$. Regularity: $4(n/2)^3 = n^3/2 \le \frac{1}{2} n^3$(holds for$c = 1/2 < 1$). |
-
 | **4** | $T(n) = 9 T(n/3) + n$| 9 | 3 |$n^2$|$n$| Case 1 |$\Theta(n^2)$|$f(n) = n = \mathcal{O}(n^{2-1})$with$\epsilon = 1$. |
-
 | **5** | $T(n) = T(2n/3) + 1$| 1 |$3/2$|$n^0 = 1$|$1$ | Case 2 ($k=0$) | $\Theta(\log n)$|$f(n) = 1 = \Theta(1)$. Binary Search equivalent. |
-
 | **6** | $T(n) = 7 T(n/2) + n^3$| 7 | 2 |$n^{2.81}$|$n^3$| Case 3 |$\Theta(n^3)$|$f(n) = n^3 = \Omega(n^{2.81 + \epsilon})$with$\epsilon \approx 0.19$. Regularity: $7(n/2)^3 = \frac{7}{8}n^3 \le c n^3$holds for$c = 7/8 < 1$. |
-
 | **7** | $T(n) = 2 T(n/2) + n \log n$| 2 | 2 | $n^1$|$n \log n$ | Case 2 ($k=1$) | $\Theta(n \log^2 n)$|$f(n) = n \log^1 n$, matching $n^{\log_b a} \log^k n$with$k=1$. |
-
 | **8** | $T(n) = 27 T(n/3) + n^3$| 27| 3 |$n^3$|$n^3$ | Case 2 ($k=0$) | $\Theta(n^3 \log n)$|$f(n) = n^3 = \Theta(n^3 \log^0 n)$. |
-
 | **9** | $T(n) = 2 T(n/2) + \Theta(n)$| 2 | 2 |$n^1$|$n$ | Case 2 ($k=0$) | $\Theta(n \log n)$ | Merge Sort equivalent. |
-
 | **10**| $T(n) = 2 T(n/2) + \frac{n}{\log n}$| 2 | 2 | $n^1$|$\frac{n}{\log n}$| **Inapplicable** | Non-polynomially smaller gap | The ratio$\frac{n^{\log_b a}}{f(n)} = \log n$is not polynomial (i.e. cannot find constant$\epsilon > 0$such that$f(n) = \mathcal{O}(n^{1-\epsilon})$). Use Recurrence Tree instead. |
 
 
@@ -1755,19 +1739,12 @@ $$
 
 
 | Sorting Algorithm | Best-Case Time | Average-Case Time | Worst-Case Time | Auxiliary Space | In-Place Sorting? | Stable Sort? | Practical Performance Characteristic |
-
 | :--- | :--- | :--- | :--- | :--- | :---: | :---: | :--- |
-
 | **Bubble Sort** | $\Theta(n)$|$\Theta(n^2)$|$\Theta(n^2)$|$\Theta(1)$ | Yes | Yes | Very slow. Good only for checking if small arrays are already sorted. |
-
 | **Insertion Sort**| $\Theta(n)$|$\Theta(n^2)$|$\Theta(n^2)$|$\Theta(1)$ | Yes | Yes | Efficient for tiny datasets ($n < 50$) or nearly-sorted data. |
-
 | **Selection Sort**| $\Theta(n^2)$|$\Theta(n^2)$|$\Theta(n^2)$|$\Theta(1)$ | Yes | No | Performs minimal array writes, but slow overall due to quadratic comparison count. |
-
 | **Merge Sort** | $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n)$| No | Yes | Guarantees$\Theta(n \log n)$ but requires significant auxiliary buffer memory. |
-
 | **Quick Sort** | $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n^2)$|$\mathcal{O}(\log n)$ | Yes | No | Fastest in practice due to cache locality and low overhead multipliers. |
-
 | **Heap Sort** | $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(1)$| Yes | No | Guarantees$\Theta(n \log n)$ and is strictly in-place; lacks cache locality. |
 
 

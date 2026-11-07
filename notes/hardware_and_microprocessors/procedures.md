@@ -857,7 +857,6 @@ $$
 | Saves to stack | IP (2 bytes) | CS, then IP (4 bytes) |
 | Same segment? | Yes | No |
 | Return instruction | `RET` | `RETF` |
-
 | Feature | Register Passing | Stack Passing |
 | :------ | :--------------- | :------------ |
 | Speed | Faster | Slower |

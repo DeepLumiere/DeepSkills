@@ -722,19 +722,12 @@ $$
 
 
 | Feature | Supervised Learning | Unsupervised Learning | Semi-Supervised Learning | Reinforcement Learning |
-
 | :--- | :--- | :--- | :--- | :--- |
-
 | **Training Data** | Fully labeled pairs $(\mathbf{x}^{(i)}, y^{(i)})$| Unlabeled feature vectors$\mathbf{x}^{(i)}$| Small labeled$\mathcal{D}_L$+ large unlabeled$\mathcal{D}_U$| Environment states$s_t$& scalar rewards$r_t$ |
-
 | **Feedback Signal** | Explicit direct supervision (ground truth label) | No external supervision; self-organizing | Partial supervision propagated through density manifolds | Delayed evaluative scalar reward signals |
-
 | **Core Goal** | Infer mapping function $f: \mathcal{X} \to \mathcal{Y}$ | Uncover geometric manifolds, clusters, or density | Improve decision boundary using data density | Optimize action policy $\pi(a \mid s)$ |
-
 | **Core Tasks** | Classification, Regression | Clustering, Dimensionality Reduction | Semi-supervised classification | Q-learning, Policy Gradients, Actor-Critic |
-
 | **Data Cost** | High (demands human annotation) | Low (uses raw uncurated data) | Moderate (balances label cost) | Environment simulation or execution cost |
-
 | **Benchmark Problems** | House price prediction, spam filter | Customer segmentation, PCA visualization | Medical diagnostics with few labeled biopsies | Chess, Go, autonomous robotic control |
 
 
@@ -911,15 +904,10 @@ flowchart LR
 
 
 | Vision Task | Output Format | Distinguishes Separate Instances? | Typical Benchmark Problem |
-
 | :--- | :--- | :---: | :--- |
-
 | **Image Classification** | Single categorical class label for entire image | No | Is there a cat in this picture? |
-
 | **Object Detection** | Bounding box coordinates $[x, y, w, h]$ + class label | Yes | Locate all pedestrian boxes in street view |
-
 | **Semantic Segmentation** | Dense pixel-level categorical label map | **No** (all cars share identical color) | Drivable road surface vs. sidewalk vs. sky |
-
 | **Instance Segmentation** | Dense pixel-level mask for each individual object | **Yes** (Car 1, Car 2, Car 3 have distinct masks) | Autonomous navigation tracking individual pedestrians |
 
 
