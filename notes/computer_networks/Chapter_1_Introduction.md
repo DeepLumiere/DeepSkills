@@ -726,23 +726,23 @@ flowchart TD
 
 
 
-    A5 -.->|Layer 5 Protocol (Virtual Communication)| B5
+    A5 -.->|"Layer 5 Protocol (Virtual Communication)"| B5
 
 
 
-    A4 -.->|Layer 4 Protocol (Virtual Communication)| B4
+    A4 -.->|"Layer 4 Protocol (Virtual Communication)"| B4
 
 
 
-    A3 -.->|Layer 3 Protocol (Virtual Communication)| B3
+    A3 -.->|"Layer 3 Protocol (Virtual Communication)"| B3
 
 
 
-    A2 -.->|Layer 2 Protocol (Virtual Communication)| B2
+    A2 -.->|"Layer 2 Protocol (Virtual Communication)"| B2
 
 
 
-    A1 ===|Physical Medium (Actual Signal Flow)| B1
+    A1 ===|"Physical Medium (Actual Signal Flow)"| B1
 
 
 
@@ -2233,7 +2233,7 @@ Assumes a completely noiseless channel with low-pass frequency characteristics.
 
 
 $$
-C_{\text{Shannon}} = B \log_2 \left(1 + \f\frac{S}{N}\r\right)
+C_{\text{Shannon}} = B \log_2 \left(1 + \frac{S}{N}\right)
 $$
 
 
@@ -2254,7 +2254,7 @@ $$
 
 
 
-* $\f\frac{S}{N}$ = Signal-to-Noise power ratio (**linear ratio**, not in decibels)
+* $\frac{S}{N}$ = Signal-to-Noise power ratio (**linear ratio**, not in decibels)
 
 
 
@@ -2277,7 +2277,7 @@ $$
 
 
 $$
-\text{SNR}_{\text{dB}} = 10 \log_{10} \left(\f\frac{S}{N}\r\right) \iff \f\frac{S}{N} = 10^{\f\frac{\text{SNR}_{\text{dB}}}{10}}
+\text{SNR}_{\text{dB}} = 10 \log_{10} \left(\frac{S}{N}\right) \iff \frac{S}{N} = 10^{\frac{\text{SNR}_{\text{dB}}}{10}}
 $$
 
 
@@ -2349,7 +2349,7 @@ Applies to channels corrupted by white Gaussian thermal noise.
 
 
 $$
-T_{\text{trans}} = \f\frac{L}{R}
+T_{\text{trans}} = \frac{L}{R}
 $$
 
 
@@ -2365,7 +2365,7 @@ $$
 
 
 $$
-T_{\text{prop}} = \f\frac{D}{v}
+T_{\text{prop}} = \frac{D}{v}
 $$
 
 
@@ -2481,7 +2481,7 @@ $$
 
 
 $$
-N_{\text{links, bidirectional}} = \f\frac{n(n-1)}{2}
+N_{\text{links, bidirectional}} = \frac{n(n-1)}{2}
 $$
 
 
@@ -3609,7 +3609,7 @@ Imagine the length of a 10Base-5 cable is $2500\text{ meters}$. If the propagati
 
 
 $$
-T_{\text{prop}} = \f\frac{D}{v}
+T_{\text{prop}} = \frac{D}{v}
 $$
 
 
@@ -3649,7 +3649,7 @@ $$
 
 
 $$
-T_{\text{prop}} = \f\frac{2500\text{ m}}{2 \times 10^8\text{ m/s}} = 1.25 \times 10^{-5}\text{ s} = 12.5\,\mu\text{s}
+T_{\text{prop}} = \frac{2500\text{ m}}{2 \times 10^8\text{ m/s}} = 1.25 \times 10^{-5}\text{ s} = 12.5\,\mu\text{s}
 $$
 
 
@@ -3773,7 +3773,7 @@ A digital signaling system is required to operate at $9600\text{ bps}$. If a sig
 
 
 $$
-\text{Bit Rate} = \text{Baud Rate} \times \log_2(V) \implies \text{Baud Rate} = \f\frac{\text{Bit Rate}}{\log_2(V)}
+\text{Bit Rate} = \text{Baud Rate} \times \log_2(V) \implies \text{Baud Rate} = \frac{\text{Bit Rate}}{\log_2(V)}
 $$
 
 
@@ -3797,7 +3797,7 @@ $$
 
 
 $$
-\text{Baud Rate} = \f\frac{9600\text{ bps}}{\log_2(16)} = \f\frac{9600}{4} = 2400\text{ Baud}
+\text{Baud Rate} = \frac{9600\text{ bps}}{\log_2(16)} = \frac{9600}{4} = 2400\text{ Baud}
 $$
 
 
@@ -3982,7 +3982,7 @@ What is the maximum theoretical data rate for a voice-grade line with a bandwidt
 
 
 
-* Signal-to-Noise Ratio: $\f\frac{S}{N} = 10000 = 10^4$
+* Signal-to-Noise Ratio: $\frac{S}{N} = 10000 = 10^4$
 
 
 
@@ -4001,7 +4001,7 @@ What is the maximum theoretical data rate for a voice-grade line with a bandwidt
 
 
 $$
-C = B \log_2 \left(1 + \f\frac{S}{N}\r\right)
+C = B \log_2 \left(1 + \frac{S}{N}\right)
 $$
 
 
@@ -4010,7 +4010,7 @@ $$
 
 
 
-Using logarithmic identity: $\log_2(x) = \f\frac{\log_{10}(x)}{\log_{10}(2)} \approx \f\frac{\log_{10}(x)}{0.30103}$
+Using logarithmic identity: $\log_2(x) = \frac{\log_{10}(x)}{\log_{10}(2)} \approx \frac{\log_{10}(x)}{0.30103}$
 
 
 
@@ -4031,8 +4031,8 @@ Using logarithmic identity: $\log_2(x) = \f\frac{\log_{10}(x)}{\log_{10}(2)} \ap
 $$
 \begin{aligned}
 C &= 4000 \times \log_2(1 + 10000) \approx 4000 \times \log_2(10001) \\
-  &= 4000 \times \f\frac{\log_{10}(10001)}{\log_{10}(2)} \\
-  &= 4000 \times \f\frac{4.000043}{0.30103} \\
+  &= 4000 \times \frac{\log_{10}(10001)}{\log_{10}(2)} \\
+  &= 4000 \times \frac{4.000043}{0.30103} \\
   &= 4000 \times 13.2878 \\
   &= 53,151\text{ bps} \approx 53.15\text{ kbps} = 5.3 \times 10^4\text{ bps}
 \end{aligned}
@@ -4119,7 +4119,7 @@ What signal-to-noise ratio ($S/N$) in decibels is needed to transmit a T1 carrie
 
 
 $$
-C = B \log_2 \left(1 + \f\frac{S}{N}\r\right) \implies \log_2 \left(1 + \f\frac{S}{N}\r\right) = \f\frac{C}{B}
+C = B \log_2 \left(1 + \frac{S}{N}\right) \implies \log_2 \left(1 + \frac{S}{N}\right) = \frac{C}{B}
 $$
 
 
@@ -4135,7 +4135,7 @@ $$
 
 
 $$
-\f\frac{S}{N} = 2^{\f\frac{C}{B}} - 1
+\frac{S}{N} = 2^{\frac{C}{B}} - 1
 $$
 
 
@@ -4151,7 +4151,7 @@ $$
 
 
 $$
-\text{SNR}_{\text{dB}} = 10 \log_{10} \left(\f\frac{S}{N}\r\right)
+\text{SNR}_{\text{dB}} = 10 \log_{10} \left(\frac{S}{N}\right)
 $$
 
 
@@ -4175,7 +4175,7 @@ $$
 
 
 $$
-\f\frac{C}{B} = \f\frac{1,544,000}{50,000} = 30.88
+\frac{C}{B} = \frac{1,544,000}{50,000} = 30.88
 $$
 
 
@@ -4195,7 +4195,7 @@ $$
 
 
 $$
-\f\frac{S}{N} = 2^{30.88} - 1 \approx 2^{30.88} \approx 1.986 \times 10^9
+\frac{S}{N} = 2^{30.88} - 1 \approx 2^{30.88} \approx 1.986 \times 10^9
 $$
 
 
@@ -4215,7 +4215,7 @@ $$
 
 
 $$
-\text{SNR}_{\text{dB}} = 10 \log_{10} \left(2^{30.88}\r\right) = 10 \times 30.88 \times \log_{10}(2) = 308.8 \times 0.30103 \approx 92.96\text{ dB} \approx 93\text{ dB}
+\text{SNR}_{\text{dB}} = 10 \log_{10} \left(2^{30.88}\right) = 10 \times 30.88 \times \log_{10}(2) = 308.8 \times 0.30103 \approx 92.96\text{ dB} \approx 93\text{ dB}
 $$
 
 
@@ -4491,7 +4491,7 @@ $$
 
 
 $$
-\text{Bit Rate} = \f\frac{1,536,000\text{ bits}}{60\text{ seconds}} = 25,600\text{ bps} = 25.6\text{ kbps}
+\text{Bit Rate} = \frac{1,536,000\text{ bits}}{60\text{ seconds}} = 25,600\text{ bps} = 25.6\text{ kbps}
 $$
 
 
@@ -4699,7 +4699,7 @@ $$
 
 
 $$
-N_{\text{bidirectional}} = \f\frac{n(n-1)}{2}
+N_{\text{bidirectional}} = \frac{n(n-1)}{2}
 $$
 
 
@@ -4743,7 +4743,7 @@ $$
 
 
 $$
-N_{\text{bidirectional}} = \f\frac{50 \times 49}{2} = 1225\text{ links}
+N_{\text{bidirectional}} = \frac{50 \times 49}{2} = 1225\text{ links}
 $$
 
 
@@ -4883,7 +4883,7 @@ $$
 
 
 $$
-\f\frac{L}{R} = \text{RTT} \implies R = \f\frac{L}{\text{RTT}} = \f\frac{1000\text{ bits}}{2 \times 10^{-4}\text{ s}} = 5 \times 10^6\text{ bps} = 5\text{ Mbps}
+\frac{L}{R} = \text{RTT} \implies R = \frac{L}{\text{RTT}} = \frac{1000\text{ bits}}{2 \times 10^{-4}\text{ s}} = 5 \times 10^6\text{ bps} = 5\text{ Mbps}
 $$
 
 
@@ -4971,7 +4971,7 @@ If the distance between host A and host B is $4000\text{ km}$, how long does it 
 
 
 $$
-T_{\text{prop}} = \f\frac{4 \times 10^6\text{ m}}{3 \times 10^8\text{ m/s}} = \f\frac{4}{300}\text{ s} = \f\frac{1}{75}\text{ s} \approx 0.01333\text{ s} = 13.33\text{ ms}
+T_{\text{prop}} = \frac{4 \times 10^6\text{ m}}{3 \times 10^8\text{ m/s}} = \frac{4}{300}\text{ s} = \frac{1}{75}\text{ s} \approx 0.01333\text{ s} = 13.33\text{ ms}
 $$
 
 
@@ -4991,7 +4991,7 @@ $$
 
 
 $$
-\text{RTT} = 2 \times T_{\text{prop}} = 2 \times \f\frac{1}{75}\text{ s} = \f\frac{2}{75}\text{ s} \approx 0.02667\text{ s} = 26.67\text{ ms}
+\text{RTT} = 2 \times T_{\text{prop}} = 2 \times \frac{1}{75}\text{ s} = \frac{2}{75}\text{ s} \approx 0.02667\text{ s} = 26.67\text{ ms}
 $$
 
 
@@ -5004,7 +5004,7 @@ $$
 
 
 
-* **ACK Return Time:** $26.67\text{ ms}$ ($\f\frac{2}{75}\text{ s}$)
+* **ACK Return Time:** $26.67\text{ ms}$ ($\frac{2}{75}\text{ s}$)
 
 
 
@@ -5212,7 +5212,7 @@ In a channel with constant signal power $S$and additive white Gaussian noise (AW
 
 
 $$
-C = B \log_2 \left(1 + \f\frac{S}{N_0 B}\r\right)
+C = B \log_2 \left(1 + \frac{S}{N_0 B}\right)
 $$
 
 
@@ -5237,8 +5237,8 @@ Let $u = \dfrac{S}{N_0 B}$. As $B \to \infty$, $u \to 0$. We express $C$using th
 
 $$
 \begin{aligned}
-C &= B \cdot \f\frac{\ln\left(1 + \f\frac{S}{N_0 B}\r\right)}{\ln 2} \\
-  &= \f\frac{S}{N_0 \ln 2} \cdot \left[ \f\frac{\ln\left(1 + \f\frac{S}{N_0 B}\r\right)}{\f\frac{S}{N_0 B}} \r\right]
+C &= B \cdot \frac{\ln\left(1 + \frac{S}{N_0 B}\right)}{\ln 2} \\
+  &= \frac{S}{N_0 \ln 2} \cdot \left[ \frac{\ln\left(1 + \frac{S}{N_0 B}\right)}{\frac{S}{N_0 B}} \right]
 \end{aligned}
 $$
 
@@ -5263,7 +5263,7 @@ Taking the mathematical limit as $B \to \infty$:
 
 
 $$
-C_{\infty} = \lim_{B \to \infty} C = \f\frac{S}{N_0 \ln 2} = \f\frac{S}{N_0} \log_2 e \approx 1.4427 \cdot \f\frac{S}{N_0}
+C_{\infty} = \lim_{B \to \infty} C = \frac{S}{N_0 \ln 2} = \frac{S}{N_0} \log_2 e \approx 1.4427 \cdot \frac{S}{N_0}
 $$
 
 
@@ -5483,7 +5483,7 @@ When an interactive application transmits single characters (e.g., an SSH or Tel
 
 
 $$
-\text{Protocol Efficiency} = \f\frac{\text{Payload Size}}{\text{Total Frame Size}} = \f\frac{1}{79} \approx 1.26\%
+\text{Protocol Efficiency} = \frac{\text{Payload Size}}{\text{Total Frame Size}} = \frac{1}{79} \approx 1.26\%
 $$
 
 
@@ -5551,7 +5551,7 @@ Consider $M$intermediate switches connecting source and destination. Each link h
 
 
 $$
-T_{\text{SF}} = (M + 1) \f\frac{L}{R} + (M + 1) T_{\text{prop}}
+T_{\text{SF}} = (M + 1) \frac{L}{R} + (M + 1) T_{\text{prop}}
 $$
 
 
@@ -5571,7 +5571,7 @@ $$
 
 
 $$
-T_{\text{Cut-Through}} = \f\frac{L}{R} + M \f\frac{H}{R} + (M + 1) T_{\text{prop}}
+T_{\text{Cut-Through}} = \frac{L}{R} + M \frac{H}{R} + (M + 1) T_{\text{prop}}
 $$
 
 
@@ -5639,7 +5639,7 @@ In a full mesh topology of $n$ nodes, the number of physical full-duplex links r
 
 
 $$
-E = \f\frac{n(n - 1)}{2} = O(n^2)
+E = \frac{n(n - 1)}{2} = O(n^2)
 $$
 
 
@@ -5931,12 +5931,12 @@ $$
 
 
 $$
-C = B \log_2 \left(1 + \f\frac{S}{N}\r\right)
+C = B \log_2 \left(1 + \frac{S}{N}\right)
 $$
 
 
 
-* $C$ = Capacity ($\text{bps}$), $B$ = Bandwidth ($\text{Hz}$), $\f\frac{S}{N}$ = Linear signal-to-noise ratio.
+* $C$ = Capacity ($\text{bps}$), $B$ = Bandwidth ($\text{Hz}$), $\frac{S}{N}$ = Linear signal-to-noise ratio.
 
 
 
@@ -5955,7 +5955,7 @@ $$
 
 
 $$
-\text{SNR}_{\text{dB}} = 10 \log_{10} \left(\f\frac{S}{N}\r\right) \iff \f\frac{S}{N} = 10^{\f\frac{\text{SNR}_{\text{dB}}}{10}}
+\text{SNR}_{\text{dB}} = 10 \log_{10} \left(\frac{S}{N}\right) \iff \frac{S}{N} = 10^{\frac{\text{SNR}_{\text{dB}}}{10}}
 $$
 
 
@@ -5995,7 +5995,7 @@ $$
 
 
 $$
-T_{\text{trans}} = \f\frac{L}{R}, \quad T_{\text{prop}} = \f\frac{D}{v}, \quad \text{RTT} = 2 \times T_{\text{prop}}
+T_{\text{trans}} = \frac{L}{R}, \quad T_{\text{prop}} = \frac{D}{v}, \quad \text{RTT} = 2 \times T_{\text{prop}}
 $$
 
 
@@ -6019,7 +6019,7 @@ $$
 
 
 $$
-N_{\text{links, bidirectional}} = \f\frac{n(n-1)}{2}, \quad N_{\text{links, unidirectional}} = n(n-1)
+N_{\text{links, bidirectional}} = \frac{n(n-1)}{2}, \quad N_{\text{links, unidirectional}} = n(n-1)
 $$
 
 
@@ -6283,7 +6283,7 @@ $$
 
 
 $$
-T_{\text{trans}} = \f\frac{167,772,160\text{ bits}}{10,000,000\text{ bps}} = 16.777\text{ seconds}
+T_{\text{trans}} = \frac{167,772,160\text{ bits}}{10,000,000\text{ bps}} = 16.777\text{ seconds}
 $$
 
 
@@ -6335,7 +6335,7 @@ $$
 
 
 $$
-T_{\text{prop}} = \f\frac{3000 \times 10^3\text{ m}}{2 \times 10^8\text{ m/s}} = 0.015\text{ s} = 15\text{ ms}
+T_{\text{prop}} = \frac{3000 \times 10^3\text{ m}}{2 \times 10^8\text{ m/s}} = 0.015\text{ s} = 15\text{ ms}
 $$
 
 

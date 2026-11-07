@@ -537,6 +537,7 @@ $$
 $$
 
 **Breakpoint Tiers:**
+
 - Extra Small (`xs`): $< 576\text{px}$ (implicit default, no infix)
 - Small (`sm`): $\ge 576\text{px}$
 - Medium (`md`): $\ge 768\text{px}$
@@ -1396,6 +1397,7 @@ export default function MovieTicketBookingApp() {
 #### Question 1: Explain the purpose and importance of the Viewport Meta Tag in Responsive Web Design. What happens if it is omitted?
 
 **Marking Scheme:**
+
 - Stating the syntax and breakdown of the tag attributes: **2 Marks**
 - Explanation of default 980px viewport emulation in mobile browsers: **1.5 Marks**
 - Consequences of omitting the tag (tiny text, zoom issues): **1.5 Marks**
@@ -1418,6 +1420,7 @@ When omitted, mobile browsers assume the page is designed for desktop monitors a
 #### Question 2: Differentiate between `localStorage`, `sessionStorage`, and `IndexedDB`.
 
 **Marking Scheme:**
+
 - Technical comparison table covering key properties: **3 Marks**
 - Discussion of security considerations (XSS, tokens): **2 Marks**
 
@@ -1438,6 +1441,7 @@ When omitted, mobile browsers assume the page is designed for desktop monitors a
 #### Question 3: Differentiate between Vue's Options API and Composition API with code snippets.
 
 **Marking Scheme:**
+
 - Structural distinction and comparison: **2 Marks**
 - Options API code snippet: **1.5 Marks**
 - Composition API code snippet: **1.5 Marks**
@@ -1475,6 +1479,7 @@ export default {
 #### Question 4: Compare React Props and State with an architectural comparison table.
 
 **Marking Scheme:**
+
 - Comparison table across 4+ parameters: **3 Marks**
 - Explanation of uni-directional data flow: **2 Marks**
 
@@ -1494,6 +1499,7 @@ React enforces **uni-directional data flow**: props pass data downward from pare
 #### Question 5: Explain the HTML5 Drag and Drop event lifecycle with the required event handlers.
 
 **Marking Scheme:**
+
 - Explanation of the source and target lifecycle events: **2.5 Marks**
 - Code example showing `preventDefault()` on `dragover`: **2.5 Marks**
 
@@ -1534,6 +1540,7 @@ dropZone.addEventListener('drop', (e) => {
 Explain in detail how React's Virtual DOM reconciliation engine works. Discuss why the generic tree diffing algorithm of $O(n^3)$ is impractical for interactive web applications, and explain the two key heuristics React uses to achieve $O(n)$ linear complexity. Finally, describe the React Fiber reconciler architecture and contrast the Render phase with the Commit phase.
 
 **Marking Scheme:**
+
 1. Mathematical derivation and justification for replacing $O(n^3)$ with $O(n)$: **2.5 Marks**
 2. In-depth explanation of the two diffing heuristics (type checking and key stability): **2.5 Marks**
 3. React Fiber architecture: motivation, work units, and priority lanes: **2.5 Marks**
@@ -1561,6 +1568,7 @@ React reduces tree comparison complexity to $O(n)$ by applying two assumptions:
 
 1. **Elements of Different Types Produce Different Subtrees**:
    If a parent node changes its tag type (e.g., `<div className="card">` replaced by `<section className="card">`), React does not attempt to compare their children. It unmounts the existing subtree completely and constructs the new subtree from scratch.
+
 2. **Stable Child Tracking via `key` Attribute**:
    When rendering collections, React uses the unique `key` prop to identify items across renders:
    ```jsx
@@ -1584,6 +1592,7 @@ $$
 $$
 
 This structure allows React to:
+
 - Pause work and yield control back to the browser for high-priority tasks (e.g., user input).
 - Assign priority levels to different types of updates using priority lanes.
 - Reuse completed work or discard obsolete updates when state changes rapidly.
@@ -1616,6 +1625,7 @@ This structure allows React to:
 
 **Exam Question:**
 Compare and contrast three major styling paradigms in modern frontend engineering:
+
 1. Pre-built Component Frameworks (Bootstrap 5)
 2. Utility-First Frameworks (Tailwind CSS)
 3. Component-Driven Scoped CSS (CSS Modules / CSS-in-JS)
@@ -1623,6 +1633,7 @@ Compare and contrast three major styling paradigms in modern frontend engineerin
 Analyze their internal architectures, production build footprints, development speed, and maintainability across large engineering teams.
 
 **Marking Scheme:**
+
 1. Architectural analysis of Bootstrap 5 (Flexbox, Sass, custom properties): **2.5 Marks**
 2. Architectural analysis of Tailwind CSS (Atomic utilities, JIT compilation): **2.5 Marks**
 3. Architectural analysis of Scoped CSS / CSS Modules: **2.5 Marks**
@@ -1632,11 +1643,13 @@ Analyze their internal architectures, production build footprints, development s
 
 ##### 1. Bootstrap 5: Component-Driven Architecture
 Bootstrap provides pre-styled, high-level UI components (modals, navbars, cards) built on a 12-column flexbox grid. Its styling relies on Sass variables and CSS Custom Properties:
+
 - **Pros**: Fast prototyping; team members can build interfaces quickly without deep CSS knowledge.
 - **Cons**: Produces cookie-cutter designs; overriding default styles requires complex Sass reconfiguration or high CSS specificity overrides.
 
 ##### 2. Tailwind CSS: Utility-First & Just-In-Time (JIT) Engine
 Tailwind provides single-purpose atomic utility classes (e.g., `flex`, `pt-4`, `text-center`) composed directly in HTML or JSX templates.
+
 - **JIT Compilation**: The JIT compiler scans source files and generates only the CSS classes actually used in the project:
 
 $$
@@ -1676,6 +1689,7 @@ CSS Modules scope class names automatically by generating unique hash suffixes a
 Explain the mathematical foundations of Responsive Web Design. Discuss Ethan Marcotte's fluid grid formula, explain the difference between mobile-first (`min-width`) and desktop-first (`max-width`) media queries, and show how to implement a fully responsive product card grid using modern CSS Grid and the `<picture>` element for art direction.
 
 **Marking Scheme:**
+
 1. Mathematical explanation of the fluid grid formula and box-sizing: **2.5 Marks**
 2. Architectural comparison of Mobile-First vs. Desktop-First: **2.5 Marks**
 3. Production CSS Grid implementation with `minmax()` and `auto-fit`: **2.5 Marks**

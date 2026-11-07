@@ -7,7 +7,9 @@
 
 ## 1. Physical Address Formula
 
-$$\boxed{\text{Physical Address} = \text{Segment} \times 10\text{H} + \text{Effective Address (EA)}}$$
+$$
+\boxed{\text{Physical Address} = \text{Segment} \times 10\text{H} + \text{Effective Address (EA)}}
+$$
 
 | Mode | EA Formula | Default Seg |
 |:---|:---|:---:|
@@ -34,6 +36,7 @@ Byte 2:  [MOD(2)] [REG(3)] [R/M(3)]
 **W bit:** W=0 → Byte operation | W=1 → Word operation
 
 **MOD field:**
+
 | MOD | Meaning |
 |:---:|:---|
 | `00` | Memory, no displacement (except R/M=110 → Direct addr) |
@@ -42,6 +45,7 @@ Byte 2:  [MOD(2)] [REG(3)] [R/M(3)]
 | `11` | Register-to-register (R/M = register code) |
 
 **REG codes:**
+
 | Code | W=0 (Byte) | W=1 (Word) |
 |:---:|:---:|:---:|
 | 000 | AL | AX |
@@ -54,6 +58,7 @@ Byte 2:  [MOD(2)] [REG(3)] [R/M(3)]
 | 111 | BH | DI |
 
 **R/M Memory Codes (MOD ≠ 11):**
+
 | R/M | EA |
 |:---:|:---|
 | 000 | [BX+SI] |
@@ -169,6 +174,7 @@ Byte 2:  [MOD(2)] [REG(3)] [R/M(3)]
 | `REPNE/REPNZ` | CX=0 OR ZF=1 (match found) | CMPS, SCAS |
 
 **Rules:**
+
 - Source: always `DS:SI` (can override DS with prefix)
 - Destination: always **`ES:DI`** (CANNOT be overridden!)
 - `CLD` → DF=0 → forward (SI/DI increment)
@@ -201,6 +207,7 @@ Stack grows DOWNWARD (SP decrements on PUSH)
 ```
 
 **Rules:**
+
 - Can PUSH/POP: AX, BX, CX, DX, SI, DI, BP, SP, CS, DS, ES, SS
 - Cannot: `PUSH AL` (8-bit push illegal), `POP CS` (forbidden)
 - `PUSHF` / `POPF` → Save/Restore entire FLAGS register
@@ -216,6 +223,7 @@ Stack grows DOWNWARD (SP decrements on PUSH)
 ```
 
 **CALL/RET:**
+
 - NEAR CALL: pushes IP (2 bytes); RET pops IP
 - FAR CALL: pushes CS then IP (4 bytes); RETF pops IP then CS
 - `RET n` = RET + `SP += n` (clean caller's parameters)
@@ -292,6 +300,7 @@ asm {
 | `$` | 24H | | `a`–`z` | 61H–7AH |
 
 **Key conversions:**
+
 - `digit → int`: `AL - 30H` (subtract '0')
 - `int → digit`: `AL + 30H` (add '0')  
 - `upper → lower`: `OR AL, 20H`

@@ -12,6 +12,7 @@
 An **Addressing Mode** defines the method the 8086 Execution Unit (EU) uses to locate the **operand** (data) required by an instruction. Before executing any instruction, the CPU must answer: *"Where is the data?"*
 
 The 8086 has a **two-unit pipelined architecture**:
+
 - **BIU (Bus Interface Unit):** Fetches instructions from memory, calculates physical addresses.
 - **EU (Execution Unit):** Decodes and executes; requests operands from BIU.
 
@@ -34,7 +35,9 @@ flowchart LR
 
 The 8086 has a **20-bit address bus** (1 MB addressable) but only **16-bit internal registers**. To bridge this gap, a hardware **Address Adder** inside the BIU computes the physical address:
 
-$$\boxed{\text{Physical Address (20-bit)} = \text{Segment Register} \times 10\text{H} + \text{Effective Address (EA)}}$$
+$$
+\boxed{\text{Physical Address (20-bit)} = \text{Segment Register} \times 10\text{H} + \text{Effective Address (EA)}}
+$$
 
 > [!IMPORTANT]
 > Multiplying by `10H` (hex) = shifting left by **one hex digit** = appending a zero nibble. This converts the 16-bit segment value into a 20-bit **paragraph-aligned** base address.
@@ -116,6 +119,7 @@ You can **force** a different segment using an override prefix byte placed befor
 ```
 
 **Valid Registers:**
+
 - 8-bit: `AL`, `AH`, `BL`, `BH`, `CL`, `CH`, `DL`, `DH`
 - 16-bit: `AX`, `BX`, `CX`, `DX`, `SP`, `BP`, `SI`, `DI`
 - Segment: `CS`, `DS`, `ES`, `SS` (with restrictions)
@@ -139,6 +143,7 @@ MOV AX, CS          ; Reading CS is allowed (only writing CS is illegal)
 ```
 
 **Exam Key Facts:**
+
 - Fastest addressing mode (no memory bus cycles)
 - Uses 0 or 1 byte for the instruction (no displacement, no address bytes)
 - `PUSH`/`POP` are register mode for stack operations
@@ -200,7 +205,10 @@ CMP CX, 0000H       ; Compare CX with zero
 **Definition:** The **16-bit Effective Address** is hardcoded as a constant displacement `[Disp16]` directly in the instruction. The CPU reads/writes the memory at that fixed offset within DS.
 
 **Formula:**
-$$EA = \text{Disp16} \quad \Rightarrow \quad \text{Physical} = \text{DS} \times 10\text{H} + \text{Disp16}$$
+
+$$
+EA = \text{Disp16} \quad \Rightarrow \quad \text{Physical} = \text{DS} \times 10\text{H} + \text{Disp16}
+$$
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -230,6 +238,7 @@ $$EA = \text{Disp16} \quad \Rightarrow \quad \text{Physical} = \text{DS} \times 
 ```
 
 **Worked Numerical Problem:**
+
 - DS = `3000H`, instruction: `MOV AX, [0200H]`
 - Physical = `3000H × 10H + 0200H = 30000H + 0200H = **30200H**`
 - `AX` is loaded with the **word** at addresses `30200H` (low) and `30201H` (high)
@@ -253,9 +262,14 @@ ADD AX, COUNT           ; Add memory variable COUNT to AX
 **Definition:** The EA is **contained inside a register** (`BX`, `BP`, `SI`, or `DI`). The register points to the data in memory — like a C pointer (`*ptr`).
 
 **Formula:**
-$$EA = [R] \quad \text{where } R \in \{BX, BP, SI, DI\}$$
 
-$$\text{Physical} = \begin{cases} \text{DS} \times 10\text{H} + [R] & \text{if } R \in \{BX, SI, DI\} \\ \text{SS} \times 10\text{H} + [R] & \text{if } R = BP \end{cases}$$
+$$
+EA = [R] \quad \text{where } R \in \{BX, BP, SI, DI\}
+$$
+
+$$
+\text{Physical} = \begin{cases} \text{DS} \times 10\text{H} + [R] & \text{if } R \in \{BX, SI, DI\} \\ \text{SS} \times 10\text{H} + [R] & \text{if } R = BP \end{cases}
+$$
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -314,7 +328,10 @@ MOV AX, [BX]             ; Load second element
 **Definition:** EA = **Base Register + Signed Displacement**. Used to access **fields within a structure** or **stack parameters** at a fixed offset from a base.
 
 **Formula:**
-$$EA = [BX\text{ or }BP] + \text{Displacement (8-bit or 16-bit signed)}$$
+
+$$
+EA = [BX\text{ or }BP] + \text{Displacement (8-bit or 16-bit signed)}
+$$
 
 - **8-bit displacement**: Range −128 to +127
 - **16-bit displacement**: Range −32,768 to +32,767
@@ -367,6 +384,7 @@ MOV AX, [BP + 6]        ; Load 2nd parameter from stack frame
 ```
 
 **Exam Worked Problem:**
+
 - Given: `SS = 3000H`, `BP = 01FAH`, instruction: `MOV DL, [BP + 4]`
 - EA = `01FAH + 0004H = 01FEH`
 - Physical = `30000H + 01FEH = **301FEH**`
@@ -378,7 +396,10 @@ MOV AX, [BP + 6]        ; Load 2nd parameter from stack frame
 **Definition:** EA = **Index Register + Signed Displacement**. Used for **array access** where the index changes each iteration and the base address is the fixed displacement.
 
 **Formula:**
-$$EA = [SI\text{ or }DI] + \text{Displacement}$$
+
+$$
+EA = [SI\text{ or }DI] + \text{Displacement}
+$$
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -442,9 +463,14 @@ ADD AX, MATRIX[SI]      ; Add array element to accumulator
 **Definition:** The most powerful mode. EA = **Base Register + Index Register + Optional Displacement**. Naturally models **2D arrays**, **pointer arrays**, and **stack-frame indexed structures**.
 
 **Formula:**
-$$EA = [BX\text{ or }BP] + [SI\text{ or }DI] + \text{Displacement (optional)}$$
 
-$$\text{Segment} = \begin{cases} \text{SS} & \text{if BP is the base} \\ \text{DS} & \text{if BX is the base} \end{cases}$$
+$$
+EA = [BX\text{ or }BP] + [SI\text{ or }DI] + \text{Displacement (optional)}
+$$
+
+$$
+\text{Segment} = \begin{cases} \text{SS} & \text{if BP is the base} \\ \text{DS} & \text{if BX is the base} \end{cases}
+$$
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -511,6 +537,7 @@ MOV [BX + DI + 5], AL    ; Store with all three components
 ```
 
 **Timing:** This mode is the SLOWEST (7–12 clock cycles for EA calculation):
+
 - `BX + SI` or `BP + DI`: **7 cycles**
 - `BX + DI` or `BP + SI`: **8 cycles**
 - `BP + DI + Disp` or `BX + SI + Disp`: **11 cycles**
@@ -699,9 +726,13 @@ END START
 
 ## Summary Formula Sheet
 
-$$\text{Physical Address} = (\text{Segment Register} \times 16_{10}) + \text{Effective Address}$$
+$$
+\text{Physical Address} = (\text{Segment Register} \times 16_{10}) + \text{Effective Address}
+$$
 
-$$= (\text{Segment Register} \times 10\text{H}) + \text{EA}$$
+$$
+= (\text{Segment Register} \times 10\text{H}) + \text{EA}
+$$
 
 | Mode | EA |
 |:---|:---|

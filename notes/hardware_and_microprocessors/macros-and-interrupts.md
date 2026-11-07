@@ -73,6 +73,7 @@ ASM-86 uses the `%*DEFINE` directive for macro definitions. This syntax is speci
 ```
 
 **Rules:**
+
 - The macro name must be an identifier beginning with a letter, containing letters, numbers, and underscores.
 - Dummy parameters in the **definition** are listed in the `DummyParameterList`.
 - Inside the prototype code, each dummy parameter is referenced with a `%` prefix: `%OPR1`, `%RESULT`.
@@ -85,6 +86,7 @@ ASM-86 uses the `%*DEFINE` directive for macro definitions. This syntax is speci
 ### 2.4 Dummy and Actual Parameters — How Substitution Works
 
 During macro expansion, the assembler performs **textual substitution**:
+
 - The 1st actual parameter replaces every occurrence of the 1st dummy parameter in the prototype code.
 - The 2nd actual parameter replaces every occurrence of the 2nd dummy parameter, and so on.
 - The substitution is purely textual — the resulting code must be syntactically valid assembly.
@@ -201,6 +203,7 @@ flowchart TD
 ```
 
 **What the macro processor does:**
+
 1. Scans the source for `%*DEFINE` directives → stores each in a **macro-definition table**.
 2. Scans for `%MacroName` calls → retrieves definition from table, substitutes actual parameters, emits the expanded code.
 3. Produces an expanded source file ready for normal assembly.
@@ -354,6 +357,7 @@ $$
 **Meaning:** The byte at memory address `BX + AL` (in the data segment) is loaded into `AL`. `BX` points to the base of the translation table; `AL` is the **index** into that table; `AL` receives the **translated value**.
 
 **Requirements:**
+
 - `BX` must contain the **base address** of the translation table.
 - `AL` must contain the **index** (0-based) of the byte to translate.
 - The table is in the data segment.
@@ -393,6 +397,7 @@ CONVERT:
 ```
 
 **Flow:**
+
 1. `LODS` reads the next BCD digit into AL.
 2. Validate: if AL > 9, handle as invalid.
 3. `XLAT` replaces AL with `TABLE[AL]` — the corresponding 7-segment code.

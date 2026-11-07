@@ -290,6 +290,7 @@ Git structures history as a Directed Acyclic Graph (DAG) where nodes represent i
 ```
 
 **Properties of the Git Merkle DAG:**
+
 1. **Directionality:** Edges point chronologically backwards ($C_{child} \to C_{parent}$). A parent never knows its future children; a child explicitly references its ancestor hashes.
 2. **Acyclicity:** It is mathematically impossible for a loop to exist because an object cannot reference a parent whose hash depends on the child's own hash.
 3. **Merkle Tree Invariance:** Any modification to a file's content changes its blob hash. This bubbles up, modifying the enclosing tree hash, which alters the commit hash, altering all downstream descendant commit hashes. This renders historical revision forgery cryptographically impossible without invalidating the entire subsequent DAG.
@@ -424,6 +425,7 @@ Branching models dictate how teams partition feature development, handle hotfixe
 
 ### 2.5.1 GitFlow Workflow Architecture
 A heavyweight, scheduled-release branching model engineered by Vincent Driessen:
+
 * **`main`:** Stores strictly production-ready, release-tagged historical code. Direct commits prohibited.
 * **`develop`:** Serves as the continuous integration trunk for finished features.
 * **`feature/*`:** Branch off `develop`; merged back into `develop` via pull requests. Never interact with `main`.
@@ -432,6 +434,7 @@ A heavyweight, scheduled-release branching model engineered by Vincent Driessen:
 
 ### 2.5.2 GitHub Flow Architecture
 A lightweight, continuous-delivery-oriented model:
+
 1. Any code in `main` is always deployable to production.
 2. To work on something new, create a descriptively named branch off `main` (e.g., `feature/oauth2-login`).
 3. Commit changes locally and regularly push to the remote branch.
@@ -441,6 +444,7 @@ A lightweight, continuous-delivery-oriented model:
 
 ### 2.5.3 Trunk-Based Development (TBD) with Feature Flags
 An engineering paradigm favored by high-velocity DevOps organizations:
+
 * Developers collaborate on a single branch called the **Trunk** (or `main`).
 * Feature branches are short-lived (lifespans $< 24\text{ hours}$); developers merge multiple times daily.
 * Incomplete or experimental features are wrapped inside **Feature Flags (Feature Toggles)** in code, enabling continuous integration into production without exposing unfinished capabilities to end users.
@@ -674,6 +678,7 @@ Persistent state in containerized architectures must bypass the ephemeral UpperD
 ## 4.1 Architectural Optimization Principles
 
 Creating production-ready container images demands three non-negotiable architectural practices:
+
 1. **Multi-Stage Builds:** Segregating the build environment (compilers, build tools, development dependencies, documentation) from the final runtime image. This minimizes the attack surface and reduces image size from $> 1\text{ GB}$ to $< 100\text{ MB}$.
 2. **Deterministic Layer Caching:** Ordering Dockerfile directives from lowest change frequency to highest change frequency. System packages and dependency manifests (`package.json`, `package-lock.json`) are copied and installed prior to copying source code, eliminating redundant dependency installations during routine code changes.
 3. **Least Privilege Principle:** Containers must never execute as the root user (`UID 0`). Running as root introduces serious security vulnerabilities where a container escape vulnerability grants immediate, unrestricted root access to the physical host kernel.
@@ -790,11 +795,14 @@ CMD ["node", "practical8.js"]
    COPY . .
    ```
    By copying only `package*.json` before running `npm ci`, Docker caches the resulting `node_modules` layer. If developer source files change, Docker reuses the cached dependency layer, reducing build times from minutes to seconds.
+
 3. **`npm ci --prefer-offline --no-audit`:** Executes a strict, automated install based directly on `package-lock.json`. Unlike `npm install`, it never alters lockfile contents, guaranteeing consistent build outputs.
 4. **`dumb-init` as PID 1:**
    In Linux, **PID 1** has special kernel responsibilities: reaping zombie orphan processes and managing signal forwarding. Node.js was not engineered to act as an init system. When running raw Node.js as PID 1, it ignores default POSIX signals like `SIGTERM`. When Docker attempts to stop a container via `docker stop`, Node.js fails to shut down gracefully, leading to forced termination via `SIGKILL` after 10 seconds. `dumb-init` runs as PID 1, correctly proxying `SIGTERM` and `SIGINT` signals to the child Node.js process.
+
 5. **Unprivileged User Isolation (`USER appuser:appgroup`):**
    Creates an explicit non-root system account (`UID 10001`) with no login shell (`/sbin/nologin`). If an attacker finds a remote code execution (RCE) flaw in the application, their privileges remain confined to an unprivileged user inside the container jail.
+
 6. **Container Healthcheck (`HEALTHCHECK`):**
    Periodically monitors the internal service endpoint (`http://127.0.0.1:3000/api/status`). If the Node.js event loop blocks or the database connection drops, the container state transitions from `healthy` to `unhealthy`, alerting upstream load balancers and container orchestrators to terminate and replace the failing instance.
 
@@ -1177,6 +1185,7 @@ CANARY ROUTING ARCHITECTURE:
 ## 7.1 GitHub Actions Core Components: Workflows, Events, Jobs, Steps, Runners
 
 GitHub Actions provides native workflow automation built directly into the repository:
+
 * **Workflow:** An automated end-to-end process defined in a `.github/workflows/*.yml` file.
 * **Event:** An activity that triggers workflow execution (e.g., `push`, `pull_request`, `release`).
 * **Jobs:** A set of steps executed on the same runner instance. Jobs run in parallel by default, but can declare dependencies via `needs: [job_name]`.
@@ -1357,8 +1366,10 @@ jobs:
      security-events: write
    ```
    This prevents a compromised dependency from using the default runner credentials to tamper with repository settings or force-push malicious code.
+
 2. **Ephemeral Authentication via `secrets.GITHUB_TOKEN`:**
    Automated login uses the built-in ephemeral token generated dynamically per workflow run, eliminating the need to store long-lived static Personal Access Tokens (PATs).
+
 3. **BuildKit Layer Caching (`cache-from: type=gha`):**
    Utilizes GitHub Actions' built-in cache storage backend to cache individual Docker layer digests across runs, drastically reducing build and publish times.
 
@@ -1398,6 +1409,7 @@ If an incoming request triggers an expensive CPU operation (e.g., calculating a 
    process.on('uncaughtException', (err) => { ... });
    ```
    The process is considered corrupted. The Node.js runtime design guidelines mandate that the process must **terminate immediately**. Without an external process supervisor, the application dies, and subsequent HTTP requests fail with `502 Bad Gateway`.
+
 2. **V8 Engine Memory Ceilings:** By default, 64-bit Node.js processes enforce an internal V8 heap memory ceiling ($\approx 1.4\text{ GB} - 2.0\text{ GB}$). A memory leak (e.g., retaining unreferenced objects in global variables) quickly hits this ceiling, triggering fatal out-of-memory crashes:
    ```text
    FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
@@ -1778,12 +1790,14 @@ http {
 
 1. **TLS/SSL Termination:**
    NGINX handles the computationally expensive cryptographic TLS handshake ($O(\text{Handshake CPU})$) at the edge network layer. Unencrypted, high-speed HTTP traffic is forwarded to backend Node.js applications over secure private networks, freeing application workers from encryption overhead.
+
 2. **Leaky Bucket Rate Limiting (`limit_req_zone`):**
    ```nginx
    limit_req_zone $binary_remote_addr zone=api_rate_limit:10m rate=10r/s;
    limit_req zone=api_rate_limit burst=20 nodelay;
    ```
    Uses the efficient 4-byte `$binary_remote_addr` IP representation (storing 160,000 unique client IP states per 10 MB). Enforces a steady flow of 10 requests per second. Legitimate temporary bursts of up to 20 requests are processed without delay (`nodelay`), while excessive request spikes are immediately terminated with HTTP `429 Too Many Requests`.
+
 3. **Upstream Load Balancing (`least_conn`):**
    Rather than simple round-robin routing (which can send complex requests to an already overloaded worker), the **Least Connections** algorithm monitors the active connection count of each backend instance and routes incoming requests to the least busy worker.
 
@@ -1833,6 +1847,7 @@ Role-Based Access Control (RBAC) assigns fine-grained permissions to abstract **
 
 ### RBAC Formal Representation:
 Let $\mathcal{U}$ be the set of users, $\mathcal{R}$ be the set of roles, and $\mathcal{P}$ be the set of permissions.
+
 * User Assignment: $UA \subseteq \mathcal{U} \times \mathcal{R}$
 * Permission Assignment: $PA \subseteq \mathcal{R} \times \mathcal{P}$
 * A user $u$ is authorized to perform action $p$ if and only if:
@@ -2156,12 +2171,14 @@ The Open Worldwide Application Security Project (OWASP) Top 10 represents the au
 ### Question 1: Differentiate CVCS vs. DVCS with Structural Architecture
 
 **Marking Scheme:**
+
 * Definition and Architectural Diagram: 2 Marks
 * Four Detailed Technical Comparison Vectors: 2 Marks
 * Real-World Examples: 1 Mark
 
 #### Model Answer:
 **1. Architectural Definitions & Topology:**
+
 * **Centralized Version Control Systems (CVCS):** Rely on a central repository server containing all historical commits. Developers check out only single snapshots of files. Network connectivity is strictly required for commits, diffs, and logs.
 * **Distributed Version Control Systems (DVCS):** Every developer's local machine maintains an independent, complete clone of the repository, including its full commit history and Merkle DAG. Commits, branch creation, logs, and diffs execute locally without network access.
 
@@ -2198,12 +2215,14 @@ The Open Worldwide Application Security Project (OWASP) Top 10 represents the au
 ### Question 2: Explain the Four Git Local Stages and State Transition Commands
 
 **Marking Scheme:**
+
 * Four Environments Identified with Path & Storage Semantics: 2 Marks
 * State Transition Diagram with Exact Commands: 2 Marks
 * Importance of the Staging Index: 1 Mark
 
 #### Model Answer:
 **1. The Four Git Environments:**
+
 1. **Working Directory:** The physical workspace on disk where developers write, edit, and delete application code.
 2. **Staging Area (Index):** A binary file at `.git/index` that stores the exact snapshot prepared for the next commit.
 3. **Local Repository:** The local object store (`.git/objects/`) holding committed DAG objects (blobs, trees, commits, tags).
@@ -2227,6 +2246,7 @@ The staging area decouples workspace modifications from commit construction. It 
 ### Question 3: Compare Virtual Machines vs. Docker Containers across Six Architectural Vectors
 
 **Marking Scheme:**
+
 * Architecture Layer Diagram: 1 Mark
 * Six Structured Comparison Vectors: 3 Marks
 * Summary Evaluation: 1 Mark
@@ -2265,12 +2285,14 @@ The staging area decouples workspace modifications from commit construction. It 
 ### Question 4: Explain Linux Kernel Namespaces and cgroups with Practical Examples
 
 **Marking Scheme:**
+
 * Namespaces Definition and 4 Core Types: 2.5 Marks
 * Control Groups (cgroups) Definition and Resource Limiting: 2.5 Marks
 
 #### Model Answer:
 **1. Linux Namespaces (Process Isolation Boundaries):**
 Namespaces isolate system resources, providing each container with an independent view of the operating system:
+
 * **PID Namespace:** Isolates the process ID space. The main container process runs as **PID 1**, enabling it to manage child processes and signals independently of host PIDs.
 * **NET Namespace:** Grants the container an independent virtual network stack, including private IP addresses, loopback devices, routing tables, and port bindings.
 * **MNT Namespace:** Isolates filesystem mount points, providing the container with its own private root directory (`/`).
@@ -2278,6 +2300,7 @@ Namespaces isolate system resources, providing each container with an independen
 
 **2. Control Groups / cgroups (Resource Metering & Enforcement):**
 While namespaces control **visibility**, cgroups control **resource usage**:
+
 * **Memory Limiting:** Restricts maximum RAM consumption (e.g., `--memory="512m"`). If a container breaches this threshold and cannot reclaim swap, the Linux kernel terminates the container via the **OOM Killer** (exit code 137).
 * **CPU Bandwidth Limiting:** Enforces Completely Fair Scheduler (CFS) quotas. Setting `--cpus="1.5"` restricts the process group to $150{,}000\,\mu\text{s}$ of CPU runtime per $100{,}000\,\mu\text{s}$ period, preventing noisy-neighbor CPU starvation.
 
@@ -2286,12 +2309,14 @@ While namespaces control **visibility**, cgroups control **resource usage**:
 ### Question 5: Differentiate CI, Continuous Delivery, and Continuous Deployment with Pipeline Topology
 
 **Marking Scheme:**
+
 * Clear Boundary Definitions: 2 Marks
 * Visual Pipeline Flow Diagram: 2 Marks
 * Trigger Mechanics (Manual vs Automated): 1 Mark
 
 #### Model Answer:
 **1. Conceptual Definitions:**
+
 * **Continuous Integration (CI):** Frequent merging of developer code changes into the shared trunk branch, validated by automated builds, linters, and unit test suites.
 * **Continuous Delivery (CD):** Extends CI by automatically packaging artifacts and deploying them to staging environments. Deployments to production require **manual approval**.
 * **Continuous Deployment (CD):** Fully automated end-to-end pipeline. Every code change that passes all validation stages is deployed **automatically to production** without human intervention.
@@ -2322,12 +2347,14 @@ While namespaces control **visibility**, cgroups control **resource usage**:
 ### Question 6: Compare Blue-Green vs. Canary Deployment Strategies with Trade-offs
 
 **Marking Scheme:**
+
 * Mechanics of Blue-Green and Canary: 2 Marks
 * Routing & Rollback Comparison: 2 Marks
 * Trade-Offs (Cost, Blast Radius, Complexity): 1 Mark
 
 #### Model Answer:
 **1. Core Mechanics:**
+
 * **Blue-Green Deployment:** Provisions two identical production environments: Blue (active production running $V_1$) and Green (idle staging where $V_2$ is deployed and verified). Once verified, the router switches 100% of traffic from Blue to Green.
 * **Canary Deployment:** Deploys new version $V_2$ alongside active version $V_1$. A small fraction of real production traffic (e.g., 5%) is routed to $V_2$, while the remaining 95% stays on $V_1$. If telemetry metrics (error rates, latency) remain healthy, traffic is incrementally shifted to 100%.
 
@@ -2349,6 +2376,7 @@ While namespaces control **visibility**, cgroups control **resource usage**:
 ### Question 7: Git Internal Storage Engine: Merkle DAG, Object Types, Hashing Mechanics, and Garbage Collection
 
 **Marking Scheme:**
+
 * Cryptographic Hashing & Header Serialization: 2 Marks
 * Four Primitive Objects with In-Memory Representations: 3 Marks
 * Merkle DAG Architecture & Immutability Proof: 3 Marks
@@ -2407,12 +2435,14 @@ The serialized payload is compressed using zlib and written to the filesystem un
 
 #### 3. Merkle DAG Invariance
 Git models history as a Directed Acyclic Graph (DAG) structured as a Merkle tree:
+
 * Child commits point backward to their parent commit hashes.
 * Any change to a file's content alters its blob hash. This change propagates upward, changing the parent tree hash, the commit hash, and all subsequent descendant commit hashes.
 * This mathematical property ensures historical integrity: historical commits cannot be modified or tampered with without invalidating the entire subsequent commit history.
 
 #### 4. Garbage Collection (`git gc`) and Packfiles
 Over time, frequent commits produce large numbers of loose, individual object files. Running `git gc`:
+
 * Identifies and purges unreferenced "dangling" objects (e.g., abandoned commits from aborted rebases).
 * Compresses loose objects into optimized **Packfiles** (`.pack`) and index files (`.idx`).
 * Employs sliding-window **Delta Compression**, storing only the diffs between similar versions of files, reducing repository disk usage by up to 90%.
@@ -2422,6 +2452,7 @@ Over time, frequent commits produce large numbers of loose, individual object fi
 ### Question 8: Enterprise Multi-Container Orchestration Architecture with Docker Compose
 
 **Marking Scheme:**
+
 * Multi-Tier Network Segmentation & Threat Model: 2 Marks
 * Production Dockerfile Specification: 3 Marks
 * Docker Compose Specification (Proxy, App, DB, Cache): 3 Marks
@@ -2431,6 +2462,7 @@ Over time, frequent commits produce large numbers of loose, individual object fi
 
 #### 1. Multi-Tier Network Segmentation Architecture
 In production, database and caching tiers must not be exposed directly to the public internet:
+
 * **Frontend Network (`frontend-network`):** Connects the external-facing NGINX reverse proxy to the Node.js API application tier.
 * **Backend Network (`backend-network`):** Declared with `internal: true`. Contains only the application backend, MySQL database, and Redis cache. Disallows external routing, protecting the database tier from direct external access.
 
@@ -2503,6 +2535,7 @@ docker compose down
 ### Question 9: Production Node.js Process Scaling, PM2 Clustering, and NGINX Reverse Proxy Engineering
 
 **Marking Scheme:**
+
 * Node.js Event Loop Bottleneck Analysis: 2 Marks
 * PM2 Cluster Mode Master-Worker Architecture: 3 Marks
 * Zero-Downtime Reload Mechanics: 2 Marks
@@ -2512,11 +2545,13 @@ docker compose down
 
 #### 1. Node.js Event Loop Bottlenecks
 Node.js processes run on a single-threaded event loop. In production, this introduces two primary challenges:
+
 1. **Underutilized Multi-Core Hardware:** A server with 16 CPU cores will utilize only 1 core ($\approx 6.25\%$) when running a standard `node server.js` process.
 2. **Event Loop Blocking:** Any long-running synchronous computation (cryptographic hashing, heavy JSON serialization) monopolizes the single execution thread, preventing the process from accepting or handling new HTTP connections.
 
 #### 2. PM2 Cluster Architecture & Zero-Downtime Reloading
 PM2 utilizes the native Node.js `cluster` module to resolve these scaling bottlenecks:
+
 * A master supervisor process spawns worker processes matching the number of available CPU cores (`instances: "max"`), sharing the listen socket via OS-level round-robin balancing.
 * **`pm2 reload` (Zero-Downtime Rolling Update):**
   1. Spawns a new worker process for the updated code version.
@@ -2563,6 +2598,7 @@ server {
 ### Question 10: Production-Grade RBAC Security Architecture, JWT Cryptographic Verification, and OWASP Hardening
 
 **Marking Scheme:**
+
 * Authentication vs. Authorization Distinction: 2 Marks
 * Complete Express.js JWT & RBAC Middleware Implementation: 4 Marks
 * Cryptographic Security (Timing attacks, Secret Management): 2 Marks

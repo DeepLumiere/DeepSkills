@@ -1,11 +1,11 @@
 # Chapter 3 — Complete Study Notes: Data Analysis and Visualization (DAV)
 ## Unit 3 — Data Visualization, Business Intelligence & Analytical Plotting
 
-> **Course Code:** 3CS103ME24  
-> **Course Title:** Data Analysis and Visualization (DAV)  
-> **Primary Source Slides:** `Unit3_Data Visualization.pdf` (46 Slides), `Unit3_Python-Data-Visualisation.pdf` (51 Slides)  
-> **Supporting Material Integrated:** `DAV_Tableau.md`, `DAV_Python_Graphs.md`, `HR Dashboard.twbx`, `DAV_Comprehensive_Lab_Manual_and_Notes.md`  
-> **Target Audience:** 3rd-Year B.Tech Computer Science and Engineering Students (Academic Exam & Viva Preparation)  
+> **Course Code:** 3CS103ME24
+> **Course Title:** Data Analysis and Visualization (DAV)
+> **Primary Source Slides:** `Unit3_Data Visualization.pdf` (46 Slides), `Unit3_Python-Data-Visualisation.pdf` (51 Slides)
+> **Supporting Material Integrated:** `DAV_Tableau.md`, `DAV_Python_Graphs.md`, `HR Dashboard.twbx`, `DAV_Comprehensive_Lab_Manual_and_Notes.md`
+> **Target Audience:** 3rd-Year B.Tech Computer Science and Engineering Students (Academic Exam & Viva Preparation)
 
 ---
 
@@ -43,18 +43,18 @@ flowchart TD
     B --> B3["Icon-Based (Chernoff Faces, Stick Figures)"]
     B --> B4["Hierarchical (Dimensional Stacking, Treemaps, Cone Trees)"]
     B --> B5["Complex Relations (Tag Clouds, Newsmap, Graphs)"]
-    
+
     A --> C["Enterprise BI & Interactive Analytics"]
     C --> C1["Tableau 5-Product Architecture"]
     C --> C2["8 Canonical HR Dashboard Layouts"]
     C --> C3["35+ Enterprise HR KPI Taxonomy"]
-    
+
     A --> D["Python Visualization Ecosystem"]
     D --> D1["Imperative / Low-Level: Matplotlib"]
     D --> D2["Object-Oriented Wrapper: Pandas"]
     D --> D3["Statistical High-Level: Seaborn"]
     D --> D4["Declarative Grammar: Altair / Vega-Lite"]
-    
+
     B & C & D --> E["Human Visual Cortex & Cognitive Perception"]
     E --> E1["Stevens' Power Law & Graphical Integrity"]
     E --> E2["Anti-Patterns: Pie Charts, Area Bubbles, Fake 3D"]
@@ -161,6 +161,7 @@ An icon-based visualization technique that maps multi-attribute data records to 
 
 **Formal definition:**
 Let $\mathbf{x} = (x_1, x_2, \dots, x_d)$ be an observation vector of dimension $d \le 18$. A Chernoff face generator defines an invertible vector function $\mathbf{F}: \mathbb{R}^d \to \mathcal{P}_{\text{face}}$, where $\mathcal{P}_{\text{face}} = (p_1, p_2, \dots, p_k)$ represents $k$ discrete facial morphology parameters. Standard facial parameters include:
+
 1. Head eccentricity (face width-to-height ratio)
 2. Eye size
 3. Eye spacing (pupillary distance)
@@ -217,7 +218,7 @@ flowchart LR
     C --> D["Retinal Photoreceptors"]
     D --> E["Visual Cortex Decoding"]
     E --> F["Perceived Quantitative Value"]
-    
+
     subgraph "Perceptual Accuracy Ranking (Cleveland-McGill)"
         G1["1. Position along common aligned scale (Most Accurate)"]
         G2["2. Position along non-aligned scales"]
@@ -302,30 +303,30 @@ In their canonical text *Data Mining: Concepts and Techniques*, Jiawei Han and M
 ```mermaid
 flowchart TD
     Taxonomy["Han & Kamber 5-Category Taxonomy"]
-    
+
     Taxonomy --> C1["1. Pixel-Oriented Techniques"]
     C1 --> C1a["Space-Filling Curves: Hilbert, Morton, Gray, Raster"]
     C1 --> C1b["Circle Segments Technique (Radial Spokes)"]
     C1 --> C1c["Financial Multi-Attribute Analysis (Dow Jones, Gold, IBM)"]
-    
+
     Taxonomy --> C2["2. Geometric Projection Techniques"]
     C2 --> C2a["Scatterplot Matrices (SPLOM: k(k-1)/2 subplots)"]
     C2 --> C2b["Information Landscapes (SPIRE 3D Terrain)"]
     C2 --> C2c["Parallel Coordinates (Point-Line Duality, Hairballing)"]
     C2 --> C2d["Projection Pursuit, Prosection, Hyperslice"]
-    
+
     Taxonomy --> C3["3. Icon-Based Techniques"]
     C3 --> C3a["Chernoff Faces (10 Parameters, 12 Attributes)"]
     C3 --> C3b["Stick Figures (5-Piece Limbs, Macro Visual Texture)"]
     C3 --> C3c["Shape Coding, Color Icons, TileBars"]
-    
+
     Taxonomy --> C4["4. Hierarchical Techniques"]
     C4 --> C4a["Dimensional Stacking (Nested 2D Grids, Oil Exploration)"]
     C4 --> C4b["Worlds-within-Worlds (Feiner & Beshers Nested 3D Frames)"]
     C4 --> C4c["Tree-Maps (Shneiderman Rectangular Partitioning)"]
     C4 --> C4d["3D Cone Trees (Robertson et al. 1,000 Nodes)"]
     C4 --> C4e["InfoCube (Nested Translucent 3D Cubes)"]
-    
+
     Taxonomy --> C5["5. Complex Data & Relations"]
     C5 --> C5a["Tag / Word Clouds (Term Frequency Typography)"]
     C5 --> C5b["Newsmap (Weskamp Real-Time News Treemap)"]
@@ -371,6 +372,7 @@ $$
   d_{\text{1D}}(i, j) \le \delta \implies \|\pi_{\text{Hilbert}}(i) - \pi_{\text{Hilbert}}(j)\|_2 \le C \sqrt{\delta}
 $$
   The Peano-Hilbert curve guarantees that items adjacent in the 1D sorted data sequence remain physically adjacent in 2D Euclidean display space. This produces coherent, smooth spatial color patches that immediately expose multidimensional clusters and anomalies.
+
 - **Morton / Z-Order Curve:** Constructed by interleaving the binary digits of coordinate indices. For an index whose binary representation is $b_5 b_4 b_3 b_2 b_1 b_0$, even bits $b_4 b_2 b_0$ determine the $X$ coordinate while odd bits $b_5 b_3 b_1$ determine $Y$. It generates self-similar 'Z' patterns across spatial scales. While computationally faster than Hilbert curves, it suffers from periodic diagonal jumps that slightly degrade locality preservation.
 - **Gray Code Curve:** Utilizes binary reflected Gray codes where successive numbers differ by exactly one binary bit, constraining pixel jumps to single-coordinate steps and smoothing spatial transitions.
 
@@ -385,7 +387,7 @@ flowchart LR
     A["Circle Divided into m Radial Segments"] --> B["Segment 1: Dimension 1"]
     A --> C["Segment 2: Dimension 2"]
     A --> D["Segment m: Dimension m"]
-    
+
     subgraph "Pixel Arrangement within Segment"
         E["Center of Circle (Origin: Record 1)"] --> F["Concentric Spiral Trajectory"]
         F --> G["Outer Perimeter (Record N)"]
@@ -401,12 +403,14 @@ flowchart LR
 
 ### 5.1.4 Financial Multi-Attribute Time-Series Case Studies
 The slides demonstrate pixel-oriented techniques applied to longitudinal daily financial records tracking four interdependent economic indicators:
+
 1. **IBM Stock Price**
 2. **US Dollar Exchange Rate Index**
 3. **Dow Jones Industrial Average**
 4. **Gold Price in US Dollars**
 
 When visualized across different temporal layouts and curve trajectories:
+
 - **Line-by-Line Raster Layout:** Long horizontal streaks reveal long-term economic regimes (bull vs. bear markets), but seasonal cycles are fragmented across row breaks.
 - **Horizontal & Monthly Layouts:** Partitioning rows by exact calendar months aligns 30-day cyclical behaviors vertically, making seasonal price spikes across all four assets jump out as vertical color columns.
 - **Hilbert vs. Morton Comparison:** Peano-Hilbert mapping aggregates market crash periods (e.g., Black Monday) into compact, highly visible dark-red geographic clusters, whereas raster layouts smear the event across thin horizontal lines.
@@ -452,8 +456,8 @@ $$
 The diagonal subplots where row index equals column index ($i = j$) represent self-plots ($x_i$ vs. $x_i$), which are typically replaced with 1D univariate histograms or Kernel Density Estimation (KDE) curves. The off-diagonal subplots above the main diagonal are transposed mirror images of those below the diagonal. Thus, exactly $\frac{k(k-1)}{2}$ unique bivariate projections exist.
 
 #### Worked Micro-Example
-**Given:** An oceanographic geological dataset containing $k = 4$ attributes: `Longitude`, `Latitude`, `Depth`, and `Ore Grade Value`.  
-**Find:** Total number of unique bivariate scatter plots to inspect.  
+**Given:** An oceanographic geological dataset containing $k = 4$ attributes: `Longitude`, `Latitude`, `Depth`, and `Ore Grade Value`.
+**Find:** Total number of unique bivariate scatter plots to inspect.
 **Solution:**
 $$
 N_{\text{unique}} = \frac{4 \times (4 - 1)}{2} = \frac{12}{2} = 6 \text{ unique scatter plots}
@@ -467,6 +471,7 @@ The full grid contains $4^2 = 16$ panels, comprising 4 diagonal distribution plo
 ### 5.2.2 Information Landscapes (SPIRE News Terrain)
 
 Information landscapes project high-dimensional semantic spaces into three-dimensional geographic terrain surfaces.
+
 - **Pacific Northwest National Laboratory (PNNL) SPIRE:** A canonical intelligence system that processes thousands of unstructured text news articles.
 - **Mathematical Transformation:** High-dimensional term-frequency feature vectors are projected via multidimensional scaling (MDS) onto a 2D plane. A continuous density estimation function interpolates the third spatial dimension ($Z$, altitude), creating mountain peaks where clusters of documents share dense thematic topics (e.g., "Bosnia military operations," "financial markets") and valleys where semantic relationships are sparse.
 
@@ -480,11 +485,13 @@ Parallel coordinates (formalized by Alfred Inselberg) map $k$-dimensional space 
 
 #### Point-Line Duality in Parallel Coordinates
 The mathematical elegance of parallel coordinates resides in projective duality:
+
 - A point $P = (d_1, d_2)$ in 2D Cartesian space maps to a straight line segment connecting $d_1$ on vertical axis 1 to $d_2$ on vertical axis 2.
 - A straight line $y = mx + c$ in Cartesian space maps to a single pencil point of intersection between the two parallel axes:
 $$
   u_{\text{intersect}} = \frac{d}{1 - m}, \quad v_{\text{intersect}} = \frac{c}{1 - m}
 $$
+
 - **Correlation Signatures:**
   - **Positive Correlation:** Straight line segments running between adjacent axes remain parallel and do not cross.
   - **Negative Correlation:** Line segments intersect each other at a single focal point between the two axes.
@@ -513,6 +520,7 @@ Icon-based techniques encode multidimensional feature vectors into visual featur
 
 ### 5.3.1 Chernoff Faces
 Herman Chernoff (1973) proposed representing points in up to 18-dimensional space by cartoon human faces. In the slide deck formulation:
+
 - **Parameters:** 10 distinct facial features are modulated: (1) head eccentricity, (2) eye size, (3) eye spacing, (4) eye eccentricity, (5) pupil size, (6) eyebrow slant, (7) nose size, (8) mouth shape / curvature, (9) mouth size, and (10) mouth opening.
 - **Data Capacity:** Each characteristic is mapped to one of 12 distinct discrete or continuous levels.
 - **Cognitive Justification:** Humans possess dedicated neural circuitry in the fusiform face area optimized to recognize micro-expressions, enabling quick detection of outliers and emotional cluster categorization.
@@ -586,6 +594,7 @@ flowchart TD
 
 ### 5.4.2 Worlds-within-Worlds (Feiner & Beshers)
 Introduced by Steven Feiner and Clifford Beshers (1990) at Columbia University:
+
 - **Paradigm:** Visualizes complex multi-variable surfaces by nesting 3D coordinate frames within other 3D coordinate frames.
 - **Hierarchy:** The innermost world renders a continuous 3D response surface showing the function's value as a function of the two most critical independent variables. The remaining variables are fixed at constant values defined by the spatial position of the inner world's origin inside an outer 3D parameter world.
 - **Implementations:**
@@ -664,6 +673,7 @@ flowchart TD
 
 ### 6.1 The 6 Modern BI Capabilities
 Modern enterprise BI platforms are characterized by six core operational capabilities:
+
 1. **Full Interactivity:** Dynamic dashboard action filters, cross-sheet highlighting, parameter-driven forecasting, and rich contextual hover tooltips.
 2. **Multi-Source Ingestion:** Simultaneous federated connectivity across relational databases (PostgreSQL, Oracle), cloud data warehouses (Snowflake, BigQuery), file stores (Excel, CSV), and Big Data clusters.
 3. **Augmented Analytics (AI):** Natural language querying (Tableau *Ask Data*), automated anomaly explanation (*Explain Data*), and built-in predictive regression/clustering.
@@ -688,6 +698,7 @@ Modern enterprise BI platforms are characterized by six core operational capabil
 ### 6.3 Core Tableau Mechanics: Pills, Shelves & Marks
 
 Tableau's user interface is governed by rigorous visual-variable semantics:
+
 - **Blue vs. Green Pills:**
   - **Blue Pills indicate Discrete data:** They create distinct categorical headers, partition tables into discrete rows/columns, and slice measure aggregations into separate buckets.
   - **Green Pills indicate Continuous data:** They generate unbroken quantitative coordinate axes, supporting continuous gradients, regression trendlines, and continuous date ranges.
@@ -712,7 +723,7 @@ Human Resources (HR) dashboards represent a critical operational application of 
 ```mermaid
 flowchart TD
     A["Enterprise HRIS Data Warehouse"] --> B["8 Canonical HR Dashboard Layouts"]
-    
+
     B --> D1["1. HR Monthly Overview: Headcount 294, FTE 294.0, Absence Rate 3.02%, Sickness Cost £58,313"]
     B --> D2["2. Executive HR: 4.25k Employees, $379.3M Salaries, 408 Hires vs 86 Exits, Global Geo Map"]
     B --> D3["3. Employee Performance: Rating Bands A-D, Attrition Overlays, Granular Drill-Down Roster"]
@@ -721,7 +732,7 @@ flowchart TD
     B --> D6["6. Workforce Diversity: Ethnic Groups (White 43.2%, Other 15.4%, Black 13.6%), Salary by Ethnicity"]
     B --> D7["7. Women in Workforce: 36.3% Female Donut, Women in Management (29.2% First Line, 34.9% Middle)"]
     B --> D8["8. Gender Salary Gap: -3.9% Pay Gap (-$3,134.28), Compensation across Tenure & Job Roles"]
-    
+
     B --> C["35+ HR KPI Operational Taxonomy"]
     C --> C1["Workforce Management KPIs (13 Metrics)"]
     C --> C2["Compensation & Financial KPIs (9 Metrics)"]
@@ -889,78 +900,91 @@ flowchart LR
 $$
 \text{Absenteeism Rate} = \left( \frac{\text{Total Unplanned Absence Days in Period}}{\text{Total Available Work Days in Period} \times \text{Average Headcount}} \right) \times 100\%
 $$
+
 - *Meaning:* Measures the percentage of scheduled work time lost due to unplanned illness, unauthorized absence, or emergency leave. Benchmark: $< 3\%$.
 
 #### 2. ROI of Outsourcing
 $$
 \text{ROI}_{\text{Outsourcing}} = \left( \frac{\text{Cost of Internal Service Delivery} - \text{Total Vendor Outsourcing Cost}}{\text{Total Vendor Outsourcing Cost}} \right) \times 100\%
 $$
+
 - *Meaning:* Evaluates the net financial savings achieved by contracting HR or operational functions to third-party providers relative to in-house execution costs.
 
 #### 3. Succession Planning Rate
 $$
 \text{Succession Planning Rate} = \left( \frac{\text{Number of Critical Leadership Roles with at Least One Identified Successor}}{\text{Total Number of Defined Critical Leadership Roles}} \right) \times 100\%
 $$
+
 - *Meaning:* Assesses organizational business continuity risk by quantifying leadership bench strength. Target: $\ge 85\%$.
 
 #### 4. Open vs. Closed Grievances Ratio
 $$
 \text{Grievance Resolution Ratio} = \frac{\text{Number of Formal Grievances Successfully Closed in Period}}{\text{Number of Formal Grievances Filed in Period}}
 $$
+
 - *Meaning:* Evaluates organizational workplace harmony, employee relations responsiveness, and HR conflict resolution operational efficiency.
 
 #### 5. Internal Promotion Rate
 $$
 \text{Promotion Rate} = \left( \frac{\text{Total Number of Internal Employee Promotions in Period}}{\text{Average Total Workforce Headcount in Period}} \right) \times 100\%
 $$
+
 - *Meaning:* Measures internal career path mobility, talent development effectiveness, and upward mobility opportunities.
 
 #### 6. Time to Productivity
 $$
 \text{Time to Productivity} = \frac{\sum_{i=1}^{P} (\text{Date Full Autonomy Reached}_i - \text{Hire Date}_i)}{P}
 $$
+
 - *Meaning:* The average number of calendar days required for a new employee to complete onboarding and achieve standard operational output/quota.
 
 #### 7. Successor Gap Rate
 $$
 \text{Successor Gap Rate} = 100\% - \text{Succession Planning Rate} = \left( \frac{\text{Critical Roles Lacking a 'Ready Now' Successor}}{\text{Total Critical Roles}} \right) \times 100\%
 $$
+
 - *Meaning:* Measures immediate vulnerability in executive and critical specialized positions.
 
 #### 8. Worker Composition (Diversity Ratios)
 $$
 \text{Worker Composition}_G = \left( \frac{\text{Headcount within Demographic Group } G}{\text{Total Workforce Headcount}} \right) \times 100\%
 $$
+
 - *Meaning:* Proportional distribution of workforce stratified across gender, age cohorts, ethnic backgrounds, and experience tiers.
 
 #### 9. Internal Mobility Rate
 $$
 \text{Internal Mobility Rate} = \left( \frac{\text{Internal Transfers} + \text{Promotions} + \text{Secondments}}{\text{Average Headcount}} \right) \times 100\%
 $$
+
 - *Meaning:* The proportion of workforce movement occurring internally across lateral and vertical boundaries.
 
 #### 10. Manager Quality Index (MQI)
 $$
 \text{MQI} = \frac{1}{M} \sum_{j=1}^{M} \left( w_1 \cdot \text{TeamSat}_j + w_2 \cdot \text{TeamRetention}_j + w_3 \cdot \text{GoalAchievement}_j \right)
 $$
+
 - *Meaning:* Composite statistical index (0–100) assessing supervisory leadership effectiveness based on 360-degree feedback, team attrition, and project delivery.
 
 #### 11. HR Effectiveness Index
 $$
 \text{HR Effectiveness} = \frac{\text{Successful Strategic HR Initiatives Delivered On-Time \& On-Budget}}{\text{Total Planned HR Strategic Objectives}} \times 100\%
 $$
+
 - *Meaning:* Macro-level programmatic evaluation of HR's delivery against broader corporate milestones.
 
 #### 12. Employee Satisfaction Rate (eNPS)
 $$
 \text{eNPS} = \% \text{ Promoters (Score 9–10)} - \% \text{ Detractors (Score 0–6)}
 $$
+
 - *Meaning:* Standard metric evaluated via periodic pulse surveys measuring organizational morale and brand advocacy.
 
 #### 13. Training ROI (Phillips ROI Methodology)
 $$
 \text{Training ROI} = \left( \frac{\text{Net Monetary Benefits Resulting from Training} - \text{Total Training Costs}}{\text{Total Training Costs}} \right) \times 100\%
 $$
+
 - *Meaning:* Demonstrates bottom-line financial yield generated per dollar invested in employee upskilling and development.
 
 ---
@@ -971,54 +995,63 @@ $$
 $$
 \text{HR Expense Rate} = \left( \frac{\text{Total Operating Expenses of the HR Department}}{\text{Total Enterprise Operating Expenses (OPEX)}} \right) \times 100\%
 $$
+
 - *Meaning:* Measures the overhead operational cost footprint of the HR function relative to total corporate operational spending.
 
 #### 15. Labor Cost Per FTE
 $$
 \text{Labor Cost per FTE} = \frac{\text{Total Direct Compensation} + \text{Total Benefits} + \text{Payroll Taxes}}{\text{Total Number of Active FTEs}}
 $$
+
 - *Meaning:* The fully-burdened average labor expenditure required to fund one full-time equivalent employee.
 
 #### 16. Labor Cost Revenue Percentage
 $$
 \text{Labor Cost Revenue \%} = \left( \frac{\text{Total Fully-Burdened Labor Costs}}{\text{Total Gross Corporate Revenue}} \right) \times 100\%
 $$
+
 - *Meaning:* The proportion of gross top-line corporate revenue consumed by personnel costs.
 
 #### 17. Labor Cost Expense Percentage
 $$
 \text{Labor Cost Expense \%} = \left( \frac{\text{Total Fully-Burdened Labor Costs}}{\text{Total Corporate Operating Expenses (OPEX)}} \right) \times 100\%
 $$
+
 - *Meaning:* Evaluates what percentage of company operational expenditure is composed of human capital costs.
 
 #### 18. Benefits as a Percentage of Labor Costs
 $$
 \text{Benefits Ratio} = \left( \frac{\text{Total Expenditure on Health, Retirement, Perks \& Insurance}}{\text{Total Fully-Burdened Labor Costs}} \right) \times 100\%
 $$
+
 - *Meaning:* Measures the non-wage fringe benefit component of total employee compensation packages.
 
 #### 19. Revenue Per FTE
 $$
 \text{Revenue per FTE} = \frac{\text{Total Gross Enterprise Revenue}}{\text{Total Number of Active FTEs}}
 $$
+
 - *Meaning:* Foundational productivity metric measuring average revenue generated per unit of full-time human labor.
 
 #### 20. Profit vs. Compensation Ratio Per FTE
 $$
 \text{Profit-to-Compensation Ratio} = \frac{\text{Operating Profit (EBIT) per FTE}}{\text{Average Labor Cost per FTE}}
 $$
+
 - *Meaning:* Determines economic surplus generated by employees relative to their total compensation cost.
 
 #### 21. Human Capital ROI (HCROI)
 $$
 \text{HCROI} = \frac{\text{Revenue} - (\text{Total Operating Expenses} - \text{Total Labor Costs})}{\text{Total Labor Costs}}
 $$
+
 - *Meaning:* A standard financial metric evaluating operating profitability generated per dollar invested in employee compensation.
 
 #### 22. HR Functional Cost Per Employee
 $$
 \text{HR Cost per Employee} = \frac{\text{Total HR Department Operating Budget}}{\text{Total Corporate Employee Headcount}}
 $$
+
 - *Meaning:* The internal administrative cost incurred by HR to support each individual employee across the organization.
 
 ---
@@ -1029,78 +1062,91 @@ $$
 $$
 \text{Quality of Hire (QoH)} = \frac{\text{Job Performance Score} (P) + \text{Ramp-Up Speed} (R) + \text{Retention Score} (S)}{3}
 $$
+
 - *Meaning:* Multidimensional index measuring the first-year productivity, managerial satisfaction, and cultural alignment of new hires.
 
 #### 24. Vacancy Rate
 $$
 \text{Vacancy Rate} = \left( \frac{\text{Total Number of Open Unfilled Positions}}{\text{Total Authorized Corporate Headcount (Positions)}} \right) \times 100\%
 $$
+
 - *Meaning:* Measures talent shortage pressure and capacity bottlenecks across operational departments.
 
 #### 25. Turnover Rate (Overall Attrition)
 $$
 \text{Turnover Rate} = \left( \frac{\text{Number of Employee Separations (Voluntary + Involuntary)}}{\text{Average Active Headcount in Period}} \right) \times 100\%
 $$
+
 - *Meaning:* The annualized rate at which employees depart the organization.
 
 #### 26. Resignation / Retirement Rate
 $$
 \text{Resignation Rate} = \left( \frac{\text{Total Voluntary Resignations}}{\text{Average Active Headcount in Period}} \right) \times 100\%
 $$
+
 - *Meaning:* Isolates voluntary employee departures from forced terminations, indicating workforce dissatisfaction or competitive headhunting.
 
 #### 27. External Hire Rate
 $$
 \text{External Hire Rate} = \left( \frac{\text{Positions Filled via External Recruitment Channels}}{\text{Total Open Positions Filled}} \right) \times 100\%
 $$
+
 - *Meaning:* Assesses reliance on outside labor markets vs. internal promotion pipelines.
 
 #### 28. Time-to-Fill
 $$
 \text{Time-to-Fill} = \frac{\sum_{i=1}^{H} (\text{Offer Acceptance Date}_i - \text{Job Requisition Approval Date}_i)}{H}
 $$
+
 - *Meaning:* The average number of calendar days elapsed between requisition opening and candidate job offer acceptance. Benchmark: 35–45 days.
 
 #### 29. Diversity Hire Ratio
 $$
 \text{Diversity Hire Ratio} = \left( \frac{\text{New Hires from Underrepresented Demographics}}{\text{Total New Hires in Period}} \right) \times 100\%
 $$
+
 - *Meaning:* Monitors the success of corporate DEI initiatives in attracting diverse candidate pipelines.
 
 #### 30. Recruitment Funnel Conversion Ratios
 $$
 \text{Funnel Yield Ratio} = \left( \frac{\text{Applicants Advanced to Stage } k+1}{\text{Applicants Present at Stage } k} \right) \times 100\%
 $$
+
 - *Meaning:* Tracks candidate progression across funnel stages: Application $\to$ Screening $\to$ Technical Interview $\to$ Formal Offer $\to$ Acceptance.
 
 #### 31. Talent Import / Export Ratio
 $$
 \text{Talent Import/Export Ratio} = \frac{\text{Employees Transferred into Department from Other Units}}{\text{Employees Transferred Out of Department to Other Units}}
 $$
+
 - *Meaning:* Departmental health metric; a ratio $\ll 1.0$ indicates a toxic departmental management environment shedding talent to other units.
 
 #### 32. Voluntary Turnover Rate
 $$
 \text{Voluntary Turnover Rate} = \left( \frac{\text{Employee-Initiated Separations}}{\text{Average Headcount}} \right) \times 100\%
 $$
+
 - *Meaning:* Attrition initiated voluntarily by the employee, excluding layoffs, retirements, and disciplinary terminations.
 
 #### 33. Retention Rate
 $$
 \text{Retention Rate} = \left( \frac{\text{Employees Remaining at End of Period with Hire Date Prior to Period Start}}{\text{Headcount at Start of Period}} \right) \times 100\%
 $$
+
 - *Meaning:* Measures the organization's ability to retain existing institutional knowledge and core personnel.
 
 #### 34. Recruitment Expense Per New Hire (Cost-Per-Hire)
 $$
 \text{Cost-Per-Hire (CPH)} = \frac{\sum \text{Internal Recruiting Costs} + \sum \text{External Recruiting Costs}}{\text{Total Number of New Hires in Period}}
 $$
+
 - *Meaning:* The total economic cost (agency fees, advertising, recruiter salaries, background screening) required to onboard one new employee.
 
 #### 35. Retirement Rate Forecast
 $$
 \text{Retirement Forecast \%} = \left( \frac{\text{Employees Eligible for Statutory Retirement within Next 12–36 Months}}{\text{Total Active Workforce Headcount}} \right) \times 100\%
 $$
+
 - *Meaning:* Strategic workforce planning metric predicting impending executive and senior knowledge loss due to aging demographics.
 
 [Source: Unit3_Data Visualization.pdf, Slides 44–46]
@@ -1114,7 +1160,7 @@ The Python data science ecosystem provides multiple visualization libraries, spa
 ```mermaid
 flowchart TD
     Data["Pandas DataFrame / NumPy Arrays"] --> PythonStack["Python Visualization Stack"]
-    
+
     PythonStack --> Lib1["Matplotlib: Low-Level Procedural Engine (Imperative, Fine-Grained Canvas Control)"]
     PythonStack --> Lib2["Pandas Visualization: Built-in Quick Exploration Wrappers (.plot API)"]
     PythonStack --> Lib3["Seaborn: Statistical Visualizations (Tidy Data, Automatic Error Bars & Themes)"]
@@ -1173,6 +1219,7 @@ plt.rcParams['figure.dpi'] = 100
 ### 8.3 Andrew Abela's Chart Chooser Framework
 
 Andrew Abela's *Extreme Presentation Chart Chooser* partitions visualization goals into four primary categories:
+
 1. **Comparison:** Comparing values across categories or over time (Bar Charts, Column Charts, Line Charts).
 2. **Distribution:** Visualizing frequency spread across continuous variables (Histograms, Box Plots, Density Plots).
 3. **Composition:** Showing part-to-whole relationships (Stacked Bar Charts, Treemaps, Waterfall Charts, Pie Charts).
@@ -1180,6 +1227,7 @@ Andrew Abela's *Extreme Presentation Chart Chooser* partitions visualization goa
 
 #### The "Fearsome Foursome"
 Four foundational chart types handle over 80% of real-world business analytics tasks:
+
 1. **Bar Plot:** Represents entity values using proportional rectangular lengths. Best for categorical comparisons.
 2. **Histogram:** Groups numeric data into continuous bins to visualize probability distributions.
 3. **Scatter Plot:** Displays observations as points along two continuous axes to reveal correlation relationships.
@@ -1197,6 +1245,7 @@ Four foundational chart types handle over 80% of real-world business analytics t
 ### 8.4 The EdgeTier Benchmark Case Study (Comparative Implementations)
 
 The slide material evaluates the Python visualization stack across a real-world enterprise dataset provided by **EdgeTier**:
+
 - **Dataset Scale:** 5,477 chat customer support sessions handled across 100 agents.
 - **Key Schema Attributes:**
   - `user_id`: Agent identifier string (e.g., `'User 1395'`).
@@ -1238,11 +1287,11 @@ plt.show()
 # Directly callable on pre-aggregated DataFrame
 # ==========================================
 chats_per_user.iloc[0:20].plot(
-    x='user_id', 
-    y='number_chats', 
-    kind='bar', 
-    legend=False, 
-    color='green', 
+    x='user_id',
+    y='number_chats',
+    kind='bar',
+    legend=False,
+    color='green',
     width=0.8
 )
 plt.ylabel("Number of Chats")
@@ -1256,9 +1305,9 @@ plt.show()
 # Simplest syntax; inherits Matplotlib styling
 # ==========================================
 sns.barplot(
-    x='user_id', 
-    y='number_chats', 
-    data=chats_per_user.iloc[0:20], 
+    x='user_id',
+    y='number_chats',
+    data=chats_per_user.iloc[0:20],
     color='salmon'
 )
 plt.xticks(rotation=60)
@@ -1274,12 +1323,12 @@ plt.show()
 # ==========================================
 bars = alt.Chart(chats_per_user.iloc[0:20], title="Chats per User ID (Altair)").mark_bar().encode(
     x=alt.X(
-        'user_id:N', 
+        'user_id:N',
         sort=alt.EncodingSortField(field='number_chats', op='sum', order='descending'),
         axis=alt.Axis(title='User ID')
     ),
     y=alt.Y(
-        'number_chats:Q', 
+        'number_chats:Q',
         axis=alt.Axis(title='Number of Chats')
     )
 )
@@ -1309,8 +1358,8 @@ flowchart TD
 # ==========================================
 # Step 1: Reshape data from long (tidy) to wide format
 plot_data = chats_per_user.pivot(
-    index='user_id', 
-    columns='website', 
+    index='user_id',
+    columns='website',
     values='number_chats'
 ).fillna(0)
 
@@ -1352,10 +1401,10 @@ Seaborn decouples data calculation from plotting code. Instead of forcing the an
 ```python
 # --- Estimator 1: Automatic Mean with 95% Confidence Interval Error Bars ---
 sns.barplot(
-    x='user_id', 
-    y='handling_time', 
-    estimator=np.mean, 
-    data=data, 
+    x='user_id',
+    y='handling_time',
+    estimator=np.mean,
+    data=data,
     order=data['user_id'].value_counts().index[0:20]
 )
 plt.xticks(rotation=60)
@@ -1366,10 +1415,10 @@ plt.show()
 # --- Estimator 2: Sum Aggregation ---
 # Changing the statistical summary requires changing only the estimator function
 sns.barplot(
-    x='user_id', 
-    y='handling_time', 
-    estimator=np.sum, 
-    data=data, 
+    x='user_id',
+    y='handling_time',
+    estimator=np.sum,
+    data=data,
     order=data['user_id'].value_counts().index[0:20]
 )
 plt.xticks(rotation=60)
@@ -1394,8 +1443,8 @@ plt.show()
 
 # --- 2. SEABORN: Combined Histogram, KDE, and Rug Plot ---
 sns.distplot(
-    a=data['handling_time'], 
-    hist=True, 
+    a=data['handling_time'],
+    hist=True,
     kde=True,    # Overlays smooth Gaussian Kernel Density Estimate curve
     rug=True,    # Adds tick marks on horizontal axis for individual data points
     bins=50
@@ -1422,13 +1471,13 @@ alt.Chart(data, title="Distribution of Handling Times").mark_bar().encode(
 # --- 1. PANDAS: Clumsy Multi-Color Scatter ---
 # Requires manual lambda mapping of categories to color strings
 colors = {
-    'Website A': 'red', 'Website B': 'blue', 
+    'Website A': 'red', 'Website B': 'blue',
     'Website C': 'green', 'Website D': 'black', 'Other': 'orange'
 }
 data.plot(
-    x='handling_time', 
-    y='number_messages', 
-    kind='scatter', 
+    x='handling_time',
+    y='number_messages',
+    kind='scatter',
     c=data['website_summary'].apply(lambda x: colors[x])
 )
 plt.title("Handling Time vs Messages (Pandas - Clumsy Category Coloring)")
@@ -1436,11 +1485,11 @@ plt.show()
 
 # --- 2. SEABORN: Native Multi-Category lmplot ---
 sns.lmplot(
-    x='handling_time', 
-    y='number_messages', 
-    hue='website_summary', 
-    data=data, 
-    fit_reg=False, 
+    x='handling_time',
+    y='number_messages',
+    hue='website_summary',
+    data=data,
+    fit_reg=False,
     scatter_kws={'s': 10, 'alpha': 0.6}
 )
 plt.title("Handling Time vs Messages (Seaborn)")
@@ -1484,11 +1533,11 @@ plt.show()
 # Operates directly on raw, unpivoted tidy data
 # ==========================================
 sns.lineplot(
-    x='date', 
-    y='chat_id', 
-    hue='language', 
-    data=data, 
-    estimator=len, 
+    x='date',
+    y='chat_id',
+    hue='language',
+    data=data,
+    estimator=len,
     marker='o'
 )
 plt.xticks(rotation=90)
@@ -1526,15 +1575,15 @@ Analytical graphics are frequently corrupted by poor visual encodings that decei
 ```mermaid
 flowchart TD
     Pitfalls["Cognitive Visualization Pitfalls & What to Avoid"]
-    
+
     Pitfalls --> P1["1. Angles (Pie Charts)"]
     P1 --> P1a["Human eye cannot accurately evaluate radial angles or curved arcs."]
     P1 --> P1b["Remedy: Replace with horizontally sorted Bar Charts."]
-    
+
     Pitfalls --> P2["2. Area (Bubble Charts)"]
     P2 --> P2a["Stevens' Power Law: Area sensation scales at S^0.8 (perceptual underestimation)."]
     P2 --> P2b["Remedy: Encode quantitative values via aligned linear length."]
-    
+
     Pitfalls --> P3["3. Fake 3D Graphics"]
     P3 --> P3a["Perspective foreshortening, occluded back rows, visual distortion."]
     P3 --> P3b["Caveat: Interactive 3D scatter plots with real-time rotation are acceptable."]
@@ -1615,16 +1664,17 @@ flowchart TD
     VE4 --> D1 & D2 & D3 & D4
 ```
 
-**What it shows:**  
+**What it shows:**
 The complete four-tier enterprise Business Intelligence pipeline from raw heterogeneous ingestion down to executive dashboard delivery.
 
 **Components:**
+
 1. **Heterogeneous Data Sources:** Combines on-premise relational databases, cloud data warehouses, file dumps, and REST APIs.
 2. **Semantic & Preparation Layer:** Cleans nulls, calculates derived fields, and evaluates Level of Detail (LOD) formulas.
 3. **Visualization Engine:** Maps dimensions and measures to visual channels (color, position, shape) and configures action filters.
 4. **Consumer Layer:** Delivers executive BAN cards, diagnostic scatter plots, interactive rosters, and automated alerts.
 
-**Flow:**  
+**Flow:**
 Raw data is ingested, harmonized in the semantic prep layer, rendered into graphical primitives by the visual engine, and delivered to end-users via role-based access.
 
 ---
@@ -1634,22 +1684,22 @@ Raw data is ingested, harmonized in the semantic prep layer, rendered into graph
 ```mermaid
 flowchart TD
     Start["New Visualization Task in Python"] --> Q1{"What is the primary goal?"}
-    
+
     Q1 -->|"Quick Interactive Web App"| BokehPlotly["Use Bokeh or Plotly (Client-Side D3/WebGL)"]
     Q1 -->|"Geospatial Map on OpenStreetMap"| Folium["Use Folium (Leaflet.js GeoJSON)"]
     Q1 -->|"Analytical Charting / Report"| Q2{"What is the data structure & complexity?"}
-    
+
     Q2 -->|"Rapid EDA on Raw DataFrame"| PandasPlot["Use Pandas df.plot() (Direct & Simple)"]
     Q2 -->|"Statistical Distribution / Regression"| Q3{"Requires Stacked Bar?"}
-    
+
     Q3 -->|"Yes (Stacked Bar Needed)"| StackCheck["Avoid Seaborn! Use Pandas .pivot() or Altair"]
     Q3 -->|"No (Clustered, Box, Dist, KDE)"| SeabornPlot["Use Seaborn (sns.barplot, sns.lmplot, sns.distplot)"]
-    
+
     Q2 -->|"Complex Grammar / Interactive Specs"| AltairPlot["Use Altair (Declarative Vega-Lite)"]
     Q2 -->|"Custom Pixel-Perfect Canvas Tweaks"| MatplotlibPlot["Use Matplotlib (plt.subplots, Imperative Control)"]
 ```
 
-**What it shows:**  
+**What it shows:**
 A practical decision flow for selecting the optimal Python visualization library based on data structure, statistical goals, and library architectural constraints.
 
 ---
@@ -1884,6 +1934,7 @@ $$
 
 #### Q2. Explain the fundamental architectural failure of Seaborn when generating Stacked Bar Charts, and how Pandas and Altair solve this problem.
 **Answer:**
+
 - **Seaborn's Architectural Limitation:** Seaborn is designed around statistical analysis of unaggregated tidy (long-format) data. In `sns.barplot()`, assigning a categorical attribute to `hue` automatically splits the visual marks into **clustered (side-by-side) bars** along the categorical axis. Seaborn possesses **no native parameter** (`stacked=True` does not exist in Seaborn) to stack these bars vertically on top of each other. Attempting to force a stacked bar chart in Seaborn requires tedious, manual calculation of multiple overlaid bar plots.
 - **Pandas Solution:** Pandas solves this by reshaping the DataFrame from tidy to wide format using `.pivot(index='user_id', columns='website', values='number_chats')`. Once reshaped, Pandas provides a native one-line plotting command: `df.plot(kind='bar', stacked=True)`, which automatically stacks column segments along the vertical axis.
 - **Altair Solution:** Altair solves this elegantly through declarative visual encodings. The analyst specifies `x='user_id:N'`, `y='sum(number_chats):Q'`, and `color='website:N'`. Because Altair implements the Vega-Lite grammar of graphics, it automatically detects that multiple color marks occupy the same $X$ coordinate and defaults to vertical stacking without requiring any data reshaping or pivoting.
@@ -1897,6 +1948,7 @@ An enterprise software corporation with 5,000 employees across 10 international 
 
 #### Comprehensive Solution Requirements:
 Your design must provide:
+
 1. **Architectural Pipeline & Data Model:** Schema design, data sources, ingestion strategy, and Level of Detail (LOD) formulas.
 2. **Dashboard Wireframe & Component Layout:** Complete ASCII/Mermaid wireframe, hero BAN cards, and primary analytical sheets.
 3. **KPI Taxonomy & Mathematical Formulations:** Explicit formulas for the core metrics.
@@ -1916,13 +1968,13 @@ Your design must provide:
     ```
   - *Gender Pay Gap Percentage:*
     ```tableau
-    [Gender_Pay_Gap_%] = 
-    (AVG(IIF([Gender]="Female", [Base_Salary], NULL)) - AVG(IIF([Gender]="Male", [Base_Salary], NULL))) 
+    [Gender_Pay_Gap_%] =
+    (AVG(IIF([Gender]="Female", [Base_Salary], NULL)) - AVG(IIF([Gender]="Male", [Base_Salary], NULL)))
     / AVG(IIF([Gender]="Male", [Base_Salary], NULL)) * 100.0
     ```
   - *Annualized Voluntary Attrition Rate:*
     ```tableau
-    [Voluntary_Attrition_Rate] = 
+    [Voluntary_Attrition_Rate] =
     (SUM([Voluntary_Exit_Flag]) / { FIXED : COUNTD([Employee_ID]) }) * 12.0 * 100.0
     ```
 
@@ -1968,10 +2020,12 @@ $$
    \text{Pay Gap} = \frac{\bar{W}_{\text{female}} - \bar{W}_{\text{male}}}{\bar{W}_{\text{male}}} \times 100\%
 $$
    Where $\bar{W}$ is average base compensation.
+
 2. **Voluntary Attrition Rate:**
 $$
    \text{Attrition Rate} = \frac{\sum \text{Voluntary Separations}}{\frac{1}{2}(\text{Headcount}_{\text{start}} + \text{Headcount}_{\text{end}})} \times 100\%
 $$
+
 3. **Human Capital ROI (HCROI):**
 $$
    \text{HCROI} = \frac{\text{Revenue} - (\text{Operating Expenses} - \text{Total Labor Costs})}{\text{Total Labor Costs}}
@@ -1997,5 +2051,6 @@ $$
 ...
 $$
 ` delimiters surrounded by blank lines. All comparison operators are enclosed in math mode (`$<$`, `$>$`). All formulas include Symbol Definition tables.
+
 - **Mermaid Syntax:** All Mermaid diagrams utilize quoted node strings and valid directional flow syntax.
 - **Academic Standard:** Formatted as a complete textbook-grade study guide suitable for university examinations, practical viva voce evaluations, and enterprise system designs.

@@ -169,7 +169,7 @@ flowchart TD
 In traditional telephony, a channel is divided statically among $N$ competing users using **Frequency Division Multiplexing (FDM)** or **Time Division Multiplexing (TDM)**:
 
 
-* If $N$users share a channel of total capacity$C\text{ bps}$, each user is permanently allocated a private sub-band of capacity $\f\frac{C}{N}\text{ bps}$.
+* If $N$users share a channel of total capacity$C\text{ bps}$, each user is permanently allocated a private sub-band of capacity $\frac{C}{N}\text{ bps}$.
 
 
 * **Queueing Theory Derivation ($M/M/1$Queue):** Let frame arrivals follow a Poisson distribution with average arrival rate$\lambda\text{ frames/sec}$, and frame lengths follow an exponential distribution with mean length $1/\mu\text{ bits}$. The service rate of the undivided channel is $\mu C\text{ frames/sec}$. From $M/M/1$queueing theory, the mean time delay$T$ to transmit a frame is:
@@ -2365,7 +2365,7 @@ flowchart TD
         SW1((Switch 1)) <-->|Link A| SW2((Switch 2))
 
 
-        SW1 <-->|Link B (Redundant)| SW2
+        SW1 <-->|"Link B (Redundant)"| SW2
 
 
     end

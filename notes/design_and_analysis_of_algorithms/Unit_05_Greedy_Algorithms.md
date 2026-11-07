@@ -58,6 +58,7 @@ Coins $C = \{500, 100, 50, 20, 10, 5, 2, 1\}$
 
 ### Counter-example (Non-Canonical)
 Coins = {6, 4, 1}, V = 8.
+
 - Greedy: Takes 6, then 1, then 1 → {6, 1, 1} (3 coins).
 - Optimal: {4, 4} (2 coins). Greedy fails!
 

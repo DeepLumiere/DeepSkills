@@ -36,9 +36,10 @@
 
 ## 1. Section Narrative Spines: Conceptual Flow and Logical Architecture
 
-Modern data analysis pipelines are confronted with massive data collections characterized by millions of records (massive row volumes) and hundreds or thousands of attributes (high dimensionality). When submitted directly to analytical algorithms or visualization engines, such raw datasets introduce severe computational bottlenecks, algorithm convergence failures, storage strain, and cognitive overload for human analysts. 
+Modern data analysis pipelines are confronted with massive data collections characterized by millions of records (massive row volumes) and hundreds or thousands of attributes (high dimensionality). When submitted directly to analytical algorithms or visualization engines, such raw datasets introduce severe computational bottlenecks, algorithm convergence failures, storage strain, and cognitive overload for human analysts.
 
 Unit 4 establishes the formal engineering paradigm of **Data Reduction and Feature Enhancement**. The logical progression of this unit is structured into three interconnected conceptual pillars:
+
 1. **Foundations of Data Reduction**: Establishing why data volume must be reduced while preserving underlying information content, exploring the 4 fundamental engineering goals, and organizing all known reduction methods into a structured master taxonomy.
 2. **Statistical Sampling Principles**: Developing the theoretical and mathematical framework for selecting representative row subsets (numerosity reduction) from massive populations, differentiating probability from non-probability paradigms, analyzing critical caveats such as database physical page I/O constraints and distribution skewness, and tracing the 5-step sampling lifecycle.
 3. **Principal Component Analysis (PCA) & Feature Enhancement**: Addressing the column dimension (dimensionality reduction) through linear algebra and eigendecomposition, discovering optimal orthogonal axes that maximize preserved variance, executing a complete 10–15 mark numerical exam calculation, and mapping the theory to Python and KNIME software toolchains.
@@ -46,26 +47,26 @@ Unit 4 establishes the formal engineering paradigm of **Data Reduction and Featu
 ```mermaid
 flowchart TD
     A["Raw Big Data (Millions of Rows x Hundreds of Features)"] --> B{"Data Reduction & Feature Enhancement"}
-    
+
     subgraph Column_Reduction ["Dimensionality Reduction (Columns)"]
         B --> C["Feature Extraction & Enhancement"]
         C --> D["Principal Component Analysis (PCA)"]
         D --> E["Eigen Decomposition of Covariance Matrix S"]
         E --> F["Maximal Variance Orthogonal Axes (PC1, PC2)"]
     end
-    
+
     subgraph Row_Reduction ["Numerosity Reduction (Rows)"]
         B --> G["Statistical Sampling Principles"]
         G --> H["Probability Sampling (SRSWOR, SRSWR, Stratified, Cluster)"]
         G --> I["Non-Probability Sampling (Convenience, Quota, Snowball)"]
         H --> J["Representative Sample Statistics Estimate Population Parameters"]
     end
-    
+
     subgraph Structural_Reduction ["Volume & Granularity Reduction"]
         B --> K["Aggregation & Discretization"]
         B --> L["Data Compression (Lossless vs Lossy)"]
     end
-    
+
     F --> M["Optimized Analytical Models, Fast Database Queries & 2D/3D Visualizations"]
     J --> M
     K --> M
@@ -192,6 +193,7 @@ $$
 w_k = \arg\max_{\|w\|=1, w \perp w_1, \dots, w \perp w_{k-1}} w^T S w
 $$
   where each vector $w_k$ is the $k$-th orthonormal eigenvector of $S$ associated with the $k$-th largest eigenvalue $\lambda_k$.
+
 - **Intuition**: Imagine looking at an elongated, tilted football hovering in a 3D room. If you take a photo from the side showing its longest axis, you capture almost all of its shape in a flat 2D shadow. PCA finds the exact angle that captures the maximum spread of the data cloud.
 - **Example**: Rotating a correlated 2-variable health record (Blood Pressure and Oxygen Saturation) into two orthogonal axes ($PC_1, PC_2$), where $PC_1$ captures $97.44\%$ of all biological variability.
 
@@ -207,6 +209,7 @@ $$
 ### 3.1 The Imperative for Data Reduction
 
 In real-world data mining and analytical engineering, datasets routinely scale into gigabytes and terabytes, containing tens of millions of rows and hundreds of attributes. Analyzing such raw datasets directly creates severe operational difficulties:
+
 - **Exhaustion of Working Memory**: In-memory algorithms (such as matrix inversion, distance calculations in KNN, and hierarchical clustering) experience memory crashes ($O(N^2)$ space complexity).
 - **Prohibitive Time Complexity**: Training complex machine learning models or executing exploratory queries requires hours or days on massive datasets.
 - **The Curse of Dimensionality**: As the attribute dimension $d$ grows, the volume of feature space expands exponentially, causing data points to become equidistant and sparse. Distance metrics become meaningless, leading to severe model overfitting.
@@ -224,7 +227,7 @@ flowchart LR
     DR --> G2["2. Scalability"]
     DR --> G3["3. Noise Removal"]
     DR --> G4["4. Better Visualization"]
-    
+
     G1 --- E1["Less disk/RAM storage; faster CPU/GPU runtime"]
     G2 --- E2["Handle massive Big Data streams without system crashes"]
     G3 --- E3["Eliminate redundant, uninformative, collinear features"]
@@ -243,6 +246,7 @@ flowchart LR
 ### 3.3 Concrete Motivating Scenario: The 10-Million Transaction Benchmark
 
 Consider an enterprise e-commerce platform processing credit card transactions:
+
 - **Raw Volume**: $N = 10,000,000$ individual purchase logs per month.
 - **Feature Width**: $d = 50$ recorded variables (timestamps, merchant IDs, transaction amounts, user demographics, IP locations, terminal device codes, etc.).
 - **Physical Size**: Approximately 5 gigabytes of uncompressed relational records per month.
@@ -254,7 +258,7 @@ flowchart TD
     RAW["Raw Log Stream: 10,000,000 Records x 50 Features"] --> P1["Aggregation Strategy"]
     RAW --> P2["Dimensionality Reduction Strategy"]
     RAW --> P3["Numerosity Reduction (Sampling) Strategy"]
-    
+
     P1 --> OUT1["Aggregate daily sales totals per customer (Rows condensed by 95%)"]
     P2 --> OUT2["Apply PCA to compress 50 correlated metrics into 5 Principal Components"]
     P3 --> OUT3["Extract 1% stratified representative sample (100,000 rows) for rapid prototyping"]
@@ -275,27 +279,27 @@ Data reduction strategies are broadly classified into five primary technical fam
 ```mermaid
 graph TD
     MDR["Master Taxonomy of Data Reduction"]
-    
+
     MDR --> DR["1. Dimensionality Reduction"]
     DR --> PCA["PCA (Principal Component Analysis)"]
     DR --> LDA["LDA (Linear Discriminant Analysis)"]
     DR --> TSNE["t-SNE (t-Distributed Stochastic Neighbor Embedding)"]
     DR --> UMAP["UMAP (Uniform Manifold Approximation & Projection)"]
-    
+
     MDR --> NR["2. Numerosity Reduction"]
     NR --> HIST["Histograms (Binning & Frequency)"]
     NR --> CLUST["Clustering (k-Means Centroid Summaries)"]
     NR --> SAMP["Sampling (Random, Stratified, Systematic)"]
     NR --> REGM["Regression Models (Parametric Functions)"]
-    
+
     MDR --> DC["3. Data Compression"]
     DC --> LOSSLESS["Lossless Compression (ZIP, Huffman, Run-Length)"]
     DC --> LOSSY["Lossy Compression (JPEG, MP3, Wavelet Transform)"]
-    
+
     MDR --> AGG["4. Aggregation"]
     AGG --> TIME["Temporal Roll-up (Hourly -> Daily -> Monthly)"]
     AGG --> SPAT["Spatial Roll-up (Store -> City -> State -> Country)"]
-    
+
     MDR --> DISC["5. Discretization"]
     DISC["Interval Binning: Continuous Age -> {Young, Middle, Senior}"]
 ```
@@ -349,15 +353,15 @@ flowchart LR
         P_EL["All Population Elements"]
         P_PAR["True Population Parameters:<br/>Mean: mu<br/>Std Dev: sigma<br/>Variance: sigma^2"]
     end
-    
+
     Pop_Universe -- "Scientific Sampling Design" --> Sub_Sample
-    
+
     subgraph Sub_Sample ["Extracted Sample (Size n)"]
         direction TB
         S_EL["Sampled Elements (n << N)"]
         S_STAT["Observed Sample Statistics:<br/>Mean: X_bar<br/>Std Dev: s<br/>Variance: s^2"]
     end
-    
+
     Sub_Sample -- "Statistical Estimation & Inference" --> Pop_Universe
 ```
 
@@ -373,6 +377,7 @@ flowchart LR
 
 #### The Skewness Warning: Why Simple Random Sampling Fails on Imbalanced Data
 In real-world data science, datasets rarely follow perfectly balanced, symmetric Gaussian distributions. They frequently exhibit extreme class skewness or long-tailed Pareto distributions:
+
 - **The Problem**: In fraud detection, network intrusion monitoring, rare medical diagnosis, or catastrophic equipment failure, the target class of interest may represent less than $0.1\%$ or $0.01\%$ of all records.
 - **The Failure Mechanism**: If an analyst applies Simple Random Sampling (SRS) to extract a $1\%$ sample from a database containing 1,000,000 normal transactions and 100 fraudulent transactions, the expected number of fraud cases captured is only $100 \times 0.01 = 1$. Due to random sampling variation, the sample may capture zero fraud cases. A model trained on this sample will fail entirely to learn fraud patterns.
 - **The Solution**: Adaptive, stratified sampling must be employed. The population is explicitly partitioned into majority and minority strata. The rare stratum is oversampled (or sampled at 100%), ensuring adequate representation of the minority class in the analytical subset.
@@ -380,10 +385,10 @@ In real-world data science, datasets rarely follow perfectly balanced, symmetric
 ```mermaid
 flowchart TD
     SKEW_DATA["Skewed Population: 99.9% Normal Transactions, 0.1% Rare Fraud Cases"]
-    
+
     SKEW_DATA --> SRS_PATH["Simple Random Sampling (SRS)"]
     SRS_PATH --> SRS_FAIL["High Probability of Zero Fraud Cases Extracted<br/>-> Model fails to learn minority class patterns!"]
-    
+
     SKEW_DATA --> STRAT_PATH["Stratified Adaptive Sampling"]
     STRAT_PATH --> STRAT_WIN["Partition into Normal and Fraud Strata<br/>-> Sample 100% of Fraud + Proportionate Normal<br/>-> Preserves complete minority class patterns!"]
 ```
@@ -428,14 +433,14 @@ Conducting a complete census of an entire population is rarely feasible or desir
 ```mermaid
 flowchart TD
     RS["6 Core Justifications for Sampling"]
-    
+
     RS --> R1["1. Economy (Cost Reduction)"]
     RS --> R2["2. Time Constraints"]
     RS --> R3["3. Very Large Populations"]
     RS --> R4["4. Partly Accessible Populations"]
     RS --> R5["5. Destructive Nature of Observation"]
     RS --> R6["6. Superior Accuracy vs. Flawed Census"]
-    
+
     R1 --- C1["Fewer resources, surveyors, compute hours, and storage"]
     R2 --- C2["Rapid delivery of urgent intelligence before data becomes obsolete"]
     R3 --- C3["Infinite or massive streams cannot be exhaustively examined"]
@@ -497,7 +502,7 @@ flowchart TD
     S2 --> S3["Step 3: Select Sampling Technique(s)"]
     S3 --> S4["Step 4: Determine the Sample Size (n)"]
     S4 --> S5["Step 5: Execute the Sampling Process & Collect Data"]
-    
+
     S1 --- D1["Specify target group boundaries, inclusion & exclusion criteria"]
     S2 --- D2["Identify or compile the concrete operational list/register"]
     S3 --- D3["Choose Probability (SRSWOR, Stratified) or Non-Probability method"]
@@ -515,6 +520,7 @@ flowchart TD
 $$
 n = \frac{Z^2 \cdot \sigma^2}{E^2}
 $$
+
    - *Example*: Selecting $n = 200$ students out of $N = 2,000$ to achieve a $95\%$ confidence level with a $\pm 5\%$ margin of error.
 5. **Step 5: Execute the Sampling Process & Collect Data**: Implement the randomized draw, deploy measurement protocols, track non-responses, and assemble the final dataset.
    - *Example*: Sending customized digital survey links to the 200 selected student IDs and monitoring response rates with follow-up reminders.
@@ -530,16 +536,16 @@ Sampling methods are split into two broad categories: **Probability (Random) Sam
 ```mermaid
 flowchart TD
     ALL["Sampling Techniques"]
-    
+
     ALL --> PROB["Probability Sampling Techniques<br/>(Every element has a known, non-zero selection probability)"]
     ALL --> NONPROB["Non-Probability Sampling Techniques<br/>(Selection relies on subjective judgment or convenience)"]
-    
+
     PROB --> P1["Simple Random Sampling (SRS)<br/>* SRSWOR (Without Replacement)<br/>* SRSWR (With Replacement)"]
     PROB --> P2["Systematic Sampling (k = N/n)"]
     PROB --> P3["Stratified Sampling<br/>* Proportional<br/>* Non-proportional"]
     PROB --> P4["Cluster Sampling"]
     PROB --> P5["Other Advanced Probability Techniques:<br/>* Multistage Sampling<br/>* Multiphase Sampling"]
-    
+
     NONPROB --> NP1["Convenience Sampling"]
     NONPROB --> NP2["Judgmental / Purposive Sampling"]
     NONPROB --> NP3["Quota Sampling"]
@@ -556,12 +562,14 @@ Probability sampling requires that every element in the sampling frame has a kno
 
 #### 1. Simple Random Sampling (SRS)
 Every individual element in the population has an identical probability of selection: $P(e_i) = \frac{1}{N}$.
+
 - **Simple Random Sampling Without Replacement (SRSWOR)**:
   - *Mechanism*: Once an element is selected, it is removed from the population pool and cannot be selected again.
   - *Properties*: Generates $n$ distinct observations. The total number of possible distinct samples is given by the combination formula:
 $$
 \binom{N}{n} = \frac{N!}{n!(N - n)!}
 $$
+
   - *Probability Dynamics*: The probability of an element being selected on the first draw is $1/N$. On the second draw, it is $1/(N-1)$. However, the unconditional overall inclusion probability for every element remains exactly $n/N$.
 - **Simple Random Sampling With Replacement (SRSWR)**:
   - *Mechanism*: An extracted element is recorded and returned to the population pool before the next draw.
@@ -577,7 +585,7 @@ flowchart LR
         REM1 --> U1_NEXT["Urn Pool: {A, B, D, E} (Size N - 1)"]
         U1_NEXT --> D2["Draw 2: Select E (Independent Distinct Pairs)"]
     end
-    
+
     subgraph SRSWR_Model ["SRSWR (With Replacement)"]
         direction TB
         U2["Population Urn: {A, B, C, D, E}"] --> D3["Draw 1: Select C"]
@@ -593,16 +601,19 @@ flowchart LR
 
 #### 2. Systematic Sampling
 Elements are selected at fixed, regular intervals along an ordered sampling frame.
+
 - **Mechanism**:
   1. Determine the sampling skip interval $k$:
 $$
 k = \left\lfloor \frac{N}{n} \right\rfloor
 $$
+
   2. Select a random starting integer $r$ uniformly distributed such that $1 \le r \le k$.
   3. Extract elements at positions:
 $$
 r, \; r + k, \; r + 2k, \; r + 3k, \; \dots, \; r + (n - 1)k
 $$
+
 - **Advantages**: Extremely simple and rapid execution; ensures even dispersion across physical records or time intervals without managing complex randomization tables.
 - **Caveat (Periodicity Hazard)**: If the sampling frame contains a hidden cyclic periodicity that coincides with the interval $k$ (e.g., sampling daily sales data every 7th day, thus selecting only Mondays), severe systematic bias occurs.
 
@@ -618,11 +629,11 @@ flowchart TD
     POP["Heterogeneous Population (All University Students)"] --> STR1["Stratum 1: Computer Science (Homogeneous)"]
     POP --> STR2["Stratum 2: Electrical Eng (Homogeneous)"]
     POP --> STR3["Stratum 3: Mechanical Eng (Homogeneous)"]
-    
+
     STR1 -- "Random Draw" --> S1["Sample 1"]
     STR2 -- "Random Draw" --> S2["Sample 2"]
     STR3 -- "Random Draw" --> S3["Sample 3"]
-    
+
     S1 --> COMB["Consolidated Stratified Sample"]
     S2 --> COMB
     S3 --> COMB
@@ -634,10 +645,12 @@ flowchart TD
 $$
 n_h = n \cdot \left(\frac{N_h}{N}\right)
 $$
+
   - *Disproportional (Optimal) Stratified Sampling (Neyman Allocation)*: Strata with higher variance $\sigma_h$ or lower collection cost $c_h$ are allocated larger sample shares:
 $$
 n_h \propto \frac{N_h \sigma_h}{\sqrt{c_h}}
 $$
+
 - **Significance**: Guarantees adequate representation of small or minority sub-populations (solving the skewness dilemma) and yields lower sampling variance than simple random sampling.
 
 [Source: `Unit 4_Data reduction and Sampling.pdf`, Slides 9, 10, 18, 19]
@@ -654,7 +667,7 @@ flowchart TD
     POP2 --> C2["Cluster 2: Downtown Core (Heterogeneous)"]
     POP2 --> C3["Cluster 3: South Suburb (Heterogeneous)"]
     POP2 --> C4["Cluster 4: East District (Heterogeneous)"]
-    
+
     C1 -. "Not Selected" .-> IGN1["Omitted"]
     C2 -- "Randomly Chosen" --> AUDIT1["Census of All Households in Downtown"]
     C3 -. "Not Selected" .-> IGN2["Omitted"]
@@ -725,6 +738,7 @@ Non-probability sampling selects elements through non-random procedures (such as
 ### 5.4 Key Strategic Factors in Sample Design
 
 When designing an operational sampling strategy, researchers must balance six core constraints:
+
 1. **Research Objectives**: Exploratory pilot work permits convenience sampling, whereas regulatory submissions demand rigorous stratified probability designs.
 2. **Degree of Accuracy Required**: High-stakes decisions (e.g., medical device defect testing) require tight margins of error ($E \le 1\%$) and large sample sizes, whereas trend sensing tolerates $E = 5\%$.
 3. **Resource Availability**: Financial budget, computing hardware, and field staffing determine whether single-stage or cluster sampling is feasible.
@@ -1359,40 +1373,40 @@ import numpy as np
 def pca_from_scratch(data_matrix, n_components=1):
     """
     Executes complete Principal Component Analysis from first mathematical principles.
-    
+
     Parameters:
         data_matrix (list or np.ndarray): Raw 2D array of shape (n_samples, n_features)
         n_components (int): Target number of orthogonal dimensions to extract
-        
+
     Returns:
         dict: Mean vector, Covariance matrix, Eigenvalues, Eigenvectors, EVR, and Transformed Scores
     """
     X = np.array(data_matrix, dtype=float)
     n_samples, n_features = X.shape
-    
+
     # Step 1: Zero-mean centering
     mean_vector = np.mean(X, axis=0)
     X_centered = X - mean_vector
-    
+
     # Step 2: Compute sample covariance matrix S (using n - 1 degrees of freedom)
     covariance_matrix = np.dot(X_centered.T, X_centered) / (n_samples - 1)
-    
+
     # Step 3: Eigendecomposition of S
     eigenvalues, eigenvectors = np.linalg.eig(covariance_matrix)
-    
+
     # Step 4: Sort eigenvalues and eigenvectors in descending order of variance
     sort_indices = np.argsort(eigenvalues)[::-1]
     sorted_evals = eigenvalues[sort_indices]
     sorted_evecs = eigenvectors[:, sort_indices]
-    
+
     # Step 5: Compute Explained Variance Ratio (EVR)
     total_variance = np.sum(sorted_evals)
     evr = sorted_evals / total_variance
-    
+
     # Step 6: Select top k components and project centered data
     projection_basis = sorted_evecs[:, :n_components]
     transformed_scores = np.dot(X_centered, projection_basis)
-    
+
     return {
         "Mean_Vector": mean_vector,
         "Covariance_Matrix": covariance_matrix,
@@ -1413,9 +1427,9 @@ if __name__ == "__main__":
         [130, 84],  # P5
         [132, 86]   # P6
     ]
-    
+
     results = pca_from_scratch(clinical_data, n_components=2)
-    
+
     print("=== PCA SCRATCH EXECUTION RESULTS ===")
     print("Feature Means (BP, Oxy):", results["Mean_Vector"])
     print("\nSample Covariance Matrix S:\n", results["Covariance_Matrix"])
@@ -1516,13 +1530,13 @@ flowchart LR
 ```mermaid
 flowchart TD
     DRT["Data Reduction Techniques"]
-    
+
     DRT --> DR["Dimensionality Reduction<br/>(Eliminating Columns)"]
     DRT --> NR["Numerosity Reduction<br/>(Replacing Rows)"]
     DRT --> DC["Data Compression<br/>(Bit-Level Encoding)"]
     DRT --> AGG["Data Aggregation<br/>(Roll-Up Summaries)"]
     DRT --> DISC["Discretization<br/>(Interval Binning)"]
-    
+
     DR --> DR_M["Methods: PCA, LDA, t-SNE, UMAP"]
     NR --> NR_M["Methods: Histograms, Clustering, Sampling, Regression"]
     DC --> DC_M["Methods: Lossless (ZIP, Huffman) vs Lossy (JPEG, Wavelets)"]
@@ -1544,9 +1558,9 @@ flowchart TD
 ```mermaid
 flowchart LR
     POP["Target Population (Size N)<br/>Characterized by True Parameters:<br/>* Mean mu<br/>* Std Dev sigma<br/>* Variance sigma^2"]
-    
+
     SAMP["Extracted Sample (Size n)<br/>Characterized by Observed Statistics:<br/>* Mean X_bar<br/>* Std Dev s<br/>* Variance s^2"]
-    
+
     POP -- "1. Scientific Random Sampling" --> SAMP
     SAMP -- "2. Statistical Inference & Parameter Estimation" --> POP
 ```
@@ -1570,7 +1584,7 @@ flowchart TD
         ACT1 --> B2["Subsequent Pool: N - 1 Items Left"]
         B2 --> P2["Draw 2: Unique Elements Guaranteed"]
     end
-    
+
     subgraph Model_SRSWR ["SRSWR: With Replacement"]
         direction TB
         B3["Population Pool: N = 6 Items"] --> P3["Draw 1: Item Selected"]
@@ -1627,15 +1641,15 @@ flowchart TD
 ```mermaid
 flowchart TD
     ST["Sampling Techniques"]
-    
+
     ST --> PROB["Probability Sampling"]
     ST --> NONPROB["Non-Probability Sampling"]
-    
+
     PROB --> PR1["Simple Random (SRSWOR, SRSWR)"]
     PROB --> PR2["Systematic (k = N/n)"]
     PROB --> PR3["Stratified (Proportional, Optimal)"]
     PROB --> PR4["Cluster (Single-stage, Multi-stage)"]
-    
+
     NONPROB --> NP1["Convenience Sampling"]
     NONPROB --> NP2["Judgmental / Purposive"]
     NONPROB --> NP3["Quota Sampling"]
@@ -1831,7 +1845,7 @@ $$
 [Source: `Unit 4_Data reduction and Sampling.pdf`, Slides 2, 3]
 
 ##### Q2. Differentiate between SRSWOR and SRSWR.
-**Model Answer**: 
+**Model Answer**:
 - In **Simple Random Sampling Without Replacement (SRSWOR)**, an element is removed from the population upon selection and cannot appear again, generating $n$ distinct elements with $\binom{N}{n}$ possible sample configurations.
 - In **Simple Random Sampling With Replacement (SRSWR)**, an element is returned to the pool after selection, allowing duplicate selections with $N^n$ possible sample configurations and independent draws.
 [Source: `Unit 4_Data reduction and Sampling.pdf`, Slides 9, 11]

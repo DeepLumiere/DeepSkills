@@ -314,9 +314,11 @@ flowchart TD
 - Color 1 RED. Parent 6 = RED → **R4 violated!**
 
 **First violation: Z=1(R), P=6(R), G=7(B), U=right(7)=8(R)**
+
 - → **Case 1:** Recolor 6→BLACK, 8→BLACK, 7→RED. Move Z up to G=7.
 
 **Second violation: Z=7(R), P=10(R), G=14(B), U=right(14)=18(B) — uncle is BLACK**
+
 - Shape: Z(7) is LEFT of P(10), P(10) is LEFT of G(14) → **LINE** (left-left)
 - **→ Case 3:** Right-Rotate(G=14); Recolor: 10→BLACK, 14→RED
 
@@ -396,9 +398,11 @@ flowchart TD
 - Color 17 RED. Parent 15 = RED → **R4 violated!**
 
 **First violation: Z=17(R), P=15(R), G=18(B), U=right(18)=22(R)**
+
 - → **Case 1:** Recolor 15→BLACK, 22→BLACK, 18→RED. Move Z up to G=18.
 
 **Second violation: Z=18(R), P=14(R), G=10(B), U=left(10)=7(R) — uncle is RED!**
+
 - → **Case 1 again:** Recolor 14→BLACK, 7→BLACK, 10→RED. Move Z up to G=10.
 
 **Z=10(R) is ROOT → color ROOT BLACK** ✅
@@ -468,6 +472,7 @@ flowchart TD
 - W is RED → **Delete Case 1**
 
 **Delete Case 1:** W is RED
+
 - Action: Recolor W→BLACK, X.parent(14)→RED; Left-Rotate(X.parent=14)
 - After: W changes to BLACK (now it's 15 or 22), continue with new W
 
@@ -488,6 +493,7 @@ Now X = NIL (left of 14), new sibling W = 15(B). W's children: right(15)=17(R), 
 W is BLACK, outer child (right) 17 = RED → **Delete Case 4**
 
 **Delete Case 4:** W is BLACK, W's outer child is RED
+
 - Action: W(15) gets parent(14)'s color → RED; parent(14)→BLACK; W.right(17)→BLACK; Left-Rotate(parent=14)
 - Double Black resolved ✅
 
@@ -521,6 +527,7 @@ flowchart TD
 #### Delete **18** (BLACK with two children) — Demonstrating Case 2 and Case 3
 
 From the tree above, delete 18(B). 18 has children 15(R) and 22(B).
+
 - Find in-order successor = **22** (smallest in right subtree = 22 itself, since 22 has no left child)
 - Copy 22's key into 18's position; delete 22's original node.
 - Deleting 22(B) — it has no children → NIL gets Double Black.
@@ -530,6 +537,7 @@ W's children: left(14) = NIL(B), right(14) = NIL(B) — **both BLACK**
 → **Delete Case 2:**
 
 **Delete Case 2:** W is BLACK, both W's children are BLACK
+
 - Action: Recolor W(14)→RED; move Double Black up to X.parent(15)
 - X.parent = 15(R) → can absorb the double black by going BLACK ✅
 
@@ -1118,6 +1126,7 @@ From the 11-node heap after Step 11 (`H = {B3[1...], B1[9...], B0[13]}`):
 **1. Find Minimum Root:** Scan root list `{1, 9, 13}`. Min is **1**.
 **2. Remove Root 1:** Remove B3 root (1). Its children are separated into a new heap.
 The children of a B3 root are $B_2, B_1, B_0$.
+
 - Child `2` has degree 2 → becomes $B_2$.
 - Child `4` has degree 1 → becomes $B_1$.
 - Child `7` has degree 0 → becomes $B_0$.
@@ -1464,12 +1473,14 @@ Now **decrease key of 52 from 52 to 0**:
 **Step 1:** Set 52.key = 0. Is 0 < parent(18).key = 18? **YES** → CUT.
 
 **CUT(52→0, parent=18):**
+
 - Remove 52→0 from 18's children
 - Add 52→0 to root list
 - Set 52.mark = FALSE (roots are never marked)
 - Decrement 18.degree: 18.degree = 0
 
 **CASCADING-CUT(18):**
+
 - 18 is not a root. Is 18.mark == FALSE? → Set 18.mark = **TRUE**. Stop.
 
 ```mermaid
@@ -1492,12 +1503,14 @@ Now **decrease key of 18 from 18 to 2**:
 **Step 1:** Set 18.key = 2. Is 2 < parent(3).key = 3? **YES** → CUT.
 
 **CUT(18→2, parent=3):**
+
 - Remove 18→2 from 3's children
 - Add 18→2 to root list
 - Set 18.mark = FALSE
 - 3.degree decreases: 3.degree = 1 (only child = 7 remains)
 
 **CASCADING-CUT(3):**
+
 - 3 is a root → STOP. No cut needed.
 
 ```mermaid
@@ -1520,6 +1533,7 @@ flowchart TD
 **Setup with cascading cut demonstration:** Suppose node X (key=35) has parent P (key=12, already marked), and P's parent is GP (key=6, already marked), and GP's parent is root.
 
 **DECREASE-KEY(X→5):** 5 < P.key=12 → CUT(X, P).
+
 - CASCADING-CUT(P=12): P is marked → **CUT(P, GP)**. CASCADING-CUT(GP=6): GP is marked → **CUT(GP, root)**. CASCADING-CUT(root): is root → STOP.
 - Result: X, P, GP all moved to root list. Their marks cleared. **3 cascading cuts!**
 
@@ -1530,12 +1544,14 @@ flowchart TD
 ### 5.7 DELETE(x) Trace
 
 Operation `DELETE(x)` is implemented simply as:
+
 1. `DECREASE-KEY(x, -∞)`
 2. `EXTRACT-MIN()`
 
 **Let's DELETE node 18 from the heap above:**
 
 **Step 1: DECREASE-KEY(18, -∞)**
+
 - Node 18 becomes $-\infty$. This is smaller than its parent (3), triggering a **CUT**.
 - Node 18($-\infty$) is moved to the root list.
 - `H.min` is updated to point to this new $-\infty$ node.
@@ -1556,6 +1572,7 @@ flowchart TD
 ```
 
 **Step 2: EXTRACT-MIN()**
+
 - Remove $-\infty$ from the root list.
 - Its children (node 52) are added to the root list.
 - Proceed to consolidate the root list `{0, 3, 24, 52}`.
@@ -1752,6 +1769,7 @@ After the above unions, suppose we call **FIND-SET(8)**:
 4. `FIND-SET(1)`: is root. Returns 1.
 
 **With path compression:** As the recursion unwinds, point ALL visited nodes directly to root (1):
+
 - `FIND-SET(5)` returns 1. 5's parent is already 1.
 - `FIND-SET(7)` returns 1. Sets 7's parent = 1.
 - `FIND-SET(8)` returns 1. Sets 8's parent = 1.
@@ -1852,6 +1870,7 @@ Operations: PUSH (cost 1), POP (cost 1), MULTIPOP(k) (cost min(k, |S|)).
 **Accounting:** PUSH charges $\hat{c}$ = 2 (1 actual + 1 credit stored on element). POP charges 0 (uses credit). MULTIPOP(k) charges 0 (each of k pops uses element's own credit). Credit ≥ 0 always. ✅
 
 **Potential:** $\Phi(S)$ = |S| (number of elements on stack). $\Phi_0 = 0$.
+
 - PUSH: actual $c_i = 1$, $\Delta\Phi = +1$. $\hat{c} = 1+1 = 2$ ✅
 - POP: actual $c_i = 1$, $\Delta\Phi = -1$. $\hat{c} = 1-1 = 0$ ✅
 - MULTIPOP(k): actual $c_i = k$, $\Delta\Phi = -k$. $\hat{c} = k-k = 0$ ✅

@@ -110,14 +110,17 @@ When algorithms require a distance metric but only similarity values are availab
    $$
    d(i,j) = 1 - s(i,j)
    $$
+
 2. **Negative Exponential Transformation (for unbounded dissimilarity $d \in [0, \infty)$):**
    $$
    s(i,j) = e^{-\gamma d(i,j)} \quad (\text{where } \gamma > 0)
    $$
+
 3. **Inverse Transformation:**
    $$
    d(i,j) = \frac{1 - s(i,j)}{s(i,j)} \quad \text{or} \quad s(i,j) = \frac{1}{1 + d(i,j)}
    $$
+
 4. **Angular / Euclidean Normalized Transformation:**
    $$
    d(i,j) = \sqrt{2(1 - s(i,j))}
@@ -172,6 +175,7 @@ s(i,j) = 1 - d(i,j) = \frac{m}{p}
 $$
 
 Where:
+
 * $m$ = Number of attributes where object $i$ and object $j$ share identical states ($x_{if} = x_{jf}$).
 * $p$ = Total number of nominal attributes evaluated.
 
@@ -181,7 +185,9 @@ Where:
 
 Alternatively, a nominal attribute $f$ with $M$ distinct states can be converted into $M$ asymmetric binary indicator variables: $b_1, b_2, \dots, b_M$.
 
-$$\text{If } x_{if} = \text{State } k \implies b_{ik} = 1, \quad b_{im} = 0 \text{ for } m \neq k$$
+$$
+\text{If } x_{if} = \text{State } k \implies b_{ik} = 1, \quad b_{im} = 0 \text{ for } m \neq k
+$$
 
 Once expanded, binary dissimilarity measures (such as Jaccard or Simple Matching) are applied.
 
@@ -328,11 +334,17 @@ Calculate all pairwise asymmetric dissimilarity values using the 6 asymmetric at
 * $f_5$ (Test-3): Jack $0$, Mary $1 \rightarrow s$
 * $f_6$ (Test-4): $0-0 \rightarrow t$
 
-$$\mathbf{\text{Summary: }} q = 2, \, r = 0, \, s = 1, \, t = 3 \quad (p = 2+0+1+3 = 6)$$
+$$
+\mathbf{\text{Summary: }} q = 2, \, r = 0, \, s = 1, \, t = 3 \quad (p = 2+0+1+3 = 6)
+$$
 
-$$d(\text{Jack}, \text{Mary}) = \frac{r + s}{q + r + s} = \frac{0 + 1}{2 + 0 + 1} = \frac{1}{3} \approx 0.333$$
+$$
+d(\text{Jack}, \text{Mary}) = \frac{r + s}{q + r + s} = \frac{0 + 1}{2 + 0 + 1} = \frac{1}{3} \approx 0.333
+$$
 
-$$s_{\text{Jaccard}}(\text{Jack}, \text{Mary}) = \frac{q}{q + r + s} = \frac{2}{3} \approx 0.667$$
+$$
+s_{\text{Jaccard}}(\text{Jack}, \text{Mary}) = \frac{q}{q + r + s} = \frac{2}{3} \approx 0.667
+$$
 
 ##### 2. Jack vs. Jim
 * $f_1$ (Fever): $1-1 \rightarrow q$
@@ -340,11 +352,17 @@ $$s_{\text{Jaccard}}(\text{Jack}, \text{Mary}) = \frac{q}{q + r + s} = \frac{2}{
 * $f_3$ (Test-1): Jack $1$, Jim $0 \rightarrow r$
 * $f_4, f_5, f_6$: All $0-0 \rightarrow t=3$
 
-$$\mathbf{\text{Summary: }} q = 1, \, r = 1, \, s = 1, \, t = 3$$
+$$
+\mathbf{\text{Summary: }} q = 1, \, r = 1, \, s = 1, \, t = 3
+$$
 
-$$d(\text{Jack}, \text{Jim}) = \frac{r + s}{q + r + s} = \frac{1 + 1}{1 + 1 + 1} = \frac{2}{3} \approx 0.667$$
+$$
+d(\text{Jack}, \text{Jim}) = \frac{r + s}{q + r + s} = \frac{1 + 1}{1 + 1 + 1} = \frac{2}{3} \approx 0.667
+$$
 
-$$s_{\text{Jaccard}}(\text{Jack}, \text{Jim}) = \frac{1}{3} \approx 0.333$$
+$$
+s_{\text{Jaccard}}(\text{Jack}, \text{Jim}) = \frac{1}{3} \approx 0.333
+$$
 
 ##### 3. Mary vs. Jim
 * $f_1$ (Fever): $1-1 \rightarrow q$
@@ -354,11 +372,17 @@ $$s_{\text{Jaccard}}(\text{Jack}, \text{Jim}) = \frac{1}{3} \approx 0.333$$
 * $f_5$ (Test-3): Mary $1$, Jim $0 \rightarrow r$
 * $f_6$ (Test-4): $0-0 \rightarrow t$
 
-$$\mathbf{\text{Summary: }} q = 1, \, r = 2, \, s = 1, \, t = 2$$
+$$
+\mathbf{\text{Summary: }} q = 1, \, r = 2, \, s = 1, \, t = 2
+$$
 
-$$d(\text{Mary}, \text{Jim}) = \frac{r + s}{q + r + s} = \frac{2 + 1}{1 + 2 + 1} = \frac{3}{4} = 0.750$$
+$$
+d(\text{Mary}, \text{Jim}) = \frac{r + s}{q + r + s} = \frac{2 + 1}{1 + 2 + 1} = \frac{3}{4} = 0.750
+$$
 
-$$s_{\text{Jaccard}}(\text{Mary}, \text{Jim}) = \frac{1}{4} = 0.250$$
+$$
+s_{\text{Jaccard}}(\text{Mary}, \text{Jim}) = \frac{1}{4} = 0.250
+$$
 
 #### Final Asymmetric Dissimilarity Matrix ($D_{\text{Binary}}$)
 
@@ -398,6 +422,7 @@ z_{if} = \frac{x_{if} - \mu_f}{\sigma_f}
 $$
 
 Where:
+
 * Mean of feature $f$: $\mu_f = \frac{1}{n} \sum_{i=1}^n x_{if}$
 * Standard deviation of feature $f$: $\sigma_f = \sqrt{\frac{1}{n} \sum_{i=1}^n (x_{if} - \mu_f)^2}$
 
@@ -447,7 +472,10 @@ Raw Data Points:
 * Standard Deviation $\sigma = \sqrt{1220.96} \approx \mathbf{34.94}$
 
 * **Distance between $x_1=10$ and $x_2=12$ after Z-score:**
-  $$z_1 = \frac{10 - 30.2}{34.94} = -0.578, \quad z_2 = \frac{12 - 30.2}{34.94} = -0.521 \implies |z_1 - z_2| = \mathbf{0.057}$$
+
+$$
+z_1 = \frac{10 - 30.2}{34.94} = -0.578, \quad z_2 = \frac{12 - 30.2}{34.94} = -0.521 \implies |z_1 - z_2| = \mathbf{0.057}
+$$
   *(The distance between 10 and 12 is crushed to near zero because $\sigma=34.94$ was inflated by the outlier 100!)*
 
 ##### 2. Mean Absolute Deviation Approach (MAD $s_f$):
@@ -461,7 +489,10 @@ Raw Data Points:
 * MAD $s_f = \frac{20.2 + 18.2 + 16.2 + 15.2 + 69.8}{5} = \frac{139.6}{5} = \mathbf{27.92}$
 
 * **Distance between $x_1=10$ and $x_2=12$ after Robust MAD:**
-  $$z_1 = \frac{10 - 30.2}{27.92} = -0.723, \quad z_2 = \frac{12 - 30.2}{27.92} = -0.652 \implies |z_1 - z_2| = \mathbf{0.071}$$
+
+$$
+z_1 = \frac{10 - 30.2}{27.92} = -0.723, \quad z_2 = \frac{12 - 30.2}{27.92} = -0.652 \implies |z_1 - z_2| = \mathbf{0.071}
+$$
 
 > [!TIP]
 > **Key Takeaway:** MAD $s_f$ is significantly less affected by extreme values than standard deviation $\sigma$, preserving meaningful dissimilarity among the normal data points.
@@ -481,6 +512,7 @@ d(i,j) = \left( \sum_{f=1}^p |x_{if} - x_{jf}|^h \right)^{\frac{1}{h}}
 $$
 
 Where:
+
 * $i = (x_{i1}, x_{i2}, \dots, x_{ip})$ and $j = (x_{j1}, x_{j2}, \dots, x_{jp})$ are two numeric objects.
 * $h \ge 1$ is the order parameter (norm order).
 
@@ -564,7 +596,10 @@ The choice of parameter $h$ dramatically changes the shape of equal-distance con
 
 4. **Triangle Inequality ($d(i,j) \le d(i,k) + d(k,j)$):**
    Direct consequence of **Minkowski's Inequality** in linear algebra:
-   $$\|\mathbf{a} + \mathbf{b}\|_h \le \|\mathbf{a}\|_h + \|\mathbf{b}\|_h \quad \text{for } h \ge 1$$
+
+$$
+\|\mathbf{a} + \mathbf{b}\|_h \le \|\mathbf{a}\|_h + \|\mathbf{b}\|_h \quad \text{for } h \ge 1
+$$
    Setting $\mathbf{a} = i - k$ and $\mathbf{b} = k - j$ yields $(i - j) = (i - k) + (k - j)$, proving $d(i,j) \le d(i,k) + d(k,j)$. $\blacksquare$
 
 [Source: 5.1_Similarity and Dissimilarity.pdf, Slide 11, 12]
@@ -690,11 +725,16 @@ When multiple data points share equal preference/category, assign the **average 
 #### Worked Example: Tied Rank Normalization
 
 Given 5 students ranked by education level: `[HighSchool, Bachelors, Bachelors, Masters, PhD]`.
+
 * Categories ($M_f = 4$ states): HighSchool (1), Bachelors (2), Masters (3), PhD (4).
 * Rank assignments:
   * Student 1 (HighSchool): Rank $1 \implies z_1 = \frac{1 - 1}{4 - 1} = 0.0$
   * Student 2 & 3 (Bachelors): Share positions $2$ and $3$. Mid-rank = $\frac{2 + 3}{2} = 2.5$.
-    $$z_2 = z_3 = \frac{2.5 - 1}{4 - 1} = \frac{1.5}{3} = 0.50$$
+
+$$
+z_2 = z_3 = \frac{2.5 - 1}{4 - 1} = \frac{1.5}{3} = 0.50
+$$
+
   * Student 4 (Masters): Rank $3 \implies \text{Position } 4 \implies r_4 = 4$? No, with 5 items position is $4 \implies z_4 = \frac{3 - 1}{4 - 1} = 0.667$.
   * Student 5 (PhD): Rank $4 \implies z_5 = \frac{4 - 1}{4 - 1} = 1.00$.
 
@@ -756,7 +796,10 @@ The indicator $\delta_{ij}^{(f)}$ controls whether attribute $f$ contributes to 
 #### Step 1: Pre-compute Ranges & Normalizations
 
 * **Numeric Range for Income ($f_4$):**
-  $$\text{Range}_4 = \max(\text{Income}) - \min(\text{Income}) = 110,000 - 30,000 = 80,000$$
+
+$$
+\text{Range}_4 = \max(\text{Income}) - \min(\text{Income}) = 110,000 - 30,000 = 80,000
+$$
 
 * **Ordinal Normalization for LoyaltyTier ($f_5$, $M_5=4$):**
   * Cust 1 (Bronze, $r=1$): $z_{1,5} = \frac{1-1}{4-1} = 0.000$
@@ -774,9 +817,13 @@ The indicator $\delta_{ij}^{(f)}$ controls whether attribute $f$ contributes to 
 * $f_4$ (Numeric: $30k$ vs $70k$): $d_{12}^{(4)} = \frac{|30000 - 70000|}{80000} = \frac{40000}{80000} = 0.500, \, \delta_{12}^{(4)} = 1$
 * $f_5$ (Ordinal: $0.000$ vs $0.667$): $d_{12}^{(5)} = |0.000 - 0.667| = 0.667, \, \delta_{12}^{(5)} = 1$
 
-$$\text{Sum of Weights } \sum \delta = 1 + 1 + 1 + 1 + 1 = 5$$
+$$
+\text{Sum of Weights } \sum \delta = 1 + 1 + 1 + 1 + 1 = 5
+$$
 
-$$d(1,2) = \frac{1(1) + 1(0) + 1(1) + 1(0.500) + 1(0.667)}{5} = \frac{3.167}{5} = \mathbf{0.633}$$
+$$
+d(1,2) = \frac{1(1) + 1(0) + 1(1) + 1(0.500) + 1(0.667)}{5} = \frac{3.167}{5} = \mathbf{0.633}
+$$
 
 ##### Pair (Cust 2, Cust 3):
 * $f_1$ (Nominal: LA vs NYC): Mismatch $\implies d_{23}^{(1)} = 1, \, \delta_{23}^{(1)} = 1$
@@ -785,9 +832,13 @@ $$d(1,2) = \frac{1(1) + 1(0) + 1(1) + 1(0.500) + 1(0.667)}{5} = \frac{3.167}{5} 
 * $f_4$ (Numeric: $70k$ vs $110k$): $d_{23}^{(4)} = \frac{|70000 - 110000|}{80000} = \frac{40000}{80000} = 0.500, \, \delta_{23}^{(4)} = 1$
 * $f_5$ (Ordinal: $0.667$ vs $1.000$): $d_{23}^{(5)} = |0.667 - 1.000| = 0.333, \, \delta_{23}^{(5)} = 1$
 
-$$\text{Sum of Weights } \sum \delta = 1 + 1 + \mathbf{0} + 1 + 1 = 4$$
+$$
+\text{Sum of Weights } \sum \delta = 1 + 1 + \mathbf{0} + 1 + 1 = 4
+$$
 
-$$d(2,3) = \frac{1(1) + 1(1) + 0(0) + 1(0.500) + 1(0.333)}{4} = \frac{2.833}{4} = \mathbf{0.708}$$
+$$
+d(2,3) = \frac{1(1) + 1(1) + 0(0) + 1(0.500) + 1(0.333)}{4} = \frac{2.833}{4} = \mathbf{0.708}
+$$
 
 ##### Pair (Cust 1, Cust 3):
 * $f_1$ (Nominal: NYC vs NYC): Match $\implies d_{13}^{(1)} = 0, \, \delta_{13}^{(1)} = 1$
@@ -796,9 +847,13 @@ $$d(2,3) = \frac{1(1) + 1(1) + 0(0) + 1(0.500) + 1(0.333)}{4} = \frac{2.833}{4} 
 * $f_4$ (Numeric: $30k$ vs $110k$): $d_{13}^{(4)} = \frac{|30000 - 110000|}{80000} = \frac{80000}{80000} = 1.000, \, \delta_{13}^{(4)} = 1$
 * $f_5$ (Ordinal: $0.000$ vs $1.000$): $d_{13}^{(5)} = |0.000 - 1.000| = 1.000, \, \delta_{13}^{(5)} = 1$
 
-$$\text{Sum of Weights } \sum \delta = 1 + 1 + 1 + 1 + 1 = 5$$
+$$
+\text{Sum of Weights } \sum \delta = 1 + 1 + 1 + 1 + 1 = 5
+$$
 
-$$d(1,3) = \frac{1(0) + 1(1) + 1(1) + 1(1.000) + 1(1.000)}{5} = \frac{4.000}{5} = \mathbf{0.800}$$
+$$
+d(1,3) = \frac{1(0) + 1(1) + 1(1) + 1(1.000) + 1(1.000)}{5} = \frac{4.000}{5} = \mathbf{0.800}
+$$
 
 #### Final Gower Composite Dissimilarity Matrix ($D_{\text{Gower}}$)
 
@@ -839,6 +894,7 @@ $$
 $$
 
 Where:
+
 * $\mathbf{d}_1 \cdot \mathbf{d}_2 = \sum d_{1k} d_{2k}$ is the vector dot product.
 * $\|\mathbf{d}_1\| = \sqrt{\sum d_{1k}^2}$ is the Euclidean length ($L_2$ norm) of vector $\mathbf{d}_1$.
 
@@ -856,14 +912,18 @@ Where:
 
 For any two unit-length vectors $\mathbf{u} = \frac{\mathbf{d}_1}{\|\mathbf{d}_1\|}$ and $\mathbf{v} = \frac{\mathbf{d}_2}{\|\mathbf{d}_2\|}$ (where $\|\mathbf{u}\| = \|\mathbf{v}\| = 1$):
 
-$$\begin{aligned}
+$$
+\begin{aligned}
 d_{L_2}^2(\mathbf{u}, \mathbf{v}) &= \|\mathbf{u} - \mathbf{v}\|^2 = (\mathbf{u} - \mathbf{v}) \cdot (\mathbf{u} - \mathbf{v}) \\
 &= \|\mathbf{u}\|^2 + \|\mathbf{v}\|^2 - 2(\mathbf{u} \cdot \mathbf{v}) \\
 &= 1 + 1 - 2\cos(\mathbf{d}_1, \mathbf{d}_2) \\
 &= 2(1 - \cos(\mathbf{d}_1, \mathbf{d}_2))
-\end{aligned}$$
+\end{aligned}
+$$
 
-$$\therefore d_{L_2}(\mathbf{u}, \mathbf{v}) = \sqrt{2(1 - \cos(\mathbf{d}_1, \mathbf{d}_2))}$$
+$$
+\therefore d_{L_2}(\mathbf{u}, \mathbf{v}) = \sqrt{2(1 - \cos(\mathbf{d}_1, \mathbf{d}_2))}
+$$
 
 > [!TIP]
 > **Key Insight:** Minimizing Euclidean distance between normalized vectors is mathematically identical to maximizing Cosine similarity!
@@ -878,21 +938,33 @@ $$\therefore d_{L_2}(\mathbf{u}, \mathbf{v}) = \sqrt{2(1 - \cos(\mathbf{d}_1, \m
 * $\mathbf{d}_2 = (3, 0, 2, 0, 1, 1, 0, 1, 0, 1)$
 
 #### Step 1: Compute Dot Product ($\mathbf{d}_1 \cdot \mathbf{d}_2$)
-$$\mathbf{d}_1 \cdot \mathbf{d}_2 = (5\times3) + (0\times0) + (3\times2) + (0\times0) + (2\times1) + (0\times1) + (0\times0) + (2\times1) + (0\times0) + (0\times1) = 15 + 6 + 2 + 2 = 25$$
+
+$$
+\mathbf{d}_1 \cdot \mathbf{d}_2 = (5\times3) + (0\times0) + (3\times2) + (0\times0) + (2\times1) + (0\times1) + (0\times0) + (2\times1) + (0\times0) + (0\times1) = 15 + 6 + 2 + 2 = 25
+$$
 
 #### Step 2: Compute Euclidean Norms
-$$\|\mathbf{d}_1\| = \sqrt{5^2 + 0^2 + 3^2 + 0^2 + 2^2 + 0^2 + 0^2 + 2^2 + 0^2 + 0^2} = \sqrt{25 + 9 + 4 + 4} = \sqrt{42} \approx 6.481$$
 
-$$\|\mathbf{d}_2\| = \sqrt{3^2 + 0^2 + 2^2 + 0^2 + 1^2 + 1^2 + 0^2 + 1^2 + 0^2 + 1^2} = \sqrt{9 + 4 + 1 + 1 + 1 + 1} = \sqrt{17} \approx 4.123$$
+$$
+\|\mathbf{d}_1\| = \sqrt{5^2 + 0^2 + 3^2 + 0^2 + 2^2 + 0^2 + 0^2 + 2^2 + 0^2 + 0^2} = \sqrt{25 + 9 + 4 + 4} = \sqrt{42} \approx 6.481
+$$
+
+$$
+\|\mathbf{d}_2\| = \sqrt{3^2 + 0^2 + 2^2 + 0^2 + 1^2 + 1^2 + 0^2 + 1^2 + 0^2 + 1^2} = \sqrt{9 + 4 + 1 + 1 + 1 + 1} = \sqrt{17} \approx 4.123
+$$
 
 #### Step 3: Compute Cosine Similarity
-$$\cos(\mathbf{d}_1, \mathbf{d}_2) = \frac{25}{6.481 \times 4.123} = \frac{25}{26.721} \approx \mathbf{0.9356 \approx 0.94}$$
+
+$$
+\cos(\mathbf{d}_1, \mathbf{d}_2) = \frac{25}{6.481 \times 4.123} = \frac{25}{26.721} \approx \mathbf{0.9356 \approx 0.94}
+$$
 
 ---
 
 ### Worked Numerical Example 2: Proof of Document Length Invariance
 
 Consider three documents over vocabulary `[data, mining, database]`:
+
 * **Doc A:** "data mining data mining" $\rightarrow \mathbf{d}_A = (2, 2, 0)$  *(Long document on Data Mining)*
 * **Doc B:** "data mining" $\rightarrow \mathbf{d}_B = (1, 1, 0)$  *(Short document on Data Mining)*
 * **Doc C:** "database" $\rightarrow \mathbf{d}_C = (0, 0, 1)$  *(Document on Databases)*
@@ -961,7 +1033,10 @@ $$
 
 > [!WARNING]
 > KL Divergence is asymmetric ($D_{\text{KL}}(P \parallel Q) \neq D_{\text{KL}}(Q \parallel P)$). To obtain a symmetric distance, the **Jensen-Shannon Divergence (JSD)** is used:
-> $$D_{\text{JS}}(P \parallel Q) = \frac{1}{2} D_{\text{KL}}\left(P \parallel \frac{P+Q}{2}\right) + \frac{1}{2} D_{\text{KL}}\left(Q \parallel \frac{P+Q}{2}\right)$$
+
+$$
+D_{\text{JS}}(P \parallel Q) = \frac{1}{2} D_{\text{KL}}\left(P \parallel \frac{P+Q}{2}\right) + \frac{1}{2} D_{\text{KL}}\left(Q \parallel \frac{P+Q}{2}\right)
+$$
 
 ---
 
@@ -1028,6 +1103,7 @@ Proximity measures are not abstract mathematical definitions; they drive core en
 
 **Question Statement:**  
 Consider an enterprise customer dataset containing 4 records ($C_1, C_2, C_3, C_4$) across 5 heterogeneous feature attributes:
+
 1. `Region` (Nominal): NYC, LA, Chicago
 2. `ActiveSubscriber` (Symmetric Binary): $1=\text{Yes}, 0=\text{No}$
 3. `HasEbola` (Asymmetric Binary): $1=\text{Yes}, 0=\text{No}$
@@ -1043,6 +1119,7 @@ Consider an enterprise customer dataset containing 4 records ($C_1, C_2, C_3, C_
 | **$C_4$** | LA | 1 | 0 | $\$600$ | Silver ($r=2$) |
 
 **Task Requirements:**  
+
 1. State Gower's Weighted Distance formula and explain the rules for indicator $\delta_{ij}^{(f)}$ and feature distance $d_{ij}^{(f)}$. [2 Marks]
 2. Compute the normalization range for numeric attribute $f_4$ and normalized rank scores $z_{i,5}$ for ordinal attribute $f_5$. [2 Marks]
 3. Calculate pairwise feature distances $d_{ij}^{(f)}$ and validity indicators $\delta_{ij}^{(f)}$ for all 6 object pairs. [4 Marks]
@@ -1056,6 +1133,7 @@ Consider an enterprise customer dataset containing 4 records ($C_1, C_2, C_3, C_
 $$
 d(i,j) = \frac{\sum_{f=1}^p \delta_{ij}^{(f)} d_{ij}^{(f)}}{\sum_{f=1}^p \delta_{ij}^{(f)}}
 $$
+
 * **Validity Flag $\delta_{ij}^{(f)}$:** Set to $0$ if either value is missing, OR if attribute $f$ is asymmetric binary and $x_{if} = x_{jf} = 0$ (negative match). Set to $1$ otherwise.
 * **Feature Dissimilarity $d_{ij}^{(f)}$:**
   * Nominal / Binary: $d_{ij}^{(f)} = 0$ if $x_{if} = x_{jf}$; $1$ if $x_{if} \neq x_{jf}$.
@@ -1064,7 +1142,11 @@ $$
 
 ##### Part 2: Feature Range & Ordinal Normalization
 * **Numeric Range ($f_4$):**  
-  $$\text{Range}_4 = \max(\text{Spend}) - \min(\text{Spend}) = 1000 - 200 = 800$$
+
+$$
+\text{Range}_4 = \max(\text{Spend}) - \min(\text{Spend}) = 1000 - 200 = 800
+$$
+
 * **Ordinal Normalization ($f_5$, $M_5 = 4$ states):**  
   * $z_{1,5} = \frac{1 - 1}{4 - 1} = 0.000$ (Bronze)
   * $z_{2,5} = \frac{3 - 1}{4 - 1} = \frac{2}{3} \approx 0.667$ (Gold)
@@ -1146,6 +1228,7 @@ $$
 ### Question 2 [10 Marks] — Cosine Similarity vs. Euclidean Distance Proof & Text Vector Analysis
 
 **Question Statement:**  
+
 1. **Mathematical Proof [4 Marks]:** Prove that for any two normalized unit vectors $\mathbf{u} = \frac{\mathbf{x}}{\|\mathbf{x}\|}$ and $\mathbf{v} = \frac{\mathbf{y}}{\|\mathbf{y}\|}$, squared Euclidean distance is directly related to Cosine similarity via $d_{L_2}^2(\mathbf{u}, \mathbf{v}) = 2(1 - \cos(\mathbf{x}, \mathbf{y}))$.
 2. **Text Analysis Problem [6 Marks]:** Consider three document term-frequency vectors over a 3-word vocabulary `[data, mining, database]`:
    * $\mathbf{d}_1 = (4, 4, 0)$  *(Long document on Data Mining)*
@@ -1162,17 +1245,21 @@ $$
 Let $\mathbf{u}$ and $\mathbf{v}$ be unit vectors such that $\|\mathbf{u}\| = \sqrt{\mathbf{u} \cdot \mathbf{u}} = 1$ and $\|\mathbf{v}\| = \sqrt{\mathbf{v} \cdot \mathbf{v}} = 1$.
 
 Expand squared Euclidean distance using vector dot products:
-$$\begin{aligned}
+$$
+\begin{aligned}
 d_{L_2}^2(\mathbf{u}, \mathbf{v}) &= \|\mathbf{u} - \mathbf{v}\|^2 = (\mathbf{u} - \mathbf{v}) \cdot (\mathbf{u} - \mathbf{v}) \\
 &= (\mathbf{u} \cdot \mathbf{u}) - (\mathbf{u} \cdot \mathbf{v}) - (\mathbf{v} \cdot \mathbf{u}) + (\mathbf{v} \cdot \mathbf{v}) \\
 &= \|\mathbf{u}\|^2 + \|\mathbf{v}\|^2 - 2(\mathbf{u} \cdot \mathbf{v})
-\end{aligned}$$
+\end{aligned}
+$$
 
 Since $\|\mathbf{u}\| = 1$ and $\|\mathbf{v}\| = 1$, and by definition $\mathbf{u} \cdot \mathbf{v} = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \|\mathbf{y}\|} = \cos(\mathbf{x}, \mathbf{y})$:
-$$\begin{aligned}
+$$
+\begin{aligned}
 d_{L_2}^2(\mathbf{u}, \mathbf{v}) &= 1 + 1 - 2\cos(\mathbf{x}, \mathbf{y}) \\
 &= 2(1 - \cos(\mathbf{x}, \mathbf{y}))
-\end{aligned}$$
+\end{aligned}
+$$
 Taking square roots yields $d_{L_2}(\mathbf{u}, \mathbf{v}) = \sqrt{2(1 - \cos(\mathbf{x}, \mathbf{y}))}$. $\blacksquare$
 
 ##### Part 2: Vector Magnitudes & Calculations
@@ -1183,23 +1270,50 @@ Taking square roots yields $d_{L_2}(\mathbf{u}, \mathbf{v}) = \sqrt{2(1 - \cos(\
 
 ###### 1. Pair ($\mathbf{d}_1, \mathbf{d}_2$):
 * **Euclidean Distance:**  
-  $$d_{L_2}(\mathbf{d}_1, \mathbf{d}_2) = \sqrt{(4-1)^2 + (4-1)^2 + (0-0)^2} = \sqrt{3^2 + 3^2} = \sqrt{18} \approx \mathbf{4.243}$$
+
+$$
+d_{L_2}(\mathbf{d}_1, \mathbf{d}_2) = \sqrt{(4-1)^2 + (4-1)^2 + (0-0)^2} = \sqrt{3^2 + 3^2} = \sqrt{18} \approx \mathbf{4.243}
+$$
+
 * **Cosine Similarity:**  
-  $$\mathbf{d}_1 \cdot \mathbf{d}_2 = (4 \times 1) + (4 \times 1) + (0 \times 0) = 8$$
-  $$\cos(\mathbf{d}_1, \mathbf{d}_2) = \frac{8}{\sqrt{32}\sqrt{2}} = \frac{8}{\sqrt{64}} = \frac{8}{8} = \mathbf{1.000}$$
+
+$$
+\mathbf{d}_1 \cdot \mathbf{d}_2 = (4 \times 1) + (4 \times 1) + (0 \times 0) = 8
+$$
+
+$$
+\cos(\mathbf{d}_1, \mathbf{d}_2) = \frac{8}{\sqrt{32}\sqrt{2}} = \frac{8}{\sqrt{64}} = \frac{8}{8} = \mathbf{1.000}
+$$
 
 ###### 2. Pair ($\mathbf{d}_2, \mathbf{d}_3$):
 * **Euclidean Distance:**  
-  $$d_{L_2}(\mathbf{d}_2, \mathbf{d}_3) = \sqrt{(1-0)^2 + (1-0)^2 + (0-2)^2} = \sqrt{1 + 1 + 4} = \sqrt{6} \approx \mathbf{2.449}$$
+
+$$
+d_{L_2}(\mathbf{d}_2, \mathbf{d}_3) = \sqrt{(1-0)^2 + (1-0)^2 + (0-2)^2} = \sqrt{1 + 1 + 4} = \sqrt{6} \approx \mathbf{2.449}
+$$
+
 * **Cosine Similarity:**  
-  $$\mathbf{d}_2 \cdot \mathbf{d}_3 = (1 \times 0) + (1 \times 0) + (0 \times 2) = 0$$
-  $$\cos(\mathbf{d}_2, \mathbf{d}_3) = \frac{0}{1.414 \times 2.000} = \mathbf{0.000}$$
+
+$$
+\mathbf{d}_2 \cdot \mathbf{d}_3 = (1 \times 0) + (1 \times 0) + (0 \times 2) = 0
+$$
+
+$$
+\cos(\mathbf{d}_2, \mathbf{d}_3) = \frac{0}{1.414 \times 2.000} = \mathbf{0.000}
+$$
 
 ###### 3. Pair ($\mathbf{d}_1, \mathbf{d}_3$):
 * **Euclidean Distance:**  
-  $$d_{L_2}(\mathbf{d}_1, \mathbf{d}_3) = \sqrt{(4-0)^2 + (4-0)^2 + (0-2)^2} = \sqrt{16 + 16 + 4} = \sqrt{36} = \mathbf{6.000}$$
+
+$$
+d_{L_2}(\mathbf{d}_1, \mathbf{d}_3) = \sqrt{(4-0)^2 + (4-0)^2 + (0-2)^2} = \sqrt{16 + 16 + 4} = \sqrt{36} = \mathbf{6.000}
+$$
+
 * **Cosine Similarity:**  
-  $$\cos(\mathbf{d}_1, \mathbf{d}_3) = \frac{0}{5.657 \times 2.000} = \mathbf{0.000}$$
+
+$$
+\cos(\mathbf{d}_1, \mathbf{d}_3) = \frac{0}{5.657 \times 2.000} = \mathbf{0.000}
+$$
 
 ##### Part 3: Result Summary & Document Length Inflation Analysis
 
@@ -1216,6 +1330,7 @@ Taking square roots yields $d_{L_2}(\mathbf{u}, \mathbf{v}) = \sqrt{2(1 - \cos(\
 ### Question 3 [5 Marks] — Proof of Minkowski Metric Axioms & Non-Metric Counter-Example
 
 **Question Statement:**  
+
 1. State the four mathematical axioms required for a dissimilarity function $d(i,j)$ to qualify as a distance metric. [2 Marks]
 2. Prove step-by-step using a numerical counter-example why squared Euclidean distance $d(i,j) = (x_i - x_j)^2$ defined on $\mathbb{R}$ violates the metric axioms. [3 Marks]
 
@@ -1225,6 +1340,7 @@ Taking square roots yields $d_{L_2}(\mathbf{u}, \mathbf{v}) = \sqrt{2(1 - \cos(\
 
 ##### Part 1: Four Metric Space Axioms
 For a function $d: \mathcal{X} \times \mathcal{X} \to \mathbb{R}$ to be a metric on set $\mathcal{X}$, it must satisfy $\forall i, j, k \in \mathcal{X}$:
+
 1. **Non-negativity:** $d(i,j) \ge 0$.
 2. **Positive Definiteness:** $d(i,j) = 0 \iff i = j$.
 3. **Symmetry:** $d(i,j) = d(j,i)$.
@@ -1234,13 +1350,28 @@ For a function $d: \mathcal{X} \times \mathcal{X} \to \mathbb{R}$ to be a metric
 We test the **Triangle Inequality** using three real numbers $x_i = 0$, $x_k = 1$, and $x_j = 2$:
 
 1. Compute $d(i,j)$:
-   $$d(i,j) = (0 - 2)^2 = (-2)^2 = 4$$
+
+$$
+d(i,j) = (0 - 2)^2 = (-2)^2 = 4
+$$
+
 2. Compute $d(i,k)$:
-   $$d(i,k) = (0 - 1)^2 = (-1)^2 = 1$$
+
+$$
+d(i,k) = (0 - 1)^2 = (-1)^2 = 1
+$$
+
 3. Compute $d(k,j)$:
-   $$d(k,j) = (1 - 2)^2 = (-1)^2 = 1$$
+
+$$
+d(k,j) = (1 - 2)^2 = (-1)^2 = 1
+$$
+
 4. Evaluate Triangle Inequality condition:
-   $$d(i,j) \le d(i,k) + d(k,j) \implies 4 \le 1 + 1 \implies 4 \le 2 \quad \mathbf{\text{(FALSE!)}}$$
+
+$$
+d(i,j) \le d(i,k) + d(k,j) \implies 4 \le 1 + 1 \implies 4 \le 2 \quad \mathbf{\text{(FALSE!)}}
+$$
 
 **Conclusion:** Since $4 \le 2$ is false, squared Euclidean distance violates the Triangle Inequality. Thus, $d(i,j) = (x_i - x_j)^2$ is **not a valid distance metric**. $\blacksquare$
 
@@ -1250,6 +1381,7 @@ We test the **Triangle Inequality** using three real numbers $x_i = 0$, $x_k = 1
 
 **Question Statement:**  
 Two medical patients are evaluated across 5 diagnostic disease flags ($1=\text{Present}, 0=\text{Absent}$):
+
 * Patient A: `[1, 0, 1, 1, 0]`
 * Patient B: `[1, 1, 0, 1, 0]`
 
@@ -1263,6 +1395,7 @@ Two medical patients are evaluated across 5 diagnostic disease flags ($1=\text{P
 
 ##### Part 1: Contingency Table ($q, r, s, t$)
 Comparing attributes element-wise:
+
 * $f_1$ ($1, 1$): Both present $\implies q$
 * $f_2$ ($0, 1$): Patient B only $\implies s$
 * $f_3$ ($1, 0$): Patient A only $\implies r$
@@ -1270,6 +1403,7 @@ Comparing attributes element-wise:
 * $f_5$ ($0, 0$): Both absent $\implies t$
 
 **Contingency Table Summary:**
+
 * $q = 2$ (Positive matches: $1-1$)
 * $r = 1$ (A present, B absent: $1-0$)
 * $s = 1$ (A absent, B present: $0-1$)
@@ -1278,11 +1412,22 @@ Comparing attributes element-wise:
 
 ##### Part 2: SMC vs. Jaccard Computations
 * **Simple Matching Distance ($d_{\text{SMC}}$):**
-  $$d_{\text{SMC}} = \frac{r + s}{q + r + s + t} = \frac{1 + 1}{5} = \frac{2}{5} = \mathbf{0.400}$$
+
+$$
+d_{\text{SMC}} = \frac{r + s}{q + r + s + t} = \frac{1 + 1}{5} = \frac{2}{5} = \mathbf{0.400}
+$$
+
 * **Jaccard Distance ($d_{\text{Jaccard}}$):**
-  $$d_{\text{Jaccard}} = \frac{r + s}{q + r + s} = \frac{1 + 1}{2 + 1 + 1} = \frac{2}{4} = \mathbf{0.500}$$
+
+$$
+d_{\text{Jaccard}} = \frac{r + s}{q + r + s} = \frac{1 + 1}{2 + 1 + 1} = \frac{2}{4} = \mathbf{0.500}
+$$
+
 * **Jaccard Similarity ($s_{\text{Jaccard}}$):**
-  $$s_{\text{Jaccard}} = 1 - d_{\text{Jaccard}} = \frac{q}{q + r + s} = \frac{2}{4} = \mathbf{0.500}$$
+
+$$
+s_{\text{Jaccard}} = 1 - d_{\text{Jaccard}} = \frac{q}{q + r + s} = \frac{2}{4} = \mathbf{0.500}
+$$
 
 ##### Part 3: Justification for Excluding $t$
 In asymmetric binary domains (e.g., rare diseases, diagnostic tests), the presence of a condition ($1$) is rare and informative, while joint absence ($0-0$) is trivial. If two patients lack 999 rare diseases out of 1,000, including $t=999$ in SMC would incorrectly report that they are $99.9\%$ similar, even if they share zero actual illnesses. Discarding $t$ prevents uninformative negative co-occurrences from distorting proximity. $\blacksquare$
@@ -1293,6 +1438,7 @@ In asymmetric binary domains (e.g., rare diseases, diagnostic tests), the presen
 
 **Question Statement:**  
 Consider a feature dataset $X = [10, 12, 14, 16, 100]$ containing an extreme outlier ($100$).
+
 1. Calculate the population mean $\mu$ and standard deviation $\sigma$. Compute Z-score standardized values for $x_1 = 10$ and $x_2 = 12$. [2 Marks]
 2. Calculate the Mean Absolute Deviation ($s_f$) and compute robust standardized values for $x_1 = 10$ and $x_2 = 12$. [2 Marks]
 3. Compare $|z_1 - z_2|$ under both methods and explain why MAD is more robust. [1 Mark]
@@ -1303,24 +1449,58 @@ Consider a feature dataset $X = [10, 12, 14, 16, 100]$ containing an extreme out
 
 ##### Part 1: Standard Deviation ($\sigma$) Z-Score
 * **Mean ($\mu$):**  
-  $$\mu = \frac{10 + 12 + 14 + 16 + 100}{5} = \frac{152}{5} = 30.4$$
+
+$$
+\mu = \frac{10 + 12 + 14 + 16 + 100}{5} = \frac{152}{5} = 30.4
+$$
+
 * **Variance ($\sigma^2$):**  
-  $$\sigma^2 = \frac{(10-30.4)^2 + (12-30.4)^2 + (14-30.4)^2 + (16-30.4)^2 + (100-30.4)^2}{5}$$
-  $$\sigma^2 = \frac{416.16 + 338.56 + 268.96 + 207.36 + 4844.16}{5} = \frac{6075.2}{5} = 1215.04$$
+
+$$
+\sigma^2 = \frac{(10-30.4)^2 + (12-30.4)^2 + (14-30.4)^2 + (16-30.4)^2 + (100-30.4)^2}{5}
+$$
+
+$$
+\sigma^2 = \frac{416.16 + 338.56 + 268.96 + 207.36 + 4844.16}{5} = \frac{6075.2}{5} = 1215.04
+$$
+
 * **Standard Deviation ($\sigma$):**  
-  $$\sigma = \sqrt{1215.04} \approx \mathbf{34.857}$$
+
+$$
+\sigma = \sqrt{1215.04} \approx \mathbf{34.857}
+$$
+
 * **Z-Scores:**  
-  $$z_1 = \frac{10 - 30.4}{34.857} = \mathbf{-0.585}, \quad z_2 = \frac{12 - 30.4}{34.857} = \mathbf{-0.528}$$
-  $$\text{Distance } |z_1 - z_2| = |-0.585 - (-0.528)| = \mathbf{0.057}$$
+
+$$
+z_1 = \frac{10 - 30.4}{34.857} = \mathbf{-0.585}, \quad z_2 = \frac{12 - 30.4}{34.857} = \mathbf{-0.528}
+$$
+
+$$
+\text{Distance } |z_1 - z_2| = |-0.585 - (-0.528)| = \mathbf{0.057}
+$$
 
 ##### Part 2: Mean Absolute Deviation (MAD $s_f$) Standardized Score
 * **Mean ($m_f$):** $30.4$
 * **MAD ($s_f$):**  
-  $$s_f = \frac{|10-30.4| + |12-30.4| + |14-30.4| + |16-30.4| + |100-30.4|}{5}$$
-  $$s_f = \frac{20.4 + 18.4 + 16.4 + 14.4 + 69.6}{5} = \frac{139.2}{5} = \mathbf{27.84}$$
+
+$$
+s_f = \frac{|10-30.4| + |12-30.4| + |14-30.4| + |16-30.4| + |100-30.4|}{5}
+$$
+
+$$
+s_f = \frac{20.4 + 18.4 + 16.4 + 14.4 + 69.6}{5} = \frac{139.2}{5} = \mathbf{27.84}
+$$
+
 * **MAD Standardized Scores:**  
-  $$z_1^* = \frac{10 - 30.4}{27.84} = \mathbf{-0.733}, \quad z_2^* = \frac{12 - 30.4}{27.84} = \mathbf{-0.661}$$
-  $$\text{Distance } |z_1^* - z_2^*| = |-0.733 - (-0.661)| = \mathbf{0.072}$$
+
+$$
+z_1^* = \frac{10 - 30.4}{27.84} = \mathbf{-0.733}, \quad z_2^* = \frac{12 - 30.4}{27.84} = \mathbf{-0.661}
+$$
+
+$$
+\text{Distance } |z_1^* - z_2^*| = |-0.733 - (-0.661)| = \mathbf{0.072}
+$$
 
 ##### Part 3: Comparison & Robustness Analysis
 Under standard Z-score, the outlier $100$ inflates $\sigma$ to $34.857$, crushing the relative distance between $10$ and $12$ to $0.057$. Under MAD, absolute deviations prevent squaring, yielding a lower dispersion $s_f = 27.84$ and preserving a larger relative distance ($0.072$). MAD is significantly more robust against extreme outliers. $\blacksquare$

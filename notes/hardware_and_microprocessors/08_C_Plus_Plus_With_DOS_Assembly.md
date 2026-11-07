@@ -29,6 +29,7 @@ flowchart TD
 
 ### The INT 21H Mechanism
 To use a DOS service:
+
 1. Load **service number** into `AH`
 2. Load any required **parameters** into specified registers
 3. Execute `INT 21H`
@@ -190,6 +191,7 @@ END START
 ```
 
 **Explanation:**
+
 - `LEA DX, MESSAGE` loads the **offset address** of `MESSAGE` into `DX`
 - INT 21H / AH=09H prints all characters from `DS:DX` until it finds `$`
 - `0DH, 0AH` = CR+LF = moves cursor to start of next line (DOS newline)

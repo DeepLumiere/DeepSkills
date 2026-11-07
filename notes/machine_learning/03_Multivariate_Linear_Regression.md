@@ -695,7 +695,7 @@ flowchart TD
 
     H -->|Non-Singular| I["Compute &theta; = (X<sup>T</sup>X)<sup>-1</sup> X<sup>T</sup> y"]
 
-    H -->|Singular (m &le; n or Collinear)| J["Use pinv(X<sup>T</sup>X) X<sup>T</sup> y or Regularization"]
+    H -->|"Singular (m &le; n or Collinear)"| J["Use pinv(X<sup>T</sup>X) X<sup>T</sup> y or Regularization"]
 
     I --> G
 

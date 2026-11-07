@@ -36,6 +36,7 @@ The 3-tier architecture is a software design pattern that separates applications
 JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is language-independent but uses conventions familiar to C-family languages.
 
 **Strict Structural Rules:**
+
 *   **Keys:** Must be explicitly wrapped in **double quotes** (e.g., `"name": "John"`). Single quotes are invalid.
 *   **Strings:** Must be wrapped in **double quotes**.
 *   **Data Types:** Supports String, Number, Boolean (`true`/`false`), Null (`null`), Object ( `{}` ), and Array ( `[]` ).
@@ -67,6 +68,7 @@ JavaScript provides a built-in `JSON` object with two primary methods:
 The `fetch()` API provides an interface for fetching resources asynchronously across the network. It returns a Promise that resolves to the `Response` object representing the response to the request.
 
 **Typical Workflow:**
+
 1. Call `fetch(url, options)`.
 2. The returned Promise resolves with a `Response` object.
 3. Check `response.ok` to ensure the HTTP status code is 200-299.
@@ -90,6 +92,7 @@ async function getData() {
 ## Q6: What are the primary RESTful HTTP methods and their typical use cases?
 
 **Answer:**
+
 *   **GET:** Retrieves a representation of a resource. Safe and idempotent (doesn't change state).
 *   **POST:** Submits new data to the server to create a new resource. Not idempotent.
 *   **PUT:** Replaces all current representations of the target resource with the uploaded payload (full update). Idempotent.
@@ -100,6 +103,7 @@ async function getData() {
 
 **Answer:**
 Both provide synchronous key-value storage in the browser (around 5-10MB limit), but they differ in lifespan:
+
 *   **`localStorage`:** Data persists indefinitely until explicitly cleared by the user (via browser settings) or by code (`localStorage.removeItem()`). It survives browser restarts.
 *   **`sessionStorage`:** Data is tied to the specific browser tab session. The data is wiped as soon as the tab or window is closed. It survives page reloads within the same tab.
 
@@ -151,6 +155,7 @@ flowchart LR
 
 ### 2. Two-Way Data Binding (`v-model`):
 Unlike React which requires explicit event handlers for form synchronization, Vue provides the `v-model` directive to establish seamless bi-directional data flow on form input elements:
+
 *   Binds the element's `value` attribute to state: `:value="userName"`
 *   Listens to user input events and updates state: `@input="userName = $event.target.value"`
 
@@ -257,10 +262,10 @@ The grid divides each container into 12 proportional columns. Layout structure a
 ```mermaid
 flowchart LR
     subgraph JSON_Format["JSON (Lightweight)"]
-        J["{"name": "Alice", "age": 22}"]
+        J["{&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 22}"]
     end
     subgraph XML_Format["XML (Heavy Overhead)"]
-        X["<student><name>Alice</name><age>22</age></student>"]
+        X["&lt;student&gt;&lt;name&gt;Alice&lt;/name&gt;&lt;age&gt;22&lt;/age&gt;&lt;/student&gt;"]
     end
 ```
 

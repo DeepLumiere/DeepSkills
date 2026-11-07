@@ -99,6 +99,7 @@ flowchart LR
 The multi-tier architecture connecting client applications to backend execution runtimes (Java Virtual Machine and Node.js V8) and persistent storage engines across relational and non-relational boundaries.
 
 **Components:**
+
 - **Client Tier** — Initiates HTTP/REST requests carrying JSON payloads.
 - **Application Tier** — Hosts business logic, validation, and object persistence frameworks (Spring Data JPA and Node.js drivers).
 - **Persistence Tier** — Guarantees durable storage using ACID-compliant relational engines (MySQL InnoDB) and horizontally scalable document databases (MongoDB WiredTiger).
@@ -107,6 +108,7 @@ The multi-tier architecture connecting client applications to backend execution 
 Client requests are processed by application services, which map domain entities to tabular relational structures or hierarchical BSON documents before executing wire-level database queries over persistent socket connections.
 
 **Key observations:**
+
 - Relational integration relies on strongly typed schemas, relational keys, and ACID transactions.
 - NoSQL integration emphasizes polymorphic JSON-like documents, dynamic aggregation pipelines, and eventual consistency.
 
@@ -251,6 +253,7 @@ erDiagram
 The multi-table schema modeling enterprise order processing, demonstrating one-to-many (`||--o{`) relationships and many-to-many relationships resolved via an associative junction entity (`ORDER_DETAILS`).
 
 **Components:**
+
 - **Entity Tables:** `CUSTOMERS`, `ORDERS`, `PRODUCTS`, `EMPLOYEES`, `CATEGORIES`, `SUPPLIERS`, `SHIPPERS`.
 - **Associative Junction Table:** `ORDER_DETAILS`, with composite primary key `(order_id, product_id)`.
 - **Referential Integrity Constraints:** Foreign key references linking child records to parent records.
@@ -259,6 +262,7 @@ The multi-table schema modeling enterprise order processing, demonstrating one-t
 A customer places zero or many orders. Each order is managed by an employee and fulfilled through a shipper. An order contains one or more line items (`ORDER_DETAILS`), each referencing a specific catalog product.
 
 **Key observations:**
+
 - `ORDER_DETAILS` contains line-item level transaction pricing (`unit_price`) to insulate historical orders against future price changes in `PRODUCTS`.
 - Composite primary keys prevent duplicate product entries within a single order.
 
@@ -410,6 +414,7 @@ CREATE TABLE employee_skills (
 #### 2NF Violation Schema
 
 Consider `order_items_violation(order_id, product_id, product_name, quantity)`.
+
 - Primary Key: Composite key `(order_id, product_id)`
 - Functional Dependencies:
   - $(order\_id, product\_id) \to quantity$ (Full dependency)
@@ -439,12 +444,14 @@ CREATE TABLE products (
 **Rule:** A relation is in 3NF if and only if it is in 2NF and no non-prime attribute is **transitively dependent** on any candidate key.
 
 Formally, for every non-trivial functional dependency $X \to Y$, at least one of the following must hold:
+
 1. $X$ is a super key of $R$, OR
 2. $Y$ is a prime attribute (a member of some candidate key).
 
 #### 3NF Violation Schema
 
 Consider `orders_violation(order_id, customer_id, customer_city, order_date)`.
+
 - Primary Key: `order_id`
 - Functional Dependencies:
   - $order\_id \to customer\_id$
@@ -476,6 +483,7 @@ CREATE TABLE orders (
 #### BCNF Violation Schema
 
 Consider an advising relation: `advisor_assignment(student_id, major, advisor_name)`.
+
 - Business Rules:
   - Each student can have multiple majors, but only one advisor per major: $(student\_id, major) \to advisor\_name$.
   - Each advisor advises only one major: $advisor\_name \to major$.
@@ -626,6 +634,7 @@ The most prevalent performance anti-pattern in ORM frameworks is the **N+1 Selec
 ### Problem Mechanics
 
 Suppose an application retrieves 100 `Customer` entities, each having a lazily loaded collection of `Order` entities:
+
 1. The framework executes **1 initial query** to fetch the parent customers:
    ```sql
    SELECT * FROM customers; -- Returns 100 rows
@@ -699,6 +708,7 @@ flowchart TD
 The interaction between client application code, standard JPA interfaces, underlying Hibernate implementations, and low-level JDBC driver pools.
 
 **Components:**
+
 - `EntityManagerFactory` / `SessionFactory` — Thread-safe, expensive-to-create factory caching compiled metadata and second-level cache regions.
 - `EntityManager` / `Session` — Non-thread-safe unit-of-work object representing a single persistence context and first-level cache.
 - `EntityTransaction` — Boundaries controlling atomic commits and rollbacks.
@@ -707,6 +717,7 @@ The interaction between client application code, standard JPA interfaces, underl
 The application injects the `EntityManager`, performs entity operations, and delegates dirty checks and SQL generation to the Hibernate session, which communicates with MySQL via JDBC connections.
 
 **Key observations:**
+
 - An `EntityManagerFactory` is initialized once per application lifecycle, while an `EntityManager` is bound to a single HTTP request or transaction.
 
 [Source: Unit 4 Course Specification, Module 4.3]
@@ -732,6 +743,7 @@ stateDiagram-v2
 The state transitions of a JPA entity managed within the persistence context lifecycle.
 
 **Components:**
+
 - **Transient:** The object is instantiated in JVM memory (`new Customer()`) with no primary key assigned and no association with any active persistence context. It has no corresponding database row.
 - **Persistent (Managed):** The entity possesses a database primary key and is actively tracked by the persistence context. Any state changes made to this entity are automatically synchronized to the database upon transaction commit.
 - **Detached:** The entity possesses a database primary key, but the persistence context that originally tracked it has closed, cleared, or serialized the object. State changes are no longer automatically tracked.
@@ -741,6 +753,7 @@ The state transitions of a JPA entity managed within the persistence context lif
 Calling `persist()` moves a transient instance into the managed state. Invoking `detach()` or closing the session decouples it. Calling `merge()` inspects the detached state, loads the matching database row into a new managed instance, and copies over the altered attributes.
 
 **Key observations:**
+
 - Managed entities require zero manual `UPDATE` statements; Hibernate automatically detects attribute mutations through dirty checking.
 
 [Source: Unit 4 Course Specification, Module 4.3]
@@ -1279,7 +1292,7 @@ async function processOrderCheckout(customerEmail, items) {
         );
 
         const newOrderId = orderResult.insertId;
-        console.log(`[Orders] Generated Order Header ID: ${newOrderId}, Total Amount: $${calculatedTotal.toFixed(2)}`);
+        console.log(`[Orders] Generated Order Header ID: ${newOrderId}, Total Amount: ${calculatedTotal.toFixed(2)}`);
 
         // Insert Line Items
         for (const lineItem of lineItemDetails) {
@@ -1797,6 +1810,7 @@ Formulated by Eric Brewer in 2000 and mathematically proved by Seth Gilbert and 
 ### Gilbert & Lynch Proof Intuition
 
 Consider a distributed system split into two disjoint network partitions, $G_1$ and $G_2$, due to a severed network link:
+
 1. A client connects to node $n_1 \in G_1$ and writes $v_1$.
 2. Because the network is partitioned, $n_1$ cannot propagate this write to any node in $G_2$.
 3. A second client connects to node $n_2 \in G_2$ and issues a read request for the same key.
@@ -1863,7 +1877,7 @@ $$
 ```mermaid
 flowchart TD
     Client["Client Application"]
-    subgraph Replica Set N = 5
+    subgraph ReplicaSet ["Replica Set N = 5"]
         Node1["Node 1 (W)"]
         Node2["Node 2 (W)"]
         Node3["Node 3 (W & R Overlap)"]
@@ -1948,6 +1962,7 @@ This section provides sample examination questions along with marking rubrics an
 ### Question 1: Distinguish between 3NF and BCNF with a concrete example.
 
 **Marking Scheme:**
+
 - Definition and formal conditions of 3NF (1.5 marks)
 - Definition and formal condition of BCNF (1.5 marks)
 - Concrete violation example with attribute sets and functional dependencies (1 mark)
@@ -1955,6 +1970,7 @@ This section provides sample examination questions along with marking rubrics an
 
 **Model Answer:**
 A relation $R$ is in **Third Normal Form (3NF)** if for every non-trivial functional dependency $X \to Y$:
+
 1. $X$ is a super key, OR
 2. $Y$ is a prime attribute (part of a candidate key).
 
@@ -1962,6 +1978,7 @@ A relation $R$ is in **Boyce-Codd Normal Form (BCNF)** if for every non-trivial 
 
 **Concrete Example:**  
 Consider a university advising relation `Advising(StudentID, Major, AdvisorName)`.
+
 - Functional Dependencies:
   - $(StudentID, Major) \to AdvisorName$
   - $AdvisorName \to Major$ (Each advisor advises only one major)
@@ -1976,6 +1993,7 @@ Consider a university advising relation `Advising(StudentID, Major, AdvisorName)
 ### Question 2: Explain the N+1 Select Problem in ORM frameworks and its primary mitigations.
 
 **Marking Scheme:**
+
 - Problem definition and execution mechanics (2 marks)
 - Concrete SQL execution trace illustrating the $1 + N$ queries (1.5 marks)
 - Clear explanations of two distinct solutions (`JOIN FETCH` and `@EntityGraph` / batching) (1.5 marks)
@@ -1995,6 +2013,7 @@ SELECT * FROM orders WHERE customer_id = ?; -- Executed N separate times!
 This results in $1 + N$ total round trips (51 queries for 50 records), degrading latency and connection pool throughput.
 
 **Mitigations:**
+
 1. **JPQL `JOIN FETCH`:** Forces an eager SQL join in a single query:
    ```java
    @Query("SELECT DISTINCT c FROM CustomerEntity c LEFT JOIN FETCH c.orders")
@@ -2011,6 +2030,7 @@ This results in $1 + N$ total round trips (51 queries for 50 records), degrading
 ### Question 3: Explain the 12-byte anatomy of a MongoDB ObjectId.
 
 **Marking Scheme:**
+
 - Purpose and uniqueness guarantees without centralized coordination (1 mark)
 - Byte allocation breakdown diagram or table (2 marks)
 - Technical description of each component (2 marks)
@@ -2034,6 +2054,7 @@ MongoDB uses a **12-byte (24-hexadecimal character) BSON ObjectId** as the defau
 ### Question 4: Define the ESR (Equality, Sort, Range) rule in MongoDB compound indexing.
 
 **Marking Scheme:**
+
 - Definition and purpose of the ESR rule (1 mark)
 - Detailed explanation of each letter: E, S, and R (3 marks)
 - Common performance pitfall when the rule is violated (1 mark)
@@ -2058,6 +2079,7 @@ db.collection.createIndex({ equalityField: 1, sortField: 1, rangeField: 1 })
 ### Question 5: Compare Relational (RDBMS) and Non-Relational (NoSQL) persistence models. Analyze their storage engines, query languages, consistency mechanisms, and architectural tradeoffs. Detail when an architect should select an RDBMS versus MongoDB.
 
 **Marking Scheme:**
+
 - Fundamental Data Model & Storage Engine Architecture (2.5 marks)
 - Concurrency & Consistency Models: ACID vs BASE (2.5 marks)
 - Query Languages & Schema Flexibility (2 marks)
@@ -2098,11 +2120,13 @@ db.collection.createIndex({ equalityField: 1, sortField: 1, rangeField: 1 })
 #### 4. Architectural Decision Framework
 
 **Select an RDBMS (e.g., MySQL) when:**
+
 1. The domain model has high relational complexity with many-to-many associations that benefit from 3NF/BCNF normalization.
 2. Financial integrity requires strict ACID guarantees and multi-row atomicity (e.g., banking ledgers, accounting systems).
 3. Query patterns are ad-hoc and unpredictable, requiring arbitrary multi-table `JOIN` operations.
 
 **Select a Document Store (e.g., MongoDB) when:**
+
 1. The data is semi-structured or polymorphic (e.g., product catalogs with varying attributes per category).
 2. Read operations benefit from data locality, where fetching an entity and its children in a single disk seek outperforms multi-table joins.
 3. System scale requires horizontal sharding across commodity servers to handle massive write volumes and terabytes of data.
@@ -2112,6 +2136,7 @@ db.collection.createIndex({ equalityField: 1, sortField: 1, rangeField: 1 })
 ### Question 6: Provide an in-depth analysis of the CAP and PACELC Theorems in distributed database systems. Explain Gilbert and Lynch's formal proof, evaluate Quorum Consensus, and classify four enterprise database engines under both theorems.
 
 **Marking Scheme:**
+
 - Formal definition of CAP theorem properties (2 marks)
 - Gilbert and Lynch proof intuition with network partition diagram (2.5 marks)
 - PACELC Theorem derivation and latency trade-offs (2 marks)
@@ -2122,6 +2147,7 @@ db.collection.createIndex({ equalityField: 1, sortField: 1, rangeField: 1 })
 
 #### 1. Formal Definition of CAP Theorem Properties
 Formulated by Eric Brewer and mathematically proved by Seth Gilbert and Nancy Lynch (2002), the CAP theorem states that a distributed read-write data store can simultaneously provide at most two of three guarantees:
+
 - **Consistency ($C$):** Equivalent to linearizability. Every read operation receives the most recent write or returns an error.
 - **Availability ($A$):** Every non-failing node must return a non-error response for every received request, without guaranteeing it reflects the most recent write.
 - **Partition Tolerance ($P$):** The system continues to operate despite arbitrary dropped or delayed messages between nodes due to network failures.
@@ -2158,6 +2184,7 @@ During normal execution, a system that maintains strict consistency must wait fo
 
 #### 4. Quorum Consensus Mathematics
 In leaderless distributed architectures (e.g., Dynamo, Cassandra), consistency is configured using quorum parameters:
+
 - $N$ = Total replication factor (number of distinct nodes storing a data item).
 - $W$ = Write quorum (number of nodes that must acknowledge a write before success).
 - $R$ = Read quorum (number of nodes that must respond to a read query).

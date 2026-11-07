@@ -32,10 +32,16 @@ Many algorithms are recursive — their running time $T(n)$ is defined in terms 
 A **recurrence relation** is an equation that defines $T(n)$ in terms of $T$ on smaller values.
 
 **Divide and Conquer** — breaks into $a$ subproblems of size $n/b$, combines in $f(n)$ time:
-$$T(n) = a\,T\!\left(\frac{n}{b}\right) + f(n)$$
+
+$$
+T(n) = a\,T\!\left(\frac{n}{b}\right) + f(n)
+$$
 
 **Subtract and Conquer** — reduces problem size by constant $b$:
-$$T(n) = a\,T(n-b) + f(n)$$
+
+$$
+T(n) = a\,T(n-b) + f(n)
+$$
 
 ---
 
@@ -49,7 +55,10 @@ $$T(n) = a\,T(n-b) + f(n)$$
 
 - **Guess:** $T(n) \le cn\log_2 n$ for $c > 0$
 - **Inductive step:** Assume $T(\lfloor n/2 \rfloor) \le c\lfloor n/2 \rfloor \log_2(\lfloor n/2 \rfloor)$
-$$T(n) \le 2\!\left(c\frac{n}{2}\log_2\!\frac{n}{2}\right) + n = cn(\log_2 n - 1) + n = cn\log_2 n - cn + n$$
+
+$$
+T(n) \le 2\!\left(c\frac{n}{2}\log_2\!\frac{n}{2}\right) + n = cn(\log_2 n - 1) + n = cn\log_2 n - cn + n
+$$
 For $T(n) \le cn\log_2 n$: need $-cn + n \le 0 \implies c \ge 1$. ✅ Holds for $c \ge 1, n \ge 2$.
 
 ---
@@ -89,6 +98,7 @@ Total Solution: $T(n) = T_h(n) + T_p(n)$ (Homogeneous + Particular).
 1. **Homogeneous:** $r - 2 = 0 \implies r = 2 \implies T_h(n) = c_1 \cdot 2^n$
 2. **Particular:** $f(n) = 3^n$. Root 3 is not 2. Guess $T_p = P \cdot 3^n$.
    $P \cdot 3^n - 2(P \cdot 3^{n-1}) = 3^n \implies P(1 - 2/3) = 1 \implies P = 3$. $T_p(n) = 3^{n+1}$.
+
 3. **Total:** $T(n) = c_1 \cdot 2^n + 3^{n+1}$. Use $T(0)=1 \implies c_1 = -2$.
    Solution: $T(n) = 3^{n+1} - 2^{n+1} = \Theta(3^n)$.
 
@@ -203,12 +213,14 @@ The Divide and Conquer paradigm: **Divide** → **Conquer** → **Combine**.
 Array: `[38, 27, 43, 3, 9, 82, 10, 19, 50, 4, 1, 99, 5, 23, 11, 7]`
 
 **Phase 1: Divide (Split down to base cases of size 1)**
+
 - `[38, 27, 43, 3, 9, 82, 10, 19]` | `[50, 4, 1, 99, 5, 23, 11, 7]`
 - `[38, 27, 43, 3]` | `[9, 82, 10, 19]` || `[50, 4, 1, 99]` | `[5, 23, 11, 7]`
 - `[38, 27]` | `[43, 3]` || `[9, 82]` | `[10, 19]` || `[50, 4]` | `[1, 99]` || `[5, 23]` | `[11, 7]`
 - `[38]` `[27]` | `[43]` `[3]` || `[9]` `[82]` | `[10]` `[19]` || `[50]` `[4]` | `[1]` `[99]` || `[5]` `[23]` | `[11]` `[7]`
 
 **Phase 2: Conquer & Combine (Merge sorted subarrays)**
+
 - **Level 1 Merges:** `[27, 38]` | `[3, 43]` || `[9, 82]` | `[10, 19]` || `[4, 50]` | `[1, 99]` || `[5, 23]` | `[7, 11]`
 - **Level 2 Merges:** `[3, 27, 38, 43]` || `[9, 10, 19, 82]` || `[1, 4, 50, 99]` || `[5, 7, 11, 23]`
 - **Level 3 Merges:** `[3, 9, 10, 19, 27, 38, 43, 82]` || `[1, 4, 5, 7, 11, 23, 50, 99]`
@@ -262,6 +274,7 @@ Goal: Find the median of medians (the pivot) for array of 25 elements.
 Array: `[12, 3, 9, 21, 7, 44, 2, 8, 19, 5, 33, 1, 14, 29, 6, 18, 10, 24, 15, 11, 27, 4, 22, 13, 20]`
 
 **Step 1: Group into 5s**
+
 - G1: `[12, 3, 9, 21, 7]`
 - G2: `[44, 2, 8, 19, 5]`
 - G3: `[33, 1, 14, 29, 6]`
@@ -269,6 +282,7 @@ Array: `[12, 3, 9, 21, 7, 44, 2, 8, 19, 5, 33, 1, 14, 29, 6, 18, 10, 24, 15, 11,
 - G5: `[27, 4, 22, 13, 20]`
 
 **Step 2: Find Median of each group (sort 5 elements: O(1) time)**
+
 - G1 Sorted: `[3, 7, 9, 12, 21]` → Median = **9**
 - G2 Sorted: `[2, 5, 8, 19, 44]` → Median = **8**
 - G3 Sorted: `[1, 6, 14, 29, 33]` → Median = **14**
@@ -276,11 +290,13 @@ Array: `[12, 3, 9, 21, 7, 44, 2, 8, 19, 5, 33, 1, 14, 29, 6, 18, 10, 24, 15, 11,
 - G5 Sorted: `[4, 13, 20, 22, 27]` → Median = **20**
 
 **Step 3: Median of Medians**
+
 - Array of medians: `[9, 8, 14, 15, 20]`
 - Sort them: `[8, 9, 14, 15, 20]`
 - Median of Medians = **14**.
 
 **Step 4: Use 14 as Pivot to Partition the original 25 elements**
+
 - The algorithm guarantees that at least $3n/10$ elements are $\le 14$, and at least $3n/10$ elements are $\ge 14$. This ensures a balanced partition, preventing the $O(n^2)$ worst case of QuickSort.
 
 ---
@@ -295,6 +311,7 @@ Multiply $X = 12345678$ and $Y = 87654321$ ($n=8$).
 Split in half: $X_L=1234, X_R=5678, Y_L=8765, Y_R=4321$.
 
 Instead of computing $X_L Y_L, X_L Y_R, X_R Y_L, X_R Y_R$, we compute 3 products:
+
 1. $P_1 = X_L \times Y_L = 1234 \times 8765 = 10815910$
 2. $P_2 = X_R \times Y_R = 5678 \times 4321 = 24534638$
 3. $P_3 = (X_L + X_R) \times (Y_L + Y_R) = (1234 + 5678) \times (8765 + 4321) = 6912 \times 13086 = 90450432$
@@ -318,6 +335,7 @@ Given two $4 \times 4$ matrices $A$ and $B$, split into four $2 \times 2$ blocks
 $A = \begin{pmatrix} A_{11} & A_{12} \\ A_{21} & A_{22} \end{pmatrix}$ and $B = \begin{pmatrix} B_{11} & B_{12} \\ B_{21} & B_{22} \end{pmatrix}$
 
 Compute 7 products (recursively!):
+
 1. $M_1 = (A_{11} + A_{22})(B_{11} + B_{22})$
 2. $M_2 = (A_{21} + A_{22})B_{11}$
 3. $M_3 = A_{11}(B_{12} - B_{22})$
@@ -354,6 +372,7 @@ POWER(3, 21):
 ```
 
 **Backwards Evaluation (Bottom-Up Modulo):**
+
 | n | Even/Odd | Formula | Modulo 7 Arithmetic | Return Value |
 | :--- | :--- | :--- | :--- | :--- |
 | 0 | Base | 1 | 1 mod 7 | **1** |

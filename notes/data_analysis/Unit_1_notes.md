@@ -1,20 +1,20 @@
 # Chapter 1 — Complete Study Notes: Data Analysis and Visualization (DAV)
 
-> **Course Code:** 3CS103ME24  
-> **Course Title:** Data Analysis and Visualization (DAV)  
-> **Academic Year / Semester:** Batch 2026–27 | 5th Semester  
-> **Degree Programmes:** B.Tech (Computer Science & Engineering), Integrated B.Tech (CSE)-MBA, B.Tech (Interdisciplinary Minor in Data Science)  
-> **Department & Institute:** Department of Computer Science and Engineering, Institute of Technology, Nirma University  
-> **Faculty Team:** Dr. Vrajesh Chawra (Course Coordinator), Dr. Jaiprakash Verma, Dr. Preeti Kathiria, Dr. Shivani Pandya, Dr. Jigna Patel  
-> **Teaching Scheme:** L-3, T-0, P-2 | Total Credits: 4  
-> **Examination & Evaluation Scheme:** Continuous Evaluation (CE): 0.30 weightage; Semester End Examination (SEE, 3 Hours): 0.40 weightage; Laboratory Project Work (LPW, Continuous Evaluation + 2-Hour Semester End LPW Exam): 0.30 weightage  
-> **Primary Sources Integrated:**  
-> 1. `1.Introduction to DAV.pdf` (44 slides) — Course syllabus, laboratory phases, foundational DAV definitions, data lifecycle, analytics spectrum, tooling ecosystem, industry case studies, open data repositories.  
-> 2. `2.Types of Data.pdf` (25 slides) — Digital data classification by structure (structured, semi-structured, unstructured), sources, operational characteristics, comprehensive airport and shopping mall scenarios.  
-> 3. `3.Dataset and Attributes.pdf` (44 slides) — Data objects, attribute scales (nominal, binary, ordinal, numeric: interval & ratio), discrete vs. continuous variables, dataset structural types (record, data matrix, sparse document-term matrix, graph/network data, ordered data), core data characteristics (dimensionality, sparsity, resolution).  
-> 4. `4.Statistical Descriptions of Data_new.pdf` (101 slides) — Central tendency (mean, weighted mean, trimmed mean, median, mode, midrange, empirical relation), dispersion (range, quantiles, percentiles, quartiles, IQR, five-number summary, boxplot analysis, Tukey fences, variance, standard deviation, mean absolute deviation), graphical displays (histograms, bar graphs, quantile plots, Q-Q plots, scatter plots), normal distribution theory, and visualization categorization.  
-> 5. `5. data_preprocessing.pdf` (57 slides) — Data quality challenges, 4 major preprocessing tasks (cleaning, integration, reduction, transformation/discretization), missing data imputation strategies, noise smoothing techniques (binning, regression, clustering), data integration redundancy (Chi-square test of independence for categorical redundancy, Pearson correlation coefficient, covariance), normalization (min-max, z-score, decimal scaling).  
-> 6. `5.1_Similarity and Dissimilarity.pdf` (18 slides) — Proximity fundamentals, metric axioms, nominal proximity, symmetric vs. asymmetric binary proximity (simple matching vs. Jaccard coefficient), ordinal transformation, Minkowski distance ($L_1$ Manhattan, $L_2$ Euclidean, $L_\infty$ Chebyshev / Supremum), mixed-type attribute aggregation (Gower's formula), cosine similarity for high-dimensional sparse text vectors.  
+> **Course Code:** 3CS103ME24
+> **Course Title:** Data Analysis and Visualization (DAV)
+> **Academic Year / Semester:** Batch 2026–27 | 5th Semester
+> **Degree Programmes:** B.Tech (Computer Science & Engineering), Integrated B.Tech (CSE)-MBA, B.Tech (Interdisciplinary Minor in Data Science)
+> **Department & Institute:** Department of Computer Science and Engineering, Institute of Technology, Nirma University
+> **Faculty Team:** Dr. Vrajesh Chawra (Course Coordinator), Dr. Jaiprakash Verma, Dr. Preeti Kathiria, Dr. Shivani Pandya, Dr. Jigna Patel
+> **Teaching Scheme:** L-3, T-0, P-2 | Total Credits: 4
+> **Examination & Evaluation Scheme:** Continuous Evaluation (CE): 0.30 weightage; Semester End Examination (SEE, 3 Hours): 0.40 weightage; Laboratory Project Work (LPW, Continuous Evaluation + 2-Hour Semester End LPW Exam): 0.30 weightage
+> **Primary Sources Integrated:**
+> 1. `1.Introduction to DAV.pdf` (44 slides) — Course syllabus, laboratory phases, foundational DAV definitions, data lifecycle, analytics spectrum, tooling ecosystem, industry case studies, open data repositories.
+> 2. `2.Types of Data.pdf` (25 slides) — Digital data classification by structure (structured, semi-structured, unstructured), sources, operational characteristics, comprehensive airport and shopping mall scenarios.
+> 3. `3.Dataset and Attributes.pdf` (44 slides) — Data objects, attribute scales (nominal, binary, ordinal, numeric: interval & ratio), discrete vs. continuous variables, dataset structural types (record, data matrix, sparse document-term matrix, graph/network data, ordered data), core data characteristics (dimensionality, sparsity, resolution).
+> 4. `4.Statistical Descriptions of Data_new.pdf` (101 slides) — Central tendency (mean, weighted mean, trimmed mean, median, mode, midrange, empirical relation), dispersion (range, quantiles, percentiles, quartiles, IQR, five-number summary, boxplot analysis, Tukey fences, variance, standard deviation, mean absolute deviation), graphical displays (histograms, bar graphs, quantile plots, Q-Q plots, scatter plots), normal distribution theory, and visualization categorization.
+> 5. `5. data_preprocessing.pdf` (57 slides) — Data quality challenges, 4 major preprocessing tasks (cleaning, integration, reduction, transformation/discretization), missing data imputation strategies, noise smoothing techniques (binning, regression, clustering), data integration redundancy (Chi-square test of independence for categorical redundancy, Pearson correlation coefficient, covariance), normalization (min-max, z-score, decimal scaling).
+> 6. `5.1_Similarity and Dissimilarity.pdf` (18 slides) — Proximity fundamentals, metric axioms, nominal proximity, symmetric vs. asymmetric binary proximity (simple matching vs. Jaccard coefficient), ordinal transformation, Minkowski distance ($L_1$ Manhattan, $L_2$ Euclidean, $L_\infty$ Chebyshev / Supremum), mixed-type attribute aggregation (Gower's formula), cosine similarity for high-dimensional sparse text vectors.
 
 ---
 
@@ -57,7 +57,7 @@
 ---
 ## 1. Unit Overview & Pedagogical Engineering Pipeline
 
-The primary objective of Unit 1 in Data Analysis and Visualization (DAV) is to establish a rigorous mathematical, statistical, and architectural bridge between raw, multi-modal enterprise data and actionable visual intelligence. In industrial data science pipelines, raw observations rarely arrive in clean, analysis-ready formats. Instead, data exists across heterogeneous modalities—ranging from highly structured relational database records to semi-structured log streams and completely unstructured visual or textual artifacts. 
+The primary objective of Unit 1 in Data Analysis and Visualization (DAV) is to establish a rigorous mathematical, statistical, and architectural bridge between raw, multi-modal enterprise data and actionable visual intelligence. In industrial data science pipelines, raw observations rarely arrive in clean, analysis-ready formats. Instead, data exists across heterogeneous modalities—ranging from highly structured relational database records to semi-structured log streams and completely unstructured visual or textual artifacts.
 
 To transform these chaotic inputs into reliable analytical models and insightful graphical representations, data engineers and visualization scientists must execute a disciplined pipeline: taxonomy classification, measurement scale assignment, robust central tendency and dispersion characterization, multi-faceted preprocessing (cleaning, integration, reduction, and transformation), and mathematical proximity modeling.
 
@@ -164,6 +164,7 @@ Data visualization is not merely an aesthetic presentation tool; it is a cogniti
 > *"Data visualization is the graphical presentation of quantitative and qualitative information to encode complex geometric structures into visual channels, maximizing human perceptual decoding accuracy while minimizing cognitive load."*
 
 Cleveland and McGill established the formal **Perceptual Hierarchy of Elementary Visual Channels**, ranked by human decoding accuracy:
+
 1. **Position along a common scale** (Highest accuracy: scatter plots, bar charts)
 2. **Position along identical, non-aligned scales** (Small multiples)
 3. **Length** (Bar charts, boxplot whiskers)
@@ -211,6 +212,7 @@ A rigorous understanding of digital data formats and mathematical structures is 
 ### 3.1 Digital Data by Structural Organization
 
 Digital data is classified into three structural paradigms:
+
 1. **Structured Data:** Conforms strictly to a predefined schema-on-write tabular structure ($m \times n$ matrix). Supported by declarative SQL engines, relational databases (RDBMS), and columnar formats (Parquet, ORC).
 2. **Semi-Structured Data:** Lacks a rigid tabular schema but contains self-describing structural tags, markers, or hierarchical key-value trees. Governed by schema-on-read architectures (JSON, XML, YAML, NoSQL document stores).
 3. **Unstructured Data:** Has no predefined schema or data model. Represents raw, unformatted binary or character streams (free-form text, audio, video, CCTV feeds, sensor bitstreams).
@@ -226,7 +228,7 @@ flowchart TD
         A1["Flight Reservation Database\n(Passenger ID, Flight No, Seat No)\nType: Structured RDBMS"]
         A2["Boarding Gate Barcode Scanners\n(Boarding Pass JSON, Baggage RFID Tag)\nType: Semi-Structured Logs"]
         A3["Air Traffic Control Voice Radio & Runway CCTV\n(Audio WAV, Video MP4 Streams)\nType: Unstructured Media"]
-        
+
         A1 & A2 & A3 --> Lake["Unified Airport Data Lake"]
         Lake --> B1["Operational Dashboard: Turnaround Times"]
         Lake --> B2["Security AI: Baggage Loss Tracking"]
@@ -243,7 +245,7 @@ flowchart TD
         M1["Point-of-Sale (POS) Transactions\n(Receipt ID, SKU, Quantity, Price, Timestamp)\nType: Structured SQL"]
         M2["In-Mall WiFi Probe Logs & Loyalty App Events\n(MAC Hash, Timestamp, RSSI, Click Events)\nType: Semi-Structured JSON"]
         M3["Security CCTV Cameras & Customer Service Audio\n(Video Footage, Customer Voice Complaints)\nType: Unstructured Media"]
-        
+
         M1 & M2 & M3 --> RetLake["Retail Analytics Pipeline"]
         RetLake --> R1["Market Basket Association Mining"]
         RetLake --> R2["Customer Dwell-Time Heatmaps"]
@@ -284,11 +286,11 @@ flowchart TD
     Attr["Attribute Scale Taxonomy"]
     Attr --> Cat["Qualitative (Categorical)"]
     Attr --> Num["Quantitative (Numeric)"]
-    
+
     Cat --> Nom["Nominal Scale\n(=, !=)\nLabels, Mode"]
     Nom --> Bin["Binary Scale\nSymmetric vs Asymmetric"]
     Cat --> Ord["Ordinal Scale\n(=, !=, <, >)\nRankings, Median"]
-    
+
     Num --> Int["Interval Scale\n(+, -)\nArbitrary Zero, Mean/SD"]
     Num --> Rat["Ratio Scale\n(+, -, *, /)\nAbsolute Zero, GeoMean/CV"]
 ```
@@ -535,6 +537,7 @@ Visual diagnostics provide qualitative confirmation of theoretical distribution 
 ### 7.1 Histograms vs. Bar Graphs
 
 Although visually similar, histograms and bar graphs operate on fundamentally distinct mathematical scales:
+
 - **Bar Graph:** Visualizes discrete categorical counts. Bars are separated by distinct visual gaps, order along the categorical axis may be rearranged, and bar area is meaningless.
 - **Histogram:** Visualizes continuous numerical frequencies. Adjacent rectangular bars have no gaps (unless a bin frequency is zero), order is fixed along the real number line, and the **area under each bar is directly proportional to the frequency density** of that class interval.
 
@@ -640,7 +643,7 @@ flowchart LR
         D3["Inconsistent\nViolated constraints, date format mismatch"]
         D4["Redundant\nDuplicate attributes, identical columns"]
     end
-    
+
     subgraph QualityMetrics["Data Quality Dimensions"]
         direction TB
         Q1["Accuracy: Ground truth alignment"]
@@ -650,7 +653,7 @@ flowchart LR
         Q5["Believability: Domain trust"]
         Q6["Interpretability: Semantic clarity"]
     end
-    
+
     DirtyData ==> QualityMetrics
 ```
 
@@ -701,6 +704,7 @@ $$
 
 #### 2. Regression
 Data is smoothed by fitting mathematical functions:
+
 - *Linear Regression:* $y = w_0 + w_1 x$.
 - *Multiple Linear Regression:* $y = w_0 + \sum w_i x_i$.
 
@@ -744,6 +748,7 @@ r_{A,B} = \frac{Cov(A, B)}{s_A s_B} = \frac{n \sum AB - (\sum A)(\sum B)}{\sqrt{
 $$
 
 The correlation coefficient $r_{A,B} \in [-1.0, +1.0]$:
+
 - $r > 0 \implies$ Positive linear correlation.
 - $r < 0 \implies$ Negative linear correlation.
 - $r = 0 \implies$ Absence of linear correlation (*Caveat: Does not guarantee independence; strong non-linear relationships may yield $r = 0$*).
@@ -841,6 +846,7 @@ where $p$ is the total number of nominal attributes and $m$ is the number of mat
 
 #### Proximity for Binary Attributes
 Let two binary objects $x_i$ and $x_j$ be cross-tabulated into a $2 \times 2$ contingency matrix:
+
 - $q$: Number of attributes where both objects are $1$.
 - $r$: Number of attributes where object $i = 1$ and object $j = 0$.
 - $s$: Number of attributes where object $i = 0$ and object $j = 1$.
@@ -863,6 +869,7 @@ $$
 ### 9.4 Proximity for Ordinal Attributes
 
 To compute distance across ordinal variables with $M_f$ ordered states:
+
 1. Replace categorical state with its rank: $r_{if} \in \{1, 2, \dots, M_f\}$.
 2. Normalize ranks into the continuous interval $[0.0, 1.0]$:
 
@@ -881,6 +888,7 @@ d(x_i, x_j) = \left( \sum_{k=1}^{p} |x_{ik} - x_{jk}|^h \right)^{\frac{1}{h}}
 $$
 
 Special cases determined by norm parameter $h \ge 1$:
+
 1. **Manhattan Distance ($L_1$ Norm, $h = 1$):** City-block rectilinear distance:
 
 $$
@@ -938,6 +946,7 @@ Every problem in this section is derived directly from the datasets and paramete
 
 #### Problem Statement
 A university athletic department recorded the sprint completion times (in seconds) of $N = 21$ runners, grouped into four continuous class intervals. In a parallel agricultural quality inspection, the lengths (in millimeters) of $N = 50$ baby carrots were measured and grouped into eight class intervals. For both datasets:
+
 1. Construct the frequency distribution and cumulative frequency distribution tables.
 2. Calculate the estimated arithmetic mean using class midpoints.
 3. Determine the median class and calculate the interpolated median using the continuous grouping formula.
@@ -990,6 +999,7 @@ $$
 $$
 
 **Step 4.2: Grouped Median**
+
 - Identify Median Position: $\frac{N}{2} = \frac{21}{2} = 10.5$.
 - Inspect cumulative frequencies: The first interval whose cumulative frequency equals or exceeds $10.5$ is $61 - 65$ ($cf = 17$).
 - Parameters for median class $61 - 65$:
@@ -1004,6 +1014,7 @@ $$
 $$
 
 **Step 4.3: Grouped Mode**
+
 - Identify Modal Class: The class with the maximum frequency is $61 - 65$ ($f_m = 8$).
 - Parameters for modal class $61 - 65$:
   - Lower class boundary: $L_1 = 60.5$
@@ -1017,6 +1028,7 @@ $$
 $$
 
 **Step 4.4: Skewness Diagnosis**
+
 - Comparing the three measures:
 
 $$
@@ -1054,6 +1066,7 @@ $$
 $$
 
 **Step 2.2: Grouped Median**
+
 - Median Position: $\frac{N}{2} = \frac{50}{2} = 25$.
 - Inspecting $cf$: Interval $170 - 174$ contains $cf = 30 \ge 25$.
 - Parameters: $L_1 = 169.5$, $(\sum f)_l = 21$, $f_{\text{median}} = 9$, $w = 5$.
@@ -1063,6 +1076,7 @@ $$
 $$
 
 **Step 2.3: Grouped Mode**
+
 - Modal Class: Maximum frequency is $f_m = 11$, located in interval $175 - 179$.
 - Parameters: $L_1 = 174.5$, $f_{m-1} = 9$, $f_{m+1} = 6$, $w = 5$.
 - Differences: $\Delta_1 = 11 - 9 = 2$; $\Delta_2 = 11 - 6 = 5$.
@@ -1089,6 +1103,7 @@ A quality audit measured the operational temperature ($^\circ\text{C}$) of $n = 
 $$
 \{34, 28, 50, 29, 35, 25, 30, 37, 29, 38, 35\}
 $$
+
 1. Sort the dataset and compute the Five-Number Summary ($Min, Q_1, \text{Median}, Q_3, Max$).
 2. Compute the Interquartile Range ($IQR$).
 3. Establish Tukey's Lower and Upper Inner Fences, and Lower and Upper Outer Fences.
@@ -1119,6 +1134,7 @@ $$
 #### 3. Step-by-Step Calculation
 
 **Step 3.1: Five-Number Summary**
+
 - Minimum: $x_{(1)} = 25$
 - Position of $Q_1$: $\frac{11 + 1}{4} = 3^{\text{rd}}$ value $\implies Q_1 = x_{(3)} = 29$
 - Position of Median ($Q_2$): $\frac{11 + 1}{2} = 6^{\text{th}}$ value $\implies \text{Median} = x_{(6)} = 34$
@@ -1136,12 +1152,14 @@ $$
 - Outer step size: $3.0 \times IQR = 3.0 \times 8 = 24$
 
 **Step 3.3: Tukey Fences**
+
 - Lower Inner Fence: $LIF = 29 - 12 = 17$
 - Upper Inner Fence: $UIF = 37 + 12 = 49$
 - Lower Outer Fence: $LOF = 29 - 24 = 5$
 - Upper Outer Fence: $UOF = 37 + 24 = 61$
 
 **Step 3.4: Outlier Classification**
+
 - A data point $x$ is an **inlier** if $LIF \le x \le UIF$ ($17 \le x \le 49$).
 - A point $x$ is a **mild outlier** if $UIF < x \le UOF$ ($49 < x \le 61$) or $LOF \le x < LIF$ ($5 \le x < 17$).
 - A point $x$ is an **extreme outlier** if $x > UOF$ ($x > 61$) or $x < LOF$ ($x < 5$).
@@ -1149,6 +1167,7 @@ $$
   - Since $49 < 50 \le 61$, the value **$50^\circ\text{C}$ is a mild outlier**.
 
 **Step 3.5: Boxplot Whiskers & Skewness**
+
 - Lower whisker terminates at the smallest data value within the inner fences: $x_{\min \ge 17} = 25$.
 - Upper whisker terminates at the largest data value within the inner fences: $x_{\max \le 49} = 38$.
 - The outlier point $50$ is plotted as an isolated marker beyond the upper whisker.
@@ -1167,6 +1186,7 @@ A laboratory recorded the following $n = 9$ environmental sensor measurements:
 $$
 \{7.19, 6.31, 5.89, 4.50, 3.77, 4.25, 5.19, 5.79, 6.79\}
 $$
+
 1. Sort the observations and compute the sample mean ($\bar{x}$) and sample standard deviation ($s$).
 2. Assign plotting percentiles $f_i = \frac{i - 0.5}{n}$ to each rank.
 3. Determine theoretical standard normal quantiles ($Z_{\text{theo}}$) using the standard normal inverse CDF ($\Phi^{-1}(f_i)$).
@@ -1188,6 +1208,7 @@ $$
 #### 3. Step-by-Step Calculation
 
 **Step 3.1: Sample Statistics**
+
 - Sum: $\sum x_i = 3.77 + 4.25 + 4.50 + 5.19 + 5.79 + 5.89 + 6.31 + 6.79 + 7.19 = 49.68$
 - Sample Mean: $\bar{x} = \frac{49.68}{9} = 5.5200$
 - Sum of Squared Deviations $\sum (x_i - \bar{x})^2$:
@@ -1222,6 +1243,7 @@ $$
 | 9 | 7.19 | $\frac{8.5}{9} = 0.9444$ | 94.44% | **$+1.593$** | 7.48 | **$+1.360$** |
 
 **Step 3.3: Normality Diagnostic Evaluation**
+
 - Plotting $(Z_{\text{theo}}, Z_{\text{act}})$:
   - $(-1.59, -1.43), (-0.97, -1.03), (-0.59, -0.83), (-0.28, -0.27), (0.00, +0.22), (+0.28, +0.30), (+0.59, +0.64), (+0.97, +1.03), (+1.59, +1.36)$.
 - **Conclusion:** The plotted coordinate pairs align tightly along the reference diagonal line $y = x$ without systematic S-shaped curvature or parabolic arching. Therefore, the data satisfies the assumption of **univariate normality**.
@@ -1236,6 +1258,7 @@ An e-commerce dataset contains sorted customer transaction unit prices (in USD):
 $$
 \{4, 8, 9, 15, 21, 21, 24, 25, 26, 28, 29, 34\}
 $$
+
 1. Partition the data into $k = 3$ equal-depth (frequency-based) bins.
 2. Smooth the equal-depth bins using:
    - Smoothing by Bin Means
@@ -1252,22 +1275,26 @@ $$
 #### 2. Step-by-Step Calculation
 
 **Step 2.1: Equal-Depth Partitioning**
+
 - Elements per bin: $\text{Depth} = \frac{N}{k} = \frac{12}{3} = 4$.
   - **Bin 1:** $[4, 8, 9, 15]$
   - **Bin 2:** $[21, 21, 24, 25]$
   - **Bin 3:** $[26, 28, 29, 34]$
 
 **Step 2.2: Smoothing by Bin Means**
+
 - **Bin 1 Mean:** $\frac{4 + 8 + 9 + 15}{4} = \frac{36}{4} = 9.0 \implies [9, 9, 9, 9]$
 - **Bin 2 Mean:** $\frac{21 + 21 + 24 + 25}{4} = \frac{91}{4} = 22.75 \implies [23, 23, 23, 23]$ (rounded)
 - **Bin 3 Mean:** $\frac{26 + 28 + 29 + 34}{4} = \frac{117}{4} = 29.25 \implies [29, 29, 29, 29]$ (rounded)
 
 **Step 2.3: Smoothing by Bin Medians**
+
 - **Bin 1 Median:** $\frac{8 + 9}{2} = 8.5 \implies [8.5, 8.5, 8.5, 8.5]$
 - **Bin 2 Median:** $\frac{21 + 24}{2} = 22.5 \implies [22.5, 22.5, 22.5, 22.5]$
 - **Bin 3 Median:** $\frac{28 + 29}{2} = 28.5 \implies [28.5, 28.5, 28.5, 28.5]$
 
 **Step 2.4: Smoothing by Bin Boundaries**
+
 - **Bin 1 Boundaries:** Minimum = 4, Maximum = 15.
   - $4 \implies 4$; $8 \implies 4$; $9 \implies 4$; $15 \implies 15 \implies$ **$[4, 4, 4, 15]$**
 - **Bin 2 Boundaries:** Minimum = 21, Maximum = 25.
@@ -1276,6 +1303,7 @@ $$
   - $26 \implies 26$; $28 \implies 26$; $29 \implies 26$; $34 \implies 34 \implies$ **$[26, 26, 26, 34]$**
 
 **Step 2.5: Equal-Width Partitioning**
+
 - Range: $W = \frac{\text{Max} - \text{Min}}{k} = \frac{34 - 4}{3} = \frac{30}{3} = 10.0$.
   - Interval 1: $[4, 14]$ $\implies$ Elements: $\{4, 8, 9\}$ (Frequency = 3)
   - Interval 2: $(14, 24]$ $\implies$ Elements: $\{15, 21, 21, 24\}$ (Frequency = 4)
@@ -1316,6 +1344,7 @@ $$
 #### 3. Step-by-Step Calculation
 
 **Step 3.1: Expected Frequencies ($e_{ij}$)**
+
 - $e_{11} (\text{Male, Fiction}) = \frac{300 \times 450}{1500} = 90.0$
 - $e_{12} (\text{Male, Non-Fiction}) = \frac{300 \times 1050}{1500} = 210.0$
 - $e_{21} (\text{Female, Fiction}) = \frac{1200 \times 450}{1500} = 360.0$
@@ -1354,10 +1383,12 @@ $$
 $$
 
 **Step 3.4: Degrees of Freedom & Critical Value**
+
 - $df = (2 - 1) \times (2 - 1) = 1$.
 - Critical value at $\alpha = 0.001$: $\chi^2_{0.001, 1} = 10.828$.
 
 **Step 3.5: Statistical Decision & Redundancy Interpretation**
+
 - Calculated $\chi^2 = 507.94 \gg 10.828 \implies p \ll 10^{-10}$.
 - **Decision:** **Reject $H_0$** at the $0.1\%$ significance level.
 - **Engineering Implication:** Gender and preference for fiction are strongly dependent, exhibiting severe redundancy. Retaining both attributes introduces multicollinearity into downstream predictive models.
@@ -1372,6 +1403,7 @@ A clinical study tracked patient age ($X$, in years) and fasting blood glucose l
 $$
 \{(43, 99), (21, 65), (25, 79), (42, 75), (57, 87), (59, 81)\}
 $$
+
 1. Construct the complete summation table for $\sum X, \sum Y, \sum X^2, \sum Y^2, \sum XY$.
 2. Calculate the sample means $\bar{X}$ and $\bar{Y}$.
 3. Calculate the sample covariance $Cov(X, Y)$.
@@ -1449,6 +1481,7 @@ r_{X,Y} = \frac{2868}{\sqrt{7445 \times 3936}} = \frac{2868}{\sqrt{29303520}} = 
 $$
 
 **Step 3.5: Statistical Interpretation**
+
 - $r = +0.530$ indicates a **moderate positive linear relationship**.
 - As patient age increases, blood glucose levels tend to increase linearly, accounting for $r^2 = (0.5298)^2 = 0.2807$ ($28.1\%$) of the shared variance.
 
@@ -1459,6 +1492,7 @@ $$
 
 #### Problem Statement
 An income attribute in an engineering dataset ranges from $\min = \$12,000$ to $\max = \$98,000$, with an empirical mean of $\mu = \$54,000$ and a standard deviation of $\sigma = \$16,000$. A financial record displays a salary of $v = \$73,600$.
+
 1. Normalize $v$ into the range $[0.0, 1.0]$ using Min-Max Normalization.
 2. Normalize $v$ into the range $[-1.0, 1.0]$ using Min-Max Normalization.
 3. Compute the Z-score normalized value of $v$.
@@ -1503,6 +1537,7 @@ $$
 - *Interpretation:* The salary of $\$73,600$ lies exactly **$1.225$ standard deviations above the population mean**.
 
 **Step 2.4: Decimal Scaling Normalization**
+
 - Given interval: $[-986, 917]$. Maximum absolute value: $\max(|v|) = \max(|-986|, |917|) = 986$.
 - Determine scaling factor $j$: Smallest integer such that $\frac{986}{10^j} < 1 \implies j = 3$ ($10^3 = 1000$).
 - Transformation:
@@ -1520,6 +1555,7 @@ $$
 x_1 = (1, 2),\quad x_2 = (3, 5),\quad x_3 = (2, 0),\quad x_4 = (4, 5)
 $$
 Construct the complete, lower-triangular dissimilarity matrices using:
+
 1. Manhattan Distance ($L_1$ norm, $h = 1$)
 2. Euclidean Distance ($L_2$ norm, $h = 2$)
 3. Chebyshev / Supremum Distance ($L_\infty$ norm, $h \to \infty$)
@@ -1543,6 +1579,7 @@ $$
 #### 2. Step-by-Step Pairwise Distance Computations
 
 **Step 2.1: Coordinate Differences ($\Delta_1 = x_{i1} - x_{j1}$, $\Delta_2 = x_{i2} - x_{j2}$)**
+
 - $(x_2, x_1)$: $\Delta_1 = 3 - 1 = 2$, $\Delta_2 = 5 - 2 = 3$
 - $(x_3, x_1)$: $\Delta_1 = 2 - 1 = 1$, $\Delta_2 = 0 - 2 = -2$
 - $(x_4, x_1)$: $\Delta_1 = 4 - 1 = 3$, $\Delta_2 = 5 - 2 = 3$
@@ -1551,6 +1588,7 @@ $$
 - $(x_4, x_3)$: $\Delta_1 = 4 - 2 = 2$, $\Delta_2 = 5 - 0 = 5$
 
 **Step 2.2: Manhattan Distance ($L_1$)**
+
 - $d_{L_1}(x_2, x_1) = |2| + |3| = 5.0$
 - $d_{L_1}(x_3, x_1) = |1| + |-2| = 1 + 2 = 3.0$
 - $d_{L_1}(x_4, x_1) = |3| + |3| = 6.0$
@@ -1570,6 +1608,7 @@ D_{L_1} = \begin{bmatrix}
 $$
 
 **Step 2.3: Euclidean Distance ($L_2$)**
+
 - $d_{L_2}(x_2, x_1) = \sqrt{2^2 + 3^2} = \sqrt{13} \approx 3.6056$
 - $d_{L_2}(x_3, x_1) = \sqrt{1^2 + (-2)^2} = \sqrt{5} \approx 2.2361$
 - $d_{L_2}(x_4, x_1) = \sqrt{3^2 + 3^2} = \sqrt{18} \approx 4.2426$
@@ -1589,6 +1628,7 @@ D_{L_2} = \begin{bmatrix}
 $$
 
 **Step 2.4: Chebyshev / Supremum Distance ($L_\infty$)**
+
 - $d_{L_\infty}(x_2, x_1) = \max(|2|, |3|) = 3.0$
 - $d_{L_\infty}(x_3, x_1) = \max(|1|, |-2|) = 2.0$
 - $d_{L_\infty}(x_4, x_1) = \max(|3|, |3|) = 3.0$
@@ -1650,6 +1690,7 @@ $$
 #### 3. Step-by-Step Calculation
 
 **Step 3.1: Pair (Jack, Mary)**
+
 - Both 1 ($q$): Fever, Test-1 $\implies q = 2$
 - Jack = 1, Mary = 0 ($r$): None $\implies r = 0$
 - Jack = 0, Mary = 1 ($s$): Test-3 $\implies s = 1$
@@ -1660,6 +1701,7 @@ d(\text{Jack}, \text{Mary}) = \frac{0 + 1}{2 + 0 + 1} = \frac{1}{3} \approx 0.33
 $$
 
 **Step 3.2: Pair (Jack, Jim)**
+
 - Both 1 ($q$): Fever $\implies q = 1$
 - Jack = 1, Jim = 0 ($r$): Test-1 $\implies r = 1$
 - Jack = 0, Jim = 1 ($s$): Cough $\implies s = 1$
@@ -1670,6 +1712,7 @@ d(\text{Jack}, \text{Jim}) = \frac{1 + 1}{1 + 1 + 1} = \frac{2}{3} \approx 0.666
 $$
 
 **Step 3.3: Pair (Jim, Mary)**
+
 - Both 1 ($q$): Fever $\implies q = 1$
 - Jim = 1, Mary = 0 ($r$): Cough $\implies r = 1$
 - Jim = 0, Mary = 1 ($s$): Test-1, Test-3 $\implies s = 2$
@@ -1707,6 +1750,7 @@ $$
 $$
 d_2 = (3, 0, 2, 0, 1, 1, 0, 1, 0, 1)
 $$
+
 1. Compute the vector dot product $d_1 \cdot d_2$.
 2. Compute the Euclidean lengths (norms) $\|d_1\|$ and $\|d_2\|$.
 3. Calculate the Cosine Similarity $\cos(d_1, d_2)$ and Cosine Distance.
@@ -1753,6 +1797,7 @@ $$
 $$
 
 **Step 2.4: Technical Assessment**
+
 - The documents achieve an exceptionally high cosine similarity of **$0.9356$** (very close to $1.0$).
 - *Why Cosine Outperforms Euclidean:* In document retrieval, document $d_1$ is longer than $d_2$ ($\|d_1\| = 6.48$ vs. $\|d_2\| = 4.12$). Euclidean distance measures absolute term counts, penalizing document length. Cosine similarity measures the cosine of the angle between vectors, normalizing for document magnitude and isolating true **topical alignment**.
 
@@ -2003,6 +2048,7 @@ $$
 
 ##### Q1: Differentiate between Schema-on-Write and Schema-on-Read.
 **Model Answer:**
+
 - **Schema-on-Write:** Enforced in structured relational databases (RDBMS); table schemas, field types, and integrity constraints must be defined and compiled *prior* to inserting data records.
 - **Schema-on-Read:** Utilized in semi-structured and Big Data architectures (JSON, NoSQL, Data Lakes); raw data is stored without upfront schema constraints, and structure is parsed and applied dynamically *during query execution*.
 
@@ -2020,6 +2066,7 @@ $$
 ##### Q4: Define Tukey's Inner and Outer Fences for outlier identification.
 **Model Answer:**
 Given First Quartile ($Q_1$), Third Quartile ($Q_3$), and $IQR = Q_3 - Q_1$:
+
 - **Inner Fences:** $[Q_1 - 1.5\text{IQR},\; Q_3 + 1.5\text{IQR}]$ (Data points outside are **mild outliers**).
 - **Outer Fences:** $[Q_1 - 3.0\text{IQR},\; Q_3 + 3.0\text{IQR}]$ (Data points outside are **extreme outliers**).
 
@@ -2033,6 +2080,7 @@ $Cov(X, Y) = 0$ when there is no *linear* association between $X$ and $Y$. Howev
 
 ##### Q7: List the four metric space axioms required for a dissimilarity function $d(i, j)$ to qualify as a true metric.
 **Model Answer:**
+
 1. **Non-negativity:** $d(i, j) \ge 0$
 2. **Identity of Indiscernibles:** $d(i, j) = 0 \iff i = j$
 3. **Symmetry:** $d(i, j) = d(j, i)$
@@ -2044,6 +2092,7 @@ Euclidean distance is sensitive to absolute vector length, penalizing two topica
 
 ##### Q9: In data smoothing, distinguish between smoothing by bin means and smoothing by bin boundaries.
 **Model Answer:**
+
 - **Smoothing by Bin Means:** Every value within a bin is replaced by the arithmetic mean of all values in that bin.
 - **Smoothing by Bin Boundaries:** Every value within a bin is replaced by the nearest boundary value (either the minimum or maximum of that bin).
 
@@ -2062,6 +2111,7 @@ $$
 ##### Q1: Explain the Data Analysis Process Spectrum (Descriptive, Diagnostic, Predictive, Prescriptive), outlining the business question, analytical complexity, and tooling for each stage.
 **Model Answer:**
 The analytical spectrum forms an evolutionary hierarchy of business intelligence:
+
 1. **Descriptive Analytics ("What happened?"):**
    - Synthesizes historical data into operational dashboards, KPIs, and aggregated summaries.
    - *Tools:* SQL, Excel, Tableau, Power BI.
@@ -2077,6 +2127,7 @@ The analytical spectrum forms an evolutionary hierarchy of business intelligence
 
 ##### Q2: Compare Histograms, Bar Graphs, and Boxplots regarding input data requirements, display mechanics, and distribution diagnostic capabilities.
 **Model Answer:**
+
 - **Bar Graphs:**
   - *Data:* Categorical (nominal/ordinal).
   - *Mechanics:* Discrete bars with visible gaps; height represents count/metric; area is meaningless.
@@ -2093,6 +2144,7 @@ The analytical spectrum forms an evolutionary hierarchy of business intelligence
 ##### Q3: Detail the complete workflow of constructing a Quantile-Quantile (Q-Q) Plot to assess univariate normality.
 **Model Answer:**
 The Q-Q plot workflow comprises five mathematical steps:
+
 1. **Sort Data:** Arrange the sample of $n$ observations in strictly ascending order: $x_{(1)} \le x_{(2)} \le \dots \le x_{(n)}$.
 2. **Assign Empirical Percentiles:** Compute plotting position $f_i = \frac{i - 0.5}{n}$ for each rank $i = 1, \dots, n$ (ensuring $0 < f_i < 1$).
 3. **Compute Theoretical Z-Scores:** Evaluate the standard normal inverse cumulative distribution: $Z_{\text{theo}, i} = \Phi^{-1}(f_i)$.
@@ -2102,6 +2154,7 @@ The Q-Q plot workflow comprises five mathematical steps:
 ##### Q4: Describe the four primary data preprocessing tasks and explain why real-world corporate data requires extensive preprocessing before machine learning.
 **Model Answer:**
 Real-world industrial data is inherently "dirty" due to sensor faults, legacy system migrations, and human data entry error. The four preprocessing tasks are:
+
 1. **Data Cleaning:** Imputes missing values, smooths noise via binning or regression, and filters outliers.
 2. **Data Integration:** Reconciles disparate schemas, resolves semantic entity naming conflicts, and eliminates categorical/numerical redundancy ($\chi^2$, Pearson $r$).
 3. **Data Reduction:** Compresses data volume while maintaining analytical integrity via attribute subset selection, PCA, numerosity reduction, and aggregation.
@@ -2110,6 +2163,7 @@ Real-world industrial data is inherently "dirty" due to sensor faults, legacy sy
 ##### Q5: Explain the Chi-Square ($\chi^2$) Contingency Test for categorical redundancy in data integration, defining the test statistic, expected frequency formula, degrees of freedom, and decision criteria.
 **Model Answer:**
 The Chi-Square contingency test assesses whether two categorical attributes $A$ (with $r$ states) and $B$ (with $c$ states) are statistically independent:
+
 1. **Expected Frequencies:** Under $H_0$ (independence), expected cell frequency is:
 
 $$
@@ -2127,6 +2181,7 @@ $$
 
 ##### Q6: Derive and contrast Min-Max Normalization and Z-Score Normalization. Discuss their respective failure modes when applied to skewed data containing extreme outliers.
 **Model Answer:**
+
 - **Min-Max Normalization:** Linearly maps attribute $A$ into $[\text{new\_min}_A, \text{new\_max}_A]$:
 
 $$
@@ -2148,6 +2203,7 @@ $$
 #### Section 12.4.3: Four High-Probability 10–15 Mark Numerical Exam Questions & Complete Solutions
 
 *(Note: See Section 10 for complete, step-by-step mathematical solutions to these four primary 15-mark numerical questions:)*
+
 1. **Comprehensive Grouped Data Central Tendency & Interpolation (Runner $N=21$ & Carrots $N=50$):** Fully solved in **Problem 10.1**.
 2. **Tukey Boxplot Five-Number Summary, Fences & Skewness Analysis:** Fully solved in **Problem 10.2**.
 3. **Chi-Square Contingency Test for Categorical Redundancy ($2 \times 2$ Table, $N=1500$):** Fully solved in **Problem 10.5**.

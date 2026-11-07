@@ -11,6 +11,7 @@
 A **procedure** (also called a subroutine) is a named, reusable block of assembly instructions that performs a specific task. Instead of repeating the same code at multiple points in a program, the program issues a `CALL` instruction; the procedure executes and returns control to the next instruction after the `CALL` using `RET`.
 
 This chapter covers:
+
 - Stack fundamentals (`PUSH`, `POP`) needed for procedure linkage
 - Defining and calling procedures (`PROC`/`ENDP`, `CALL`, `RET`)
 - What happens at the hardware level during `CALL` and `RET`
@@ -400,6 +401,7 @@ CALL ADD_MEMORY
 Most flexible method; supports any number of parameters; essential for recursion.
 
 **Protocol:**
+
 1. Caller PUSHes arguments onto the stack.
 2. Caller issues `CALL`.
 3. Procedure uses `BP` to access the stacked arguments.
@@ -737,6 +739,7 @@ MYFAR ENDP
 ```
 
 For a FAR CALL:
+
 1. `SP ← SP − 2` ; push CS
 2. `SP ← SP − 2` ; push IP
 3. Load CS and IP with target procedure's segment:offset
