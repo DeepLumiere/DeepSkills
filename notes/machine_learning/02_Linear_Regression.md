@@ -51,39 +51,22 @@ The dataset consists of $m = 16$historical observations$(x^{(i)}, y^{(i)})$:
 
 
 | Example ($i$) | Area $x^{(i)}$(SQM) | Selling Price$y^{(i)}$ (Lacs) |
-
 |---|---|---|
-
 | 1 | 35 | 13 |
-
 | 2 | 37 | 17 |
-
 | 3 | 39 | 15 |
-
 | 4 | 40 | 16 |
-
 | 5 | 43 | 18 |
-
 | 6 | 48 | 19 |
-
 | 7 | 50 | 20 |
-
 | 8 | 55 | 25 |
-
 | 9 | 60 | 35 |
-
 | 10 | 65 | 37 |
-
 | 11 | 70 | 38 |
-
 | 12 | 75 | 40 |
-
 | 13 | 80 | 43 |
-
 | 14 | 85 | 44 |
-
 | 15 | 90 | 50 |
-
 | 16 | 100 | 60 |
 
 
@@ -252,15 +235,10 @@ Parameters $\theta_0$and$\theta_1$ MUST be updated simultaneously at every itera
 
 
 | Correct (Simultaneous Update) | Incorrect (Sequential Update) |
-
 |---|---|
-
 | $\text{temp0} := \theta_0 - \alpha \frac{\partial}{\partial \theta_0} J(\theta_0, \theta_1)$|$\theta_0 := \theta_0 - \alpha \frac{\partial}{\partial \theta_0} J(\theta_0, \theta_1)$ |
-
 | $\text{temp1} := \theta_1 - \alpha \frac{\partial}{\partial \theta_1} J(\theta_0, \theta_1)$|$\theta_1 := \theta_1 - \alpha \frac{\partial}{\partial \theta_1} J(\theta_0, \theta_1)$ |
-
 | $\theta_0 := \text{temp0}$| *(Here$\theta_1$is computed using updated$\theta_0$, breaking gradient direction!)* |
-
 | $\theta_1 := \text{temp1}$ | |
 
 
@@ -464,21 +442,13 @@ The mandatory practice of computing all parameter updates using current iteratio
 
 
 | Formula Name | Mathematical Expression |
-
 |---|---|
-
 | Hypothesis Function | $h_\theta(x) = \theta_0 + \theta_1 x$ |
-
 | Residual Error | $e^{(i)} = y^{(i)} - h_\theta(x^{(i)})$ |
-
 | Cost Function (MSE) | $J(\theta_0, \theta_1) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2$ |
-
 | Partial Derivative w.r.t. $\theta_0$|$\frac{\partial J}{\partial \theta_0} = \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})$ |
-
 | Partial Derivative w.r.t. $\theta_1$|$\frac{\partial J}{\partial \theta_1} = \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x^{(i)}$ |
-
 | $\theta_0$Update Rule |$\theta_0 := \theta_0 - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})$ |
-
 | $\theta_1$Update Rule |$\theta_1 := \theta_1 - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) x^{(i)}$ |
 
 
@@ -556,15 +526,10 @@ The mandatory practice of computing all parameter updates using current iteratio
 >
 
 > | Sample ($i$) | Input $x^{(i)}$| Actual Target$y^{(i)}$ |
-
 > | :---: | :---: | :---: |
-
 > | **1** | 1 | 2 |
-
 > | **2** | 2 | 3 |
-
 > | **3** | 3 | 5 |
-
 > | **4** | 4 | 7 |
 
 >
@@ -606,19 +571,12 @@ $$
 
 
 | Sample ($i$) | $x^{(i)}$|$y^{(i)}$|$(x^{(i)})^2$|$x^{(i)} y^{(i)}$ |
-
 | :---: | :---: | :---: | :---: | :---: |
-
 | 1 | 1 | 2 | 1 | 2 |
-
 | 2 | 2 | 3 | 4 | 6 |
-
 | 3 | 3 | 5 | 9 | 15 |
-
 | 4 | 4 | 7 | 16 | 28 |
-
 | **Sum ($\sum$)** | **10** | **17** | **30** | **51** |
-
 | **Mean** | $\bar{x} = 2.5$|$\bar{y} = 4.25$ | — | — |
 
 
@@ -767,14 +725,9 @@ $$
 
 
 | Iteration ($k$) | $\theta_0$(Intercept) |$\theta_1$(Slope) | Cost$J(\theta)$| Gradient$\nabla_{\theta_0}$| Gradient$\nabla_{\theta_1}$ | State Description |
-
 | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-
 | **0** | $0.0000$|$0.0000$|$10.8750$|$-4.2500$|$-12.7500$ | Initial state |
-
 | **1** | $0.2125$|$0.6375$|$3.7290$|$-2.4438$|$-7.4375$ | Massive cost reduction ($\Delta J = -7.146$) |
-
 | **2** | $0.3347$|$1.0094$|$1.3142$|$-1.4116$|$-4.3412$| Progressing rapidly towards slope$\approx 1.70$ |
-
 | **Convergence** | $\mathbf{0.0000}$|$\mathbf{1.7000}$|$\mathbf{0.0500}$|$\mathbf{0.0000}$|$\mathbf{0.0000}$ | Global minimum identical to Normal Equations |
 

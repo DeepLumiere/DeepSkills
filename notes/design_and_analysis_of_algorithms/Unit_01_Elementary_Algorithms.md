@@ -232,25 +232,15 @@ $$
 ### Growth Function Table
 
 | Function Name | Notation | Growth Rate |
-
 | :--- | :---: | :--- |
-
 | Constant | $\mathcal{O}(1)$ | Slowest (Best) |
-
 | Logarithmic | $\mathcal{O}(\log n)$ | Very Slow |
-
 | Square Root | $\mathcal{O}(\sqrt{n})$ | Slow |
-
 | Linear | $\mathcal{O}(n)$ | Moderate |
-
 | Linearithmic | $\mathcal{O}(n \log n)$ | Moderate to Fast |
-
 | Quadratic | $\mathcal{O}(n^2)$| Fast (Poor for large$n$) |
-
 | Cubic | $\mathcal{O}(n^3)$ | Very Fast |
-
 | Exponential | $\mathcal{O}(2^n)$ | Explosive |
-
 | Factorial | $\mathcal{O}(n!)$ | Most Explosive (Worst) |
 
 
@@ -262,13 +252,9 @@ To see why order of growth matters as input size increases, consider the values 
 
 
 | $n$(Input Size) |$\log_2 n$|$n$|$n \log_2 n$|$n^2$|$n^3$|$2^n$ |
-
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-
 | **10** | ~3.3 | 10 | 33 | 100 | 1,000 | 1,024 |
-
 | **100** | ~6.6 | 100 | 664 | 10,000 | 1,000,000 | $1.26 \times 10^{30}$ |
-
 | **1,000** | ~10.0 | 1,000 | 10,000 | 1,000,000 | $10^9$|$1.07 \times 10^{301}$ |
 
 
@@ -453,17 +439,11 @@ $$
 
 
 | Notation | Meaning | Relation | Example |
-
 | :--- | :--- | :--- | :--- |
-
 | $\mathcal{O}$| Asymptotic Upper Bound |$f \le g$|$3n^2 + 5n = \mathcal{O}(n^2)$ |
-
 | $\Omega$| Asymptotic Lower Bound |$f \ge g$|$3n^2 + 5n = \Omega(n^2)$ |
-
 | $\Theta$| Asymptotically Tight Bound |$f = g$|$3n^2 + 5n = \Theta(n^2)$ |
-
 | $o$| Strict Upper Bound |$f < g$|$3n = o(n^2)$ |
-
 | $\omega$| Strict Lower Bound |$f > g$|$3n^2 = \omega(n)$ |
 
 
@@ -513,21 +493,13 @@ To analyze the time complexity of a program, we dissect the code into its struct
 ### 7.1 Rules for Complexity Analysis
 
 | Code Construct | Time Complexity | Rule |
-
 | :--- | :--- | :--- |
-
 | Single statement | $\mathcal{O}(1)$ | Constant time |
-
 | Sequence of k statements | $\mathcal{O}(\max)$ | Take maximum |
-
 | Simple for loop (1 to n) | $\mathcal{O}(n)$|$n$ iterations |
-
 | Nested for loops (n×n) | $\mathcal{O}(n^2)$ | Multiply counts |
-
 | While loop | depends on condition | Count iterations |
-
 | If-else | $\mathcal{O}(\max(\text{then}, \text{else}))$ | Take max branch |
-
 | Function call | $\mathcal{O}(\text{cost of function})$ | Include callee |
 
 

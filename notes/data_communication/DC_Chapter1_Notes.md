@@ -47,27 +47,11 @@
 
 
 | Component | Role / Description | Source Tag |
-
 | --- | --- | --- |
-
-
-
 | **Message** | Information/data to be communicated (Text, Numbers, Pictures, Audio, Video). | [Source: Ch 1, Slide 4] |
-
-
-
 | **Sender** | Device that sends the data message (PC, Workstation, Telephone, Camera). | [Source: Ch 1, Slide 4] |
-
-
-
 | **Receiver** | Device that receives the message (PC, Television, Workstation). | [Source: Ch 1, Slide 4] |
-
-
-
 | **Transmission Medium** | Physical path by which message travels (Twisted-pair, Coaxial, Fiber-optic, Radio waves). | [Source: Ch 1, Slide 4] |
-
-
-
 | **Protocol** | Set of rules governing data communications (Agreed rules between communicating devices). | [Source: Ch 1, Slide 4] |
 
 
@@ -151,19 +135,9 @@ flowchart LR
 
 
 | Flow Mode | Directionality | Channel Capacity Usage | Real-World Example | Source Tag |
-
 | --- | --- | --- | --- | --- |
-
-
-
 | **Simplex** | Unidirectional (One way only) | 100% capacity in 1 direction | Monitor, Keyboard, Mainframe to Printer | [Source: Ch 1, Slide 9] |
-
-
-
 | **Half-Duplex** | Bidirectional (Both directions, but NOT at same time) | Shared capacity partitioned by time | Walkie-Talkies, CB Radios | [Source: Ch 1, Slide 10] |
-
-
-
 | **Full-Duplex** | Bidirectional (Simultaneous in both directions) | Channel split into two directions | Telephone Network, Ethernet | [Source: Ch 1, Slide 11] |
 
 
@@ -177,27 +151,11 @@ flowchart LR
 
 
 | Topology | Structure / Layout | Key Advantages | Key Disadvantages | Cable Requirement | Source Tag |
-
 | --- | --- | --- | --- | --- | --- |
-
-
-
 | **Mesh** | Dedicated point-to-point links to every node | Robust, Private/Secure, Fault Isolation | Expensive, Complex Cabling | $N(N-1)/2$ links | [Source: Ch 1, Slides 15-18] |
-
-
-
 | **Star** | Dedicated link to Central Controller (Hub/Switch) | Less cable than Mesh, Easy installation | Single point of failure (Hub) | $N$ links | [Source: Ch 1, Slides 19-21] |
-
-
-
 | **Bus** | Single central cable backbone (Multipoint) | Easy to install, minimal cable | Single cable fault downs entire network | 1 backbone cable | [Source: Ch 1, Slides 22-24] |
-
-
-
 | **Ring** | Dedicated point-to-point to 2 neighbors | Easy to reconfigure, fault detection | Unidirectional break affects whole ring | $N$ links | [Source: Ch 1, Slides 25-27] |
-
-
-
 | **Hybrid** | Combination of 2+ topologies (e.g. Star-Bus) | Scalable, Flexible | Complex design, costly | Varies | [Source: Ch 1, Slide 28] |
 
 
@@ -245,19 +203,9 @@ $$
 
 
 | Network Type | Full Form | Geographic Coverage | Control / Ownership | Example | Source Tag |
-
 | --- | --- | --- | --- | --- | --- |
-
-
-
 | **LAN** | Local Area Network | Small area (Office, Building, Campus) | Privately Owned | Office Ethernet / Wi-Fi | [Source: Ch 1, Slide 30] |
-
-
-
 | **MAN** | Metropolitan Area Network | City / Town scale | Public or Private | Cable TV Network, City Fiber | [Source: Ch 1, Slide 32] |
-
-
-
 | **WAN** | Wide Area Network | Country, Continent, Global | Multiple Operators | Internet, Telecom Backbone | [Source: Ch 1, Slide 33] |
 
 

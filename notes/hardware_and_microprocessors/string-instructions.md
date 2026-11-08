@@ -686,7 +686,6 @@ Example: `'a'` = 97 − 32 = 65 = `'A'`
 | Registers used | SI and DI | DI only |
 | Typical prefix | REPE | REPNE |
 | Use case | String comparison | Character search |
-
 | Feature | LODSB | STOSB |
 | :------ | :---- | :---- |
 | Direction | Memory → Register | Register → Memory |

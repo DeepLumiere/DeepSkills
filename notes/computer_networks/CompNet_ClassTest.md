@@ -71,29 +71,13 @@ system with one control computer and multiple slave terminals is not a computer 
 
 
 | Feature                                           | Computer Network                                      | Distributed System                                    |
-
-
 |---------------------------------------------------|-------------------------------------------------------|-------------------------------------------------------|
-
-
 | User Visibility                                   | Existence of autonomous machines is explicit and      | Existence of multiple autonomous computers is hidden  |
-
-
 | visible to the user. User must log in remotely or | (transparent). The system appears as a single unified |                                                       |
-
-
 | explicitly transfer files.                        | system to the user.                                   |                                                       |
-
-
 | Control / OS                                      | Each machine runs its own local operating system.     | A global software layer (middleware / distributed OS) |
-
-
 |                                                   | manages resources across nodes seamlessly.            |                                                       |
-
-
 | Examples                                          | The World Wide Web, local office network.             | Distributed database, World Wide Web with automated   |
-
-
 |                                                   | middleware / cloud compute cluster.                   |                                                       |
 
 
@@ -197,17 +181,9 @@ reply. [Faculty — Slide 6-7 / General — Slide 6-7]
 
 
       |   Client Machine |                    |   Server Machine |
-
-
       |   +------------+ |    Request Frame   | +--------------+ |
-
-
       |   | Process 1  | | ==================>| | Server Proc  | |
-
-
       |   +------------+ | <==================| +--------------+ |
-
-
       |                  |    Reply Frame     |                  |
 
 
@@ -524,32 +500,14 @@ Addressing Modes in Broadcast Networks:
 
 
 | Scale / Interconnected Dista… | Processors Located in Same... | Network Classification      | Typical Example                |
-
-
 |-------------------------------|-------------------------------|-----------------------------|--------------------------------|
-
-
 | 1 m                           | Square meter                  | PAN (Personal Area Network) | Bluetooth headset connected to |
-
-
 |                               |                               | smartphone                  |                                |
-
-
 | 10 m to 1 km                  | Room, Building, Campus        | LAN (Local Area Network)    | Room/Office Wi-Fi, Ethernet in |
-
-
 |                               |                               | a building                  |                                |
-
-
 | 10 km                         | City                          | MAN (Metropolitan Area      | Cable TV network across a city |
-
-
 |                               | Network)                      |                             |                                |
-
-
 | 100 km to 1,000 km            | Country, Continent            | WAN (Wide Area Network)     | ISP backbone connecting cities |
-
-
 | > 10,000 km                   | Planet                        | The Internet                | Global internetwork            |
 
 
@@ -635,14 +593,8 @@ Addressing Modes in Broadcast Networks:
 
 
            | WAN Subnet                                            |
-
-
            |     [Router R1] ------------ [Router R2]              |
-
-
            |          |                        |                   |
-
-
            |     [Router R3] ------------ [Router R4]              |
 
 
@@ -1130,26 +1082,12 @@ Decapsulation). [Faculty — Slide
 
 
 | Service Category      | Service Type                         | Standard Example / Analogy           |
-
-
 |-----------------------|--------------------------------------|--------------------------------------|
-
-
 | Connection-Oriented   | Reliable Message Stream              | Sequence of discrete pages/documents |
-
-
 | Reliable Byte Stream  | Movie streaming, file transfer (TCP) |                                      |
-
-
 | Unreliable Connection | Digitized voice / IP Telephony       |                                      |
-
-
 | Connectionless        | Unreliable Datagram                  | Electronic junk mail, UDP            |
-
-
 | Acknowledged Datagram | Registered mail with return receipt  |                                      |
-
-
 | Request-Reply         | Client-server database query         |                                      |
 
 
@@ -1241,26 +1179,12 @@ For a simple connection-oriented service:
 
 
 | Primitive  | Type    | Meaning / Action                                   |
-
-
 |------------|---------|----------------------------------------------------|
-
-
 | LISTEN     | Passive | Block waiting for an incoming connection request   |
-
-
 | CONNECT    | Active  | Establish a connection by sending a request packet |
-
-
 | ACCEPT     | Active  | Accept an incoming connection request              |
-
-
 | RECEIVE    | Passive | Block waiting for an incoming data packet          |
-
-
 | SEND       | Active  | Send a data packet to the peer entity              |
-
-
 | DISCONNECT | Active  | Terminate / release the connection                 |
 
 
@@ -1289,32 +1213,14 @@ For a simple connection-oriented service:
 
 
        |               |                             | Exec `LISTEN` |
-
-
        |               |                             | (Blocks)      |
-
-
        | Exec `CONNECT`| -- (1) Connect Request -->  |               |
-
-
        | (Blocks)      |                             | Unblocks      |
-
-
        |               | <- (2) Connect Ack/Accept-- | Exec `ACCEPT` |
-
-
        | Unblocks      |                             | Exec `RECEIVE`|
-
-
        | Exec `SEND`   | -- (3) Data Request ------> | (Blocks)      |
-
-
        | Exec `RECEIVE`|                             | Process Data  |
-
-
        | (Blocks)      | <- (4) Data Reply -------- | Exec `SEND`   |
-
-
        | Exec `DISCONN`| -- (5) Disconnect Req --->  | Exec `DISCONN`|
 
 
@@ -1544,8 +1450,6 @@ Developed by the US Department of Defense (DoD) for ARPANET. [Faculty + General 
 
 
       | Link / Host-to-   |              | Ethernet, 802.11 Wi-Fi, PPP   |
-
-
       | Network Layer     |              |                               |
 
 
@@ -1676,50 +1580,20 @@ Combines the features of OSI and TCP/IP for pedagogical clarity: [Faculty — Sl
 
 
 | Feature / Property                   | OSI Model                                 | TCP/IP Model                                |
-
-
 |--------------------------------------|-------------------------------------------|---------------------------------------------|
-
-
 | Number of Layers                     | 7 Layers                                  | 4 Layers                                    |
-
-
 | Service vs Protocol Distinction      | Explicitly distinguished. Services,       | Implicitly merged. Distinctions are blurry; |
-
-
 | Interfaces, and Protocols are clear. | protocols fit loosely.                    |                                             |
-
-
 | Development Approach                 | Model was devised before protocols were   | Protocols were written first; model was a   |
-
-
 | written (Theoretical).               | description of existing protocols         |                                             |
-
-
 |                                      | (Practical).                              |                                             |
-
-
 | Network Layer Communication          | Supports both Connection-Oriented and     | Supports only Connectionless communication  |
-
-
 | Connectionless communication.        | (IP).                                     |                                             |
-
-
 | Transport Layer Communication        | Supports only Connection-Oriented         | Supports both Connection-Oriented (TCP) and |
-
-
 | communication.                       | Connectionless (UDP).                     |                                             |
-
-
 | Session & Presentation Layers        | Present as separate, explicit layers (5 & | Omitted entirely / integrated into          |
-
-
 | 6).                                  | Application layer.                        |                                             |
-
-
 | Physical & Data Link Layers          | Explicitly separated into Layers 1 and 2. | Combined into a single "Link" or "Host-to-  |
-
-
 |                                      | Network" layer.                           |                                             |
 
 
@@ -1877,8 +1751,6 @@ Processors). Packets dynamically route around destroyed nodes. [Faculty — Slid
 
 
       | Tier-1 Backbone ISPs (AT&T, Lumen, Telia)                         |
-
-
       | Connect via Internet Exchange Points (IXPs)                       |
 
 
@@ -2036,26 +1908,12 @@ cancellation. [Faculty — Slide 47 / General — Slide 50]
 
 
 | Working Group | Topic / Standard                              | Status / Importance |
-
-
 |---------------|-----------------------------------------------|---------------------|
-
-
 | 802.1         | Higher Layer LAN Protocols / Bridging / VLANs | Active (*)          |
-
-
 | 802.2         | Logical Link Control (LLC)                    | Disbanded           |
-
-
 | 802.3         | Ethernet (CSMA/CD Wired LAN)                  | Active (*)          |
-
-
 | 802.11        | Wi-Fi (Wireless LAN)                          | Active (*)          |
-
-
 | 802.15        | Wireless PAN (Bluetooth, Zigbee)              | Active (*)          |
-
-
 | 802.16        | Broadband Wireless (WiMAX)                    | Hibernating         |
 
 
@@ -3526,17 +3384,9 @@ next frame.
 
 
       | Send Frame 0     | -----------------------> | Receive Frame 0   |
-
-
       | (Wait for ACK)   |                          | Pass to Network L |
-
-
       |                  | <----------------------- | Send Dummy ACK    |
-
-
       | Receive ACK      |                          | (Wait for Frame)  |
-
-
       | Send Frame 1     | -----------------------> |                   |
 
 
@@ -4150,48 +4000,14 @@ windows. [Faculty — Slide 58 / General — Slide
 
 
 | Feature              | Stop-and-Wait (P4) | Go-Back-N (P5)                    | Selective Repeat (P6)          |
-
-
 |----------------------|--------------------|-----------------------------------|--------------------------------|
-
-
 | Sender Window (Wₛ)   | 1                  | >1 (Up to 2ⁿ - 1)                 | >1 (Up to 2ⁿ⁻¹)                |
-
-
 | Receiver Window (Wᵣ) | 1                  | 1                                 | >1 (Equal to Wₛ)               |
-
-
 | Out-of-Order Frames  | Discarded          | Discarded                         | Buffered in memory             |
-
-
 | ACK Type             | Individual         | Cumulative                        | Individual / Selective & NAKs  |
-
-
 | Retransmission Scope | Single frame       | Entire window starting from error | Only the single missing frame  |
-
-
 | Buffer Requirement   | Minimal (1 frame)  | Low at receiver (1 frame)         | High at both sender & receiver |
-
-
-| Link Efficiency      | Very Low (         |                                   |                                |
-
-
-
-
-
-      1
-
-
-    ──────
-
-
-    1 + 2a
-
-
-
-
-
-) | High | Maximum |
+| Link Efficiency      | Very Low ($\frac{1}{1 + 2a}$) | High | Maximum |
 
 
 
@@ -4276,14 +4092,8 @@ layer.
 
 
 | Field        | Flag | Address | Control | Protocol    | Information (Payload) | FCS (Checksum)  | Flag |
-
-
 |--------------|------|---------|---------|-------------|-----------------------|-----------------|------|
-
-
 | Size (Bytes) | 1    | 1       | 1       | 1 or 2      | Variable              | 2 or 4          | 1    |
-
-
 | Value        | 0x7E | 0xFF    | 0x03    | Protocol ID | Upper layer packet    | CRC-16 / CRC-32 | 0x7E |
 
 

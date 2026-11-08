@@ -1,9 +1,9 @@
 # Complete Machine Learning Notes: Semi-Supervised Learning, Reinforcement Learning, and Introduction to Deep Learning
 
-> **Course Code:** 3CS526CC23  
-> **Course Title:** Machine Learning and its Applications  
-> **Primary Source:** Faculty Lecture Slides - Nirma University  
-> **Files Integrated:** SSL, RL and Intro to Deep Learning.pdf (32 Slides)  
+> **Course Code:** 3CS526CC23
+> **Course Title:** Machine Learning and its Applications
+> **Primary Source:** Faculty Lecture Slides - Nirma University
+> **Files Integrated:** SSL, RL and Intro to Deep Learning.pdf (32 Slides)
 
 ---
 
@@ -116,9 +116,9 @@ graph LR
 
 ### Definition: Semi-Supervised Learning (SSL)
 
-**Meaning:** A branch of machine learning that combines a small amount of labeled data with a large amount of unlabeled data during training to construct superior predictive models compared to using labeled data alone.  
-**Formal definition:** Given an input space $\mathcal{X}$, an output label space $\mathcal{Y}$, a small labeled dataset $\mathcal{D}_L = \{(x_i, y_i)\}_{i=1}^{|L|}$ drawn i.i.d. from distribution $P(X, Y)$, and an unlabeled dataset $\mathcal{D}_U = \{x_j\}_{j=|L|+1}^{|L|+|U|}$ drawn i.i.d. from the marginal distribution $P(X)$ with $|U| \gg |L|$, the objective is to learn a hypothesis $f: \mathcal{X} \to \mathcal{Y}$ achieving lower generalization error than any hypothesis trained exclusively on $\mathcal{D}_L$.  
-**Intuition:** The unlabeled data reveals the structural geometric manifold and clustering density of the input space $P(X)$. Assuming that the conditional label distribution $P(Y \mid X)$ varies smoothly over high-density regions of $P(X)$, the unlabeled points act as geometric scaffolding that pushes decision boundaries into low-density separation zones.  
+**Meaning:** A branch of machine learning that combines a small amount of labeled data with a large amount of unlabeled data during training to construct superior predictive models compared to using labeled data alone.
+**Formal definition:** Given an input space $\mathcal{X}$, an output label space $\mathcal{Y}$, a small labeled dataset $\mathcal{D}_L = \{(x_i, y_i)\}_{i=1}^{|L|}$ drawn i.i.d. from distribution $P(X, Y)$, and an unlabeled dataset $\mathcal{D}_U = \{x_j\}_{j=|L|+1}^{|L|+|U|}$ drawn i.i.d. from the marginal distribution $P(X)$ with $|U| \gg |L|$, the objective is to learn a hypothesis $f: \mathcal{X} \to \mathcal{Y}$ achieving lower generalization error than any hypothesis trained exclusively on $\mathcal{D}_L$.
+**Intuition:** The unlabeled data reveals the structural geometric manifold and clustering density of the input space $P(X)$. Assuming that the conditional label distribution $P(Y \mid X)$ varies smoothly over high-density regions of $P(X)$, the unlabeled points act as geometric scaffolding that pushes decision boundaries into low-density separation zones.
 **Example:** In web document classification, we may possess 50 manually classified web pages (e.g., Computer Science vs. Non-Computer Science) and 50,000 unclassified web pages. By evaluating word co-occurrence statistics across the 50,000 pages, the classifier learns vocabulary correlations that dramatically improve classification on the 50 labeled examples.
 
 ### Core Assumptions of Semi-Supervised Learning
@@ -228,9 +228,9 @@ graph TD
 
 ### Definition: Co-Training
 
-**Meaning:** A semi-supervised multi-view learning algorithm that splits the feature representation of each instance into two conditionally independent, redundant views, trains a separate classifier on each view using labeled data, and uses each classifier's most confident predictions on unlabeled data to augment the training set of the other.  
-**Formal definition:** Given instances $x \in \mathcal{X}$ partitioned into two disjoint feature representations $x = (x_1, x_2) \in \mathcal{X}_1 \times \mathcal{X}_2$, co-training learns two distinct hypotheses $f_1: \mathcal{X}_1 \to \mathcal{Y}$ and $f_2: \mathcal{X}_2 \to \mathcal{Y}$. In each iteration, $f_1$ selects a set of unlabeled instances $E_1 \subset U$ with highest confidence predictions and appends $(x, f_1(x_1))$ to $L$; simultaneously, $f_2$ selects confident instances $E_2 \subset U$ and appends $(x, f_2(x_2))$ to $L$.  
-**Intuition:** Two different "experts" inspect the same phenomenon through distinct sensory channels. If Expert 1 is confident about an instance that Expert 2 finds ambiguous, Expert 1 provides a high-confidence pseudo-label, effectively teaching Expert 2, and vice-versa.  
+**Meaning:** A semi-supervised multi-view learning algorithm that splits the feature representation of each instance into two conditionally independent, redundant views, trains a separate classifier on each view using labeled data, and uses each classifier's most confident predictions on unlabeled data to augment the training set of the other.
+**Formal definition:** Given instances $x \in \mathcal{X}$ partitioned into two disjoint feature representations $x = (x_1, x_2) \in \mathcal{X}_1 \times \mathcal{X}_2$, co-training learns two distinct hypotheses $f_1: \mathcal{X}_1 \to \mathcal{Y}$ and $f_2: \mathcal{X}_2 \to \mathcal{Y}$. In each iteration, $f_1$ selects a set of unlabeled instances $E_1 \subset U$ with highest confidence predictions and appends $(x, f_1(x_1))$ to $L$; simultaneously, $f_2$ selects confident instances $E_2 \subset U$ and appends $(x, f_2(x_2))$ to $L$.
+**Intuition:** Two different "experts" inspect the same phenomenon through distinct sensory channels. If Expert 1 is confident about an instance that Expert 2 finds ambiguous, Expert 1 provides a high-confidence pseudo-label, effectively teaching Expert 2, and vice-versa.
 **Example:** Classifying web pages into academic vs. non-academic. View 1 ($x_1$) consists of words appearing inside the web page text. View 2 ($x_2$) consists of words appearing in the anchor text of inbound hyperlinks pointing to that page from external sites. Either view is independently sufficient to determine the page's category.
 
 #### Algorithmic Specification: Co-Training Algorithm
@@ -242,9 +242,9 @@ Algorithm co-training(L, U)
 1: repeat
 2:     Learn a classifier f1 using L based on only x1 portion of the examples x.
 3:     Learn a classifier f2 using L based on only x2 portion of the examples x.
-4:     Apply f1 to classify the examples in U; for each class c_i, pick n_i examples 
+4:     Apply f1 to classify the examples in U; for each class c_i, pick n_i examples
        that f1 most confidently classifies as class c_i, and add them to L.
-5:     Apply f2 to classify the examples in U; for each class c_i, pick n_i examples 
+5:     Apply f2 to classify the examples in U; for each class c_i, pick n_i examples
        that f2 most confidently classifies as class c_i, and add them to L.
 6: until U becomes empty or a fixed number of iterations are reached.
 ```
@@ -321,9 +321,9 @@ graph TD
 
 ### Definition: Self-Training
 
-**Meaning:** An incremental semi-supervised learning algorithm that trains a single classifier on the available labeled data using all features, applies the classifier to the unlabeled pool, selects the most confidently predicted instances to augment the labeled pool with their pseudo-labels, and retrains itself iteratively.  
-**Formal definition:** Given labeled set $L$ and unlabeled set $U$, self-training minimizes empirical risk over an iteratively augmented set $L^{(t+1)} = L^{(t)} \cup \{(x_u, \hat{y}_u) \mid x_u \in U, \max_{c} P_f(c \mid x_u) \ge \tau\}$, where $\hat{y}_u = \arg\max_{c} P_f(c \mid x_u)$, $\tau$ is a confidence threshold, and $f^{(t+1)}$ is refitted on $L^{(t+1)}$ until a termination criterion is met.  
-**Intuition:** The classifier uses its own predictions to teach itself ("bootstrapping"). By accepting its own most certain inferences as established truth, it shifts its decision boundary away from regions of high unlabeled density.  
+**Meaning:** An incremental semi-supervised learning algorithm that trains a single classifier on the available labeled data using all features, applies the classifier to the unlabeled pool, selects the most confidently predicted instances to augment the labeled pool with their pseudo-labels, and retrains itself iteratively.
+**Formal definition:** Given labeled set $L$ and unlabeled set $U$, self-training minimizes empirical risk over an iteratively augmented set $L^{(t+1)} = L^{(t)} \cup \{(x_u, \hat{y}_u) \mid x_u \in U, \max_{c} P_f(c \mid x_u) \ge \tau\}$, where $\hat{y}_u = \arg\max_{c} P_f(c \mid x_u)$, $\tau$ is a confidence threshold, and $f^{(t+1)}$ is refitted on $L^{(t+1)}$ until a termination criterion is met.
+**Intuition:** The classifier uses its own predictions to teach itself ("bootstrapping"). By accepting its own most certain inferences as established truth, it shifts its decision boundary away from regions of high unlabeled density.
 **Example:** In optical character recognition (OCR), a classifier trained on 100 handwritten letters classifies 10,000 unlabelled characters. The 200 characters classified as 'A' with greater than 99.5% posterior probability are formally labeled as 'A' and added to the training set for the next iteration.
 
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slide 8]
@@ -386,9 +386,9 @@ graph TD
 
 ### Definition: Positive and Unlabeled Learning (PU Learning)
 
-**Meaning:** A form of semi-supervised binary classification in which the training dataset consists exclusively of labeled positive instances and unlabeled instances, with no confirmed negative instances provided.  
-**Formal definition:** Given a training corpus $\mathcal{D} = P \cup U$, where $P = \{x_i \mid y_i = +1\}$ and $U = \{x_j \mid y_j \in \{+1, -1\}\}$, the goal is to induce a binary classification rule $f: \mathcal{X} \to \{+1, -1\}$ that accurately recovers true positive and true negative states for all instances.  
-**Intuition:** Rather than treating the unlabeled set as negative (which introduces severe label noise), PU learning treats $U$ as an uncurated mixture. By extracting instances from $U$ that are maximally distant from $P$, the algorithm synthesizes an artificial negative training set.  
+**Meaning:** A form of semi-supervised binary classification in which the training dataset consists exclusively of labeled positive instances and unlabeled instances, with no confirmed negative instances provided.
+**Formal definition:** Given a training corpus $\mathcal{D} = P \cup U$, where $P = \{x_i \mid y_i = +1\}$ and $U = \{x_j \mid y_j \in \{+1, -1\}\}$, the goal is to induce a binary classification rule $f: \mathcal{X} \to \{+1, -1\}$ that accurately recovers true positive and true negative states for all instances.
+**Intuition:** Rather than treating the unlabeled set as negative (which introduces severe label noise), PU learning treats $U$ as an uncurated mixture. By extracting instances from $U$ that are maximally distant from $P$, the algorithm synthesizes an artificial negative training set.
 **Example:** In landmine detection, satellite imagery confirms known landmine locations ($P$). The remainder of the country ($U$) is unmined territory mixed with hidden, undiscovered mines.
 
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slide 9]
@@ -452,9 +452,9 @@ graph LR
 
 ### Definition: Reinforcement Learning (RL)
 
-**Meaning:** A computational paradigm wherein an agent learns optimal decision-making rules by executing actions in an environment and observing resulting scalar reward signals, aiming to maximize long-term cumulative return.  
-**Formal definition:** RL is formalized as a Markov Decision Process (MDP) defined by a 5-tuple $\langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma \rangle$, where $\mathcal{S}$ is the state space, $\mathcal{A}$ is the action space, $\mathcal{P}(s' \mid s, a) = \mathbb{P}(S_{t+1} = s' \mid S_t = s, A_t = a)$ is the transition probability distribution, $\mathcal{R}(s, a) = \mathbb{E}[R_{t+1} \mid S_t = s, A_t = a]$ is the reward function, and $\gamma \in [0, 1)$ is the temporal discount factor. The objective is to find an optimal policy $\pi^* = \arg\max_\pi \mathbb{E}_\pi [\sum_{t=0}^\infty \gamma^t R_{t+1}]$.  
-**Intuition:** Similar to training a dog with treats: the dog is not told how to contract its muscles, but when its actions lead to a desirable outcome, the behavior is reinforced via positive feedback.  
+**Meaning:** A computational paradigm wherein an agent learns optimal decision-making rules by executing actions in an environment and observing resulting scalar reward signals, aiming to maximize long-term cumulative return.
+**Formal definition:** RL is formalized as a Markov Decision Process (MDP) defined by a 5-tuple $\langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma \rangle$, where $\mathcal{S}$ is the state space, $\mathcal{A}$ is the action space, $\mathcal{P}(s' \mid s, a) = \mathbb{P}(S_{t+1} = s' \mid S_t = s, A_t = a)$ is the transition probability distribution, $\mathcal{R}(s, a) = \mathbb{E}[R_{t+1} \mid S_t = s, A_t = a]$ is the reward function, and $\gamma \in [0, 1)$ is the temporal discount factor. The objective is to find an optimal policy $\pi^* = \arg\max_\pi \mathbb{E}_\pi [\sum_{t=0}^\infty \gamma^t R_{t+1}]$.
+**Intuition:** Similar to training a dog with treats: the dog is not told how to contract its muscles, but when its actions lead to a desirable outcome, the behavior is reinforced via positive feedback.
 **Example:** An automated warehouse robot navigating corridors. Entering an obstacle results in a large negative penalty ($-100$); moving closer to the charging dock yields neutral feedback ($0$); docking successfully yields a high positive reward ($+100$).
 
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slide 13]
@@ -2029,37 +2029,37 @@ $$
 
 ### Definition: Co-Training
 
-**Meaning:** A multi-view semi-supervised learning paradigm that trains two independent classifiers on separate, redundant feature views and uses each model's most confident predictions to expand the training data of the other.  
-**Formal definition:** An algorithm that learns functions $f_1: \mathcal{X}_1 \to \mathcal{Y}$ and $f_2: \mathcal{X}_2 \to \mathcal{Y}$ over partitioned feature spaces $\mathcal{X} = \mathcal{X}_1 \times \mathcal{X}_2$, iteratively augmenting labeled set $L$ with top confident instances $E_1 \subset U$ from $f_1$ and $E_2 \subset U$ from $f_2$.  
-**Intuition:** Two observers viewing the same object from different perspectives cross-validate and teach each other.  
+**Meaning:** A multi-view semi-supervised learning paradigm that trains two independent classifiers on separate, redundant feature views and uses each model's most confident predictions to expand the training data of the other.
+**Formal definition:** An algorithm that learns functions $f_1: \mathcal{X}_1 \to \mathcal{Y}$ and $f_2: \mathcal{X}_2 \to \mathcal{Y}$ over partitioned feature spaces $\mathcal{X} = \mathcal{X}_1 \times \mathcal{X}_2$, iteratively augmenting labeled set $L$ with top confident instances $E_1 \subset U$ from $f_1$ and $E_2 \subset U$ from $f_2$.
+**Intuition:** Two observers viewing the same object from different perspectives cross-validate and teach each other.
 **Example:** Classifying web pages using page text (View 1) and inbound hyperlink anchor text (View 2).
 
 ### Definition: Self-Training
 
-**Meaning:** A single-view semi-supervised learning algorithm where a model is trained on labeled data, predicts labels for unlabeled data, adds its most confident predictions into the labeled set, and retrains iteratively.  
-**Formal definition:** An incremental procedure updating labeled training set $L^{(t+1)} = L^{(t)} \cup \{(x_u, \hat{y}_u) \mid x_u \in U, P(y \mid x_u) \ge \tau\}$ and refitting a single hypothesis $f$ over all features.  
-**Intuition:** A student who studies an answer key, tests themselves on unannotated exercises, assumes their highest-confidence answers are correct, and studies them as established facts.  
+**Meaning:** A single-view semi-supervised learning algorithm where a model is trained on labeled data, predicts labels for unlabeled data, adds its most confident predictions into the labeled set, and retrains iteratively.
+**Formal definition:** An incremental procedure updating labeled training set $L^{(t+1)} = L^{(t)} \cup \{(x_u, \hat{y}_u) \mid x_u \in U, P(y \mid x_u) \ge \tau\}$ and refitting a single hypothesis $f$ over all features.
+**Intuition:** A student who studies an answer key, tests themselves on unannotated exercises, assumes their highest-confidence answers are correct, and studies them as established facts.
 **Example:** Semi-supervised OCR where high-confidence letter classifications are iteratively incorporated into the training set.
 
 ### Definition: PU Learning (Positive and Unlabeled Learning)
 
-**Meaning:** Binary classification where training data consists exclusively of confirmed positive examples and unannotated examples, with no certified negative examples.  
-**Formal definition:** Inducing binary classifier $f: \mathcal{X} \to \{+1, -1\}$ from dataset $\mathcal{D} = P \cup U$, where $P = \{x \mid y = +1\}$ and $U = \{x \mid y \in \{+1, -1\}\}$.  
-**Intuition:** Separating target signals from background noise when only target examples have been explicitly flagged.  
+**Meaning:** Binary classification where training data consists exclusively of confirmed positive examples and unannotated examples, with no certified negative examples.
+**Formal definition:** Inducing binary classifier $f: \mathcal{X} \to \{+1, -1\}$ from dataset $\mathcal{D} = P \cup U$, where $P = \{x \mid y = +1\}$ and $U = \{x \mid y \in \{+1, -1\}\}$.
+**Intuition:** Separating target signals from background noise when only target examples have been explicitly flagged.
 **Example:** Identifying fraudulent transactions when only known fraud cases have been confirmed, while unflagged transactions contain both legitimate transactions and undiscovered fraud.
 
 ### Definition: Q-Learning
 
-**Meaning:** A model-free, off-policy reinforcement learning algorithm that learns the optimal action-value function directly from experience without requiring an environmental transition model.  
-**Formal definition:** An algorithm that updates state-action values via Temporal Difference (TD) learning: $Q(s, a) \leftarrow Q(s, a) + \alpha [R(s, a) + \gamma \max_{a'} Q(s', a') - Q(s, a)]$, converging asymptotically to the optimal action-value function $Q^*(s, a)$.  
-**Intuition:** An explorer mapping a maze by logging the quality of every path taken, gradually learning the shortest route to the exit through trial and error.  
+**Meaning:** A model-free, off-policy reinforcement learning algorithm that learns the optimal action-value function directly from experience without requiring an environmental transition model.
+**Formal definition:** An algorithm that updates state-action values via Temporal Difference (TD) learning: $Q(s, a) \leftarrow Q(s, a) + \alpha [R(s, a) + \gamma \max_{a'} Q(s', a') - Q(s, a)]$, converging asymptotically to the optimal action-value function $Q^*(s, a)$.
+**Intuition:** An explorer mapping a maze by logging the quality of every path taken, gradually learning the shortest route to the exit through trial and error.
 **Example:** The 6-room navigation agent learning optimal paths to Room 5 using reward matrix $R$ and discount factor $\gamma = 0.8$.
 
 ### Definition: Deep Learning
 
-**Meaning:** A subfield of machine learning based on multi-layered artificial neural networks capable of end-to-end representation learning directly from raw inputs.  
-**Formal definition:** A class of representation learning methods with multiple levels of non-linear transformations composing simple but non-linear modules, each transforming the representation at one level into a higher, slightly more abstract level.  
-**Intuition:** Instead of humans handcrafting feature detectors, the neural network learns low-level edge detectors in early layers, textural patterns in middle layers, and complete object parts in deeper layers automatically.  
+**Meaning:** A subfield of machine learning based on multi-layered artificial neural networks capable of end-to-end representation learning directly from raw inputs.
+**Formal definition:** A class of representation learning methods with multiple levels of non-linear transformations composing simple but non-linear modules, each transforming the representation at one level into a higher, slightly more abstract level.
+**Intuition:** Instead of humans handcrafting feature detectors, the neural network learns low-level edge detectors in early layers, textural patterns in middle layers, and complete object parts in deeper layers automatically.
 **Example:** A deep CNN identifying cars from raw pixel matrices without manual feature extractors like SIFT or HOG.
 
 ---
@@ -2079,31 +2079,31 @@ $$
 
 #### Short-Answer Questions (2-3 Marks)
 
-1. **Explain the conditional independence assumption in co-training.**  
+1. **Explain the conditional independence assumption in co-training.**
    *Answer:* The conditional independence assumption states that feature sub-views $X_1$ and $X_2$ are statistically independent given the true class label: $P(x_1, x_2 \mid c) = P(x_1 \mid c) P(x_2 \mid c)$. This ensures that high-confidence predictions made by classifier $f_1$ on View 1 provide genuinely informative, non-redundant training instances for classifier $f_2$ on View 2.
 
-2. **Why does naive self-training suffer from confirmation bias?**  
+2. **Why does naive self-training suffer from confirmation bias?**
    *Answer:* In self-training, a single model generates pseudo-labels for unlabeled data. If an early prediction is incorrect but assigned high model confidence, this mislabeled instance is incorporated into the training set, causing the model to reinforce and compound its own errors across subsequent iterations.
 
-3. **Define the role of the discount factor $\gamma$ in reinforcement learning.**  
+3. **Define the role of the discount factor $\gamma$ in reinforcement learning.**
    *Answer:* The discount factor $\gamma \in [0, 1)$ balances immediate versus future rewards. It determines the present value of delayed rewards ($G_t = \sum \gamma^k R_{t+k+1}$) and guarantees mathematical convergence of infinite-horizon cumulative return series.
 
-4. **State two key differences between classical machine learning and deep learning pipelines.**  
+4. **State two key differences between classical machine learning and deep learning pipelines.**
    *Answer:* Classical ML requires manual, handcrafted feature engineering separate from classifier training, and its performance plateaus on large datasets. Deep learning learns hierarchical feature representations end-to-end directly from raw data and continues to scale in accuracy as data volume grows.
 
 #### Medium-Length Analytical Questions (5-7 Marks)
 
-1. **Describe the Two-Step Approach to Positive and Unlabeled (PU) Learning. How does the Naive Bayes Spy technique identify the Reliable Negative ($RN$) set?**  
+1. **Describe the Two-Step Approach to Positive and Unlabeled (PU) Learning. How does the Naive Bayes Spy technique identify the Reliable Negative ($RN$) set?**
    *Answer:* The two-step approach handles binary classification when negative examples are unobserved. Step 1 extracts a Reliable Negative set ($RN$) from $U$, and Step 2 trains a supervised classifier (e.g., SVM or Naive Bayes) on $P$ and $RN$, discarding ambiguous instances. In the Spy technique, a small set of known positive instances (spies $S \subset P$) are inserted into $U$. A base Naive Bayes classifier is trained treating $P \setminus S$ as positive and $U \cup S$ as negative. Evaluating the model yields predicted probabilities for all instances; setting the decision threshold to the minimum probability observed among the spies ($t = \min_{s \in S} P(+1 \mid s)$) ensures that instances scoring below $t$ can be reliably identified as negatives.
 
-2. **Derive the Bellman Optimality Equation for state-action value function $Q^*(s, a)$ starting from the recursive definition of discounted return.**  
-   *Answer:* Expand $G_t = R_{t+1} + \gamma G_{t+1}$ and take the conditional expectation to obtain:  
-   $Q^\pi(s, a) = \mathcal{R}(s, a) + \gamma \sum_{s'} \mathcal{P}(s' \mid s, a) \sum_{a'} \pi(a' \mid s') Q^\pi(s', a')$.  
-   Under an optimal policy $\pi^*$, the agent selects the action that maximizes future expected return, so $\sum_{a'} \pi^*(a' \mid s') Q^*(s', a') = \max_{a'} Q^*(s', a')$.  
-   Substituting this yields the Bellman Optimality Equation:  
+2. **Derive the Bellman Optimality Equation for state-action value function $Q^*(s, a)$ starting from the recursive definition of discounted return.**
+   *Answer:* Expand $G_t = R_{t+1} + \gamma G_{t+1}$ and take the conditional expectation to obtain:
+   $Q^\pi(s, a) = \mathcal{R}(s, a) + \gamma \sum_{s'} \mathcal{P}(s' \mid s, a) \sum_{a'} \pi(a' \mid s') Q^\pi(s', a')$.
+   Under an optimal policy $\pi^*$, the agent selects the action that maximizes future expected return, so $\sum_{a'} \pi^*(a' \mid s') Q^*(s', a') = \max_{a'} Q^*(s', a')$.
+   Substituting this yields the Bellman Optimality Equation:
    $Q^*(s, a) = \mathcal{R}(s, a) + \gamma \sum_{s'} \mathcal{P}(s' \mid s, a) \max_{a'} Q^*(s', a')$.
 
-3. **Compare Convolutional Neural Networks (CNNs), Recurrent Neural Networks (RNNs), and Unsupervised Pretrained Networks (UPNs) in terms of architectural inductive biases, parameter sharing, and primary applications.**  
+3. **Compare Convolutional Neural Networks (CNNs), Recurrent Neural Networks (RNNs), and Unsupervised Pretrained Networks (UPNs) in terms of architectural inductive biases, parameter sharing, and primary applications.**
    *Answer:* Structure comparisons across:
 
    - *CNNs:* Inductive bias assumes spatial translation invariance and local feature locality; parameters are shared across spatial convolutional kernels; applied to computer vision and 1D signals.
@@ -2112,13 +2112,13 @@ $$
 
 #### Comprehensive Design & Numerical Problems (10-15 Marks)
 
-1. **Complete Co-Training Multi-View System Design & Numerical Problem.**  
+1. **Complete Co-Training Multi-View System Design & Numerical Problem.**
    *Answer Reference:* See Section 7, Problem 1 for full step-by-step arithmetic, Naive Bayes likelihood estimation with Laplace smoothing, confident sample selection ($n_1=1, n_2=1$), and multi-view posterior combination.
 
-2. **Complete 6-Room Q-Learning Numerical Simulation.**  
+2. **Complete 6-Room Q-Learning Numerical Simulation.**
    *Answer Reference:* See Section 7, Problem 3 for the complete step-by-step trace of Episode 1 ($Q(1,5)=100$), Episode 2 ($Q(3,1)=80$), mathematical convergence derivations to maximum value 500, normalized percentage matrix, and optimal policy extraction.
 
-3. **Deep CNN Architecture Design and Dimensional Parameter Trace.**  
+3. **Deep CNN Architecture Design and Dimensional Parameter Trace.**
    *Answer Reference:* See Section 7, Problem 4 for the complete output tensor dimensional derivation ($\lfloor \frac{W - F + 2P}{S} \rfloor + 1 = 32$), parameter calculations ($1,216$ parameters), MAC operation counting ($1,228,800$ MACs), pooling transformations, and comparison against fully connected layer parameter scaling.
 
 ---

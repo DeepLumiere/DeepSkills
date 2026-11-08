@@ -57,15 +57,10 @@ In real-world applications, target variables depend on multiple features rather 
 
 
 | Size ($x_1$) [sq ft] | Bedrooms ($x_2$) | Floors ($x_3$) | Age ($x_4$) [years] | Price ($y$) [$1000] |
-
 |---|---|---|---|---|
-
 | 2104 | 5 | 1 | 45 | 460 |
-
 | 1416 | 3 | 2 | 40 | 232 |
-
 | 1534 | 3 | 2 | 30 | 315 |
-
 | 852 | 2 | 1 | 36 | 178 |
 
 
@@ -476,17 +471,11 @@ theta = pinv(X' * X) * X' * y
 
 
 | Metric / Property | Gradient Descent | Normal Equation |
-
 |---|---|---|
-
 | Hyperparameter Tuning | Must choose learning rate $\alpha$| No learning rate$\alpha$ required |
-
 | Computation Paradigm | Iterative (requires many steps) | Closed-form direct matrix inverse |
-
 | Time Complexity | $O(k \cdot n^2)$for$k$iterations |$O(n^3)$due to inverse of$(n+1) \times (n+1)$ matrix |
-
 | Large Datasets ($n \ge 10^6$) | Scalable, works very well | Extremely slow ($n > 10,000$ computationally infeasible) |
-
 | Feature Scaling | Mandatory for fast convergence | Not required |
 
 
@@ -624,19 +613,12 @@ Predicting salary for $10$years experience:$\hat{y} = 23.6 + 3.5(10) = 58.6 \imp
 
 
 | Metric | Formula | Description |
-
 |---|---|---|
-
 | Absolute Error | $|y_i - y_i'|$ | Absolute deviation per instance |
-
 | Squared Error | $(y_i - y_i')^2$ | Squared deviation per instance |
-
 | Mean Absolute Error (MAE) | $\frac{1}{d} \sum_{i=1}^d |y_i - y_i'|$ | Average linear magnitude of errors |
-
 | Mean Absolute Percentage Error (MAPE) | $\frac{1}{d} \sum_{i=1}^d \left|\frac{y_i - y_i'}{y_i}\right|$ | Percentage error relative to actual target |
-
 | Root Mean Square Error (RMSE) | $\sqrt{\frac{\sum_{i=1}^d (y_i - y_i')^2}{d}}$ | Square root of mean squared error |
-
 | Normalized RMSE (NRMSE) | $\frac{\text{RMSE}}{y_{\max} - y_{\min}}$ | Scale-independent RMSE metric |
 
 
@@ -714,21 +696,13 @@ flowchart TD
 
 
 | Metric / Method | Formula |
-
 |---|---|
-
 | Vectorized Hypothesis | $h_\theta(x) = \theta^T x = \sum_{j=0}^n \theta_j x_j \quad (x_0 = 1)$ |
-
 | Z-Score Normalization | $x_j' = \frac{x_j - \mu_j}{\sigma_j}$ |
-
 | Min-Max Normalization | $v' = \frac{v - \min}{\max - \min} (\text{new\_max} - \text{new\_min}) + \text{new\_min}$ |
-
 | Normal Equation | $\theta = (X^T X)^{-1} X^T y$ |
-
 | MAE | $\text{MAE} = \frac{1}{d} \sum_{i=1}^d |y_i - \hat{y}_i|$ |
-
 | RMSE | $\text{RMSE} = \sqrt{\frac{1}{d} \sum_{i=1}^d (y_i - \hat{y}_i)^2}$ |
-
 | NRMSE | $\text{NRMSE} = \frac{\text{RMSE}}{y_{\max} - y_{\min}}$ |
 
 
@@ -770,15 +744,10 @@ flowchart TD
 >
 
 > | Sample ($i$) | Bias ($x_0$) | $x_1$|$x_2$| Target$y$ |
-
 > | :---: | :---: | :---: | :---: | :---: |
-
 > | **1** | 1 | 1 | 0 | **3** |
-
 > | **2** | 1 | 0 | 1 | **4** |
-
 > | **3** | 1 | 1 | 1 | **6** |
-
 > | **4** | 1 | 2 | 1 | **8** |
 
 >
@@ -981,17 +950,11 @@ $$
 
 
 | Sample ($i$) | Actual $y^{(i)}$| Prediction$\hat{y}^{(i)} = 1 + 2x_1 + 3x_2$| Residual$e^{(i)} = y^{(i)} - \hat{y}^{(i)}$| Squared Error$(e^{(i)})^2$ |
-
 | :---: | :---: | :---: | :---: | :---: |
-
 | **1** | 3 | $1 + 2(1) + 3(0) = 3$|$3 - 3 = 0$|$0.0$ |
-
 | **2** | 4 | $1 + 2(0) + 3(1) = 4$|$4 - 4 = 0$|$0.0$ |
-
 | **3** | 6 | $1 + 2(1) + 3(1) = 6$|$6 - 6 = 0$|$0.0$ |
-
 | **4** | 8 | $1 + 2(2) + 3(1) = 8$|$8 - 8 = 0$|$0.0$ |
-
 | **Total** | $\sum y = 21$|$\sum \hat{y} = 21$|$\sum e = 0$|$\text{SSE} = \mathbf{0.0}$ |
 
 

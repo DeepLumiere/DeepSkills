@@ -35,23 +35,11 @@
 
 
 | Source File | Content / Role | Chapter Integration |
-
-
 | :--- | :--- | :--- |
-
-
 | `Ch 4 MAC Layer.pdf` (92 slides) | Primary faculty lecture presentation covering static vs dynamic channel allocation, ALOHA, CSMA/CD, BEB, Collision-Free protocols, Limited Contention, Classic & Switched Ethernet, Wireless 802.11 MAC, Transparent Learning Bridges, STP, and VLANs. | Core text, mathematical derivations, protocols, and 25 curated diagram analyses. |
-
-
 | `Chapter4-Medium Access Control SubLayer.pdf` (98 slides) | Supplementary presentation with extended bridge learning walkthroughs, STP port state transitions, and 802.11 IFS calculations. | Enhanced protocol flows and bridge forwarding tables. |
-
-
 | `CN_Numericals_MAC_Layer.pdf` (19 pages) | Dedicated problem set covering ALOHA throughput/delay, CSMA/CD slot sizing, minimum frame length, Adaptive Tree Walk slots, MACA wireless scenarios, Bluetooth dwell time, bridge forwarding traces, and buffer rate matching. | Section 14 (Worked Numerical Problems) & Section 10 (Mathematical Foundations). |
-
-
 | `cn_tutorial.pdf` (Tutorial 4) | Course tutorial covering contention slot sizing in fiber/copper, bitmap worst-case delays, IP packet Ethernet padding, and CSMA/CD LAN acknowledgments. | Section 14 (Worked Problems) & Section 20 (Exam Review). |
-
-
 | `Computer_Networks_Question_Bank.pdf` (Unit 3) | Official question bank containing Unit 3 MCQs, CSMA/CD vs CSMA/CA comparisons, bridge learning, and VLAN questions. | Section 20 (Exam-Oriented Review). |
 
 
@@ -1702,20 +1690,10 @@ $$
 
 
 | Generation | Standard | Data Rate | Transmission Medium | Max Segment Distance | Access Method & Line Coding |
-
-
 | :--- | :--- | :---: | :--- | :---: | :--- |
-
-
 | **Classic Ethernet** | IEEE 802.3 | 10 Mbps | Coaxial (10Base5/10Base2) / Cat 3 UTP | $500\text{ m} / 185\text{ m} / 100\text{ m}$ | Half-Duplex CSMA/CD, Manchester (20 Mbaud) |
-
-
 | **Fast Ethernet** | IEEE 802.3u | 100 Mbps | Cat 5 UTP (100Base-TX) / Fiber (100Base-FX) | $100\text{ m} / 2000\text{ m}$ | Full/Half Duplex (CSMA/CD), 4B/5B, MLT-3 |
-
-
 | **Gigabit Ethernet** | IEEE 802.3z / ab | 1 Gbps | Cat 5e/6 (1000Base-T) / Fiber (1000Base-LX/SX)| $100\text{ m} / 550\text{ m} / 5000\text{ m}$ | Full-Duplex Switch (no CSMA/CD) / Carrier Extension & Frame Bursting (Half-Duplex), 8B/10B, 4D-PAM5 |
-
-
 | **10-Gigabit Ethernet**| IEEE 802.3ae / an| 10 Gbps | Cat 6a (10GBASE-T) / Fiber (10GBASE-SR/LR/ER)| $100\text{ m} / 300\text{ m} / 10\text{ km} / 40\text{ km}$| Full-Duplex Only (no CSMA/CD, no hubs), 64B/66B, LDPC Error Correction |
 
 
@@ -2130,20 +2108,10 @@ $$
 
 
 | To DS | From DS | Address 1 (RA) | Address 2 (TA) | Address 3 | Address 4 | Operational Scenario |
-
-
 | :---: | :---: | :--- | :--- | :--- | :--- | :--- |
-
-
 | `0` | `0` | Destination MAC | Source MAC | BSSID | N/A | Ad-hoc (IBSS) or direct station-to-station |
-
-
 | `1` | `0` | AP MAC (BSSID) | Source MAC | Destination MAC | N/A | Station transmitting frame *into* the Distribution System (AP) |
-
-
 | `0` | `1` | Destination MAC | AP MAC (BSSID) | Source MAC | N/A | AP transmitting frame *out of* Distribution System to station |
-
-
 | `1` | `1` | Next-hop AP (RA) | Current AP (TA) | Destination MAC | Source MAC | Wireless Bridge / Wireless Mesh backbone between APs |
 
 
@@ -2492,20 +2460,10 @@ flowchart TD
 
 
 | Interconnection Device | Operating Layer | Collision Domains | Broadcast Domains | Forwarding Basis | Key Function |
-
-
 | :--- | :---: | :---: | :---: | :--- | :--- |
-
-
 | **Repeater / Hub** | Layer 1 (Physical) | 1 (Shared across all ports) | 1 (All ports) | None (Blind bit repeating) | Regenerates weak electrical/optical signals |
-
-
 | **Bridge / L2 Switch** | Layer 2 (Data Link)| 1 per port (Isolated) | 1 (All ports) | Destination MAC address | Learns MACs, filters local frames, breaks collision domains |
-
-
 | **Router** | Layer 3 (Network) | 1 per port | 1 per port (Breaks broadcasts)| Destination IP address | Computes routing tables, routes packets across subnets |
-
-
 | **Application Gateway** | Layers 4–7 | N/A | N/A | Application payloads | Translates incompatible application protocols (e.g. SMTP/SMS) |
 
 
@@ -4149,20 +4107,10 @@ The Point Coordination Function (PCF) centralized polling architecture operating
 
 
 | Feature | Random Access (ALOHA, CSMA/CD) | Collision-Free (Bit-Map, Countdown)| Limited Contention (Tree Walk) |
-
-
 | :--- | :--- | :--- | :--- |
-
-
 | **Delay at Low Load** | Minimal (instant transmission) | High (must wait for reservation phase)| Low (immediate transmission) |
-
-
 | **Throughput at High Load** | Degrades due to collisions ($18\%$–$36\%$) | Maximum (approaches $100\%$) | High (approaches $100\%$) |
-
-
 | **Collisions** | Inherent part of protocol | Completely eliminated | Allowed initially; resolved quickly |
-
-
 | **Station Scalability** | High (stations come and go freely) | Low (fixed overhead $N$) | Moderate to High |
 
 
@@ -4188,23 +4136,11 @@ The Point Coordination Function (PCF) centralized polling architecture operating
 
 
 | Characteristic | CSMA/CD (IEEE 802.3 Ethernet) | CSMA/CA (IEEE 802.11 Wi-Fi) |
-
-
 | :--- | :--- | :--- |
-
-
 | **Transmission Medium** | Wired (Coaxial, Twisted Pair, Fiber) | Wireless Radio Frequency (RF) |
-
-
 | **Collision Action** | **Detect & Abort:** Listens during transmission, stops immediately on collision | **Avoidance:** Cannot detect collisions while sending; prevents via RTS/CTS, NAV, IFS |
-
-
 | **Acknowledgment** | No DLL acknowledgment (physical link is reliable) | Explicit immediate ACK frame for every data frame |
-
-
 | **Carrier Sensing** | Physical voltage sensing on wire | Physical (CCA) + Virtual Carrier Sensing (NAV) |
-
-
 | **Backoff Trigger** | Triggered *after* collision detection | Triggered *before* every transmission when channel is busy |
 
 
@@ -4230,20 +4166,10 @@ The Point Coordination Function (PCF) centralized polling architecture operating
 
 
 | Device | OSI Layer | Collision Domain | Broadcast Domain | Forwarding Logic | Key Benefit |
-
-
 | :--- | :---: | :---: | :---: | :--- | :--- |
-
-
 | **Hub** | Layer 1 | 1 (All ports shared) | 1 (All ports shared) | Electrical signal repetition | Lowest cost physical star |
-
-
 | **Switch** | Layer 2 | Isolated (1 per port) | 1 (All ports shared) | MAC Address Learning Table | Dedicated full bandwidth per port |
-
-
 | **Router** | Layer 3 | Isolated (1 per port) | Isolated (1 per port) | IP Routing Table | Segments subnets, filters broadcasts |
-
-
 | **Gateway** | Layers 4–7| Isolated | Isolated | Application Payload Parsing | Connects completely different systems |
 
 

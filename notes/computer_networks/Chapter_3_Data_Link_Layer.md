@@ -35,23 +35,11 @@
 
 
 | Source File | Content / Role | Chapter Integration |
-
-
 | :--- | :--- | :--- |
-
-
 | `Ch 3 Data Link Layer.pdf` (69 slides) | Primary lecture presentation covering DLL design issues, framing, error control (Hamming/CRC), elementary protocols, sliding window (1-bit, GBN, Selective Repeat), HDLC, PPP, and ADSL. | Core concepts, formal protocols, state machines, and curated diagram analysis. |
-
-
 | `Chapter3-DataLinkLayer_NEW.pdf` (86 slides) | Supplementary lecture presentation with extended protocol code, buffering diagrams, and error scenarios. | Augmented protocol explanations and edge cases. |
-
-
 | `CN_Numericals_Data_Link_Layer.pdf` (32 pages) | Dedicated numerical problem set on Hamming distance, $(7,4)$ codes, bit/byte stuffing, Stop-and-Wait utilization, pipelining, interplanetary links, and GBN sequence bounds. | Section 13 (Worked Numerical Problems) & Section 9 (Formulas & Derivations). |
-
-
 | `cn_tutorial.pdf` (Tutorials 1–3) | Course tutorials on byte/bit stuffing edge cases, checksum integrity, propagation delay calculations, and GBN buffers. | Section 13 (Worked Problems) & Section 18 (Exam Review). |
-
-
 | `Computer_Networks_Question_Bank.pdf` (Unit 2) | Official university question bank covering DLL definitions, MCQs, framing techniques, ARQ comparison, and numericals. | Section 18 (Exam-Oriented Review). |
 
 
@@ -809,23 +797,11 @@ $$
 
 
 | Data Bits ($m$) | Parity Bits ($r$) | Total Bits ($n = m + r$) | Code Name | Code Rate ($m/n$) |
-
-
 | :---: | :---: | :---: | :---: | :---: |
-
-
 | 1 | 2 | 3 | $(3, 1)$ | 0.33 |
-
-
 | 4 | 3 | 7 | $(7, 4)$ | 0.57 |
-
-
 | 8 | 4 | 12 | $(12, 8)$ | 0.67 |
-
-
 | 11 | 4 | 15 | $(15, 11)$ | 0.73 |
-
-
 | 26 | 5 | 31 | $(31, 26)$ | 0.84 |
 
 
@@ -874,23 +850,11 @@ $$
 
 
 | Data Bits ($m$) | Parity Bits ($r$) | Total Bits ($n = m + r$) | Code Name | Code Rate ($m/n$) |
-
-
 | :---: | :---: | :---: | :---: | :---: |
-
-
 | 1 | 2 | 3 | $(3, 1)$ | 0.33 |
-
-
 | 4 | 3 | 7 | $(7, 4)$ | 0.57 |
-
-
 | 8 | 4 | 12 | $(12, 8)$ | 0.67 |
-
-
 | 11 | 4 | 15 | $(15, 11)$ | 0.73 |
-
-
 | 26 | 5 | 31 | $(31, 26)$ | 0.84 |
 
 
@@ -1213,20 +1177,10 @@ An error will slip through undetected **if and only if $E(x)$is an exact algebra
 
 
 | Standard Name | Degree ($r$) | Polynomial Equation $G(x)$ | Application Domain |
-
-
 | :--- | :---: | :--- | :--- |
-
-
 | **CRC-12** | 12 | $x^{12} + x^{11} + x^3 + x^2 + x + 1$ | 6-bit character streams |
-
-
 | **CRC-16** | 16 | $x^{16} + x^{15} + x^2 + 1$ | Bisync, USB, HDLC |
-
-
 | **CRC-CCITT** | 16 | $x^{16} + x^{12} + x^5 + 1$ | X.25, HDLC, Bluetooth, PPP |
-
-
 | **CRC-32 (IEEE 802)**| 32 | $x^{32} + x^{26} + x^{23} + x^{22} + x^{16} + x^{12} + x^{11} + x^{10} + x^8 + x^7 + x^5 + x^4 + x^2 + x + 1$ | Ethernet (802.3), Wi-Fi (802.11), FDDI, PKZIP |
 
 
@@ -1843,26 +1797,12 @@ HDLC is a bit-oriented synchronous protocol derived from IBM SDLC and standardiz
 
 
 | Field | Size | Description |
-
-
 | :--- | :---: | :--- |
-
-
 | **Flag** | 8 bits | Frame delimiter pattern: `01111110` (`0x7E`) |
-
-
 | **Address** | 8 or 16 bits | Identifies secondary station address on multipoint links |
-
-
 | **Control** | 8 or 16 bits | Identifies frame type, sequence numbers $N(S), N(R)$, and $P/F$ bit |
-
-
 | **Data (Payload)** | Variable | Network layer packet |
-
-
 | **FCS (Checksum)** | 16 or 32 bits | CRC-CCITT or CRC-32 Frame Check Sequence |
-
-
 | **Flag** | 8 bits | Frame closing delimiter: `01111110` (`0x7E`) |
 
 
@@ -2023,29 +1963,13 @@ PPP is the standard Internet data link protocol for point-to-point connections a
 
 
 | Field | Size (Bytes) | Standard Value | Description |
-
-
 | :--- | :---: | :---: | :--- |
-
-
 | **Flag** | 1 | `0x7E` (`01111110`) | Frame delimiter byte |
-
-
 | **Address** | 1 | `0xFF` (`11111111`) | All-stations broadcast address (point-to-point link) |
-
-
 | **Control** | 1 | `0x03` (`00000011`) | Unnumbered information frame |
-
-
 | **Protocol** | 1 or 2 | Variable | Identifies payload type (`0x0021` = IPv4, `0x8021` = IPCP, `0xC021` = LCP, `0xC223` = CHAP) |
-
-
 | **Payload** | Variable | Up to MRU ($1500$) | Network layer packet or LCP/NCP control payload |
-
-
 | **Checksum (FCS)**| 2 or 4 | CRC-16 or CRC-32 | Error detection checksum |
-
-
 | **Flag** | 1 | `0x7E` (`01111110`) | Frame closing delimiter |
 
 
@@ -3150,32 +3074,14 @@ If any single bit error occurs, the sum will differ from `0xFFFF`, flagging corr
 
 
 | Criterion | Stop-and-Wait ARQ | Go-Back-N ARQ (GBN) | Selective Repeat ARQ (SR) |
-
-
 | :--- | :--- | :--- | :--- |
-
-
 | **Sender Window Size ($W_s$)** | $W_s = 1$|$1 < W_s \le 2^n - 1$|$1 < W_s \le 2^{n-1}$ |
-
-
 | **Receiver Window Size ($W_r$)** | $W_r = 1$|$W_r = 1$|$W_r = W_s \le 2^{n-1}$ |
-
-
 | **Out-of-Order Frame Handling** | Impossible (window is 1) | Discarded immediately; no buffer | Buffered in receiver memory |
-
-
 | **Retransmission Scope** | Only the single timed-out frame | All $N$ frames in current window | Only the specific damaged/lost frame |
-
-
 | **Acknowledgment Scheme** | Individual ACK | Cumulative ACK ($ACK\ n$) | Individual ACK + Negative ACK (NAK) |
-
-
 | **Receiver Complexity** | Extremely simple; 0 buffer | Very simple; 0 buffer | Complex; requires buffering and sorting |
-
-
 | **Sender Complexity** | Simple single timer | Single timer for oldest frame | Independent timer per frame |
-
-
 | **Link Bandwidth Efficiency** | Very low on high-BDP links | High under low error rates; degrades rapidly under high errors | Maximum efficiency even on noisy high-BDP links |
 
 
@@ -3201,20 +3107,10 @@ If any single bit error occurs, the sum will differ from `0xFFFF`, flagging corr
 
 
 | Framing Method | Delimiter Used | Stuffing Overhead Mechanism | Vulnerability / Limitation | Primary Real-World Application |
-
-
 | :--- | :--- | :--- | :--- | :--- |
-
-
 | **Byte Count** | Length count integer in header | None | Corrupted count destroys all subsequent synchronization | Early DECnet protocols |
-
-
 | **Byte Stuffing** | `FLAG` byte (`0x7E`) | `ESC` (`0x7D`) inserted before payload flags/escapes | Modest byte-level expansion overhead | PPP, Serial dial-up lines |
-
-
 | **Bit Stuffing** | `01111110` bit pattern | `0` bit stuffed after five consecutive `1`s | Bit-level manipulation overhead | HDLC, SDLC, USB |
-
-
 | **Coding Violations** | Invalid line signaling pattern | Zero data stuffing overhead | Requires redundant line coding (e.g. Manchester) | Classic Ethernet (802.3), Token Ring |
 
 
@@ -3240,29 +3136,13 @@ If any single bit error occurs, the sum will differ from `0xFFFF`, flagging corr
 
 
 | Feature | HDLC (High-level Data Link Control) | PPP (Point-to-Point Protocol) |
-
-
 | :--- | :--- | :--- |
-
-
 | **Orientation** | Bit-oriented (bit stuffing `01111110`) | Byte-oriented (byte stuffing `0x7D`) |
-
-
 | **Standardizing Body** | ISO (ISO 13239) | IETF (RFC 1661) |
-
-
 | **Network Layer Support** | Primarily single protocol per link | Multi-protocol via modular NCPs (IP, IPv6, AppleTalk) |
-
-
 | **Link Negotiation** | Fixed pre-configured options | Dynamic negotiation via LCP |
-
-
 | **User Authentication** | None built-in | Built-in PAP and CHAP support |
-
-
 | **Dynamic Addressing** | Static addressing | Dynamic IP assignment via IPCP |
-
-
 | **Error Recovery** | Full ARQ error recovery (I/S/U frames) | Error detection only (drops bad frames; no DLL retransmission) |
 
 

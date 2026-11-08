@@ -125,17 +125,11 @@ Probability theory balances two complementary interpretations: empirical observa
 
 
 | Feature | Empirical (Experimental) Probability | Theoretical (Classical) Probability |
-
 | :--- | :--- | :--- |
-
 | **Fundamental Basis** | Derived from observed historical data or active experiments | Derived mathematically from deductive reasoning and symmetry |
-
 | **Operational Formula** | $P_{\text{emp}}(E) = \frac{\text{Number of times event occurred}}{\text{Total number of trials}}$|$P_{\text{theo}}(E) = \frac{\text{Number of favorable outcomes } n(E)}{\text{Total possible outcomes in sample space } n(S)}$ |
-
 | **Dependence on Sample Size** | Fluctuates heavily for small $n$; stabilizes as $n \to \infty$ | Exact constant value regardless of experimental sample size |
-
 | **Requirement** | Demands physical trials or historical logging | Demands an assumption of equally likely primitive outcomes |
-
 | **ML Application** | Estimating class priors from labeled datasets | Combinatorial priors, gaming simulations, baseline null hypotheses |
 
 
@@ -331,17 +325,11 @@ flowchart TD
 
 
 | Dimension | Descriptive Statistics | Inferential Statistics |
-
 | :--- | :--- | :--- |
-
 | **Objective** | Describe and summarize the characteristics of a known dataset | Draw inferences, conclusions, and predictions about an unseen population |
-
 | **Data Scope** | Examines only the collected sample or census at hand | Utilizes sample data to infer properties of a much larger population |
-
 | **Output Formats** | Summary tables, numerical metrics (mean, IQR), graphical charts | Point estimators, confidence intervals, test statistics ($p$-values) |
-
 | **Uncertainty Level** | Completely deterministic calculation with zero uncertainty | Involves probabilistic uncertainty and sampling error margins |
-
 | **Role in ML** | Exploratory Data Analysis (EDA), feature distribution checking | Validating model generalization, cross-validation statistical significance |
 
 
@@ -922,17 +910,11 @@ flowchart TD
 
 
 | Property | Discrete Random Variables | Continuous Random Variables |
-
 | :--- | :--- | :--- |
-
 | **Values** | Countable set (finite or countably infinite) | Uncountable continuum / real intervals |
-
 | **Governing Function** | Probability Mass Function (PMF): $p(x) = P(X = x)$| Probability Density Function (PDF):$f(x)$ |
-
 | **Probability at a Point** | Non-zero: $P(X = x) \ge 0$| Strictly zero:$P(X = x) = 0$ for any exact single point |
-
 | **Interval Probability** | Summation: $P(a \le X \le b) = \sum_{x=a}^b p(x)$| Integration:$P(a \le X \le b) = \int_a^b f(x) \, dx$ |
-
 | **Total Normalization** | $\sum_x p(x) = 1.0$|$\int_{-\infty}^{\infty} f(x) \, dx = 1.0$ |
 
 
