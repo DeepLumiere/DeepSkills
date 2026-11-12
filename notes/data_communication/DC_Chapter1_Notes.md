@@ -109,27 +109,18 @@
 
 
 ```mermaid
-
 flowchart LR
-
-    subgraph "Simplex"
-
-    S1[Sender] -->|Unidirectional| R1[Receiver]
-
+    subgraph Simplex ["Simplex Mode"]
+        S1["Sender"] -->|Unidirectional| R1["Receiver"]
     end
 
-    subgraph "Half-Duplex"
-
-    S2["Device A"] <-->|Bidirectional alternate| R2["Device B"]
-
+    subgraph HalfDuplex ["Half-Duplex Mode"]
+        S2["Device A"] <-->|Bidirectional alternate| R2["Device B"]
     end
 
-    subgraph "Full-Duplex"
-
-    S3["Device A"] <==>|Bidirectional simultaneous| R3["Device B"]
-
+    subgraph FullDuplex ["Full-Duplex Mode"]
+        S3["Device A"] <-->|Bidirectional simultaneous| R3["Device B"]
     end
-
 ```
 
 

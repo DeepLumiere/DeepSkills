@@ -66,7 +66,7 @@ This chapter delivers a thorough, university-level examination of the Intel 8085
 | **Data Bus** | 8 bits ($D_7 - D_0$) | Bidirectional; time-multiplexed with lower address bus ($AD_7 - AD_0$). |
 | **Address Bus** | 16 bits ($A_{15} - A_0$) | Unidirectional; directly addresses $2^{16} = 65,536\text{ bytes}$ (64 KB). |
 | **Clock Frequency** | 3.0 MHz (8085A) / 5.0 MHz (8085A-2) | Driven by external quartz crystal on $X_1, X_2$; divided by 2 internally. |
-| **Power Supply** | Single $+5\text{V DC}$ ($V_{CC}$), $V_{SS}$(GND) | Major improvement over 8080 (which required$+5\text{V}, -5\text{V}, +12\text{V}$). |
+| **Power Supply** | Single $+5\text{V DC}$ ($V_{CC}$), $V_{SS}$(GND) | Major improvement over 8080 (which required $+5\text{V}, -5\text{V}, +12\text{V}$). |
 | **Packaging** | 40-pin Plastic / Ceramic DIP | Dual-in-line package. |
 | **Internal Registers** | 12 addressable 8-bit registers | A, B, C, D, E, H, L, Flags, SP (16-bit), PC (16-bit), W, Z (internal). |
 | **Interrupt System** | 5 Hardware Interrupts | TRAP (NMI), RST 7.5, RST 6.5, RST 5.5, INTR. |
@@ -222,7 +222,7 @@ flowchart TD
 
    - **DE Pair:** Holds secondary 16-bit memory addresses or data operands.
 
-   - **HL Pair:** Functions as the primary 16-bit **Memory Pointer ($M$)**. Whenever an instruction references operand `M`, the CPU accesses the physical memory location addressed by the 16-bit contents of $H$(high byte) and$L$ (low byte).
+   - **HL Pair:** Functions as the primary 16-bit **Memory Pointer ($M$)**. Whenever an instruction references operand `M`, the CPU accesses the physical memory location addressed by the 16-bit contents of $H$(high byte) and $L$ (low byte).
 
 5. **Temporary Registers W and Z:** Two internal 8-bit registers utilized strictly by the control unit to hold 16-bit addresses or data operands during two-byte and three-byte instruction executions (e.g., `CALL`, `XCHG`, `LHLD`). Completely inaccessible to programmers.
 
@@ -274,9 +274,9 @@ Flag Bit:     [  S |  Z |  X | AC |  X |  P |  X | CY ]
 
 | Flag Symbol | Flag Name | Set Condition ($= 1$) | Reset Condition ($= 0$) |
 | :---: | :--- | :--- | :--- |
-| **S** | Sign Flag | Bit $D_7$of ALU result is `1` (negative signed number). | Bit$D_7$ of ALU result is `0` (positive signed number). |
+| **S** | Sign Flag | Bit $D_7$ of ALU result is `1` (negative signed number). | Bit $D_7$ of ALU result is `0` (positive signed number). |
 | **Z** | Zero Flag | ALU result is exactly `00H` (all 8 bits zero). | ALU result is non-zero (`01H` to `FFH`). |
-| **AC**| Auxiliary Carry | Carry generated out of bit $D_3$into bit$D_4$(BCD half-carry). | No carry from bit$D_3$to$D_4$. |
+| **AC**| Auxiliary Carry | Carry generated out of bit $D_3$ into bit $D_4$(BCD half-carry). | No carry from bit $D_3$ to $D_4$. |
 | **P** | Parity Flag | Result contains an **even number of 1-bits** (Even Parity). | Result contains an **odd number of 1-bits** (Odd Parity). |
 | **CY**| Carry Flag | Carry generated out of MSB ($D_7$) in addition, or borrow in subtraction. | No carry out of $D_7$ or borrow required. |
 
@@ -334,13 +334,13 @@ $$
 
 To minimize physical IC pin count to 40, the 8085 time-multiplexes the lower 8 bits of the address bus with the 8-bit bidirectional data bus ($AD_7 - AD_0$).
 
-- During state $T_1$of every machine cycle, lines$AD_7 - AD_0$ emit the lower 8 address bits ($A_7 - A_0$).
+- During state $T_1$ of every machine cycle, lines $AD_7 - AD_0$ emit the lower 8 address bits ($A_7 - A_0$).
 
 - Simultaneously, the CPU pulses **$\text{ALE}$ (Address Latch Enable)** HIGH.
 
 - The falling edge of $\text{ALE}$ strobes the address into an external 8-bit D-type latch (such as the 74LS373).
 
-- During states $T_2, T_3, T_4$, $\text{ALE}$remains LOW, and lines$AD_7 - AD_0$ function exclusively as bidirectional data lines ($D_7 - D_0$).
+- During states $T_2, T_3, T_4$, $\text{ALE}$ remains LOW, and lines $AD_7 - AD_0$ function exclusively as bidirectional data lines ($D_7 - D_0$).
 
 
 
@@ -476,7 +476,7 @@ The 8085 features **80 basic instructions** that expand into **246 total opcodes
 
 | Mnemonic | Operands | Bytes | Machine Cycles | T-States | Addressing Mode | Operation Description |
 | :--- | :--- | :---: | :---: | :---: | :--- | :--- |
-| **MOV** | $r_1, r_2$| 1 | 1 (OF) | 4 | Register |$(r_1) \leftarrow (r_2)$. Copies register $r_2$to$r_1$. |
+| **MOV** | $r_1, r_2$| 1 | 1 (OF) | 4 | Register |$(r_1) \leftarrow (r_2)$. Copies register $r_2$ to $r_1$. |
 | **MOV** | $r, M$| 1 | 2 (OF, MR) | 7 | Reg. Indirect |$(r) \leftarrow ((H)(L))$. Copies memory byte at address HL to register $r$. |
 | **MOV** | $M, r$| 1 | 2 (OF, MW) | 7 | Reg. Indirect |$((H)(L)) \leftarrow (r)$. Copies register $r$ to memory byte at HL. |
 | **MVI** | $r, \text{data8}$| 2 | 2 (OF, MR) | 7 | Immediate |$(r) \leftarrow \text{byte 2}$. Loads immediate 8-bit data into register $r$. |
@@ -648,7 +648,7 @@ DAA               ; Corrects: A = 67H (BCD 39 + 28 = 67)
 | **CMA** | None | 1 | 1 | 4 | **None** | $(A) \leftarrow \overline{(A)}$. One's complement of Accumulator. |
 | **CMC** | None | 1 | 1 | 4 | **CY Only** | $(CY) \leftarrow \overline{(CY)}$. Complements Carry Flag. |
 | **STC** | None | 1 | 1 | 4 | **CY Only** | $(CY) \leftarrow 1$. Explicitly sets Carry Flag to 1. |
-| **CMP** | $r$/$M$| 1 | 1 / 2 | 4 / 7 | All | Compares register/memory with A (computes$A - r$). |
+| **CMP** | $r$/$M$| 1 | 1 / 2 | 4 / 7 | All | Compares register/memory with A (computes $A - r$). |
 | **CPI** | $\text{data8}$ | 2 | 2 | 7 | All | Compares immediate byte with A. |
 | **RLC** | None | 1 | 1 | 4 | **CY Only** | Rotate Left Circular: Bit 7 enters Bit 0 and CY. |
 | **RRC** | None | 1 | 1 | 4 | **CY Only** | Rotate Right Circular: Bit 0 enters Bit 7 and CY. |
@@ -762,7 +762,7 @@ MOV H, A           ; HL now shifted left 1 position
 | **Ccond** | Condition True / False | 3 | 5 / 2 | 18 / 9 | Conditional Subroutine Call. |
 | **RET** | Unconditional | 1 | 3 | 10 | Pops 16-bit return address from stack into PC. |
 | **Rcond** | Condition True / False | 1 | 3 / 1 | 12 / 6 | Conditional Subroutine Return. |
-| **RST $n$** | $n \in \{0..7\}$| 1 | 3 | 12 | Software Restart: Calls vector$(n \times 8_{10})$. |
+| **RST $n$** | $n \in \{0..7\}$| 1 | 3 | 12 | Software Restart: Calls vector $(n \times 8_{10})$. |
 
 
 ---
@@ -828,7 +828,7 @@ MY_SUBROUTINE:
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
 | **PUSH** | $rp$(BC/DE/HL/PSW)| 1 | 3 | 12 | **None** |$(SP-1) \leftarrow (rp_H)$, $(SP-2) \leftarrow (rp_L)$, $SP \leftarrow SP - 2$. |
 | **POP** | $rp$(BC/DE/HL/PSW)| 1 | 3 | 10 | None (PSW updates all)|$(rp_L) \leftarrow (SP)$, $(rp_H) \leftarrow (SP+1)$, $SP \leftarrow SP + 2$. |
-| **XTHL** | None | 1 | 5 | 16 | **None** | Swaps $L$with$(SP)$, and $H$with$(SP+1)$. Top of stack exchange. |
+| **XTHL** | None | 1 | 5 | 16 | **None** | Swaps $L$ with $(SP)$, and $H$ with $(SP+1)$. Top of stack exchange. |
 | **SPHL** | None | 1 | 1 | 6 | **None** | $(SP) \leftarrow (HL)$. Copies HL address into Stack Pointer. |
 | **IN** | $\text{port8}$| 2 | 3 | 10 | **None** |$(A) \leftarrow (\text{port8})$. Reads byte from 8-bit I/O port into A. |
 | **OUT** | $\text{port8}$| 2 | 3 | 10 | **None** |$(\text{port8}) \leftarrow (A)$. Writes Accumulator byte to 8-bit I/O port. |
@@ -942,7 +942,7 @@ SKIP:     DCR C             ; Decrement count
 
 1. **Explain the purpose and timing of the $\text{ALE}$ pin during an Opcode Fetch machine cycle.**  
 
-   *Answer:* $\text{ALE}$pulses HIGH during$T_1$to indicate that$AD_7 - AD_0$ carries the memory address ($A_7 - A_0$). The trailing edge of $\text{ALE}$latches this address into an external 74LS373 latch, enabling lines$AD_7 - AD_0$to be reused for data bus transfers during$T_2 - T_4$.
+   *Answer:* $\text{ALE}$ pulses HIGH during $T_1$ to indicate that $AD_7 - AD_0$ carries the memory address ($A_7 - A_0$). The trailing edge of $\text{ALE}$ latches this address into an external 74LS373 latch, enabling lines $AD_7 - AD_0$ to be reused for data bus transfers during $T_2 - T_4$.
 
 2. **Why does `INX rp` not affect any flags while `INR r` affects four flags?**  
 

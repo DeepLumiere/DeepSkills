@@ -504,7 +504,7 @@ Networks are classified by transmission technology into two broad categories:
 | :--- | :---: | :---: | :---: | :--- |
 | **Star** | $2$|$2$|$2$ | Central switch failure isolates all nodes; cable breaks affect only one node. |
 | **Bidirectional Ring** | $1$|$\approx \dfrac{n}{4}$|$\left\lfloor \dfrac{n}{2} \right\rfloor$ | Single link break can be bypassed in bidirectional ring; ring re-routing needed. |
-| **Full Mesh** | $1$|$1$|$1$| Maximum redundancy; requires$\dfrac{n(n-1)}{2}$ full-duplex physical links. |
+| **Full Mesh** | $1$|$1$|$1$| Maximum redundancy; requires $\dfrac{n(n-1)}{2}$ full-duplex physical links. |
 | **Tree / Hierarchical** | $2$|$O(\log n)$|$2 \cdot \text{depth}$ | Root node congestion; failure of parent isolates subtrees. |
 
 
@@ -547,10 +547,10 @@ Networks are classified hierarchically by their physical dimensions and geograph
 
 | Category | Inter-processor Distance | Location / Domain | Typical Technologies & Examples |
 | :--- | :--- | :--- | :--- |
-| **PAN** (Personal Area Network) | $1\text{ m}$to$10\text{ m}$ | Person's immediate workspace | Bluetooth (IEEE 802.15.1), ZigBee (802.15.4), UWB, RFID |
-| **LAN** (Local Area Network) | $10\text{ m}$to$1\text{ km}$ | Room, office suite, building, campus | Switched Ethernet (IEEE 802.3), Wi-Fi (IEEE 802.11) |
+| **PAN** (Personal Area Network) | $1\text{ m}$ to $10\text{ m}$ | Person's immediate workspace | Bluetooth (IEEE 802.15.1), ZigBee (802.15.4), UWB, RFID |
+| **LAN** (Local Area Network) | $10\text{ m}$ to $1\text{ km}$ | Room, office suite, building, campus | Switched Ethernet (IEEE 802.3), Wi-Fi (IEEE 802.11) |
 | **MAN** (Metropolitan Area Network) | $10\text{ km}$ | Entire city or municipality | Cable television networks, Metro Ethernet, WiMAX (802.16) |
-| **WAN** (Wide Area Network) | $100\text{ km}$to$1000\text{ km}$ | Country, continent | Telecom carrier backbones, ISP core networks, SONET/SDH |
+| **WAN** (Wide Area Network) | $100\text{ km}$ to $1000\text{ km}$ | Country, continent | Telecom carrier backbones, ISP core networks, SONET/SDH |
 | **Internet** | $> 10,000\text{ km}$ | Global planet | Worldwide interconnected network of autonomous systems (AS) |
 
 
@@ -599,7 +599,7 @@ To reduce design complexity, computer network software is organized as a stack o
 
 
 
-* **Layer $n$on one machine** carries on a logical conversation with **Layer$n$on another machine**; the rules and conventions used in this conversation are collectively known as the **Layer$n$ protocol**.
+* **Layer $n$ on one machine** carries on a logical conversation with **Layer $n$ on another machine**; the rules and conventions used in this conversation are collectively known as the **Layer $n$ protocol**.
 
 
 
@@ -607,7 +607,7 @@ To reduce design complexity, computer network software is organized as a stack o
 
 
 
-* In reality, no data is transferred directly from Layer $n$on one machine to Layer$n$ on another machine (except at the physical layer).
+* In reality, no data is transferred directly from Layer $n$ on one machine to Layer $n$ on another machine (except at the physical layer).
 
 
 
@@ -802,7 +802,7 @@ Layers offer two distinct types of service to the layers above them:
 | Architectural Feature | Connection-Oriented Service | Connectionless Service |
 | :--- | :--- | :--- |
 | **Analogy** | Telephone system | Postal mail service |
-| **Operating Phases** | Three phases: Connection Establishment $\to$Data Transfer$\to$ Connection Release | Single phase: Independent message transmission with no setup |
+| **Operating Phases** | Three phases: Connection Establishment $\to$ Data Transfer $\to$ Connection Release | Single phase: Independent message transmission with no setup |
 | **Packet Addressing** | Connection identifier / VC ID used after setup; full address only at setup | Every individual packet carries complete source and destination addresses |
 | **Packet Ordering** | Strict FIFO order guaranteed; packets follow the established path | Packets may follow different routes and arrive out of order |
 | **Subnet State** | Routers maintain state information per active connection | Routers maintain no connection state; stateless packet forwarding |
@@ -1889,7 +1889,7 @@ Where $V$ is the number of discrete signaling levels (symbols).
 
 
 
-* If $V = 8$levels,$\log_2 8 = 3 \implies \text{Bit Rate} = 3 \times \text{Baud Rate}$.
+* If $V = 8$ levels,$\log_2 8 = 3 \implies \text{Bit Rate} = 3 \times \text{Baud Rate}$.
 
 
 
@@ -2057,7 +2057,7 @@ $$
 
 
 
-Defines the maximum theoretical data rate achievable over an idealized, noise-free low-pass analog channel of bandwidth $B$using$V$ discrete signal levels.
+Defines the maximum theoretical data rate achievable over an idealized, noise-free low-pass analog channel of bandwidth $B$ using $V$ discrete signal levels.
 
 
 
@@ -2297,7 +2297,7 @@ $$
 
 
 
-* $v$ = Signal propagation velocity in the medium ($\text{m/s}$, typically $2 \times 10^8\text{ m/s}$in copper/fiber,$3 \times 10^8\text{ m/s}$ in vacuum)
+* $v$ = Signal propagation velocity in the medium ($\text{m/s}$, typically $2 \times 10^8\text{ m/s}$ in copper/fiber,$3 \times 10^8\text{ m/s}$ in vacuum)
 
 
 
@@ -2561,7 +2561,7 @@ Demonstrates the step-by-step encapsulation of an application process message ($
 
 
 
-* **$H_2$/$T_2$(Data Link Header and Trailer):**$H_2$contains physical MAC addresses and frame controls;$T_2$ contains error-checking checksum/CRC.
+* **$H_2$/$T_2$(Data Link Header and Trailer):**$H_2$ contains physical MAC addresses and frame controls;$T_2$ contains error-checking checksum/CRC.
 
 
 
@@ -2577,7 +2577,7 @@ Demonstrates the step-by-step encapsulation of an application process message ($
 
 
 
-Layer 5 passes message $M$to Layer 4. Layer 4 prepends header$H_4$to form a transport PDU. Layer 3 prepends header$H_3$to form a packet. Layer 2 prepends$H_2$and appends trailer$T_2$ to form a frame. Layer 1 converts the frame into physical signals. At the destination, each layer inspects and removes its respective header/trailer before passing the payload upward.
+Layer 5 passes message $M$ to Layer 4. Layer 4 prepends header $H_4$ to form a transport PDU. Layer 3 prepends header $H_3$ to form a packet. Layer 2 prepends $H_2$ and appends trailer $T_2$ to form a frame. Layer 1 converts the frame into physical signals. At the destination, each layer inspects and removes its respective header/trailer before passing the payload upward.
 
 
 
@@ -4051,7 +4051,7 @@ $$
 
 
 
-* **Required SNR:** $93\text{ dB}$(Linear ratio$\approx 2^{31}$)
+* **Required SNR:** $93\text{ dB}$(Linear ratio $\approx 2^{31}$)
 
 
 
@@ -4363,7 +4363,7 @@ $$
 
 
 
-Ten signals, each requiring $4000\text{ Hz}$bandwidth, are multiplexed onto a single channel using FDM. How much minimum bandwidth is required for the multiplexed channel if guard bands between adjacent channels are$400\text{ Hz}$ wide?
+Ten signals, each requiring $4000\text{ Hz}$ bandwidth, are multiplexed onto a single channel using FDM. How much minimum bandwidth is required for the multiplexed channel if guard bands between adjacent channels are $400\text{ Hz}$ wide?
 
 
 
@@ -4863,7 +4863,7 @@ $$
 
 
 
-A disadvantage of a broadcast subnet is the capacity wasted when multiple hosts attempt to access the channel at the same time. Suppose time is divided into discrete slots, with each of $n$hosts attempting to transmit with probability$p$ during each slot. Derive the fraction of slots wasted due to collisions.
+A disadvantage of a broadcast subnet is the capacity wasted when multiple hosts attempt to access the channel at the same time. Suppose time is divided into discrete slots, with each of $n$ hosts attempting to transmit with probability $p$ during each slot. Derive the fraction of slots wasted due to collisions.
 
 
 
@@ -4879,7 +4879,7 @@ A disadvantage of a broadcast subnet is the capacity wasted when multiple hosts 
 
 
 
-   * **Successful Transmission by Host $i$:** Host $i$transmits while all remaining$(n-1)$hosts remain silent. Probability for any specific host is$p (1-p)^{n-1}$.
+   * **Successful Transmission by Host $i$:** Host $i$ transmits while all remaining $(n-1)$ hosts remain silent. Probability for any specific host is $p (1-p)^{n-1}$.
 
 
 
@@ -5020,7 +5020,7 @@ A common misconception in physical transmission is that if bandwidth $B$ is expa
 
 
 
-In a channel with constant signal power $S$and additive white Gaussian noise (AWGN) having single-sided power spectral density$N_0$(so total noise power$N = N_0 B$):
+In a channel with constant signal power $S$ and additive white Gaussian noise (AWGN) having single-sided power spectral density $N_0$(so total noise power $N = N_0 B$):
 
 
 
@@ -5044,7 +5044,7 @@ $$
 
 
 
-Let $u = \dfrac{S}{N_0 B}$. As $B \to \infty$, $u \to 0$. We express $C$using the fundamental natural logarithm limit identity$\lim_{u \to 0} \dfrac{\ln(1+u)}{u} = 1$:
+Let $u = \dfrac{S}{N_0 B}$. As $B \to \infty$, $u \to 0$. We express $C$ using the fundamental natural logarithm limit identity $\lim_{u \to 0} \dfrac{\ln(1+u)}{u} = 1$:
 
 
 
@@ -5187,7 +5187,7 @@ Unlike human auditory recognition, which can sometimes isolate spoken words in s
 
 
 
-### Edge Case 3: Baud Rate vs Bit Rate Boundary Conditions ($V = 2$vs$V > 2$)
+### Edge Case 3: Baud Rate vs Bit Rate Boundary Conditions ($V = 2$ vs $V > 2$)
 
 
 
@@ -5199,11 +5199,11 @@ Unlike human auditory recognition, which can sometimes isolate spoken words in s
 
 
 
-* **Case 1 ($V = 2$, Binary Signaling):** Each signal element represents exactly $\log_2 2 = 1$bit. Therefore,$\text{Bit Rate (bps)} = \text{Baud Rate (baud)}$.
+* **Case 1 ($V = 2$, Binary Signaling):** Each signal element represents exactly $\log_2 2 = 1$ bit. Therefore,$\text{Bit Rate (bps)} = \text{Baud Rate (baud)}$.
 
 
 
-* **Case 2 ($V > 2$, Multilevel Signaling):** Each signal element represents $\log_2 V > 1$bits. Therefore,$\text{Bit Rate} > \text{Baud Rate}$.
+* **Case 2 ($V > 2$, Multilevel Signaling):** Each signal element represents $\log_2 V > 1$ bits. Therefore,$\text{Bit Rate} > \text{Baud Rate}$.
 
 
 
@@ -5219,7 +5219,7 @@ Unlike human auditory recognition, which can sometimes isolate spoken words in s
 
 
 
-In baseband signaling, **never**. However, in spread-spectrum systems (e.g., CDMA or DSSS) where pseudo-random "chips" are transmitted to spread 1 user data bit across $M$chips, the chip modulation rate (baud) is$M$ times higher than the user information bit rate.
+In baseband signaling, **never**. However, in spread-spectrum systems (e.g., CDMA or DSSS) where pseudo-random "chips" are transmitted to spread 1 user data bit across $M$ chips, the chip modulation rate (baud) is $M$ times higher than the user information bit rate.
 
 
 
@@ -5355,7 +5355,7 @@ Over $98.7\%$ of the link bandwidth is wasted on protocol headers! This edge cas
 
 
 
-Consider $M$intermediate switches connecting source and destination. Each link has transmission rate$R$and propagation delay$T_{\text{prop}}$. The packet has length $L$, with header size $H$.
+Consider $M$ intermediate switches connecting source and destination. Each link has transmission rate $R$ and propagation delay $T_{\text{prop}}$. The packet has length $L$, with header size $H$.
 
 
 
@@ -5543,7 +5543,7 @@ The Bandwidth-Delay Product $\text{BDP} = R \times \text{RTT}$ defines the capac
 
 
 
-* **Case 1 (Window $< \text{BDP}$- Starvation):** The sender exhausts its transmission window and must wait idle for ACKs. Link utilization collapses to$\eta = \dfrac{\text{Window}}{\text{BDP}} < 100\%$.
+* **Case 1 (Window $< \text{BDP}$- Starvation):** The sender exhausts its transmission window and must wait idle for ACKs. Link utilization collapses to $\eta = \dfrac{\text{Window}}{\text{BDP}} < 100\%$.
 
 
 
@@ -5963,7 +5963,7 @@ $$
 
 
 
-2. **Encapsulation/Decapsulation Workflow:** Trace how an application message $M$acquires$H_4, H_3, H_2, T_2$ headers/trailers down the stack and loses them on reception.
+2. **Encapsulation/Decapsulation Workflow:** Trace how an application message $M$ acquires $H_4, H_3, H_2, T_2$ headers/trailers down the stack and loses them on reception.
 
 
 
@@ -6087,7 +6087,7 @@ $$
 
 
 
-#### Q5. A file of size $20\text{ MB}$is transferred over a network with bandwidth$10\text{ Mbps}$. Calculate the transmission time.
+#### Q5. A file of size $20\text{ MB}$ is transferred over a network with bandwidth $10\text{ Mbps}$. Calculate the transmission time.
 
 
 
@@ -6143,7 +6143,7 @@ $$
 
 
 
-#### Q7. A signal propagates through a channel of length $3000\text{ km}$at a speed of$2 \times 10^8\text{ m/s}$. Calculate propagation delay.
+#### Q7. A signal propagates through a channel of length $3000\text{ km}$ at a speed of $2 \times 10^8\text{ m/s}$. Calculate propagation delay.
 
 
 
@@ -6167,7 +6167,7 @@ $$
 
 
 
-#### Q8. A network has a bandwidth of $100\text{ Mbps}$and RTT of$20\text{ ms}$. Calculate bandwidth-delay product.
+#### Q8. A network has a bandwidth of $100\text{ Mbps}$ and RTT of $20\text{ ms}$. Calculate bandwidth-delay product.
 
 
 

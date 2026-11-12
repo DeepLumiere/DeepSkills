@@ -14,7 +14,7 @@ Many algorithms are recursive — their running time $T(n)$ is defined in terms 
 
 ### Method Selection Guide
 
-| Your Recurrence Looks Like… | Best Method | Time to Apply |
+| Recurrence Form | Best Method | Time to Apply |
 | :--- | :--- | :--- |
 | $T(n) = a T(n/b) + f(n)$ | **Master Theorem (D&C)** | Instant — 3 cases |
 | $T(n) = a T(n-b) + f(n)$ | **Master Theorem (S&C)** | Instant — 3 cases |
@@ -85,7 +85,7 @@ A linear recurrence with **no external forcing function** ($f(n) = 0$). Substitu
 ### 📝 Quick Practice — Homogeneous Recurrences
 
 > **Q1:** When do we get a repeated root in the characteristic equation? Give an example recurrence.
-> **Answer:** A repeated root occurs when the characteristic polynomial has a root of multiplicity > 1. Example: $T(n) = 2T(n-1) - T(n-2)$ has characteristic equation $r^2 - 2r + 1 = (r-1)^2 = 0$, so $r = 1$ with multiplicity 2. Solution: $T(n) = (c_1 + c_2 n) \cdot 1^n = c_1 + c_2 n = \Theta(n)$.
+> **Answer:** A repeated root occurs when the characteristic polynomial has a root of $multiplicity > 1$. Example: $T(n) = 2T(n-1) - T(n-2)$ has characteristic equation $r^2 - 2r + 1 = (r-1)^2 = 0$, so $r = 1$ with multiplicity 2. Solution: $T(n) = (c_1 + c_2 n) \cdot 1^n = c_1 + c_2 n = \Theta(n)$.
 
 ---
 

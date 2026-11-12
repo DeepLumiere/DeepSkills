@@ -1941,7 +1941,7 @@ Clustering DNA sequences or graph structures where arithmetic means cannot be co
 
 | Dimension / Property | K-Means Algorithm | K-Medoids (PAM) Algorithm |
 | :--- | :--- | :--- |
-| **Cluster Representative** | Fictitious arithmetic mean ($\boldsymbol{\mu}_k = \frac{1}{|C_k|}\sum \mathbf{x}$) | Actual observed data point (Medoid $m_k \in D$) |
+| **Cluster Representative** | Fictitious arithmetic mean ($\boldsymbol{\mu}_k = \frac{1}{\|C_k\|}\sum \mathbf{x}$) | Actual observed data point (Medoid $m_k \in D$) |
 | **Objective Function** | Within-Cluster Sum of Squared Errors (WCSS): $\sum \|\mathbf{x} - \boldsymbol{\mu}\|^2$ | Absolute Dissimilarity Error: $\sum d(\mathbf{x}, m)$ |
 | **Sensitivity to Outliers** | **High** (Squaring distances amplifies outlier leverage) | **Low** (Medoid resists distortion from distant points) |
 | **Computational Complexity** | $\mathcal{O}(t \cdot K \cdot n \cdot d)$ — highly scalable to large $n$ | $\mathcal{O}(t \cdot K \cdot (n - K)^2)$ for PAM — computationally heavy |

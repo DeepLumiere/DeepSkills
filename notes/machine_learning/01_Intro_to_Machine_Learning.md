@@ -230,7 +230,7 @@ flowchart TD
 
 #### Definition 2: Tom M. Mitchell (1997) — The Operational Engineering Definition
 
-> "A computer program is said to **learn** from experience $E$with respect to some class of tasks$T$and performance measure$P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$."
+> "A computer program is said to **learn** from experience $E$ with respect to some class of tasks $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$."
 
 
 
@@ -308,7 +308,7 @@ Every valid machine learning problem must be formally translatable into this thr
 
 1. **Feature Vector ($\mathbf{x}$):** An ordered $d$-dimensional vector of numerical or categorical measurements representing measurable properties of an observed entity: $\mathbf{x} = (x_1, x_2, \dots, x_d)^T \in \mathcal{X}$.
 
-2. **Target Label ($y$):** The ground-truth outcome or dependent variable associated with an instance: $y \in \mathbb{R}$for regression,$y \in \{C_1, \dots, C_K\}$ for classification.
+2. **Target Label ($y$):** The ground-truth outcome or dependent variable associated with an instance: $y \in \mathbb{R}$ for regression,$y \in \{C_1, \dots, C_K\}$ for classification.
 
 3. **Training Set ($\mathcal{D}_{\text{train}}$):** The empirical dataset $\{(\mathbf{x}^{(i)}, y^{(i)})\}_{i=1}^m$ utilized by the optimization algorithm to parameterize the model.
 
@@ -322,7 +322,7 @@ Every valid machine learning problem must be formally translatable into this thr
 
 8. **Underfitting:** The condition where a model has insufficient capacity to capture the underlying structural patterns in data, performing poorly on both training and test sets.
 
-9. **Supervised Learning:** A learning regime where every training input $\mathbf{x}^{(i)}$is paired with an explicit supervisory ground-truth label$y^{(i)}$.
+9. **Supervised Learning:** A learning regime where every training input $\mathbf{x}^{(i)}$ is paired with an explicit supervisory ground-truth label $y^{(i)}$.
 
 10. **Unsupervised Learning:** A regime where algorithms uncover latent geometry, density distributions, or cluster memberships without external labels.
 
@@ -334,9 +334,9 @@ Every valid machine learning problem must be formally translatable into this thr
 
 14. **Discount Factor ($\gamma$):** A scalar factor $\gamma \in [0, 1)$ balancing the relative importance of immediate rewards against future rewards.
 
-15. **Generative Adversarial Network (GAN):** A framework pitting two neural networks—a Generator $G$and a Discriminator$D$—in a minimax zero-sum game.
+15. **Generative Adversarial Network (GAN):** A framework pitting two neural networks—a Generator $G$ and a Discriminator $D$—in a minimax zero-sum game.
 
-16. **Cycle-Consistency Loss:** An objective ensuring that transforming an image from domain $A$to$B$and back to$A$recovers the original input:$F(G(x)) \approx x$.
+16. **Cycle-Consistency Loss:** An objective ensuring that transforming an image from domain $A$ to $B$ and back to $A$ recovers the original input:$F(G(x)) \approx x$.
 
 17. **Semantic Segmentation:** The computer vision task of classifying every single pixel into a predefined semantic class without distinguishing object instances.
 
@@ -367,54 +367,36 @@ A machine learning system does not exist as a static algorithm; it operates with
 
 
 ```mermaid
-
 flowchart TD
-
-    subgraph Training Phase
-
+    subgraph Training_Phase ["Training Phase"]
         A[Raw Training Data] --> B[Data Preprocessing & Cleaning]
-
         B --> C[Feature Extraction & Scaling]
-
         C --> D["Training Samples (x^(i), y^(i))"]
-
         D --> E[Learning Algorithm / Optimization]
-
         E --> F[Loss Function Minimization]
-
         F -->|Iterative Updates| E
-
         F --> G[Trained Model / Hypothesis h_theta]
-
     end
 
-    
-
-    subgraph Inference Phase
-
+    subgraph Inference_Phase ["Inference Phase"]
         H[New Unseen Input x*] --> I[Identical Preprocessing & Feature Extraction]
-
         I --> J[Trained Model h_theta]
-
         J --> K[Predicted Output y*]
-
         K --> L[Performance Monitoring & Evaluation]
-
     end
-
 ```
 
 
 
 ### 5.1 The Training Phase
 
-The objective of the training phase is to search through the hypothesis space $\mathcal{H}$to discover optimal parameter settings$\theta^*$ that minimize an empirical loss objective.
+The objective of the training phase is to search through the hypothesis space $\mathcal{H}$ to discover optimal parameter settings $\theta^*$ that minimize an empirical loss objective.
 
 1. **Data Ingestion & Cleaning:** Eliminating corrupt samples, handling missing attributes, imputing noisy measurements.
 
 2. **Feature Extraction / Engineering:** Mapping raw observational inputs into meaningful mathematical feature vectors $\mathbf{x} \in \mathbb{R}^d$.
 
-3. **Training Set Formulation:** Formulating pairs $(\mathbf{x}^{(i)}, y^{(i)})$for$i = 1, \dots, m$.
+3. **Training Set Formulation:** Formulating pairs $(\mathbf{x}^{(i)}, y^{(i)})$ for $i = 1, \dots, m$.
 
 4. **Optimization Loop:** Feeding training instances through the model hypothesis $h_\theta(\mathbf{x})$, calculating prediction discrepancies via a loss function $L(h_\theta(\mathbf{x}), y)$, and calculating parameter gradients to update weights $\theta$.
 
@@ -438,7 +420,7 @@ In production deployment, the model operates on novel, real-world query instance
 
 1. **Feature Consistency:** Incoming raw samples must undergo the exact same transformation pipeline (mean normalization factors, vocabulary indexings, scaling parameters) calculated during the training phase. Never re-fit feature scalers on inference data!
 
-2. **Forward Hypothesis Evaluation:** The compiled model evaluates $\hat{y}^* = h_{\theta^*}(\mathbf{x}^*)$ in low-latency forward propagation ($O(1)$to$O(d)$).
+2. **Forward Hypothesis Evaluation:** The compiled model evaluates $\hat{y}^* = h_{\theta^*}(\mathbf{x}^*)$ in low-latency forward propagation ($O(1)$ to $O(d)$).
 
 3. **Decision & Action:** In classification, outputting a class label $\hat{y} \in \{C_1, \dots, C_K\}$; in regression, outputting a continuous real number $\hat{y} \in \mathbb{R}$.
 
@@ -531,7 +513,7 @@ The learning algorithm seeks an optimal function $h: \mathcal{X} \to \mathcal{Y}
 
 The target space consists of discrete, unordered categorical classes: $y \in \{C_1, C_2, \dots, C_K\}$.
 
-- **Binary Classification ($K = 2$):** $y \in \{0, 1\}$or$y \in \{-1, +1\}$.
+- **Binary Classification ($K = 2$):** $y \in \{0, 1\}$ or $y \in \{-1, +1\}$.
 
   - *Examples:* Benign vs. Malignant tumor diagnosis, Spam vs. Ham email classification, Credit card fraud detection (Fraudulent vs. Legitimate).
 
@@ -553,7 +535,7 @@ The target space consists of discrete, unordered categorical classes: $y \in \{C
 
 #### 2. Regression (Continuous Target Spaces):
 
-The target space is real-valued and continuous: $y \in \mathbb{R}$(or$y \in \mathbb{R}^k$ for multi-output regression).
+The target space is real-valued and continuous: $y \in \mathbb{R}$(or $y \in \mathbb{R}^k$ for multi-output regression).
 
 - *Mathematical Objective:* Estimate a mapping function $f(\mathbf{x}) = \hat{y}$ that minimizes a distance metric, typically Mean Squared Error (MSE):
 
@@ -582,7 +564,7 @@ $$
 
 ### 6.2 Unsupervised Learning: Discovering Latent Structure
 
-In unsupervised learning, the algorithm receives only feature vectors $\mathbf{x}^{(i)}$without any supervisory ground-truth target labels$y^{(i)}$:
+In unsupervised learning, the algorithm receives only feature vectors $\mathbf{x}^{(i)}$ without any supervisory ground-truth target labels $y^{(i)}$:
 
 
 
@@ -599,7 +581,7 @@ The goal is to discover inherent statistical structure, geometric manifolds, or 
 
 #### 1. Clustering:
 
-Partitioning $m$unlabeled observations into$K$ distinct, non-overlapping clusters such that intra-cluster point similarity is maximized and inter-cluster similarity is minimized.
+Partitioning $m$ unlabeled observations into $K$ distinct, non-overlapping clusters such that intra-cluster point similarity is maximized and inter-cluster similarity is minimized.
 
 - **Algorithms:** K-Means Clustering, Hierarchical Agglomerative Clustering, DBSCAN.
 
@@ -615,7 +597,7 @@ Partitioning $m$unlabeled observations into$K$ distinct, non-overlapping cluster
 
 #### 2. Dimensionality Reduction:
 
-Transforming high-dimensional feature vectors $\mathbf{x} \in \mathbb{R}^D$into a lower-dimensional latent space$\mathbf{z} \in \mathbb{R}^d$ ($d \ll D$) while retaining maximal statistical information (variance) or preserving neighborhood topologies.
+Transforming high-dimensional feature vectors $\mathbf{x} \in \mathbb{R}^D$ into a lower-dimensional latent space $\mathbf{z} \in \mathbb{R}^d$ ($d \ll D$) while retaining maximal statistical information (variance) or preserving neighborhood topologies.
 
 - **Algorithms:** Principal Component Analysis (PCA), Linear Discriminant Analysis (LDA), t-Distributed Stochastic Neighbor Embedding (t-SNE), UMAP.
 
@@ -637,7 +619,7 @@ Transforming high-dimensional feature vectors $\mathbf{x} \in \mathbb{R}^D$into 
 
 Semi-supervised learning addresses scenarios where acquiring unlabeled data is inexpensive (e.g., scraping millions of medical X-rays or web pages), but acquiring expert annotations is cost-prohibitive.
 
-- **Dataset Structure:** A tiny labeled subset $\mathcal{D}_L = \{(\mathbf{x}^{(i)}, y^{(i)})\}_{i=1}^{m_l}$combined with an enormous unlabeled corpus$\mathcal{D}_U = \{\mathbf{x}^{(j)}\}_{j=m_l+1}^{m_l + m_u}$ ($m_u \gg m_l$).
+- **Dataset Structure:** A tiny labeled subset $\mathcal{D}_L = \{(\mathbf{x}^{(i)}, y^{(i)})\}_{i=1}^{m_l}$ combined with an enormous unlabeled corpus $\mathcal{D}_U = \{\mathbf{x}^{(j)}\}_{j=m_l+1}^{m_l + m_u}$ ($m_u \gg m_l$).
 
 - **Core Hypothesis (Cluster / Manifold Assumption):** If two points $\mathbf{x}_1, \mathbf{x}_2$ reside within the same high-density cluster or geometric manifold in the unlabeled data, their class labels are highly likely to be identical.
 
@@ -698,7 +680,7 @@ Where:
 
 #### Objective:
 
-Learn an optimal behavioral policy $\pi^*(a \mid s)$that maximizes the expected cumulative discounted return$R_t$:
+Learn an optimal behavioral policy $\pi^*(a \mid s)$ that maximizes the expected cumulative discounted return $R_t$:
 
 
 
@@ -723,7 +705,7 @@ $$
 
 | Feature | Supervised Learning | Unsupervised Learning | Semi-Supervised Learning | Reinforcement Learning |
 | :--- | :--- | :--- | :--- | :--- |
-| **Training Data** | Fully labeled pairs $(\mathbf{x}^{(i)}, y^{(i)})$| Unlabeled feature vectors$\mathbf{x}^{(i)}$| Small labeled$\mathcal{D}_L$+ large unlabeled$\mathcal{D}_U$| Environment states$s_t$& scalar rewards$r_t$ |
+| **Training Data** | Fully labeled pairs $(\mathbf{x}^{(i)}, y^{(i)})$| Unlabeled feature vectors $\mathbf{x}^{(i)}$| Small labeled $\mathcal{D}_L$+ large unlabeled $\mathcal{D}_U$| Environment states $s_t$& scalar rewards $r_t$ |
 | **Feedback Signal** | Explicit direct supervision (ground truth label) | No external supervision; self-organizing | Partial supervision propagated through density manifolds | Delayed evaluative scalar reward signals |
 | **Core Goal** | Infer mapping function $f: \mathcal{X} \to \mathcal{Y}$ | Uncover geometric manifolds, clusters, or density | Improve decision boundary using data density | Optimize action policy $\pi(a \mid s)$ |
 | **Core Tasks** | Classification, Regression | Clustering, Dimensionality Reduction | Semi-supervised classification | Q-learning, Policy Gradients, Actor-Critic |
@@ -778,7 +760,7 @@ Traditional rule-based algorithms operate via deterministically hand-coded `if-t
 
 #### 1. Photorealistic Human Face Synthesis (StyleGAN)
 
-Pioneered by Goodfellow et al. (2014) and advanced by Karras et al. (Progressive GAN, StyleGAN), Generative Adversarial Networks synthesize photorealistic $1024 \times 1024$facial images of non-existent people by mapping a latent noise vector$\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$through a generator network$G(\mathbf{z})$that fools a discriminator$D(\mathbf{x})$.
+Pioneered by Goodfellow et al. (2014) and advanced by Karras et al. (Progressive GAN, StyleGAN), Generative Adversarial Networks synthesize photorealistic $1024 \times 1024$ facial images of non-existent people by mapping a latent noise vector $\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$ through a generator network $G(\mathbf{z})$ that fools a discriminator $D(\mathbf{x})$.
 
 
 
@@ -796,7 +778,7 @@ Synthesizes novel images of a person in arbitrary arbitrary target postures whil
 
 #### 3. Unpaired Image-to-Image Translation (CycleGAN)
 
-Traditional conditional GANs require paired training datasets (e.g., photo $A$exactly registered with photo$B$). CycleGAN (Zhu et al., 2017) resolves this by learning bidirectional mappings between two unpaired visual domains $X$and$Y$ using a **Cycle-Consistency Loss**:
+Traditional conditional GANs require paired training datasets (e.g., photo $A$ exactly registered with photo $B$). CycleGAN (Zhu et al., 2017) resolves this by learning bidirectional mappings between two unpaired visual domains $X$ and $Y$ using a **Cycle-Consistency Loss**:
 
 
 
@@ -807,7 +789,7 @@ $$
 
 
 
-Where $G: X \to Y$translates domain$X$to$Y$, and $F: Y \to X$translates$Y$back to$X$.
+Where $G: X \to Y$ translates domain $X$ to $Y$, and $F: Y \to X$ translates $Y$ back to $X$.
 
 *Classic Demonstrations:* Transforming horses into zebras, summer landscapes into winter snowscapes, and real-world photographs into Monet impressionist paintings.
 
@@ -1034,7 +1016,7 @@ $$
 
 
 
-- Where $m$is the number of training instances,$h_\theta(\mathbf{x})$is model prediction, and$y$ is actual ground truth.
+- Where $m$ is the number of training instances,$h_\theta(\mathbf{x})$ is model prediction, and $y$ is actual ground truth.
 
 
 
@@ -1060,7 +1042,7 @@ $$
 
 
 
-- Where $r_{t+k+1}$is scalar reward received at time step$t+k+1$, and $\gamma \in [0, 1)$ is the temporal discount factor.
+- Where $r_{t+k+1}$ is scalar reward received at time step $t+k+1$, and $\gamma \in [0, 1)$ is the temporal discount factor.
 
 
 
@@ -1083,9 +1065,9 @@ $$
 
 
 
-- **Machine Learning (Mitchell):** A program learns from experience $E$regarding task$T$and performance measure$P$if performance on$T$measured by$P$improves with$E$.
+- **Machine Learning (Mitchell):** A program learns from experience $E$ regarding task $T$ and performance measure $P$ if performance on $T$ measured by $P$ improves with $E$.
 
-- **Supervised Learning:** Learning a mapping $f: \mathcal{X} \to \mathcal{Y}$from labeled training pairs$(\mathbf{x}^{(i)}, y^{(i)})$.
+- **Supervised Learning:** Learning a mapping $f: \mathcal{X} \to \mathcal{Y}$ from labeled training pairs $(\mathbf{x}^{(i)}, y^{(i)})$.
 
 - **Unsupervised Learning:** Discovering hidden patterns, clusters, or probability distributions from unlabeled inputs $\mathbf{x}^{(i)}$.
 
@@ -1123,7 +1105,7 @@ $$
 
 1. **Define Machine Learning according to Tom Mitchell. Provide explicit specifications of $(T, E, P)$ for an autonomous self-driving car.**
 
-   - *Answer:* Definition: "A computer program is said to learn from experience $E$with respect to some class of tasks$T$and performance measure$P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$."
+   - *Answer:* Definition: "A computer program is said to learn from experience $E$ with respect to some class of tasks $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$."
 
      - **Task ($T$):** Steering, lane following, throttle control, and collision avoidance on public roads.
 
@@ -1161,7 +1143,7 @@ $$
 
 #### Problem 1: Euclidean Distance Computation
 
-A 3-dimensional dataset contains observations $\mathbf{x}^{(1)} = [2, 5, 8]^T$and$\mathbf{x}^{(2)} = [5, 1, 8]^T$. Compute the Euclidean distance $d_2(\mathbf{x}^{(1)}, \mathbf{x}^{(2)})$.
+A 3-dimensional dataset contains observations $\mathbf{x}^{(1)} = [2, 5, 8]^T$ and $\mathbf{x}^{(2)} = [5, 1, 8]^T$. Compute the Euclidean distance $d_2(\mathbf{x}^{(1)}, \mathbf{x}^{(2)})$.
 
 
 
@@ -1186,7 +1168,7 @@ $$
 
 #### Problem 2: Reinforcement Learning Cumulative Discounted Return
 
-An autonomous robot navigates a maze receiving the following sequence of immediate rewards over 4 consecutive time steps: $r_1 = +2$, $r_2 = -1$, $r_3 = 0$, $r_4 = +10$. Assuming discount factor $\gamma = 0.5$, compute the cumulative discounted return $R_0$from time$t = 0$.
+An autonomous robot navigates a maze receiving the following sequence of immediate rewards over 4 consecutive time steps: $r_1 = +2$, $r_2 = -1$, $r_3 = 0$, $r_4 = +10$. Assuming discount factor $\gamma = 0.5$, compute the cumulative discounted return $R_0$ from time $t = 0$.
 
 
 

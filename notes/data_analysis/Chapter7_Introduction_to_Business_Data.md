@@ -26,11 +26,11 @@ flowchart LR
     subgraph S2["5-Stage Analytics Pipeline"]
         C1["1. Collect"] --> C2["2. Clean"]
         C2 --> C3["3. Analyse"]
-        C3 --> C4["4. Visualise<br/><b>(DAV Course Focus)</b>"]
+        C3 --> C4["4. Visualise (DAV Course Focus)"]
         C4 --> C5["5. Decide"]
     end
     S1 --> C1
-    C5 --> ACT["Business Impact:<br/>Faster Decisions, Lower Risk, Higher ROI"]
+    C5 --> ACT["Business Impact: Faster Decisions, Lower Risk, Higher ROI"]
 ```
 
 [Source: Session-1_Introduction to Business Data.pdf, Slides 1-4, 11]
@@ -130,13 +130,13 @@ Business data is classified across two orthogonal dimensions: **Structure** (the
 
 ```mermaid
 flowchart TD
-    subgraph Structured Format
-        Q2["Internal Structured<br/>SQL databases, ERP ledgers, CRM tables"]
-        Q1["External Structured<br/>Market index feeds, Government Census tables"]
+    subgraph Structured_Format ["Structured Format"]
+        Q2["Internal Structured: SQL databases, ERP ledgers, CRM tables"]
+        Q1["External Structured: Market index feeds, Government Census tables"]
     end
-    subgraph Unstructured Format
-        Q3["Internal Unstructured<br/>Customer call audio, Support emails"]
-        Q4["External Unstructured<br/>Social media posts, Product review text"]
+    subgraph Unstructured_Format ["Unstructured Format"]
+        Q3["Internal Unstructured: Customer call audio, Support emails"]
+        Q4["External Unstructured: Social media posts, Product review text"]
     end
     Q2 ~~~ Q1
     Q3 ~~~ Q4
@@ -197,10 +197,10 @@ The conversion of raw event data into executive business decisions follows a seq
 
 ```mermaid
 flowchart LR
-    C1["<b>1. Collect</b><br/>Ingest raw events from sources"] --> C2["<b>2. Clean</b><br/>Handle nulls, deduplicate, validate"]
-    C2 --> C3["<b>3. Analyse</b><br/>Discover trends & relationships"]
-    C3 --> C4["<b>4. Visualise</b><br/><b>(Course Core Focus)</b><br/>Build charts & dashboards"]
-    C4 --> C5["<b>5. Decide</b><br/>Execute strategic actions"]
+    C1["1. Collect: Ingest raw events from sources"] --> C2["2. Clean: Handle nulls, deduplicate, validate"]
+    C2 --> C3["3. Analyse: Discover trends & relationships"]
+    C3 --> C4["4. Visualise (Course Core Focus): Build charts & dashboards"]
+    C4 --> C5["5. Decide: Execute strategic actions"]
 ```
 
 ### Detailed Pipeline Breakdown
@@ -250,9 +250,9 @@ The modern enterprise analytics function is divided across three complementary r
 ```mermaid
 flowchart TD
     subgraph AnalyticsTriad["The Enterprise Analytics Triad"]
-        DA["<b>Data Analyst</b><br/>Focus: 'What happened and why?'<br/>Deliverable: Dashboards, reports, ad-hoc insights"]
-        BI["<b>BI Developer</b><br/>Focus: 'How to scale & automate reporting?'<br/>Deliverable: ETL pipelines, data marts, semantic models"]
-        DS["<b>Data Scientist</b><br/>Focus: 'What will happen next?'<br/>Deliverable: ML models, predictive scoring APIs"]
+        DA["Data Analyst: Focus 'What happened and why?' - Dashboards, reports, ad-hoc insights"]
+        BI["BI Developer: Focus 'How to scale & automate reporting?' - ETL pipelines, data marts"]
+        DS["Data Scientist: Focus 'What will happen next?' - ML models, predictive scoring APIs"]
     end
     DA <-->|Consumes Semantic Layer| BI
     DA <-->|Shares Exploratory Patterns| DS

@@ -78,7 +78,7 @@ When fitting machine learning models, balancing model capacity against dataset s
 
 2. **Regularization**:
 
-   - Retain all $n$features, but penalize/shrink parameter magnitudes$\theta_j$ ($j = 1, \dots, n$).
+   - Retain all $n$ features, but penalize/shrink parameter magnitudes $\theta_j$ ($j = 1, \dots, n$).
 
    - Works exceptionally well when having numerous features, each contributing a small amount to target prediction.
 
@@ -100,7 +100,7 @@ When fitting machine learning models, balancing model capacity against dataset s
 
 ### 2.1 Intuition Behind Penalizing Parameters
 
-Suppose we want to prevent high-degree terms ($\theta_3 x^3, \theta_4 x^4$) from causing wild oscillations. If we add huge penalties (e.g., $1000 \cdot \theta_3^2 + 1000 \cdot \theta_4^2$) to the cost function, optimization will force $\theta_3 \approx 0$and$\theta_4 \approx 0$, effectively simplifying model behavior.
+Suppose we want to prevent high-degree terms ($\theta_3 x^3, \theta_4 x^4$) from causing wild oscillations. If we add huge penalties (e.g., $1000 \cdot \theta_3^2 + 1000 \cdot \theta_4^2$) to the cost function, optimization will force $\theta_3 \approx 0$ and $\theta_4 \approx 0$, effectively simplifying model behavior.
 
 
 
@@ -129,7 +129,7 @@ Where:
 
 - $\lambda \ge 0$: Regularization Parameter controlling trade-off between fitting training data well and keeping parameters small.
 
-- **Index $j = 1$to$n$**: Notice parameter $\theta_0$ (intercept/bias) is explicitly excluded from penalization by standard convention.
+- **Index $j = 1$ to $n$**: Notice parameter $\theta_0$ (intercept/bias) is explicitly excluded from penalization by standard convention.
 
 
 
@@ -145,7 +145,7 @@ Where:
 
 - **If $\lambda$ is optimal**: Keeps weights small, smoothing hypothesis curve and improving test set generalization.
 
-- **If $\lambda$is extremely large (e.g.,$\lambda = 10^{10}$)**: Penalizes $\theta_1, \dots, \theta_n$so severely that all$\theta_j \approx 0$. Hypothesis collapses to $h_\theta(x) \approx \theta_0$ (flat horizontal line), resulting in severe **underfitting**.
+- **If $\lambda$ is extremely large (e.g.,$\lambda = 10^{10}$)**: Penalizes $\theta_1, \dots, \theta_n$ so severely that all $\theta_j \approx 0$. Hypothesis collapses to $h_\theta(x) \approx \theta_0$ (flat horizontal line), resulting in severe **underfitting**.
 
 
 
@@ -212,9 +212,9 @@ $$
 
 The factor $\left(1 - \alpha \frac{\lambda}{m}\right)$ explains the term **"Weight Decay"**:
 
-- For typical learning rates $\alpha > 0$and$\lambda > 0$, the quantity $\left(1 - \alpha \frac{\lambda}{m}\right) < 1$(e.g.,$0.99$).
+- For typical learning rates $\alpha > 0$ and $\lambda > 0$, the quantity $\left(1 - \alpha \frac{\lambda}{m}\right) < 1$(e.g.,$0.99$).
 
-- In every iteration, $\theta_j$is first multiplied by$0.99$ (shrinking its magnitude slightly towards zero) before subtracting the standard unregularized gradient step!
+- In every iteration, $\theta_j$ is first multiplied by $0.99$ (shrinking its magnitude slightly towards zero) before subtracting the standard unregularized gradient step!
 
 
 
@@ -230,7 +230,7 @@ The factor $\left(1 - \alpha \frac{\lambda}{m}\right)$ explains the term **"Weig
 
 ### 4.1 Closed-Form Matrix Equation
 
-To find global minimum analytically with $L_2$regularization, set$\nabla_\theta J(\theta) = \mathbf{0}$:
+To find global minimum analytically with $L_2$ regularization, set $\nabla_\theta J(\theta) = \mathbf{0}$:
 
 
 
@@ -241,7 +241,7 @@ $$
 
 
 
-Where $L$is an$(n+1) \times (n+1)$matrix with$0$at top-left position$(0,0)$and$1$'s along the remaining diagonal:
+Where $L$ is an $(n+1) \times (n+1)$ matrix with $0$ at top-left position $(0,0)$ and $1$'s along the remaining diagonal:
 
 
 
@@ -258,7 +258,7 @@ $$
 
 ### 4.2 Resolution of Non-Invertibility
 
-When $m \le n$(fewer samples than features), matrix$X^T X$ is singular and non-invertible.
+When $m \le n$(fewer samples than features), matrix $X^T X$ is singular and non-invertible.
 
 
 
@@ -346,7 +346,7 @@ flowchart TD
 
 
 
-1. **Why is the bias parameter $\theta_0$excluded from the regularization penalty in$J(\theta)$?**
+1. **Why is the bias parameter $\theta_0$ excluded from the regularization penalty in $J(\theta)$?**
 
    - *Solution*: Penalizing $\theta_0$ forces baseline target predictions towards zero, regardless of data location. Unpenalized $\theta_0$ allows model hypothesis to freely shift vertically without penalty while regularizing feature sensitivities ($\theta_1, \dots, \theta_n$).
 
@@ -354,7 +354,7 @@ flowchart TD
 
 2. **Prove mathematically why adding $\lambda L$ ($\lambda > 0$) guarantees invertibility of $(X^T X + \lambda L)$.**
 
-   - *Solution*: $X^T X$ is positive semi-definite ($v^T X^T X v = \|Xv\|^2 \ge 0$). Matrix $\lambda L$for$j \ge 1$adds positive eigenvalues$\lambda > 0$to all feature directions. The sum$(X^T X + \lambda L)$ is strictly positive definite ($v^T (X^T X + \lambda L) v > 0$for all$v \ne \mathbf{0}$), ensuring non-zero determinant and invertibility.
+   - *Solution*: $X^T X$ is positive semi-definite ($v^T X^T X v = \|Xv\|^2 \ge 0$). Matrix $\lambda L$ for $j \ge 1$ adds positive eigenvalues $\lambda > 0$ to all feature directions. The sum $(X^T X + \lambda L)$ is strictly positive definite ($v^T (X^T X + \lambda L) v > 0$ for all $v \ne \mathbf{0}$), ensuring non-zero determinant and invertibility.
 
 
 
@@ -372,7 +372,7 @@ Consider a 1-feature dataset ($m = 2, n = 1$):
 
 
 
-Suppose $\theta_0 = 0$is fixed. For weight parameter$\theta_1$, given $\alpha = 0.1$, $m = 2$, regularization parameter $\lambda = 4$, and current $\theta_1 = 3$:
+Suppose $\theta_0 = 0$ is fixed. For weight parameter $\theta_1$, given $\alpha = 0.1$, $m = 2$, regularization parameter $\lambda = 4$, and current $\theta_1 = 3$:
 
 1. Calculate prediction $h_\theta(x^{(i)})$ and unregularized gradient step.
 
@@ -388,9 +388,9 @@ Suppose $\theta_0 = 0$is fixed. For weight parameter$\theta_1$, given $\alpha = 
 
 **Step 1: Compute Predictions**:
 
-- $h_\theta(x^{(1)}) = 3 \times 1 = 3$(actual$y^{(1)} = 2 \implies \text{error} = +1$)
+- $h_\theta(x^{(1)}) = 3 \times 1 = 3$(actual $y^{(1)} = 2 \implies \text{error} = +1$)
 
-- $h_\theta(x^{(2)}) = 3 \times 2 = 6$(actual$y^{(2)} = 4 \implies \text{error} = +2$)
+- $h_\theta(x^{(2)}) = 3 \times 2 = 6$(actual $y^{(2)} = 4 \implies \text{error} = +2$)
 
 
 
@@ -436,7 +436,7 @@ $$
 
 **Final Answer**:
 
-- Weight decay reduced parameter from $3.0 \to 2.4$prior to subtracting data gradient$0.25$, yielding final parameter $\theta_1^{(new)} = 2.15$.
+- Weight decay reduced parameter from $3.0 \to 2.4$ prior to subtracting data gradient $0.25$, yielding final parameter $\theta_1^{(new)} = 2.15$.
 
 ---
 
@@ -459,7 +459,7 @@ $$
 \theta_{OLS} = [\theta_1, \theta_2, \theta_3]^T = [4.0, 1.2, 0.4]^T
 $$
 
-> We examine the explicit behavior of **Ridge Regression ($L_2$)** vs **Lasso Regression ($L_1$)** as regularization parameter $\lambda$varies across$\lambda \in \{0.5, 1.0, 2.0\}$.
+> We examine the explicit behavior of **Ridge Regression ($L_2$)** vs **Lasso Regression ($L_1$)** as regularization parameter $\lambda$ varies across $\lambda \in \{0.5, 1.0, 2.0\}$.
 
 
 
@@ -495,7 +495,7 @@ $$
 
 
 
-| Regularization $\lambda$| Penalty Type | Weight$\theta_1$(Initial: 4.0) | Weight$\theta_2$(Initial: 1.2) | Weight$\theta_3$ (Initial: 0.4) | Sparsity (Zero Weights) |
+| Regularization $\lambda$| Penalty Type | Weight $\theta_1$(Initial: 4.0) | Weight $\theta_2$(Initial: 1.2) | Weight $\theta_3$ (Initial: 0.4) | Sparsity (Zero Weights) |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | **$\lambda = 0.0$** | OLS (Baseline) | $4.000$|$1.200$|$0.400$ | 0 / 3 (Dense) |
 | **$\lambda = 0.5$** | Ridge ($L_2$) | $\frac{4.0}{1.5} = \mathbf{2.667}$|$\frac{1.2}{1.5} = \mathbf{0.800}$|$\frac{0.4}{1.5} = \mathbf{0.267}$ | 0 / 3 (Dense) |
@@ -513,7 +513,7 @@ $$
 
 | Dimension | Ridge Regression ($L_2$) | Lasso Regression ($L_1$) | Elastic Net ($L_1 + L_2$) |
 | :--- | :--- | :--- | :--- |
-| **Regularization Term** | $\lambda \sum_{j=1}^n \theta_j^2$|$\lambda \sum_{j=1}^n |\theta_j|$|$r\lambda \sum |\theta_j| + \frac{1-r}{2}\lambda \sum \theta_j^2$ |
+| **Regularization Term** | $\lambda \sum_{j=1}^n \theta_j^2$ | $\lambda \sum_{j=1}^n \|\theta_j\|$ | $r\lambda \sum \|\theta_j\| + \frac{1-r}{2}\lambda \sum \theta_j^2$ |
 | **Geometric Constraint** | Circular / Hypersphere ($L_2$ ball) | Diamond / Polyhedron with sharp corners | Rounded Diamond |
 | **Sparsity** | No (Smooth shrinking towards 0) | **Yes** (Intersects axes at sharp vertices) | **Yes** |
 | **Feature Selection** | Retains all features | Automatic feature elimination | Automatic feature elimination |

@@ -60,17 +60,11 @@
 
 
 ```mermaid
-
 flowchart TD
-
-    Client["Client / User Interface"] <--> Presentation["Presentation Tier (UI Layer)<br>[HTML, CSS, JS, React, Vue]"]
-
-    Presentation <--> Business["Business Tier (Logic Layer)<br>[Node.js, Express, Python, Java]"]
-
-    Business <--> DataAccess["Data Access Tier (DAL)<br>[SQL, ORM, MongoDB Driver]"]
-
-    DataAccess <--> Database[("Database Tier (DBMS)<br>[MySQL, PostgreSQL, MongoDB]")]
-
+    Client["Client / User Interface"] <--> Presentation["Presentation Tier: UI Layer (HTML, CSS, JS, React, Vue)"]
+    Presentation <--> Business["Business Tier: Logic Layer (Node.js, Express, Python, Java)"]
+    Business <--> DataAccess["Data Access Tier: DAL (SQL, ORM, MongoDB Driver)"]
+    DataAccess <--> Database[("Database Tier: DBMS (MySQL, PostgreSQL, MongoDB)")]
 ```
 
 
@@ -110,7 +104,7 @@ sequenceDiagram
 ```
 
 #### The 7 Steps of the Web Request Journey:
-1. **DNS Resolution:** The client browser checks DNS cache (Browser cache $	o$ OS cache $	o$ Router cache $	o$ ISP DNS resolver) to translate the human-readable domain into a numerical IP address.
+1. **DNS Resolution:** The client browser checks DNS cache (Browser cache $\to$ OS cache $\to$ Router cache $\to$ ISP DNS resolver) to translate the human-readable domain into a numerical IP address.
 2. **TCP Three-Way Handshake:** Establishes a reliable transport layer connection over TCP/IP:
    - Client sends `SYN` (Synchronize sequence number).
    - Server responds with `SYN-ACK` (Synchronize-Acknowledgment).
@@ -200,7 +194,7 @@ button.addEventListener("click", () => {
 
 Modern frontend engineering relies on **Declarative Programming**, where developers define the UI as a direct mathematical projection of state:
 $$
-	ext{UI} = f(	ext{State})
+\text{UI} = f(\text{State})
 $$
 When `State` changes, the underlying framework automatically updates the DOM.
 
@@ -244,7 +238,7 @@ flowchart LR
      ```
 
 4. **Uni-Directional (One-Way) Data Flow:**
-   - In React, data strictly flows in one direction: **Top $	o$ Down** (from Parent Component to Child Component) via read-only `props`.
+   - In React, data strictly flows in one direction: **Top $\to$ Down** (from Parent Component to Child Component) via read-only `props`.
    - Child components cannot directly modify parent data. If a child needs to mutate parent state, the parent passes a callback function via props. This guarantees predictable state mutations, simplifies debugging, and isolates bugs.
 
 5. **Props vs. State (Critical Exam Distinction):**
@@ -329,7 +323,7 @@ export default Counter;
 
 1. **The 12-Column Flexbox Grid Matrix:**
    - Bootstrap's layout system is built on a 12-column grid. The viewport width is divided into 12 equal vertical tracks.
-   - Layout hierarchy strictly follows: `.container` $	o$ `.row` $	o$ `.col-{breakpoint}-{columns}`.
+   - Layout hierarchy strictly follows: `.container` $\to$ `.row` $\to$ `.col-{breakpoint}-{columns}`.
    - Column classes indicate how many of the 12 columns an element occupies:
      ```html
      <div class="container">
@@ -345,14 +339,14 @@ export default Counter;
 2. **The 6 Responsive Breakpoint Tiers:**
    - Bootstrap adopts a **Mobile-First** paradigm using CSS `min-width` media queries:
 
-| Breakpoint Tier | Infix Class | Viewport Range | Target Devices |
-| :--- | :--- | :--- | :--- |
-| **Extra Small** | None (`.col-`) | $< 576	ext{px}$ | Mobile smartphones in portrait. |
-| **Small** | `sm` (`.col-sm-`) | $\ge 576	ext{px}$ | Large phones / mobile in landscape. |
-| **Medium** | `md` (`.col-md-`) | $\ge 768	ext{px}$ | Tablets and mini laptops. |
-| **Large** | `lg` (`.col-lg-`) | $\ge 992	ext{px}$ | Desktop monitors and laptops. |
-| **Extra Large** | `xl` (`.col-xl-`) | $\ge 1200	ext{px}$ | High-resolution desktop displays. |
-| **Extra Extra Large** | `xxl` (`.col-xxl-`) | $\ge 1400	ext{px}$ | Ultra-wide monitors and 4K displays. |
+     | Breakpoint Tier | Infix Class | Viewport Range | Target Devices |
+     | :--- | :--- | :--- | :--- |
+     | **Extra Small** | None (`.col-`) | $< 576\text{px}$ | Mobile smartphones in portrait. |
+     | **Small** | `sm` (`.col-sm-`) | $\ge 576\text{px}$ | Large phones / mobile in landscape. |
+     | **Medium** | `md` (`.col-md-`) | $\ge 768\text{px}$ | Tablets and mini laptops. |
+     | **Large** | `lg` (`.col-lg-`) | $\ge 992\text{px}$ | Desktop monitors and laptops. |
+     | **Extra Large** | `xl` (`.col-xl-`) | $\ge 1200\text{px}$ | High-resolution desktop displays. |
+     | **Extra Extra Large** | `xxl` (`.col-xxl-`) | $\ge 1400\text{px}$ | Ultra-wide monitors and 4K displays. |
 
 3. **Pre-Built Interactive UI Components:**
    - Delivers standardized, accessibility-compliant (ARIA) UI components: Navbars, Dropdowns, Modals, Accordions, Toasts, Carousels, Badges, and Tooltips.
@@ -380,11 +374,11 @@ export default Counter;
 
 3. **Sub-10KB Production Bundles via the Just-In-Time (JIT) Compiler:**
    - Monolithic frameworks like Bootstrap ship full CSS stylesheets (~150KB–300KB) containing hundreds of classes the application never uses.
-   - Tailwind's **Just-In-Time (JIT) Engine** scans all project template files (`.html`, `.jsx`, `.vue`), extracts the exact utility classes used, and compiles *strictly* the CSS needed on-demand. Production stylesheets are routinely under $10	ext{KB}$ gzipped, regardless of application scale.
+   - Tailwind's **Just-In-Time (JIT) Engine** scans all project template files (`.html`, `.jsx`, `.vue`), extracts the exact utility classes used, and compiles *strictly* the CSS needed on-demand. Production stylesheets are routinely under $10\text{KB}$ gzipped, regardless of application scale.
 
 4. **Constraint-Based Design System:**
    - Prevents arbitrary "magic numbers" (`margin: 17px; font-size: 13.5px;`).
-   - Tailwind provides a mathematical design token scale for spacing ($4 = 1	ext{rem} = 16	ext{px}$), font sizes (`text-sm`, `text-base`, `text-xl`), box shadows (`shadow-md`, `shadow-xl`), and color palettes (`slate-500`, `emerald-600`).
+   - Tailwind provides a mathematical design token scale for spacing ($4 = 1\text{rem} = 16\text{px}$), font sizes (`text-sm`, `text-base`, `text-xl`), box shadows (`shadow-md`, `shadow-xl`), and color palettes (`slate-500`, `emerald-600`).
 
 5. **Responsive Prefixes & Pseudo-Class Modifiers:**
    - Allows complex responsive design, dark mode, and state styling directly within class strings without writing a single media query:
@@ -420,7 +414,7 @@ export default Counter;
 | **Styling Philosophy** | **Component-Based:** Pre-designed, opinionated UI components. | **Utility-First:** Low-level, unopinionated atomic utility classes. |
 | **Syntax Example** | `<button class="btn btn-primary btn-lg">Button</button>` | `<button class="bg-blue-600 text-white px-6 py-3 rounded-lg">Button</button>` |
 | **Customizability** | Low / Medium (requires overriding SASS variables or CSS rules). | High / Infinite (complete freedom over styling without overriding rules). |
-| **Bundle Size in Production**| Fixed, larger footprint (~150KB–280KB unminified). | Ultra-light dynamic bundle (typically $< 10	ext{KB}$ gzipped via JIT purge). |
+| **Bundle Size in Production**| Fixed, larger footprint (~150KB–280KB unminified). | Ultra-light dynamic bundle (typically $< 10\text{KB}$ gzipped via JIT purge). |
 | **Design Uniqueness** | Websites often look like "Bootstrap clones" unless customized heavily. | Every website built with Tailwind can have a unique, tailored look. |
 | **Built-in Components** | Yes: Includes full pre-built Navbars, Modals, Carousels, Alerts. | No: Provides building blocks; UI libraries (Tailwind UI, DaisyUI) separate. |
 | **CSS File Maintenance**| Traditional CSS / SASS overrides. | Rarely write custom CSS files; classes declared directly in markup. |
@@ -433,10 +427,10 @@ Modern full-stack web applications utilize browser storage mechanisms to persist
 
 | Storage Mechanism | Capacity Limit | Data Lifespan / Expiration | Storage Scope | Sent with Every HTTP Request? | Access API | Primary Use Cases | Security Vulnerabilities |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`localStorage`** | $\sim 5	ext{MB} - 10	ext{MB}$ per origin | Permanent (persists until explicitly cleared by user or script). | Same-Origin (all tabs and windows from origin). | **No** (purely client-side access). | Synchronous Key-Value (`localStorage.setItem()`). | User preferences (Dark mode), draft text, cached offline data. | Vulnerable to **XSS (Cross-Site Scripting)** attacks; accessible via JS. |
-| **`sessionStorage`** | $\sim 5	ext{MB}$ per origin | Tab Lifetime (deleted automatically when browser tab closes). | Per Tab / Per Window (not shared across tabs). | **No** (purely client-side access). | Synchronous Key-Value (`sessionStorage.setItem()`). | Multi-step wizard data, single-session transaction data. | Vulnerable to **XSS** attacks if malicious scripts execute in tab. |
-| **HTTP Cookies** | $\sim 4	ext{KB}$ per cookie | Configurable via `Expires` or `Max-Age` header attributes. | Origin + Path (configurable via `Domain` and `Path`). | **Yes** (automatically transmitted in `Cookie` header). | Synchronous via `document.cookie` (unless `HttpOnly`). | Authentication session IDs, tracking tokens. | Vulnerable to **CSRF** (Cross-Site Request Forgery). Mitigated with `SameSite=Strict`. Protected from XSS via `HttpOnly`. |
-| **`IndexedDB`** | $> 250	ext{MB}$ (often up to $80\%$ of free disk space) | Permanent (persists until cleared or disk pressure eviction). | Same-Origin (shared across tabs from origin). | **No** (purely client-side access). | Asynchronous Object-Oriented NoSQL database. | Large offline datasets, progressive web apps (PWAs), binary files, audio/video blobs. | Vulnerable to **XSS** attacks if untrusted scripts run. |
+| **`localStorage`** | $\sim 5\text{MB} - 10\text{MB}$ per origin | Permanent (persists until explicitly cleared by user or script). | Same-Origin (all tabs and windows from origin). | **No** (purely client-side access). | Synchronous Key-Value (`localStorage.setItem()`). | User preferences (Dark mode), draft text, cached offline data. | Vulnerable to **XSS (Cross-Site Scripting)** attacks; accessible via JS. |
+| **`sessionStorage`** | $\sim 5\text{MB}$ per origin | Tab Lifetime (deleted automatically when browser tab closes). | Per Tab / Per Window (not shared across tabs). | **No** (purely client-side access). | Synchronous Key-Value (`sessionStorage.setItem()`). | Multi-step wizard data, single-session transaction data. | Vulnerable to **XSS** attacks if malicious scripts execute in tab. |
+| **HTTP Cookies** | $\sim 4\text{KB}$ per cookie | Configurable via `Expires` or `Max-Age` header attributes. | Origin + Path (configurable via `Domain` and `Path`). | **Yes** (automatically transmitted in `Cookie` header). | Synchronous via `document.cookie` (unless `HttpOnly`). | Authentication session IDs, tracking tokens. | Vulnerable to **CSRF** (Cross-Site Request Forgery). Mitigated with `SameSite=Strict`. Protected from XSS via `HttpOnly`. |
+| **`IndexedDB`** | $> 250\text{MB}$ (often up to $80\%$ of free disk space) | Permanent (persists until cleared or disk pressure eviction). | Same-Origin (shared across tabs from origin). | **No** (purely client-side access). | Asynchronous Object-Oriented NoSQL database. | Large offline datasets, progressive web apps (PWAs), binary files, audio/video blobs. | Vulnerable to **XSS** attacks if untrusted scripts run. |
 
 ---
 
@@ -492,9 +486,9 @@ In distributed systems, memory structures cannot be directly transmitted over ne
 
 ```mermaid
 flowchart LR
-    A["Live In-Memory JavaScript Object<br>(Heap Memory, Pointers, Functions)"]
-    -->|"Serialization / Stringify<br>(Marshalling)"| B["Standardized JSON UTF-8 String<br>{&quot;id&quot;:101, &quot;name&quot;:&quot;Alice&quot;}"]
-    B -->|"Deserialization / Parse<br>(Unmarshalling)"| C["Reconstructed In-Memory Object<br>(New Memory Allocation in Target Heap)"]
+    A["Live In-Memory JavaScript Object (Heap Memory, Pointers, Functions)"]
+    -->|"Serialization / Stringify (Marshalling)"| B["Standardized JSON UTF-8 String: {&quot;id&quot;:101, &quot;name&quot;:&quot;Alice&quot;}"]
+    B -->|"Deserialization / Parse (Unmarshalling)"| C["Reconstructed In-Memory Object (New Memory Allocation in Target Heap)"]
 ```
 
 - **Serialization (Marshalling / Stringification):**
@@ -1605,17 +1599,17 @@ server.listen(PORT, () => {
 
 flowchart TD
 
-    C1["1. Client-Server Decoupling<br>(UI isolated from Data Storage)"]
+    C1["1. Client-Server Decoupling (UI isolated from Data Storage)"]
 
-    C2["2. Statelessness<br>(No client context saved on server)"]
+    C2["2. Statelessness (No client context saved on server)"]
 
-    C3["3. Cacheability<br>(Explicit response cache headers)"]
+    C3["3. Cacheability (Explicit response cache headers)"]
 
-    C4["4. Uniform Interface<br>(Resource URIs, Self-descriptive, HATEOAS)"]
+    C4["4. Uniform Interface (Resource URIs, Self-descriptive, HATEOAS)"]
 
-    C5["5. Layered System<br>(Client cannot tell if connected to end DB or proxy)"]
+    C5["5. Layered System (Client cannot tell if connected to end DB or proxy)"]
 
-    C6["6. Code on Demand (Optional)<br>(Executable code download like JS)"]
+    C6["6. Code on Demand (Optional - Executable code download like JS)"]
 
 ```
 
@@ -1663,12 +1657,12 @@ flowchart TD
 | Code Range | Category | Code & Name | Technical Application Context |
 | :--- | :--- | :--- | :--- |
 | **2xx** | Success | `200 OK` | Standard success for GET, PUT, or PATCH. |
-| | | `201 CREATED` | Resource created successfully via POST. |
-| | | `204 NO CONTENT` | Action succeeded; response body intentionally empty (DELETE). |
+| **2xx** | Success | `201 CREATED` | Resource created successfully via POST. |
+| **2xx** | Success | `204 NO CONTENT` | Action succeeded; response body intentionally empty (DELETE). |
 | **4xx** | Client Error | `400 BAD REQUEST` | Payload syntax error or missing mandatory parameters. |
-| | | `401 UNAUTHORIZED` | Authentication required or token invalid. |
-| | | `403 FORBIDDEN` | Authenticated, but lacks required role permissions. |
-| | | `404 NOT FOUND` | Requested URI resource path does not exist. |
+| **4xx** | Client Error | `401 UNAUTHORIZED` | Authentication required or token invalid. |
+| **4xx** | Client Error | `403 FORBIDDEN` | Authenticated, but lacks required role permissions. |
+| **4xx** | Client Error | `404 NOT FOUND` | Requested URI resource path does not exist. |
 | **5xx** | Server Error | `500 INTERNAL SERVER ERROR` | Unhandled server exception or runtime crash. |
 
 
@@ -1729,16 +1723,16 @@ $$
 
 - **JSON Serialization Memory Footprint Ratio:**
   $$
-	ext{Memory Overhead} =
-rac{	ext{JSON String Size (Bytes)}}{	ext{Raw Binary Data Size (Bytes)}} 	imes 100\%
+\text{Memory Overhead} =
+\frac{\text{JSON String Size (Bytes)}}{\text{Raw Binary Data Size (Bytes)}} \times 100\%
   $$
 
 - **Bootstrap 5 Responsive Grid Width Equation:**
-  For an element spanning $C$ columns in a 12-column grid container with width $W_{	ext{container}}$:
+  For an element spanning $C$ columns in a 12-column grid container with width $W_{\text{container}}$:
   $$
-	ext{Width}_{	ext{element}} = \left(
-rac{C}{12}
-ight) 	imes 100\%
+\text{Width}_{\text{element}} = \left(
+\frac{C}{12}
+\right) \times 100\%
   $$
 
 ---
@@ -1806,7 +1800,7 @@ Bootstrap 5 is an **opinionated, component-based framework** providing pre-style
 
 - **Atomic Classes:** Instead of providing pre-designed buttons, Tailwind provides low-level utility classes (`flex`, `bg-blue-600`, `px-4`, `py-2`, `rounded-lg`) that compose directly inside markup.
 - **Zero CSS Specificity Wars:** Eliminates cascading stylesheet conflicts because styles are applied locally at flat specificity.
-- **Just-In-Time (JIT) Purging:** Tailwind's compiler scans project source files and generates *only* the CSS classes actually utilized in markup. Production stylesheets are routinely under $10	ext{KB}$ gzipped.
+- **Just-In-Time (JIT) Purging:** Tailwind's compiler scans project source files and generates *only* the CSS classes actually utilized in markup. Production stylesheets are routinely under $10\text{KB}$ gzipped.
 - **Design System Constraints:** Enforces strict mathematical scales for spacing, color palettes, and typography, preventing visual inconsistency across teams.
 - **No Class-Naming Fatigue:** Developers no longer waste time creating artificial BEM class names (`.user-card__header--active`).
 
@@ -1829,7 +1823,7 @@ JSON has supplanted XML as the global standard for web API data interchange due 
 
 | Parameter | `localStorage` | `sessionStorage` | HTTP Cookies |
 | :--- | :--- | :--- | :--- |
-| **Capacity** | $\sim 5	ext{MB} - 10	ext{MB}$ | $\sim 5	ext{MB}$ | $\sim 4	ext{KB}$ |
+| **Capacity** | $\sim 5\text{MB} - 10\text{MB}$ | $\sim 5\text{MB}$ | $\sim 4\text{KB}$ |
 | **Lifespan** | Permanent (until manually cleared). | Tab session (wiped on tab close). | Configurable (`Expires` / `Max-Age`). |
 | **Network Transfer** | Never sent automatically to server. | Never sent automatically to server. | Automatically transmitted in every HTTP request header. |
 | **Security Flags** | None (accessible via JavaScript). | None (accessible via JavaScript). | Supports `HttpOnly` (blocks JS access) and `Secure` (HTTPS only). |

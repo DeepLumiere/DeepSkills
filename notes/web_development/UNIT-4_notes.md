@@ -72,16 +72,16 @@ This unit bridges the gap between software domain models and persistence tiers. 
 
 ```mermaid
 flowchart LR
-    subgraph Client Tier
+    subgraph Client_Tier ["Client Tier"]
         UI["Web / Mobile Browser"]
     end
 
-    subgraph Application Tier
+    subgraph Application_Tier ["Application Tier"]
         Spring["Spring Boot API (JPA / Hibernate)"]
         NodeApp["Node.js Express API (MySQL2 / Mongo Native)"]
     end
 
-    subgraph Persistence Tier
+    subgraph Persistence_Tier ["Persistence Tier"]
         RDBMS[("MySQL RDBMS (InnoDB ACID Storage)")]
         NoSQL[("MongoDB NoSQL (WiredTiger BSON Store)")]
     end
@@ -672,23 +672,23 @@ The Java Persistence API (Jakarta Persistence) provides standard specification i
 
 ```mermaid
 flowchart TD
-    subgraph Client Application
+    subgraph Client_Application ["Client Application"]
         AppCode["Service / Controller Layer"]
     end
 
-    subgraph JPA Interface Standard
+    subgraph JPA_Interface_Standard ["JPA Interface Standard"]
         EMF["EntityManagerFactory"]
         EM["EntityManager"]
         TX["EntityTransaction"]
     end
 
-    subgraph Hibernate Implementation
+    subgraph Hibernate_Implementation ["Hibernate Implementation"]
         SF["SessionFactory"]
         Session["Session (Persistence Context)"]
         Transaction["Transaction"]
     end
 
-    subgraph Database Driver
+    subgraph Database_Driver ["Database Driver"]
         JDBC["JDBC Driver (HikariCP Pool)"]
         DB[("RDBMS (MySQL)")]
     end

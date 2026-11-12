@@ -32,7 +32,7 @@
 
 ### 1.1 Motivation: Housing Price Prediction
 
-Linear regression is one of the most foundational supervised learning algorithms in machine learning. Its primary objective is to predict a continuous target variable $y \in \mathbb{R}$given an input feature vector$x \in \mathbb{R}^n$.
+Linear regression is one of the most foundational supervised learning algorithms in machine learning. Its primary objective is to predict a continuous target variable $y \in \mathbb{R}$ given an input feature vector $x \in \mathbb{R}^n$.
 
 
 
@@ -46,11 +46,11 @@ Consider a real-estate dataset where the objective is to predict the **Selling P
 
 #### Training Dataset Example:
 
-The dataset consists of $m = 16$historical observations$(x^{(i)}, y^{(i)})$:
+The dataset consists of $m = 16$ historical observations $(x^{(i)}, y^{(i)})$:
 
 
 
-| Example ($i$) | Area $x^{(i)}$(SQM) | Selling Price$y^{(i)}$ (Lacs) |
+| Example ($i$) | Area $x^{(i)}$(SQM) | Selling Price $y^{(i)}$ (Lacs) |
 |---|---|---|
 | 1 | 35 | 13 |
 | 2 | 37 | 17 |
@@ -81,13 +81,13 @@ The dataset consists of $m = 16$historical observations$(x^{(i)}, y^{(i)})$:
 
 
 
-In univariate (simple) linear regression, we model the relationship between the independent variable $x$and dependent variable$y$ using a linear equation.
+In univariate (simple) linear regression, we model the relationship between the independent variable $x$ and dependent variable $y$ using a linear equation.
 
 
 
 ### 2.1 The Linear Hypothesis
 
-The hypothesis function $h_\theta(x)$(or predicted output$\hat{y}$) is defined as:
+The hypothesis function $h_\theta(x)$(or predicted output $\hat{y}$) is defined as:
 
 
 
@@ -115,7 +115,7 @@ Where:
 
 - $\theta_0$: Y-intercept parameter (bias term), representing predicted value when $x = 0$.
 
-- $\theta_1$: Slope parameter (weight/coefficient), representing rate of change of $\hat{y}$per unit change in$x$.
+- $\theta_1$: Slope parameter (weight/coefficient), representing rate of change of $\hat{y}$ per unit change in $x$.
 
 - $\theta = (\theta_0, \theta_1)^T$: Parameter vector of the model.
 
@@ -141,7 +141,7 @@ Where:
 
 ### 3.1 Residual Error
 
-For any training instance $(x^{(i)}, y^{(i)})$, the residual (error) is defined as the vertical distance between the actual target $y^{(i)}$and predicted output$h_\theta(x^{(i)})$:
+For any training instance $(x^{(i)}, y^{(i)})$, the residual (error) is defined as the vertical distance between the actual target $y^{(i)}$ and predicted output $h_\theta(x^{(i)})$:
 
 
 
@@ -189,7 +189,7 @@ Where:
 
 ### 3.3 Geometry of the Cost Function Surface
 
-The cost function $J(\theta_0, \theta_1)$forms a 3-dimensional convex paraboloid (bowl shape). Because$J(\theta_0, \theta_1)$ is strictly convex, it possesses a single unique global minimum and zero local minima.
+The cost function $J(\theta_0, \theta_1)$ forms a 3-dimensional convex paraboloid (bowl shape). Because $J(\theta_0, \theta_1)$ is strictly convex, it possesses a single unique global minimum and zero local minima.
 
 
 
@@ -230,7 +230,7 @@ $$
 
 #### ⚠️ CRITICAL RULE: Simultaneous Updates
 
-Parameters $\theta_0$and$\theta_1$ MUST be updated simultaneously at every iteration.
+Parameters $\theta_0$ and $\theta_1$ MUST be updated simultaneously at every iteration.
 
 
 
@@ -238,8 +238,8 @@ Parameters $\theta_0$and$\theta_1$ MUST be updated simultaneously at every itera
 |---|---|
 | $\text{temp0} := \theta_0 - \alpha \frac{\partial}{\partial \theta_0} J(\theta_0, \theta_1)$|$\theta_0 := \theta_0 - \alpha \frac{\partial}{\partial \theta_0} J(\theta_0, \theta_1)$ |
 | $\text{temp1} := \theta_1 - \alpha \frac{\partial}{\partial \theta_1} J(\theta_0, \theta_1)$|$\theta_1 := \theta_1 - \alpha \frac{\partial}{\partial \theta_1} J(\theta_0, \theta_1)$ |
-| $\theta_0 := \text{temp0}$| *(Here$\theta_1$is computed using updated$\theta_0$, breaking gradient direction!)* |
-| $\theta_1 := \text{temp1}$ | |
+| $\theta_0 := \text{temp0}$| *(Here $\theta_1$ is computed using updated $\theta_0$, breaking gradient direction!)* |
+| $\theta_1 := \text{temp1}$ | — |
 
 
 
@@ -249,7 +249,7 @@ Parameters $\theta_0$and$\theta_1$ MUST be updated simultaneously at every itera
 
 ### 4.3 Derivative Expressions for Linear Regression
 
-Let us compute partial derivatives of $J(\theta_0, \theta_1)$with respect to$\theta_0$and$\theta_1$:
+Let us compute partial derivatives of $J(\theta_0, \theta_1)$ with respect to $\theta_0$ and $\theta_1$:
 
 
 
@@ -364,27 +364,16 @@ This algorithm is called **"Batch" Gradient Descent** because each step of gradi
 
 
 ```mermaid
-
 flowchart TD
-
-    A["Input Training Dataset (x, y)"] --> B["Initialize Parameters &theta;<sub>0</sub>, &theta;<sub>1</sub>"]
-
-    B --> C["Compute Predictions h(x) = &theta;<sub>0</sub> + &theta;<sub>1</sub>x"]
-
-    C --> D["Calculate Residual Errors e<sub>i</sub> = h(x<sub>i</sub>) - y<sub>i</sub>"]
-
-    D --> E["Compute MSE Cost J(&theta;<sub>0</sub>, &theta;<sub>1</sub>)"]
-
-    E --> F["Calculate Gradients &part;J/&part;&theta;<sub>0</sub> and &part;J/&part;&theta;<sub>1</sub>"]
-
-    F --> G["Simultaneously Update &theta;<sub>0</sub> and &theta;<sub>1</sub>"]
-
-    G --> H{"Has Cost J(&theta;) Converged?"}
-
+    A["Input Training Dataset (x, y)"] --> B["Initialize Parameters theta0, theta1"]
+    B --> C["Compute Predictions h(x) = theta0 + theta1 * x"]
+    C --> D["Calculate Residual Errors: e_i = h(x_i) - y_i"]
+    D --> E["Compute MSE Cost J(theta0, theta1)"]
+    E --> F["Calculate Gradients: dJ/d(theta0) and dJ/d(theta1)"]
+    F --> G["Simultaneously Update theta0 and theta1"]
+    G --> H{"Has Cost J(theta) Converged?"}
     H -->|No| C
-
-    H -->|Yes| I["Output Optimal Parameters &theta;<sub>0</sub>*, &theta;<sub>1</sub>*"]
-
+    H -->|Yes| I["Output Optimal Parameters: theta0*, theta1*"]
 ```
 
 
@@ -399,13 +388,13 @@ flowchart TD
 
 ### Definition: Simple Linear Regression
 
-A supervised learning technique that models the linear scalar relationship between a single independent input variable $x$and a continuous dependent output variable$y$.
+A supervised learning technique that models the linear scalar relationship between a single independent input variable $x$ and a continuous dependent output variable $y$.
 
 
 
 ### Definition: Hypothesis Function
 
-The parametric model function $h_\theta(x) = \theta_0 + \theta_1 x$used to predict output value$\hat{y}$for a given input$x$.
+The parametric model function $h_\theta(x) = \theta_0 + \theta_1 x$ used to predict output value $\hat{y}$ for a given input $x$.
 
 
 
@@ -448,8 +437,8 @@ The mandatory practice of computing all parameter updates using current iteratio
 | Cost Function (MSE) | $J(\theta_0, \theta_1) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2$ |
 | Partial Derivative w.r.t. $\theta_0$|$\frac{\partial J}{\partial \theta_0} = \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})$ |
 | Partial Derivative w.r.t. $\theta_1$|$\frac{\partial J}{\partial \theta_1} = \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x^{(i)}$ |
-| $\theta_0$Update Rule |$\theta_0 := \theta_0 - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})$ |
-| $\theta_1$Update Rule |$\theta_1 := \theta_1 - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) x^{(i)}$ |
+| $\theta_0$ Update Rule |$\theta_0 := \theta_0 - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})$ |
+| $\theta_1$ Update Rule |$\theta_1 := \theta_1 - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) x^{(i)}$ |
 
 
 
@@ -467,7 +456,7 @@ The mandatory practice of computing all parameter updates using current iteratio
 
 - **Convex Function**: Function where line segment connecting any two points lies above/on graph, guaranteeing single global minimum.
 
-- **Global Minimum**: Parameter state $\theta^*$where$J(\theta^*) \le J(\theta)$for all valid$\theta$.
+- **Global Minimum**: Parameter state $\theta^*$ where $J(\theta^*) \le J(\theta)$ for all valid $\theta$.
 
 - **Batch Gradient Descent**: Gradient descent variant evaluating all $m$ training instances per step.
 
@@ -485,15 +474,15 @@ The mandatory practice of computing all parameter updates using current iteratio
 
 
 
-1. **Explain why the scaling factor $\frac{1}{2m}$is used in the MSE cost function$J(\theta_0, \theta_1)$instead of$\frac{1}{m}$.**
+1. **Explain why the scaling factor $\frac{1}{2m}$ is used in the MSE cost function $J(\theta_0, \theta_1)$ instead of $\frac{1}{m}$.**
 
-   - *Solution*: The factor $\frac{1}{m}$computes average squared error across$m$samples. The factor$\frac{1}{2}$is introduced so that when taking the partial derivative$\frac{\partial}{\partial \theta} (h_\theta(x) - y)^2$, the derivative power $2$cleanly cancels out with$\frac{1}{2}$, yielding $\frac{1}{m} (h_\theta(x) - y)$ without extra numerical constants.
+   - *Solution*: The factor $\frac{1}{m}$ computes average squared error across $m$ samples. The factor $\frac{1}{2}$ is introduced so that when taking the partial derivative $\frac{\partial}{\partial \theta} (h_\theta(x) - y)^2$, the derivative power $2$ cleanly cancels out with $\frac{1}{2}$, yielding $\frac{1}{m} (h_\theta(x) - y)$ without extra numerical constants.
 
 
 
 2. **What occurs during Gradient Descent optimization if parameter updates are executed sequentially instead of simultaneously?**
 
-   - *Solution*: Sequential update updates $\theta_0$first, and then calculates$\frac{\partial J}{\partial \theta_1}$using the new$\theta_0$ value within the same iteration. This alters the gradient vector trajectory away from the true direction of steepest descent, causing inefficient convergence paths or algorithmic divergence.
+   - *Solution*: Sequential update updates $\theta_0$ first, and then calculates $\frac{\partial J}{\partial \theta_1}$ using the new $\theta_0$ value within the same iteration. This alters the gradient vector trajectory away from the true direction of steepest descent, causing inefficient convergence paths or algorithmic divergence.
 
 
 
@@ -507,7 +496,7 @@ The mandatory practice of computing all parameter updates using current iteratio
 
 
 
-- **Unscaled Features**: If feature $x$has very large magnitude compared to$y$, cost surface contours become elongated ellipses, causing gradient descent steps to oscillate wildly unless learning rate $\alpha$ is set extremely small.
+- **Unscaled Features**: If feature $x$ has very large magnitude compared to $y$, cost surface contours become elongated ellipses, causing gradient descent steps to oscillate wildly unless learning rate $\alpha$ is set extremely small.
 
 - **Zero Gradient at Local/Global Optima**: At optimum $\theta^*$, $\nabla J(\theta^*) = 0$. Consequently, gradient descent automatically takes zero step size: $\theta := \theta - \alpha(0) = \theta$, cleanly remaining at optimum without reducing $\alpha$.
 
@@ -525,7 +514,7 @@ The mandatory practice of computing all parameter updates using current iteratio
 
 >
 
-> | Sample ($i$) | Input $x^{(i)}$| Actual Target$y^{(i)}$ |
+> | Sample ($i$) | Input $x^{(i)}$| Actual Target $y^{(i)}$ |
 > | :---: | :---: | :---: |
 > | **1** | 1 | 2 |
 > | **2** | 2 | 3 |
@@ -538,7 +527,7 @@ The mandatory practice of computing all parameter updates using current iteratio
 
 > 1. Solve for exact optimal parameters $\theta_0^*, \theta_1^*$ analytically using the **Ordinary Least Squares (OLS) Normal Equation**.
 
-> 2. Initialize $\theta_0^{(0)} = 0, \theta_1^{(0)} = 0$with learning rate$\alpha = 0.05$. Compute **Iteration 1** and **Iteration 2** of Gradient Descent step-by-step.
+> 2. Initialize $\theta_0^{(0)} = 0, \theta_1^{(0)} = 0$ with learning rate $\alpha = 0.05$. Compute **Iteration 1** and **Iteration 2** of Gradient Descent step-by-step.
 
 > 3. Provide an iteration progress table demonstrating parameter trajectory and error reduction towards the analytical optimum.
 
@@ -552,7 +541,7 @@ The mandatory practice of computing all parameter updates using current iteratio
 
 
 
-For univariate linear regression, the closed-form solutions for slope $\theta_1$and intercept$\theta_0$ are:
+For univariate linear regression, the closed-form solutions for slope $\theta_1$ and intercept $\theta_0$ are:
 
 
 $$
@@ -724,10 +713,10 @@ $$
 
 
 
-| Iteration ($k$) | $\theta_0$(Intercept) |$\theta_1$(Slope) | Cost$J(\theta)$| Gradient$\nabla_{\theta_0}$| Gradient$\nabla_{\theta_1}$ | State Description |
+| Iteration ($k$) | $\theta_0$(Intercept) |$\theta_1$(Slope) | Cost $J(\theta)$| Gradient $\nabla_{\theta_0}$| Gradient $\nabla_{\theta_1}$ | State Description |
 | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **0** | $0.0000$|$0.0000$|$10.8750$|$-4.2500$|$-12.7500$ | Initial state |
 | **1** | $0.2125$|$0.6375$|$3.7290$|$-2.4438$|$-7.4375$ | Massive cost reduction ($\Delta J = -7.146$) |
-| **2** | $0.3347$|$1.0094$|$1.3142$|$-1.4116$|$-4.3412$| Progressing rapidly towards slope$\approx 1.70$ |
+| **2** | $0.3347$|$1.0094$|$1.3142$|$-1.4116$|$-4.3412$| Progressing rapidly towards slope $\approx 1.70$ |
 | **Convergence** | $\mathbf{0.0000}$|$\mathbf{1.7000}$|$\mathbf{0.0500}$|$\mathbf{0.0000}$|$\mathbf{0.0000}$ | Global minimum identical to Normal Equations |
 

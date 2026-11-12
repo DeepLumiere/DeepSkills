@@ -15,30 +15,30 @@ Modern machine learning systems must frequently operate under real-world constra
 
 ```mermaid
 graph TD
-    A["Machine Learning Paradigms"] --> B["Supervised Learning<br/>(Full Ground Truth L)"]
-    A --> C["Unsupervised Learning<br/>(Zero Ground Truth U)"]
-    A --> D["Semi-Supervised Learning (SSL)<br/>(Small L + Abundant U)"]
-    A --> E["Reinforcement Learning (RL)<br/>(Trial-and-Error Reward Feedback)"]
+    A["Machine Learning Paradigms"] --> B["Supervised Learning: Full Ground Truth L"]
+    A --> C["Unsupervised Learning: Zero Ground Truth U"]
+    A --> D["Semi-Supervised Learning (SSL): Small L + Abundant U"]
+    A --> E["Reinforcement Learning (RL): Trial-and-Error Reward Feedback"]
 
-    D --> D1["LU Learning<br/>(Labeled + Unlabeled)"]
-    D --> D2["PU Learning<br/>(Positive + Unlabeled)"]
+    D --> D1["LU Learning: Labeled + Unlabeled"]
+    D --> D2["PU Learning: Positive + Unlabeled"]
 
-    D1 --> D1a["Co-Training<br/>(Multi-View Feature Split)"]
-    D1 --> D1b["Self-Training<br/>(Single-View Incremental Pseudo-Labeling)"]
+    D1 --> D1a["Co-Training: Multi-View Feature Split"]
+    D1 --> D1b["Self-Training: Single-View Incremental Pseudo-Labeling"]
 
-    D2 --> D2a["Two-Step Approach<br/>(Step 1: Identify RN via NB Spy; Step 2: Supervised Inductive Learning)"]
-    D2 --> D2b["Direct / Biased Learning<br/>(Biased Penalized Loss Optimization)"]
+    D2 --> D2a["Two-Step Approach: Step 1: Identify RN via NB Spy; Step 2: Supervised Inductive Learning"]
+    D2 --> D2b["Direct / Biased Learning: Biased Penalized Loss Optimization"]
 
-    E --> E1["Model-Based RL<br/>(Learn or Given Transition P and Reward R)"]
-    E --> E2["Model-Free RL<br/>(Experience-Driven Value/Policy Optimization)"]
-    E2 --> E2a["Q-Learning<br/>(Off-Policy TD Control)"]
-    E2 --> E2b["Policy Optimization<br/>(Direct Policy Search / Gradient)"]
+    E --> E1["Model-Based RL: Learn or Given Transition P and Reward R"]
+    E --> E2["Model-Free RL: Experience-Driven Value/Policy Optimization"]
+    E2 --> E2a["Q-Learning: Off-Policy TD Control"]
+    E2 --> E2b["Policy Optimization: Direct Policy Search / Gradient"]
 
     A --> F["Deep Learning (Hierarchical Representation Learning)"]
-    F --> F1["Unsupervised Pretrained Networks (UPNs)<br/>(Autoencoders, DBNs, GANs)"]
-    F --> F2["Convolutional Neural Networks (CNNs)<br/>(Spatial Receptive Fields: LeNet, ResNet, YOLO)"]
-    F --> F3["Recurrent Neural Networks (RNNs)<br/>(Temporal Memory: LSTM, GRU, Hopfield)"]
-    F --> F4["Recursive Neural Networks<br/>(Tree / Graph Structural Decomposition)"]
+    F --> F1["Unsupervised Pretrained Networks (UPNs): Autoencoders, DBNs, GANs"]
+    F --> F2["Convolutional Neural Networks (CNNs): Spatial Receptive Fields: LeNet, ResNet, YOLO"]
+    F --> F3["Recurrent Neural Networks (RNNs): Temporal Memory: LSTM, GRU, Hopfield"]
+    F --> F4["Recursive Neural Networks: Tree / Graph Structural Decomposition"]
 ```
 
 ### Component Breakdown & Flow Analysis
@@ -96,16 +96,16 @@ Semi-supervised learning addresses the critical operational reality where labele
 
 ```mermaid
 graph LR
-    subgraph Data Input
-        L["Small Labeled Pool L<br/>{(x1, y1), ..., (xL, yL)}"]
-        U["Abundant Unlabeled Pool U<br/>{xL+1, ..., xL+U}"]
+    subgraph Data_Input ["Data Input"]
+        L["Small Labeled Pool L: {(x1, y1), ..., (xL, yL)}"]
+        U["Abundant Unlabeled Pool U: {xL+1, ..., xL+U}"]
     end
 
-    subgraph Underlying Geometry
+    subgraph Underlying_Geometry ["Underlying Geometry"]
         M["Data Manifold / Distribution P(X)"]
     end
 
-    subgraph Target Inference
+    subgraph Target_Inference ["Target Inference"]
         C["Classifier f(x)"]
     end
 
@@ -183,13 +183,13 @@ $$
 | :--- | :--- | :--- |
 | $W_{ij}$ | Affinity edge weight between nodes $i$ and $j$ | $[0, 1]$ |
 | $\sigma$ | Gaussian kernel bandwidth parameter | Real positive scalar ($\mathbb{R}^+$) |
-| $D$ | Diagonal graph degree matrix | $\mathbb{R}^{(|L|+|U|) \times (|L|+|U|)}$ |
+| $D$ | Diagonal graph degree matrix | $\mathbb{R}^{(\|L\|+\|U\|) \times (\|L\|+\|U\|)}$ |
 | $P$ | Row-normalized random walk transition matrix | Stochastic matrix, $\sum_j P_{ij} = 1$ |
 | $P_{UU}$ | Sub-block transition probabilities among unlabeled nodes | Real values in $[0, 1)$ |
 | $P_{UL}$ | Sub-block transition probabilities from unlabeled to labeled | Real values in $[0, 1]$ |
-| $Y_L^{(0)}$ | Ground-truth one-hot label matrix for labeled data | $\{0, 1\}^{|L| \times C}$ |
-| $Y_U^*$ | Converged soft class probability predictions for unlabeled pool | $[0, 1]^{|U| \times C}$ |
-| $I$ | Identity matrix | Dimension $|U| \times |U|$ |
+| $Y_L^{(0)}$ | Ground-truth one-hot label matrix for labeled data | $\{0, 1\}^{\|L\| \times C}$ |
+| $Y_U^*$ | Converged soft class probability predictions for unlabeled pool | $[0, 1]^{\|U\| \times C}$ |
+| $I$ | Identity matrix | Dimension $\|U\| \times \|U\|$ |
 
 - **What It Represents:** The exact asymptotic distribution of continuous harmonic label potentials across all unlabeled nodes without requiring iterative simulations.
 - **Conditions / Assumptions:** Graph must be fully connected with symmetric weights; labeled node potentials remain clamped; $(I - P_{UU})$ is non-singular.
@@ -204,9 +204,9 @@ LU Learning encompasses algorithms designed for scenarios where the labeled data
 
 ```mermaid
 graph TD
-    subgraph Co-Training Architecture
-        X["Instance x"] --> X1["Feature View x1<br/>(e.g., Webpage Body Text)"]
-        X --> X2["Feature View x2<br/>(e.g., Inbound Anchor Text)"]
+    subgraph CoTraining_Architecture ["Co-Training Architecture"]
+        X["Instance x"] --> X1["Feature View x1: e.g., Webpage Body Text"]
+        X --> X2["Feature View x2: e.g., Inbound Anchor Text"]
 
         X1 --> F1["Classifier f1"]
         X2 --> F2["Classifier f2"]
@@ -307,13 +307,13 @@ $$
 
 ```mermaid
 graph TD
-    subgraph Self-Training Loop
+    subgraph SelfTraining_Loop ["Self-Training Loop"]
         L0["Initial Labeled Set L"] --> Train["Train Base Classifier f on L (All Features)"]
         Train --> Pred["Apply f to predict labels for Unlabeled Pool U"]
         Pred --> Conf["Filter most confident predictions (P > threshold)"]
         Conf --> Pseudo["Assign Pseudo-Labels: L_new = L + {(x_u, y_pred)}"]
         Pseudo --> UpdateU["Update Unlabeled Pool: U_new = U - {x_u}"]
-        UpdateU --> StopCheck{"U is empty OR<br/>Max Iterations reached?"}
+        UpdateU --> StopCheck{"U is empty OR Max Iterations reached?"}
         StopCheck -- No --> Train
         StopCheck -- Yes --> Final["Output Final Retrained Classifier f*"]
     end
@@ -353,7 +353,7 @@ graph TD
 | **Primary Objective** | Predict labels **only** for the specific, fixed unlabeled instances in $U$ present during training. | Learn a general decision function $f: \mathcal{X} \to \mathcal{Y}$ capable of classifying **unseen test queries** arriving in the future. |
 | **Out-of-Sample Generalization** | **None:** Cannot evaluate an unseen point $x_{new}$ without rebuilding the graph and re-running propagation. | **Full:** Produces explicit parameter vectors (e.g., weights $W, b$) that classify arbitrary new points in $O(1)$ time. |
 | **Mathematical Archetype** | Graph Laplacian Harmonic Label Propagation, Markov Random Walks, Spectral Graph Cuts. | Co-Training, Self-Training, Semi-Supervised SVMs ($S^3\text{VM}$), Ladder Networks. |
-| **Computational Scalability** | Requires storing and inverting matrices of size $(|L|+|U|) \times (|L|+|U|)$, scaling $O((|L|+|U|)^3)$. | Training scales with epoch count; evaluation scales linearly with network depth or parameter dimension. |
+| **Computational Scalability** | Requires storing and inverting matrices of size $(\|L\|+\|U\|) \times (\|L\|+\|U\|)$, scaling $O((\|L\|+\|U\|)^3)$. | Training scales with epoch count; evaluation scales linearly with network depth or parameter dimension. |
 
 [Source: SSL, RL and Intro to Deep Learning.pdf, Slides 2, 8]
 
@@ -365,19 +365,19 @@ In many real-world diagnostic, security, and recommendation scenarios, true nega
 
 ```mermaid
 graph TD
-    subgraph Input Sets
+    subgraph Input_Sets ["Input Sets"]
         P["Confirmed Positive Set P (y = +1)"]
         U["Unlabeled Pool U (Hidden Positives + True Negatives)"]
     end
 
-    subgraph Step 1: Reliable Negative Identification
+    subgraph Step1_Reliable_Negative ["Step 1: Reliable Negative Identification"]
         U --> SpyCheck["Step 1: NB Spy Technique / Rocchio Filter"]
         P --> SpyCheck
         SpyCheck --> RN["Reliable Negative Set RN (y = -1)"]
-        SpyCheck --> Q["Likely Positives / Ambiguous (U - RN)<br/>[Discarded or iteratively refined]"]
+        SpyCheck --> Q["Likely Positives / Ambiguous (U - RN): Discarded or iteratively refined"]
     end
 
-    subgraph Step 2: Supervised Inductive Learning
+    subgraph Step2_Supervised_Learning ["Step 2: Supervised Inductive Learning"]
         P --> ModelTrain["Step 2: Train Binary Classifier (NB, SVM, Logistic)"]
         RN --> ModelTrain
         ModelTrain --> FinalPU["Final Deployable Classifier f*"]
@@ -437,12 +437,12 @@ Reinforcement Learning formalizes how an autonomous agent learns to achieve goal
 
 ```mermaid
 graph LR
-    subgraph Environment Dynamics
-        Env["Environment<br/>(State Transitions P, Reward Function R)"]
+    subgraph Environment_Dynamics ["Environment Dynamics"]
+        Env["Environment: State Transitions P, Reward Function R"]
     end
 
-    subgraph Autonomous Agent
-        Agent["Agent<br/>(Policy π, Value Function Q)"]
+    subgraph Autonomous_Agent ["Autonomous Agent"]
+        Agent["Agent: Policy pi, Value Function Q"]
     end
 
     Agent -- "Action: a_t" --> Env
@@ -540,11 +540,11 @@ graph TD
     RL["Reinforcement Learning Algorithms"] --> MB["Model-Based RL"]
     RL --> MF["Model-Free RL"]
 
-    MB --> MBL["Learn the Model<br/>(Fit P and R from transitions, then plan)"]
-    MB --> MBG["Given the Model<br/>(Dynamic Programming, Value Iteration, Policy Iteration)"]
+    MB --> MBL["Learn the Model: Fit P and R from transitions, then plan"]
+    MB --> MBG["Given the Model: Dynamic Programming, Value Iteration, Policy Iteration"]
 
-    MF --> QL["Value-Based: Q-Learning<br/>(Learn action-value function Q directly from experience)"]
-    MF --> PO["Policy Optimization<br/>(Direct policy search via Policy Gradients / Actor-Critic)"]
+    MF --> QL["Value-Based: Q-Learning: Learn action-value function Q directly from experience"]
+    MF --> PO["Policy Optimization: Direct policy search via Policy Gradients / Actor-Critic"]
 ```
 
 The slides categorize RL algorithms into two foundational archetypes:
@@ -607,12 +607,12 @@ The slides ground the Q-Learning algorithm in a concrete physical environment: a
 
 ```mermaid
 graph TD
-    subgraph 6-Room Building Floorplan
-        R0["Room 0<br/>(Door to 4)"] --- R4["Room 4<br/>(Doors to 0, 3, 5)"]
-        R1["Room 1<br/>(Doors to 3, 5)"] --- R3["Room 3<br/>(Doors to 1, 2, 4)"]
-        R2["Room 2<br/>(Door to 3)"] --- R3
+    subgraph Floorplan ["6-Room Building Floorplan"]
+        R0["Room 0 (Door to 4)"] --- R4["Room 4 (Doors to 0, 3, 5)"]
+        R1["Room 1 (Doors to 3, 5)"] --- R3["Room 3 (Doors to 1, 2, 4)"]
+        R2["Room 2 (Door to 3)"] --- R3
         R4 --- R3
-        R1 ===|"Exit (+100)"| R5(("Room 5<br/>[GOAL STATE]"))
+        R1 ===|"Exit (+100)"| R5(("Room 5 - GOAL STATE"))
         R4 ===|"Exit (+100)"| R5
         R5 ---|"Self-Loop (+100)"| R5
     end
@@ -873,11 +873,11 @@ The optimal policy $\pi^*(s) = \arg\max_a Q^*(s, a)$ defines the shortest, highe
 
 ```mermaid
 graph TD
-    R2(("Room 2<br/>(Val: 64)")) -->|"Q=64"| R3(("Room 3<br/>(Val: 80)"))
-    R0(("Room 0<br/>(Val: 80)")) -->|"Q=80"| R4(("Room 4<br/>(Val: 100)"))
-    R3 -->|"Q=80"| R1(("Room 1<br/>(Val: 100)"))
+    R2(("Room 2: Val 64")) -->|"Q=64"| R3(("Room 3: Val 80"))
+    R0(("Room 0: Val 80")) -->|"Q=80"| R4(("Room 4: Val 100"))
+    R3 -->|"Q=80"| R1(("Room 1: Val 100"))
     R3 -->|"Q=80"| R4
-    R1 ==>|"Q=100 (Optimal)"| R5((("Room 5<br/>[GOAL]"))):::goal
+    R1 ==>|"Q=100 (Optimal)"| R5((("Room 5 - GOAL"))):::goal
     R4 ==>|"Q=100 (Optimal)"| R5
     classDef goal fill:#2ecc71,stroke:#27ae60,stroke-width:3px,color:#fff;
 ```
@@ -892,9 +892,9 @@ As machine learning systems expanded from tabular datasets to unstructured, high
 
 ```mermaid
 graph TD
-    AI["Artificial Intelligence<br/>(Broad science of simulating human intelligence)"]
-    ML["Machine Learning<br/>(Algorithms that learn rules and patterns from data)"]
-    DL["Deep Learning<br/>(Multi-layer neural representations learned end-to-end)"]
+    AI["Artificial Intelligence: Broad science of simulating human intelligence"]
+    ML["Machine Learning: Algorithms that learn rules and patterns from data"]
+    DL["Deep Learning: Multi-layer neural representations learned end-to-end"]
 
     AI --> ML --> DL
 ```
@@ -909,18 +909,18 @@ Slide 25 illustrates the architectural divergence between classical machine lear
 
 ```mermaid
 graph LR
-    subgraph Classical Machine Learning Pipeline
-        In1["Input<br/>(Raw Image)"] --> FE1["Manual Feature Extraction<br/>(Human Engineer: SIFT, HOG, Haar)"]
-        FE1 --> CL1["Shallow Classifier<br/>(SVM, Random Forest)"]
-        CL1 --> Out1["Output<br/>(Car / Not Car)"]
+    subgraph Classical_ML_Pipeline ["Classical Machine Learning Pipeline"]
+        In1["Input: Raw Image"] --> FE1["Manual Feature Extraction: Human Engineer: SIFT, HOG, Haar"]
+        FE1 --> CL1["Shallow Classifier: SVM, Random Forest"]
+        CL1 --> Out1["Output: Car / Not Car"]
     end
 ```
 
 ```mermaid
 graph LR
-    subgraph Deep Learning Pipeline
-        In2["Input<br/>(Raw Image)"] --> NN["Deep Neural Network<br/>(End-to-End Joint Optimization:<br/>Feature Extraction + Classification)"]
-        NN --> Out2["Output<br/>(Car / Not Car)"]
+    subgraph Deep_Learning_Pipeline ["Deep Learning Pipeline"]
+        In2["Input: Raw Image"] --> NN["Deep Neural Network: End-to-End Joint Optimization (Feature Extraction + Classification)"]
+        NN --> Out2["Output: Car / Not Car"]
     end
 ```
 
@@ -1920,11 +1920,11 @@ $$
 
 | Symbol | Meaning | Units / Range |
 | :--- | :--- | :--- |
-| $Y_U^*$ | Asymptotic class probability matrix for unlabeled nodes | Matrix in $[0, 1]^{|U| \times C}$ |
-| $I$ | Identity matrix of size $|U| \times |U|$ | Dimensionless binary matrix |
-| $P_{UU}$ | Sub-block transition probability matrix among unlabeled instances | Matrix in $[0, 1]^{|U| \times |U|}$ |
-| $P_{UL}$ | Sub-block transition probability matrix from unlabeled to labeled instances | Matrix in $[0, 1]^{|U| \times |L|}$ |
-| $Y_L^{(0)}$ | Clamped one-hot ground-truth label matrix for labeled instances | Matrix in $\{0, 1\}^{|L| \times C}$ |
+| $Y_U^*$ | Asymptotic class probability matrix for unlabeled nodes | Matrix in $[0, 1]^{\|U\| \times C}$ |
+| $I$ | Identity matrix of size $\|U\| \times \|U\|$ | Dimensionless binary matrix |
+| $P_{UU}$ | Sub-block transition probability matrix among unlabeled instances | Matrix in $[0, 1]^{\|U\| \times \|U\|}$ |
+| $P_{UL}$ | Sub-block transition probability matrix from unlabeled to labeled instances | Matrix in $[0, 1]^{\|U\| \times \|L\|}$ |
+| $Y_L^{(0)}$ | Clamped one-hot ground-truth label matrix for labeled instances | Matrix in $\{0, 1\}^{\|L\| \times C}$ |
 
 - **What It Represents:** The exact steady-state distribution of harmonic label potentials across all unlabeled nodes without requiring iterative simulation.
 - **Conditions / Assumptions:** Graph must be connected; edge weights must be non-negative; spectral radius $\rho(P_{UU}) < 1$.

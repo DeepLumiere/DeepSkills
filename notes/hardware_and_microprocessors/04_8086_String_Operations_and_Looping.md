@@ -40,8 +40,8 @@ flowchart LR
     end
 
     subgraph Hardware_Control["Control & Counters"]
-        DF_Flag["Direction Flag (DF)<br>CLD: DF=0 (Auto-Inc)<br>STD: DF=1 (Auto-Dec)"]
-        CX_Reg["Count Register (CX)<br>Auto-decremented by REP"]
+        DF_Flag["Direction Flag (DF): CLD for DF=0 Auto-Inc, STD for DF=1 Auto-Dec"]
+        CX_Reg["Count Register (CX): Auto-decremented by REP"]
     end
 
     OffsetSI -->|"Byte/Word Transfer"| OffsetDI
@@ -402,7 +402,7 @@ END START
 flowchart TD
     Start([Instruction Starts]) --> CheckCX{"Is CX == 0?"}
     CheckCX -- Yes --> End([Terminate Loop])
-    CheckCX -- No --> ExecString["Execute String Primitive<br>(Process Byte/Word, Update SI/DI)"]
+    CheckCX -- No --> ExecString["Execute String Primitive: Process Byte/Word, Update SI/DI"]
     ExecString --> DecCX["CX = CX - 1"]
     DecCX --> PrefixCheck{"Which Repeat Prefix?"}
 
@@ -411,9 +411,9 @@ flowchart TD
     PrefixCheck -- "REPNE / REPNZ" --> CheckZF0{"Is ZF == 0?"}
 
     CheckZF1 -- Yes --> CheckCX
-    CheckZF1 -- No (Mismatch) --> End
+    CheckZF1 -- "No (Mismatch)" --> End
     CheckZF0 -- Yes --> CheckCX
-    CheckZF0 -- No (Match Found) --> End
+    CheckZF0 -- "No (Match Found)" --> End
 ```
 
 ### Prefix Operational Truth Table
@@ -501,23 +501,23 @@ $$
 | Group | Mnemonic | Alternative | Flag Condition Tested | Practical Significance |
 | :--- | :--- | :--- | :---: | :--- |
 | **Single Flag Tests** | **`JZ`** | `JE` | $ZF = 1$ | Result is zero / operands are equal. |
-| | **`JNZ`** | `JNE` | $ZF = 0$ | Result is non-zero / operands unequal. |
-| | **`JS`** | — | $SF = 1$ | Result is negative (sign bit = 1). |
-| | **`JNS`** | — | $SF = 0$ | Result is positive (or zero). |
-| | **`JC`** | `JB` / `JNAE` | $CF = 1$ | Unsigned carry / borrow / below. |
-| | **`JNC`** | `JNB` / `JAE` | $CF = 0$ | No carry / above or equal. |
-| | **`JO`** | — | $OF = 1$ | Signed arithmetic overflow occurred. |
-| | **`JNO`** | — | $OF = 0$ | No signed overflow. |
-| | **`JP`** | `JPE` | $PF = 1$ | Even parity (even count of 1-bits in result). |
-| | **`JNP`** | `JPO` | $PF = 0$ | Odd parity (odd count of 1-bits). |
+| **Single Flag Tests** | **`JNZ`** | `JNE` | $ZF = 0$ | Result is non-zero / operands unequal. |
+| **Single Flag Tests** | **`JS`** | — | $SF = 1$ | Result is negative (sign bit = 1). |
+| **Single Flag Tests** | **`JNS`** | — | $SF = 0$ | Result is positive (or zero). |
+| **Single Flag Tests** | **`JC`** | `JB` / `JNAE` | $CF = 1$ | Unsigned carry / borrow / below. |
+| **Single Flag Tests** | **`JNC`** | `JNB` / `JAE` | $CF = 0$ | No carry / above or equal. |
+| **Single Flag Tests** | **`JO`** | — | $OF = 1$ | Signed arithmetic overflow occurred. |
+| **Single Flag Tests** | **`JNO`** | — | $OF = 0$ | No signed overflow. |
+| **Single Flag Tests** | **`JP`** | `JPE` | $PF = 1$ | Even parity (even count of 1-bits in result). |
+| **Single Flag Tests** | **`JNP`** | `JPO` | $PF = 0$ | Odd parity (odd count of 1-bits). |
 | **Unsigned Comparison** | **`JA`** | `JNBE` | $CF = 0 \land ZF = 0$ | Above (Greater in unsigned comparison). |
-| | **`JAE`** | `JNB`, `JNC` | $CF = 0$ | Above or equal. |
-| | **`JB`** | `JNAE`, `JC` | $CF = 1$ | Below (Lesser magnitude). |
-| | **`JBE`** | `JNA` | $CF = 1 \lor ZF = 1$ | Below or equal. |
+| **Unsigned Comparison** | **`JAE`** | `JNB`, `JNC` | $CF = 0$ | Above or equal. |
+| **Unsigned Comparison** | **`JB`** | `JNAE`, `JC` | $CF = 1$ | Below (Lesser magnitude). |
+| **Unsigned Comparison** | **`JBE`** | `JNA` | $CF = 1 \lor ZF = 1$ | Below or equal. |
 | **Signed Comparison** | **`JG`** | `JNLE` | $(SF \oplus OF = 0) \land ZF = 0$ | Greater than (signed integers). |
-| | **`JGE`** | `JNL` | $SF \oplus OF = 0$ | Greater than or equal (signed). |
-| | **`JL`** | `JNGE` | $SF \oplus OF = 1$ | Less than (signed). |
-| | **`JLE`** | `JNG` | $(SF \oplus OF = 1) \lor ZF = 1$ | Less than or equal (signed). |
+| **Signed Comparison** | **`JGE`** | `JNL` | $SF \oplus OF = 0$ | Greater than or equal (signed). |
+| **Signed Comparison** | **`JL`** | `JNGE` | $SF \oplus OF = 1$ | Less than (signed). |
+| **Signed Comparison** | **`JLE`** | `JNG` | $(SF \oplus OF = 1) \lor ZF = 1$ | Less than or equal (signed). |
 
 ```assembly
 ; ─── Conditional jump usage examples ────────────────────────────────
@@ -1044,7 +1044,7 @@ END START
 
    *Answer:* `JA` (Jump if Above) performs an **unsigned comparison**: tests $CF = 0 \land ZF = 0$. `JG` (Jump if Greater) performs a **signed comparison**: tests $(SF \oplus OF = 0) \land ZF = 0$. Example: If `AX = FFFFh` and `BX = 0001h`:
 
-   - Unsigned: `FFFFh > 0001h` (65535 > 1) → `JA` takes the jump.
+   - Unsigned: `FFFFh > 0001h` ($65535 > 1$) → `JA` takes the jump.
    - Signed: `FFFFh = -1 < +1` → `JG` does NOT jump.
 
 4. **What is the function of the Direction Flag (`DF`)?**
@@ -1101,7 +1101,7 @@ END START
     - Iteration 4: `'L'` vs `'L'` → Equal, ZF=1, CX=1.
     - Iteration 5: `'O'` vs `'X'` → `'O'(4FH) - 'X'(58H)` → Negative → ZF=0, CF=1 (borrow), CX=0.
     - **`REPE CMPSB` terminates** because `ZF = 0` (mismatch at position 4).
-    - **Final state:** `ZF = 0`, `CF = 1` (STR1 < STR2), `CX = 0`, SI and DI both advanced 5 positions past start.
+    - **Final state:** `ZF = 0`, `CF = 1` ($\text{STR1} < \text{STR2}$), `CX = 0`, SI and DI both advanced 5 positions past start.
     - Conclusion: Execute `JB STR1_LESS` since `CF = 1`.
 
 ---

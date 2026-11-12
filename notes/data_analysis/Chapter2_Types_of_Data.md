@@ -127,10 +127,10 @@ Data attributes are classified into four hierarchical levels of measurement:
 flowchart TD
     Data["Data Types"] --> Qual["Categorical (Qualitative)"]
     Data --> Quant["Numerical (Quantitative)"]
-    Qual --> Nom["Nominal Scale<br/>(Unordered Categories)"]
-    Qual --> Ord["Ordinal Scale<br/>(Ordered Categories)"]
-    Quant --> Disc["Discrete Data<br/>(Countable Integers)"]
-    Quant --> Cont["Continuous Data<br/>(Measurable Real Values)"]
+    Qual --> Nom["Nominal Scale: Unordered Categories"]
+    Qual --> Ord["Ordinal Scale: Ordered Categories"]
+    Quant --> Disc["Discrete Data: Countable Integers"]
+    Quant --> Cont["Continuous Data: Measurable Real Values"]
     Disc --> Int1["Interval Scale"]
     Disc --> Rat1["Ratio Scale"]
     Cont --> Int2["Interval Scale"]
@@ -151,7 +151,7 @@ flowchart TD
 
 - **Meaning:** A simple list of individual numerical observations recorded directly.
 
-- **Formal Definition:** A set of observations $X = \{x_1, x_2, \dots, x_N\}$where each$x_i$ is an individual raw data point.
+- **Formal Definition:** A set of observations $X = \{x_1, x_2, \dots, x_N\}$ where each $x_i$ is an individual raw data point.
 
 - **Example:** Ages of 10 students:
 
@@ -171,7 +171,7 @@ $$
 
 - **Components:**
 
-  - **Class Interval $[a, b)$:** Range defined by lower limit $a$and upper limit$b$.
+  - **Class Interval $[a, b)$:** Range defined by lower limit $a$ and upper limit $b$.
 
   - **Class Width ($w$):**
 
@@ -331,5 +331,5 @@ $$
 
 3. Explain why temperature in Celsius is an Interval scale variable while temperature in Kelvin is a Ratio scale variable.
 
-4. Convert a raw dataset of $N = 30$observations into a grouped frequency distribution table with class width$w = 10$.
+4. Convert a raw dataset of $N = 30$ observations into a grouped frequency distribution table with class width $w = 10$.
 

@@ -121,6 +121,7 @@ Activities sorted by finish time $f_i$.
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **$s_i$** | 1 | 3 | 0 | 5 | 3 | 5 | 6 | 8 | 8 | 2 | 12 |
 | **$f_i$** | 4 | 5 | 6 | 7 | 9 | 9 | 10| 11| 12| 14| 16 |
+
 | Step | Activity | $s_i$ | $f_i$ | Current Time (Last Finish) | Compatible? ($s_i \ge$ Current) | Action |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 1 | A1 | 1 | **4** | 0 | 1 $\ge$ 0 ✅ | **Selected**. Current Time = 4 |
@@ -138,20 +139,15 @@ Activities sorted by finish time $f_i$.
 **Selected Set:** {A1, A4, A8, A11}. Max activities = 4.
 
 ```mermaid
-gantt
-    title Activity Selection Timeline
-    dateFormat  X
-    axisFormat %s
-    section Selected
-    A1 (1-4) :done, a1, 1, 4
-    A4 (5-7) :done, a4, 5, 7
-    A8 (8-11) :done, a8, 8, 11
-    A11 (12-16) :done, a11, 12, 16
-    section Skipped
-    A2 (3-5) :crit, 3, 5
-    A3 (0-6) :crit, 0, 6
-    A5 (3-9) :crit, 3, 9
-    A6 (5-9) :crit, 5, 9
+flowchart LR
+    subgraph Selected_Activities ["Selected Compatible Activities (Earliest Finish Time)"]
+        direction LR
+        A1["A1: Time (1 - 4)"]
+        A4["A4: Time (5 - 7)"]
+        A8["A8: Time (8 - 11)"]
+        A11["A11: Time (12 - 16)"]
+        A1 --> A4 --> A8 --> A11
+    end
 ```
 
 ---

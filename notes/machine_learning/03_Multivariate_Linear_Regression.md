@@ -42,7 +42,7 @@ In real-world applications, target variables depend on multiple features rather 
 
 - $x^{(i)}$: Feature vector of the $i$-th training example (an $(n+1)$-dimensional column vector).
 
-- $x_j^{(i)}$: Value of feature $j$in the$i$-th training example.
+- $x_j^{(i)}$: Value of feature $j$ in the $i$-th training example.
 
 
 
@@ -52,11 +52,11 @@ In real-world applications, target variables depend on multiple features rather 
 
 
 
-#### Real-Estate Example Dataset ($n = 4$features,$m = 47$ instances):
+#### Real-Estate Example Dataset ($n = 4$ features,$m = 47$ instances):
 
 
 
-| Size ($x_1$) [sq ft] | Bedrooms ($x_2$) | Floors ($x_3$) | Age ($x_4$) [years] | Price ($y$) [$1000] |
+| Size ($x_1$) [sq ft] | Bedrooms ($x_2$) | Floors ($x_3$) | Age ($x_4$) [years] | Price ($y$) [\$1000] |
 |---|---|---|---|---|
 | 2104 | 5 | 1 | 45 | 460 |
 | 1416 | 3 | 2 | 40 | 232 |
@@ -110,7 +110,7 @@ $$
 
 
 
-Now, define feature vector $x \in \mathbb{R}^{n+1}$and parameter vector$\theta \in \mathbb{R}^{n+1}$:
+Now, define feature vector $x \in \mathbb{R}^{n+1}$ and parameter vector $\theta \in \mathbb{R}^{n+1}$:
 
 
 
@@ -182,7 +182,7 @@ Notice that for $j = 0$, since $x_0^{(i)} = 1$, the update equation matches univ
 
 ### 3.1 Why Feature Scaling is Necessary
 
-When features have vastly different ranges (e.g., House Size $x_1 \in [300, 5000]$sq ft vs Number of Bedrooms$x_2 \in [1, 5]$), cost function contours become narrow, highly skewed ellipses. Gradient descent oscillates inefficiently back and forth, requiring many iterations to converge.
+When features have vastly different ranges (e.g., House Size $x_1 \in [300, 5000]$ sq ft vs Number of Bedrooms $x_2 \in [1, 5]$), cost function contours become narrow, highly skewed ellipses. Gradient descent oscillates inefficiently back and forth, requiring many iterations to converge.
 
 
 
@@ -196,7 +196,7 @@ By scaling features to approximately $-1 \le x_i \le 1$, cost function contours 
 
 ### 3.2 Min-Max Normalization
 
-Maps feature values into a bounded range $[new\_min_A, new\_max_A]$(typically$[0, 1]$):
+Maps feature values into a bounded range $[new\_min_A, new\_max_A]$(typically $[0, 1]$):
 
 
 
@@ -213,7 +213,7 @@ $$
 
 #### Worked Example:
 
-Given attribute *income* with range $[\$12,000, \$98,000]$, scale $v = \$73,600$into$[0.0, 1.0]$:
+Given attribute *income* with range $[\$12,000, \$98,000]$, scale $v = \$73,600$ into $[0.0, 1.0]$:
 
 
 
@@ -239,9 +239,9 @@ $$
 
 Where:
 
-- $\mu_j = \frac{1}{m} \sum_{i=1}^m x_j^{(i)}$(mean of feature$j$).
+- $\mu_j = \frac{1}{m} \sum_{i=1}^m x_j^{(i)}$(mean of feature $j$).
 
-- $\sigma_j = \sqrt{\frac{1}{m} \sum_{i=1}^m (x_j^{(i)} - \mu_j)^2}$(standard deviation of feature$j$).
+- $\sigma_j = \sqrt{\frac{1}{m} \sum_{i=1}^m (x_j^{(i)} - \mu_j)^2}$(standard deviation of feature $j$).
 
 
 
@@ -251,7 +251,7 @@ Where:
 
 #### Worked Example:
 
-Given attribute *income* with mean $\mu = \$54,000$and standard deviation$\sigma = \$16,000$, normalize $v = \$73,600$:
+Given attribute *income* with mean $\mu = \$54,000$ and standard deviation $\sigma = \$16,000$, normalize $v = \$73,600$:
 
 
 
@@ -278,7 +278,7 @@ Plot cost $J(\theta)$ against iteration count to verify gradient descent behavio
 
 - **Normal behavior**: $J(\theta)$ decreases monotonically after every single iteration and flattens out upon reaching convergence.
 
-- **Incorrect behavior**: If $J(\theta)$increases or oscillates up and down, learning rate$\alpha$is too large; reduce$\alpha$.
+- **Incorrect behavior**: If $J(\theta)$ increases or oscillates up and down, learning rate $\alpha$ is too large; reduce $\alpha$.
 
 
 
@@ -290,13 +290,13 @@ Plot cost $J(\theta)$ against iteration count to verify gradient descent behavio
 
 ### 4.2 Automatic Convergence Test
 
-Declare convergence if cost $J(\theta)$decreases by less than threshold$\epsilon$(e.g.,$\epsilon = 10^{-3}$) in one iteration.
+Declare convergence if cost $J(\theta)$ decreases by less than threshold $\epsilon$(e.g.,$\epsilon = 10^{-3}$) in one iteration.
 
 
 
 ### 4.3 Practical Rule for Choosing $\alpha$
 
-Try a sequence of $\alpha$values scaled by factors of approximately$3$:
+Try a sequence of $\alpha$ values scaled by factors of approximately $3$:
 
 
 
@@ -371,7 +371,7 @@ $$
 
 #### ⚠️ Warning on Feature Scaling:
 
-When using polynomial features, feature scaling becomes indispensable. For instance, if $\text{size} \in [1, 1000]$, then $\text{size}^2 \in [1, 10^6]$and$\text{size}^3 \in [1, 10^9]$!
+When using polynomial features, feature scaling becomes indispensable. For instance, if $\text{size} \in [1, 1000]$, then $\text{size}^2 \in [1, 10^6]$ and $\text{size}^3 \in [1, 10^9]$!
 
 
 
@@ -395,7 +395,7 @@ Instead of iterative gradient descent, the optimal parameters $\theta^*$ can be 
 
 ### 6.1 Matrix Formulation
 
-Construct Design Matrix $X \in \mathbb{R}^{m \times (n+1)}$and Target Vector$y \in \mathbb{R}^m$:
+Construct Design Matrix $X \in \mathbb{R}^{m \times (n+1)}$ and Target Vector $y \in \mathbb{R}^m$:
 
 
 
@@ -472,9 +472,9 @@ theta = pinv(X' * X) * X' * y
 
 | Metric / Property | Gradient Descent | Normal Equation |
 |---|---|---|
-| Hyperparameter Tuning | Must choose learning rate $\alpha$| No learning rate$\alpha$ required |
+| Hyperparameter Tuning | Must choose learning rate $\alpha$| No learning rate $\alpha$ required |
 | Computation Paradigm | Iterative (requires many steps) | Closed-form direct matrix inverse |
-| Time Complexity | $O(k \cdot n^2)$for$k$iterations |$O(n^3)$due to inverse of$(n+1) \times (n+1)$ matrix |
+| Time Complexity | $O(k \cdot n^2)$ for $k$ iterations |$O(n^3)$ due to inverse of $(n+1) \times (n+1)$ matrix |
 | Large Datasets ($n \ge 10^6$) | Scalable, works very well | Extremely slow ($n > 10,000$ computationally infeasible) |
 | Feature Scaling | Mandatory for fast convergence | Not required |
 
@@ -500,9 +500,9 @@ What happens if $(X^T X)$ is singular (non-invertible / degenerate)?
 
 ### 7.1 Root Causes of Non-Invertibility
 
-1. **Redundant Features**: Linearly dependent features (e.g., $x_1 =$size in$\text{ft}^2$and$x_2 =$size in$\text{m}^2$, where $x_1 = 3.28^2 x_2$).
+1. **Redundant Features**: Linearly dependent features (e.g., $x_1 =$ size in $\text{ft}^2$ and $x_2 =$ size in $\text{m}^2$, where $x_1 = 3.28^2 x_2$).
 
-2. **Too Many Features ($m \le n$)**: Number of training examples $m$is less than or equal to number of features$n$.
+2. **Too Many Features ($m \le n$)**: Number of training examples $m$ is less than or equal to number of features $n$.
 
 
 
@@ -512,7 +512,7 @@ What happens if $(X^T X)$ is singular (non-invertible / degenerate)?
 
 - Use pseudo-inverse algorithm `pinv()` in software, which computes a pseudoinverse even for singular matrices.
 
-- Apply **Regularization** (adds $\lambda I$to$X^T X$, guaranteeing invertibility).
+- Apply **Regularization** (adds $\lambda I$ to $X^T X$, guaranteeing invertibility).
 
 
 
@@ -548,7 +548,7 @@ $$
 
 
 
-Where $\bar{x} = \frac{1}{d} \sum x_i$and$\bar{y} = \frac{1}{d} \sum y_i$.
+Where $\bar{x} = \frac{1}{d} \sum x_i$ and $\bar{y} = \frac{1}{d} \sum y_i$.
 
 
 
@@ -590,7 +590,7 @@ $$
 
 Fitted Model: $\hat{y} = 23.6 + 3.5 x$.
 
-Predicting salary for $10$years experience:$\hat{y} = 23.6 + 3.5(10) = 58.6 \implies \$58,600$.
+Predicting salary for $10$ years experience:$\hat{y} = 23.6 + 3.5(10) = 58.6 \implies \$58,600$.
 
 
 
@@ -614,10 +614,10 @@ Predicting salary for $10$years experience:$\hat{y} = 23.6 + 3.5(10) = 58.6 \imp
 
 | Metric | Formula | Description |
 |---|---|---|
-| Absolute Error | $|y_i - y_i'|$ | Absolute deviation per instance |
+| Absolute Error | $\|y_i - y_i'\|$ | Absolute deviation per instance |
 | Squared Error | $(y_i - y_i')^2$ | Squared deviation per instance |
-| Mean Absolute Error (MAE) | $\frac{1}{d} \sum_{i=1}^d |y_i - y_i'|$ | Average linear magnitude of errors |
-| Mean Absolute Percentage Error (MAPE) | $\frac{1}{d} \sum_{i=1}^d \left|\frac{y_i - y_i'}{y_i}\right|$ | Percentage error relative to actual target |
+| Mean Absolute Error (MAE) | $\frac{1}{d} \sum_{i=1}^d \|y_i - y_i'\|$ | Average linear magnitude of errors |
+| Mean Absolute Percentage Error (MAPE) | $\frac{1}{d} \sum_{i=1}^d \left\|\frac{y_i - y_i'}{y_i}\right\|$ | Percentage error relative to actual target |
 | Root Mean Square Error (RMSE) | $\sqrt{\frac{\sum_{i=1}^d (y_i - y_i')^2}{d}}$ | Square root of mean squared error |
 | Normalized RMSE (NRMSE) | $\frac{\text{RMSE}}{y_{\max} - y_{\min}}$ | Scale-independent RMSE metric |
 
@@ -656,33 +656,19 @@ Predicting salary for $10$years experience:$\hat{y} = 23.6 + 3.5(10) = 58.6 \imp
 
 
 ```mermaid
-
 flowchart TD
-
     A["Multivariate Dataset X, y"] --> B{"Choose Solution Method"}
-
-    B -->|Gradient Descent| C["Perform Feature Scaling Z-Score / Min-Max"]
-
-    C --> D["Initialize Parameters &theta;"]
-
-    D --> E["Iteratively Update &theta; := &theta; - &alpha; &times; grad"]
-
-    E --> F{"Check Convergence J_iter - J_prev &lt; 1e-3"}
-
-    F -->|Converged| G["Final Model &theta;*"]
-
+    B -->|Gradient Descent| C["Perform Feature Scaling: Z-Score / Min-Max"]
+    C --> D["Initialize Parameters: theta"]
+    D --> E["Iteratively Update: theta := theta - alpha * grad"]
+    E --> F{"Check Convergence: J_iter - J_prev < 1e-3"}
+    F -->|Converged| G["Final Model: theta*"]
     F -->|Not Converged| E
-
-    B -->|Normal Equation| H{"Check if X<sup>T</sup>X is Singular"}
-
-    H -->|Non-Singular| I["Compute &theta; = (X<sup>T</sup>X)<sup>-1</sup> X<sup>T</sup> y"]
-
-    H -->|"Singular (m &le; n or Collinear)"| J["Use pinv(X<sup>T</sup>X) X<sup>T</sup> y or Regularization"]
-
+    B -->|Normal Equation| H{"Check if X^T X is Singular"}
+    H -->|Non-Singular| I["Compute: theta = (X^T X)^(-1) X^T y"]
+    H -->|"Singular (m <= n or Collinear)"| J["Use pinv(X^T X) X^T y or Regularization"]
     I --> G
-
     J --> G
-
 ```
 
 
@@ -701,7 +687,7 @@ flowchart TD
 | Z-Score Normalization | $x_j' = \frac{x_j - \mu_j}{\sigma_j}$ |
 | Min-Max Normalization | $v' = \frac{v - \min}{\max - \min} (\text{new\_max} - \text{new\_min}) + \text{new\_min}$ |
 | Normal Equation | $\theta = (X^T X)^{-1} X^T y$ |
-| MAE | $\text{MAE} = \frac{1}{d} \sum_{i=1}^d |y_i - \hat{y}_i|$ |
+| MAE | $\text{MAE} = \frac{1}{d} \sum_{i=1}^d \|y_i - \hat{y}_i\|$ |
 | RMSE | $\text{RMSE} = \sqrt{\frac{1}{d} \sum_{i=1}^d (y_i - \hat{y}_i)^2}$ |
 | NRMSE | $\text{NRMSE} = \frac{\text{RMSE}}{y_{\max} - y_{\min}}$ |
 
@@ -725,9 +711,9 @@ flowchart TD
 
 
 
-2. **Given $m = 100$samples and$n = 200$features, can standard matrix inversion$(X^T X)^{-1}$ be computed directly? Explain.**
+2. **Given $m = 100$ samples and $n = 200$ features, can standard matrix inversion $(X^T X)^{-1}$ be computed directly? Explain.**
 
-   - *Solution*: No. When $m < n$, matrix $X \in \mathbb{R}^{m \times (n+1)}$has rank at most$m$. The matrix product $(X^T X) \in \mathbb{R}^{(n+1) \times (n+1)}$has rank at most$m < n+1$, making it singular and non-invertible.
+   - *Solution*: No. When $m < n$, matrix $X \in \mathbb{R}^{m \times (n+1)}$ has rank at most $m$. The matrix product $(X^T X) \in \mathbb{R}^{(n+1) \times (n+1)}$ has rank at most $m < n+1$, making it singular and non-invertible.
 
 
 
@@ -739,11 +725,11 @@ flowchart TD
 
 > **Complete End-to-End Problem (No Hand-Waving or Guessing):**
 
-> Consider a dataset with $m = 4$observations and$n = 2$ features ($x_1$: Engine Size, $x_2$: Cylinders) predicting Target $y$ (Fuel Consumption):
+> Consider a dataset with $m = 4$ observations and $n = 2$ features ($x_1$: Engine Size, $x_2$: Cylinders) predicting Target $y$ (Fuel Consumption):
 
 >
 
-> | Sample ($i$) | Bias ($x_0$) | $x_1$|$x_2$| Target$y$ |
+> | Sample ($i$) | Bias ($x_0$) | $x_1$|$x_2$| Target $y$ |
 > | :---: | :---: | :---: | :---: | :---: |
 > | **1** | 1 | 1 | 0 | **3** |
 > | **2** | 1 | 0 | 1 | **4** |
@@ -754,11 +740,11 @@ flowchart TD
 
 > **Task:**
 
-> 1. Formulate Design Matrix $X$and Target Vector$Y$.
+> 1. Formulate Design Matrix $X$ and Target Vector $Y$.
 
 > 2. Compute Matrix Product $X^T X$.
 
-> 3. Calculate Determinant $\det(X^T X)$and invert$(X^T X)^{-1}$ explicitly using the Adjugate Matrix.
+> 3. Calculate Determinant $\det(X^T X)$ and invert $(X^T X)^{-1}$ explicitly using the Adjugate Matrix.
 
 > 4. Compute Vector Product $X^T Y$.
 
@@ -768,7 +754,7 @@ flowchart TD
 
 
 
-#### Step 1: Design Matrix $X$and Target Vector$Y$
+#### Step 1: Design Matrix $X$ and Target Vector $Y$
 
 
 
@@ -829,7 +815,7 @@ $$
 
 #### Step 3: Compute Determinant and Invert $(X^T X)^{-1}$
 
-For a $3 \times 3$matrix$M$:
+For a $3 \times 3$ matrix $M$:
 
 
 $$
@@ -949,7 +935,7 @@ $$
 
 
 
-| Sample ($i$) | Actual $y^{(i)}$| Prediction$\hat{y}^{(i)} = 1 + 2x_1 + 3x_2$| Residual$e^{(i)} = y^{(i)} - \hat{y}^{(i)}$| Squared Error$(e^{(i)})^2$ |
+| Sample ($i$) | Actual $y^{(i)}$| Prediction $\hat{y}^{(i)} = 1 + 2x_1 + 3x_2$| Residual $e^{(i)} = y^{(i)} - \hat{y}^{(i)}$| Squared Error $(e^{(i)})^2$ |
 | :---: | :---: | :---: | :---: | :---: |
 | **1** | 3 | $1 + 2(1) + 3(0) = 3$|$3 - 3 = 0$|$0.0$ |
 | **2** | 4 | $1 + 2(0) + 3(1) = 4$|$4 - 4 = 0$|$0.0$ |

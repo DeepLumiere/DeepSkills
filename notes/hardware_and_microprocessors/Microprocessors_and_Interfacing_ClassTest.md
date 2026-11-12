@@ -245,13 +245,13 @@ This chapter presents a comprehensive technical study of the Intel 8085 8-bit mi
 
 * **Power Supply:** Operates on a single $+5\text{V DC}$ supply ($V_{CC}$) relative to ground ($V_{SS}$).
 
-* **Clock Frequency:** Basic clock frequency is $3\text{ MHz}$(for 8085A) or$5\text{ MHz}$(for 8085A-2). Generated using an external crystal connected across$X_1$and$X_2$pins (internal divide-by-2 circuit yields$3\text{ MHz}$clock from a$6\text{ MHz}$ crystal).
+* **Clock Frequency:** Basic clock frequency is $3\text{ MHz}$(for 8085A) or $5\text{ MHz}$(for 8085A-2). Generated using an external crystal connected across $X_1$ and $X_2$ pins (internal divide-by-2 circuit yields $3\text{ MHz}$ clock from a $6\text{ MHz}$ crystal).
 
 * **Address Bus:** 16-bit total address capacity yielding $2^{16} = 64\text{ KB}$ ($65,536\text{ bytes}$) direct addressable physical memory space.
 
   - High-order address bus: $A_{15} - A_8$ (8-bit unidirectional).
 
-  - Low-order address/data bus: $AD_7 - AD_0$(8-bit bidirectional, time-multiplexed using$ALE$ signal).
+  - Low-order address/data bus: $AD_7 - AD_0$(8-bit bidirectional, time-multiplexed using $ALE$ signal).
 
 * **Register Architecture:** Contains 12 addressable 8-bit registers. Four registers can function as 16-bit register pairs (BC, DE, HL, WZ). Six general registers (B, C, D, E, H, L) can be used individually as 8-bit registers or combined as 16-bit pairs.
 
@@ -309,11 +309,11 @@ The internal functional architecture of the Intel 8085 consists of distinct oper
 
 5. **General Purpose Registers (B, C, D, E, H, L):** Six 8-bit registers organized as arrays. Can be accessed as individual 8-bit registers or paired as 16-bit register pairs:
 
-   - **BC Pair:** $B$holds High byte,$C$ holds Low byte. Can serve as data pointer.
+   - **BC Pair:** $B$ holds High byte,$C$ holds Low byte. Can serve as data pointer.
 
-   - **DE Pair:** $D$holds High byte,$E$ holds Low byte. Can serve as data pointer.
+   - **DE Pair:** $D$ holds High byte,$E$ holds Low byte. Can serve as data pointer.
 
-   - **HL Pair:** $H$holds High byte,$L$ holds Low byte. Functions as the primary memory pointer ($M$). When memory location $M$ is referenced in an instruction, the CPU accesses the memory address specified by $HL$.
+   - **HL Pair:** $H$ holds High byte,$L$ holds Low byte. Functions as the primary memory pointer ($M$). When memory location $M$ is referenced in an instruction, the CPU accesses the memory address specified by $HL$.
 
 6. **Program Counter (PC):** A 16-bit register that stores the memory address of the next sequential instruction byte to be fetched. Automatically incremented as instruction bytes are fetched from memory.
 
@@ -393,7 +393,7 @@ The 8-bit Flag register contains 5 active conditional status flags:
 | **$D_7$** | Sign Flag | **S** | Set to `1` if MSB ($D_7$) of result is `1` (negative); reset to `0` if $D_7 = 0$ (positive). |
 | **$D_6$** | Zero Flag | **Z** | Set to `1` if ALU operation result is exactly zero; reset to `0` if non-zero. |
 | **$D_5$** | Unassigned | **X** | Not used (undefined bit). |
-| **$D_4$** | Auxiliary Carry | **AC**| Set to `1` if ALU generates a carry out of bit $D_3$into bit$D_4$ during BCD math; otherwise `0`. |
+| **$D_4$** | Auxiliary Carry | **AC**| Set to `1` if ALU generates a carry out of bit $D_3$ into bit $D_4$ during BCD math; otherwise `0`. |
 | **$D_3$** | Unassigned | **X** | Not used (undefined bit). |
 | **$D_2$** | Parity Flag | **P** | Set to `1` if result contains an **even number of 1s** (Even Parity); reset to `0` for Odd Parity. |
 | **$D_1$** | Unassigned | **X** | Not used (undefined bit). |
@@ -421,13 +421,13 @@ $$
 
 - **Carry Flag (CY):** `1` (Carry out of $D_7$).
 
-- **Sign Flag (S):** `0` (Bit $D_7$of result$40\text{H}$ is `0`).
+- **Sign Flag (S):** `0` (Bit $D_7$ of result $40\text{H}$ is `0`).
 
 - **Zero Flag (Z):** `0` (Result $40\text{H}$ is not zero).
 
 - **Auxiliary Carry (AC):** `1` (Carry out of bit $D_3$: $1 + 1 = 10_2$).
 
-- **Parity Flag (P):** `0` (Result $0100\,0000_2$has one `1` bit$\rightarrow$ odd parity).
+- **Parity Flag (P):** `0` (Result $0100\,0000_2$ has one `1` bit $\rightarrow$ odd parity).
 
 
 
@@ -798,7 +798,7 @@ flowchart TD
 
    - **Instruction Pointer (IP):** 16-bit register holding the offset address of the next instruction byte.
 
-   - **Address Summing Block ($\\\Sigma$):** Dedicated 20-bit adder that computes physical addresses from segment and offset registers.
+   - **Address Summing Block ($\Sigma$):** Dedicated 20-bit adder that computes physical addresses from segment and offset registers.
 
 
 
@@ -928,11 +928,11 @@ $$
 
 
 
-- **AL Output:** $80\text{H}$(Decimal$-128$ in signed 2's complement).
+- **AL Output:** $80\text{H}$(Decimal $-128$ in signed 2's complement).
 
 - **Carry Flag (CF):** `0` (No carry out of bit 7).
 
-- **Parity Flag (PF):** `0` (Result $1000\,0000_2$has one `1` bit$\rightarrow$ odd parity).
+- **Parity Flag (PF):** `0` (Result $1000\,0000_2$ has one `1` bit $\rightarrow$ odd parity).
 
 - **Auxiliary Carry (AF):** `1` (Carry generated out of bit 3 into bit 4).
 
@@ -940,7 +940,7 @@ $$
 
 - **Sign Flag (SF):** `1` (Bit $D_7$ is `1`).
 
-- **Overflow Flag (OF):** `1` (Positive $+127$added to$+1$resulted in negative$-128$, triggering signed overflow).
+- **Overflow Flag (OF):** `1` (Positive $+127$ added to $+1$ resulted in negative $-128$, triggering signed overflow).
 
 
 
@@ -990,7 +990,7 @@ The 8086 addresses $1\text{ MB}$ ($1,048,576\text{ bytes}$) of physical memory u
 
 3. **Dynamic Program Relocation:** Programs can be loaded into any physical memory location without altering internal offset addresses—only the segment register values are updated.
 
-4. **Supports Programs $>$64 KB:** Code, data, or stack structures exceeding$64\text{ KB}$ can be handled by defining multiple logical segments.
+4. **Supports Programs $>$ 64 KB:** Code, data, or stack structures exceeding $64\text{ KB}$ can be handled by defining multiple logical segments.
 
 
 
@@ -1020,17 +1020,17 @@ Although the 8086 has a 20-bit address bus to access 1 MB of physical memory, th
 
 flowchart TD
 
-    subgraph Mem["8086 1 MB Physical Memory Space"]
+    subgraph Mem ["8086 1 MB Physical Memory Space"]
 
-        subgraph Even["Even Bank / Low Bank<br>Enables D7-D0<br>Activated when A0 = 0"]
+        subgraph Even ["Even Bank / Low Bank (Enables D7-D0, Activated when A0 = 0)"]
 
-            even_mem["512 KB Even Addresses<br>00000H, 00002H, ... FFFFEH"]
+            even_mem["512 KB Even Addresses: 00000H, 00002H, ... FFFFEH"]
 
         end
 
-        subgraph Odd["Odd Bank / High Bank<br>Enables D15-D8<br>Activated when BHE = 0"]
+        subgraph Odd ["Odd Bank / High Bank (Enables D15-D8, Activated when BHE = 0)"]
 
-            odd_mem["512 KB Odd Addresses<br>00001H, 00003H, ... FFFFFH"]
+            odd_mem["512 KB Odd Addresses: 00001H, 00003H, ... FFFFFH"]
 
         end
 
@@ -1048,7 +1048,7 @@ flowchart TD
 
 
 
-The 8086 uses $A_0$and$\overline{\text{BHE}}$ status signals to select the appropriate memory bank(s) according to this truth table:
+The 8086 uses $A_0$ and $\overline{\text{BHE}}$ status signals to select the appropriate memory bank(s) according to this truth table:
 
 
 
@@ -1093,13 +1093,13 @@ The 8086 uses $A_0$and$\overline{\text{BHE}}$ status signals to select the appro
 
 flowchart LR
 
-    Seg["Segment Register<br>e.g., CS = 3000H"] -->|Shift Left 4 Bits<br>Multiply by 10H| Shift["Base Segment Address<br>30000H"]
+    Seg["Segment Register (e.g., CS = 3000H)"] -->|Shift Left 4 Bits / Multiply by 10H| Shift["Base Segment Address: 30000H"]
 
-    Offset["Offset Register<br>e.g., IP = 1234H"] --> Add
+    Offset["Offset Register (e.g., IP = 1234H)"] --> Add
 
     Shift --> Add((20-Bit Adder))
 
-    Add -->|Sum| PA["Physical Address<br>31234H"]
+    Add -->|Sum| PA["Physical Address: 31234H"]
 
 ```
 
@@ -1310,7 +1310,7 @@ $$
 
 
 
-1. **$AD_{15} - AD_0$(Pins 1–16, 39):** Multiplexed Address/Data bus. Carries memory address during$T_1$, and data during $T_2, T_3, T_4$.
+1. **$AD_{15} - AD_0$(Pins 1–16, 39):** Multiplexed Address/Data bus. Carries memory address during $T_1$, and data during $T_2, T_3, T_4$.
 
 2. **$A_{19}/S_6 - A_{16}/S_3$ (Pins 35–38):** Multiplexed high address lines and system status lines.
 
@@ -1462,9 +1462,9 @@ The 16-bit offset address of the operand in memory is held inside a Base registe
 
 
 
-- **Formula:** $EA = [R]$where$R \in \{\text{BX}, \text{BP}, \text{SI}, \text{DI}\}$
+- **Formula:** $EA = [R]$ where $R \in \{\text{BX}, \text{BP}, \text{SI}, \text{DI}\}$
 
-- **Example:** `MOV AX, [BX]` (If $\text{DS} = 1010\text{H}$and$\text{BX} = 1122\text{H}$, $\text{Physical Address} = 10100\text{H} + 1122\text{H} = 11222\text{H}$).
+- **Example:** `MOV AX, [BX]` (If $\text{DS} = 1010\text{H}$ and $\text{BX} = 1122\text{H}$, $\text{Physical Address} = 10100\text{H} + 1122\text{H} = 11222\text{H}$).
 
 - **Pointer Operator Requirement:** In ambiguous memory operations, `BYTE PTR` or `WORD PTR` must specify data size (e.g., `INC BYTE PTR [BX]`).
 
@@ -1492,7 +1492,7 @@ Effective address is computed by adding an 8-bit or 16-bit displacement to the c
 
   - Default Segment for `BP` is **SS**.
 
-- **Displacement Limits:** 8-bit signed ($-128$to$+127$) or 16-bit signed ($-32768$to$+32767$).
+- **Displacement Limits:** 8-bit signed ($-128$ to $+127$) or 16-bit signed ($-32768$ to $+32767$).
 
 - **Example:** `MOV AX, 1234H[BX]` (If $\text{DS} = 4000\text{H}$, $\text{BX} = 1000\text{H}$, $\text{Physical Address} = 40000\text{H} + 1000\text{H} + 1234\text{H} = 42234\text{H}$).
 
@@ -2108,9 +2108,9 @@ Arithmetic instructions perform binary addition, subtraction, multiplication, di
 
 * **Operational Mechanics:**
 
-  - **8-bit Division:** Dividend in AX $\div$Operand8$\rightarrow \text{AL} = \text{Quotient}$, $\text{AH} = \text{Remainder}$.
+  - **8-bit Division:** Dividend in AX $\div$ Operand8 $\rightarrow \text{AL} = \text{Quotient}$, $\text{AH} = \text{Remainder}$.
 
-  - **16-bit Division:** Dividend in (DX:AX) $\div$Operand16$\rightarrow \text{AX} = \text{Quotient}$, $\text{DX} = \text{Remainder}$.
+  - **16-bit Division:** Dividend in (DX:AX) $\div$ Operand16 $\rightarrow \text{AX} = \text{Quotient}$, $\text{DX} = \text{Remainder}$.
 
 * **Flags Affected:** All status flags are undefined.
 
@@ -2256,9 +2256,9 @@ Branch instructions alter program execution flow by modifying IP (and CS for Far
 
 * `LOOP Target`: Decrements CX by 1; jumps to `Target` if $\text{CX} \neq 0$.
 
-* `LOOPE` / `LOOPZ Target`: Decrements CX; jumps if $\text{CX} \neq 0$AND$ZF = 1$.
+* `LOOPE` / `LOOPZ Target`: Decrements CX; jumps if $\text{CX} \neq 0$ AND $ZF = 1$.
 
-* `LOOPNE` / `LOOPNZ Target`: Decrements CX; jumps if $\text{CX} \neq 0$AND$ZF = 0$.
+* `LOOPNE` / `LOOPNZ Target`: Decrements CX; jumps if $\text{CX} \neq 0$ AND $ZF = 0$.
 
 
 
@@ -2317,7 +2317,7 @@ $$
 
 
 
-Where $f_{\text{CLK}}$is CPU operating frequency (e.g.,$3\text{ MHz} \rightarrow T = 333.33\text{ ns}$).
+Where $f_{\text{CLK}}$ is CPU operating frequency (e.g.,$3\text{ MHz} \rightarrow T = 333.33\text{ ns}$).
 
 
 
@@ -2332,7 +2332,7 @@ $$
 
 
 
-Where $N$is restart vector number (e.g.,$RST 7.5 \rightarrow 7.5 \times 8 = 60_{10} = 003C_H$).
+Where $N$ is restart vector number (e.g.,$RST 7.5 \rightarrow 7.5 \times 8 = 60_{10} = 003C_H$).
 
 
 
@@ -2494,7 +2494,7 @@ Where:
 
 1. **Explain the purpose of the ALE signal in Intel 8085 and 8086 microprocessors.**  
 
-   *Answer:* $ALE$(Address Latch Enable) is a positive pulse emitted during$T_1$ of a machine cycle to signal external latches (e.g., 74LS373) to capture and hold the lower address byte from the multiplexed Address/Data bus ($AD_7 - AD_0$or$AD_{15} - AD_0$).
+   *Answer:* $ALE$(Address Latch Enable) is a positive pulse emitted during $T_1$ of a machine cycle to signal external latches (e.g., 74LS373) to capture and hold the lower address byte from the multiplexed Address/Data bus ($AD_7 - AD_0$ or $AD_{15} - AD_0$).
 
 
 
@@ -2532,7 +2532,7 @@ Where:
 
 2. **Explain the 8085 Interrupt structure in order of priority.**  
 
-   *Review Requirement:* List priority: TRAP $>$RST 7.5$>$RST 6.5$>$RST 5.5$>$ INTR. Detail vector addresses, triggering mechanisms (edge vs level), and masking via `SIM`.
+   *Review Requirement:* List priority: TRAP $>$ RST 7.5 $>$ RST 6.5 $>$ RST 5.5 $>$ INTR. Detail vector addresses, triggering mechanisms (edge vs level), and masking via `SIM`.
 
 
 
@@ -2544,7 +2544,7 @@ Where:
 
 
 
-1. **If $\text{CS} = 24A0\text{H}$and$\text{IP} = 1082\text{H}$, determine the physical memory address.**  
+1. **If $\text{CS} = 24A0\text{H}$ and $\text{IP} = 1082\text{H}$, determine the physical memory address.**  
 
    *Solution:*
 
@@ -2627,11 +2627,11 @@ $$
 
 **Question:** Calculate the 20-bit Physical Address generated by the 8086 CPU for the following segment and offset register pairs:
 
-1. $	ext{CS} = 2500	ext{H}, 	ext{IP} = 1200	ext{H}$
+1. $\text{CS} = 2500\text{H}, \text{IP} = 1200\text{H}$
 
-2. $	ext{DS} = 4000	ext{H}, 	ext{BX} = 0050	ext{H}, 	ext{SI} = 0100	ext{H}$ (Based-Indexed Addressing)
+2. $\text{DS} = 4000\text{H}, \text{BX} = 0050\text{H}, \text{SI} = 0100\text{H}$ (Based-Indexed Addressing)
 
-3. $	ext{SS} = 7000	ext{H}, 	ext{SP} = 0FF0	ext{H}$
+3. $\text{SS} = 7000\text{H}, \text{SP} = 0FF0\text{H}$
 
 
 
@@ -2639,33 +2639,33 @@ $$
 
 1. **Case 1 (Code Segment Fetch):**
 
-   - Formula: $	ext{Physical Address} = (	ext{CS} 	imes 16_{10}) + 	ext{IP} = (	ext{CS} \ll 4) + 	ext{IP}$
+   - Formula: $\text{Physical Address} = (\text{CS} \times 16_{10}) + \text{IP} = (\text{CS} \ll 4) + \text{IP}$
 
-   - $	ext{CS} 	imes 10	ext{H} = 25000	ext{H}$
+   - $\text{CS} \times 10\text{H} = 25000\text{H}$
 
-   - Add Offset $	ext{IP} = 01200	ext{H}$
+   - Add Offset $\text{IP} = 01200\text{H}$
 
-   - $	ext{Physical Address} = 25000	ext{H} + 01200	ext{H} = \mathbf{26200	ext{H}}$
+   - $\text{Physical Address} = 25000\text{H} + 01200\text{H} = \mathbf{26200\text{H}}$
 
 
 
 2. **Case 2 (Data Segment Based-Indexed Fetch):**
 
-   - Formula: $	ext{Effective Address (EA)} = 	ext{BX} + 	ext{SI} = 0050	ext{H} + 0100	ext{H} = 0150	ext{H}$
+   - Formula: $\text{Effective Address (EA)} = \text{BX} + \text{SI} = 0050\text{H} + 0100\text{H} = 0150\text{H}$
 
-   - $	ext{Physical Address} = (	ext{DS} 	imes 10	ext{H}) + 	ext{EA} = 40000	ext{H} + 0150	ext{H} = \mathbf{41500	ext{H}}$
+   - $\text{Physical Address} = (\text{DS} \times 10\text{H}) + \text{EA} = 40000\text{H} + 0150\text{H} = \mathbf{41500\text{H}}$
 
 
 
 3. **Case 3 (Stack Segment Operation):**
 
-   - Formula: $	ext{Physical Address} = (	ext{SS} 	imes 10	ext{H}) + 	ext{SP}$
+   - Formula: $\text{Physical Address} = (\text{SS} \times 10\text{H}) + \text{SP}$
 
-   - $	ext{SS} 	imes 10	ext{H} = 70000	ext{H}$
+   - $\text{SS} \times 10\text{H} = 70000\text{H}$
 
-   - Add Offset $	ext{SP} = 00FF0	ext{H}$
+   - Add Offset $\text{SP} = 00FF0\text{H}$
 
-   - $	ext{Physical Address} = 70000	ext{H} + 00FF0	ext{H} = \mathbf{70FF0	ext{H}}$
+   - $\text{Physical Address} = 70000\text{H} + 00FF0\text{H} = \mathbf{70FF0\text{H}}$
 
 
 
@@ -2713,19 +2713,19 @@ flowchart TD
 
 **Step-by-Step Solution:**
 
-1. **Formula:** $	ext{Vector Address} = (	ext{Interrupt Number}) 	imes 8_{10}$ converted to 16-bit Hexadecimal.
+1. **Formula:** $\text{Vector Address} = (\text{Interrupt Number}) \times 8_{10}$ converted to 16-bit Hexadecimal.
 
 2. **For RST 5:**
 
-   - $5 	imes 8 = 40_{10} = \mathbf{0028	ext{H}}$
+   - $5 \times 8 = 40_{10} = \mathbf{0028\text{H}}$
 
 3. **For RST 6.5:**
 
-   - $6.5 	imes 8 = 52_{10} = \mathbf{0034	ext{H}}$
+   - $6.5 \times 8 = 52_{10} = \mathbf{0034\text{H}}$
 
 4. **For RST 7.5:**
 
-   - $7.5 	imes 8 = 60_{10} = \mathbf{003C	ext{H}}$
+   - $7.5 \times 8 = 60_{10} = \mathbf{003C\text{H}}$
 
 
 
@@ -2751,11 +2751,11 @@ flowchart TD
 
 **Step-by-Step Solution:**
 
-1. **Vector Offset for IR3:** $3 	imes 4	ext{ bytes} = 12_{10} = 0C	ext{H}$(or in 8086 mode, Vector Type Number =$	ext{Base Type} + 3$).
+1. **Vector Offset for IR3:** $3 \times 4\text{ bytes} = 12_{10} = 0C\text{H}$(or in 8086 mode, Vector Type Number =$\text{Base Type} + 3$).
 
-2. In 8086 mode, Type Number = $80	ext{H} + 3 = 83	ext{H}$.
+2. In 8086 mode, Type Number = $80\text{H} + 3 = 83\text{H}$.
 
-3. Vector Table Entry Location = $83	ext{H} 	imes 4 = 20C	ext{H}$.
+3. Vector Table Entry Location = $83\text{H} \times 4 = 20C\text{H}$.
 
-4. The 4 bytes at `0020CH` to `0020FH` store the 16-bit $	ext{IP}$and 16-bit$	ext{CS}$ for IR3's Interrupt Service Routine (ISR).
+4. The 4 bytes at `0020CH` to `0020FH` store the 16-bit $\text{IP}$ and 16-bit $\text{CS}$ for IR3's Interrupt Service Routine (ISR).
 

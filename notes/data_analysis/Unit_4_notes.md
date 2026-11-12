@@ -301,7 +301,7 @@ graph TD
     AGG --> SPAT["Spatial Roll-up (Store -> City -> State -> Country)"]
 
     MDR --> DISC["5. Discretization"]
-    DISC["Interval Binning: Continuous Age -> {Young, Middle, Senior}"]
+    DISC --> DISC_BIN["Interval Binning: Continuous Age -> {Young, Middle, Senior}"]
 ```
 
 1. **Dimensionality Reduction**: Eliminating attribute columns through feature extraction or feature selection.
@@ -351,7 +351,7 @@ flowchart LR
     subgraph Pop_Universe ["Target Population (Size N)"]
         direction TB
         P_EL["All Population Elements"]
-        P_PAR["True Population Parameters:<br/>Mean: mu<br/>Std Dev: sigma<br/>Variance: sigma^2"]
+        P_PAR["True Population Parameters: Mean mu; Std Dev sigma; Variance sigma^2"]
     end
 
     Pop_Universe -- "Scientific Sampling Design" --> Sub_Sample
@@ -359,7 +359,7 @@ flowchart LR
     subgraph Sub_Sample ["Extracted Sample (Size n)"]
         direction TB
         S_EL["Sampled Elements (n << N)"]
-        S_STAT["Observed Sample Statistics:<br/>Mean: X_bar<br/>Std Dev: s<br/>Variance: s^2"]
+        S_STAT["Observed Sample Statistics: Mean X_bar; Std Dev s; Variance s^2"]
     end
 
     Sub_Sample -- "Statistical Estimation & Inference" --> Pop_Universe
@@ -387,10 +387,10 @@ flowchart TD
     SKEW_DATA["Skewed Population: 99.9% Normal Transactions, 0.1% Rare Fraud Cases"]
 
     SKEW_DATA --> SRS_PATH["Simple Random Sampling (SRS)"]
-    SRS_PATH --> SRS_FAIL["High Probability of Zero Fraud Cases Extracted<br/>-> Model fails to learn minority class patterns!"]
+    SRS_PATH --> SRS_FAIL["High Probability of Zero Fraud Cases Extracted -> Model fails to learn minority class patterns!"]
 
     SKEW_DATA --> STRAT_PATH["Stratified Adaptive Sampling"]
-    STRAT_PATH --> STRAT_WIN["Partition into Normal and Fraud Strata<br/>-> Sample 100% of Fraud + Proportionate Normal<br/>-> Preserves complete minority class patterns!"]
+    STRAT_PATH --> STRAT_WIN["Partition into Normal and Fraud Strata -> Sample 100% of Fraud + Proportionate Normal -> Preserves complete minority class patterns!"]
 ```
 
 [Source: `Unit 4_Data reduction and Sampling.pdf`, Slide 6, 9]
@@ -537,14 +537,14 @@ Sampling methods are split into two broad categories: **Probability (Random) Sam
 flowchart TD
     ALL["Sampling Techniques"]
 
-    ALL --> PROB["Probability Sampling Techniques<br/>(Every element has a known, non-zero selection probability)"]
-    ALL --> NONPROB["Non-Probability Sampling Techniques<br/>(Selection relies on subjective judgment or convenience)"]
+    ALL --> PROB["Probability Sampling Techniques: Every element has a known, non-zero selection probability"]
+    ALL --> NONPROB["Non-Probability Sampling Techniques: Selection relies on subjective judgment or convenience"]
 
-    PROB --> P1["Simple Random Sampling (SRS)<br/>* SRSWOR (Without Replacement)<br/>* SRSWR (With Replacement)"]
+    PROB --> P1["Simple Random Sampling (SRS): SRSWOR (Without Replacement), SRSWR (With Replacement)"]
     PROB --> P2["Systematic Sampling (k = N/n)"]
-    PROB --> P3["Stratified Sampling<br/>* Proportional<br/>* Non-proportional"]
+    PROB --> P3["Stratified Sampling: Proportional, Non-proportional"]
     PROB --> P4["Cluster Sampling"]
-    PROB --> P5["Other Advanced Probability Techniques:<br/>* Multistage Sampling<br/>* Multiphase Sampling"]
+    PROB --> P5["Other Advanced Probability Techniques: Multistage Sampling, Multiphase Sampling"]
 
     NONPROB --> NP1["Convenience Sampling"]
     NONPROB --> NP2["Judgmental / Purposive Sampling"]
@@ -747,8 +747,6 @@ When designing an operational sampling strategy, researchers must balance six co
 6. **Research Scope**: A single-site university study utilizes SRS; a nationwide audit mandates multi-stage cluster sampling.
 
 [Source: `Unit 4_Data reduction and Sampling.pdf`, Slide 21]
-```
-**Action**: Please confirm receipt of Part 1. Part 2 (Sections 6 to 11: PCA Comprehensive Theory & Derivations, the Master 10-15 Marker Worked Numerical Case Study, Toolchain Implementations, Diagrams, and Unit-End Essentials) will be transmitted immediately in the next message!
 
 ---
 
@@ -925,9 +923,9 @@ This determinant expansion yields an $n$-th degree characteristic polynomial in 
 
 ```mermaid
 flowchart TD
-    STEP1["Step 1: Center the Data Matrix<br/>Subtract feature means: X_c = X - mu"] --> STEP2["Step 2: Calculate Sample Covariance Matrix S<br/>S = (1 / (n - 1)) * X_c^T * X_c"]
-    STEP2 --> STEP3["Step 3: Compute Eigenvalues & Eigenvectors<br/>Solve det(S - lambda * I) = 0 and (S - lambda * I)x = 0"]
-    STEP3 --> STEP4["Step 4: Normalize, Sort & Project Data<br/>Form matrix V = [v1, v2, ..., vk]; Compute Scores = X_c * V"]
+    STEP1["Step 1: Center the Data Matrix - Subtract feature means: X_c = X - mu"] --> STEP2["Step 2: Calculate Sample Covariance Matrix S - S = (1 / (n - 1)) * X_c^T * X_c"]
+    STEP2 --> STEP3["Step 3: Compute Eigenvalues & Eigenvectors - Solve det(S - lambda * I) = 0 and (S - lambda * I)x = 0"]
+    STEP3 --> STEP4["Step 4: Normalize, Sort & Project Data - Form matrix V = &#91;v1, v2, ..., vk&#93;; Compute Scores = X_c * V"]
 ```
 
 1. **Step 1: Center the Data**: Subtract the arithmetic mean of each attribute from all its respective observations. This shifts the centroid of the data cloud to the origin $(0, 0, \dots, 0)$, eliminating the constant offset and simplifying all subsequent variance computations.
@@ -1489,12 +1487,12 @@ In the KNIME Analytics Platform, PCA and feature selection workflows follow a st
 
 ```mermaid
 flowchart LR
-    A["CSV Reader<br/>(Ingest Dataset)"] --> B["Normalizer<br/>(Z-Score Scaling)"]
-    B --> C["PCA Compute<br/>(Fit Eigenvectors)"]
-    C -- "Model Port (Blue)" --> D["PCA Apply<br/>(Project Scores)"]
+    A["CSV Reader (Ingest Dataset)"] --> B["Normalizer (Z-Score Scaling)"]
+    B --> C["PCA Compute (Fit Eigenvectors)"]
+    C -- "Model Port (Blue)" --> D["PCA Apply (Project Scores)"]
     B -- "Data Port (Black)" --> D
-    B --> E["Low Variance Filter<br/>(Drop Constant Columns)"]
-    E --> F["Correlation Filter<br/>(Drop Collinear Features)"]
+    B --> E["Low Variance Filter (Drop Constant Columns)"]
+    E --> F["Correlation Filter (Drop Collinear Features)"]
 ```
 
 #### Step-by-Step KNIME Node Configuration Guide:
@@ -1531,11 +1529,11 @@ flowchart LR
 flowchart TD
     DRT["Data Reduction Techniques"]
 
-    DRT --> DR["Dimensionality Reduction<br/>(Eliminating Columns)"]
-    DRT --> NR["Numerosity Reduction<br/>(Replacing Rows)"]
-    DRT --> DC["Data Compression<br/>(Bit-Level Encoding)"]
-    DRT --> AGG["Data Aggregation<br/>(Roll-Up Summaries)"]
-    DRT --> DISC["Discretization<br/>(Interval Binning)"]
+    DRT --> DR["Dimensionality Reduction: Eliminating Columns"]
+    DRT --> NR["Numerosity Reduction: Replacing Rows"]
+    DRT --> DC["Data Compression: Bit-Level Encoding"]
+    DRT --> AGG["Data Aggregation: Roll-Up Summaries"]
+    DRT --> DISC["Discretization: Interval Binning"]
 
     DR --> DR_M["Methods: PCA, LDA, t-SNE, UMAP"]
     NR --> NR_M["Methods: Histograms, Clustering, Sampling, Regression"]
@@ -1557,9 +1555,9 @@ flowchart TD
 ### Figure 4.2: Population vs. Sample Statistical Inference Loop
 ```mermaid
 flowchart LR
-    POP["Target Population (Size N)<br/>Characterized by True Parameters:<br/>* Mean mu<br/>* Std Dev sigma<br/>* Variance sigma^2"]
+    POP["Target Population (Size N): Characterized by True Parameters: Mean mu; Std Dev sigma; Variance sigma^2"]
 
-    SAMP["Extracted Sample (Size n)<br/>Characterized by Observed Statistics:<br/>* Mean X_bar<br/>* Std Dev s<br/>* Variance s^2"]
+    SAMP["Extracted Sample (Size n): Characterized by Observed Statistics: Mean X_bar; Std Dev s; Variance s^2"]
 
     POP -- "1. Scientific Random Sampling" --> SAMP
     SAMP -- "2. Statistical Inference & Parameter Estimation" --> POP
@@ -1955,5 +1953,4 @@ A healthcare biometric study recorded Blood Pressure ($BP$) and Oxygen Saturatio
 
 **Model Solution**:
 *(See Section 7 of this document for the complete, step-by-step mathematical derivation, including intermediate substitutions, quadratic root calculations, dot-product orthogonality verification, and final variance conservation proofs).*
-```
-**Action**: Please inspect the full study notes content for Milestone 4 (Unit 4). The complete handoff report will be transmitted next!
+

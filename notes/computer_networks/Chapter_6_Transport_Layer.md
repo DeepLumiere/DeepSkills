@@ -198,8 +198,8 @@ sequenceDiagram
     participant Server as Server (Passive)
     participant Client as Client (Active)
 
-    Note over Server: 1. socket() -> Allocates endpoint<br/>2. bind() -> Associates local IP:Port<br/>3. listen() -> Sets backlog queue<br/>4. accept() -> Blocks waiting for client
-    Note over Client: 1. socket() -> Allocates endpoint<br/>2. connect() -> Initiates 3-way handshake
+    Note over Server: 1. socket() -> Endpoint, 2. bind() -> IP:Port, 3. listen() -> Queue, 4. accept() -> Wait
+    Note over Client: 1. socket() -> Endpoint, 2. connect() -> 3-way handshake
 
     Client->>Server: SYN (Active Open)
     Server-->>Client: SYN + ACK
@@ -596,10 +596,10 @@ Now suppose the server crashes. The client can adopt one of two retransmission p
 * **Policy 1 (Always Retransmit):** Resend the unacknowledged TPDU upon reboot.
 * **Policy 2 (Never Retransmit):** Assume the TPDU was safely received.
 
-| Event Sequence | Strategy A (ACK First) | Strategy B (Write First) |
-| :--- | :--- | :--- |
-| **Crash occurs between ACK and Write** | ACK sent; crash; no write. Client does not retransmit $\implies$ **Undetected Data Loss!** If client retransmits $\implies$ Correctly saved. | Not applicable (Write happens first). |
-| **Crash occurs between Write and ACK** | Not applicable (ACK happens first). | Write completed; crash; no ACK. If client retransmits $\implies$ **Duplicate Data Written!** If client does not retransmit $\implies$ Correctly saved. |
+  | Event Sequence | Strategy A (ACK First) | Strategy B (Write First) |
+  | :--- | :--- | :--- |
+  | **Crash occurs between ACK and Write** | ACK sent; crash; no write. Client does not retransmit $\implies$ **Undetected Data Loss!** If client retransmits $\implies$ Correctly saved. | Not applicable (Write happens first). |
+  | **Crash occurs between Write and ACK** | Not applicable (ACK happens first). | Write completed; crash; no ACK. If client retransmits $\implies$ **Duplicate Data Written!** If client does not retransmit $\implies$ Correctly saved. |
 
 **Fundamental Conclusion:**
 **It is mathematically impossible for the transport layer to guarantee end-to-end recovery from a server crash without higher-layer application support** (such as transactional database logging and two-phase commit protocols).

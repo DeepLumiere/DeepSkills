@@ -17,11 +17,11 @@ This chapter details the 5 V's framework of enterprise data, data granularity zo
 
 ```mermaid
 flowchart TD
-    subgraph DataFeatures["Defining Features of Business Data"]
-        V5["The 5 V's<br/>(Volume, Velocity, Variety, Veracity, Value)"]
-        GR["Granularity & Hierarchies<br/>(Fine vs. Coarse / Drill-down)"]
-        TM["Temporal Dynamics<br/>(Trend, Seasonality, Anomaly)"]
-        DQ["Six Quality Dimensions<br/>(Accuracy, Completeness, Validity, etc.)"]
+    subgraph DataFeatures ["Defining Features of Business Data"]
+        V5["The 5 V's: Volume, Velocity, Variety, Veracity, Value"]
+        GR["Granularity & Hierarchies: Fine vs. Coarse / Drill-down"]
+        TM["Temporal Dynamics: Trend, Seasonality, Anomaly"]
+        DQ["Six Quality Dimensions: Accuracy, Completeness, Validity, etc."]
     end
     
     DataFeatures --> VisDecision["Visualization Engineering Decisions"]
@@ -41,11 +41,11 @@ The operational scale and complexity of modern business data are defined by five
 ```mermaid
 flowchart LR
     Root(("The 5 V's of Business Data"))
-    Root --> V1["1. Volume<br/>Scale: How MUCH data?<br/>Mandates SQL & cloud warehouses"]
-    Root --> V2["2. Velocity<br/>Speed: How FAST does it arrive?<br/>Match dashboard refresh rate"]
-    Root --> V3["3. Variety<br/>Format: How many FORMS?<br/>Structured + Text + GPS"]
-    Root --> V4["4. Veracity<br/>Trust: Can you TRUST it?<br/>Garbage in, garbage out"]
-    Root --> V5["5. Value<br/>Utility: Is it WORTH storing?<br/>Revenue-generating insight"]
+    Root --> V1["1. Volume - Scale: How MUCH data? Mandates SQL and cloud warehouses"]
+    Root --> V2["2. Velocity - Speed: How FAST does it arrive? Match dashboard refresh rate"]
+    Root --> V3["3. Variety - Format: How many FORMS? Structured, Text, and GPS"]
+    Root --> V4["4. Veracity - Trust: Can you TRUST it? Garbage in, garbage out"]
+    Root --> V5["5. Value - Utility: Is it WORTH storing? Revenue-generating insight"]
 ```
 
 ### Comprehensive 5 V's Breakdown & Engineering Stack
@@ -64,14 +64,14 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    subgraph BatchTier["Tier 1: Batch Processing"]
-        B1["Periodic ingestion<br/>(Daily / Monthly)"] --> B2["Monthly payroll,<br/>Quarterly financial reports"]
+    subgraph BatchTier ["Tier 1: Batch Processing"]
+        B1["Periodic ingestion (Daily / Monthly)"] --> B2["Monthly payroll, Quarterly financial reports"]
     end
-    subgraph MicroBatchTier["Tier 2: Near Real-Time"]
-        N1["Latencies: Seconds - Minutes"] --> N2["Warehouse inventory updates,<br/>Delivery ETA trackers"]
+    subgraph MicroBatchTier ["Tier 2: Near Real-Time"]
+        N1["Latencies: Seconds - Minutes"] --> N2["Warehouse inventory updates, Delivery ETA trackers"]
     end
-    subgraph StreamTier["Tier 3: Real-Time Streaming"]
-        S1["Continuous event streaming<br/>(Sub-second)"] --> S2["UPI fraud blocks,<br/>High-frequency trading tickers"]
+    subgraph StreamTier ["Tier 3: Real-Time Streaming"]
+        S1["Continuous event streaming (Sub-second)"] --> S2["UPI fraud blocks, High-frequency trading tickers"]
     end
 ```
 
@@ -88,10 +88,10 @@ Granularity defines the atomic resolution or "zoom level" of stored data records
 
 ```mermaid
 flowchart TD
-    L1["<b>Coarse Granularity (Zoomed Out / Aggregated)</b><br/>Yearly Corporate Revenue Totals"]
+    L1["Coarse Granularity (Zoomed Out / Aggregated): Yearly Corporate Revenue Totals"]
     L2["Monthly Regional Sales Summaries"]
     L3["Daily Branch Receipts"]
-    L4["<b>Fine Granularity (Zoomed In / Atomic)</b><br/>Individual Barcode Scans with Millisecond Timestamps"]
+    L4["Fine Granularity (Zoomed In / Atomic): Individual Barcode Scans with Millisecond Timestamps"]
     L4 -->|Aggregation / Roll-Up| L3
     L3 -->|Aggregation / Roll-Up| L2
     L2 -->|Aggregation / Roll-Up| L1
@@ -130,12 +130,12 @@ Not all numeric metrics can be aggregated using standard `SUM()`.
 
 ```mermaid
 flowchart TD
-    Cube["OLAP Multi-Dimensional Data Cube<br/>(Dimensions: Time, Geography, Product)"]
-    Cube --> Op1["<b>1. Roll-Up</b><br/>Climbing up hierarchy (Day -> Month -> Year)<br/>Decreases detail"]
-    Cube --> Op2["<b>2. Drill-Down</b><br/>Stepping down hierarchy (Country -> City -> Store)<br/>Increases detail"]
-    Cube --> Op3["<b>3. Slice</b><br/>Selecting a single dimension value<br/>(e.g., Year = 2026)"]
-    Cube --> Op4["<b>4. Dice</b><br/>Selecting a sub-cube across multiple dimensions<br/>(e.g., Year = 2026 AND City = Mumbai)"]
-    Cube --> Op5["<b>5. Pivot</b><br/>Rotating axes to reorient tabular layout"]
+    Cube["OLAP Multi-Dimensional Data Cube (Dimensions: Time, Geography, Product)"]
+    Cube --> Op1["1. Roll-Up: Climbing up hierarchy (Day -> Month -> Year), Decreases detail"]
+    Cube --> Op2["2. Drill-Down: Stepping down hierarchy (Country -> City -> Store), Increases detail"]
+    Cube --> Op3["3. Slice: Selecting a single dimension value (e.g., Year = 2026)"]
+    Cube --> Op4["4. Dice: Selecting a sub-cube across multiple dimensions (e.g., Year = 2026 AND City = Mumbai)"]
+    Cube --> Op5["5. Pivot: Rotating axes to reorient tabular layout"]
 ```
 
 [Source: Session-3_Features Business Data.pdf, Slides 13-14, 19-20]
@@ -149,9 +149,9 @@ Business metrics are fundamentally temporal. A time-series $Y_t$ is decomposed i
 ```mermaid
 flowchart TD
     TimeSeries["Time-Series Decomposition (Y_t)"]
-    TimeSeries --> T["<b>1. Trend Component (T_t)</b><br/>Long-term monotonic directional movement<br/><i>e.g., Multi-year UPI growth</i>"]
-    TimeSeries --> S["<b>2. Seasonal Component (S_t)</b><br/>Predictable, repeating cyclical fluctuations<br/><i>e.g., Diwali shopping spikes</i>"]
-    TimeSeries --> A["<b>3. Anomaly / Irregular Component (A_t)</b><br/>Unpredictable, one-off shock events<br/><i>e.g., Server crashes, pandemic lockdown</i>"]
+    TimeSeries --> T["1. Trend Component (T_t): Long-term monotonic directional movement (e.g., Multi-year UPI growth)"]
+    TimeSeries --> S["2. Seasonal Component (S_t): Predictable, repeating cyclical fluctuations (e.g., Diwali shopping spikes)"]
+    TimeSeries --> A["3. Anomaly / Irregular Component (A_t): Unpredictable, one-off shock events (e.g., Server crashes, pandemic lockdown)"]
 ```
 
 ### Mathematical Decomposition Models
@@ -179,13 +179,13 @@ $$
 | Year | Quarter | Raw Sales ($Y_t$) | 4-Quarter Centered Moving Average Trend ($T_t$) | Seasonal-Irregular Ratio ($\frac{Y_t}{T_t}$) |
 | :--- | :---: | :---: | :---: | :---: |
 | **Year 1** | Q1 | $\$80$ | — | — |
-| | Q2 | $\$120$ | — | — |
-| | Q3 | $\$90$ | $\$100.0$ | $\frac{90}{100.0} = 0.90$ |
-| | Q4 | $\$150$ | $\$105.0$ | $\frac{150}{105.0} = 1.428$ |
+| **Year 1** | Q2 | $\$120$ | — | — |
+| **Year 1** | Q3 | $\$90$ | $\$100.0$ | $\frac{90}{100.0} = 0.90$ |
+| **Year 1** | Q4 | $\$150$ | $\$105.0$ | $\frac{150}{105.0} = 1.428$ |
 | **Year 2** | Q1 | $\$96$ | $\$110.0$ | $\frac{96}{110.0} = 0.872$ |
-| | Q2 | $\$144$ | $\$115.0$ | $\frac{144}{115.0} = 1.252$ |
-| | Q3 | $\$108$ | — | — |
-| | Q4 | $\$180$ | — | — |
+| **Year 2** | Q2 | $\$144$ | $\$115.0$ | $\frac{144}{115.0} = 1.252$ |
+| **Year 2** | Q3 | $\$108$ | — | — |
+| **Year 2** | Q4 | $\$180$ | — | — |
 
 #### Step 1: Average Seasonal Ratios by Quarter
 * **Q1 Average Ratio:** $0.872$
@@ -222,12 +222,12 @@ Data quality flaws corrupt graphical representations, leading to misleading dash
 ```mermaid
 flowchart TD
     DQ["Six Core Data Quality Dimensions"]
-    DQ --> Q1["<b>1. Accuracy</b><br/>Values reflect real-world truth"]
-    DQ --> Q2["<b>2. Completeness</b><br/>No missing records or null gaps"]
-    DQ --> Q3["<b>3. Consistency</b><br/>Uniform syntax across tables"]
-    DQ --> Q4["<b>4. Timeliness</b><br/>Data is fresh & up to date"]
-    DQ --> Q5["<b>5. Uniqueness</b><br/>Zero duplicate records"]
-    DQ --> Q6["<b>6. Validity</b><br/>Conforms to domain constraints"]
+    DQ --> Q1["1. Accuracy: Values reflect real-world truth"]
+    DQ --> Q2["2. Completeness: No missing records or null gaps"]
+    DQ --> Q3["3. Consistency: Uniform syntax across tables"]
+    DQ --> Q4["4. Timeliness: Data is fresh & up to date"]
+    DQ --> Q5["5. Uniqueness: Zero duplicate records"]
+    DQ --> Q6["6. Validity: Conforms to domain constraints"]
 ```
 
 ### Visual Impact of Data Quality Flaws
@@ -255,8 +255,8 @@ $$
 
 ```mermaid
 flowchart LR
-    Step1["<b>1. Overview First</b><br/>Macro KPI Cards & High-Level Charts<br/><i>e.g., Total Corporate Revenue</i>"] --> Step2["<b>2. Zoom & Filter</b><br/>Interactive Dropdowns & Slicers<br/><i>e.g., Filter by West Region & Q3</i>"]
-    Step2 --> Step3["<b>3. Details-on-Demand</b><br/>Hover Tooltips & Drill-Down Tables<br/><i>e.g., Inspect raw invoice row #1042</i>"]
+    Step1["1. Overview First: Macro KPI Cards & High-Level Charts (e.g., Total Corporate Revenue)"] --> Step2["2. Zoom & Filter: Interactive Dropdowns & Slicers (e.g., Filter by West Region & Q3)"]
+    Step2 --> Step3["3. Details-on-Demand: Hover Tooltips & Drill-Down Tables (e.g., Inspect raw invoice row #1042)"]
 ```
 
 ### Implementation Rules for Dashboard Design
@@ -329,13 +329,13 @@ An enterprise e-commerce platform records 8 quarters of quarterly sales revenue 
 | Year | Quarter | Raw Sales ($Y_t$) |
 | :--- | :---: | :---: |
 | **2025** | Q1 | $\$100$ |
-| | Q2 | $\$150$ |
-| | Q3 | $\$110$ |
-| | Q4 | $\$200$ |
+| **2025** | Q2 | $\$150$ |
+| **2025** | Q3 | $\$110$ |
+| **2025** | Q4 | $\$200$ |
 | **2026** | Q1 | $\$120$ |
-| | Q2 | $\$180$ |
-| | Q3 | $\$130$ |
-| | Q4 | $\$240$ |
+| **2026** | Q2 | $\$180$ |
+| **2026** | Q3 | $\$130$ |
+| **2026** | Q4 | $\$240$ |
 
 **Task Requirements:**  
 

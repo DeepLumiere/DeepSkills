@@ -83,7 +83,7 @@ $$
 
 
 
-**Given:** Red light wave in fiber with frequency $f = 4 \times 10^{14}\text{ Hz}$and propagation speed in optical fiber$v = 2 \times 10^8\text{ m/s}$.
+**Given:** Red light wave in fiber with frequency $f = 4 \times 10^{14}\text{ Hz}$ and propagation speed in optical fiber $v = 2 \times 10^8\text{ m/s}$.
 
 
 
@@ -125,7 +125,7 @@ $$
 
 
 
-**Worked Example:** A signal has lowest frequency component $f_{\min} = 100\text{ Hz}$and highest$f_{\max} = 5000\text{ Hz}$.
+**Worked Example:** A signal has lowest frequency component $f_{\min} = 100\text{ Hz}$ and highest $f_{\max} = 5000\text{ Hz}$.
 
 
 
@@ -236,11 +236,11 @@ $$
 
 
 
-**Given:** Telephone line with bandwidth $B = 3000\text{ Hz}$and$\text{SNR}_{\text{dB}} = 31.62\text{ dB}$.
+**Given:** Telephone line with bandwidth $B = 3000\text{ Hz}$ and $\text{SNR}_{\text{dB}} = 31.62\text{ dB}$.
 
 
 
-1. Convert $\text{SNR}_{\text{dB}}$to linear$\text{SNR}$:
+1. Convert $\text{SNR}_{\text{dB}}$ to linear $\text{SNR}$:
 
 
 

@@ -23,7 +23,7 @@ The syllabus of Unit 5 focuses on transforming complex, high-dimensional, and mu
 | Course Session | Lecture Topic Title | Key Concepts & Methodologies Covered | Slide Count & Artifacts | Primary Curriculum Mapping |
 | :--- | :--- | :--- | :--- | :--- |
 | **Session 6** | **Small Multiples (Trellis / Lattice Displays)** | Definition of Trellis displays; neuro-cognitive pattern spotting (<1s perception); Spaghetti Chart vs. Small Multiples; 3 Golden Rules (Scale Invariance, Logical Arrangement, Minimalist Data-Ink Simplicity); Bar vs. Line mark selection; cognitive visual limits (>20–30 boxes); Tableau 3-step partitioning. | 32 Slides (`Session6_Small_Multiples.pdf`) | Core Advanced Visualization Layouts |
-| **Session 7** | **Organisational Models & Preattentive Variables** | Preattentive visual processing (<200 ms); 4 Preattentive Variable Families (Form/Position, Color, Gestalt Spatial Grouping, Motion); Cleveland & McGill Perceptual Accuracy Hierarchy; 3-Tier Dashboard Architecture (Tier 1 BANs $\rightarrow$ Tier 2 Macro Trends/Maps $\rightarrow$ Tier 3 Detail Tables); Semantic Color Palettes (Categorical, Sequential, Diverging, Alert/RAG); Edward Tufte Data-Ink Ratio maximization. | PPTX Deck (`Session7_Organisational_Models.pptx`) | Visual Perception & Dashboard Ergonomics |
+| **Session 7** | **Organisational Models & Preattentive Variables** | Preattentive visual processing ($< 200\text{ ms}$); 4 Preattentive Variable Families (Form/Position, Color, Gestalt Spatial Grouping, Motion); Cleveland & McGill Perceptual Accuracy Hierarchy; 3-Tier Dashboard Architecture (Tier 1 BANs $\rightarrow$ Tier 2 Macro Trends/Maps $\rightarrow$ Tier 3 Detail Tables); Semantic Color Palettes (Categorical, Sequential, Diverging, Alert/RAG); Edward Tufte Data-Ink Ratio maximization. | PPTX Deck (`Session7_Organisational_Models.pptx`) | Visual Perception & Dashboard Ergonomics |
 | **Session 8** | **Interactive Charts & Visual Analytics Mechanisms** | Static posters vs. interactive exploratory systems; 4 Core Visual Analytics Mechanisms: Data Spotlight (focal luminance), Dynamic Queries (zero-latency sliders/facets), Data Brushing (cross-view linking), Local Zooming (Focus + Context); Ben Shneiderman's Information Seeking Mantra; 4-Question Functional Mapping; Negative usage constraints. | 38 Slides (`Session8_Interactive_Charts_.pdf`) | Visual Analytics & Interaction Models |
 | **Session 9** | **Specialized Chart Topologies & Industry Case Study** | Radial Tables (Cartesian to Polar transformation, cyclical periodic data); Multi-Y Graphs (dual-axis mechanics, extreme scale disparity, the "Two-Axis Trap"); Treemaps (squarified recursive space-filling, Treemap vs. Pie Chart scalability); Live CRSI Market Intelligence Dashboard Walkthrough; 9-Session Masterclass Curriculum Synthesis. | 34 Slides (`Session9_Radial_MultiY_Treemaps_.pdf`) + `Tableau Demo Solution.twbx` | Specialized Topologies & Executive Synthesis |
 
@@ -34,7 +34,7 @@ The syllabus of Unit 5 focuses on transforming complex, high-dimensional, and mu
 To prevent disconnected concept enumeration, each section of these study notes is governed by a distinct **narrative spine**:
 
 - **Section 1 (Small Multiples):** Explains how human visual processing circumvents working-memory bottlenecks when multi-category comparisons are partitioned across identical, aligned visual facets rather than stacked into an unreadable "spaghetti chart."
-- **Section 2 (Perceptual Variables & Visual Hierarchy):** Connects neuro-cognitive preattentive sensory registration (<200 ms) to Edward Tufte's Data-Ink ratio and Cleveland & McGill's empirical psychophysical accuracy rankings, structuring the 3-tier enterprise dashboard layout.
+- **Section 2 (Perceptual Variables & Visual Hierarchy):** Connects neuro-cognitive preattentive sensory registration ($< 200\text{ ms}$) to Edward Tufte's Data-Ink ratio and Cleveland & McGill's empirical psychophysical accuracy rankings, structuring the 3-tier enterprise dashboard layout.
 - **Section 3 (Visual Analytics & Interaction):** Transitions from static visual displays to dynamic human-in-the-loop visual analytics, formalizing Shneiderman's Mantra and the 4 fundamental interaction primitives.
 - **Section 4 (Specialized Chart Topologies):** Addresses non-standard geometrical coordinate systems (polar radial tables, dual-axis multi-Y graphs, and hierarchical space-filling treemaps), detailing their mathematical foundations, pitfalls, and design rules.
 - **Section 5 (Master Case Study & System Synthesis):** Synthesizes the entire 9-session curriculum through the forensic deconstruction of the enterprise CRSI (Concrete Reinforcing Steel Institute) Market Intelligence Dashboard.
@@ -75,7 +75,7 @@ flowchart TD
     end
 
     subgraph FlawedApproach ["Anti-Pattern: The Spaghetti Chart"]
-        SC["Single Cartesian Axis<br/>12 Tangled Lines Crossing<br/>12 Arbitrary Categorical Hues<br/>High Cognitive Load / Visual Clutter"]
+        SC["Single Cartesian Axis: 12 Tangled Lines Crossing, 12 Arbitrary Hues, High Cognitive Clutter"]
     end
 
     subgraph EngineeredSolution ["Pattern: Small Multiples (Trellis Display)"]
@@ -172,8 +172,8 @@ The mark type deployed inside each sub-multiple must match the mathematical cont
 ```mermaid
 flowchart LR
     A["Mark Selection Decision"] --> B{"Is the independent variable continuous time?"}
-    B -- "No: Point-in-Time Discrete Comparison" --> C["Use BAR Mark<br/>• Single discrete total, score, or count<br/>• Common zero baseline mandatory<br/>• Encodes magnitude via length"]
-    B -- "Yes: Sequential Temporal Progression" --> D["Use LINE Mark<br/>• Shows trajectory, slope, and acceleration<br/>• Connected points reflect temporal continuity<br/>• Reveals rate of change over time"]
+    B -- "No: Point-in-Time Discrete Comparison" --> C["Use BAR Mark: Single discrete count, Common zero baseline, Encodes magnitude via length"]
+    B -- "Yes: Sequential Temporal Progression" --> D["Use LINE Mark: Shows trajectory and slope, Connected points, Reveals rate of change"]
 ```
 
 - **Use Bar Marks When:** Comparing discrete, point-in-time quantitative sums, counts, or single-period values across entities (e.g., annual revenue by division, exam score by student).
@@ -231,8 +231,8 @@ Before an analyst can structure an effective dashboard, they must understand how
 ```mermaid
 flowchart TD
     subgraph HumanPerceptionPipeline ["Human Neuro-Visual Perception Pipeline"]
-        NP1["Retinal Light Input<br/>Photoreceptors (Rods/Cones)"] --> NP2["Stage 1: Preattentive Visual Processing<br/>• Duration: &lt; 200 ms<br/>• Brain Region: Visual Cortex V1–V4<br/>• Parallel, unconscious pop-out of basic visual features"]
-        NP2 --> NP3["Stage 2: Attentive Cognitive Processing<br/>• Duration: &gt; 250 ms<br/>• Brain Region: Prefrontal Cortex<br/>• Serial, focused conscious reading, logic & calculation"]
+        NP1["Retinal Light Input: Photoreceptors (Rods/Cones)"] --> NP2["Stage 1: Preattentive Processing: Duration under 200 ms, Parallel unconscious pop-out"]
+        NP2 --> NP3["Stage 2: Attentive Processing: Duration over 250 ms, Serial focused conscious reading"]
     end
 
     subgraph DesignImplementation ["Dashboard Structural Implementation"]
@@ -248,7 +248,7 @@ flowchart TD
 
 ---
 
-### Preattentive Visual Processing (< 200 ms)
+### Preattentive Visual Processing ($< 200\text{ ms}$)
 
 Human vision operates in two distinct computational stages:
 
@@ -354,12 +354,12 @@ flowchart TD
     end
 
     subgraph Tier2 ["Tier 2: Contextual Drivers (Macro Trends & Geospatial Maps)"]
-        T2A["10-Year Revenue vs Spending Trajectory<br/>(Dual-Line Macro Trend)"]
-        T2B["Regional Performance Choropleth Map<br/>(State-by-State Gain / Loss Spatial Distribution)"]
+        T2A["10-Year Revenue vs Spending Trajectory: Dual-Line Macro Trend"]
+        T2B["Regional Performance Choropleth Map: State-by-State Gain / Loss Spatial Distribution"]
     end
 
     subgraph Tier3 ["Tier 3: Granular Auditing (Micro-Detail Breakdown Tables)"]
-        T3A["Itemized Regional Cross-Tab Table<br/>Transaction Records, SKUs, Variance Diagnostics, Audit Log"]
+        T3A["Itemized Regional Cross-Tab Table: Transaction Records, SKUs, Variance Diagnostics, Audit Log"]
     end
 
     Tier1 --> Tier2 --> Tier3
@@ -420,10 +420,10 @@ Static charts function as communication posters: they present a pre-compiled, au
 ```mermaid
 flowchart TD
     subgraph AnalyticalParadigm ["Visual Analytics Exploration Cycle"]
-        U["Human Analyst"] -->|"Manipulates Direct Control"| DQ["Mechanism 2: Dynamic Queries<br/>(Sliders, Range Facets, Parameter Controls)"]
-        DQ -->|"Sub-100ms In-Memory Query"| DS["Mechanism 1: Data Spotlight<br/>(Focal Brightness vs Gray Desaturation)"]
-        DS -->|"Coordinates Across All Views"| DB["Mechanism 3: Data Brushing<br/>(Cross-View Linking & Highlighting)"]
-        DB -->|"User Inspects Locus"| LZ["Mechanism 4: Local Zooming & Datatips<br/>(Focus + Context & Details on Demand)"]
+        U["Human Analyst"] -->|"Manipulates Direct Control"| DQ["Mechanism 2: Dynamic Queries (Sliders, Range Facets, Parameter Controls)"]
+        DQ -->|"Sub-100ms In-Memory Query"| DS["Mechanism 1: Data Spotlight (Focal Brightness vs Gray Desaturation)"]
+        DS -->|"Coordinates Across All Views"| DB["Mechanism 3: Data Brushing (Cross-View Linking and Highlighting)"]
+        DB -->|"User Inspects Locus"| LZ["Mechanism 4: Local Zooming & Datatips (Focus + Context & Details on Demand)"]
         LZ -->|"Perceptual Feedback"| U
     end
 ```
@@ -483,11 +483,11 @@ Session 8 formalizes four fundamental interaction tools:
 The 4 interaction mechanisms map directly to the four core questions an analyst asks during data exploration:
 
 ```mermaid
-graph TD
-    Q1["1. Where should I look?"] -->|"Focal Pop-Out"| A1["Data Spotlight<br/>(Illuminates primary focus, fades background)"]
-    Q2["2. Which ones fit my operational criteria?"] -->|"Direct Filtering"| A2["Dynamic Queries<br/>(Continuous sliders and discrete facets)"]
-    Q3["3. How does this specific cohort behave everywhere?"] -->|"Cross-View Linking"| A3["Data Brushing<br/>(Multi-coordinate relational illumination)"]
-    Q4["4. What micro-details exist in this small region?"] -->|"Local Inspection"| A4["Local Zooming & Datatips<br/>(Focus + Context, Tooltip Details-on-Demand)"]
+flowchart TD
+    Q1["1. Where should I look?"] -->|"Focal Pop-Out"| A1["Data Spotlight: Illuminates primary focus, fades background"]
+    Q2["2. Which ones fit my operational criteria?"] -->|"Direct Filtering"| A2["Dynamic Queries: Continuous sliders and discrete facets"]
+    Q3["3. How does this specific cohort behave everywhere?"] -->|"Cross-View Linking"| A3["Data Brushing: Multi-coordinate relational illumination"]
+    Q4["4. What micro-details exist in this small region?"] -->|"Local Inspection"| A4["Local Zooming and Datatips: Focus + Context, Tooltips"]
 ```
 
 [Source: `Session8_Interactive_Charts_.pdf`, Slide 28]
@@ -531,9 +531,9 @@ Standard Cartesian bar and line plots handle the majority of business reporting 
 ```mermaid
 flowchart LR
     A["Specialized Chart Selection"] --> B{"Data Structure Profile"}
-    B -- "Continuous Cyclical / Diurnal Time" --> C["Radial Table<br/>• Maps Cartesian (x,y) to Polar (r, theta)<br/>• 360-degree cyclical continuity<br/>• 24h clock, 12 months"]
-    B -- "Extreme Scale Disparity (Thousands vs Millions)" --> D["Multi-Y Graph (Dual-Axis)<br/>• Shared horizontal time domain<br/>• Left & Right independent scales<br/>• Guard against Two-Axis Trap"]
-    B -- "Hierarchical Part-to-Whole (>10 Categories)" --> E["Treemap<br/>• Space-filling recursive rectangles<br/>• Area = Size; Color = Growth/Margin<br/>• Outperforms pie charts at scale"]
+    B -- "Continuous Cyclical / Diurnal Time" --> C["Radial Table: Maps Cartesian (x,y) to Polar (r, theta), 360-degree cyclical continuity, 24h clock, 12 months"]
+    B -- "Extreme Scale Disparity (Thousands vs Millions)" --> D["Multi-Y Graph (Dual-Axis): Shared horizontal time domain, Left & Right independent scales, Guard against Two-Axis Trap"]
+    B -- "Hierarchical Part-to-Whole (>10 Categories)" --> E["Treemap: Space-filling recursive rectangles, Area = Size, Color = Growth/Margin, Outperforms pie charts at scale"]
 ```
 
 ---
@@ -608,11 +608,11 @@ While Multi-Y charts resolve scale disparity, they introduce severe visual risks
 ```mermaid
 flowchart LR
     subgraph TrapA ["Scale A: Uncompressed Axis (Baseline = 0)"]
-        TA["Axis Range: 0 to 10,000<br/>Data fluctuates between 4,800 and 5,100<br/>Visual Appearance: Flat, calm horizontal line<br/>Interpretation: Metric is completely stable"]
+        TA["Axis Range: 0 to 10,000 | Data: 4,800 to 5,100 | Visual Appearance: Flat line | Interpretation: Stable"]
     end
 
     subgraph TrapB ["Scale B: Squeezed Axis (Truncated Baseline)"]
-        TB["Axis Range: 4,750 to 5,150<br/>Same data: 4,800 to 5,100<br/>Visual Appearance: Wild, jagged peaks and valleys<br/>Interpretation: Metric is in catastrophic crisis"]
+        TB["Axis Range: 4,750 to 5,150 | Data: 4,800 to 5,100 | Visual Appearance: Jagged peaks and valleys | Interpretation: Crisis"]
     end
 ```
 
@@ -653,8 +653,8 @@ flowchart TD
     subgraph TreemapLayout ["Squarified Space-Filling Treemap Topology"]
         direction TB
         subgraph TopRow ["66% Total Canvas Area"]
-            R1["Electronics: ₹42 Cr (Area = 42%)<br/>Color: Deep Navy"]
-            R2["Fashion: ₹24 Cr (Area = 24%)<br/>Color: Slate Blue"]
+            R1["Electronics: ₹42 Cr (Area = 42%), Color: Deep Navy"]
+            R2["Fashion: ₹24 Cr (Area = 24%), Color: Slate Blue"]
         end
         subgraph BottomRow ["34% Total Canvas Area"]
             R3["Home: ₹14 Cr (14%)"]
@@ -693,27 +693,27 @@ flowchart TD
         direction TB
 
         subgraph HeaderSection ["Executive Narrative Headline Banner (Top)"]
-            H1["'Steel prices are up 9.87% YoY as of May 2026, while construction spending growth has slowed to under 1%...<br/>Texas led job gains (+28,600), while California posted steepest losses (-13,800) - clear Sun Belt vs. coastal divergence.'"]
+            H1["'Steel prices are up 9.87% YoY as of May 2026, while construction spending growth slowed to under 1%... Texas led job gains (+28,600), while California posted steepest losses (-13,800) - clear Sun Belt vs coastal divergence.'"]
         end
 
         subgraph Tier1Cards ["Tier 1: 4 Executive KPI Hero BAN Cards"]
             direction LR
-            K1["Steel YoY KPI<br/><b>9.87%</b>"]
-            K2["Construction YoY KPI<br/><b>0.88%</b>"]
-            K3["Steel MoM KPI<br/><b>1.63%</b>"]
-            K4["Construction MoM KPI<br/><b>0.37%</b>"]
-            Slider["Interactive Filter:<br/>Continuous Year Slider<br/>[2015 — 2026]"]
+            K1["Steel YoY KPI: 9.87%"]
+            K2["Construction YoY KPI: 0.88%"]
+            K3["Steel MoM KPI: 1.63%"]
+            K4["Construction MoM KPI: 0.37%"]
+            Slider["Interactive Filter: Continuous Year Slider (2015 - 2026)"]
         end
 
         subgraph Tier2Body ["Tier 2: Dual Macro Trends & Geospatial Choropleth"]
             direction LR
             subgraph LeftCol ["Macroeconomic Trajectories"]
-                MT1["Steel Price Trend (Data till May 2026)<br/>Left Axis: Steel PPI Index (0K - 4K)"]
-                MT2["Construction Spending Trend (Data till May 2026)<br/>Right Axis: Total Spending ($0M - $20M)"]
+                MT1["Steel Price Trend (till May 2026): Left Axis Steel PPI (0K - 4K)"]
+                MT2["Construction Spending Trend (till May 2026): Right Axis Spending ($0M - $20M)"]
                 YOY["YoY Growth Comparison Trend (2016 - 2027)"]
             end
             subgraph RightCol ["Regional Geographic Divergence"]
-                MAP["United States Construction Employment Map<br/>Choropleth Fill: Blue = Job Gains | Orange = Job Losses<br/>• Texas: +28,600 (Sun Belt Surge)<br/>• California: -13,800 (Coastal Slump)"]
+                MAP["US Construction Employment Map: Blue = Job Gains, Orange = Job Losses (Texas +28.6K, California -13.8K)"]
             end
         end
 
@@ -739,7 +739,7 @@ flowchart TD
    Rather than falling into the **Two-Axis Trap** by superimposing Steel PPI and Construction Spending onto a single deceptive dual-axis plot, the architect placed two coordinated line charts side by side:
 
    - Chart A: Steel Price Producer Index from 2015 to 2026 (Scale: 0 to 4K).
-   - Chart B: Total US Construction Spending from 2015 to 2026 (Scale: $0 to $20M).
+   - Chart B: Total US Construction Spending from 2015 to 2026 (Scale: \$0 to \$20M).
    This allows direct visual comparison of cyclical shapes and trajectories without generating spurious line intersections.
 
 4. **Geospatial State Employment Choropleth Map (Tier 2):**
@@ -787,7 +787,7 @@ classDiagram
         +Neuro-Cognitive Pattern Spotting
     }
     class Session_7_PreattentiveVisuals {
-        +Preattentive Pop-Out (&lt;200ms)
+        +Preattentive Pop-Out (under 200ms)
         +Cleveland-McGill Scale Hierarchy
         +3-Tier Visual Layout Architecture
         +Accessible Diverging Palettes
@@ -1066,7 +1066,7 @@ An executive visual analytics team at CRSI is analyzing steel input costs agains
 **Step-by-Step Solution:**
 
 **Step 1: Failure Mode Analysis of Unnormalized Axis**
-If plotted on a single vertical axis calibrated to Construction Spending ($0$ to $\$1,600\text{ Billion}$), the Steel Index ($2,000$ to $3,600$) operates in a completely mismatched numerical scale. If steel index values are mapped directly without conversion, they exceed the axis maximum ($3,600 &gt; 1,600$); if scaled down by 1,000 ($2.0$ to $3.6$), they collapse into an invisible flat line along the baseline ($2.0 / 1600 \approx 0.12\%$).
+If plotted on a single vertical axis calibrated to Construction Spending ($0$ to $\$1,600\text{ Billion}$), the Steel Index ($2,000$ to $3,600$) operates in a completely mismatched numerical scale. If steel index values are mapped directly without conversion, they exceed the axis maximum ($3,600 > 1,600$); if scaled down by 1,000 ($2.0$ to $3.6$), they collapse into an invisible flat line along the baseline ($2.0 / 1600 \approx 0.12\%$).
 
 **Step 2: Base-100 Normalized Index Calculation**
 Formula: $I_t = \left(\frac{X_t}{X_{2020}}\right) \times 100$
@@ -1218,18 +1218,18 @@ All 4 category rectangles achieve an aspect ratio $\rho < 2.0$, completely avoid
 flowchart TD
     subgraph AntiPattern ["Anti-Pattern: The Spaghetti Line Chart"]
         direction TB
-        SP["Single Graph Canvas: 10 Overlapping Colored Series<br/>Lines repeatedly cross and occlude each other<br/>10 Distracting Categorical Colors<br/>Requires Constant Eye Movements to Legend<br/>High Cognitive Load and Visual Confusion"]
+        SP["Single Graph Canvas: 10 Overlapping Colored Series, lines repeatedly cross and occlude each other, high cognitive load"]
     end
 
     subgraph TrellisSolution ["Engineered Solution: Small Multiples (Trellis Matrix)"]
         direction TB
-        subgraph Row1 ["Row 1: Aligned Fixed Y-Axis [0 - 100K]"]
+        subgraph Row1 ["Row 1: Aligned Fixed Y-Axis (0 - 100K)"]
             M1["Store 1 (Line)"] --- M2["Store 2 (Line)"] --- M3["Store 3 (Line)"]
         end
-        subgraph Row2 ["Row 2: Aligned Fixed Y-Axis [0 - 100K]"]
+        subgraph Row2 ["Row 2: Aligned Fixed Y-Axis (0 - 100K)"]
             M4["Store 4 (Line)"] --- M5["Store 5 (Line)"] --- M6["Store 6 (Line)"]
         end
-        subgraph Row3 ["Row 3: Aligned Fixed Y-Axis [0 - 100K]"]
+        subgraph Row3 ["Row 3: Aligned Fixed Y-Axis (0 - 100K)"]
             M7["Store 7 (Line)"] --- M8["Store 8 (Line)"] --- M9["Store 9 (Line)"]
         end
     end
@@ -1258,14 +1258,14 @@ Raw multi-series data flows into partitioned sub-panels. Instead of disentanglin
 ### Figure 5.2: The Cleveland & McGill Elementary Perceptual Task Hierarchy
 
 ```mermaid
-graph TD
-    Rank1["Rank 1: Position along a Common Aligned Scale<br/>(Bar charts, dot plots — Most Accurate Decoding)"]
-    Rank2["Rank 2: Position along Non-Aligned Identical Scales<br/>(Small Multiples, Trellis Displays)"]
-    Rank3["Rank 3: Length / Bar Height<br/>(Stacked bar segments, floating gantt bars)"]
-    Rank4["Rank 4: Angle / Slope<br/>(Pie charts, donut charts, trend directions)"]
-    Rank5["Rank 5: Area<br/>(Treemap rectangles, bubble chart circles — Non-linear underestimation)"]
-    Rank6["Rank 6: Volume / 3D Extrusion<br/>(Pseudo-3D bars — Prohibited due to perspective distortion)"]
-    Rank7["Rank 7: Color Saturation & Shading<br/>(Heatmap density, choropleth maps — Least Accurate Quantitative Channel)"]
+flowchart TD
+    Rank1["Rank 1: Position along a Common Aligned Scale (Bar charts, dot plots - Most Accurate)"]
+    Rank2["Rank 2: Position along Non-Aligned Identical Scales (Small Multiples, Trellis Displays)"]
+    Rank3["Rank 3: Length / Bar Height (Stacked bar segments, floating bars)"]
+    Rank4["Rank 4: Angle / Slope (Pie charts, donut charts, trend directions)"]
+    Rank5["Rank 5: Area (Treemap rectangles, bubble charts - Non-linear underestimation)"]
+    Rank6["Rank 6: Volume / 3D Extrusion (Pseudo-3D bars - Prohibited)"]
+    Rank7["Rank 7: Color Saturation & Shading (Heatmaps, choropleths - Least Accurate)"]
 
     Rank1 --> Rank2 --> Rank3 --> Rank4 --> Rank5 --> Rank6 --> Rank7
 ```
@@ -1296,13 +1296,13 @@ sequenceDiagram
     participant Map as View 3: State Distribution (Choropleth Map)
 
     Analyst->>Scatter: Selects / Brushes Cohort Box (High-End Products)
-    Note over Scatter: Marks C, F, and G Selected (Bright Accent)<br/>Unselected Points Faded to Faint Gray
+    Note over Scatter: Marks C, F, and G Selected (Bright Accent), unselected points faded to gray
     Scatter->>Engine: Dispatches Selection Vector Keys: [ID_C, ID_F, ID_G]
     Engine->>Bar: Broadcasts Relational Cohort Keys
-    Note over Bar: Bars for C, F, G Glow in Accent Color<br/>Remaining Category Bars Fade to 30% Opacity
+    Note over Bar: Bars for C, F, G glow in accent color, remaining bars fade to 30% opacity
     Engine->>Map: Broadcasts Relational Cohort Keys
-    Note over Map: Geographic States Hosting C, F, G Glow<br/>Non-Impacted States Fade to Neutral Muted Gray
-    Note over Analyst: Analyst inspects cohort distribution<br/>across all three dimensions simultaneously!
+    Note over Map: Geographic states hosting C, F, G glow, other states fade to gray
+    Note over Analyst: Analyst inspects cohort distribution across all three dimensions simultaneously
 ```
 
 **What It Shows:**
@@ -1331,7 +1331,7 @@ flowchart LR
     end
 
     subgraph TransformationMath ["Polar Coordinate Transformation Engine"]
-        TM["theta = 2 * pi * (t / 24)<br/>r = r_inner + v * scale<br/>x = r * cos(theta)<br/>y = r * sin(theta)"]
+        TM["theta = 2 * pi * (t / 24), r = r_inner + v * scale, x = r * cos(theta), y = r * sin(theta)"]
     end
 
     subgraph Polar ["Polar Coordinate System (Radial Table)"]
@@ -1365,7 +1365,7 @@ flowchart TD
         direction TB
         DA_L["Left Axis: Steel Index (0 - 4K)"]
         DA_R["Right Axis: Construction ($0M - $20M)"]
-        DA_T["Artificial Line Intersection at Year 2021<br/>Viewers falsely assume Steel Price exceeded Construction Spending!"]
+        DA_T["Artificial Line Intersection at Year 2021: Viewers falsely assume Steel Price exceeded Construction Spending!"]
         DA_L --- DA_T --- DA_R
     end
 
@@ -1376,7 +1376,7 @@ flowchart TD
         HA_L2["Construction Growth Line: 100 -> 105 (+5% Steady)"]
         HA_Y --- HA_L1
         HA_Y --- HA_L2
-        HA_Note["Both series share one honest coordinate frame.<br/>Zero risk of artificial line crossing artifacts!"]
+        HA_Note["Both series share one honest coordinate frame: Zero risk of artificial line crossing artifacts!"]
     end
 
     DeceptivePlot -.->|"Mathematically Refactored Into"| HonestSolution
@@ -1415,7 +1415,7 @@ The visual danger of independent dual-axis scaling (creating false line intersec
 | **Background Data** | Faded to neutral gray | Filtered out of view | Retained in muted gray | Retained in perimeter view |
 | **Cognitive Purpose** | Directs attention | Tests hypotheses | Traces cohorts | Audits micro-details |
 | **Tableau Mechanism** | Highlight Action | Quick Filter / Param | Dashboard Filter Action| Viz-in-Tooltip / Zoom tools |
-| **Primary Risk** | Inadequate contrast | Sluggish query latency | Over-linking (>5 views) | Disorienting loss of context |
+| **Primary Risk** | Inadequate contrast | Sluggish query latency | Over-linking ($> 5\text{ views}$) | Disorienting loss of context |
 
 [Source: `Session8_Interactive_Charts_.pdf`, Slides 6, 28]
 

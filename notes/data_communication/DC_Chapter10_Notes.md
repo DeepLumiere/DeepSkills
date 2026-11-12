@@ -56,7 +56,7 @@ $$
 
 
 
-**Data:** `100100`, **Generator Polynomial $G(x)$:** $x^3 + x + 1$(Binary `1011`, length$n=4$).
+**Data:** `100100`, **Generator Polynomial $G(x)$:** $x^3 + x + 1$(Binary `1011`, length $n=4$).
 
 
 

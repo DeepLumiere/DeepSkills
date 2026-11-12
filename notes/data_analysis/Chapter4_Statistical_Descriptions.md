@@ -159,7 +159,7 @@ $$
 
 **Where:**
 
-* $w_i$= weight associated with$x_i$
+* $w_i$= weight associated with $x_i$
 
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 5, 8]
 
@@ -476,15 +476,15 @@ Both have mean and median of 46, but spread is completely different.
 | **Quartiles** | Divide data into 4 equal parts | $Q_1, Q_2, Q_3, Q_4$ |
 | **Deciles** | Divide data into 10 equal parts | $D_1, D_2, \dots, D_9$ |
 | **Percentiles**| Divide data into 100 equal parts | $P_1, P_2, \dots, P_{99}$ |
-| **Median** | Special case of $Q_2$ / 50th percentile | |
+| **Median** | Special case of $Q_2$ / 50th percentile | $Q_2 = P_{50} = D_5$ |
 
 
 
 **Quartile Formulas:**
 
-* $Q_1$position =$\frac{1}{4}(n+1)$th term
+* $Q_1$ position =$\frac{1}{4}(n+1)$ th term
 
-* $Q_3$position =$\frac{3}{4}(n+1)$th term
+* $Q_3$ position =$\frac{3}{4}(n+1)$ th term
 
 
 
@@ -492,11 +492,11 @@ Both have mean and median of 46, but spread is completely different.
 
 For $n=9$:
 
-* $Q_1 = \frac{1}{4}(10) = 2.25$th term
+* $Q_1 = \frac{1}{4}(10) = 2.25$ th term
 
-* $Q_2 = \frac{2}{4}(10) = 4.5$th term
+* $Q_2 = \frac{2}{4}(10) = 4.5$ th term
 
-* $Q_3 = \frac{3}{4}(10) = 6.75$th term
+* $Q_3 = \frac{3}{4}(10) = 6.75$ th term
 
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 33-36]
 
@@ -523,9 +523,9 @@ $$
 
 
 
-**Variance ($\sigma^2$or$s^2$):** Average of squared distances from the mean.
+**Variance ($\sigma^2$ or $s^2$):** Average of squared distances from the mean.
 
-**Standard Deviation ($\sigma$or$s$):** Square root of the variance.
+**Standard Deviation ($\sigma$ or $s$):** Square root of the variance.
 
 
 
@@ -555,7 +555,7 @@ $$
 | 6 | 0 | 0 |
 | 7 | 1 | 1 |
 | 8 | 2 | 4 |
-| **Sum** | | **10** |
+| **Sum** | $\sum (x_i - \text{mean}) = 0$ | **10** |
 
 
 
@@ -604,7 +604,7 @@ $$
 
 **Boxplot Structure:**
 
-* Data represented with a box. Ends of box are at $Q_1$and$Q_3$.
+* Data represented with a box. Ends of box are at $Q_1$ and $Q_3$.
 
 * Box height represents IQR.
 
@@ -612,7 +612,7 @@ $$
 
 * Whiskers extend outside the box to Minimum and Maximum (excluding outliers).
 
-* Outliers: Values higher or lower than $1.5 \times IQR$from$Q_1$and$Q_3$.
+* Outliers: Values higher or lower than $1.5 \times IQR$ from $Q_1$ and $Q_3$.
 
 
 
@@ -646,7 +646,7 @@ Lower bound = $Q_1 - 12 = 29 - 12 = 17$
 
 Upper bound = $Q_3 + 12 = 37 + 12 = 49$
 
-Since $50 > 49$, $50$is an outlier. The maximum non-outlier whisker goes to$38$.
+Since $50 > 49$, $50$ is an outlier. The maximum non-outlier whisker goes to $38$.
 
 [Source: 4.Statistical Descriptions of Data_new.pdf, Slides 54-57]
 
@@ -674,11 +674,11 @@ Since $50 > 49$, $50$is an outlier. The maximum non-outlier whisker goes to$38$.
 
 
 
-* **Symmetric:** Mean $\approx$Median$\approx$ Mode.
+* **Symmetric:** Mean $\approx$ Median $\approx$ Mode.
 
-* **Positively skewed (right-skewed):** Mean $>$Median$>$ Mode. Tail extends to right.
+* **Positively skewed (right-skewed):** Mean $>$ Median $>$ Mode. Tail extends to right.
 
-* **Negatively skewed (left-skewed):** Mean $<$Median$<$ Mode. Tail extends to left.
+* **Negatively skewed (left-skewed):** Mean $<$ Median $<$ Mode. Tail extends to left.
 
 
 
@@ -694,7 +694,7 @@ Since $50 > 49$, $50$is an outlier. The maximum non-outlier whisker goes to$38$.
 
 **Mode:** $7$ appears 4 times.
 
-**Conclusion:** $6.3 < 6.5 < 7$ $\rightarrow$Mean$<$Median$<$ Mode.
+**Conclusion:** $6.3 < 6.5 < 7$ $\rightarrow$ Mean $<$ Median $<$ Mode.
 
 This data is **negatively skewed (left-skewed)**.
 
@@ -799,12 +799,12 @@ A continuous probability distribution representing data that is symmetrical, wit
 
 | Symbol | Meaning | Example |
 | :--- | :--- | :--- |
-| $f(x)$| Probability density at value$x$ | Height of curve |
+| $f(x)$| Probability density at value $x$ | Height of curve |
 | $x$ | Observation | Scored 75 marks |
 | $\mu$ | Mean | Average = 70 |
 | $\sigma$ | Standard deviation | 10 marks |
-| $\pi$| Constant$\approx 3.1416$ | |
-| $e$| Euler's number$\approx 2.718$ | |
+| $\pi$ | Constant $\approx 3.1416$ | Ratio of circle circumference to diameter |
+| $e$ | Euler's number $\approx 2.718$ | Base of the natural logarithm |
 
 
 
@@ -984,10 +984,10 @@ $$
 ```mermaid
 flowchart LR
     subgraph Patterns["Q-Q Plot Pattern Diagnostics"]
-        P1["<b>Linear Line (y = x)</b><br/>Normal Distribution"]
-        P2["<b>Upward Concave Curve</b><br/>Right-Skewed (Positive Skew)"]
-        P3["<b>Downward Convex Curve</b><br/>Left-Skewed (Negative Skew)"]
-        P4["<b>S-Shaped Curve</b><br/>Heavy Tails / Outliers (High Kurtosis)"]
+        P1["Linear Line (y = x): Normal Distribution"]
+        P2["Upward Concave Curve: Right-Skewed (Positive Skew)"]
+        P3["Downward Convex Curve: Left-Skewed (Negative Skew)"]
+        P4["S-Shaped Curve: Heavy Tails / Outliers (High Kurtosis)"]
     end
 ```
 
@@ -1073,7 +1073,7 @@ $$
 M_e = L + \left[ \frac{\frac{N}{2} - B}{G} \right] \times w
 $$
 
-Where $L$is lower boundary,$B$is cumulative freq before,$G$is freq of median class,$w$ is width.
+Where $L$ is lower boundary,$B$ is cumulative freq before,$G$ is freq of median class,$w$ is width.
 
 
 
@@ -1132,13 +1132,13 @@ $$
 
 * **Quantiles:** Points dividing data into equal probability intervals.
 
-* **Interquartile Range (IQR):** Difference between $Q_3$and$Q_1$, spread of the middle 50%.
+* **Interquartile Range (IQR):** Difference between $Q_3$ and $Q_1$, spread of the middle 50%.
 
 * **Histogram:** Graph of tabulated frequencies using area of adjacent bars.
 
 * **Q-Q Plot:** Plot comparing quantiles of two distributions to test similarity or normality.
 
-* **Skewness:** Asymmetry of distribution (Positively skewed if $	ext{Mean} > 	ext{Median} > 	ext{Mode}$).
+* **Skewness:** Asymmetry of distribution (Positively skewed if $\text{Mean} > \text{Median} > \text{Mode}$).
 
 * **Normal Distribution:** Bell-shaped, symmetric distribution where Mean = Median = Mode.
 

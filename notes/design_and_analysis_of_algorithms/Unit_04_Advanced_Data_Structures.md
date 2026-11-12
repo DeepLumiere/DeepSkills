@@ -54,7 +54,7 @@ LEFT-ROTATE around x:              RIGHT-ROTATE around y:
 Rule: β (y's left subtree) moves to become x's right child.
 ```
 
-**Key BST-order proof:** α < x < β < y < γ — holds in both configurations ✅
+**Key BST-order proof:** $\alpha < x < \beta < y < \gamma$ — holds in both configurations ✅
 
 ---
 
@@ -115,7 +115,7 @@ flowchart TD
 
 #### Step 2: Insert **14**
 
-- BST: 14 > 7 → right child of 7
+- BST: $14 > 7$ → right child of 7
 - Color 14 RED. Parent 7 = BLACK → **no R4 violation** ✅
 
 ```mermaid
@@ -131,7 +131,7 @@ flowchart TD
 
 #### Step 3: Insert **18**
 
-- BST: 18 > 7 → right; 18 > 14 → right child of 14
+- BST: $18 > 7$ → right; $18 > 14$ → right child of 14
 - Color 18 RED. Parent 14 = RED → **R4 violated!**
 - Z = 18(R), P = 14(R), G = 7(B), U = left(7) = **NIL (BLACK)**
 - Shape: Z(18) is RIGHT of P(14), P(14) is RIGHT of G(7) → **LINE** (right-right)
@@ -161,7 +161,7 @@ flowchart TD
 
 #### Step 4: Insert **11**
 
-- BST: 11 < 14 → left; 11 > 7 → right child of 7
+- BST: $11 < 14$ → left; $11 > 7$ → right child of 7
 - Color 11 RED. Parent 7 = RED → **R4 violated!**
 - Z = 11(R), P = 7(R), G = 14(B), U = right(14) = **18 (RED)**
 - **→ Case 1:** Recolor P=7→BLACK, U=18→BLACK, G=14→RED. Move Z to G=14.
@@ -184,7 +184,7 @@ flowchart TD
 
 #### Step 5: Insert **10**
 
-- BST: 10 < 14 → left to 7(B); 10 > 7 → right to 11(R); 10 < 11 → **left child of 11**
+- BST: $10 < 14$ → left to 7(B); $10 > 7$ → right to 11(R); $10 < 11$ → **left child of 11**
 - Color 10 RED. Parent 11 = RED → **R4 violated!**
 - Z = 10(R), P = 11(R), G = 7(B), U = left(7) = **NIL (BLACK)**
 - Shape: Z(10) is LEFT of P(11), P(11) is RIGHT of G(7) → **TRIANGLE** (left-right zig-zag)
@@ -229,7 +229,7 @@ flowchart TD
 
 #### Step 6: Insert **8**
 
-- BST: 8 < 14→left to 10(B); 8 < 10→left to 7(R); 8 > 7 → **right child of 7**
+- BST: $8 < 14$ → left to 10(B); $8 < 10$ → left to 7(R); $8 > 7$ → **right child of 7**
 - Color 8 RED. Parent 7 = RED → **R4 violated!**
 - Z = 8(R), P = 7(R), G = 10(B), U = right(10) = **11 (RED)**
 - **→ Case 1:** Recolor P=7→BLACK, U=11→BLACK, G=10→RED. Move Z to G=10.
@@ -256,7 +256,7 @@ flowchart TD
 
 #### Step 7: Insert **22**
 
-- BST: 22 > 14→right to 18(B); 22 > 18 → **right child of 18**
+- BST: $22 > 14$ → right to 18(B); $22 > 18$ → **right child of 18**
 - Color 22 RED. Parent 18 = BLACK → **no violation** ✅
 
 ```mermaid
@@ -282,7 +282,7 @@ flowchart TD
 
 #### Step 8: Insert **6**
 
-- BST: 6 < 14→left to 10(R); 6 < 10→left to 7(B); 6 < 7 → **left child of 7**
+- BST: $6 < 14$ → left to 10(R); $6 < 10$ → left to 7(B); $6 < 7$ → **left child of 7**
 - Color 6 RED. Parent 7 = BLACK → **no violation** ✅
 
 ```mermaid
@@ -310,7 +310,7 @@ flowchart TD
 
 #### Step 9: Insert **1**
 
-- BST: 1 < 14→left; 1 < 10→left; 1 < 7→left; 1 < 6 → **left child of 6**
+- BST: $1 < 14$ → left; $1 < 10$ → left; $1 < 7$ → left; $1 < 6$ → **left child of 6**
 - Color 1 RED. Parent 6 = RED → **R4 violated!**
 
 **First violation: Z=1(R), P=6(R), G=7(B), U=right(7)=8(R)**
@@ -362,7 +362,7 @@ flowchart TD
 
 #### Step 10: Insert **15**
 
-- BST: 15 > 10→right; 15 > 14→right; 15 < 18 → **left child of 18**
+- BST: $15 > 10$ → right; $15 > 14$ → right; $15 < 18$ → **left child of 18**
 - Color 15 RED. Parent 18 = BLACK → **no violation** ✅
 
 ```mermaid
@@ -394,7 +394,7 @@ flowchart TD
 
 #### Step 11: Insert **17**
 
-- BST: 17 > 10→right; 17 > 14→right; 17 < 18→left; 17 > 15 → **right child of 15**
+- BST: $17 > 10$ → right; $17 > 14$ → right; $17 < 18$ → left; $17 > 15$ → **right child of 15**
 - Color 17 RED. Parent 15 = RED → **R4 violated!**
 
 **First violation: Z=17(R), P=15(R), G=18(B), U=right(18)=22(R)**
@@ -666,12 +666,12 @@ Intervals inserted: `[16,21], [8,9], [25,30], [5,8], [15,23], [17,19], [26,26]`
 
 ```mermaid
 flowchart TD
-    Root["[16,21] | max=30 ⬛"] --> L["[8,9] | max=23 🔴"]
-    Root --> R["[25,30] | max=30 ⬛"]
-    L --> LL["[5,8] | max=8 ⬛"]
-    L --> LR["[15,23] | max=23 ⬛"]
-    R --> RL["[17,19] | max=19 🔴"]
-    R --> RR["[26,26] | max=26 🔴"]
+    Root["&#91;16,21&#93; | max=30 ⬛"] --> L["&#91;8,9&#93; | max=23 🔴"]
+    Root --> R["&#91;25,30&#93; | max=30 ⬛"]
+    L --> LL["&#91;5,8&#93; | max=8 ⬛"]
+    L --> LR["&#91;15,23&#93; | max=23 ⬛"]
+    R --> RL["&#91;17,19&#93; | max=19 🔴"]
+    R --> RR["&#91;26,26&#93; | max=26 🔴"]
     style Root fill:#1e1e2e,color:#fff,stroke:#cdd6f4
     style L fill:#d20f39,color:#fff,stroke:#cdd6f4
     style R fill:#1e1e2e,color:#fff,stroke:#cdd6f4
@@ -694,7 +694,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    s1["[15,20]\nmax=20 ⬛"]
+    s1["&#91;15,20&#93;\nmax=20 ⬛"]
     style s1 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
 ```
 
@@ -702,7 +702,7 @@ flowchart TD
 
 #### Step 2: Insert **[10,30]**
 
-- BST based on `low`: 10 < 15 → left child of `[15,20]`
+- BST based on `low`: $10 < 15$ → left child of `[15,20]`
 - Color RED. Parent is BLACK → no RBT violation.
 - Update `max` bottom-up:
   - `[10,30].max` = 30
@@ -710,7 +710,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    s2_15["[15,20]\nmax=30 ⬛"] --> s2_10["[10,30]\nmax=30 🔴"]
+    s2_15["&#91;15,20&#93;\nmax=30 ⬛"] --> s2_10["&#91;10,30&#93;\nmax=30 🔴"]
     style s2_15 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
     style s2_10 fill:#d20f39,color:#fff,stroke:#cdd6f4
 ```
@@ -719,7 +719,7 @@ flowchart TD
 
 #### Step 3: Insert **[17,19]**
 
-- BST based on `low`: 17 > 15 → right child of `[15,20]`
+- BST based on `low`: $17 > 15$ → right child of `[15,20]`
 - Color RED. Parent is BLACK → no RBT violation.
 - Update `max` bottom-up:
   - `[17,19].max` = 19
@@ -727,8 +727,8 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    s3_15["[15,20]\nmax=30 ⬛"] --> s3_10["[10,30]\nmax=30 🔴"]
-    s3_15 --> s3_17["[17,19]\nmax=19 🔴"]
+    s3_15["&#91;15,20&#93;\nmax=30 ⬛"] --> s3_10["&#91;10,30&#93;\nmax=30 🔴"]
+    s3_15 --> s3_17["&#91;17,19&#93;\nmax=19 🔴"]
     style s3_15 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
     style s3_10 fill:#d20f39,color:#fff,stroke:#cdd6f4
     style s3_17 fill:#d20f39,color:#fff,stroke:#cdd6f4
@@ -738,7 +738,7 @@ flowchart TD
 
 #### Step 4: Insert **[5,20]**
 
-- BST based on `low`: 5 < 15 → left; 5 < 10 → left child of `[10,30]`
+- BST based on `low`: $5 < 15$ → left; $5 < 10$ → left child of `[10,30]`
 - Color RED. Parent `[10,30]` = RED → **RBT violation!** (Red-Red conflict)
 - Uncle is `[17,19]` (RED). **Case 1** triggers.
 - Recolor: P(`[10,30]`)→BLACK, U(`[17,19]`)→BLACK, G(`[15,20]`)→RED.
@@ -750,9 +750,9 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    s4_15["[15,20]\nmax=30 ⬛"] --> s4_10["[10,30]\nmax=30 ⬛"]
-    s4_15 --> s4_17["[17,19]\nmax=19 ⬛"]
-    s4_10 --> s4_5["[5,20]\nmax=20 🔴"]
+    s4_15["&#91;15,20&#93;\nmax=30 ⬛"] --> s4_10["&#91;10,30&#93;\nmax=30 ⬛"]
+    s4_15 --> s4_17["&#91;17,19&#93;\nmax=19 ⬛"]
+    s4_10 --> s4_5["&#91;5,20&#93;\nmax=20 🔴"]
     style s4_15 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
     style s4_10 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
     style s4_17 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
@@ -763,7 +763,7 @@ flowchart TD
 
 #### Step 5: Insert **[12,15]**
 
-- BST based on `low`: 12 < 15 → left; 12 > 10 → right child of `[10,30]`
+- BST based on `low`: $12 < 15$ → left; $12 > 10$ → right child of `[10,30]`
 - Color RED. Parent `[10,30]` = BLACK → no RBT violation.
 - Update `max` bottom-up:
   - `[12,15].max` = 15
@@ -772,10 +772,10 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    s5_15["[15,20]\nmax=30 ⬛"] --> s5_10["[10,30]\nmax=30 ⬛"]
-    s5_15 --> s5_17["[17,19]\nmax=19 ⬛"]
-    s5_10 --> s5_5["[5,20]\nmax=20 🔴"]
-    s5_10 --> s5_12["[12,15]\nmax=15 🔴"]
+    s5_15["&#91;15,20&#93;\nmax=30 ⬛"] --> s5_10["&#91;10,30&#93;\nmax=30 ⬛"]
+    s5_15 --> s5_17["&#91;17,19&#93;\nmax=19 ⬛"]
+    s5_10 --> s5_5["&#91;5,20&#93;\nmax=20 🔴"]
+    s5_10 --> s5_12["&#91;12,15&#93;\nmax=15 🔴"]
     style s5_15 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
     style s5_10 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
     style s5_17 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
@@ -799,16 +799,16 @@ flowchart TD
 - **Max Fixup:** Update `max` from the parent of the physically deleted node (`[12,15]`), up to the root.
   - Re-evaluating `[12,15]` (now at the old `[10,30]` position):
     - Left child is `[5,20]` with `max=20`. Right child is NIL. Node's `high=15`.
-    - `max = \max(15, 20, -\infty) = 20`
+    - `max` = $\max(15, 20, -\infty) = 20$
   - Re-evaluating root `[15,20]`:
     - Left child has `max=20`. Right child has `max=19`. Node's `high=20`.
-    - `max = \max(20, 20, 19) = 20`
+    - `max` = $\max(20, 20, 19) = 20$
 
 ```mermaid
 flowchart TD
-    d1_15["[15,20]\nmax=20 ⬛"] --> d1_12["[12,15]\nmax=20 ⬛"]
-    d1_15 --> d1_17["[17,19]\nmax=19 ⬛"]
-    d1_12 --> d1_5["[5,20]\nmax=20 🔴"]
+    d1_15["&#91;15,20&#93;\nmax=20 ⬛"] --> d1_12["&#91;12,15&#93;\nmax=20 ⬛"]
+    d1_15 --> d1_17["&#91;17,19&#93;\nmax=19 ⬛"]
+    d1_12 --> d1_5["&#91;5,20&#93;\nmax=20 🔴"]
     style d1_15 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
     style d1_12 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
     style d1_17 fill:#1e1e2e,color:#fff,stroke:#cdd6f4
@@ -835,7 +835,7 @@ Algorithm INTERVAL-SEARCH(T, i=[14,16]):
 | Step | Current x | OVERLAP? | x.left.max | Decision |
 | :--- | :--- | :--- | :--- | :--- |
 | 1 | `[16,21]` | 16≤25 ✅ but 23≤21? ❌ → No | left.max=23 ≥ 23 ✅ | Go **LEFT** |
-| 2 | `[8,9]` | 8≤25 ✅ but 23≤9? ❌ → No | left.max=8 < 23 ❌ | Go **RIGHT** |
+| 2 | `[8,9]` | 8≤25 ✅ but 23≤9? ❌ → No | $\text{left.max} = 8 < 23$ ❌ | Go **RIGHT** |
 | 3 | `[15,23]` | 15≤25 ✅ AND 23≤23 ✅ → **YES!** | — | Return `[15,23]` ✅ |
 
 **Query: Find any interval overlapping `i = [12, 14]`** (should find [15,23] or return NIL)
@@ -843,8 +843,8 @@ Algorithm INTERVAL-SEARCH(T, i=[14,16]):
 | Step | Current x | OVERLAP? | x.left.max | Decision |
 | :--- | :--- | :--- | :--- | :--- |
 | 1 | `[16,21]` | 16≤14? ❌ → No | left.max=23 ≥ 12 ✅ | Go **LEFT** |
-| 2 | `[8,9]` | 8≤14 ✅ but 12≤9? ❌ → No | left.max=8 < 12 ❌ | Go **RIGHT** |
-| 3 | `[15,23]` | 15≤14? ❌ → No | left=NIL → max<12 | Go **RIGHT** → NIL |
+| 2 | `[8,9]` | 8≤14 ✅ but 12≤9? ❌ → No | $\text{left.max} = 8 < 12$ ❌ | Go **RIGHT** |
+| 3 | `[15,23]` | 15≤14? ❌ → No | left=NIL → $\text{max} < 12$ | Go **RIGHT** → NIL |
 | 4 | **NIL** | — | — | Return NIL (no overlap found) |
 
 ---
@@ -853,7 +853,7 @@ Algorithm INTERVAL-SEARCH(T, i=[14,16]):
 
 > **Q1:** Insert `[14, 18]` into the tree from Section 3.3. What color will it be, and what is its parent? Will a rotation be triggered?
 >
-> **Answer:** Insert traces like standard BST on `low`: 14 < 16(Root) → left; 14 > 8(L) → right; 14 < 15(LR) → left. So `[14, 18]` becomes left child of `[15, 23]`. It is colored RED. Since `[15, 23]` is BLACK, no RBT violation occurs. `max` attributes are updated bottom-up on the path. `[14, 18].max = 18`. `[15, 23].max = max(23, 18, -∞) = 23`. The root `[16, 21].max` remains 30.
+> **Answer:** Insert traces like standard BST on `low`: $14 < 16\text{ (Root)}$ → left; $14 > 8\text{ (L)}$ → right; $14 < 15\text{ (LR)}$ → left. So `[14, 18]` becomes left child of `[15, 23]`. It is colored RED. Since `[15, 23]` is BLACK, no RBT violation occurs. `max` attributes are updated bottom-up on the path. `[14, 18].max = 18`. `[15, 23].max = max(23, 18, -∞) = 23`. The root `[16, 21].max` remains 30.
 
 ---
 
@@ -961,7 +961,7 @@ flowchart TD
 ```
 
 #### Step 2: Insert **5**
-- Add `B0[5]`. Conflict with `B0[3]`. Link: 3 < 5 → 5 attaches under 3.
+- Add `B0[5]`. Conflict with `B0[3]`. Link: $3 < 5$ → 5 attaches under 3.
 - Binary $n$: `0010` → $B_1$
 - Forest: `{B1[3→5]}`
 
@@ -984,7 +984,7 @@ flowchart TD
 #### Step 4: Insert **2**
 - Add `B0[2]`.
 - Link `B0[2]` + `B0[8]` → `B1[2→8]`.
-- Link `B1[2→8]` + `B1[3→5]` → 2 < 3 → 3 attaches under 2.
+- Link `B1[2→8]` + `B1[3→5]` → $2 < 3$ → 3 attaches under 2.
 - Binary $n$: `0100` → $B_2$
 - Forest: `{B2[2→{3,8}]}`
 
@@ -1008,7 +1008,7 @@ flowchart TD
 ```
 
 #### Step 6: Insert **1**
-- Add `B0[1]`. Link `B0[1]` + `B0[7]` → 1 < 7 → 7 under 1.
+- Add `B0[1]`. Link `B0[1]` + `B0[7]` → $1 < 7$ → 7 under 1.
 - Binary $n$: `0110` → $B_2, B_1$
 
 ```mermaid
@@ -1035,8 +1035,8 @@ flowchart TD
 #### Step 8: Insert **6**
 - Add `B0[6]`.
 - Link `B0[6]` + `B0[4]` → `B1[4→6]`.
-- Link `B1[4→6]` + `B1[1→7]` → 1 < 4 → 4 under 1. (`B2[1→{4,7}]`)
-- Link `B2[1...]` + `B2[2...]` → 1 < 2 → 2 under 1. (`B3`)
+- Link `B1[4→6]` + `B1[1→7]` → $1 < 4$ → 4 under 1. (`B2[1→{4,7}]`)
+- Link `B2[1...]` + `B2[2...]` → $1 < 2$ → 2 under 1. (`B3`)
 - Binary $n$: `1000` → $B_3$
 
 ```mermaid
@@ -1067,7 +1067,7 @@ flowchart TD
 ```
 
 #### Step 10: Insert **11**
-- Add `B0[11]`. Link `B0[9]` + `B0[11]` → 9 < 11 → 11 under 9.
+- Add `B0[11]`. Link `B0[9]` + `B0[11]` → $9 < 11$ → 11 under 9.
 - Binary $n$: `1010` → $B_3, B_1$
 
 ```mermaid
@@ -1148,11 +1148,11 @@ flowchart TD
 
 **3. Union H' and H'':** Merge root lists ordered by degree: `{B0[7], B0[13], B1[4→6], B1[9→11], B2[2...]}`
 
-- **Link B0s:** `B0[7] + B0[13]` → 7 < 13 → `B1[7→13]`.
+- **Link B0s:** `B0[7] + B0[13]` → $7 < 13$ → `B1[7→13]`.
   - Forest: `{B1[7→13], B1[4→6], B1[9→11], B2[2...]}`
-- **Link B1s:** `B1[7→13] + B1[4→6]` → 4 < 7 → `B2[4→{6,7}]`. (Note: `B1[9→11]` is left alone for now as we just link adjacent same-degree roots).
+- **Link B1s:** `B1[7→13] + B1[4→6]` → $4 < 7$ → `B2[4→{6,7}]`. (Note: `B1[9→11]` is left alone for now as we just link adjacent same-degree roots).
   - Forest: `{B1[9→11], B2[4→{6,7}], B2[2...]}`
-- **Link B2s:** `B2[4...] + B2[2...]` → 2 < 4 → `B3[2...]`.
+- **Link B2s:** `B2[4...] + B2[2...]` → $2 < 4$ → `B3[2...]`.
   - Forest: `{B1[9→11], B3[2...]}`
 
 ```mermaid
@@ -1201,7 +1201,7 @@ Sorted roots: `{B0[7], B0[6], B1[5→8], B2[1...]}`
 
 **Step 2: Scan and Link Same-Degree Trees**
 
-- **Link B0s:** `B0[7] + B0[6]`. 6 < 7 → 7 attaches under 6.
+- **Link B0s:** `B0[7] + B0[6]`. $6 < 7$ → 7 attaches under 6.
   - New tree: `B1[6→7]`.
   - Next scan sees: `{B1[6→7], B1[5→8], B2[1...]}`
 
@@ -1216,7 +1216,7 @@ flowchart TD
     end
 ```
 
-- **Link B1s:** `B1[6→7] + B1[5→8]`. 5 < 6 → 6 attaches under 5.
+- **Link B1s:** `B1[6→7] + B1[5→8]`. $5 < 6$ → 6 attaches under 5.
   - New tree: `B2[5→{8,6}]`.
   - Next scan sees: `{B2[5...], B2[1...]}`
 
@@ -1232,7 +1232,7 @@ flowchart TD
     end
 ```
 
-- **Link B2s:** `B2[5...] + B2[1...]`. 1 < 5 → 5 attaches under 1.
+- **Link B2s:** `B2[5...] + B2[1...]`. $1 < 5$ → 5 attaches under 1.
   - New tree: `B3[1...]`.
 
 ```mermaid
@@ -1270,8 +1270,8 @@ flowchart TD
 > 2. Children of 1 are reversed into a new heap $H'$. Children are $B_1[3 \rightarrow 5]$ and $B_0[8]$.
 > 3. $H' = \{B_0[8], B_1[3 \rightarrow 5]\}$. Remaining $H = \{B_0[7]\}$.
 > 4. UNION $H$ and $H'$: Merge lists $\rightarrow \{B_0[7], B_0[8], B_1[3 \rightarrow 5]\}$.
-> 5. Scan: Link $B_0[7]$ and $B_0[8]$ (7 < 8 $\rightarrow$ 8 under 7) $\rightarrow B_1[7 \rightarrow 8]$.
-> 6. Scan: Link $B_1[7 \rightarrow 8]$ and $B_1[3 \rightarrow 5]$ (3 < 7 $\rightarrow$ 7 under 3) $\rightarrow B_2[3 \rightarrow \{7 \rightarrow 8, 5\}]$.
+> 5. Scan: Link $B_0[7]$ and $B_0[8]$ ($7 < 8 \rightarrow 8$ under 7) $\rightarrow B_1[7 \rightarrow 8]$.
+> 6. Scan: Link $B_1[7 \rightarrow 8]$ and $B_1[3 \rightarrow 5]$ ($3 < 7 \rightarrow 7$ under 3) $\rightarrow B_2[3 \rightarrow \{7 \rightarrow 8, 5\}]$.
 > 7. Final Heap: $\{B_2[3 \dots]\}$.
 
 ---
@@ -1303,7 +1303,7 @@ Fibonacci Heap insertion is purely lazy. Each new node is just added to the circ
 
 #### Steps 1 & 2: Insert **3**, then **7**
 - Insert 3. It becomes `H.min`.
-- Insert 7 to root list. 7 > 3, so `H.min` stays 3.
+- Insert 7 to root list. $7 > 3$, so `H.min` stays 3.
 
 ```mermaid
 flowchart LR
@@ -1331,7 +1331,7 @@ flowchart LR
 ```
 
 #### Step 7: Insert **1**
-- Append 1. Since 1 < 3, update `H.min` to 1.
+- Append 1. Since $1 < 3$, update `H.min` to 1.
 
 ```mermaid
 flowchart LR
@@ -1365,8 +1365,8 @@ flowchart TD
     Consolidate --> Array["Create array A of size D(n)"]
     Array --> Loop["For each root w in H:"]
     Loop --> Check{"A[w.deg] empty?"}
-    Check -- Yes --> SetArray["A[w.deg] = w"]
-    Check -- No --> Link["LINK w and A[w.deg]\n(smaller root becomes parent)"]
+    Check -- Yes --> SetArray["A&#91;w.deg&#93; = w"]
+    Check -- No --> Link["LINK w and A&#91;w.deg&#93;\n(smaller root becomes parent)"]
     Link --> Loop
     SetArray --> Rebuild["Rebuild root list from A\nFind new min"]
     style Start fill:#89b4fa,color:#11111b
@@ -1386,20 +1386,20 @@ Process nodes from root list in order:
 | Process | Node (degree) | A[d] slot | Conflict? | Action | Result |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | Node 3 | degree 0 | A[0] = empty | No | A[0] = 3 | — |
-| Node 7 | degree 0 | A[0] = 3 | **YES** | Link: 3<7 → 7 under 3. 3 gets degree 1. A[0]=empty | Check A[1] |
+| Node 7 | degree 0 | A[0] = 3 | **YES** | Link: $3 < 7$ → 7 under 3. 3 gets degree 1. A[0]=empty | Check A[1] |
 | 3 (now deg 1) | degree 1 | A[1] = empty | No | A[1] = 3 | — |
 | Node 18 | degree 0 | A[0] = empty | No | A[0] = 18 | — |
-| Node 52 | degree 0 | A[0] = 18 | **YES** | Link: 18<52 → 52 under 18. 18 gets degree 1. A[0]=empty | Check A[1] |
-| 18 (deg 1) | degree 1 | A[1] = 3 | **YES** | Link: 3<18 → 18 under 3. 3 gets degree 2. A[1]=empty | Check A[2] |
+| Node 52 | degree 0 | A[0] = 18 | **YES** | Link: $18 < 52$ → 52 under 18. 18 gets degree 1. A[0]=empty | Check A[1] |
+| 18 (deg 1) | degree 1 | A[1] = 3 | **YES** | Link: $3 < 18$ → 18 under 3. 3 gets degree 2. A[1]=empty | Check A[2] |
 | 3 (now deg 2) | degree 2 | A[2] = empty | No | A[2] = 3 | — |
 
 **Intermediate state after processing 52:**
 ```mermaid
 flowchart TD
     subgraph "Array A[] so far"
-        a0["A[0] = empty"]
-        a1["A[1] = empty"]
-        a2["A[2] = 3"]
+        a0["A&#91;0&#93; = empty"]
+        a1["A&#91;1&#93; = empty"]
+        a2["A&#91;2&#93; = 3"]
         a2 --> root3["3 (deg 2)"]
         root3 --> c7["7"]
         root3 --> c18["18"]
@@ -1410,7 +1410,7 @@ flowchart TD
 | Process | Node (degree) | A[d] slot | Conflict? | Action | Result |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | Node 24 | degree 0 | A[0] = empty | No | A[0] = 24 | — |
-| Node 30 | degree 0 | A[0] = 24 | **YES** | Link: 24<30 → 30 under 24. 24 gets degree 1. A[0]=empty | Check A[1] |
+| Node 30 | degree 0 | A[0] = 24 | **YES** | Link: $24 < 30$ → 30 under 24. 24 gets degree 1. A[0]=empty | Check A[1] |
 | 24 (deg 1) | degree 1 | A[1] = empty | No | A[1] = 24 | — |
 
 **Final A[] state:** A[0]=empty, A[1]=24, A[2]=3
@@ -1470,7 +1470,7 @@ Tree 2 (root=24): 24 → {30}
 
 Now **decrease key of 52 from 52 to 0**:
 
-**Step 1:** Set 52.key = 0. Is 0 < parent(18).key = 18? **YES** → CUT.
+**Step 1:** Set 52.key = 0. Is $0 < \text{parent}(18).\text{key} = 18$? **YES** → CUT.
 
 **CUT(52→0, parent=18):**
 
@@ -1500,7 +1500,7 @@ flowchart TD
 
 Now **decrease key of 18 from 18 to 2**:
 
-**Step 1:** Set 18.key = 2. Is 2 < parent(3).key = 3? **YES** → CUT.
+**Step 1:** Set 18.key = 2. Is $2 < \text{parent}(3).\text{key} = 3$? **YES** → CUT.
 
 **CUT(18→2, parent=3):**
 
@@ -1532,7 +1532,7 @@ flowchart TD
 
 **Setup with cascading cut demonstration:** Suppose node X (key=35) has parent P (key=12, already marked), and P's parent is GP (key=6, already marked), and GP's parent is root.
 
-**DECREASE-KEY(X→5):** 5 < P.key=12 → CUT(X, P).
+**DECREASE-KEY(X→5):** $5 < \text{P.key} = 12$ → CUT(X, P).
 
 - CASCADING-CUT(P=12): P is marked → **CUT(P, GP)**. CASCADING-CUT(GP=6): GP is marked → **CUT(GP, root)**. CASCADING-CUT(root): is root → STOP.
 - Result: X, P, GP all moved to root list. Their marks cleared. **3 cascading cuts!**
@@ -1651,7 +1651,7 @@ flowchart TD
     Compare -- Yes --> Link1["root_y.parent = root_x\n(rank unchanged) ✅"]
     Compare -- No --> Compare2{"rank[root_x] < rank[root_y]?"}
     Compare2 -- Yes --> Link2["root_x.parent = root_y\n(rank unchanged) ✅"]
-    Compare2 -- No --> Link3["root_y.parent = root_x\nrank[root_x]++ ✅"]
+    Compare2 -- No --> Link3["root_y.parent = root_x\nrank&#91;root_x&#93;++ ✅"]
     
     style Done fill:#a6e3a1,color:#11111b
     style Link1 fill:#89b4fa,color:#11111b
@@ -1726,7 +1726,7 @@ flowchart TD
     style c3 fill:#a6e3a1,color:#11111b
 ```
 
-**9. UNION(1, 9):** FIND(1)=1(r=3), FIND(9)=9(r=1). rank[1] > rank[9] → 9 under 1. rank[1] stays 3.
+**9. UNION(1, 9):** FIND(1)=1(r=3), FIND(9)=9(r=1). $\text{rank}[1] > \text{rank}[9]$ → 9 under 1. rank[1] stays 3.
 ```mermaid
 flowchart TD
     u9_1["1 (r=3)"] --> u9_2["2"]

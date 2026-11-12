@@ -107,10 +107,10 @@ Viewport units enable text and UI dimensions to scale continuously with the brow
 
 | Unit Identifier | Exact Mathematical Basis | Conversion Example ($1920 \times 1080\text{px}$ Display) | Primary Application |
 | :--- | :--- | :--- | :--- |
-| `1vw` | $1\%$of total viewport browser width |$1\text{vw} = 19.2\text{px}$ | Fluid fluid typography, responsive banner widths. |
-| `1vh` | $1\%$of total viewport browser height |$1\text{vh} = 10.8\text{px}$ | Full-screen hero sections (`min-height: 100vh`), modal heights. |
-| `1vmin` | $1\%$of minimum between width and height |$\min(19.2\text{px}, 10.8\text{px}) = 10.8\text{px}$ | Square components that must fit viewport in both orientations. |
-| `1vmax` | $1\%$of maximum between width and height |$\max(19.2\text{px}, 10.8\text{px}) = 19.2\text{px}$ | Dynamic background sizing across orientation flips. |
+| `1vw` | $1\%$ of total viewport browser width |$1\text{vw} = 19.2\text{px}$ | Fluid fluid typography, responsive banner widths. |
+| `1vh` | $1\%$ of total viewport browser height |$1\text{vh} = 10.8\text{px}$ | Full-screen hero sections (`min-height: 100vh`), modal heights. |
+| `1vmin` | $1\%$ of minimum between width and height |$\min(19.2\text{px}, 10.8\text{px}) = 10.8\text{px}$ | Square components that must fit viewport in both orientations. |
+| `1vmax` | $1\%$ of maximum between width and height |$\max(19.2\text{px}, 10.8\text{px}) = 19.2\text{px}$ | Dynamic background sizing across orientation flips. |
 
 ```html
 <!-- Scales dynamically with browser viewport width --> <h1 style="font-size: 8vw; margin: 0; color: #1e293b;">Fluid Headline</h1> <p style="font-size: 2.5vw; color: #64748b;">Dynamic body copy scaling at 2.5% of browser width.</p>
@@ -130,8 +130,9 @@ Media queries conditionally apply CSS style blocks based on target device media 
 | :--- | :--- | :--- | :--- |
 | `min-width` | Integer px / rem / em | Applies styles when viewport width $\ge$ threshold (Mobile-first). | `@media screen and (min-width: 768px)` |
 | `max-width` | Integer px / rem / em | Applies styles when viewport width $\le$ threshold (Desktop-down). | `@media screen and (max-width: 576px)` |
-| `orientation` | `portrait`, `landscape` | Triggers based on whether height $>$width or width$>$ height. | `@media (orientation: landscape)` |
-| `resolution` | `dpi`, `dpcm`, `dppx` | Detects high-density Retina displays ($>192\text{dpi}$or$2\text{dppx}$). | `@media (min-resolution: 2dppx)` | | `prefers-color-scheme` | `light`, `dark` | Queries OS-level dark mode preference. | `@media (prefers-color-scheme: dark)` |
+| `orientation` | `portrait`, `landscape` | Triggers based on whether $\text{height} > \text{width}$ or $\text{width} > \text{height}$. | `@media (orientation: landscape)` |
+| `resolution` | `dpi`, `dpcm`, `dppx` | Detects high-density Retina displays ($> 192\text{ dpi}$ or $2\text{ dppx}$). | `@media (min-resolution: 2dppx)` |
+| `prefers-color-scheme` | `light`, `dark` | Queries OS-level dark mode preference. | `@media (prefers-color-scheme: dark)` |
 | `print` | N/A (media type) | Strips navigation, sets high contrast, formats pages for print. | `@media print` |
 
 ```css
@@ -151,7 +152,7 @@ Media queries conditionally apply CSS style blocks based on target device media 
 > **Edge Case 2: Cumulative Layout Shift (CLS) on Responsive Images** > Specifying only `style="max-width: 100%; height: auto;"` without explicit HTML `width` and `height` attributes causes Cumulative Layout Shift. When the HTML parser encounters the `<img>` tag without dimensions, it allocates $0\text{px}$ height initially. When the network returns the decoded image, the browser recalculates geometry, violently shifting following text downward. > **Resolution:** Always specify intrinsic HTML attributes alongside CSS: > `<img src="hero.jpg" width="1200" height="600" style="max-width: 100%; height: auto; aspect-ratio: 1200 / 600;">`. This reserves layout aspect-ratio space prior to download.
 
 > [!NOTE]
-> **Edge Case 3: Extreme Viewport Scaling on 4K Monitors and Smartwatches** > Pure viewport units like `font-size: 6vw` cause catastrophic UI failures at scale extremes: on a 4K monitor ($3840\text{px}$wide), `6vw` equals$230.4\text{px}$ (unusable giant text), whereas on an Apple Watch ($320\text{px}$wide), `6vw` yields$19.2\text{px}$. > **Resolution:** Utilize the CSS mathematical function `clamp(min, preferred, max)`: > `font-size: clamp(1rem, 2.5vw + 0.5rem, 2.75rem);`.
+> **Edge Case 3: Extreme Viewport Scaling on 4K Monitors and Smartwatches** > Pure viewport units like `font-size: 6vw` cause catastrophic UI failures at scale extremes: on a 4K monitor ($3840\text{px}$ wide), `6vw` equals $230.4\text{px}$ (unusable giant text), whereas on an Apple Watch ($320\text{px}$ wide), `6vw` yields $19.2\text{px}$. > **Resolution:** Utilize the CSS mathematical function `clamp(min, preferred, max)`: > `font-size: clamp(1rem, 2.5vw + 0.5rem, 2.75rem);`.
 
 ---
 
@@ -379,8 +380,8 @@ The Geolocation API allows client-side applications to access the device's geogr
 
 | Object / Property | Data Type | Units / Range | Meaning & Diagnostic Role |
 | :--- | :--- | :--- | :--- |
-| `coords.latitude` | Decimal Float | $-90.00^{\circ}$to$+90.00^{\circ}$ | Geographic latitude in decimal degrees. |
-| `coords.longitude` | Decimal Float | $-180.00^{\circ}$to$+180.00^{\circ}$ | Geographic longitude in decimal degrees. |
+| `coords.latitude` | Decimal Float | $-90.00^{\circ}$ to $+90.00^{\circ}$ | Geographic latitude in decimal degrees. |
+| `coords.longitude` | Decimal Float | $-180.00^{\circ}$ to $+180.00^{\circ}$ | Geographic longitude in decimal degrees. |
 | `coords.accuracy` | Decimal Float | Meters | Accuracy level of latitude and longitude (95% confidence radius). |
 | `coords.altitude` | Float or `null` | Meters above sea level | Altitude relative to WGS 84 ellipsoid. |
 | `coords.speed` | Float or `null` | Meters / second | Instantaneous ground velocity of the device. |
@@ -461,7 +462,7 @@ navigator.geolocation.getCurrentPosition(
 | Feature / Dimension | `window.localStorage` | `window.sessionStorage` | Traditional HTTP Cookies |
 | :--- | :--- | :--- | :--- |
 | **Persistence Duration** | Permanent until explicitly deleted by code or user. | Survives page reloads; destroyed when browser tab closes. | Governed by `Expires` or `Max-Age` header. |
-| **Storage Capacity** | $\sim 5\text{MB} - 10\text{MB}$per origin. |$\sim 5\text{MB}$per origin. |$\le 4\text{KB}$ total per cookie. |
+| **Storage Capacity** | $\sim 5\text{MB} - 10\text{MB}$ per origin. |$\sim 5\text{MB}$ per origin. |$\le 4\text{KB}$ total per cookie. |
 | **Network Overhead** | Zero. Client-side local access only. | Zero. Client-side local access only. | Transmitted automatically on **every** HTTP request header. |
 | **API Methods** | `setItem`, `getItem`, `removeItem`, `clear`. | `setItem`, `getItem`, `removeItem`, `clear`. | Raw string parsing (`document.cookie`). |
 | **Execution Synchronicity**| Synchronous blocking on UI thread. | Synchronous blocking on UI thread. | Synchronous. |
@@ -950,13 +951,13 @@ $$
 | Column Class Pattern | Parameter Options | Functional Behavior |
 | :--- | :--- | :--- |
 | `.col` | None | Equal-width auto-layout column; distributes remaining row width equally among sibling `.col` elements. |
-| `.col-{1-12}` | Integers $1$through$12$ | Unconditional span: occupies fixed fraction of the 12 columns across all viewport sizes. |
-| `.col-{bp}-{1-12}` | `bp` $\in$`{sm, md, lg, xl, xxl}`, width$\in$`{1..12}` | Responsive span: stacks$100\%$ width below breakpoint `bp`; spans specified columns at and above `bp`. |
+| `.col-{1-12}` | Integers $1$ through $12$ | Unconditional span: occupies fixed fraction of the 12 columns across all viewport sizes. |
+| `.col-{bp}-{1-12}` | `bp` $\in$`{sm, md, lg, xl, xxl}`, width $\in$`{1..12}` | Responsive span: stacks $100\%$ width below breakpoint `bp`; spans specified columns at and above `bp`. |
 | `.col-auto` | None | Natural width column: sizes itself strictly based on the intrinsic width of its content. |
-| `.offset-{1-11}` | Integers $1$through$11$ | Moves column to the right by increasing left margin by specified column units. |
-| `.offset-{bp}-{1-11}`| `bp` $\in$`{sm, md, lg, xl, xxl}`, offset$\in$ `{1..11}` | Responsive column offset applied at and above target breakpoint. |
-| `.row-cols-{1-6}` | Integers $1$through$6$ | Declared on parent `.row`: sets default number of columns rendered per row before wrapping. |
-| `.g-{0-5}`, `.gx-{0-5}`, `.gy-{0-5}` | Integers $0$through$5$ | Sets horizontal/vertical gutter spacing between columns ($0=0, 1=0.25\text{rem}, ..., 5=3\text{rem}$). |
+| `.offset-{1-11}` | Integers $1$ through $11$ | Moves column to the right by increasing left margin by specified column units. |
+| `.offset-{bp}-{1-11}`| `bp` $\in$`{sm, md, lg, xl, xxl}`, offset $\in$ `{1..11}` | Responsive column offset applied at and above target breakpoint. |
+| `.row-cols-{1-6}` | Integers $1$ through $6$ | Declared on parent `.row`: sets default number of columns rendered per row before wrapping. |
+| `.g-{0-5}`, `.gx-{0-5}`, `.gy-{0-5}` | Integers $0$ through $5$ | Sets horizontal/vertical gutter spacing between columns ($0=0, 1=0.25\text{rem}, ..., 5=3\text{rem}$). |
 
 
 
@@ -1664,7 +1665,7 @@ export default {
 
 Formulas:
 
-- Standard integer scale: $\text{Dimension} = n \times 0.25\text{rem} = n \times 4\text{px}$(for$1\text{rem} = 16\text{px}$).
+- Standard integer scale: $\text{Dimension} = n \times 0.25\text{rem} = n \times 4\text{px}$(for $1\text{rem} = 16\text{px}$).
 
 - Example: `p-4` $\implies 4 \times 0.25\text{rem} = 1\text{rem} = 16\text{px}$.
 
@@ -1792,14 +1793,14 @@ Tailwind supplies full palettes across shades `50, 100, 200, 300, 400, 500, 600,
 
 | Category | Class Names | CSS Declarations |
 | :--- | :--- | :--- |
-| **Display** | `flex`, `inline-flex`, `grid`, `inline-grid` | `display: flex | inline-flex | grid` |
+| **Display** | `flex`, `inline-flex`, `grid`, `inline-grid` | `display: flex \| inline-flex \| grid` |
 | **Flex Direction** | `flex-row`, `flex-row-reverse`, `flex-col`, `flex-col-reverse` | `flex-direction: ...;` |
 | **Flex Wrap** | `flex-wrap`, `flex-wrap-reverse`, `flex-nowrap` | `flex-wrap: ...;` |
 | **Justify Content** | `justify-start`, `justify-end`, `justify-center`, `justify-between`, `justify-around`, `justify-evenly` | `justify-content: ...;` |
 | **Align Items** | `items-start`, `items-end`, `items-center`, `items-baseline`, `items-stretch` | `align-items: ...;` |
 | **Grid Columns** | `grid-cols-1` through `grid-cols-12`, `grid-cols-none` | `grid-template-columns: repeat(N, minmax(0, 1fr));` |
 | **Grid Column Span** | `col-auto`, `col-span-1` through `col-span-12`, `col-span-full` | `grid-column: span N / span N;` |
-| **Grid Gap** | `gap-{n}`, `gap-x-{n}`, `gap-y-{n}` (uses spacing scale $0$to$96$) | `gap: ...;` |
+| **Grid Gap** | `gap-{n}`, `gap-x-{n}`, `gap-y-{n}` (uses spacing scale $0$ to $96$) | `gap: ...;` |
 
 
 
@@ -2853,7 +2854,7 @@ flowchart TD
 
 #### Heuristic Diffing Assumptions:
 
-Classical minimum tree edit distance algorithms have a time complexity of $O(n^3)$, where $n$is the number of nodes in the tree (for$1000$nodes,$10^9$operations). React reduces this to$O(n)$ by relying on two heuristics:
+Classical minimum tree edit distance algorithms have a time complexity of $O(n^3)$, where $n$ is the number of nodes in the tree (for $1000$ nodes,$10^9$ operations). React reduces this to $O(n)$ by relying on two heuristics:
 
 1. Two elements of different types will produce completely different trees (React tears down the old tree and builds the new tree from scratch).
 
@@ -3505,7 +3506,7 @@ export default UserList;
 
 > **Edge Case 1: The Asynchronous Race Condition in `useEffect`**  
 
-> When fetching data based on a changing prop (e.g. `userId`), the user may rapidly click User 1, then User 2, then User 3. Because network latency is non-deterministic, the request for User 1 may take $800\text{ms}$to return, while User 3 returns in$200\text{ms}$. If not handled, the slow User 1 response arrives last and overwrites User 3's data on screen!  
+> When fetching data based on a changing prop (e.g. `userId`), the user may rapidly click User 1, then User 2, then User 3. Because network latency is non-deterministic, the request for User 1 may take $800\text{ms}$ to return, while User 3 returns in $200\text{ms}$. If not handled, the slow User 1 response arrives last and overwrites User 3's data on screen!  
 
 > **RESOLUTION:** Use an `AbortController` (as shown in Section 7.4) or maintain an active boolean flag:  
 
@@ -3628,7 +3629,7 @@ export default UserList;
 | Evaluation Dimension | `window.localStorage` | `window.sessionStorage` | HTTP Cookies | IndexedDB Engine |
 | :--- | :--- | :--- | :--- | :--- |
 | **Data Model** | Key-Value Strings | Key-Value Strings | Key-Value Strings | Structured NoSQL Object Store |
-| **Storage Quota** | $\approx 5\text{MB} - 10\text{MB}$|$\approx 5\text{MB}$|$\le 4\text{KB}$total |$>250\text{MB}$ (disk available) |
+| **Storage Quota** | $\approx 5\text{MB} - 10\text{MB}$|$\approx 5\text{MB}$|$\le 4\text{KB}$ total |$>250\text{MB}$ (disk available) |
 | **Lifecycle / Expiry** | Persistent across browser restarts | Destroyed upon browser tab closure | Set via `Expires` / `Max-Age` | Persistent across browser restarts |
 | **Thread Blocking** | Synchronous (blocks UI thread) | Synchronous (blocks UI thread) | Synchronous | Asynchronous (Event-driven / Promises) |
 | **Automatic Server Sync**| No; client-only access | No; client-only access | Yes; sent with every HTTP request | No; client-only access |
@@ -3652,7 +3653,7 @@ export default UserList;
 | :--- | :--- | :--- |
 | **Representation** | Hierarchical C++ DOM nodes linked to layout and render trees. | Plain JavaScript Object tree residing in memory heap. |
 | **Update Cycle** | Directly triggers layout tree calculations, reflows, and repaints. | Computes diff between VNode snapshots; batches writes to real DOM. |
-| **Algorithmic Cost** | $O(N)$native DOM operations cause heavy layout recalculations. | Heuristic Diffing:$O(N)$operations instead of theoretical$O(N^3)$. |
+| **Algorithmic Cost** | $O(N)$ native DOM operations cause heavy layout recalculations. | Heuristic Diffing:$O(N)$ operations instead of theoretical $O(N^3)$. |
 | **Memory Overhead** | High (each DOM node implements dozens of interfaces). | Low (lightweight plain object literals). |
 | **Cross-Platform Target** | Web browsers exclusively. | Web (DOM), Mobile (React Native / NativeScript), SSR (Node.js). |
 
@@ -3958,7 +3959,7 @@ useEffect(() => {
 
    - D) `fluid`  
 
-   *Explanation: Bootstrap 5 introduced the `xxl` tier for viewports $\ge 1400\text{px}$with a container max-width of$1320\text{px}$.*
+   *Explanation: Bootstrap 5 introduced the `xxl` tier for viewports $\ge 1400\text{px}$ with a container max-width of $1320\text{px}$.*
 
 
 
@@ -4014,7 +4015,7 @@ useEffect(() => {
 
    - D) $250\text{MB}$  
 
-   *Explanation: LocalStorage is allocated roughly $5\text{MB}$to$10\text{MB}$per origin, whereas cookies are constrained to$4\text{KB}$.*
+   *Explanation: LocalStorage is allocated roughly $5\text{MB}$ to $10\text{MB}$ per origin, whereas cookies are constrained to $4\text{KB}$.*
 
 
 

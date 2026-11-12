@@ -198,9 +198,7 @@ The internal routing and forwarding state maintained inside router tables across
 * **Virtual Circuit Table:** A 4-column translation table inside each router:
 
 $$
-
-ext{Table Columns: } [\text{Incoming Interface}, \text{Incoming VCI}, \text{Outgoing Interface}, \text{Outgoing VCI}]
-
+\text{Table Columns: } [\text{Incoming Interface}, \text{Incoming VCI}, \text{Outgoing Interface}, \text{Outgoing VCI}]
 $$
 
 
@@ -404,7 +402,7 @@ Dijkstra's algorithm computes the single-source shortest path tree from a design
 
      $$
 
-     k = rg\min_{u \in T} d_u
+     k = \arg\min_{u \in T} d_u
 
      $$
 
@@ -453,10 +451,7 @@ The step-by-step evolution of permanent labels (shaded circles) and tentative la
     * Router $I$ recalculates its cost to every destination $K$ using:
 
 $$
-
-D(I, K) = \min_{J \in \text{Neighbors}} \left[ c(I, J) + D(J, K)
-ight]
-
+D(I, K) = \min_{J \in \text{Neighbors}} \left[ c(I, J) + D(J, K) \right]
 $$
 
 ---
@@ -1664,7 +1659,7 @@ Mobile IP (RFC 5944) enables mobile nodes to travel across different foreign net
 | **Network View** | "Routing by rumor"; routers know only what neighbors tell them | Complete global topology map maintained locally |
 | **Convergence Speed** | Slow; susceptible to counting to infinity | Very fast; Dijkstra runs immediately on updated LSDB |
 | **Loop Vulnerability** | High; requires Split Horizon / Poison Reverse | None; Dijkstra guarantees loop-free sink trees |
-| **Resource Consumption** | Minimal CPU and memory | High memory (LSDB) and CPU ($O(|E| \log |V|)$) |
+| **Resource Consumption** | Minimal CPU and memory | High memory (LSDB) and CPU ($O(\|E\| \log \|V\|)$) |
 
 ---
 
@@ -1855,11 +1850,11 @@ Compute the exact fragmentation parameters (Total Length, Identification, DF, MF
   * Fragment 2: 1480 bytes (bytes 1480 to 2959).
   * Fragment 3: $3980 - 2 \times 1480 = 1020\text{ bytes}$ (bytes 2960 to 3979).
 
-| Fragment | Total Length | ID | DF | MF | Fragment Offset (8-byte blocks) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Frag 1** | 1500 bytes | `0x4A21` | 0 | 1 | $0 / 8 = 0$ |
-| **Frag 2** | 1500 bytes | `0x4A21` | 0 | 1 | $1480 / 8 = 185$ |
-| **Frag 3** | 1040 bytes | `0x4A21` | 0 | 0 | $2960 / 8 = 370$ |
+  | Fragment | Total Length | ID | DF | MF | Fragment Offset (8-byte blocks) |
+  | :--- | :--- | :--- | :--- | :--- | :--- |
+  | **Frag 1** | 1500 bytes | `0x4A21` | 0 | 1 | $0 / 8 = 0$ |
+  | **Frag 2** | 1500 bytes | `0x4A21` | 0 | 1 | $1480 / 8 = 185$ |
+  | **Frag 3** | 1040 bytes | `0x4A21` | 0 | 0 | $2960 / 8 = 370$ |
 
 #### Step 2: Re-Fragmentation over Link 2 ($\text{MTU} = 620$)
 * Available payload space: $620 - 20 = 600\text{ bytes}$.

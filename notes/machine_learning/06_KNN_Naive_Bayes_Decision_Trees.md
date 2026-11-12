@@ -22,7 +22,7 @@
 
 ## 1. Chapter Overview
 
-Supervised classification is one of the most fundamental tasks in machine learning. Given a labeled training dataset $\mathcal{D} = \{(\mathbf{x}^{(1)}, y^{(1)}), (\mathbf{x}^{(2)}, y^{(2)}), \dots, (\mathbf{x}^{(m)}, y^{(m)})\}$, where $\mathbf{x}^{(i)} \in \mathbb{R}^d$denotes a$d$-dimensional feature vector and $y^{(i)} \in \{C_1, C_2, \dots, C_K\}$ represents a categorical class label, the objective is to learn a mapping function $f: \mathcal{X} \to \mathcal{Y}$ that accurately predicts the class label for novel, unseen query instances.
+Supervised classification is one of the most fundamental tasks in machine learning. Given a labeled training dataset $\mathcal{D} = \{(\mathbf{x}^{(1)}, y^{(1)}), (\mathbf{x}^{(2)}, y^{(2)}), \dots, (\mathbf{x}^{(m)}, y^{(m)})\}$, where $\mathbf{x}^{(i)} \in \mathbb{R}^d$ denotes a $d$-dimensional feature vector and $y^{(i)} \in \{C_1, C_2, \dots, C_K\}$ represents a categorical class label, the objective is to learn a mapping function $f: \mathcal{X} \to \mathcal{Y}$ that accurately predicts the class label for novel, unseen query instances.
 
 
 
@@ -56,7 +56,7 @@ In classification, machine learning systems operate across two distinct operatio
 
 - **Training Phase:** Training instances are processed to construct an internal model representation (compiled hypothesis for eager learners; stored vector database for lazy learners).
 
-- **Inference / Prediction Phase:** An unlabeled query vector $\mathbf{x}^*$is evaluated to assign a predicted class label$\hat{y} = f(\mathbf{x}^*)$.
+- **Inference / Prediction Phase:** An unlabeled query vector $\mathbf{x}^*$ is evaluated to assign a predicted class label $\hat{y} = f(\mathbf{x}^*)$.
 
 
 
@@ -120,17 +120,17 @@ flowchart LR
 
 6. **Prior Probability $P(C_k)$:** The baseline probability of observing class $C_k$ in the dataset prior to considering feature evidence.
 
-7. **Likelihood $P(\mathbf{x} \mid C_k)$:** The conditional probability of observing feature vector $\mathbf{x}$given that the class is$C_k$.
+7. **Likelihood $P(\mathbf{x} \mid C_k)$:** The conditional probability of observing feature vector $\mathbf{x}$ given that the class is $C_k$.
 
-8. **Posterior Probability $P(C_k \mid \mathbf{x})$:** The updated probability of class $C_k$after incorporating observed feature evidence$\mathbf{x}$.
+8. **Posterior Probability $P(C_k \mid \mathbf{x})$:** The updated probability of class $C_k$ after incorporating observed feature evidence $\mathbf{x}$.
 
-9. **Naïve Independence Assumption:** The assumption that feature attributes $X_1, X_2, \dots, X_d$are mutually conditionally independent given class$C_k$.
+9. **Naïve Independence Assumption:** The assumption that feature attributes $X_1, X_2, \dots, X_d$ are mutually conditionally independent given class $C_k$.
 
 10. **Laplace (Add-1) Smoothing:** A pseudo-count regularization technique that eliminates zero probabilities in categorical frequency estimation.
 
 11. **Multinomial Naïve Bayes:** A Naïve Bayes variant designed for discrete frequency count data (e.g., word occurrences in documents).
 
-12. **Multivariate Bernoulli Naïve Bayes:** A Naïve Bayes variant where features are binary indicators ($0$or$1$) representing attribute presence or absence.
+12. **Multivariate Bernoulli Naïve Bayes:** A Naïve Bayes variant where features are binary indicators ($0$ or $1$) representing attribute presence or absence.
 
 13. **Gaussian Naïve Bayes:** A Naïve Bayes variant for continuous real-valued features assuming a Gaussian (normal) probability distribution per class.
 
@@ -146,7 +146,7 @@ flowchart LR
 
 19. **Shannon Entropy $H(S)$:** An information-theoretic measure quantifying the impurity or uncertainty in dataset $S$.
 
-20. **Information Gain $IG(S, A)$:** The expected reduction in entropy achieved by partitioning dataset $S$based on attribute$A$.
+20. **Information Gain $IG(S, A)$:** The expected reduction in entropy achieved by partitioning dataset $S$ based on attribute $A$.
 
 21. **Split Information:** The intrinsic entropy of an attribute partition measuring the breadth and uniformity of the split.
 
@@ -182,9 +182,9 @@ flowchart LR
 
 - **Decision Rule:** To classify query point $\mathbf{x}^*$:
 
-  1. Compute the pairwise distance between $\mathbf{x}^*$and all$m$stored training instances$\mathbf{x}^{(i)}$.
+  1. Compute the pairwise distance between $\mathbf{x}^*$ and all $m$ stored training instances $\mathbf{x}^{(i)}$.
 
-  2. Select the $k$training points with the smallest distance values, forming neighborhood$\mathcal{N}_k(\mathbf{x}^*)$.
+  2. Select the $k$ training points with the smallest distance values, forming neighborhood $\mathcal{N}_k(\mathbf{x}^*)$.
 
   3. Predict label $\hat{y}$ via majority voting (or distance-weighted voting).
 
@@ -228,7 +228,7 @@ The hyperparameter $k$ controls the model capacity and generalization performanc
 
 - **Selection Heuristic:**
 
-  - $k$is commonly chosen as an odd integer (e.g.,$k = 3, 5, 7$) in binary classification to eliminate tie votes.
+  - $k$ is commonly chosen as an odd integer (e.g.,$k = 3, 5, 7$) in binary classification to eliminate tie votes.
 
   - A standard rule of thumb is setting $k \approx \sqrt{m}$, where $m$ is the number of training instances, verified using cross-validation.
 
@@ -303,7 +303,7 @@ $$
 
 
 
-- Special cases: $p=1$yields Manhattan distance;$p=2$yields Euclidean distance;$p \to \infty$ yields Chebyshev distance ($\max_j |u_j - v_j|$).
+- Special cases: $p=1$ yields Manhattan distance;$p=2$ yields Euclidean distance;$p \to \infty$ yields Chebyshev distance ($\max_j |u_j - v_j|$).
 
 
 
@@ -358,7 +358,7 @@ $$
 
 
 
-Where $\mathbb{I}(\cdot)$ is the indicator function ($1$if true,$0$ if false).
+Where $\mathbb{I}(\cdot)$ is the indicator function ($1$ if true,$0$ if false).
 
 
 
@@ -421,7 +421,7 @@ $$
 
 
 
-   - **Z-score Standardization:** Transforms features to mean $\mu=0$and variance$\sigma^2=1$:
+   - **Z-score Standardization:** Transforms features to mean $\mu=0$ and variance $\sigma^2=1$:
 
 
 
@@ -458,7 +458,7 @@ $$
 
 > **Exam Problem:**
 
-> A bank evaluates loan applicant risk based on two features: $X_1 = \text{Age (years)}$and$X_2 = \text{Income (\$1000s)}$.
+> A bank evaluates loan applicant risk based on two features: $X_1 = \text{Age (years)}$ and $X_2 = \text{Income (\$1000s)}$.
 
 >
 
@@ -637,9 +637,9 @@ $$
 
 Where:
 
-- $P(C_k \mid \mathbf{x})$: **Posterior Probability** of class $C_k$given feature vector$\mathbf{x} = (x_1, x_2, \dots, x_d)^T$.
+- $P(C_k \mid \mathbf{x})$: **Posterior Probability** of class $C_k$ given feature vector $\mathbf{x} = (x_1, x_2, \dots, x_d)^T$.
 
-- $P(\mathbf{x} \mid C_k)$: **Class-Conditional Likelihood** of observing feature vector $\mathbf{x}$given class$C_k$.
+- $P(\mathbf{x} \mid C_k)$: **Class-Conditional Likelihood** of observing feature vector $\mathbf{x}$ given class $C_k$.
 
 - $P(C_k)$: **Prior Probability** of class $C_k$.
 
@@ -672,7 +672,7 @@ $$
 
 1. **Joint Probability Expansion via the Chain Rule:**
 
-By conditional probability rules, the joint probability of observing class $C_k$and features$x_1, \dots, x_d$ is:
+By conditional probability rules, the joint probability of observing class $C_k$ and features $x_1, \dots, x_d$ is:
 
 
 
@@ -685,7 +685,7 @@ $$
 
 2. **The Naïve Conditional Independence Assumption:**
 
-Estimating full joint likelihoods requires $O(K \cdot 2^d)$ parameters, leading to data sparsity issues. Naïve Bayes assumes that each feature $x_i$is conditionally independent of every other feature$x_j$ ($j \ne i$) given class $C_k$:
+Estimating full joint likelihoods requires $O(K \cdot 2^d)$ parameters, leading to data sparsity issues. Naïve Bayes assumes that each feature $x_i$ is conditionally independent of every other feature $x_j$ ($j \ne i$) given class $C_k$:
 
 
 
@@ -715,13 +715,13 @@ $$
 
 **Written Analysis of Figure 6.4:**
 
-The graphical model illustrates a Bayesian network where the class node $C$is the single parent node pointing to child attribute nodes$X_1, X_2, \dots, X_d$. Conditioned on $C$, all paths between attributes are d-separated, meaning features do not directly interact with one another.
+The graphical model illustrates a Bayesian network where the class node $C$ is the single parent node pointing to child attribute nodes $X_1, X_2, \dots, X_d$. Conditioned on $C$, all paths between attributes are d-separated, meaning features do not directly interact with one another.
 
 
 
 3. **Maximum A Posteriori (MAP) Decision Rule:**
 
-Because evidence denominator $P(\mathbf{x})$is constant across all candidate classes$C_k$, it is dropped during class maximization:
+Because evidence denominator $P(\mathbf{x})$ is constant across all candidate classes $C_k$, it is dropped during class maximization:
 
 
 
@@ -759,7 +759,7 @@ $$
 
 ### 5.3 Zero-Frequency Problem & Laplace Smoothing
 
-If a feature value $x_j$never appears alongside class$C_k$ in the training set, its empirical probability estimate becomes zero:
+If a feature value $x_j$ never appears alongside class $C_k$ in the training set, its empirical probability estimate becomes zero:
 
 
 
@@ -783,7 +783,7 @@ $$
 
 Where:
 
-- $N_{kj}$: Number of times feature $j$takes value$v$in class$C_k$.
+- $N_{kj}$: Number of times feature $j$ takes value $v$ in class $C_k$.
 
 - $N_k$: Total count of training instances belonging to class $C_k$.
 
@@ -1005,7 +1005,7 @@ $$
 
 
 
-With Laplace smoothing ($\alpha = 1$), the denominator adds $+2$because binary features have$|V_j| = 2$ outcomes ($\{0, 1\}$):
+With Laplace smoothing ($\alpha = 1$), the denominator adds $+2$ because binary features have $|V_j| = 2$ outcomes ($\{0, 1\}$):
 
 
 
@@ -1023,7 +1023,7 @@ $$
 
 
 
-Where $N_k$is the total number of documents in class$C_k$.
+Where $N_k$ is the total number of documents in class $C_k$.
 
 
 
@@ -1083,21 +1083,21 @@ $$
 
 - **Class Spam ($N_{\text{Spam}} = 3$):**
 
-  - $\text{Win}=1$appears in emails 1, 2 (2 times)$\implies P(\text{Win}=1 \mid \text{Spam}) = \frac{2+1}{5} = \mathbf{0.6}$
+  - $\text{Win}=1$ appears in emails 1, 2 (2 times)$\implies P(\text{Win}=1 \mid \text{Spam}) = \frac{2+1}{5} = \mathbf{0.6}$
 
-  - $\text{Free}=1$appears in emails 1, 3 (2 times)$\implies P(\text{Free}=1 \mid \text{Spam}) = \frac{2+1}{5} = \mathbf{0.6}$
+  - $\text{Free}=1$ appears in emails 1, 3 (2 times)$\implies P(\text{Free}=1 \mid \text{Spam}) = \frac{2+1}{5} = \mathbf{0.6}$
 
-  - $\text{Hello}=1$appears in 0 emails$\implies P(\text{Hello}=1 \mid \text{Spam}) = \frac{0+1}{5} = 0.2 \implies P(\text{Hello}=0 \mid \text{Spam}) = 1 - 0.2 = \mathbf{0.8}$
+  - $\text{Hello}=1$ appears in 0 emails $\implies P(\text{Hello}=1 \mid \text{Spam}) = \frac{0+1}{5} = 0.2 \implies P(\text{Hello}=0 \mid \text{Spam}) = 1 - 0.2 = \mathbf{0.8}$
 
 
 
 - **Class Ham ($N_{\text{Ham}} = 3$):**
 
-  - $\text{Win}=1$appears in email 6 (1 time)$\implies P(\text{Win}=1 \mid \text{Ham}) = \frac{1+1}{5} = \mathbf{0.4}$
+  - $\text{Win}=1$ appears in email 6 (1 time)$\implies P(\text{Win}=1 \mid \text{Ham}) = \frac{1+1}{5} = \mathbf{0.4}$
 
-  - $\text{Free}=1$appears in 0 emails$\implies P(\text{Free}=1 \mid \text{Ham}) = \frac{0+1}{5} = \mathbf{0.2}$
+  - $\text{Free}=1$ appears in 0 emails $\implies P(\text{Free}=1 \mid \text{Ham}) = \frac{0+1}{5} = \mathbf{0.2}$
 
-  - $\text{Hello}=1$appears in emails 4, 5, 6 (3 times)$\implies P(\text{Hello}=1 \mid \text{Ham}) = \frac{3+1}{5} = 0.8 \implies P(\text{Hello}=0 \mid \text{Ham}) = 1 - 0.8 = \mathbf{0.2}$
+  - $\text{Hello}=1$ appears in emails 4, 5, 6 (3 times)$\implies P(\text{Hello}=1 \mid \text{Ham}) = \frac{3+1}{5} = 0.8 \implies P(\text{Hello}=0 \mid \text{Ham}) = 1 - 0.8 = \mathbf{0.2}$
 
 
 
@@ -1433,7 +1433,7 @@ In imbalanced datasets (e.g., fraud detection with $99\%$ legitimate transaction
 
 ### 7.3 Multiclass Confusion Matrix (One-vs-Rest Decomposition)
 
-For $K > 2$classes, the confusion matrix expands to$K \times K$. Per-class metrics are derived by decomposing the matrix into $K$ binary One-vs-Rest matrices.
+For $K > 2$ classes, the confusion matrix expands to $K \times K$. Per-class metrics are derived by decomposing the matrix into $K$ binary One-vs-Rest matrices.
 
 
 
@@ -1443,13 +1443,13 @@ For $K > 2$classes, the confusion matrix expands to$K \times K$. Per-class metri
 
 
 
-For Class $0$in a$3 \times 3$ matrix:
+For Class $0$ in a $3 \times 3$ matrix:
 
 - $TP_0 = M_{0, 0}$
 
-- $FP_0 = \sum_{j \ne 0} M_{j, 0}$(sum of column 0 excluding$M_{0,0}$)
+- $FP_0 = \sum_{j \ne 0} M_{j, 0}$(sum of column 0 excluding $M_{0,0}$)
 
-- $FN_0 = \sum_{k \ne 0} M_{0, k}$(sum of row 0 excluding$M_{0,0}$)
+- $FN_0 = \sum_{k \ne 0} M_{0, k}$(sum of row 0 excluding $M_{0,0}$)
 
 - $TN_0 = \sum_{j \ne 0} \sum_{k \ne 0} M_{j, k}$ (sum of all other cells)
 
@@ -1495,7 +1495,7 @@ flowchart TD
 
 #### The $.632$ Bootstrap Protocol
 
-When $m$instances are sampled with replacement$m$times, the probability of an instance NOT being selected in a single draw is$1 - \frac{1}{m}$.
+When $m$ instances are sampled with replacement $m$ times, the probability of an instance NOT being selected in a single draw is $1 - \frac{1}{m}$.
 
 In the limit as $m \to \infty$:
 
@@ -1508,7 +1508,7 @@ $$
 
 
 
-Thus, approximately $63.2\%$of original instances form the training set, while$36.8\%$ form the out-of-bag (OOB) test set. The overall bootstrap accuracy estimator is:
+Thus, approximately $63.2\%$ of original instances form the training set, while $36.8\%$ form the out-of-bag (OOB) test set. The overall bootstrap accuracy estimator is:
 
 
 
@@ -1574,7 +1574,7 @@ $$
 
 #### Shannon Entropy $H(S)$:
 
-Entropy measures the average impurity or uncertainty in dataset $S$across$c$ classes:
+Entropy measures the average impurity or uncertainty in dataset $S$ across $c$ classes:
 
 
 
@@ -1585,7 +1585,7 @@ $$
 
 
 
-For binary classification ($p_+$positive,$p_-$ negative):
+For binary classification ($p_+$ positive,$p_-$ negative):
 
 
 
@@ -1604,7 +1604,7 @@ $$
 
 **Key Properties:**
 
-- Pure sample ($p_+=1$or$p_+=0$): $H(S) = 0$ bits (zero uncertainty).
+- Pure sample ($p_+=1$ or $p_+=0$): $H(S) = 0$ bits (zero uncertainty).
 
 - Maximally impure sample ($p_+=0.5, p_-=0.5$): $H(S) = 1.0$ bit (maximum uncertainty).
 
@@ -1616,7 +1616,7 @@ $$
 
 ### 8.3 Information Gain Formulation (ID3)
 
-Information Gain $IG(S, A)$is the expected entropy reduction from partitioning$S$on attribute$A$:
+Information Gain $IG(S, A)$ is the expected entropy reduction from partitioning $S$ on attribute $A$:
 
 
 
@@ -1677,7 +1677,7 @@ $$
 
 #### Step 1: Base Dataset Entropy $H(S)$
 
-Total instances $|S| = 14$: $9$Yes,$5$ No ($[9+, 5-]$).
+Total instances $|S| = 14$: $9$ Yes,$5$ No ($[9+, 5-]$).
 
 
 
@@ -1694,7 +1694,7 @@ $$
 
 1. **Outlook:** Values $\{\text{Sunny}, \text{Overcast}, \text{Rain}\}$
 
-   - Sunny ($5$instances: D1, D2, D8, D9, D11$\implies 2+, 3-$):
+   - Sunny ($5$ instances: D1, D2, D8, D9, D11 $\implies 2+, 3-$):
 
 
 
@@ -1705,7 +1705,7 @@ $$
 
 
 
-   - Overcast ($4$instances: D3, D7, D12, D13$\implies 4+, 0-$):
+   - Overcast ($4$ instances: D3, D7, D12, D13 $\implies 4+, 0-$):
 
 
 
@@ -1716,7 +1716,7 @@ $$
 
 
 
-   - Rain ($5$instances: D4, D5, D6, D10, D14$\implies 3+, 2-$):
+   - Rain ($5$ instances: D4, D5, D6, D10, D14 $\implies 3+, 2-$):
 
 
 
@@ -1753,9 +1753,9 @@ $$
 
 2. **Humidity:** Values $\{\text{High}, \text{Normal}\}$
 
-   - High ($7$instances$\implies 3+, 4-$): $H = \mathbf{0.9852}$
+   - High ($7$ instances $\implies 3+, 4-$): $H = \mathbf{0.9852}$
 
-   - Normal ($7$instances$\implies 6+, 1-$): $H = \mathbf{0.5917}$
+   - Normal ($7$ instances $\implies 6+, 1-$): $H = \mathbf{0.5917}$
 
    - Weighted Entropy: $\frac{7}{14}(0.9852) + \frac{7}{14}(0.5917) = \mathbf{0.7884}$
 
@@ -1774,9 +1774,9 @@ $$
 
 3. **Wind:** Values $\{\text{Weak}, \text{Strong}\}$
 
-   - Weak ($8$instances$\implies 6+, 2-$): $H = \mathbf{0.8113}$
+   - Weak ($8$ instances $\implies 6+, 2-$): $H = \mathbf{0.8113}$
 
-   - Strong ($6$instances$\implies 3+, 3-$): $H = \mathbf{1.0000}$
+   - Strong ($6$ instances $\implies 3+, 3-$): $H = \mathbf{1.0000}$
 
    - Weighted Entropy: $\frac{8}{14}(0.8113) + \frac{6}{14}(1.0000) = \mathbf{0.8922}$
 
@@ -1795,11 +1795,11 @@ $$
 
 4. **Temperature:** Values $\{\text{Hot}, \text{Mild}, \text{Cool}\}$
 
-   - Hot ($4$instances$\implies 2+, 2-$): $H = \mathbf{1.0000}$
+   - Hot ($4$ instances $\implies 2+, 2-$): $H = \mathbf{1.0000}$
 
-   - Mild ($6$instances$\implies 4+, 2-$): $H = \mathbf{0.9183}$
+   - Mild ($6$ instances $\implies 4+, 2-$): $H = \mathbf{0.9183}$
 
-   - Cool ($4$instances$\implies 3+, 1-$): $H = \mathbf{0.8113}$
+   - Cool ($4$ instances $\implies 3+, 1-$): $H = \mathbf{0.8113}$
 
    - Weighted Entropy: $\frac{4}{14}(1.0) + \frac{6}{14}(0.9183) + \frac{4}{14}(0.8113) = \mathbf{0.9111}$
 
@@ -1851,7 +1851,7 @@ $$
 
 
 
-  - Split on **Humidity**: High $\to$**No**, Normal$\to$ **Yes**.
+  - Split on **Humidity**: High $\to$ **No**, Normal $\to$ **Yes**.
 
 - **Branch Outlook = Rain ($5$ samples: D4, D5, D6, D10, D14):**
 
@@ -1872,7 +1872,7 @@ $$
 
 
 
-  - Split on **Wind**: Weak $\to$**Yes**, Strong$\to$ **No**.
+  - Split on **Wind**: Weak $\to$ **Yes**, Strong $\to$ **No**.
 
 
 
@@ -1924,7 +1924,7 @@ flowchart TD
 
 ### 9.1 High-Cardinality Bias of Information Gain
 
-A major flaw in ID3 is its systemic bias toward high-cardinality attributes (e.g., `Customer_ID` or `SSN`). If an attribute assigns a unique value to every instance, partitioning on it produces $m$pure single-item subsets with$H(S_v) = 0$, yielding maximum Information Gain:
+A major flaw in ID3 is its systemic bias toward high-cardinality attributes (e.g., `Customer_ID` or `SSN`). If an attribute assigns a unique value to every instance, partitioning on it produces $m$ pure single-item subsets with $H(S_v) = 0$, yielding maximum Information Gain:
 
 
 
@@ -2003,7 +2003,7 @@ To prevent selecting attributes with near-zero Information Gain whose Split Info
 
    - Evaluate binary split thresholds at midpoints: $\theta_i = \frac{v_i + v_{i+1}}{2}$.
 
-   - Partition into $S_1 = \{x \mid A \le \theta_i\}$and$S_2 = \{x \mid A > \theta_i\}$, computing $IG$for each midpoint and selecting threshold$\theta^*$ maximizing Gain.
+   - Partition into $S_1 = \{x \mid A \le \theta_i\}$ and $S_2 = \{x \mid A > \theta_i\}$, computing $IG$ for each midpoint and selecting threshold $\theta^*$ maximizing Gain.
 
 2. **Handling Missing Feature Values:**
 
@@ -2082,9 +2082,9 @@ $$
 
 **Step 3: Evaluate `Performance_Rating` ($\{\text{High}, \text{Medium}\}$):**
 
-- High ($4$instances: E1, E2, E4, E5$\implies 4+, 0-$): $H = 0$.
+- High ($4$ instances: E1, E2, E4, E5 $\implies 4+, 0-$): $H = 0$.
 
-- Medium ($4$instances: E3, E6, E7, E8$\implies 0+, 4-$): $H = 0$.
+- Medium ($4$ instances: E3, E6, E7, E8 $\implies 0+, 4-$): $H = 0$.
 
 - Weighted entropy = $0 \implies IG(S, \text{Performance}) = 1.0000 - 0 = \mathbf{1.0000 \text{ bit}}$.
 
@@ -2137,7 +2137,7 @@ $$
 
 
 
-For binary classification ($p_1$positive,$p_2 = 1 - p_1$ negative):
+For binary classification ($p_1$ positive,$p_2 = 1 - p_1$ negative):
 
 
 
@@ -2156,7 +2156,7 @@ $$
 
 **Key Properties:**
 
-- Pure node ($p_1=1$or$p_1=0$): $\text{Gini} = 0$.
+- Pure node ($p_1=1$ or $p_1=0$): $\text{Gini} = 0$.
 
 - Maximum impurity ($p_1=0.5, p_2=0.5$): $\text{Gini} = 0.50$.
 
@@ -2170,7 +2170,7 @@ $$
 
 ### 10.2 Binary Subset Partitioning & Gini Gain
 
-For a categorical attribute $A$with values$\{v_1, \dots, v_k\}$, CART tests all proper non-empty binary subset splits $(S_1, S_2)$. The weighted Gini index of partition $(S_1, S_2)$ is:
+For a categorical attribute $A$ with values $\{v_1, \dots, v_k\}$, CART tests all proper non-empty binary subset splits $(S_1, S_2)$. The weighted Gini index of partition $(S_1, S_2)$ is:
 
 
 
@@ -2227,7 +2227,7 @@ CART selects the split maximizing $\Delta\text{Gini}(A)$ (minimizing weighted Gi
 
 **Step 1: Base Gini Impurity $\text{Gini}(T)$:**
 
-$|T| = 10$: $7$Yes,$3$ No ($[7+, 3-]$).
+$|T| = 10$: $7$ Yes,$3$ No ($[7+, 3-]$).
 
 
 
@@ -2242,7 +2242,7 @@ $$
 
 
 
-1. **CGPA Split: $\{\ge 9, \ge 8\}$vs.$\{< 8\}$:**
+1. **CGPA Split: $\{\ge 9, \ge 8\}$ vs.$\{< 8\}$:**
 
    - $S_1$ ($\text{CGPA} \in \{\ge 9, \ge 8\}$, 8 instances: IDs 1, 2, 3, 5, 6, 8, 9, 10 $\implies 7+, 1-$):
 
@@ -2290,11 +2290,11 @@ $$
 
 
 
-2. **Communication Skills Split: $\{\text{Good}, \text{Moderate}\}$vs.$\{\text{Poor}\}$:**
+2. **Communication Skills Split: $\{\text{Good}, \text{Moderate}\}$ vs.$\{\text{Poor}\}$:**
 
-   - $S_{\text{Poor}}$(2 instances: IDs 3, 7$\implies 0+, 2-$): $\text{Gini} = 0$.
+   - $S_{\text{Poor}}$(2 instances: IDs 3, 7 $\implies 0+, 2-$): $\text{Gini} = 0$.
 
-   - $S_{\text{Good/Mod}}$(8 instances$\implies 7+, 1-$): $\text{Gini} = 0.21875$.
+   - $S_{\text{Good/Mod}}$(8 instances $\implies 7+, 1-$): $\text{Gini} = 0.21875$.
 
 -
 
@@ -2313,7 +2313,7 @@ $$
 
 Both CGPA and Communication Skills tie at $\Delta\text{Gini} = 0.2445$. CART selects **$\text{CGPA} < 8$** as the primary root test.
 
-- Branch $\text{CGPA} < 8$(Right)$\implies$Pure$\implies$ **Leaf: Job Offer = No**.
+- Branch $\text{CGPA} < 8$(Right)$\implies$ Pure $\implies$ **Leaf: Job Offer = No**.
 
 
 
@@ -2344,17 +2344,11 @@ Evaluating Communication Skills on remaining left branch samples:
 
 
 ```mermaid
-
 flowchart TD
-
-    A["Is CGPA < 8?"] -->|Yes| B[Job Offer = No]
-
-    A -->|No| C["Communication Skills == Poor?"]
-
-    C -->|Yes| D[Job Offer = No]
-
-    C -->|No| E[Job Offer = Yes]
-
+    A["Is CGPA < 8?"] -->|Yes| B["Job Offer: No"]
+    A -->|No| C["Communication Skills: Poor?"]
+    C -->|Yes| D["Job Offer: No"]
+    C -->|No| E["Job Offer: Yes"]
 ```
 
 
@@ -2418,7 +2412,7 @@ $$
 
 
 
-Where $R(T)$is training error rate,$|T|$is the number of terminal leaves, and$\alpha \ge 0$ is the complexity penalty parameter.
+Where $R(T)$ is training error rate,$|T|$ is the number of terminal leaves, and $\alpha \ge 0$ is the complexity penalty parameter.
 
 
 
@@ -2551,7 +2545,7 @@ $$
 
 - **Curse of Dimensionality:** The phenomenon where high-dimensional feature spaces become exponential in volume, making pairwise distances equidistant.
 
-- **Conditional Independence:** The condition where random variables $X_i$and$X_j$provide no information about each other when conditioned on class$C$.
+- **Conditional Independence:** The condition where random variables $X_i$ and $X_j$ provide no information about each other when conditioned on class $C$.
 
 - **Laplace Smoothing:** Adding 1 to observation counts and $|V|$ to denominators to eliminate zero probabilities in categorical likelihood estimation.
 

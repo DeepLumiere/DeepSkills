@@ -86,7 +86,7 @@
 
 
 
-**What it shows:** Headers ($H_7$through$H_2$) and Trailer ($T_2$) added at each layer during transmission.
+**What it shows:** Headers ($H_7$ through $H_2$) and Trailer ($T_2$) added at each layer during transmission.
 
 
 

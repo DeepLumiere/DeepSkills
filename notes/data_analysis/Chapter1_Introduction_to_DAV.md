@@ -78,15 +78,15 @@
 | Phase | Practical Title | Hours | CLO |
 | :--- | :--- | :--- | :--- |
 | **Phase-1: Data Understanding** | 1. Study domains (Retail, Healthcare, etc.). Identify applications, dataset, importance, challenges. | $04$ | 1 |
-| | 2. Dataset characteristics, python visualization, insights, data cleaning using pandas. | $02$ | 2 |
+| **Phase-1: Data Understanding** | 2. Dataset characteristics, python visualization, insights, data cleaning using pandas. | $02$ | 2 |
 | **Phase-2: Summary Statistics** | 3. Five Number Summary, mode, midrange, outlier detection (Quartile method). | $02$ | 1 |
 | **Phase-3: Business Data Visualization** | 4. Tableau installation, configuration, features. | $02$ | 3 |
-| | 5. Case Study: Interactive Dashboard for KPI using Tableau. | $02$ | 2 |
+| **Phase-3: Business Data Visualization** | 5. Case Study: Interactive Dashboard for KPI using Tableau. | $02$ | 2 |
 | **Phase-4: Data Quality (Preprocessing)** | 6. Smoothing, normalization, redundancy analysis (Pearson, Chi-Square), Discretization. | $04$ | 1 |
-| | 7. Data Reduction & Feature Enhancement: Dimensionality reduction, Feature selection. | $04$ | 1 |
+| **Phase-4: Data Quality (Preprocessing)** | 7. Data Reduction & Feature Enhancement: Dimensionality reduction, Feature selection. | $04$ | 1 |
 | **Phase-5: Data Analysis & Visualization** | 8. Classification Techniques & visualization. | $04$ | 3 |
-| | 9. Clustering Techniques & visualization. | $02$ | 3 |
-| | 10. Regression techniques & Tableau visualization. | $04$ | 3 |
+| **Phase-5: Data Analysis & Visualization** | 9. Clustering Techniques & visualization. | $02$ | 3 |
+| **Phase-5: Data Analysis & Visualization** | 10. Regression techniques & Tableau visualization. | $04$ | 3 |
 
 
 
@@ -162,10 +162,10 @@ graph BT
     A["Data: Raw Facts"] --> B["Information: Contextualized Data"]
     B --> C["Knowledge: Actionable Information"]
     C --> D["Wisdom: Applied Knowledge"]
-    style A fill:#e1f5fe,stroke:#01579b
-    style B fill:#b3e5fc,stroke:#01579b
-    style C fill:#81d4fa,stroke:#01579b
-    style D fill:#4fc3f7,stroke:#01579b
+    style A fill:#e1f5fe,stroke:#01579b,color:#01579b
+    style B fill:#b3e5fc,stroke:#01579b,color:#01579b
+    style C fill:#81d4fa,stroke:#01579b,color:#01579b
+    style D fill:#4fc3f7,stroke:#01579b,color:#01579b
 ```
 
 
@@ -230,7 +230,7 @@ flowchart LR
 
 **Intuition:** The ability to find actionable trends within the information.
 
-**Example:** Understanding that temperatures above $35^\circ\text{C}$trigger a$40\%$ surge in air conditioner purchases.
+**Example:** Understanding that temperatures above $35^\circ\text{C}$ trigger a $40\%$ surge in air conditioner purchases.
 
 
 
@@ -415,8 +415,8 @@ flowchart TD
 
 | Framework | Core Focus | Primary Steps |
 | :--- | :--- | :--- |
-| **CRISP-DM** | Business-oriented data mining cycle | Business Understanding $\rightarrow$Data Understanding$\rightarrow$Data Prep$\rightarrow$Modeling$\rightarrow$Evaluation$\rightarrow$ Deployment |
-| **KDD Process** | Technical knowledge discovery in databases | Selection $\rightarrow$Preprocessing$\rightarrow$Transformation$\rightarrow$Data Mining$\rightarrow$ Interpretation/Evaluation |
+| **CRISP-DM** | Business-oriented data mining cycle | Business Understanding $\rightarrow$ Data Understanding $\rightarrow$ Data Prep $\rightarrow$ Modeling $\rightarrow$ Evaluation $\rightarrow$ Deployment |
+| **KDD Process** | Technical knowledge discovery in databases | Selection $\rightarrow$ Preprocessing $\rightarrow$ Transformation $\rightarrow$ Data Mining $\rightarrow$ Interpretation/Evaluation |
 
 
 
@@ -438,9 +438,9 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    A["Descriptive<br/>What happened?"] --> B["Diagnostic<br/>Why did it happen?"]
-    B --> C["Predictive<br/>What will happen?"]
-    C --> D["Prescriptive<br/>What to do?"]
+    A["Descriptive: What happened?"] --> B["Diagnostic: Why did it happen?"]
+    B --> C["Predictive: What will happen?"]
+    C --> D["Prescriptive: What to do?"]
 ```
 
 
@@ -648,9 +648,9 @@ $$
 
 - $k$ = Number of class intervals
 
-- $f_i$= Frequency of the$i$-th class
+- $f_i$= Frequency of the $i$-th class
 
-- $x_i$= Midpoint of the$i$-th class
+- $x_i$= Midpoint of the $i$-th class
 
 - $N$ = Total frequency
 

@@ -17,7 +17,7 @@ This chapter details the cognitive foundations of visual perception, Jacques Ber
 
 ```mermaid
 flowchart TD
-    RawData["Raw Business Data<br/>(Transactional tables, ERP, CRM)"] --> DIK["DIKW Perception Bridge"]
+    RawData["Raw Business Data (Transactional tables, ERP, CRM)"] --> DIK["DIKW Perception Bridge"]
     DIK --> Purpose{"Core Purpose"}
     Purpose --> P1["1. Reveal Patterns"]
     Purpose --> P2["2. Speed Decisions"]
@@ -55,11 +55,11 @@ Human visual perception decodes different visual attributes with varying accurac
 
 ```mermaid
 flowchart TD
-    Rank1["<b>1. Position along a Common Scale</b> (Highest Precision)<br/><i>e.g., Standard Bar Charts, Scatter Plots</i>"] --> Rank2["<b>2. Position along Non-Aligned Scales</b><br/><i>e.g., Faceted Small Multiples</i>"]
-    Rank2 --> Rank3["<b>3. Length / Distance</b><br/><i>e.g., Unaligned Bar Segments</i>"]
-    Rank3 --> Rank4["<b>4. Angle / Slope</b><br/><i>e.g., Pie Chart Slices, Gauge Needles</i>"]
-    Rank4 --> Rank5["<b>5. 2D Area</b><br/><i>e.g., Bubble Charts, Treemaps</i>"]
-    Rank5 --> Rank6["<b>6. 3D Volume / Color Saturation</b> (Lowest Precision)<br/><i>e.g., 3D Charts, Heatmap Color Gradients</i>"]
+    Rank1["1. Position along a Common Scale (Highest Precision) - e.g., Standard Bar Charts, Scatter Plots"] --> Rank2["2. Position along Non-Aligned Scales - e.g., Faceted Small Multiples"]
+    Rank2 --> Rank3["3. Length / Distance - e.g., Unaligned Bar Segments"]
+    Rank3 --> Rank4["4. Angle / Slope - e.g., Pie Chart Slices, Gauge Needles"]
+    Rank4 --> Rank5["5. 2D Area - e.g., Bubble Charts, Treemaps"]
+    Rank5 --> Rank6["6. 3D Volume / Color Saturation (Lowest Precision) - e.g., 3D Charts, Heatmap Color Gradients"]
 ```
 
 ---
@@ -81,9 +81,9 @@ Business analytics progresses through four distinct cognitive tiers:
 
 ```mermaid
 flowchart LR
-    D["<b>Data</b><br/>Raw facts<br/><i>e.g., 500 row transaction log</i>"] -->|Contextualize| I["<b>Information</b><br/>Structured & aggregated<br/><i>e.g., Regional monthly revenue</i>"]
-    I -->|Synthesize| INS["<b>Insight</b><br/>Actionable inference<br/><i>e.g., 'West region down 25% due to logistics'</i>"]
-    INS -->|Execute| W["<b>Wisdom / Action</b><br/>Strategic decision<br/><i>e.g., 'Switch regional logistics vendor'</i>"]
+    D["Data: Raw facts - e.g., 500 row transaction log"] -->|Contextualize| I["Information: Structured and aggregated - e.g., Regional monthly revenue"]
+    I -->|Synthesize| INS["Insight: Actionable inference - e.g., West region down 25% due to logistics"]
+    INS -->|Execute| W["Wisdom / Action: Strategic decision - e.g., Switch regional logistics vendor"]
 ```
 
 ### Cognitive Tiers Breakdown
@@ -105,13 +105,13 @@ Every enterprise visualization fulfills one or more of four core functional obje
 
 ```mermaid
 flowchart TD
-    subgraph Analytical Objective
-        P1["<b>1. Reveal Patterns</b><br/>Spotting unseen clusters, seasonality, and anomalies"]
-        P2["<b>2. Speed Up Decisions</b><br/>Color-coded alerts for operational triage"]
+    subgraph Analytical_Objective ["Analytical Objective"]
+        P1["1. Reveal Patterns: Spotting unseen clusters, seasonality, and anomalies"]
+        P2["2. Speed Up Decisions: Color-coded alerts for operational triage"]
     end
-    subgraph Strategic Objective
-        P3["<b>3. Tell a Story</b><br/>Guiding executive focus through a curated narrative"]
-        P4["<b>4. Support Persuasion</b><br/>Evidence-backed justification for capital expenditure"]
+    subgraph Strategic_Objective ["Strategic Objective"]
+        P3["3. Tell a Story: Guiding executive focus through a curated narrative"]
+        P4["4. Support Persuasion: Evidence-backed justification for capital expenditure"]
     end
 ```
 
@@ -186,12 +186,12 @@ Visual encodings are grouped into six core chart families based on the analytica
 ```mermaid
 flowchart TD
     ChartFamilies["Six Foundational Chart Families"]
-    ChartFamilies --> C1["<b>1. Comparison</b><br/>Bar / Column Charts<br/><i>Compare categories</i>"]
-    ChartFamilies --> C2["<b>2. Trend</b><br/>Line / Area Charts<br/><i>Track change over time</i>"]
-    ChartFamilies --> C3["<b>3. Distribution</b><br/>Histograms / Box Plots<br/><i>Inspect spread & outliers</i>"]
-    ChartFamilies --> C4["<b>4. Relationship</b><br/>Scatter Plots / Bubble<br/><i>Examine correlation</i>"]
-    ChartFamilies --> C5["<b>5. Composition</b><br/>Stacked Bar / Treemap<br/><i>Show parts of a whole</i>"]
-    ChartFamilies --> C6["<b>6. Geographic</b><br/>Choropleth / Bubble Maps<br/><i>Spatial distribution</i>"]
+    ChartFamilies --> C1["1. Comparison: Bar / Column Charts (Compare categories)"]
+    ChartFamilies --> C2["2. Trend: Line / Area Charts (Track change over time)"]
+    ChartFamilies --> C3["3. Distribution: Histograms / Box Plots (Inspect spread and outliers)"]
+    ChartFamilies --> C4["4. Relationship: Scatter Plots / Bubble (Examine correlation)"]
+    ChartFamilies --> C5["5. Composition: Stacked Bar / Treemap (Show parts of a whole)"]
+    ChartFamilies --> C6["6. Geographic: Choropleth / Bubble Maps (Spatial distribution)"]
 ```
 
 ### Comprehensive Chart Selection Reference Matrix
@@ -215,13 +215,13 @@ Enterprise data visualization operates across two distinct mentalities delivered
 
 ```mermaid
 flowchart LR
-    subgraph Paradigm["Operational Paradigm"]
-        EX1["<b>Exploratory Visualization</b><br/>Audience: Data Analyst<br/>Goal: Hypothesis testing & discovery<br/>Iterative, high data density, raw"]
-        EX2["<b>Explanatory Visualization</b><br/>Audience: C-Suite / Clients<br/>Goal: Actionable communication<br/>Curated, polished, single takeaway"]
+    subgraph Paradigm ["Operational Paradigm"]
+        EX1["Exploratory Visualization: Audience Data Analyst; Goal Hypothesis testing and discovery; Iterative, high data density, raw"]
+        EX2["Explanatory Visualization: Audience C-Suite / Clients; Goal Actionable communication; Curated, polished, single takeaway"]
     end
-    subgraph Delivery["Delivery Medium"]
-        D1["<b>Live Dashboard</b><br/>Near-real-time streaming<br/>Interactive filters & drill-downs"]
-        D2["<b>Static Report</b><br/>Frozen snapshot at cutoff<br/>PDF decks & board presentations"]
+    subgraph Delivery ["Delivery Medium"]
+        D1["Live Dashboard: Near-real-time streaming; Interactive filters and drill-downs"]
+        D2["Static Report: Frozen snapshot at cutoff; PDF decks and board presentations"]
     end
     EX1 --> D1
     EX2 --> D2

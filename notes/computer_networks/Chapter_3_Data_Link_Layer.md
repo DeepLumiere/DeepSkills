@@ -160,7 +160,7 @@ Real physical communication channels suffer from finite transmission bandwidth, 
 11. **Sliding Window:** An abstract buffer management mechanism where sender and receiver maintain contiguous ranges of sequence numbers permitted to be sent and received.
 
 
-12. **Cumulative Acknowledgment:** An acknowledgment frame containing sequence number $n$that confirms successful receipt of all frames up to and including$n$.
+12. **Cumulative Acknowledgment:** An acknowledgment frame containing sequence number $n$ that confirms successful receipt of all frames up to and including $n$.
 
 
 13. **Negative Acknowledgment (NAK / REJ):** A control frame sent by the receiver to inform the sender that a specific frame arrived damaged or was lost, requesting immediate retransmission.
@@ -274,7 +274,7 @@ flowchart LR
 * **Architectural Rationale (Link-Layer ACK Optimization vs. Transport Retransmission):** 
 
 
-  Providing acknowledgments at the Data Link Layer is strictly an optimization, not a conceptual requirement, because higher transport layers (like TCP) can always handle end-to-end reliability. However, hardware links have strict maximum frame length limits (MTU) and known propagation delays that the Network Layer does not know. If the Transport Layer hands down a large $10\text{ KB}$message that is fragmented into 10 separate frames, and 2 of those frames are lost on a noisy wireless link, relying on Transport-Layer timeouts forces the entire$10\text{ KB}$ message to be retransmitted from scratch across the end-to-end path. In contrast, acknowledging individual frames at Layer 2 allows damaged frames to be detected and retransmitted **locally and immediately** over the single bad link, saving massive bandwidth and time.
+  Providing acknowledgments at the Data Link Layer is strictly an optimization, not a conceptual requirement, because higher transport layers (like TCP) can always handle end-to-end reliability. However, hardware links have strict maximum frame length limits (MTU) and known propagation delays that the Network Layer does not know. If the Transport Layer hands down a large $10\text{ KB}$ message that is fragmented into 10 separate frames, and 2 of those frames are lost on a noisy wireless link, relying on Transport-Layer timeouts forces the entire $10\text{ KB}$ message to be retransmitted from scratch across the end-to-end path. In contrast, acknowledging individual frames at Layer 2 allows damaged frames to be detected and retransmitted **locally and immediately** over the single bad link, saving massive bandwidth and time.
 
 
 * **Use Cases:** Inherently unreliable and noisy channels, such as wireless links (IEEE 802.11 Wi-Fi, cellular networks), where link-layer recovery is far more efficient than end-to-end transport timeout.
@@ -445,7 +445,7 @@ Complete Transmitted Frame:   FLAG [ A B ESC ESC C ESC ESC ESC FLAG ESC FLAG D ]
 
 
 
-**Worst-Case Overhead:** If the payload consists entirely of `FLAG` and `ESC` bytes, every byte is escaped, causing a $100\%$ transmission expansion ($2N$bytes transmitted for$N$ payload bytes).
+**Worst-Case Overhead:** If the payload consists entirely of `FLAG` and `ESC` bytes, every byte is escaped, causing a $100\%$ transmission expansion ($2N$ bytes transmitted for $N$ payload bytes).
 
 
 
@@ -641,7 +641,7 @@ Transmission errors on physical lines are caused by thermal noise, electromagnet
 1. **Single-Bit Error:** An isolated error where exactly one bit in a data block is inverted while all neighboring bits remain correct.
 
 
-2. **Burst Error:** A cluster of errors where two or more corrupted bits occur within a span of $k$consecutive bits. The **burst length**$k$ is measured from the first corrupted bit to the last corrupted bit in the sequence. Burst errors are common in wireless and physical channels due to lightning strikes, impulse noise, and radio fading.
+2. **Burst Error:** A cluster of errors where two or more corrupted bits occur within a span of $k$ consecutive bits. The **burst length** $k$ is measured from the first corrupted bit to the last corrupted bit in the sequence. Burst errors are common in wireless and physical channels due to lightning strikes, impulse noise, and radio fading.
 
 
 
@@ -665,7 +665,7 @@ Transmission errors on physical lines are caused by thermal noise, electromagnet
 
 
 
-An $(n, k)$block code takes an$m$-bit dataword and appends $r$check bits to create an$n$-bit **codeword**, where $n = m + r$. The code rate is $\frac{m}{n}$.
+An $(n, k)$ block code takes an $m$-bit dataword and appends $r$ check bits to create an $n$-bit **codeword**, where $n = m + r$. The code rate is $\frac{m}{n}$.
 
 
 
@@ -674,7 +674,7 @@ An $(n, k)$block code takes an$m$-bit dataword and appends $r$check bits to crea
 #### Definition: Hamming Distance
 
 
-The **Hamming Distance** $d(v_1, v_2)$between two binary codewords$v_1$and$v_2$ of equal length is the number of bit positions in which they differ.
+The **Hamming Distance** $d(v_1, v_2)$ between two binary codewords $v_1$ and $v_2$ of equal length is the number of bit positions in which they differ.
 
 
 
@@ -691,7 +691,7 @@ $$
 
 
 
-Where $\oplus$is the bitwise modulo-2 addition (XOR) operator, and$\text{weight}$ is the count of `1` bits.
+Where $\oplus$ is the bitwise modulo-2 addition (XOR) operator, and $\text{weight}$ is the count of `1` bits.
 
 
 
@@ -779,7 +779,7 @@ In an $n$-bit codeword, bit positions that are powers of 2 ($1, 2, 4, 8, 16, \do
 #### Hamming Redundancy Inequality
 
 
-To correct any single-bit error in an $m$-bit message using $r$parity check bits, there are$n = m + r$ possible single-bit error locations plus 1 case where no error occurs ($m + r + 1$total states). Since$r$check bits can represent$2^r$ distinct syndrome values, the code must satisfy:
+To correct any single-bit error in an $m$-bit message using $r$ parity check bits, there are $n = m + r$ possible single-bit error locations plus 1 case where no error occurs ($m + r + 1$ total states). Since $r$ check bits can represent $2^r$ distinct syndrome values, the code must satisfy:
 
 
 
@@ -832,7 +832,7 @@ In an $n$-bit codeword, bit positions that are powers of 2 ($1, 2, 4, 8, 16, \do
 #### Hamming Redundancy Inequality
 
 
-To correct any single-bit error in an $m$-bit message using $r$parity check bits, there are$n = m + r$ possible single-bit error locations plus 1 case where no error occurs ($m + r + 1$total states). Since$r$check bits can represent$2^r$ distinct syndrome values, the code must satisfy:
+To correct any single-bit error in an $m$-bit message using $r$ parity check bits, there are $n = m + r$ possible single-bit error locations plus 1 case where no error occurs ($m + r + 1$ total states). Since $r$ check bits can represent $2^r$ distinct syndrome values, the code must satisfy:
 
 
 
@@ -864,19 +864,19 @@ $$
 #### Parity Group Calculation (Even Parity)
 
 
-A bit in position $k$is checked by parity bit$p_{2^j}$if the$j$-th bit in the binary representation of $k$ is `1`:
+A bit in position $k$ is checked by parity bit $p_{2^j}$ if the $j$-th bit in the binary representation of $k$ is `1`:
 
 
-* **$p_1$(Bit 1):** Checks all bit positions whose binary representation has a `1` in the least significant bit (positions$1, 3, 5, 7, 9, 11, 13, 15, \dots$).
+* **$p_1$(Bit 1):** Checks all bit positions whose binary representation has a `1` in the least significant bit (positions $1, 3, 5, 7, 9, 11, 13, 15, \dots$).
 
 
-* **$p_2$(Bit 2):** Checks all bit positions with a `1` in the second bit (positions$2, 3, 6, 7, 10, 11, 14, 15, \dots$).
+* **$p_2$(Bit 2):** Checks all bit positions with a `1` in the second bit (positions $2, 3, 6, 7, 10, 11, 14, 15, \dots$).
 
 
-* **$p_4$(Bit 4):** Checks positions$4, 5, 6, 7, 12, 13, 14, 15, \dots$.
+* **$p_4$(Bit 4):** Checks positions $4, 5, 6, 7, 12, 13, 14, 15, \dots$.
 
 
-* **$p_8$(Bit 8):** Checks positions$8, 9, 10, 11, 12, 13, 14, 15, \dots$.
+* **$p_8$(Bit 8):** Checks positions $8, 9, 10, 11, 12, 13, 14, 15, \dots$.
 
 
 
@@ -891,7 +891,7 @@ At the receiver, the parity check equations are evaluated over the received bits
 * If $S = 0$, no bit error occurred.
 
 
-* If $S \ne 0$, the integer value of $S$gives the **exact 1-based index of the corrupted bit**. Inverting (flipping) bit$S$ restores the original codeword.
+* If $S \ne 0$, the integer value of $S$ gives the **exact 1-based index of the corrupted bit**. Inverting (flipping) bit $S$ restores the original codeword.
 
 
 
@@ -936,7 +936,7 @@ Unlike block codes (which process fixed $m$-bit blocks independently), a **convo
   * *Hard-Decision Decoding:* Demodulator maps incoming physical voltages directly into strict binary 0 or 1 before passing to the error corrector.
 
 
-  * *Soft-Decision Decoding:* Demodulator passes continuous analog signal confidence values (e.g. $+0.9\text{V}$means "very likely a 1",$-0.1\text{V}$ means "maybe a 0"). The Viterbi algorithm processes these probability weights directly, providing significantly stronger error correction over noisy channels.
+  * *Soft-Decision Decoding:* Demodulator passes continuous analog signal confidence values (e.g. $+0.9\text{V}$ means "very likely a 1",$-0.1\text{V}$ means "maybe a 0"). The Viterbi algorithm processes these probability weights directly, providing significantly stronger error correction over noisy channels.
 
 
 
@@ -948,7 +948,7 @@ Unlike block codes (which process fixed $m$-bit blocks independently), a **convo
 **Reed-Solomon (RS) codes** are non-binary linear systematic block codes operating on **$m$-bit symbols** (typically bytes, $m = 8$) rather than individual bits.
 
 
-* **Mathematical Foundation:** Based on the fundamental theorem of algebra that any $n$-degree polynomial is uniquely determined by $n + 1$points over a finite field (Galois Field$\text{GF}(2^m)$). Extra points placed on the same polynomial line are redundant check symbols.
+* **Mathematical Foundation:** Based on the fundamental theorem of algebra that any $n$-degree polynomial is uniquely determined by $n + 1$ points over a finite field (Galois Field $\text{GF}(2^m)$). Extra points placed on the same polynomial line are redundant check symbols.
 
 
 * **Codeword Length:** For $m$-bit symbols, codewords are $2^m - 1$ symbols long. For 8-bit bytes ($m = 8$), a codeword is 255 bytes.
@@ -957,7 +957,7 @@ Unlike block codes (which process fixed $m$-bit blocks independently), a **convo
 * **Popular Standard $(255, 233)$ RS Code:** Contains 233 data bytes and 32 redundant check bytes.
 
 
-* **Burst Error Correction Capacity:** Adding $2t$redundant symbols can correct up to$t$arbitrary symbol errors anywhere in the frame. The$(255, 233)$code with 32 check bytes can correct up to$16$ corrupted bytes. Because an entire 8-bit symbol is treated as a single unit, a burst error flipping up to 128 consecutive bits across 16 bytes is corrected just as easily as 16 isolated bit errors.
+* **Burst Error Correction Capacity:** Adding $2t$ redundant symbols can correct up to $t$ arbitrary symbol errors anywhere in the frame. The $(255, 233)$ code with 32 check bytes can correct up to $16$ corrupted bytes. Because an entire 8-bit symbol is treated as a single unit, a burst error flipping up to 128 consecutive bits across 16 bytes is corrected just as easily as 16 isolated bit errors.
 
 
 * **Applications:** DSL broadband lines, cable modems, satellite links, CDs, DVDs, and Blu-ray discs.
@@ -1017,7 +1017,7 @@ On reliable channels (such as optical fiber or high-quality copper), error rates
 * **Single Parity Bit:** Appends 1 check bit to ensure the total number of `1`s in the codeword is even (or odd). Has minimum distance $d_{\min} = 2$; reliably detects all single-bit errors, but fails ($50\%$ failure rate) on even-length burst errors.
 
 
-* **Interleaving (2D Matrix Parity):** Arranges $k \times n$data bits into a rectangular matrix$n$bits wide by$k$bits high. Parity bits are computed for each of the$n$columns and transmitted at the end. If a burst error of length$\le n$occurs, the corrupted bits are spread across different columns, ensuring at most 1 error per column. Thus, **all burst errors of length$\le n$are$100\%$ detected**.
+* **Interleaving (2D Matrix Parity):** Arranges $k \times n$ data bits into a rectangular matrix $n$ bits wide by $k$ bits high. Parity bits are computed for each of the $n$ columns and transmitted at the end. If a burst error of length $\le n$ occurs, the corrupted bits are spread across different columns, ensuring at most 1 error per column. Thus, **all burst errors of length $\le n$ are $100\%$ detected**.
 
 
 
@@ -1053,7 +1053,7 @@ Polynomial codes treat bit strings as polynomials with coefficients in GF(2) (bi
 
 
 
-An $m$-bit message is represented by polynomial $M(x)$of degree$m-1$. The sender and receiver agree in advance on a fixed **Generator Polynomial** $G(x)$of degree$r$(having$r+1$bits), where both the highest and lowest terms must be$1$ ($x^r + \dots + 1$).
+An $m$-bit message is represented by polynomial $M(x)$ of degree $m-1$. The sender and receiver agree in advance on a fixed **Generator Polynomial** $G(x)$ of degree $r$(having $r+1$ bits), where both the highest and lowest terms must be $1$ ($x^r + \dots + 1$).
 
 
 
@@ -1068,13 +1068,13 @@ An $m$-bit message is represented by polynomial $M(x)$of degree$m-1$. The sender
 1. **Degree of Generator:** Let $r = \text{deg}(G(x))$.
 
 
-2. **Append Zeros:** Multiply $M(x)$by$x^r$, which corresponds to appending $r$zero bits to the end of the message bit string:$T'(x) = x^r M(x)$.
+2. **Append Zeros:** Multiply $M(x)$ by $x^r$, which corresponds to appending $r$ zero bits to the end of the message bit string:$T'(x) = x^r M(x)$.
 
 
-3. **Modulo-2 Division:** Divide the bit string corresponding to $x^r M(x)$by the bit string of$G(x)$ using modulo-2 binary division (XOR subtraction, ignoring carries/borrows).
+3. **Modulo-2 Division:** Divide the bit string corresponding to $x^r M(x)$ by the bit string of $G(x)$ using modulo-2 binary division (XOR subtraction, ignoring carries/borrows).
 
 
-4. **Compute Checksum (FCS):** The division produces a quotient $Q(x)$and an$r$-bit remainder $R(x)$:
+4. **Compute Checksum (FCS):** The division produces a quotient $Q(x)$ and an $r$-bit remainder $R(x)$:
 
 
 
@@ -1091,7 +1091,7 @@ $$
 
 
 
-5. **Construct Transmitted Codeword:** Subtract (XOR) the remainder $R(x)$from$x^r M(x)$:
+5. **Construct Transmitted Codeword:** Subtract (XOR) the remainder $R(x)$ from $x^r M(x)$:
 
 
 
@@ -1108,7 +1108,7 @@ $$
 
 
 
-   The transmitted codeword $T(x)$is exactly divisible by$G(x)$ without remainder.
+   The transmitted codeword $T(x)$ is exactly divisible by $G(x)$ without remainder.
 
 
 
@@ -1117,7 +1117,7 @@ $$
 #### Receiver Verification & Mathematical Proof of Detection Bounds
 
 
-The receiver divides the incoming bit stream $T(x) \oplus E(x)$by$G(x)$:
+The receiver divides the incoming bit stream $T(x) \oplus E(x)$ by $G(x)$:
 
 
 
@@ -1134,31 +1134,31 @@ $$
 
 
 
-An error will slip through undetected **if and only if $E(x)$is an exact algebraic multiple of$G(x)$**.
+An error will slip through undetected **if and only if $E(x)$ is an exact algebraic multiple of $G(x)$**.
 
 
 
 
 
-* **Single-Bit Errors ($E(x) = x^i$):** If $G(x)$has two or more terms (ensured by$x^0 = 1$), $G(x)$cannot divide$x^i$. **$100\%$ of single-bit errors are detected**.
+* **Single-Bit Errors ($E(x) = x^i$):** If $G(x)$ has two or more terms (ensured by $x^0 = 1$), $G(x)$ cannot divide $x^i$. **$100\%$ of single-bit errors are detected**.
 
 
-* **Double-Bit Errors ($E(x) = x^i + x^j = x^j(x^{i-j} + 1)$):** Detected if $G(x)$does not divide$x^k + 1$for any$k \le$max frame length. Standard polynomials (like$x^{15}+x^{14}+1$) do not divide $x^k+1$for any$k < 32,768$, guaranteeing **$100\%$ double-bit error detection**.
+* **Double-Bit Errors ($E(x) = x^i + x^j = x^j(x^{i-j} + 1)$):** Detected if $G(x)$ does not divide $x^k + 1$ for any $k \le$ max frame length. Standard polynomials (like $x^{15}+x^{14}+1$) do not divide $x^k+1$ for any $k < 32,768$, guaranteeing **$100\%$ double-bit error detection**.
 
 
-* **Odd Number of Bit Errors:** If $G(x)$contains$(x+1)$ as a factor, it will detect **$100\%$of any odd number of bit errors**, because no polynomial with an odd number of terms is divisible by$(x+1)$.
+* **Odd Number of Bit Errors:** If $G(x)$ contains $(x+1)$ as a factor, it will detect **$100\%$ of any odd number of bit errors**, because no polynomial with an odd number of terms is divisible by $(x+1)$.
 
 
 * **Burst Errors of Length $k$ ($E(x) = x^i(x^{k-1} + \dots + 1)$):**
 
 
-  * All burst errors of length $k \le r$ are detected with **$100\%$certainty** (since degree of remainder term is$< r$).
+  * All burst errors of length $k \le r$ are detected with **$100\%$ certainty** (since degree of remainder term is $< r$).
 
 
-  * A burst error of length $k = r + 1$matching$G(x)$slips through with probability$\dfrac{1}{2^{r-1}}$.
+  * A burst error of length $k = r + 1$ matching $G(x)$ slips through with probability $\dfrac{1}{2^{r-1}}$.
 
 
-  * Any longer burst error of length $k > r + 1$slips through with probability$\dfrac{1}{2^r}$.
+  * Any longer burst error of length $k > r + 1$ slips through with probability $\dfrac{1}{2^r}$.
 
 
 
@@ -1193,10 +1193,10 @@ An error will slip through undetected **if and only if $E(x)$is an exact algebra
 * Detects **100% of single-bit errors** (since $G(x)$ has two or more terms).
 
 
-* Detects **100% of double-bit errors** (since $G(x)$does not divide$x^k + 1$for any$k < 2^{31}-1$).
+* Detects **100% of double-bit errors** (since $G(x)$ does not divide $x^k + 1$ for any $k < 2^{31}-1$).
 
 
-* Detects **100% of any odd number of bit errors** (since $(x+1)$is a factor of$G(x)$).
+* Detects **100% of any odd number of bit errors** (since $(x+1)$ is a factor of $G(x)$).
 
 
 * Detects **100% of burst errors of length $\le 32$ bits**.
@@ -1334,7 +1334,7 @@ stateDiagram-v2
   2. **Sender Retransmission Timer:** If an ACK is not received within a timeout period, the sender automatically retransmits the frame.
 
 
-  3. **1-Bit Sequence Number ($0$and$1$):** Solves the duplicate frame ambiguity caused by premature timeouts or lost ACKs. The sender alternates the sequence number bit on each new frame ($0, 1, 0, 1, \dots$). The receiver tracks the expected sequence number; if a duplicate frame arrives, the receiver re-acknowledges it and discards the duplicate payload.
+  3. **1-Bit Sequence Number ($0$ and $1$):** Solves the duplicate frame ambiguity caused by premature timeouts or lost ACKs. The sender alternates the sequence number bit on each new frame ($0, 1, 0, 1, \dots$). The receiver tracks the expected sequence number; if a duplicate frame arrives, the receiver re-acknowledges it and discards the duplicate payload.
 
 
 
@@ -1379,7 +1379,7 @@ In full-duplex links, data flows simultaneously in both directions. Using **pigg
 * **Window Sizes:** Sender Window Size $W_s = 1$, Receiver Window Size $W_r = 1$.
 
 
-* **Operation:** At any instant, the sender can have at most one unacknowledged frame in transit. Sequence numbers take values $0$and$1$.
+* **Operation:** At any instant, the sender can have at most one unacknowledged frame in transit. Sequence numbers take values $0$ and $1$.
 
 
 * **Normal vs Error Scenarios:**
@@ -1421,7 +1421,7 @@ In high-bandwidth or long-delay links (e.g., satellite links or fiber-optic WANs
 #### Tanenbaum's Satellite Channel Case Study
 
 
-Consider a $50\text{ kbps}$satellite channel with a$500\text{ ms}$ round-trip propagation delay ($\text{RTT} = 500\text{ ms}$, one-way $T_p = 250\text{ ms}$). Suppose a station uses Stop-and-Wait to send $1000\text{-bit}$ frames:
+Consider a $50\text{ kbps}$ satellite channel with a $500\text{ ms}$ round-trip propagation delay ($\text{RTT} = 500\text{ ms}$, one-way $T_p = 250\text{ ms}$). Suppose a station uses Stop-and-Wait to send $1000\text{-bit}$ frames:
 
 
 * **Frame Transmission Time:** $T_{\text{trans}} = \frac{1000\text{ bits}}{50,000\text{ bps}} = 20\text{ ms} = 0.020\text{ s}$.
@@ -1430,13 +1430,13 @@ Consider a $50\text{ kbps}$satellite channel with a$500\text{ ms}$ round-trip pr
 * **Timeline:** At $t = 0\text{ ms}$, sender starts transmitting frame 0. At $t = 20\text{ ms}$, frame 0 is fully sent onto the wire. At $t = 270\text{ ms}$, frame 0 fully arrives at the satellite receiver. At $t = 520\text{ ms}$, the ACK arrives back at the sender.
 
 
-* **Sender Blocking:** The sender is active for only $20\text{ ms}$out of$520\text{ ms}$, remaining blocked for $500\text{ ms}$ ($96\%$of the time). Link utilization is only$\frac{20}{520} \approx 3.85\% \approx 4\%$.
+* **Sender Blocking:** The sender is active for only $20\text{ ms}$ out of $520\text{ ms}$, remaining blocked for $500\text{ ms}$ ($96\%$ of the time). Link utilization is only $\frac{20}{520} \approx 3.85\% \approx 4\%$.
 
 
 
 
 
-Let $T_{\text{trans}} = \frac{L}{R}$be frame transmission time, and$T_{\text{prop}} = \frac{D}{v}$ be one-way propagation delay. Define normalized propagation delay:
+Let $T_{\text{trans}} = \frac{L}{R}$ be frame transmission time, and $T_{\text{prop}} = \frac{D}{v}$ be one-way propagation delay. Define normalized propagation delay:
 
 
 
@@ -1514,7 +1514,7 @@ For the satellite link ($a = \frac{250}{20} = 12.5$), the required pipeline wind
 
 
 
-* **Architectural Concept:** Pipelined transmission with Sender Window $W_s > 1$and Receiver Window$W_r = 1$.
+* **Architectural Concept:** Pipelined transmission with Sender Window $W_s > 1$ and Receiver Window $W_r = 1$.
 
 
 * **Receiver Behavior:** The receiver accepts frames **strictly in sequential order**. If a frame arrives damaged or out of order, the receiver discards it and **discards all subsequent incoming frames**, sending no ACKs for out-of-order frames. The receiver maintains zero buffer for out-of-order data.
@@ -1523,7 +1523,7 @@ For the satellite link ($a = \frac{250}{20} = 12.5$), the required pipeline wind
 * **Sender Behavior:** The sender buffers all unacknowledged transmitted frames in its window. It maintains a timer for the oldest unacknowledged frame. When this timer expires, the sender **"goes back $N$"** and retransmits *all* unacknowledged frames currently in the window, even if some were received correctly.
 
 
-* **Acknowledgments:** Uses **cumulative ACKs** (ACK $n$confirms all frames$\le n$).
+* **Acknowledgments:** Uses **cumulative ACKs** (ACK $n$ confirms all frames $\le n$).
 
 
 
@@ -1595,7 +1595,7 @@ sequenceDiagram
 #### Maximum Window Size Rule & Proof for Go-Back-N
 
 
-For an $n$-bit sequence number ($0$to$2^n - 1$, total modulo $M = 2^n$):
+For an $n$-bit sequence number ($0$ to $2^n - 1$, total modulo $M = 2^n$):
 
 
 
@@ -1666,7 +1666,7 @@ Only the tick counter at the head of the list is decremented on each hardware ti
 
 
 
-* **Architectural Concept:** Pipelined transmission with Sender Window $W_s > 1$and Receiver Window$W_r > 1$.
+* **Architectural Concept:** Pipelined transmission with Sender Window $W_s > 1$ and Receiver Window $W_r > 1$.
 
 
 * **Receiver Buffering:** The receiver possesses a buffer array of size $W_r$. When an out-of-order frame arrives without corruption within the receiver's window, the receiver stores it in the buffer and sends a **Negative Acknowledgment (NAK / SREJ)** for the missing frame.
@@ -1905,7 +1905,7 @@ To carry IP packets over SONET:
 2. **Payload Scrambling:** Before inserting the PPP frame into the SONET payload, the PPP payload is XORed with a long pseudorandom bit sequence (scrambled).
 
 
-   * *Purpose of Scrambling:* SONET physical-layer receivers require frequent bit transitions ($0 \to 1$and$1 \to 0$) to extract clock timing. User data containing long runs of `0`s would cause receiver clock loss. Scrambling guarantees pseudo-random transition density.
+   * *Purpose of Scrambling:* SONET physical-layer receivers require frequent bit transitions ($0 \to 1$ and $1 \to 0$) to extract clock timing. User data containing long runs of `0`s would cause receiver clock loss. Scrambling guarantees pseudo-random transition density.
 
 
 3. The scrambled frame is mapped directly into SONET payload bytes.
@@ -2117,7 +2117,7 @@ ADSL connects millions of home subscribers to the Internet over copper local loo
 #### Derivation
 
 
-Let a station transmit a frame of $L$bits over a channel with bit rate$R$bps, distance$D$meters, and propagation speed$v$ m/s.
+Let a station transmit a frame of $L$ bits over a channel with bit rate $R$ bps, distance $D$ meters, and propagation speed $v$ m/s.
 
 
 * Frame transmission time: $T_t = \frac{L}{R}$
@@ -2401,7 +2401,7 @@ $$
 **Purpose:** Calculate Frame Check Sequence (FCS) remainder.  
 
 
-**Input:** $m$-bit message $M$, degree-$r$generator$G$.  
+**Input:** $m$-bit message $M$, degree-$r$ generator $G$.  
 
 
 **Output:** Transmitted $(m+r)$-bit codeword $T$.
@@ -2413,22 +2413,22 @@ $$
 **Procedure:**
 
 
-1. Append $r$zero bits to$M$, forming dividend string $D$of length$m+r$.
+1. Append $r$ zero bits to $M$, forming dividend string $D$ of length $m+r$.
 
 
-2. Align divisor $G$with the leftmost `1` bit of$D$.
+2. Align divisor $G$ with the leftmost `1` bit of $D$.
 
 
-3. Perform bitwise XOR between $G$and the$r+1$bits of$D$ underneath it.
+3. Perform bitwise XOR between $G$ and the $r+1$ bits of $D$ underneath it.
 
 
-4. Shift right to the next `1` bit in $D$and repeat XOR with$G$until the end of$D$ is reached.
+4. Shift right to the next `1` bit in $D$ and repeat XOR with $G$ until the end of $D$ is reached.
 
 
 5. The remaining $r$-bit string is remainder $R$.
 
 
-6. Replace the $r$appended zeros of$D$with$R$to form transmitted codeword$T$.
+6. Replace the $r$ appended zeros of $D$ with $R$ to form transmitted codeword $T$.
 
 
 
@@ -2647,7 +2647,7 @@ $$
 #### Written Analysis of Figure 3.6
 
 
-* **What it shows:** Shows the structural interleaving of 3 parity check bits ($p_1, p_2, p_4$at bit positions$1, 2, 4$) and 4 data bits ($d_1, d_2, d_3, d_4$at bit positions$3, 5, 6, 7$).
+* **What it shows:** Shows the structural interleaving of 3 parity check bits ($p_1, p_2, p_4$ at bit positions $1, 2, 4$) and 4 data bits ($d_1, d_2, d_3, d_4$ at bit positions $3, 5, 6, 7$).
 
 
 
@@ -2713,7 +2713,7 @@ $$
 #### Written Analysis of Figure 3.8
 
 
-* **What it shows:** Step-by-step modulo-2 long division of message $1101011111$appended with 6 zeros by generator$G(x) = x^6 + x^4 + x^3 + 1$ ($1011001$), yielding remainder $R = 011110$.
+* **What it shows:** Step-by-step modulo-2 long division of message $1101011111$ appended with 6 zeros by generator $G(x) = x^6 + x^4 + x^3 + 1$ ($1011001$), yielding remainder $R = 011110$.
 
 
 
@@ -2878,7 +2878,7 @@ $$
 #### Written Analysis of Figure 3.13
 
 
-* **What it shows:** Detailed state diagram proving why Go-Back-N requires $W_s \le 2^n - 1$and Selective Repeat requires$W_s = W_r \le 2^{n-1}$ to prevent sequence number wrap-around ambiguity.
+* **What it shows:** Detailed state diagram proving why Go-Back-N requires $W_s \le 2^n - 1$ and Selective Repeat requires $W_s = W_r \le 2^{n-1}$ to prevent sequence number wrap-around ambiguity.
 
 
 
@@ -2944,7 +2944,7 @@ $$
 #### Written Analysis of Figure 3.15
 
 
-* **What it shows:** Complete lifecycle state machine of a PPP connection: Dead $\to$Establish (LCP)$\to$Authenticate (PAP/CHAP)$\to$Network (NCP/IPCP)$\to$Open$\to$Terminate$\to$ Dead.
+* **What it shows:** Complete lifecycle state machine of a PPP connection: Dead $\to$ Establish (LCP)$\to$ Authenticate (PAP/CHAP)$\to$ Network (NCP/IPCP)$\to$ Open $\to$ Terminate $\to$ Dead.
 
 
 
@@ -3040,7 +3040,7 @@ The step-by-step 16-bit 1's complement addition and inversion mechanism used in 
 **Algorithmic Verification:**
 
 
-If any single bit error occurs, the sum will differ from `0xFFFF`, flagging corrupted data. However, the 1's complement checksum cannot detect compensating errors where one word increases by $k$and another decreases by$k$, nor does it detect reordering of 16-bit words.
+If any single bit error occurs, the sum will differ from `0xFFFF`, flagging corrupted data. However, the 1's complement checksum cannot detect compensating errors where one word increases by $k$ and another decreases by $k$, nor does it detect reordering of 16-bit words.
 
 
 
@@ -3197,7 +3197,7 @@ What is the Hamming distance between the following two binary codewords?
 #### Step-by-Step Solution
 
 
-1. Perform bitwise XOR between $v_1$and$v_2$:
+1. Perform bitwise XOR between $v_1$ and $v_2$:
 
 
 
@@ -3397,7 +3397,7 @@ Encode the 4-bit data message $D = 1101$ ($d_1 = 1, d_2 = 1, d_3 = 0, d_4 = 1$) 
 2. Calculate parity bits (even parity $\implies$ sum modulo 2 is 0):
 
 
-   * **$p_1$checks positions$1, 3, 5, 7$:**
+   * **$p_1$ checks positions $1, 3, 5, 7$:**
 
 
 
@@ -3414,7 +3414,7 @@ $$
 
 
 
-   * **$p_2$checks positions$2, 3, 6, 7$:**
+   * **$p_2$ checks positions $2, 3, 6, 7$:**
 
 
 
@@ -3431,7 +3431,7 @@ $$
 
 
 
-   * **$p_4$checks positions$4, 5, 6, 7$:**
+   * **$p_4$ checks positions $4, 5, 6, 7$:**
 
 
 
@@ -3809,7 +3809,7 @@ $$
 #### Problem Statement
 
 
-A system uses the Stop-and-Wait protocol. If each packet carries $1000\text{ bits}$of data, how long does it take to send$1\text{ million bits}$ ($10^6\text{ bits}$) of data if the distance between sender and receiver is $5000\text{ km}$and propagation speed is$2 \times 10^8\text{ m/s}$? Ignore transmission, waiting, and processing delays.
+A system uses the Stop-and-Wait protocol. If each packet carries $1000\text{ bits}$ of data, how long does it take to send $1\text{ million bits}$ ($10^6\text{ bits}$) of data if the distance between sender and receiver is $5000\text{ km}$ and propagation speed is $2 \times 10^8\text{ m/s}$? Ignore transmission, waiting, and processing delays.
 
 
 
@@ -3934,7 +3934,7 @@ $$
 #### Problem Statement
 
 
-If the bandwidth of a line is $1\text{ Mbps}$, one-way propagation delay is $20\text{ ms}$, and packet size is $1\text{ KB}$ ($1024\text{ Bytes} = 8192\text{ bits}$or$1000\text{ Bytes} = 8000\text{ bits}$), calculate the link utilization for Stop-and-Wait protocol.
+If the bandwidth of a line is $1\text{ Mbps}$, one-way propagation delay is $20\text{ ms}$, and packet size is $1\text{ KB}$ ($1024\text{ Bytes} = 8192\text{ bits}$ or $1000\text{ Bytes} = 8000\text{ bits}$), calculate the link utilization for Stop-and-Wait protocol.
 
 
 
@@ -4056,7 +4056,7 @@ $$
 #### Problem Statement
 
 
-If bit rate is $10\text{ kbps}$and one-way propagation delay is$40\text{ ms}$, for what frame size does Stop-and-Wait protocol achieve an efficiency of $50\%$?
+If bit rate is $10\text{ kbps}$ and one-way propagation delay is $40\text{ ms}$, for what frame size does Stop-and-Wait protocol achieve an efficiency of $50\%$?
 
 
 
@@ -4172,7 +4172,7 @@ $$
 #### Problem Statement
 
 
-The distance from Earth to a distant planet is approximately $9 \times 10^{10}\text{ m}$. What is the channel utilization if Stop-and-Wait protocol is used on a $64\text{ Mbps}$point-to-point link with a frame size of$32\text{ KB}$ ($32 \times 1024 \times 8 = 262,144\text{ bits}$or$32 \times 1000 \times 8 = 256\text{ kbits}$)? Use speed of light $3 \times 10^8\text{ m/s}$. For what sliding window size would utilization reach $100\%$?
+The distance from Earth to a distant planet is approximately $9 \times 10^{10}\text{ m}$. What is the channel utilization if Stop-and-Wait protocol is used on a $64\text{ Mbps}$ point-to-point link with a frame size of $32\text{ KB}$ ($32 \times 1024 \times 8 = 262,144\text{ bits}$ or $32 \times 1000 \times 8 = 256\text{ kbits}$)? Use speed of light $3 \times 10^8\text{ m/s}$. For what sliding window size would utilization reach $100\%$?
 
 
 
@@ -4267,7 +4267,7 @@ $$
 
 
 
-5. Window size $W$for$100\%$ utilization:
+5. Window size $W$ for $100\%$ utilization:
 
 
 
@@ -4317,7 +4317,7 @@ $$
 #### Problem Statement
 
 
-A $3000\text{ km}$ long T1 trunk ($1.536\text{ Mbps}$payload rate) is used to transmit 64-byte frames using Go-Back-N protocol. If propagation speed is$6\,\mu\text{s/km}$, how many bits must the sequence numbers be to achieve maximum throughput?
+A $3000\text{ km}$ long T1 trunk ($1.536\text{ Mbps}$ payload rate) is used to transmit 64-byte frames using Go-Back-N protocol. If propagation speed is $6\,\mu\text{s/km}$, how many bits must the sequence numbers be to achieve maximum throughput?
 
 
 
@@ -4462,7 +4462,7 @@ $$
 #### Problem Statement
 
 
-Two stations A and B exchange frames using Go-Back-N protocol with window size $W_s = 7$ and 3-bit sequence numbers ($0$to$7$). Station A transmits frames 0, 1, 2, 3, 4, 5, 6. Station B receives them in order, but frame 4 is damaged by noise. What frames will remain buffered in station A's window waiting for retransmission?
+Two stations A and B exchange frames using Go-Back-N protocol with window size $W_s = 7$ and 3-bit sequence numbers ($0$ to $7$). Station A transmits frames 0, 1, 2, 3, 4, 5, 6. Station B receives them in order, but frame 4 is damaged by noise. What frames will remain buffered in station A's window waiting for retransmission?
 
 
 
@@ -4714,7 +4714,7 @@ Whenever the transmitter observes five consecutive `1`s in the outgoing bitstrea
 #### Mathematical Condition for Undetected Errors
 
 
-Let $T(x)$be the transmitted polynomial, and$E(x)$be the channel error polynomial. The received polynomial is$R(x) = T(x) \oplus E(x)$.
+Let $T(x)$ be the transmitted polynomial, and $E(x)$ be the channel error polynomial. The received polynomial is $R(x) = T(x) \oplus E(x)$.
 
 
 The receiver performs modulo-2 division by generator polynomial $G(x)$:
@@ -4734,7 +4734,7 @@ $$
 
 
 
-An error will pass undetected if and only if **$E(x)$is an exact algebraic multiple of$G(x)$**.
+An error will pass undetected if and only if **$E(x)$ is an exact algebraic multiple of $G(x)$**.
 
 
 
@@ -4743,25 +4743,25 @@ An error will pass undetected if and only if **$E(x)$is an exact algebraic multi
 #### Critical Polynomial Design Rules
 
 
-1. **Single-Bit Errors:** An isolated single-bit error is $E(x) = x^i$. To detect all single-bit errors, $G(x)$ must contain at least two terms ($G(x)$must not divide$x^i$), which is guaranteed by ensuring the lowest term $x^0 = 1$.
+1. **Single-Bit Errors:** An isolated single-bit error is $E(x) = x^i$. To detect all single-bit errors, $G(x)$ must contain at least two terms ($G(x)$ must not divide $x^i$), which is guaranteed by ensuring the lowest term $x^0 = 1$.
 
 
-2. **Double-Bit Errors:** Two isolated errors are $E(x) = x^i + x^j = x^j(x^{i-j} + 1)$with$i > j$. To detect all 2-bit errors, $G(x)$must not divide$x^k + 1$for any$k \le$ maximum frame length.
+2. **Double-Bit Errors:** Two isolated errors are $E(x) = x^i + x^j = x^j(x^{i-j} + 1)$ with $i > j$. To detect all 2-bit errors, $G(x)$ must not divide $x^k + 1$ for any $k \le$ maximum frame length.
 
 
-3. **Odd Number of Bit Errors:** If $G(x)$contains$(x + 1)$as a factor, it will detect **all odd numbers of bit errors** because no polynomial with an odd number of terms is divisible by$(x + 1)$.
+3. **Odd Number of Bit Errors:** If $G(x)$ contains $(x + 1)$ as a factor, it will detect **all odd numbers of bit errors** because no polynomial with an odd number of terms is divisible by $(x + 1)$.
 
 
 4. **Burst Errors:**
 
 
-   * All burst errors of length $\le r$are detected with$100\%$ certainty.
+   * All burst errors of length $\le r$ are detected with $100\%$ certainty.
 
 
-   * A burst error of length $r + 1$slips through with probability$\dfrac{1}{2^{r-1}}$.
+   * A burst error of length $r + 1$ slips through with probability $\dfrac{1}{2^{r-1}}$.
 
 
-   * A burst error of length $> r + 1$slips through with probability$\dfrac{1}{2^r}$.
+   * A burst error of length $> r + 1$ slips through with probability $\dfrac{1}{2^r}$.
 
 
 
@@ -4788,10 +4788,10 @@ An error will pass undetected if and only if **$E(x)$is an exact algebraic multi
 #### Failure Mode of Standard Hamming SEC Code
 
 
-A standard Hamming $(7,4)$code has minimum Hamming distance$d_{\min} = 3$. It guarantees Single Error Correction (SEC).
+A standard Hamming $(7,4)$ code has minimum Hamming distance $d_{\min} = 3$. It guarantees Single Error Correction (SEC).
 
 
-* Suppose bits $b_3$and$b_5$ are both inverted by noise (a 2-bit error).
+* Suppose bits $b_3$ and $b_5$ are both inverted by noise (a 2-bit error).
 
 
 * The receiver calculates syndrome $S = [s_4 s_2 s_1]_2$.
@@ -4812,10 +4812,10 @@ A standard Hamming $(7,4)$code has minimum Hamming distance$d_{\min} = 3$. It gu
 By appending an overall parity bit $P_0$ over the entire codeword ($d_{\min}$ increases from 3 to 4):
 
 
-* If syndrome $S \neq 0$and overall parity is incorrect$\implies$ **Single bit error; correct it**.
+* If syndrome $S \neq 0$ and overall parity is incorrect $\implies$ **Single bit error; correct it**.
 
 
-* If syndrome $S \neq 0$and overall parity is correct$\implies$ **Double bit error; detect and abort (do NOT correct)**.
+* If syndrome $S \neq 0$ and overall parity is correct $\implies$ **Double bit error; detect and abort (do NOT correct)**.
 
 
 
@@ -4842,7 +4842,7 @@ By appending an overall parity bit $P_0$ over the entire codeword ($d_{\min}$ in
 #### Anomaly Progression
 
 
-In Protocol 4, frames carry a 1-bit sequence number ($0$or$1$) and an piggybacked ACK number.
+In Protocol 4, frames carry a 1-bit sequence number ($0$ or $1$) and an piggybacked ACK number.
 
 
 1. Normal operation assumes Host A transmits first, Host B replies, and transmission alternates smoothly.
@@ -4887,7 +4887,7 @@ In Protocol 4, frames carry a 1-bit sequence number ($0$or$1$) and an piggybacke
 
 
 
-### Edge Case 7: Go-Back-N Window Size Hazard ($W_s = 2^n$vs$W_s = 2^n - 1$)
+### Edge Case 7: Go-Back-N Window Size Hazard ($W_s = 2^n$ vs $W_s = 2^n - 1$)
 
 
 
@@ -4896,10 +4896,10 @@ In Protocol 4, frames carry a 1-bit sequence number ($0$or$1$) and an piggybacke
 #### Catastrophic Silent Corruption Scenario
 
 
-Suppose a 3-bit sequence number is used ($n = 3, 2^n = 8$, sequences $0$to$7$).
+Suppose a 3-bit sequence number is used ($n = 3, 2^n = 8$, sequences $0$ to $7$).
 
 
-Suppose the protocol designer incorrectly sets sender window size $W_s = 2^n = 8$instead of$W_s \le 7$:
+Suppose the protocol designer incorrectly sets sender window size $W_s = 2^n = 8$ instead of $W_s \le 7$:
 
 
 1. Sender transmits frames $0, 1, 2, 3, 4, 5, 6, 7$.
@@ -4981,7 +4981,7 @@ $$
 
 
 
-#### Concrete Counterexample if $W = 5$for$2^3 = 8$
+#### Concrete Counterexample if $W = 5$ for $2^3 = 8$
 
 
 Suppose $n = 3$, sequence numbers $0 \dots 7$, but $W_s = W_r = 5 > 4$:
@@ -5038,7 +5038,7 @@ Setting $W_s = W_r = 2^{n-1}$ is an absolute mathematical boundary.
 * **Framing $\leftrightarrow$ Byte/Bit Stuffing:** Delimiting frame boundaries creates ambiguity when delimiter patterns occur naturally in user data; stuffing resolves this ambiguity by dynamically inserting escape patterns.
 
 
-* **Bandwidth-Delay Product $\leftrightarrow$ ARQ Window Sizing:** A link with large BDP ($B \times \text{RTT}$) renders Stop-and-Wait inefficient ($< 1\%$utilization), forcing the adoption of pipelined sliding window protocols (GBN, Selective Repeat) where$W_s \ge 1 + 2a$.
+* **Bandwidth-Delay Product $\leftrightarrow$ ARQ Window Sizing:** A link with large BDP ($B \times \text{RTT}$) renders Stop-and-Wait inefficient ($< 1\%$ utilization), forcing the adoption of pipelined sliding window protocols (GBN, Selective Repeat) where $W_s \ge 1 + 2a$.
 
 
 * **Go-Back-N vs Selective Repeat Trade-off:** GBN minimizes receiver memory/complexity at the cost of retransmitting undamaged frames; Selective Repeat maximizes bandwidth efficiency over noisy links at the cost of receiver buffer management.
@@ -5065,7 +5065,7 @@ Setting $W_s = W_r = 2^{n-1}$ is an absolute mathematical boundary.
 2. Framing uses byte stuffing (`ESC` insertion) in byte-oriented protocols (PPP) and bit stuffing (zero insertion after five `1`s) in bit-oriented protocols (HDLC).
 
 
-3. Minimum Hamming distance $d_{\min} \ge s + 1$detects$s$errors;$d_{\min} \ge 2t + 1$corrects$t$ errors.
+3. Minimum Hamming distance $d_{\min} \ge s + 1$ detects $s$ errors;$d_{\min} \ge 2t + 1$ corrects $t$ errors.
 
 
 4. Hamming codes place parity bits at power-of-2 positions ($1, 2, 4, 8$) and satisfy $2^r \ge m + r + 1$. Syndrome decoding gives the exact error index.
@@ -5074,7 +5074,7 @@ Setting $W_s = W_r = 2^{n-1}$ is an absolute mathematical boundary.
 5. CRC polynomial codes use modulo-2 binary division. Standard CRC-32 detects all single, double, odd, and burst errors $\le 32$ bits.
 
 
-6. Stop-and-Wait efficiency is $\frac{1}{1+2a}$; pipelined sliding window achieves $100\%$efficiency when$W_s \ge 1 + 2a$.
+6. Stop-and-Wait efficiency is $\frac{1}{1+2a}$; pipelined sliding window achieves $100\%$ efficiency when $W_s \ge 1 + 2a$.
 
 
 7. Maximum window size limits: Go-Back-N requires $W_s \le 2^n - 1$; Selective Repeat requires $W_s = W_r \le 2^{n-1}$.
@@ -5298,7 +5298,7 @@ $$
 3. **CRC Division:** Perform modulo-2 polynomial long division to calculate FCS and verify receiver validity.
 
 
-4. **ARQ Comparison:** Detail operational differences between Stop-and-Wait, Go-Back-N, and Selective Repeat; prove maximum window size bounds ($2^n - 1$and$2^{n-1}$).
+4. **ARQ Comparison:** Detail operational differences between Stop-and-Wait, Go-Back-N, and Selective Repeat; prove maximum window size bounds ($2^n - 1$ and $2^{n-1}$).
 
 
 5. **Protocol Utilization Numericals:** Solve link efficiency and minimum window size problems using $a = T_p / T_t$.
@@ -5390,7 +5390,7 @@ $$
 
 
 
-#### Q6. If propagation delay is $20\,\mu\text{s}$and transmission delay is$10\,\mu\text{s}$, determine total one-way delay.
+#### Q6. If propagation delay is $20\,\mu\text{s}$ and transmission delay is $10\,\mu\text{s}$, determine total one-way delay.
 
 
 * **Calculation:**

@@ -166,6 +166,7 @@ Byte 2:  [MOD(2)] [REG(3)] [R/M(3)]
 | `SCASB/W` | `AL/AX − [ES:DI]` (flags) | All | DI ±1/±2 |
 | `LODSB/W` | `AL/AX ← [DS:SI]` | None | SI ±1/±2 |
 | `STOSB/W` | `[ES:DI] ← AL/AX` | None | DI ±1/±2 |
+
 | Prefix | Terminates When | Used With |
 |:---|:---|:---|
 | `REP` | CX = 0 | MOVS, STOS |
@@ -267,7 +268,7 @@ Stack grows DOWNWARD (SP decrements on PUSH)
 | `01H` | Read char (echo) | — | AL = char |
 | `02H` | Display char | DL = char | — |
 | `07H` | Read char (no echo) | — | AL = char |
-| `09H` | Display string | DS:DX → '$'-terminated | — |
+| `09H` | Display string | DS:DX → '\$'-terminated | — |
 | `0AH` | Buffered input | DS:DX → buffer | Buffer filled |
 | `2AH` | Get date | — | CX=yr, DH=mon, DL=day |
 | `2CH` | Get time | — | CH=hr, CL=min, DH=sec |
@@ -291,12 +292,12 @@ asm {
 
 ## 11. Common ASCII Values
 
-| Char | Hex | | Char | Hex |
-|:---:|:---:|---|:---:|:---:|
-| `NUL` | 00H | | `Space` | 20H |
-| `CR` | 0DH | | `0`–`9` | 30H–39H |
-| `LF` | 0AH | | `A`–`Z` | 41H–5AH |
-| `$` | 24H | | `a`–`z` | 61H–7AH |
+| Char | Hex | Char | Hex |
+|:---:|:---:|:---:|:---:|
+| `NUL` | 00H | `Space` | 20H |
+| `CR` | 0DH | `0`–`9` | 30H–39H |
+| `LF` | 0AH | `A`–`Z` | 41H–5AH |
+| `$` | 24H | `a`–`z` | 61H–7AH |
 
 **Key conversions:**
 

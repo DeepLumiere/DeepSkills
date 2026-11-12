@@ -22,7 +22,7 @@ To communicate with memory and input/output (I/O) peripherals, the microprocesso
 Microprocessors execute binary code, but humans write programs using text. Software acts as the bridge.
 
 ### Levels of Programming Languages
-1. **Machine Language:** The lowest level. Consists entirely of binary $0$s and $1$s. This is the only language the microprocessor actually understands.
+1. **Machine Language:** The lowest level. Consists entirely of binary $0$ s and $1$ s. This is the only language the microprocessor actually understands.
 2. **Assembly Language:** A low-level programming language where machine instructions are represented by readable abbreviations called **Mnemonics** (e.g., `MOV`, `ADD`, `JMP`).
 3. **High-Level Language:** Human-readable code (like C, C++, Python) that abstracts away hardware details.
 

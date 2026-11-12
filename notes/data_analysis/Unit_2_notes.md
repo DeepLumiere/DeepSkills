@@ -206,10 +206,10 @@ Every modern enterprise runs on data, but not all data qualifies as business dat
 flowchart TD
     BD["Business Data: Operational Utility"]
 
-    BD --> C1["1. Transactional Data<br/>• POS checkouts<br/>• E-commerce orders<br/>• Banking transfers"]
-    BD --> C2["2. Behavioral / Service Data<br/>• Support call recordings<br/>• Chat transcripts<br/>• Complaint tickets"]
-    BD --> C3["3. Digital / Engagement Data<br/>• Clickstream logs<br/>• Mobile app sessions<br/>• Checkout funnel drop-offs"]
-    BD --> C4["4. Financial Data<br/>• Regional revenue<br/>• COGS / Operating margins<br/>• Cash flow statements"]
+    BD --> C1["1. Transactional Data (POS checkouts, E-commerce orders, Banking transfers)"]
+    BD --> C2["2. Behavioral / Service Data (Support call recordings, Chat transcripts, Tickets)"]
+    BD --> C3["3. Digital / Engagement Data (Clickstream logs, App sessions, Funnel drop-offs)"]
+    BD --> C4["4. Financial Data (Regional revenue, COGS / Margins, Cash flow statements)"]
 ```
 
 #### The Four Core Categories of Business Data
@@ -267,10 +267,10 @@ Enterprises incur massive capital and operational expenses to store and compute 
 
 ```mermaid
 flowchart LR
-    subgraph Values["Strategic Business Values of Data"]
-        V1["1. Faster Decisions<br/>• Real-time monitoring<br/>• Eliminates quarterly lag<br/>• Replaces gut instinct"]
-        V2["2. Lower Operational Risk<br/>• Predictive anomaly detection<br/>• Fraud prevention<br/>• Churn mitigation"]
-        V3["3. Sustainable Edge<br/>• Precision optimization<br/>• Algorithmic personalization<br/>• Cost-to-serve reduction"]
+    subgraph Values ["Strategic Business Values of Data"]
+        V1["1. Faster Decisions: Real-time monitoring, Eliminates quarterly lag"]
+        V2["2. Lower Operational Risk: Predictive anomaly detection, Fraud prevention"]
+        V3["3. Sustainable Edge: Precision optimization, Algorithmic personalization"]
     end
 ```
 
@@ -294,12 +294,12 @@ Every data-driven decision follows an invariant engineering pipeline:
 
 ```mermaid
 flowchart LR
-    A["1. Collect<br/>Ingest raw telemetry from POS, CRM, Web, IoT"] --> B["2. Clean<br/>Fix schemas, remove dupes, handle nulls, reconcile"]
-    B --> C["3. Analyse<br/>Statistical modeling, trend discovery, ML models"]
-    C --> D["4. Visualise<br/>Tableau, PowerBI, charts, executive dashboards"]
-    D --> E["5. Decide<br/>Stakeholder capital allocation, operational action"]
+    A["1. Collect: Ingest raw telemetry from POS, CRM, Web, IoT"] --> B["2. Clean: Fix schemas, remove dupes, handle nulls, reconcile"]
+    B --> C["3. Analyse: Statistical modeling, trend discovery, ML models"]
+    C --> D["4. Visualise: Tableau, PowerBI, charts, executive dashboards"]
+    D --> E["5. Decide: Stakeholder capital allocation, operational action"]
 
-    classDef focus fill:#f96,stroke:#333,stroke-width:2px;
+    classDef focus fill:#f96,stroke:#333,stroke-width:2px,color:#11111b;
     class D focus;
 ```
 
@@ -327,7 +327,7 @@ flowchart LR
 
 ---
 
-### 4.6 Case Study: Global Media Portfolio Optimization ($5M Budget Reallocation)
+### 4.6 Case Study: Global Media Portfolio Optimization (\$5M Budget Reallocation)
 
 **Context:**
 A multinational consumer beverage conglomerate manages an annual digital advertising expenditure exceeding \$5,000,000 distributed across programmatic ad exchanges, social video platforms, search engines, and display ad networks. Historically, budget reallocation was performed quarterly based on delayed vendor invoice reports.
@@ -374,9 +374,9 @@ Business data visualization is not an aesthetic exercise in digital illustration
 
 ```mermaid
 flowchart TD
-    D["Data (Raw Facts)<br/>200 individual store daily sales numbers in a CSV"] --> I["Information (Organized & Contextualized)<br/>Store sales grouped, normalized, and ranked by regional tier"]
-    I --> IN["Insight (Actionable Understanding)<br/>12 specific tier-2 stores are severely underperforming baseline"]
-    IN --> A["Action (Executive Intervention)<br/>Reallocate inventory, audit supply routes, replace regional management"]
+    D["Data (Raw Facts): 200 individual store daily sales numbers in a CSV"] --> I["Information (Organized & Contextualized): Store sales grouped, normalized, and ranked"]
+    I --> IN["Insight (Actionable Understanding): 12 specific tier-2 stores underperform baseline"]
+    IN --> A["Action (Executive Intervention): Reallocate inventory, audit supply routes"]
 ```
 
 ### 5.1 The Data-to-Insight Ladder
@@ -409,11 +409,11 @@ Enterprise visualizations are deployed to serve four distinct organizational fun
 
 ```mermaid
 flowchart LR
-    subgraph Purposes["The Four Strategic Purposes of Visualization"]
-        P1["1. Reveal Patterns<br/>• Spot clusters & trends<br/>• Surface hidden outliers<br/>• Decode non-linear data"]
-        P2["2. Speed Decisions<br/>• Instant situational awareness<br/>• Sub-second recognition<br/>• Color-coded triage"]
-        P3["3. Tell a Story<br/>• Guide cognitive focus<br/>• Sequential narrative<br/>• Isolate focal insights"]
-        P4["4. Support Persuasion<br/>• Defensible evidence<br/>• Justify capital budgets<br/>• Concrete visual proof"]
+    subgraph Purposes ["The Four Strategic Purposes of Visualization"]
+        P1["1. Reveal Patterns: Spot clusters, trends, hidden outliers"]
+        P2["2. Speed Decisions: Instant situational awareness, Color-coded triage"]
+        P3["3. Tell a Story: Guide cognitive focus, Sequential narrative"]
+        P4["4. Support Persuasion: Defensible evidence, Justify capital budgets"]
     end
 ```
 
@@ -466,12 +466,12 @@ Selecting an improper chart type is the most common cause of visual miscommunica
 flowchart TD
     Q{"What is the Core Analytical Question?"}
 
-    Q -->|"Comparing discrete categories"| FAM1["Comparison Family<br/>• Sorted Bar Chart<br/>• Grouped Column Chart"]
-    Q -->|"Tracking change across time"| FAM2["Trend Family<br/>• Line Chart<br/>• Area Chart"]
-    Q -->|"Assessing spread and skewness"| FAM3["Distribution Family<br/>• Histogram<br/>• Box & Whisker Plot"]
-    Q -->|"Correlating continuous variables"| FAM4["Relationship Family<br/>• 2D Scatter Plot<br/>• Bubble Chart"]
-    Q -->|"Decomposing parts of a whole"| FAM5["Composition Family<br/>• Stacked Bar Chart<br/>• Treemap"]
-    Q -->|"Mapping spatial locations"| FAM6["Geographic Family<br/>• Choropleth Map<br/>• Proportional Bubble Map"]
+    Q -->|"Comparing discrete categories"| FAM1["Comparison Family: Sorted Bar Chart, Grouped Column Chart"]
+    Q -->|"Tracking change across time"| FAM2["Trend Family: Line Chart, Area Chart"]
+    Q -->|"Assessing spread and skewness"| FAM3["Distribution Family: Histogram, Box & Whisker Plot"]
+    Q -->|"Correlating continuous variables"| FAM4["Relationship Family: 2D Scatter Plot, Bubble Chart"]
+    Q -->|"Decomposing parts of a whole"| FAM5["Composition Family: Stacked Bar Chart, Treemap"]
+    Q -->|"Mapping spatial locations"| FAM6["Geographic Family: Choropleth Map, Proportional Bubble Map"]
 ```
 
 [Source: Session-2, Slides 8–9]
@@ -493,7 +493,7 @@ flowchart LR
     end
 
     subgraph TRANS["The Shift"]
-        T1["Analyst discovers verified insight<br/>↓<br/>Distills single message for stakeholders"]
+        T1["Analyst discovers verified insight -> Distills single message for stakeholders"]
     end
 
     subgraph EXPN["Explanatory Visualization"]
@@ -542,8 +542,8 @@ Prior to selecting any graphical format, an analyst must systematically evaluate
 
 ```mermaid
 flowchart TD
-    Q1["1. What is my Message?<br/>(Comparison, Trend, Distribution, Correlation, Composition, Geographic)"] --> Q2["2. Who is my Audience?<br/>(Technical specialist needing detail vs Executive needing instant insight)"]
-    Q2 --> Q3["3. What is my Data Shape?<br/>(Categorical, Continuous Time-Series, Multi-Dimensional Hierarchies)"]
+    Q1["1. What is my Message? (Comparison, Trend, Distribution, Correlation, Composition, Geographic)"] --> Q2["2. Who is my Audience? (Technical specialist vs Executive)"]
+    Q2 --> Q3["3. What is my Data Shape? (Categorical, Continuous Time-Series, Hierarchies)"]
     Q3 --> SELECT["Optimal Chart Automatically Selected"]
 ```
 
@@ -572,7 +572,7 @@ flowchart LR
     end
 
     subgraph FIX["Design Transformation"]
-        T["• Eliminate 3D perspective distortion<br/>• Map values to common aligned baseline<br/>• Sort descending by magnitude<br/>• Apply selective accent color"]
+        T["Eliminate 3D perspective distortion; Map to aligned baseline; Sort descending; Apply selective accent color"]
     end
 
     subgraph GOOD["GOOD DESIGN: Sorted Horizontal Bar Chart"]
@@ -613,11 +613,11 @@ The 5 V's framework provides the industry-standard taxonomy for characterizing e
 flowchart TD
     V["The 5 V's of Enterprise Business Data"]
 
-    V --> V1["1. Volume (Scale)<br/>• Petabytes/Exabytes<br/>• UPI: 10B+ monthly txns<br/>• Forces SQL & distributed engines"]
-    V --> V2["2. Velocity (Speed)<br/>• Ingestion latency<br/>• Batch vs Near-Real-Time vs Streaming<br/>• Swiggy tracking / Stock tickers"]
-    V --> V3["3. Variety (Structure)<br/>• Multimodal heterogeneity<br/>• One Zomato order = 6 data types<br/>• Tabular + Text + GPS + Image + Audio"]
-    V --> V4["4. Veracity (Trust)<br/>• Data integrity & cleanliness<br/>• GIGO: Garbage in, garbage out<br/>• Typos, sensor glitches, missing nulls"]
-    V --> V5["5. Value (Commercial Utility)<br/>• Economic return<br/>• Data as Cost vs Data as Value<br/>• Amazon 35% recommendation engine"]
+    V --> V1["1. Volume (Scale): Petabytes/Exabytes, UPI 10B+ monthly txns"]
+    V --> V2["2. Velocity (Speed): Ingestion latency, Batch vs Streaming"]
+    V --> V3["3. Variety (Structure): Multimodal heterogeneity, Tabular, Text, GPS, Image"]
+    V --> V4["4. Veracity (Trust): Data integrity, Cleanliness, GIGO"]
+    V --> V5["5. Value (Commercial Utility): Economic return, Data as Value"]
 ```
 
 #### 1. Volume (Scale of Data Footprint)
@@ -675,10 +675,10 @@ Granularity defines the semantic boundary of an individual data row. Enterprise 
 
 ```mermaid
 flowchart TD
-    COARSE["COARSE GRANULARITY (Zoomed Out)<br/>Annual Corporate Revenue Summary (₹1,200 Cr)<br/>• Fast queries, tiny file footprint<br/>• High-level executive trend visible<br/>• Root causes completely hidden"]
-    MED1["MEDIUM-COARSE GRANULARITY<br/>Quarterly Regional Revenue Breakdown (Western Region: ₹320 Cr)"]
-    MED2["MEDIUM-FINE GRANULARITY<br/>Daily Store-Level Sales Totals (CG Road Store: ₹4.8 Lakh)"]
-    FINE["FINE GRANULARITY (Zoomed In)<br/>Individual POS Transaction Items (Receipt #8412, Milk ₹32, 08:14:22 AM)<br/>• Maximum analytical depth, root causes discoverable<br/>• Massive storage volume, high computational cost<br/>• Can always roll UP to higher summaries"]
+    COARSE["COARSE GRANULARITY: Annual Corporate Revenue Summary (Fast queries, High-level trend)"]
+    MED1["MEDIUM-COARSE GRANULARITY: Quarterly Regional Revenue Breakdown"]
+    MED2["MEDIUM-FINE GRANULARITY: Daily Store-Level Sales Totals"]
+    FINE["FINE GRANULARITY: Individual POS Transaction Items (Maximum analytical depth)"]
 
     COARSE --> MED1 --> MED2 --> FINE
 ```
@@ -704,9 +704,9 @@ Nearly all enterprise business data carries a temporal timestamp. Temporal varia
 flowchart TD
     TIME["Temporal Patterns in Business Data"]
 
-    TIME --> P1["1. Trend<br/>Long-term monotonic secular direction<br/>(e.g., 5-year steady adoption of UPI payments)"]
-    TIME --> P2["2. Seasonality<br/>Predictable, repeating calendar cycles<br/>(e.g., Annual Diwali e-commerce sales peak in October)"]
-    TIME --> P3["3. Anomaly / Noise<br/>Transient, unpredicted one-off exogenous shocks<br/>(e.g., Server crash dropping orders to zero for 2 hours)"]
+    TIME --> P1["1. Trend: Long-term monotonic secular direction"]
+    TIME --> P2["2. Seasonality: Predictable, repeating calendar cycles"]
+    TIME --> P3["3. Anomaly / Noise: Transient, unpredicted one-off exogenous shocks"]
 ```
 
 #### The Analyst's Diagnostic Test:
@@ -774,12 +774,12 @@ Data quality is traditionally studied in database engineering as constraints and
 flowchart TD
     DQ["The Six Dimensions of Data Quality"]
 
-    DQ --> D1["1. Accuracy<br/>Wrong numerical values silently shift bars and scatter points"]
-    DQ --> D2["2. Completeness<br/>Missing rows do not leave blank spaces; they display confidently wrong totals"]
-    DQ --> D3["3. Consistency<br/>Split spellings ('AMD', 'Ahmedabad') fragment one bar into three misleading bars"]
-    DQ --> D4["4. Timeliness<br/>Stale, lagged data plots identically to fresh real-time numbers"]
-    DQ --> D5["5. Uniqueness<br/>Duplicate transaction rows silently inflate bar heights and aggregate sums"]
-    DQ --> D6["6. Validity<br/>Out-of-range values (Age: 250) massively compress the visual axis scale"]
+    DQ --> D1["1. Accuracy: Wrong numerical values silently shift bars and points"]
+    DQ --> D2["2. Completeness: Missing rows display confidently wrong totals"]
+    DQ --> D3["3. Consistency: Split spellings fragment one bar into multiple bars"]
+    DQ --> D4["4. Timeliness: Stale data plots identically to fresh real-time numbers"]
+    DQ --> D5["5. Uniqueness: Duplicate transaction rows silently inflate bar heights"]
+    DQ --> D6["6. Validity: Out-of-range values massively compress the visual axis"]
 ```
 
 #### Detailed Breakdown of Silent Visual Corruptions:
@@ -815,12 +815,12 @@ During annual Indian festive sales (e.g., Flipkart Big Billion Days, Amazon Grea
 flowchart TD
     SALE["Festive Mega Sale (100M Events/Day)"]
 
-    SALE --> F1["Volume<br/>Weekly order volume matches an entire normal financial quarter (Petabytes of logs)"]
-    SALE --> F2["Velocity<br/>Real-time ticker refreshing gross merchandise value (GMV) every second"]
-    SALE --> F3["Variety<br/>Orders, payment webhooks, delivery GPS, photo verifications, chatbot tickets"]
-    SALE --> F4["Veracity<br/>Automated bot networks scraping flash sales and submitting fraudulent orders"]
-    SALE --> F5["Granularity<br/>Executive dashboard shows hourly GMV; logistics systems track each courier parcel"]
-    SALE --> F6["Seasonality<br/>Sales performance benchmarked strictly against LAST YEAR'S SALE, never last month"]
+    SALE --> F1["Volume: Weekly order volume matches an entire normal quarter"]
+    SALE --> F2["Velocity: Real-time ticker refreshing GMV every second"]
+    SALE --> F3["Variety: Orders, payment webhooks, delivery GPS, tickets"]
+    SALE --> F4["Veracity: Automated bot networks scraping flash sales"]
+    SALE --> F5["Granularity: Executive dashboard shows hourly GMV"]
+    SALE --> F6["Seasonality: Sales benchmarked YoY against prior year sale"]
 ```
 
 - **Architectural Stress Points & Solutions:**
@@ -841,19 +841,19 @@ In commercial enterprises, visualization does not operate as an isolated desktop
 
 ```mermaid
 flowchart TD
-    subgraph Capture["1. CAPTURE LAYER (Operational & Transactional)"]
-        ERP["Enterprise Resource Planning (ERP)<br/>• SAP, Oracle, NetSuite<br/>• Real-time operational capture"]
-        CRM["Customer Relationship Mgmt (CRM)<br/>• Salesforce, HubSpot<br/>• Customer touchpoints"]
-        SCM["Supply Chain Mgmt (SCM)<br/>• Logistics, inventory, vendors"]
-        HRMS["HR Management Systems (HRMS)<br/>• Payroll, headcount, hiring"]
+    subgraph Capture ["1. CAPTURE LAYER (Operational & Transactional)"]
+        ERP["Enterprise Resource Planning (ERP): SAP, Oracle, Real-time capture"]
+        CRM["Customer Relationship Mgmt (CRM): Salesforce, Customer touchpoints"]
+        SCM["Supply Chain Mgmt (SCM): Logistics, inventory, vendors"]
+        HRMS["HR Management Systems (HRMS): Payroll, headcount, hiring"]
     end
 
-    subgraph Discover["2. DISCOVERY LAYER (Data Mining & Predictive Analytics)"]
-        DM["Data Mining & Machine Learning<br/>• Spark, Python ML, Snowflake Data Lake<br/>• Latent pattern discovery<br/>• Collaborative filtering & clustering<br/>• Demand & churn forecasting"]
+    subgraph Discover ["2. DISCOVERY LAYER (Data Mining & Predictive Analytics)"]
+        DM["Data Mining & Machine Learning: Spark, Latent pattern discovery, Demand forecasting"]
     end
 
-    subgraph Decide["3. DECISION LAYER (Business Intelligence & Visualization)"]
-        BI["Business Intelligence (BI)<br/>• Tableau, Power BI, Looker<br/>• Executive dashboards & scorecards<br/>• Human cognitive decision support"]
+    subgraph Decide ["3. DECISION LAYER (Business Intelligence & Visualization)"]
+        BI["Business Intelligence (BI): Tableau, Power BI, Executive dashboards"]
     end
 
     Capture -->|"Structured Data Warehousing & ETL/ELT"| Discover
@@ -939,12 +939,12 @@ While ERP manages core financial and manufacturing ledgers, large enterprises de
 
 ```mermaid
 flowchart TD
-    BI_HUB["Central Enterprise BI Layer<br/>(Tableau / Power BI / Snowflake)"]
+    BI_HUB["Central Enterprise BI Layer: Tableau, Power BI, Snowflake"]
 
-    ERP_SYS["ERP (Core Backbone)<br/>Financial ledgers, manufacturing, inventory"] --> BI_HUB
-    CRM_SYS["CRM (Customer Relationship Mgmt)<br/>Lead pipelines, support tickets, CSAT"] --> BI_HUB
-    SCM_SYS["SCM (Supply Chain Mgmt)<br/>Supplier procurement, freight tracking, customs"] --> BI_HUB
-    HRMS_SYS["HRMS (Human Resource Mgmt)<br/>Hiring funnels, payroll, attrition rates"] --> BI_HUB
+    ERP_SYS["ERP (Core Backbone): Financial ledgers, manufacturing, inventory"] --> BI_HUB
+    CRM_SYS["CRM (Customer Relationship Mgmt): Lead pipelines, support tickets, CSAT"] --> BI_HUB
+    SCM_SYS["SCM (Supply Chain Mgmt): Supplier procurement, freight tracking, customs"] --> BI_HUB
+    HRMS_SYS["HRMS (Human Resource Mgmt): Hiring funnels, payroll, attrition rates"] --> BI_HUB
 ```
 
 1. **Customer Relationship Management (CRM):**
@@ -1023,11 +1023,11 @@ Students frequently struggle with overlapping data analytics job titles:
 
 ```mermaid
 flowchart LR
-    A["ERP Consultant / SAP Analyst<br/>• Implements operational systems<br/>• Focus: CAPTURE STAGE"] --> B["Data Mining / ML Engineer<br/>• Builds statistical & predictive models<br/>• Focus: DISCOVER STAGE"]
-    B --> C["BI Analyst / BI Developer<br/>• Builds dashboards & executive metrics<br/>• Focus: DECIDE STAGE"]
+    A["ERP Consultant / SAP Analyst: Implements operational systems (CAPTURE)"] --> B["Data Mining / ML Engineer: Builds predictive models (DISCOVER)"]
+    B --> C["BI Analyst / BI Developer: Builds dashboards & metrics (DECIDE)"]
 
-    classDef generalist fill:#f9f,stroke:#333,stroke-width:2px;
-    BA["Business Analyst<br/>Generalist bridge working across all three stages"]:::generalist
+    classDef generalist fill:#f9f,stroke:#333,stroke-width:2px,color:#11111b;
+    BA["Business Analyst: Generalist bridge working across all three stages"]:::generalist
 ```
 
 #### How to Answer: *"Can you explain the difference between ERP, Data Mining, and BI?"* in 60 Seconds
@@ -1056,11 +1056,9 @@ A primary source of organizational dysfunction is treating all numbers equally. 
 
 ```mermaid
 flowchart TD
-    M["1. MEASURE (Raw Operational Count)<br/>A single uncontextualized number with zero judgment attached.<br/>Amazon Logistics: '2,400,000 packages delivered today'"]
-
-    ME["2. METRIC (Calculated Ratio or Rate)<br/>A mathematical ratio combining measures to provide context and comparability.<br/>Amazon Logistics: '2.4M delivered ÷ 2.45M promised = 98.0% On-Time Delivery Rate'"]
-
-    K["3. KEY PERFORMANCE INDICATOR (KPI — Strategically Weighted Metric)<br/>A metric formally tied to executive goals, tracked regularly, with bonuses tied to it.<br/>Amazon Leadership: 'Maintain ≥ 98.5% On-Time Rate weekly; executive reviews held every Monday'"]
+    M["1. MEASURE: Raw Operational Count (e.g., 2,400,000 packages delivered today)"]
+    ME["2. METRIC: Calculated Ratio or Rate (e.g., 98.0% On-Time Delivery Rate)"]
+    K["3. KEY PERFORMANCE INDICATOR: Strategically Weighted Metric (e.g., Maintain >= 98.5% On-Time Rate weekly)"]
 
     M --> ME --> K
 ```
@@ -1083,11 +1081,11 @@ Not every metric deserves to be elevated to a KPI. A metric must be evaluated ag
 
 ```mermaid
 flowchart LR
-    S["S: Specific<br/>Unambiguously defined; not 'improve satisfaction'"]
-    M["M: Measurable<br/>Quantifiable from verifiable digital telemetry"]
-    A["A: Achievable<br/>Realistic under operational constraints"]
-    R["R: Relevant<br/>Directly aligned with top-level strategic vision"]
-    T["T: Time-bound<br/>Governed by clear deadlines & reporting cadence"]
+    S["S: Specific - Unambiguously defined"]
+    M["M: Measurable - Quantifiable from telemetry"]
+    A["A: Achievable - Realistic under constraints"]
+    R["R: Relevant - Aligned with strategic vision"]
+    T["T: Time-bound - Governed by clear deadlines"]
 
     S --- M --- A --- R --- T
 ```
@@ -1186,11 +1184,11 @@ Enterprises manage performance using two dominant structural frameworks:
 
 ```mermaid
 flowchart TD
-    subgraph BSC["Kaplan & Norton Balanced Scorecard (BSC)"]
-        BSC_FIN["1. Financial Perspective<br/>'How do we look to shareholders?'<br/>(ROI, Net Margin, Cash Flow)"]
-        BSC_CUST["2. Customer Perspective<br/>'How do customers see us?'<br/>(NPS, CSAT, Retention Rate)"]
-        BSC_PROC["3. Internal Business Processes<br/>'What operations must we excel at?'<br/>(Cycle Time, Defect Rate, OTIF)"]
-        BSC_LEARN["4. Learning & Growth<br/>'Can we continue to improve and innovate?'<br/>(Training Hours, Employee Retention)"]
+    subgraph BSC ["Kaplan & Norton Balanced Scorecard (BSC)"]
+        BSC_FIN["1. Financial Perspective: ROI, Net Margin, Cash Flow"]
+        BSC_CUST["2. Customer Perspective: NPS, CSAT, Retention Rate"]
+        BSC_PROC["3. Internal Business Processes: Cycle Time, Defect Rate, OTIF"]
+        BSC_LEARN["4. Learning & Growth: Training Hours, Employee Retention"]
     end
 ```
 
@@ -1221,11 +1219,11 @@ Data is not an abstract mathematical artifact; behind nearly every recorded row 
 flowchart TD
     ETHICS["Ethical, Legal & Social Challenges of Business Data"]
 
-    ETHICS --> E1["1. Data Ownership Spectrum<br/>Clear PII vs Murky Derived Inferences vs Very Murky Contact Scraping"]
-    ETHICS --> E2["2. Regulatory Governance<br/>EU GDPR (Right to be Forgotten) vs India DPDP Act 2023 (Fiduciary Obligations)"]
-    ETHICS --> E3["3. Cybersecurity Breaches<br/>Equifax 2017: Unpatched vulnerability exposes 147M credit records"]
-    ETHICS --> E4["4. Algorithmic Discrimination<br/>Amazon AI Recruiting Tool: Machine learning penalizing female applicants"]
-    ETHICS --> E5["5. Surveillance & Consent<br/>Cambridge Analytica 2018: 87M harvested profiles without explicit consent"]
+    ETHICS --> E1["1. Data Ownership Spectrum - Clear PII vs Murky Derived Inferences vs Very Murky Contact Scraping"]
+    ETHICS --> E2["2. Regulatory Governance - EU GDPR (Right to be Forgotten) vs India DPDP Act 2023 (Fiduciary Obligations)"]
+    ETHICS --> E3["3. Cybersecurity Breaches - Equifax 2017: Unpatched vulnerability exposes 147M credit records"]
+    ETHICS --> E4["4. Algorithmic Discrimination - Amazon AI Recruiting Tool: Machine learning penalizing female applicants"]
+    ETHICS --> E5["5. Surveillance & Consent - Cambridge Analytica 2018: 87M harvested profiles without explicit consent"]
 ```
 
 #### 1. The Data Ownership Spectrum
@@ -1718,13 +1716,13 @@ You are appointed as the Lead Business Intelligence Architect for a major Indian
 
 ```mermaid
 flowchart TD
-    subgraph SCORECARD["Festive Sale Executive Scorecard"]
+    subgraph SCORECARD ["Festive Sale Executive Scorecard"]
         direction TB
-        L1["Leading Indicator 1: Active Cart Abandonment Rate (Hourly)<br/>Target: < 22%<br/>Action: Triggers automated SMS push discounts if cart drop-off surges"]
-        L2["Leading Indicator 2: Payment Gateway API Success Rate<br/>Target: ≥ 99.2%<br/>Action: Automatically shifts payment routing traffic away from failing bank nodes"]
-        G1["Lagging Indicator 1: Cumulative Hourly Gross Merchandise Value (GMV)<br/>Target: ₹1,200 Cr / Day<br/>Action: Benchmarked YoY against Day 1 of prior year festive sale"]
-        G2["Lagging Indicator 2: On-Time In-Full (OTIF) Fulfillment Rate<br/>Target: ≥ 96.5%<br/>Action: Determines third-party courier contractual penalty fees"]
-        V1["VANITY METRIC TRAP: Total Cumulative App Installs<br/>Why Excluded: Measures marketing download spend; does not reflect active buyers or GMV"]
+        L1["Leading Indicator 1: Active Cart Abandonment Rate (Target < 22%)"]
+        L2["Leading Indicator 2: Payment Gateway API Success Rate (Target >= 99.2%)"]
+        G1["Lagging Indicator 1: Cumulative Hourly GMV (Target 1,200 Cr / Day)"]
+        G2["Lagging Indicator 2: On-Time In-Full Fulfillment Rate (Target >= 96.5%)"]
+        V1["VANITY METRIC TRAP: Total Cumulative App Installs"]
     end
 ```
 

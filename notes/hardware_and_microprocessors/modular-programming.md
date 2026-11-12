@@ -463,7 +463,7 @@ Sets the title string printed at the top of each page of the assembler's listing
 
 When multiple modules are linked together, one module may need to access a variable or procedure defined in a **different module**. ASM-86 provides two directives to manage this:
 
-| Directive | Meaning | Used in module that… |
+| Directive | Meaning | Module Usage Context |
 | :-------- | :------ | :------------------- |
 | `EXTRN Identifier:Type` | "I need this identifier from another module" | **References** the identifier but does not define it |
 | `PUBLIC Identifier` | "I provide this identifier to other modules" | **Defines** the identifier and makes it visible externally |
@@ -840,6 +840,7 @@ $$
 | STACK | Sum | End-to-end | Unified stack |
 | AT | As declared | Fixed absolute | Hardware I/O |
 | MEMORY | As declared | At top of load module | Overlay buffer |
+
 | Stage | What is resolved |
 | :---- | :--------------- |
 | Assembly | Offsets of local variables/labels |

@@ -207,21 +207,21 @@ The grid divides each container into 12 proportional columns. Layout structure a
 ```
 *   Columns must sum to 12 within a `.row` to fill 100% width.
 *   If column totals exceed 12, extra columns wrap to the next line.
-*   Example: `<div class="col-md-8">` (occupies 66.6% width on tablets $\ge 768	ext{px}$) and `<div class="col-md-4">` (occupies 33.3% width).
+*   Example: `<div class="col-md-8">` (occupies 66.6% width on tablets $\ge 768\text{px}$) and `<div class="col-md-4">` (occupies 33.3% width).
 
 ### 2. Six Responsive Breakpoints:
-*   `xs` ($< 576	ext{px}$): Mobile phones.
-*   `sm` ($\ge 576	ext{px}$): Large phones in landscape.
-*   `md` ($\ge 768	ext{px}$): Tablets.
-*   `lg` ($\ge 992	ext{px}$): Laptops / Desktop displays.
-*   `xl` ($\ge 1200	ext{px}$): High-resolution desktops.
-*   `xxl` ($\ge 1400	ext{px}$): Ultra-wide monitors.
+*   `xs` ($< 576\text{px}$): Mobile phones.
+*   `sm` ($\ge 576\text{px}$): Large phones in landscape.
+*   `md` ($\ge 768\text{px}$): Tablets.
+*   `lg` ($\ge 992\text{px}$): Laptops / Desktop displays.
+*   `xl` ($\ge 1200\text{px}$): High-resolution desktops.
+*   `xxl` ($\ge 1400\text{px}$): Ultra-wide monitors.
 
 ### 3. Major Enhancements in Bootstrap 5 over Bootstrap 4:
 1. **Dropped jQuery:** Removed jQuery completely; all interactive components (modals, dropdowns) run on native **Vanilla JavaScript (ES6+)**, resulting in smaller bundles and faster execution.
 2. **CSS Custom Properties (Variables):** Added native CSS variables (`--bs-primary`) for effortless theme switching and dark mode integration.
 3. **Dropped Internet Explorer:** Dropped IE 10/11 support, enabling modern CSS standards (Flexbox, CSS Grid).
-4. **Added `xxl` Breakpoint:** Added $\ge 1400	ext{px}$ tier for modern ultra-wide monitors.
+4. **Added `xxl` Breakpoint:** Added $\ge 1400\text{px}$ tier for modern ultra-wide monitors.
 5. **Native SVG Icon Library:** Integrated Bootstrap Icons natively without requiring external font libraries (FontAwesome).
 
 ---
@@ -234,7 +234,7 @@ The grid divides each container into 12 proportional columns. Layout structure a
 ### The 5 Core Problems Tailwind CSS Solves:
 1. **Elimination of Naming Fatigue:** Developers don't waste time inventing arbitrary BEM class names (`.profile-card-header__title`).
 2. **Zero CSS Specificity Wars:** Styles are applied locally to elements at flat specificity, preventing global CSS collisions.
-3. **Sub-10KB Production Bundles (JIT Compiler):** Traditional frameworks ship large, monolithic CSS bundles (~200KB+). Tailwind's Just-In-Time (JIT) compiler scans template files and generates *strictly* the classes used, creating lightweight production stylesheets under $10	ext{KB}$ gzipped.
+3. **Sub-10KB Production Bundles (JIT Compiler):** Traditional frameworks ship large, monolithic CSS bundles (~200KB+). Tailwind's Just-In-Time (JIT) compiler scans template files and generates *strictly* the classes used, creating lightweight production stylesheets under $10\text{KB}$ gzipped.
 4. **Design System Consistency:** Provides standardized scales for spacing, typography, and color, eliminating arbitrary "magic numbers" (`margin: 19px`).
 5. **Responsive & State Modifiers:** Supports responsive breakpoints (`sm:`, `md:`, `lg:`) and pseudo-states (`hover:`, `focus:`, `dark:`) directly within class strings:
    ```html
@@ -250,7 +250,7 @@ The grid divides each container into 12 proportional columns. Layout structure a
 | **Philosophy** | **Component-Based:** Pre-designed opinionated UI widgets. | **Utility-First:** Atomic, low-level styling building blocks. |
 | **Customizability** | Low/Moderate (requires overriding SASS or CSS rules). | High/Infinite (total freedom over UI appearance). |
 | **Design Individuality** | Sites often have a recognizable "Bootstrap template" appearance. | Fully custom designs tailored uniquely to the brand. |
-| **Bundle Size** | Monolithic (~150KB–280KB unminified). | Minimal (purged via JIT to $< 10	ext{KB}$ gzipped). |
+| **Bundle Size** | Monolithic (~150KB–280KB unminified). | Minimal (purged via JIT to $< 10\text{KB}$ gzipped). |
 | **Prototyping** | Extremely fast for standard prototypes (ready-made buttons/cards). | Fast once utility classes are mastered; requires composing elements. |
 
 ---
@@ -323,8 +323,8 @@ flowchart TD
 **Answer:**
 When a user types a URL (e.g., `https://api.university.edu/grades`) into a browser and presses Enter, the following sequence occurs:
 
-1. **DNS Resolution:** The browser resolves the human-readable domain name into an IP address checking sequentially: Browser DNS cache $	o$ OS hosts file $	o$ Router cache $	o$ ISP Recursive DNS Resolver $	o$ Root/TLD/Authoritative Nameservers.
-2. **TCP 3-Way Handshake:** The browser opens a reliable TCP connection to the destination server IP on port 443 (HTTPS) via a three-way handshake: `SYN` $	o$ `SYN-ACK` $	o$ `ACK`.
+1. **DNS Resolution:** The browser resolves the human-readable domain name into an IP address checking sequentially: Browser DNS cache $\to$ OS hosts file $\to$ Router cache $\to$ ISP Recursive DNS Resolver $\to$ Root/TLD/Authoritative Nameservers.
+2. **TCP 3-Way Handshake:** The browser opens a reliable TCP connection to the destination server IP on port 443 (HTTPS) via a three-way handshake: `SYN` $\to$ `SYN-ACK` $\to$ `ACK`.
 3. **TLS/SSL Encryption Handshake:** For secure HTTPS connections, the client and server negotiate encryption algorithms, validate the server's X.509 digital certificate, and exchange a symmetric session encryption key.
 4. **HTTP Request Transmission:** The browser formats and sends an HTTP Request:
    ```http
@@ -352,7 +352,7 @@ When a user types a URL (e.g., `https://api.university.edu/grades`) into a brows
 
 | Parameter | **`localStorage`** | **`sessionStorage`** | **HTTP Cookies** | **`IndexedDB`** |
 | :--- | :--- | :--- | :--- | :--- |
-| **Capacity** | $\sim 5	ext{MB} - 10	ext{MB}$ | $\sim 5	ext{MB}$ | $\sim 4	ext{KB}$ | $> 250	ext{MB}$ (Gigabytes) |
+| **Capacity** | $\sim 5\text{MB} - 10\text{MB}$ | $\sim 5\text{MB}$ | $\sim 4\text{KB}$ | $> 250\text{MB}$ (Gigabytes) |
 | **Lifespan** | Permanent (persists until manually cleared). | Tab session (wiped when tab closes). | Set via `Expires` or `Max-Age`. | Permanent (until storage pressure eviction). |
 | **Accessibility** | Client-side only (`window.localStorage`). | Client-side only (`window.sessionStorage`). | Client and Server (sent with every HTTP request). | Client-side only (`window.indexedDB`). |
 | **Data Structure**| Key-Value (Strings only). | Key-Value (Strings only). | Key-Value (String pairs). | NoSQL Object Store (blobs, files, typed objects). |

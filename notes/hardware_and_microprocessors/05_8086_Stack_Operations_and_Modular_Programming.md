@@ -64,13 +64,13 @@ flowchart TD
 
         HighMem["SS:FFFFH - Base of Stack Space (Initial SP)"]
 
-        Data2["[SS:01FC] - Stored Parameter 2"]
+        Data2["(SS:01FC) - Stored Parameter 2"]
 
-        Data1["[SS:01FA] - Stored Parameter 1"]
+        Data1["(SS:01FA) - Stored Parameter 1"]
 
-        RetAddr["[SS:01F8] - Return IP (Pushed by CALL)"]
+        RetAddr["(SS:01F8) - Return IP (Pushed by CALL)"]
 
-        OldBP["[SS:01F6] - Old BP Value (Frame Base)"]
+        OldBP["(SS:01F6) - Old BP Value (Frame Base)"]
 
         TOS["SS:SP -> Current Top of Stack (TOS)"]
 
@@ -95,11 +95,8 @@ flowchart TD
 
 
     subgraph Operation_Rules["Stack Operation Mechanics"]
-
-        PushRule["PUSH Word:<br>1. SP = SP - 2<br>2. [SS:SP] = DataWord"]
-
-        PopRule["POP Word:<br>1. DataWord = [SS:SP]<br>2. SP = SP + 2"]
-
+        PushRule["PUSH Word: 1. SP = SP - 2, 2. SS:SP = DataWord"]
+        PopRule["POP Word: 1. DataWord = SS:SP, 2. SP = SP + 2"]
     end
 
 ```
@@ -277,7 +274,7 @@ When parameters are passed to a procedure via the stack, those parameters remain
 
 - **`RET`**: Pops return address into `IP` (or `CS:IP`).
 
-- **`RET n`**: Pops return address into `IP`, and **automatically adds constant integer $n$to `SP`**, cleanly discarding$n$ bytes of pushed parameters in a single instruction.
+- **`RET n`**: Pops return address into `IP`, and **automatically adds constant integer $n$ to `SP`**, cleanly discarding $n$ bytes of pushed parameters in a single instruction.
 
 
 

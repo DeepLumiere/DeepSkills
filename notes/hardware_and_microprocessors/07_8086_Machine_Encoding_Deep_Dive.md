@@ -173,13 +173,13 @@ The table below shows **all major 8086 opcodes**. Entries marked ⭐ are the one
 | ⭐ `ADD r, r/m` (byte) | `0000 001W` → `02H`/`03H` | D=1 form |
 | `ADD acc, imm` | `0000 010W` → `04H`/`05H` | Accumulator short form |
 | `ADC r/m, r` | `0001 000W` → `10H`/`11H` | Add with Carry |
-| `ADC r, r/m` | `0001 001W` → `12H`/`13H` | |
+| `ADC r, r/m` | `0001 001W` → `12H`/`13H` | D=1 form |
 | `SUB r/m, r` | `0010 100W` → `28H`/`29H` | Subtract |
-| `SUB r, r/m` | `0010 101W` → `2AH`/`2BH` | |
+| `SUB r, r/m` | `0010 101W` → `2AH`/`2BH` | D=1 form |
 | `SBB r/m, r` | `0001 100W` → `18H`/`19H` | Sub with Borrow |
 | ⭐ `CMP r/m, r` | `0011 100W` → `38H`/`39H` | Compare (no store) |
-| `CMP r, r/m` | `0011 101W` → `3AH`/`3BH` | |
-| `CMP acc, imm` | `0011 110W` → `3CH`/`3DH` | |
+| `CMP r, r/m` | `0011 101W` → `3AH`/`3BH` | D=1 form |
+| `CMP acc, imm` | `0011 110W` → `3CH`/`3DH` | Accumulator short form |
 | `INC r/m` | `1111 111W` = `FEH`/`FFH`, `/0` | Inc memory |
 | ⭐ `INC reg` | `0100 0rrr` = `40H`–`47H` | Inc register short |
 | `DEC r/m` | `1111 111W` = `FEH`/`FFH`, `/1` | Dec memory |
@@ -202,25 +202,25 @@ The table below shows **all major 8086 opcodes**. Entries marked ⭐ are the one
 
 | Instruction | Opcode | Notes |
 |:---|:---|:---|
-| `AND r/m, r` | `0010 000W` → `20H`/`21H` | |
-| `AND r, r/m` | `0010 001W` → `22H`/`23H` | |
-| `AND acc, imm` | `0010 010W` → `24H`/`25H` | |
-| `OR r/m, r` | `0000 100W` → `08H`/`09H` | |
-| `OR acc, imm` | `0000 110W` → `0CH`/`0DH` | |
-| `XOR r/m, r` | `0011 000W` → `30H`/`31H` | |
-| `XOR acc, imm` | `0011 010W` → `34H`/`35H` | |
+| `AND r/m, r` | `0010 000W` → `20H`/`21H` | Logical AND |
+| `AND r, r/m` | `0010 001W` → `22H`/`23H` | D=1 form |
+| `AND acc, imm` | `0010 010W` → `24H`/`25H` | Accumulator short form |
+| `OR r/m, r` | `0000 100W` → `08H`/`09H` | Logical OR |
+| `OR acc, imm` | `0000 110W` → `0CH`/`0DH` | Accumulator short form |
+| `XOR r/m, r` | `0011 000W` → `30H`/`31H` | Logical XOR |
+| `XOR acc, imm` | `0011 010W` → `34H`/`35H` | Accumulator short form |
 | `NOT r/m` | `1111 011W`, `/2` | 1's complement |
 | `TEST r/m, r` | `1000 010W` → `84H`/`85H` | AND no store |
-| ⭐ `SHL/SAL` by 1 | `1101 000W`, `/4` → `D0H`/`D1H` | |
-| ⭐ `SHL/SAL` by CL | `1101 001W`, `/4` → `D2H`/`D3H` | |
-| `SHR` by 1 | `1101 000W`, `/5` | |
-| `SHR` by CL | `1101 001W`, `/5` | |
-| `SAR` by 1 | `1101 000W`, `/7` | |
-| `SAR` by CL | `1101 001W`, `/7` | |
-| `ROL` by 1 | `1101 000W`, `/0` | |
-| `ROR` by 1 | `1101 000W`, `/1` | |
-| `RCL` by 1 | `1101 000W`, `/2` | |
-| `RCR` by 1 | `1101 000W`, `/3` | |
+| ⭐ `SHL/SAL` by 1 | `1101 000W`, `/4` → `D0H`/`D1H` | Shift left 1 bit |
+| ⭐ `SHL/SAL` by CL | `1101 001W`, `/4` → `D2H`/`D3H` | Variable shift left by CL |
+| `SHR` by 1 | `1101 000W`, `/5` | Logical shift right 1 bit |
+| `SHR` by CL | `1101 001W`, `/5` | Logical shift right by CL |
+| `SAR` by 1 | `1101 000W`, `/7` | Arithmetic shift right 1 bit |
+| `SAR` by CL | `1101 001W`, `/7` | Arithmetic shift right by CL |
+| `ROL` by 1 | `1101 000W`, `/0` | Rotate left 1 bit |
+| `ROR` by 1 | `1101 000W`, `/1` | Rotate right 1 bit |
+| `RCL` by 1 | `1101 000W`, `/2` | Rotate through carry left |
+| `RCR` by 1 | `1101 000W`, `/3` | Rotate through carry right |
 
 ### 7.4 Branch & Loop Opcodes ⭐ (Detailed — Exam-Critical)
 

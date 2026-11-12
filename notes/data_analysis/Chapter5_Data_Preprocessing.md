@@ -49,12 +49,12 @@ Data in the real world is frequently imperfect. The main categories of "dirty" d
 
 ```mermaid
 flowchart LR
-    Raw["Raw Dirty Data<br/>(Incomplete, Noisy, Inconsistent)"] --> Clean["1. Data Cleaning<br/>(Impute, Smooth, Outliers)"]
-    Clean --> Integ["2. Data Integration<br/>(Schema, Redundancy, Correlation)"]
-    Integ --> Trans["3. Data Transformation<br/>(Min-Max, Z-score, Dec. Scaling)"]
-    Trans --> Red["4. Data Reduction<br/>(Sampling, PCA, Aggregation)"]
-    Red --> Disc["5. Data Discretization<br/>(Binning, Histograms, Clusters)"]
-    Disc --> Ready["Clean & Structured Data<br/>(Ready for DAV & Mining)"]
+    Raw["Raw Dirty Data: Incomplete, Noisy, Inconsistent"] --> Clean["1. Data Cleaning: Impute, Smooth, Outliers"]
+    Clean --> Integ["2. Data Integration: Schema, Redundancy, Correlation"]
+    Integ --> Trans["3. Data Transformation: Min-Max, Z-score, Dec. Scaling"]
+    Trans --> Red["4. Data Reduction: Sampling, PCA, Aggregation"]
+    Red --> Disc["5. Data Discretization: Binning, Histograms, Clusters"]
+    Disc --> Ready["Clean & Structured Data: Ready for DAV & Mining"]
 ```
 
 [Source: 5. data_preprocessing.pdf, Slide 8]
@@ -112,7 +112,7 @@ Noise lowers data quality, leading to misleading analysis and poor model perform
 ### Binning Methods
 
 **1. Equal-width (distance) partitioning:**
-Divides the range into $N$intervals of equal size (uniform grid). If$A$and$B$are the lowest and highest values, the width$W$ is:
+Divides the range into $N$ intervals of equal size (uniform grid). If $A$ and $B$ are the lowest and highest values, the width $W$ is:
 
 $$
 W = \frac{B - A}{N}
@@ -145,25 +145,25 @@ Since $N=12$, creating 3 bins means each bin gets $12/3 = 4$ values.
 Each value in a bin is replaced by the mean of that bin.
 
 *   Mean(Bin 1) = $(4+8+9+15)/4 = 36/4 = 9 \implies [9, 9, 9, 9]$
-*   Mean(Bin 2) = $(21+21+24+25)/4 = 91/4 = 22.75 \implies$(Rounded in source to$23$) $\implies [23, 23, 23, 23]$
-*   Mean(Bin 3) = $(26+28+29+34)/4 = 117/4 = 29.25 \implies$(Rounded in source to$29$) $\implies [29, 29, 29, 29]$
+*   Mean(Bin 2) = $(21+21+24+25)/4 = 91/4 = 22.75 \implies$(Rounded in source to $23$) $\implies [23, 23, 23, 23]$
+*   Mean(Bin 3) = $(26+28+29+34)/4 = 117/4 = 29.25 \implies$(Rounded in source to $29$) $\implies [29, 29, 29, 29]$
 
 **Step 3: Smoothing by bin boundaries**
 The minimum and maximum values of the bin are its boundaries. Each value in the bin is replaced by the closest boundary value.
 
-*   **Bin 1 Boundaries:** $4$and$15$.
+*   **Bin 1 Boundaries:** $4$ and $15$.
     *   $4 \rightarrow 4$
-    *   $8 \rightarrow 4$(closer to$4$than$15$)
-    *   $9 \rightarrow 4$(closer to$4$than$15$)
+    *   $8 \rightarrow 4$(closer to $4$ than $15$)
+    *   $9 \rightarrow 4$(closer to $4$ than $15$)
     *   $15 \rightarrow 15$
     *   Result: $[4, 4, 4, 15]$
-*   **Bin 2 Boundaries:** $21$and$25$.
+*   **Bin 2 Boundaries:** $21$ and $25$.
     *   $21 \rightarrow 21$
     *   $21 \rightarrow 21$
     *   $24 \rightarrow 25$
     *   $25 \rightarrow 25$
     *   Result: $[21, 21, 25, 25]$
-*   **Bin 3 Boundaries:** $26$and$34$.
+*   **Bin 3 Boundaries:** $26$ and $34$.
     *   $26 \rightarrow 26$
     *   $28 \rightarrow 26$
     *   $29 \rightarrow 26$
@@ -212,7 +212,7 @@ Degrees of freedom $= (R-1)(C-1)$.
 *   **Null Hypothesis:** There is no relationship between the two categorical variables (independent).
 *   **Acceptable (Alternate) Hypothesis:** There is a relationship (not independent).
 
-Assume we calculate $\chi^2$and the degrees of freedom is$1$. For a $0.001$significance level, the tabular threshold is$10.828$.
+Assume we calculate $\chi^2$ and the degrees of freedom is $1$. For a $0.001$ significance level, the tabular threshold is $10.828$.
 If $\chi^2_{\text{calculated}} > 10.828$, we reject the null hypothesis and conclude that gender and preferred reading are strongly correlated.
 
 [Source: 5. data_preprocessing.pdf, Slides 30-33]
@@ -328,7 +328,7 @@ $$
 v' = \frac{v}{10^j}
 $$
 
-Where $j$is the smallest integer such that$\max(|v'|) < 1$.
+Where $j$ is the smallest integer such that $\max(|v'|) < 1$.
 
 [Source: 5. data_preprocessing.pdf, Slides 50-51]
 
@@ -336,7 +336,7 @@ Where $j$is the smallest integer such that$\max(|v'|) < 1$.
 
 **Min-Max Example:**
 
-*   **Given:** Feature `income` ranges from $\$12,000$to$\$98,000$. Target range is $[0.0, 1.0]$.
+*   **Given:** Feature `income` ranges from $\$12,000$ to $\$98,000$. Target range is $[0.0, 1.0]$.
 *   **Transform:** $v = \$73,600$.
 *   **Solution:**
     $$
@@ -354,8 +354,8 @@ $$
 
 **Decimal Scaling Example:**
 
-*   **Given:** Range of values is $-986$to$917$.
-*   **Transform:** Maximum absolute value is $|-986| = 986$. Therefore, $j=3$(since$986/1000 = 0.986 < 1$).
+*   **Given:** Range of values is $-986$ to $917$.
+*   **Transform:** Maximum absolute value is $|-986| = 986$. Therefore, $j=3$(since $986/1000 = 0.986 < 1$).
 *   **Solution:**
     *   $-986 \rightarrow -986 / 10^3 = -0.986$
     *   $917 \rightarrow 917 / 10^3 = 0.917$
@@ -485,7 +485,7 @@ $$
 *   **Data Integration:** Combining data from multiple sources into a coherent store, addressing schema conflicts and redundancies.
 *   **Normalization:** Scaling numerical data to fall within a small, specified range to prevent large-magnitude features from dominating distance calculations.
 *   **Min-Max Normalization:** Linear scaling mapping attribute values into a specified range, typically $[0, 1]$.
-*   **Z-Score Normalization:** Scaling technique centering data at mean $0$with standard deviation$1$.
+*   **Z-Score Normalization:** Scaling technique centering data at mean $0$ with standard deviation $1$.
 *   **Decimal Scaling:** Normalization by shifting decimal places based on the maximum absolute value.
 
 ---
@@ -509,7 +509,7 @@ $$
 **Q4: How does Min-Max normalization differ from Z-score normalization in handling outliers?**
 **A:** Min-Max normalization scales values strictly between a defined min and max range. Extreme outliers will become the new max or min, compressing the rest of the normal data into a tiny numerical window. Z-score normalization handles outliers better because it scales based on the mean and standard deviation, allowing outliers to remain as large magnitude values without heavily compressing the bulk distribution.
 
-**Q5: Normalize the value $v=500$to the range$[0, 1]$if the attribute's minimum is$100$and maximum is$900$.**
+**Q5: Normalize the value $v=500$ to the range $[0, 1]$ if the attribute's minimum is $100$ and maximum is $900$.**
 **A:** $v' = \frac{500 - 100}{900 - 100}(1 - 0) + 0 = \frac{400}{800} = 0.5$.
 
 **Q6: What is the purpose of the Chi-Square test in data integration?**

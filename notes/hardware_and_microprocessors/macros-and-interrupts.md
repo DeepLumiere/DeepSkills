@@ -399,7 +399,7 @@ CONVERT:
 **Flow:**
 
 1. `LODS` reads the next BCD digit into AL.
-2. Validate: if AL > 9, handle as invalid.
+2. Validate: if $\text{AL} > 9$, handle as invalid.
 3. `XLAT` replaces AL with `TABLE[AL]` — the corresponding 7-segment code.
 4. `STOS` writes the translated code to the output buffer.
 
@@ -692,7 +692,7 @@ flowchart TD
     A["Main program: DIV SCALE_FACTOR"] --> B{"Divide error?"}
     B -- No --> C["Continue: store AL in SCALED_VALUES"]
     B -- Yes --> D["CPU pushes FLAGS, CS, IP"]
-    D --> E["CPU reads IVT[0]: BAD_DIV address"]
+    D --> E["CPU reads IVT&#91;0&#93;: BAD_DIV address"]
     E --> F["Execute BAD_DIV ISR"]
     F --> G["Set BAD_DIV_FLAG = 01"]
     G --> H["IRET: restore FLAGS, CS, IP"]

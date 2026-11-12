@@ -648,7 +648,7 @@ Introduced by Steven Feiner and Clifford Beshers (1990) at Columbia University:
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Pixel-Oriented** | Hilbert/Morton curves, Circle Segments | Quantitative, continuous dense data | High ($m \le 50$, millions of records) | Maximum screen ink efficiency; zero record aggregation required | Poor for isolated individual record identification; non-intuitive spatial order |
 | **Geometric Projection** | SPLOM, Parallel Coordinates, Landscapes | Continuous numeric vectors | Moderate-to-High ($k \le 20$) | Direct visualization of geometric correlations and multidimensional clusters | Severe occlusion ("hairballing") in parallel coordinates when $N > 1,000$ |
-| **Icon-Based** | Chernoff Faces, Pickett & Grinstein Stick Figures | Mixed quantitative and categorical | Moderate ($d \le 18$) | Exploits human facial recognition and pre-attentive visual texture synthesis | Perceptual distortion; unequal cognitive weighting of features (e.g., mouth &gt; nose) |
+| **Icon-Based** | Chernoff Faces, Pickett & Grinstein Stick Figures | Mixed quantitative and categorical | Moderate ($d \le 18$) | Exploits human facial recognition and pre-attentive visual texture synthesis | Perceptual distortion; unequal cognitive weighting of features (e.g., $\text{mouth} > \text{nose}$) |
 | **Hierarchical** | Dimensional Stacking, Treemaps, Cone Trees, InfoCube | Hierarchical, tree-structured, nested | Deep hierarchy, $d \le 9$ in stacking | Excellent representation of part-to-whole containment without edge clutter | Extreme aspect ratio distortion (thin slivers) in standard treemaps; 3D occlusion |
 | **Complex Relations** | Tag Clouds, Newsmap, Force-Directed Networks | Text corpora, social networks, graphs | Non-numerical, semantic entities | Intuitive overview of unstructured frequency and network hub connectivity | Lack of precise spatial coordinate semantics; non-deterministic force layouts |
 
@@ -1851,7 +1851,7 @@ $$
 
 | Symbol | Meaning | Target Value |
 | :--- | :--- | :--- |
-| $\text{CPH}$ | Average financial expenditure to acquire one new employee | Currency ($/hire) |
+| $\text{CPH}$ | Average financial expenditure to acquire one new employee | Currency (\$/hire) |
 
 ---
 

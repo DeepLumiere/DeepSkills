@@ -102,12 +102,12 @@ The decision rule classifies the input as:
 - $y = -1$ if $\mathbf{w}^T \mathbf{x} + b < 0$
 - Indeterminate (on the decision boundary) if $\mathbf{w}^T \mathbf{x} + b = 0$
 
-| Symbol | Meaning | Units / Range |
-| :--- | :--- | :--- |
-| $\mathbf{w}$ | Normal weight vector | $\mathbb{R}^d$ |
-| $\mathbf{x}$ | Input feature vector | $\mathbb{R}^d$ |
-| $b$ | Bias term (offset from origin) | $\mathbb{R}$ |
-| $f(\mathbf{x})$ | Predicted discrete class label | $\{-1, +1\}$ |
+  | Symbol | Meaning | Units / Range |
+  | :--- | :--- | :--- |
+  | $\mathbf{w}$ | Normal weight vector | $\mathbb{R}^d$ |
+  | $\mathbf{x}$ | Input feature vector | $\mathbb{R}^d$ |
+  | $b$ | Bias term (offset from origin) | $\mathbb{R}$ |
+  | $f(\mathbf{x})$ | Predicted discrete class label | $\{-1, +1\}$ |
 
 [Source: Support Vector Machines.pdf, Slides 2–4]
 
@@ -337,7 +337,7 @@ flowchart TD
     KKT --> S1["1. Stationarity: dL/dw = 0, dL/db = 0"]
     KKT --> S2["2. Primal Feasibility: y_i(w^T x_i + b) - 1 >= 0"]
     KKT --> S3["3. Dual Feasibility: alpha_i >= 0"]
-    KKT --> S4["4. Complementary Slackness: alpha_i [y_i(w^T x_i + b) - 1] = 0"]
+    KKT --> S4["4. Complementary Slackness: alpha_i &#91;y_i(w^T x_i + b) - 1&#93; = 0"]
 
     S4 --> CASEA["Case A: y_i(w^T x_i + b) > 1 --> alpha_i = 0 (Non-SV)"]
     S4 --> CASEB["Case B: alpha_i > 0 --> y_i(w^T x_i + b) = 1 (Support Vector)"]
@@ -584,10 +584,10 @@ Hyperparameter $C > 0$ dictates the relative penalty assigned to margin violatio
 - **Large $C$ ($C \to \infty$):** Assigns massive penalties to any slack violation ($\xi_i > 0$). The optimizer prioritizes zero margin violations, producing a narrow margin corridor. This leads to **low bias and high variance** (risk of overfitting).
 - **Small $C$ ($C \to 0$):** Softens the penalty for margin violations. The optimizer prioritizes a wide margin corridor $\frac{2}{\|\mathbf{w}\|}$ even if several training points fall inside the corridor or get misclassified. This leads to **high bias and low variance** (risk of underfitting).
 
-| Regime | Margin Width ($\gamma$) | Number of SVs | Bias | Variance | Behavior |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **High $C$** | Narrow | Fewer (strictly on edge) | Low | High | Overfitting prone |
-| **Low $C$** | Wide | Many (more points inside corridor) | High | Low | Robust to outliers |
+  | Regime | Margin Width ($\gamma$) | Number of SVs | Bias | Variance | Behavior |
+  | :--- | :--- | :--- | :--- | :--- | :--- |
+  | **High $C$** | Narrow | Fewer (strictly on edge) | Low | High | Overfitting prone |
+  | **Low $C$** | Wide | Many (more points inside corridor) | High | Low | Robust to outliers |
 
 [Source: Support Vector Machines.pdf, Slide 20]
 
@@ -719,7 +719,7 @@ flowchart LR
         D2["Data mapped via phi(x): linearly separable"]
     end
     InputSpace -->|"Non-linear mapping phi(x)"| FeatureSpace
-    InputSpace -->|"Kernel Function K(x, z) = <phi(x), phi(z)>"| Shortcut["Compute Inner Product Directly in R^d!"]
+    InputSpace -->|"Kernel Function K(x, z) = &lt;phi(x), phi(z)&gt;"| Shortcut["Compute Inner Product Directly in R^d!"]
     Shortcut -.-> FeatureSpace
 ```
 

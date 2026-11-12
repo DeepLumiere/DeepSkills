@@ -83,7 +83,7 @@ The principle of optimality states that "in an optimal sequence of decisions or 
 
 ## 3. Problem: Binomial Coefficient
 
-The binomial coefficient $C(n, k)$counts the number of ways to choose$k$items from a set of$n$ distinct items.
+The binomial coefficient $C(n, k)$ counts the number of ways to choose $k$ items from a set of $n$ distinct items.
 
 
 
@@ -152,7 +152,7 @@ int binomialCoeff(int n, int r) {
 
 ### Complete Example $C(5,2)$
 
-We want to calculate $C(5,2)$. We create a table up to $n=5$and$r=2$.
+We want to calculate $C(5,2)$. We create a table up to $n=5$ and $r=2$.
 
 
 
@@ -173,7 +173,7 @@ The answer is $C(5,2) = 10$.
 
 ### Complexity
 
-- **Time Complexity:** $O(n \cdot r)$— Table is of size$n \times r$.
+- **Time Complexity:** $O(n \cdot r)$— Table is of size $n \times r$.
 
 - **Space Complexity:** $O(n \cdot r)$ — Memory needed for 2D table.
 
@@ -189,13 +189,13 @@ The answer is $C(5,2) = 10$.
 
 ## 4. Problem: Making Change (DP)
 
-**Problem:** Find the minimum number of coins to make a given amount $A$using a given set of coin denominations$d_1, d_2, \dots, d_N$. Assume infinite supply of each coin.
+**Problem:** Find the minimum number of coins to make a given amount $A$ using a given set of coin denominations $d_1, d_2, \dots, d_N$. Assume infinite supply of each coin.
 
 
 
 ### Recurrence
 
-Let $C[i][j]$be the minimum number of coins needed to form amount$j$using the first$i$ coin denominations.
+Let $C[i][j]$ be the minimum number of coins needed to form amount $j$ using the first $i$ coin denominations.
 
 
 $$
@@ -260,9 +260,9 @@ Complexity remains $O(N \cdot A)$ for both Time and Space.
 
 ## 5. Problem: Matrix Chain Multiplication ★★
 
-**Problem:** Given a sequence of $n$matrices$A_1, A_2, \dots, A_n$, find the optimal parenthesization of the product $A_1 \cdot A_2 \dots A_n$ that minimizes the total number of scalar multiplications.
+**Problem:** Given a sequence of $n$ matrices $A_1, A_2, \dots, A_n$, find the optimal parenthesization of the product $A_1 \cdot A_2 \dots A_n$ that minimizes the total number of scalar multiplications.
 
-Matrix $A_i$has dimension$p_{i-1} \times p_i$.
+Matrix $A_i$ has dimension $p_{i-1} \times p_i$.
 
 
 
@@ -280,7 +280,7 @@ Optimal parenthesization dramatically reduces the cost!
 
 ### Recurrence
 
-Let $m[i,j]$be the minimum number of scalar multiplications needed to compute the matrix$A_{i..j}$.
+Let $m[i,j]$ be the minimum number of scalar multiplications needed to compute the matrix $A_{i..j}$.
 
 
 $$
@@ -295,21 +295,21 @@ $$
 
 flowchart TD
 
-    Start["MATRIX-CHAIN-ORDER(p, n)"] --> Init["Create m[1..n, 1..n] and s[1..n, 1..n]<br>Set m[i,i] = 0 for all i = 1..n"]
+    Start["MATRIX-CHAIN-ORDER(p, n)"] --> Init["Create m&#91;1..n, 1..n&#93; and s&#91;1..n, 1..n&#93; - Set m&#91;i,i&#93; = 0 for all i = 1..n"]
 
     Init --> LenLoop["Loop chain length L = 2 to n"]
 
     LenLoop --> InnerI["Loop i = 1 to n - L + 1"]
 
-    InnerI --> SetJ["Compute j = i + L - 1, Set m[i,j] = Infinity"]
+    InnerI --> SetJ["Compute j = i + L - 1, Set m&#91;i,j&#93; = Infinity"]
 
     SetJ --> KLoop["Loop split point k = i to j - 1"]
 
-    KLoop --> CalcCost["q = m[i,k] + m[k+1,j] + p[i-1]*p[k]*p[j]"]
+    KLoop --> CalcCost["q = m&#91;i,k&#93; + m&#91;k+1,j&#93; + p&#91;i-1&#93;*p&#91;k&#93;*p&#91;j&#93;"]
 
     CalcCost --> CheckMin{"Is q < m[i,j]?"}
 
-    CheckMin -- Yes --> UpdateMin["Set m[i,j] = q<br>Set s[i,j] = k"] --> NextK["k = k + 1"] --> KLoop
+    CheckMin -- Yes --> UpdateMin["Set m&#91;i,j&#93; = q - Set s&#91;i,j&#93; = k"] --> NextK["k = k + 1"] --> KLoop
 
     CheckMin -- No --> NextK
 
@@ -355,7 +355,7 @@ $m[1,1] = m[2,2] = m[3,3] = m[4,4] = 0$
 
   - $k=2$: $m[1,2] + m[3,3] + p_0 p_2 p_3 = 120 + 0 + 5 \cdot 6 \cdot 2 = 180$
 
-  - Result: $m[1,3] = 88$(split$k=1$)
+  - Result: $m[1,3] = 88$(split $k=1$)
 
 - $m[2,4]$ is min of:
 
@@ -363,7 +363,7 @@ $m[1,1] = m[2,2] = m[3,3] = m[4,4] = 0$
 
   - $k=3$: $m[2,3] + m[4,4] + p_1 p_3 p_4 = 48 + 0 + 4 \cdot 2 \cdot 7 = 104$
 
-  - Result: $m[2,4] = 104$(split$k=3$)
+  - Result: $m[2,4] = 104$(split $k=3$)
 
 
 
@@ -377,7 +377,7 @@ $m[1,1] = m[2,2] = m[3,3] = m[4,4] = 0$
 
   - $k=3$: $m[1,3] + m[4,4] + p_0 p_3 p_4 = 88 + 0 + 5 \cdot 2 \cdot 7 = 158$
 
-  - Result: $m[1,4] = 158$(split$k=3$)
+  - Result: $m[1,4] = 158$(split $k=3$)
 
 
 
@@ -410,7 +410,7 @@ Final parenthesization: **$(A (B C)) D$**
 
 - **Time Complexity:** $O(n^3)$— 3 nested loops (length,$i$, and $k$).
 
-- **Space Complexity:** $O(n^2)$— Two$n \times n$ tables.
+- **Space Complexity:** $O(n^2)$— Two $n \times n$ tables.
 
 
 
@@ -424,13 +424,13 @@ Final parenthesization: **$(A (B C)) D$**
 
 ## 6. Problem: Longest Common Subsequence (LCS) ★★
 
-**Problem:** Given two sequences $X$and$Y$, find the length of the longest subsequence present in both. A subsequence appears in the same relative order but is not necessarily contiguous.
+**Problem:** Given two sequences $X$ and $Y$, find the length of the longest subsequence present in both. A subsequence appears in the same relative order but is not necessarily contiguous.
 
 
 
 ### Recurrence
 
-Let $c[i,j]$be the length of the LCS of$X[1..i]$and$Y[1..j]$.
+Let $c[i,j]$ be the length of the LCS of $X[1..i]$ and $Y[1..j]$.
 
 
 $$
@@ -528,13 +528,13 @@ LCS: `BDAB` (length 4). Other valid LCSs: `BCAB`, `BCBA`.
 
 ## 7. Problem: 0/1 Knapsack ★★
 
-**Problem:** Given $n$items, each with a weight$w_i$and value$v_i$, and a knapsack of capacity $W$, select a subset of items to maximize the total value such that the total weight does not exceed $W$. Fractions of an item are not allowed (0 or 1 choice).
+**Problem:** Given $n$ items, each with a weight $w_i$ and value $v_i$, and a knapsack of capacity $W$, select a subset of items to maximize the total value such that the total weight does not exceed $W$. Fractions of an item are not allowed (0 or 1 choice).
 
 
 
 ### Recurrence
 
-Let $K[i, w]$be the maximum value obtained by using the first$i$items and a capacity of$w$.
+Let $K[i, w]$ be the maximum value obtained by using the first $i$ items and a capacity of $w$.
 
 
 $$
@@ -624,7 +624,7 @@ DP Table for $K[i, w]$:
 
 ### Recurrence
 
-Let $D^{(k)}[i,j]$be the shortest path from vertex$i$to vertex$j$using only vertices from the set$\{1, 2, \dots, k\}$ as intermediate vertices.
+Let $D^{(k)}[i,j]$ be the shortest path from vertex $i$ to vertex $j$ using only vertices from the set $\{1, 2, \dots, k\}$ as intermediate vertices.
 
 
 $$
@@ -652,7 +652,7 @@ flowchart TD
 
     ILoop --> JLoop["Loop j = 1 to n (Destination Node)"]
 
-    JLoop --> Update["d^k[i,j] = min( d^(k-1)[i,j], d^(k-1)[i,k] + d^(k-1)[k,j] )"]
+    JLoop --> Update["d^k&#91;i,j&#93; = min( d^(k-1)&#91;i,j&#93;, d^(k-1)&#91;i,k&#93; + d^(k-1)&#91;k,j&#93; )"]
 
     Update --> NextJ["j = j + 1"] --> JLoop
 
@@ -739,9 +739,9 @@ If any diagonal element $D^{(n)}[i,i] < 0$, it means there is a negative weight 
 
 ### Complexity
 
-- **Time Complexity:** $O(V^3)$— 3 nested loops of size$V$.
+- **Time Complexity:** $O(V^3)$— 3 nested loops of size $V$.
 
-- **Space Complexity:** $O(V^2)$— Storing a$V \times V$ matrix.
+- **Space Complexity:** $O(V^2)$— Storing a $V \times V$ matrix.
 
 
 
@@ -772,7 +772,7 @@ If any diagonal element $D^{(n)}[i,i] < 0$, it means there is a negative weight 
 | **Binomial Coefficient** | $C(n,r) = C(n-1,r-1) + C(n-1,r)$|$n \times r$|$O(n \cdot r)$|$O(n \cdot r)$ |
 | **Coin Change** | $C[i,j] = \min(C[i-1,j], 1 + C[i,j-d_i])$|$N \times A$|$O(N \cdot A)$|$O(N \cdot A)$ |
 | **0/1 Knapsack** | $K[i,w] = \max(K[i-1,w], v_i + K[i-1,w-w_i])$|$N \times W$|$O(N \cdot W)$|$O(N \cdot W)$ |
-| **LCS** | $c[i,j] = \max(c[i-1,j], c[i,j-1])$(if$X_i \neq Y_j$) | $m \times n$|$O(m \cdot n)$|$O(m \cdot n)$ |
+| **LCS** | $c[i,j] = \max(c[i-1,j], c[i,j-1])$(if $X_i \neq Y_j$) | $m \times n$|$O(m \cdot n)$|$O(m \cdot n)$ |
 | **Matrix Chain** | $m[i,j] = \min_{k} \{ m[i,k] + m[k+1,j] + p_{i-1} p_k p_j \}$|$n \times n$|$O(n^3)$|$O(n^2)$ |
 | **Floyd-Warshall**| $D^{(k)}[i,j] = \min(D^{(k-1)}[i,j], D^{(k-1)}[i,k] + D^{(k-1)}[k,j])$| $V \times V$|$O(V^3)$|$O(V^2)$ |
 
@@ -786,11 +786,11 @@ If any diagonal element $D^{(n)}[i,i] < 0$, it means there is a negative weight 
 
 - **Principle of Optimality:** Local optimal choices lead to global optimum.
 
-- **Matrix Multiplications:** For $A (p \times q)$and$B (q \times r)$, cost is $p \cdot q \cdot r$.
+- **Matrix Multiplications:** For $A (p \times q)$ and $B (q \times r)$, cost is $p \cdot q \cdot r$.
 
-- **Subsequences count:** A sequence of length $n$has$2^n$ subsequences.
+- **Subsequences count:** A sequence of length $n$ has $2^n$ subsequences.
 
-- **Parenthesization count:** $n$matrices can be parenthesized in$C(2n-2, n-1)/n$ (Catalan number) ways.
+- **Parenthesization count:** $n$ matrices can be parenthesized in $C(2n-2, n-1)/n$ (Catalan number) ways.
 
 
 
@@ -840,11 +840,11 @@ If any diagonal element $D^{(n)}[i,i] < 0$, it means there is a negative weight 
 
 5. **Analyze the time complexity of Matrix Chain Multiplication.**
 
-   *Ans: $O(n^3)$due to three nested loops checking subchains and split points$k$.*
+   *Ans: $O(n^3)$ due to three nested loops checking subchains and split points $k$.*
 
 6. **Show how Floyd-Warshall handles intermediate vertices.**
 
-   *Ans: At step $k$, it evaluates whether a path through node $k$is shorter than the direct/previously found path using nodes$1..k-1$.*
+   *Ans: At step $k$, it evaluates whether a path through node $k$ is shorter than the direct/previously found path using nodes $1..k-1$.*
 
 7. **Trace the DP table for 0/1 Knapsack given W=4, items (wt=[1,2,3], val=[2,3,5]).**
 
@@ -854,7 +854,7 @@ If any diagonal element $D^{(n)}[i,i] < 0$, it means there is a negative weight 
 
    *Ans: Because selecting an item with highest value-to-weight ratio might not leave enough space to pack remaining items optimally, and we cannot take fractions.*
 
-9. **Explain why $2^n$subsequences exist for a string of length$n$.**
+9. **Explain why $2^n$ subsequences exist for a string of length $n$.**
 
    *Ans: Each character can either be included or excluded in a subsequence, leading to $2^n$ possible subsets.*
 

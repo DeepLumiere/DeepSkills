@@ -74,7 +74,7 @@ Unit-II focuses on analyzing control structures, solving linear and divide-and-c
 
 9. **In-Place Sort:** A sorting algorithm requiring $\mathcal{O}(1)$ auxiliary space beyond the input array.
 
-10. **Partitioning:** Rearranging an array around a pivot element such that all elements left of the pivot are $\le \text{pivot}$and elements right are$\ge \text{pivot}$.
+10. **Partitioning:** Rearranging an array around a pivot element such that all elements left of the pivot are $\le \text{pivot}$ and elements right are $\ge \text{pivot}$.
 
 11. **Stable Sort:** A sorting algorithm that preserves the relative order of equal elements.
 
@@ -186,7 +186,7 @@ for (int i = 1; i <= n; i++)
 
 ```
 
-* **Inner Loop Count:** Executes $i$times for each$i$.
+* **Inner Loop Count:** Executes $i$ times for each $i$.
 
 * **Total Executions:**
 
@@ -233,7 +233,7 @@ for (int i = 1; i <= n; i++)
 
 
 
-#### Loop Type A: Multiplication/Division Step ($i = i \cdot c$or$i = i / c$)
+#### Loop Type A: Multiplication/Division Step ($i = i \cdot c$ or $i = i / c$)
 
 ```c
 
@@ -255,7 +255,7 @@ while (i <= n) {
 
 
 
-#### Loop Type B: Exponential Step ($i = i^c$or$i = \sqrt{i}$)
+#### Loop Type B: Exponential Step ($i = i^c$ or $i = \sqrt{i}$)
 
 ```c
 
@@ -271,7 +271,7 @@ while (i <= n) {
 
 ```
 
-* **Analysis:** After $k$iterations,$i = 2^{c^k}$. Termination occurs when $2^{c^k} \ge n \implies c^k \ge \log_2 n \implies k = \log_c(\log_2 n)$.
+* **Analysis:** After $k$ iterations,$i = 2^{c^k}$. Termination occurs when $2^{c^k} \ge n \implies c^k \ge \log_2 n \implies k = \log_c(\log_2 n)$.
 
 * **Complexity:** $T(n) = \Theta(\log \log n)$.
 
@@ -351,15 +351,15 @@ $$
 
 #### Step-by-Step Recipe (Checklist)
 
-1. [ ] **Guess the Form:** Formulate an intelligent guess for the solution based on experience, recursion depth, or a recurrence tree (e.g., guess $T(n) \le c n \log n$or$T(n) \le c n$).
+1. [ ] **Guess the Form:** Formulate an intelligent guess for the solution based on experience, recursion depth, or a recurrence tree (e.g., guess $T(n) \le c n \log n$ or $T(n) \le c n$).
 
-2. [ ] **Set up Induction Hypothesis:** State that $T(k) \le c \cdot g(k)$holds for all$k < n$.
+2. [ ] **Set up Induction Hypothesis:** State that $T(k) \le c \cdot g(k)$ holds for all $k < n$.
 
 3. [ ] **Inductive Step:** Substitute the inductive hypothesis into the recurrence relation to prove $T(n) \le c \cdot g(n)$.
 
-4. [ ] **Determine Constants:** Solve the algebraic inequality to find positive constants $c > 0$and$n_0 > 0$ that make the inequality true.
+4. [ ] **Determine Constants:** Solve the algebraic inequality to find positive constants $c > 0$ and $n_0 > 0$ that make the inequality true.
 
-5. [ ] **Establish Base Cases:** Verify that the constants $c$and$n_0$ are compatible with the boundary/initial conditions of the recurrence.
+5. [ ] **Establish Base Cases:** Verify that the constants $c$ and $n_0$ are compatible with the boundary/initial conditions of the recurrence.
 
 
 
@@ -387,7 +387,7 @@ flowchart TD
 
 * **Goal:** Show that $T(n) = \mathcal{O}(n \log n)$ using the substitution method.
 
-* **Hypothesis:** Assume $T(k) \le c k \log_2 k$for all$k < n$, with some constant $c > 0$.
+* **Hypothesis:** Assume $T(k) \le c k \log_2 k$ for all $k < n$, with some constant $c > 0$.
 
 * **Inductive Step:** Substitute the hypothesis into the recurrence:
 
@@ -410,7 +410,7 @@ $$
 
 * **Solving for $c$:** This holds if and only if $c - 1 \ge 0 \implies c \ge 1$.
 
-* **Conclusion:** Choosing $c = 1$and$n_0 = 2$proves$T(n) \le c n \log_2 n$. Hence, the upper bound is $\mathcal{O}(n \log n)$. To show the lower bound $\Omega(n \log n)$, use the same steps with $T(k) \ge c' k \log_2 k$to yield a tighter bound of$\Theta(n \log n)$.
+* **Conclusion:** Choosing $c = 1$ and $n_0 = 2$ proves $T(n) \le c n \log_2 n$. Hence, the upper bound is $\mathcal{O}(n \log n)$. To show the lower bound $\Omega(n \log n)$, use the same steps with $T(k) \ge c' k \log_2 k$ to yield a tighter bound of $\Theta(n \log n)$.
 
 
 
@@ -461,7 +461,7 @@ $$
 
 
 
-   * **Case B: Repeated Roots:** If root $r_1$occurs with multiplicity$m$, write:
+   * **Case B: Repeated Roots:** If root $r_1$ occurs with multiplicity $m$, write:
 
 
 
@@ -557,19 +557,19 @@ $$
 
 #### Step-by-Step Recipe (Checklist)
 
-1. [ ] **Solve Homogeneous Part ($T(n)_h$):** Set $f(n) = 0$and find$T(n)_h$ using Method 2.
+1. [ ] **Solve Homogeneous Part ($T(n)_h$):** Set $f(n) = 0$ and find $T(n)_h$ using Method 2.
 
 2. [ ] **Determine the Form of Particular Solution ($T(n)_p$):** Identify the type of $f(n)$ and set up the corresponding template:
 
-   * If $f(n) = c$(Constant): Try$T_p = P$. If $1$is a characteristic root of multiplicity$t$, use $T_p = P n^t$.
+   * If $f(n) = c$(Constant): Try $T_p = P$. If $1$ is a characteristic root of multiplicity $t$, use $T_p = P n^t$.
 
    * If $f(n) = \text{polynomial of degree } m$: Try $T_p = d_0 + d_1 n + \dots + d_m n^m$.
 
    * If $f(n) = d \cdot a^n$ (Exponential):
 
-     * If $a$is not a characteristic root: Try$T_p = P a^n$.
+     * If $a$ is not a characteristic root: Try $T_p = P a^n$.
 
-     * If $a$is a characteristic root of multiplicity$t$: Try $T_p = P n^t a^n$.
+     * If $a$ is a characteristic root of multiplicity $t$: Try $T_p = P n^t a^n$.
 
 3. [ ] **Substitute $T(n)_p$ into Recurrence:** Plug the template into the full non-homogeneous relation.
 
@@ -586,7 +586,7 @@ $$
 
 
 
-6. [ ] **Apply Initial Conditions:** Use the initial conditions on the *combined* solution $T(n)$to find the homogeneous constants$c_j$.
+6. [ ] **Apply Initial Conditions:** Use the initial conditions on the *combined* solution $T(n)$ to find the homogeneous constants $c_j$.
 
 
 
@@ -667,13 +667,13 @@ Used when the recurrence contains logarithmic or square root arguments, making t
 
 1. [ ] **Identify the Variable Transformation:** Substitute $n = 2^m \implies m = \log_2 n$.
 
-2. [ ] **Rewrite Recurrence Terms:** Replace $T(n)$with$T(2^m)$and subproblems accordingly (e.g.,$T(\sqrt{n}) \to T(2^{m/2})$).
+2. [ ] **Rewrite Recurrence Terms:** Replace $T(n)$ with $T(2^m)$ and subproblems accordingly (e.g.,$T(\sqrt{n}) \to T(2^{m/2})$).
 
 3. [ ] **Define a New Function:** Let $S(m) = T(2^m)$.
 
 4. [ ] **Solve the New Recurrence:** Solve the transformed recurrence $S(m)$ using standard methods (Master Theorem or Characteristic Equations).
 
-5. [ ] **Perform Back-Substitution:** Replace $m$with$\log_2 n$in the solved expression for$S(m)$to obtain the final tight bound for$T(n)$.
+5. [ ] **Perform Back-Substitution:** Replace $m$ with $\log_2 n$ in the solved expression for $S(m)$ to obtain the final tight bound for $T(n)$.
 
 
 
@@ -739,7 +739,7 @@ Used for non-linear recurrences containing powers or products of terms.
 
 1. [ ] **Linearize Using Logarithm:** Take the logarithm of both sides to convert multiplication/powers into addition/multiplication.
 
-2. [ ] **Define New Variable:** Let $U(n) = \log T(n)$or$U(m) = \log S(m)$.
+2. [ ] **Define New Variable:** Let $U(n) = \log T(n)$ or $U(m) = \log S(m)$.
 
 3. [ ] **Solve Transformed Recurrence:** Solve the resulting linear recurrence for $U(n)$.
 
@@ -747,7 +747,7 @@ Used for non-linear recurrences containing powers or products of terms.
 
 
 
-#### Worked Problem 5.6: Solve $T(n) = 2 T(n/2)^2$with$T(1) = 2$
+#### Worked Problem 5.6: Solve $T(n) = 2 T(n/2)^2$ with $T(1) = 2$
 
 1. **Apply Logarithm ($\log_2$):**
 
@@ -848,7 +848,7 @@ flowchart TD
 
 3. [ ] **Compare Growth Rates:**
 
-   * **Case 1 (Leaves Dominant):** If $f(n) = \mathcal{O}(n^{\log_b a - \epsilon})$for some constant$\epsilon > 0$, then:
+   * **Case 1 (Leaves Dominant):** If $f(n) = \mathcal{O}(n^{\log_b a - \epsilon})$ for some constant $\epsilon > 0$, then:
 
 
 
@@ -859,7 +859,7 @@ $$
 
 
 
-   * **Case 2 (Balanced Levels):** If $f(n) = \Theta(n^{\log_b a} \log^k n)$for$k \ge 0$, then:
+   * **Case 2 (Balanced Levels):** If $f(n) = \Theta(n^{\log_b a} \log^k n)$ for $k \ge 0$, then:
 
 
 
@@ -870,7 +870,7 @@ $$
 
 
 
-   * **Case 3 (Root Dominant):** If $f(n) = \Omega(n^{\log_b a + \epsilon})$for some constant$\epsilon > 0$, check the **Regularity Condition**:
+   * **Case 3 (Root Dominant):** If $f(n) = \Omega(n^{\log_b a + \epsilon})$ for some constant $\epsilon > 0$, check the **Regularity Condition**:
 
 
 
@@ -896,18 +896,18 @@ $$
 
 
 
-| # | Recurrence Relation | $a$|$b$|$n^{\log_b a}$|$f(n)$| Master Case | Solution$T(n)$ | Detailed Step-by-Step Explanation |
+| # | Recurrence Relation | $a$|$b$|$n^{\log_b a}$|$f(n)$| Master Case | Solution $T(n)$ | Detailed Step-by-Step Explanation |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **1** | $T(n) = 4 T(n/2) + n$| 4 | 2 |$n^2$|$n$| Case 1 |$\Theta(n^2)$|$f(n) = n = \mathcal{O}(n^{2-1})$with$\epsilon = 1$. The leaf levels dominate the complexity. |
+| **1** | $T(n) = 4 T(n/2) + n$| 4 | 2 |$n^2$|$n$| Case 1 |$\Theta(n^2)$|$f(n) = n = \mathcal{O}(n^{2-1})$ with $\epsilon = 1$. The leaf levels dominate the complexity. |
 | **2** | $T(n) = 4 T(n/2) + n^2$| 4 | 2 |$n^2$|$n^2$ | Case 2 ($k=0$) | $\Theta(n^2 \log n)$|$f(n) = n^2 = \Theta(n^2 \log^0 n)$. Balanced work at all levels. |
-| **3** | $T(n) = 4 T(n/2) + n^3$| 4 | 2 |$n^2$|$n^3$| Case 3 |$\Theta(n^3)$|$f(n) = n^3 = \Omega(n^{2+1})$with$\epsilon=1$. Regularity: $4(n/2)^3 = n^3/2 \le \frac{1}{2} n^3$(holds for$c = 1/2 < 1$). |
-| **4** | $T(n) = 9 T(n/3) + n$| 9 | 3 |$n^2$|$n$| Case 1 |$\Theta(n^2)$|$f(n) = n = \mathcal{O}(n^{2-1})$with$\epsilon = 1$. |
+| **3** | $T(n) = 4 T(n/2) + n^3$| 4 | 2 |$n^2$|$n^3$| Case 3 |$\Theta(n^3)$|$f(n) = n^3 = \Omega(n^{2+1})$ with $\epsilon=1$. Regularity: $4(n/2)^3 = n^3/2 \le \frac{1}{2} n^3$(holds for $c = 1/2 < 1$). |
+| **4** | $T(n) = 9 T(n/3) + n$| 9 | 3 |$n^2$|$n$| Case 1 |$\Theta(n^2)$|$f(n) = n = \mathcal{O}(n^{2-1})$ with $\epsilon = 1$. |
 | **5** | $T(n) = T(2n/3) + 1$| 1 |$3/2$|$n^0 = 1$|$1$ | Case 2 ($k=0$) | $\Theta(\log n)$|$f(n) = 1 = \Theta(1)$. Binary Search equivalent. |
-| **6** | $T(n) = 7 T(n/2) + n^3$| 7 | 2 |$n^{2.81}$|$n^3$| Case 3 |$\Theta(n^3)$|$f(n) = n^3 = \Omega(n^{2.81 + \epsilon})$with$\epsilon \approx 0.19$. Regularity: $7(n/2)^3 = \frac{7}{8}n^3 \le c n^3$holds for$c = 7/8 < 1$. |
-| **7** | $T(n) = 2 T(n/2) + n \log n$| 2 | 2 | $n^1$|$n \log n$ | Case 2 ($k=1$) | $\Theta(n \log^2 n)$|$f(n) = n \log^1 n$, matching $n^{\log_b a} \log^k n$with$k=1$. |
+| **6** | $T(n) = 7 T(n/2) + n^3$| 7 | 2 |$n^{2.81}$|$n^3$| Case 3 |$\Theta(n^3)$|$f(n) = n^3 = \Omega(n^{2.81 + \epsilon})$ with $\epsilon \approx 0.19$. Regularity: $7(n/2)^3 = \frac{7}{8}n^3 \le c n^3$ holds for $c = 7/8 < 1$. |
+| **7** | $T(n) = 2 T(n/2) + n \log n$| 2 | 2 | $n^1$|$n \log n$ | Case 2 ($k=1$) | $\Theta(n \log^2 n)$|$f(n) = n \log^1 n$, matching $n^{\log_b a} \log^k n$ with $k=1$. |
 | **8** | $T(n) = 27 T(n/3) + n^3$| 27| 3 |$n^3$|$n^3$ | Case 2 ($k=0$) | $\Theta(n^3 \log n)$|$f(n) = n^3 = \Theta(n^3 \log^0 n)$. |
 | **9** | $T(n) = 2 T(n/2) + \Theta(n)$| 2 | 2 |$n^1$|$n$ | Case 2 ($k=0$) | $\Theta(n \log n)$ | Merge Sort equivalent. |
-| **10**| $T(n) = 2 T(n/2) + \frac{n}{\log n}$| 2 | 2 | $n^1$|$\frac{n}{\log n}$| **Inapplicable** | Non-polynomially smaller gap | The ratio$\frac{n^{\log_b a}}{f(n)} = \log n$is not polynomial (i.e. cannot find constant$\epsilon > 0$such that$f(n) = \mathcal{O}(n^{1-\epsilon})$). Use Recurrence Tree instead. |
+| **10**| $T(n) = 2 T(n/2) + \frac{n}{\log n}$| 2 | 2 | $n^1$|$\frac{n}{\log n}$| **Inapplicable** | Non-polynomially smaller gap | The ratio $\frac{n^{\log_b a}}{f(n)} = \log n$ is not polynomial (i.e. cannot find constant $\epsilon > 0$ such that $f(n) = \mathcal{O}(n^{1-\epsilon})$). Use Recurrence Tree instead. |
 
 
 
@@ -1004,7 +1004,7 @@ Provides a reliable graphical model to compute the work done at each tree level 
 
 2. **Level Cost:** Calculate total cost for level $i$.
 
-3. **Tree Depth:** Compute total levels $x$until subproblem size reaches$1$.
+3. **Tree Depth:** Compute total levels $x$ until subproblem size reaches $1$.
 
 4. **Leaf Node Count:** Calculate total leaves at level $x$.
 
@@ -1044,11 +1044,11 @@ flowchart TD
 
    * Level 2 nodes: 4 nodes, each of cost $n/4$. Sum $= n$.
 
-   * Level $i$nodes:$2^i$nodes, each of cost$n/2^i$. Sum $= 2^i \cdot \frac{n}{2^i} = n$.
+   * Level $i$ nodes:$2^i$ nodes, each of cost $n/2^i$. Sum $= 2^i \cdot \frac{n}{2^i} = n$.
 
-2. **Determine Tree Depth:** The problem size at level $x$is$n/2^x$. We reach the base case when $n/2^x = 1 \implies x = \log_2 n$.
+2. **Determine Tree Depth:** The problem size at level $x$ is $n/2^x$. We reach the base case when $n/2^x = 1 \implies x = \log_2 n$.
 
-3. **Number of Leaves:** $2^{\log_2 n} = n$leaves, each costing$T(1) = \Theta(1)$. Total Leaf Cost $= \Theta(n)$.
+3. **Number of Leaves:** $2^{\log_2 n} = n$ leaves, each costing $T(1) = \Theta(1)$. Total Leaf Cost $= \Theta(n)$.
 
 4. **Sum of Levels:**
 
@@ -1229,7 +1229,7 @@ $$
 
 #### Concept & Strategy
 
-Quick Sort selects a pivot element and partitions the array into two sub-arrays around that pivot such that all elements left of the pivot are $\le \text{pivot}$and all elements right are$\ge \text{pivot}$. It recursively sorts the sub-arrays in-place.
+Quick Sort selects a pivot element and partitions the array into two sub-arrays around that pivot such that all elements left of the pivot are $\le \text{pivot}$ and all elements right are $\ge \text{pivot}$. It recursively sorts the sub-arrays in-place.
 
 
 
@@ -1303,13 +1303,13 @@ def Partition(T, i, j):
 
 flowchart TD
 
-    Step1["Array: [42, 23, 74, 11, 65, 58, 94, 36, 99, 87] | Pivot p = 42"] --> Scan1["Scan: k stops at 74 (&gt;42), l stops at 36 (&lt;=42)"]
+    Step1["Array: &#91;42, 23, 74, 11, 65, 58, 94, 36, 99, 87&#93; | Pivot p = 42"] --> Scan1["Scan: k stops at 74 (&gt;42), l stops at 36 (&lt;=42)"]
 
-    Scan1 --> Swap1["Swap T[k] and T[l] -> Array: [42, 23, 36, 11, 65, 58, 94, 74, 99, 87]"]
+    Scan1 --> Swap1["Swap T&#91;k&#93; and T&#91;l&#93; -> Array: &#91;42, 23, 36, 11, 65, 58, 94, 74, 99, 87&#93;"]
 
     Swap1 --> Scan2["Scan: k stops at 65 (&gt;42), l stops at 11 (&lt;=42). Crosses! (k &gt; l)"]
 
-    Scan2 --> PivotSwap["Swap Pivot T[i] with T[l] (42 with 11)"]
+    Scan2 --> PivotSwap["Swap Pivot T&#91;i&#93; with T&#91;l&#93; (42 with 11)"]
 
     PivotSwap --> Result["Partitioned Array: (11, 23, 36, 42, 65, 58, 94, 74, 99, 87) | Pivot Index = 3"]
 
@@ -1319,7 +1319,7 @@ flowchart TD
 
 #### Mathematical Complexity Analysis
 
-* **Worst-Case Recurrence:** Occurs with reverse-sorted or sorted arrays where the pivot is always the minimum or maximum element, yielding $1$and$n-1$ size splits:
+* **Worst-Case Recurrence:** Occurs with reverse-sorted or sorted arrays where the pivot is always the minimum or maximum element, yielding $1$ and $n-1$ size splits:
 
 
 
@@ -1382,13 +1382,13 @@ flowchart TD
 
     Start["InsertionSort(A, n)"] --> Outer["Loop j = 2 to n"]
 
-    Outer --> Key["Set key = A[j], i = j - 1"]
+    Outer --> Key["Set key = A&#91;j&#93;, i = j - 1"]
 
-    Key --> Inner{"Is i > 0 AND A[i] > key?"}
+    Key --> Inner{"Is i > 0 AND A&#91;i&#93; > key?"}
 
-    Inner -- Yes --> Shift["Shift A[i+1] = A[i]<br>Set i = i - 1"] --> Inner
+    Inner -- Yes --> Shift["Shift A&#91;i+1&#93; = A&#91;i&#93; - Set i = i - 1"] --> Inner
 
-    Inner -- No --> Place["Insert A[i+1] = key"] --> Outer
+    Inner -- No --> Place["Insert A&#91;i+1&#93; = key"] --> Outer
 
     Outer -- "j > n" --> Done["Sorted Array A"]
 
@@ -1474,7 +1474,7 @@ flowchart TD
 
     Inner -- No --> IncJ
 
-    Inner -- "j > n" --> Swap["Swap A[i] with A[min_idx]"] --> Outer
+    Inner -- "j > n" --> Swap["Swap A&#91;i&#93; with A&#91;min_idx&#93;"] --> Outer
 
     Outer -- "i >= n" --> Done["Sorted Array A"]
 
@@ -1492,7 +1492,7 @@ flowchart TD
 
   * **Pass 3 ($i=2$):** Find min of `[25, 22, 64]` $\to$`22` (idx 3). Swap with `25`$\to$ `[11, 12, 22, 25, 64]`.
 
-  * **Pass 4 ($i=3$):** Find min of `[25, 64]` $\to$`25` (idx 3). Swap with self$\to$ `[11, 12, 22, 25, 64]`.
+  * **Pass 4 ($i=3$):** Find min of `[25, 64]` $\to$`25` (idx 3). Swap with self $\to$ `[11, 12, 22, 25, 64]`.
 
 
 
@@ -1549,7 +1549,7 @@ flowchart TD
 
     SetSwapped --> Inner{"Loop j = 1 to n - i: Is A[j] > A[j+1]?"}
 
-    Inner -- Yes --> Swap["Swap A[j] and A[j+1]<br>Set swapped = True"] --> IncJ["j = j + 1"] --> Inner
+    Inner -- Yes --> Swap["Swap A&#91;j&#93; and A&#91;j+1&#93; - Set swapped = True"] --> IncJ["j = j + 1"] --> Inner
 
     Inner -- No --> IncJ
 
@@ -1657,11 +1657,11 @@ Heap Sort constructs a **Max-Heap** (a binary tree where parent nodes are greate
 
 flowchart TD
 
-    Start["HeapSort(A, n)"] --> BuildHeap["1. Build-Max-Heap(A):<br>Call Max-Heapify from i = n/2 down to 1"]
+    Start["HeapSort(A, n)"] --> BuildHeap["1. Build-Max-Heap(A): Call Max-Heapify from i = n/2 down to 1"]
 
     BuildHeap --> Loop["2. Loop i = n down to 2"]
 
-    Loop --> Extract["Swap A[1] (Max) with A[i]"]
+    Loop --> Extract["Swap A&#91;1&#93; (Max) with A&#91;i&#93;"]
 
     Extract --> Reduce["Reduce Heap Size = i - 1"]
 
@@ -1707,7 +1707,7 @@ flowchart TD
 
   * Building a Max-Heap takes $\mathcal{O}(n)$ time.
 
-  * Extracting $n$elements and calling `MaxHeapify` (which takes$\mathcal{O}(\log n)$time) takes$n \log n$ operations:
+  * Extracting $n$ elements and calling `MaxHeapify` (which takes $\mathcal{O}(\log n)$ time) takes $n \log n$ operations:
 
 
 
@@ -1743,9 +1743,9 @@ $$
 | **Bubble Sort** | $\Theta(n)$|$\Theta(n^2)$|$\Theta(n^2)$|$\Theta(1)$ | Yes | Yes | Very slow. Good only for checking if small arrays are already sorted. |
 | **Insertion Sort**| $\Theta(n)$|$\Theta(n^2)$|$\Theta(n^2)$|$\Theta(1)$ | Yes | Yes | Efficient for tiny datasets ($n < 50$) or nearly-sorted data. |
 | **Selection Sort**| $\Theta(n^2)$|$\Theta(n^2)$|$\Theta(n^2)$|$\Theta(1)$ | Yes | No | Performs minimal array writes, but slow overall due to quadratic comparison count. |
-| **Merge Sort** | $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n)$| No | Yes | Guarantees$\Theta(n \log n)$ but requires significant auxiliary buffer memory. |
+| **Merge Sort** | $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n)$| No | Yes | Guarantees $\Theta(n \log n)$ but requires significant auxiliary buffer memory. |
 | **Quick Sort** | $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n^2)$|$\mathcal{O}(\log n)$ | Yes | No | Fastest in practice due to cache locality and low overhead multipliers. |
-| **Heap Sort** | $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(1)$| Yes | No | Guarantees$\Theta(n \log n)$ and is strictly in-place; lacks cache locality. |
+| **Heap Sort** | $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(n \log n)$| $\Theta(1)$| Yes | No | Guarantees $\Theta(n \log n)$ and is strictly in-place; lacks cache locality. |
 
 
 
@@ -1892,7 +1892,7 @@ $$
 
 2. **Particular Part:**
 
-   Since $a = 4$is a characteristic root with multiplicity$t = 1$, try $T(n)_p = P \cdot n 4^n$:
+   Since $a = 4$ is a characteristic root with multiplicity $t = 1$, try $T(n)_p = P \cdot n 4^n$:
 
 
 

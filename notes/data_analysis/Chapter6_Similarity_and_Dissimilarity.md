@@ -23,7 +23,7 @@ flowchart TD
     AttrType -->|Nominal| Nom["Simple Matching / One-Hot Binary Expansion"]
     AttrType -->|Binary| Bin["Symmetric (SMC) vs Asymmetric (Jaccard)"]
     AttrType -->|Numeric| Num["Minkowski Distances (L1, L2, L_inf) & Mahalanobis"]
-    AttrType -->|Ordinal| Ord["Rank Normalization to [0,1] Range"]
+    AttrType -->|Ordinal| Ord["Rank Normalization to &#91;0,1&#93; Range"]
     AttrType -->|Sparse Vectors| Cos["Cosine Similarity & Tanimoto"]
     AttrType -->|Strings/Text| Edit["Levenshtein / Edit Distance"]
     AttrType -->|Mixed Types| Mixed["Gower's Weighted Distance Fusion"]
@@ -316,11 +316,11 @@ $$
 * $Y (\text{Yes}) / P (\text{Positive}) \rightarrow 1$
 * $N (\text{No}) / N (\text{Negative}) \rightarrow 0$
 
-| Patient | Gender | Fever ($f_1$) | Cough ($f_2$) | Test-1 ($f_3$) | Test-2 ($f_4$) | Test-3 ($f_5$) | Test-4 ($f_6$) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Jack ($i=1$)** | M | Y (1) | N (0) | P (1) | N (0) | N (0) | N (0) |
-| **Mary ($i=2$)** | F | Y (1) | N (0) | P (1) | N (0) | P (1) | N (0) |
-| **Jim ($i=3$)** | M | Y (1) | P (1) | N (0) | N (0) | N (0) | N (0) |
+  | Patient | Gender | Fever ($f_1$) | Cough ($f_2$) | Test-1 ($f_3$) | Test-2 ($f_4$) | Test-3 ($f_5$) | Test-4 ($f_6$) |
+  | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+  | **Jack ($i=1$)** | M | Y (1) | N (0) | P (1) | N (0) | N (0) | N (0) |
+  | **Mary ($i=2$)** | F | Y (1) | N (0) | P (1) | N (0) | P (1) | N (0) |
+  | **Jim ($i=3$)** | M | Y (1) | P (1) | N (0) | N (0) | N (0) | N (0) |
 
 Calculate all pairwise asymmetric dissimilarity values using the 6 asymmetric attributes ($p=6$).
 
@@ -787,11 +787,11 @@ The indicator $\delta_{ij}^{(f)}$ controls whether attribute $f$ contributes to 
 4. `Income` (Numeric): $\$30k - \$110k$
 5. `LoyaltyTier` (Ordinal: Bronze, Silver, Gold, Platinum — $M_5 = 4$ states)
 
-| Customer | City ($f_1$) | Smoker ($f_2$) | Diabetic ($f_3$) | Income ($f_4$) | LoyaltyTier ($f_5$) |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Cust 1 ($i=1$)** | NYC | 1 | 1 | $\$30,000$ | Bronze (Rank 1) |
-| **Cust 2 ($i=2$)** | LA | 1 | 0 | $\$70,000$ | Gold (Rank 3) |
-| **Cust 3 ($i=3$)** | NYC | 0 | 0 | $\$110,000$ | Platinum (Rank 4) |
+  | Customer | City ($f_1$) | Smoker ($f_2$) | Diabetic ($f_3$) | Income ($f_4$) | LoyaltyTier ($f_5$) |
+  | :--- | :---: | :---: | :---: | :---: | :---: |
+  | **Cust 1 ($i=1$)** | NYC | 1 | 1 | $\$30,000$ | Bronze (Rank 1) |
+  | **Cust 2 ($i=2$)** | LA | 1 | 0 | $\$70,000$ | Gold (Rank 3) |
+  | **Cust 3 ($i=3$)** | NYC | 0 | 0 | $\$110,000$ | Platinum (Rank 4) |
 
 #### Step 1: Pre-compute Ranges & Normalizations
 
@@ -875,7 +875,7 @@ Standard Euclidean distance fails on sparse text data because document length in
 
 ```mermaid
 flowchart LR
-    subgraph Vector Space
+    subgraph Vector_Space ["Vector Space"]
         V1["Doc Vector d1"]
         V2["Doc Vector d2"]
         Angle["Angle θ between vectors"]
@@ -1094,7 +1094,7 @@ Proximity measures are not abstract mathematical definitions; they drive core en
 | :--- | :--- |
 | **Symmetric vs. Asymmetric Binary** | Symmetric variables count $0-0$ matches ($t$) equally with $1-1$ matches ($q$); asymmetric variables discard $t$ because joint absence is non-informative. |
 | **Data Matrix vs. Dissimilarity Matrix** | Data matrix is two-mode ($n \times p$) storing raw feature attributes; Dissimilarity matrix is single-mode ($n \times n$) lower triangular storing pairwise distances. |
-| **Standard Deviation vs. Robust MAD** | Standard deviation squares deviations, making it sensitive to extreme outliers; MAD uses absolute differences $|x - m|$, maintaining robustness. |
+| **Standard Deviation vs. Robust MAD** | Standard deviation squares deviations, making it sensitive to extreme outliers; MAD uses absolute differences $\|x - m\|$, maintaining robustness. |
 | **Euclidean Distance vs. Cosine Similarity** | Euclidean measures spatial length between vector endpoints (corrupted by document length); Cosine measures angular direction (length-invariant). |
 
 ---
@@ -1111,12 +1111,12 @@ Consider an enterprise customer dataset containing 4 records ($C_1, C_2, C_3, C_
 5. `LoyaltyTier` (Ordinal: Bronze=1, Silver=2, Gold=3, Platinum=4 — $M_5 = 4$ states)
 
 #### Raw Dataset Table
-| Customer | Region ($f_1$) | ActiveSubscriber ($f_2$) | HasEbola ($f_3$) | MonthlySpend ($f_4$) | LoyaltyTier ($f_5$) |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **$C_1$** | NYC | 1 | 1 | $\$200$ | Bronze ($r=1$) |
-| **$C_2$** | LA | 1 | 0 | $\$600$ | Gold ($r=3$) |
-| **$C_3$** | NYC | 0 | 0 | $\$1,000$ | Platinum ($r=4$) |
-| **$C_4$** | LA | 1 | 0 | $\$600$ | Silver ($r=2$) |
+  | Customer | Region ($f_1$) | ActiveSubscriber ($f_2$) | HasEbola ($f_3$) | MonthlySpend ($f_4$) | LoyaltyTier ($f_5$) |
+  | :--- | :---: | :---: | :---: | :---: | :---: |
+  | **$C_1$** | NYC | 1 | 1 | $\$200$ | Bronze ($r=1$) |
+  | **$C_2$** | LA | 1 | 0 | $\$600$ | Gold ($r=3$) |
+  | **$C_3$** | NYC | 0 | 0 | $\$1,000$ | Platinum ($r=4$) |
+  | **$C_4$** | LA | 1 | 0 | $\$600$ | Silver ($r=2$) |
 
 **Task Requirements:**  
 

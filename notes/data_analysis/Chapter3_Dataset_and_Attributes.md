@@ -156,9 +156,9 @@ graph TD
 
 **Example:** 
 
-- Size: Small &lt; Medium &lt; Large
+- Size: $\text{Small} < \text{Medium} < \text{Large}$
 
-- Grades: A+ &gt; A &gt; B+
+- Grades: $\text{A+} > \text{A} > \text{B+}$
 
 - Satisfaction Level: 0 = Very Dissatisfied, 1 = Dissatisfied, 2 = Neutral, 3 = Satisfied, 4 = Very Satisfied.
 
@@ -435,13 +435,13 @@ $$
 \mathbf{x}_i = [x_{i1}, x_{i2}, \dots, x_{in}]^T
 $$
 
-Where $\mathbf{x}_i$is the vector of attributes for the$i$-th data object.
+Where $\mathbf{x}_i$ is the vector of attributes for the $i$-th data object.
 
 
 
 ### 2. Data Matrix Size
 
-An $m \times n$matrix contains$m$rows (objects) and$n$ columns (features/attributes).
+An $m \times n$ matrix contains $m$ rows (objects) and $n$ columns (features/attributes).
 
 
 

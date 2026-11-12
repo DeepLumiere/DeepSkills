@@ -66,7 +66,7 @@ This chapter details **every assembler directive and attribute operator** encoun
 
 1. **Pseudo-Op (Pseudo-Operation):** Synonymous with directive; a mnemonic that has no direct hardware opcode counterpart.
 
-2. **Location Counter ($):** An internal assembler counter that tracks the current relative offset within the active segment during assembly.
+2. **Location Counter (\$):** An internal assembler counter that tracks the current relative offset within the active segment during assembly.
 
 3. **Data Allocation Directive:** Directives (`DB`, `DW`, `DD`, `DQ`, `DT`) that reserve physical bytes in the object module.
 
@@ -126,10 +126,10 @@ classDiagram
 
 | Directive | Full Name | Size in Bits | Size in Bytes | Numeric Range (Unsigned) | Numeric Range (Signed 2's Comp) | Common Applications |
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
-| **DB** | Define Byte | 8 | 1 | $0$to$255$(`00H` to `FFH`) |$-128$to$+127$ | ASCII characters, 8-bit integers, byte arrays. |
-| **DW** | Define Word | 16 | 2 | $0$to$65,535$(`0000H` to `FFFFH`) |$-32,768$to$+32,767$ | 16-bit integers, near memory pointers (offsets). |
-| **DD** | Define Doubleword | 32 | 4 | $0$to$2^{32}-1$|$-2^{31}$to$+2^{31}-1$ | 32-bit integers, far memory pointers (Segment:Offset). |
-| **DQ** | Define Quadword | 64 | 8 | $0$to$2^{64}-1$|$-2^{63}$to$+2^{63}-1$ | 64-bit integer values, double-precision floats. |
+| **DB** | Define Byte | 8 | 1 | $0$ to $255$(`00H` to `FFH`) |$-128$ to $+127$ | ASCII characters, 8-bit integers, byte arrays. |
+| **DW** | Define Word | 16 | 2 | $0$ to $65,535$(`0000H` to `FFFFH`) |$-32,768$ to $+32,767$ | 16-bit integers, near memory pointers (offsets). |
+| **DD** | Define Doubleword | 32 | 4 | $0$ to $2^{32}-1$|$-2^{31}$ to $+2^{31}-1$ | 32-bit integers, far memory pointers (Segment:Offset). |
+| **DQ** | Define Quadword | 64 | 8 | $0$ to $2^{64}-1$|$-2^{63}$ to $+2^{63}-1$ | 64-bit integer values, double-precision floats. |
 | **DT** | Define Tenbyte | 80 | 10 | - | - | Packed BCD numbers, 80-bit extended precision floats. |
 
 

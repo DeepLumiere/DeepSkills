@@ -113,11 +113,11 @@ flowchart LR
     end
 
     subgraph Interface ["Operating System Boundary"]
-        Sock["Socket API\n[IP Address : Port Number]"]
+        Sock["Socket API\n(IP Address : Port Number)"]
     end
 
     subgraph KernelSpace ["Kernel Space (Operating System Controlled)"]
-        Transport["Transport Layer Protocol\n[TCP State Machine / UDP Queues]"]
+        Transport["Transport Layer Protocol\n(TCP State Machine / UDP Queues)"]
         Buffers["Socket Send & Receive Buffers"]
         Transport <--> Buffers
     end
@@ -1522,20 +1522,20 @@ sequenceDiagram
 
     Note over C,S: 2. Capability Negotiation
     C->>S: EHLO client.network.org
-    S-->>C: 250-mail.example.com greets client.network.org<br/>250-SIZE 52428800<br/>250-8BITMIME<br/>250-STARTTLS<br/>250-PIPELINING<br/>250 OK
+    S-->>C: 250-mail.example.com greets client.network.org\n250-SIZE 52428800\n250-8BITMIME\n250-STARTTLS\n250-PIPELINING\n250 OK
 
     Note over C,S: 3. Mail Transaction Envelope
-    C->>S: MAIL FROM:<alice@network.org>
+    C->>S: MAIL FROM:&lt;alice@network.org&gt;
     S-->>C: 250 2.1.0 Sender ok
 
-    C->>S: RCPT TO:<bob@example.com>
+    C->>S: RCPT TO:&lt;bob@example.com&gt;
     S-->>C: 250 2.1.5 Recipient ok
 
     Note over C,S: 4. Message Ingestion
     C->>S: DATA
-    S-->>C: 354 End data with <CRLF>.<CRLF>
+    S-->>C: 354 End data with &lt;CRLF&gt;.&lt;CRLF&gt;
 
-    C->>S: From: alice@network.org<br/>To: bob@example.com<br/>Subject: System Status<br/><br/>Server migration complete.<br/>.
+    C->>S: From: alice@network.org\nTo: bob@example.com\nSubject: System Status\n\nServer migration complete.\n.
     S-->>C: 250 2.0.0 Ok: queued as 4Y8Z2A11
 
     Note over C,S: 5. Connection Termination
@@ -1740,8 +1740,8 @@ stateDiagram-v2
 
     state Authorization {
         [*] --> AwaitingUser
-        AwaitingUser --> AwaitingPass: USER <username> (+OK)
-        AwaitingPass --> Authenticated: PASS <password> (+OK)
+        AwaitingUser --> AwaitingPass: USER &lt;username&gt; (+OK)
+        AwaitingPass --> Authenticated: PASS &lt;password&gt; (+OK)
         AwaitingPass --> [*]: -ERR (Invalid credentials)
     }
 
@@ -1751,8 +1751,8 @@ stateDiagram-v2
         [*] --> MailboxLocked: Exclusive Mailbox Lock Acquired
         MailboxLocked --> MailboxLocked: STAT (Returns count & bytes)
         MailboxLocked --> MailboxLocked: LIST (Lists message sizes)
-        MailboxLocked --> MailboxLocked: RETR <n> (Transfers message n)
-        MailboxLocked --> MailboxLocked: DELE <n> (Marks message n for deletion)
+        MailboxLocked --> MailboxLocked: RETR &lt;n&gt; (Transfers message n)
+        MailboxLocked --> MailboxLocked: DELE &lt;n&gt; (Marks message n for deletion)
         MailboxLocked --> MailboxLocked: RSET (Clears all deletion marks)
     }
 
@@ -1807,7 +1807,7 @@ stateDiagram-v2
     NonAuthenticated --> Authenticated: LOGIN / AUTHENTICATE (+OK)
     NonAuthenticated --> Logout: LOGOUT / Connection Lost
 
-    Authenticated --> Selected: SELECT <mailbox> / EXAMINE <mailbox>
+    Authenticated --> Selected: SELECT &lt;mailbox&gt; / EXAMINE &lt;mailbox&gt;
     Authenticated --> Authenticated: CREATE / DELETE / RENAME / LIST / STATUS
     Authenticated --> Logout: LOGOUT
 
@@ -1863,8 +1863,8 @@ flowchart LR
     Backend["Internal Mail Infrastructure\n(IMAP4 / Spanner / Object Store)"]
     MTA["Outbound MTA / MSA\nTCP Port 587 (SMTP)"]
 
-    Browser <==>|REST / JSON / WebSocket\nPort 443| HTTPS
-    HTTPS <==> WebServer
+    Browser <-->|REST / JSON / WebSocket\nPort 443| HTTPS
+    HTTPS <--> WebServer
     WebServer <-->|Stateful IMAP / gRPC| Backend
     WebServer -->|Injects Outbound Mail| MTA
 ```
@@ -1979,9 +1979,9 @@ Origin Web servers receive incoming HyperText Transfer Protocol (HTTP) requests 
 flowchart TD
     subgraph ProcessModel ["Process / Thread-Driven Architecture (e.g., Apache Prefork MPM)"]
         Listener1["Master Listening Socket"]
-        Listener1 --> Fork1["Fork Process / Thread 1 (Connection A) [Blocks on I/O]"]
-        Listener1 --> Fork2["Fork Process / Thread 2 (Connection B) [Blocks on I/O]"]
-        Listener1 --> ForkN["Fork Process / Thread N (Connection N) [Blocks on I/O]"]
+        Listener1 --> Fork1["Fork Process / Thread 1 (Connection A) (Blocks on I/O)"]
+        Listener1 --> Fork2["Fork Process / Thread 2 (Connection B) (Blocks on I/O)"]
+        Listener1 --> ForkN["Fork Process / Thread N (Connection N) (Blocks on I/O)"]
     end
 
     subgraph EventDrivenModel ["Asynchronous Event-Driven Architecture (e.g., Nginx)"]
@@ -2092,11 +2092,11 @@ sequenceDiagram
     participant Server as Origin Web Server
 
     Note over Client: User enters: https://example.com/index.html#summary
-    Note over Client: Browser URL Parser splits components:<br/>Host = example.com<br/>Path = /index.html<br/>Fragment = summary
+    Note over Client: Browser URL Parser splits components: Host = example.com, Path = /index.html, Fragment = summary
     Note over Client: STRIPS "#summary" completely!
-    Client->>Server: GET /index.html HTTP/1.1<br/>Host: example.com
-    Server-->>Client: HTTP/1.1 200 OK<br/>Content-Type: text/html<br/><br/><html>...<div id="summary">...</div>...</html>
-    Note over Client: Browser DOM Parser locates element id="summary"<br/>Automatically scrolls viewport to anchor!
+    Client->>Server: GET /index.html HTTP/1.1 (Host: example.com)
+    Server-->>Client: HTTP/1.1 200 OK (Content-Type: text/html, HTML payload with summary anchor)
+    Note over Client: Browser DOM Parser locates element id="summary", automatically scrolls viewport to anchor!
 ```
 
 ##### Operational Mechanics of Fragment Stripping:
@@ -2337,10 +2337,10 @@ sequenceDiagram
     Note over Browser,Server: Modern Single-Page Application (AJAX / fetch)
     Browser->>Server: GET /app (Initial Load)
     Server-->>Browser: Shell HTML + Application JS Bundle
-    Note over Browser: User clicks "View Comments"<br/>JS executes fetch('/api/comments')
+    Note over Browser: User clicks "View Comments", JS executes fetch('/api/comments')
     Browser->>Server: GET /api/comments (JSON Payload)
     Server-->>Browser: [{"id": 1, "text": "Great post!"}]
-    Note over Browser: JS updates DOM dynamically!<br/>Zero page reload, continuous user experience.
+    Note over Browser: JS updates DOM dynamically (Zero page reload, continuous user experience)
 ```
 
 ##### 1. AJAX (`fetch()` vs. `XMLHttpRequest`)
@@ -2372,9 +2372,9 @@ sequenceDiagram
     participant Server as Web Server
 
     Note over Client,Server: Phase 1: HTTP Upgrade Handshake
-    Client->>Server: GET /chat HTTP/1.1<br/>Host: example.com<br/>Upgrade: websocket<br/>Connection: Upgrade<br/>Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==<br/>Sec-WebSocket-Version: 13
+    Client->>Server: GET /chat HTTP/1.1\nHost: example.com\nUpgrade: websocket\nConnection: Upgrade\nSec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\nSec-WebSocket-Version: 13
 
-    Server-->>Client: HTTP/1.1 101 Switching Protocols<br/>Upgrade: websocket<br/>Connection: Upgrade<br/>Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+    Server-->>Client: HTTP/1.1 101 Switching Protocols\nUpgrade: websocket\nConnection: Upgrade\nSec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
 
     Note over Client,Server: Phase 2: Full-Duplex Binary Framing
     Client->>Server: WebSocket Binary/Text Frame (Masked, 2-10 byte header)
@@ -2421,11 +2421,11 @@ sequenceDiagram
     Browser->>Server: POST /login (Credentials: user & pass)
     Server->>DB: Validates credentials, generates Session ID
     DB-->>Server: Session ID = "SESS_9876543210"
-    Server-->>Browser: HTTP/1.1 200 OK<br/>Set-Cookie: sid=SESS_9876543210, Path=/, Secure, HttpOnly, SameSite=Strict
+    Server-->>Browser: HTTP/1.1 200 OK\nSet-Cookie: sid=SESS_9876543210, Path=/, Secure, HttpOnly, SameSite=Strict
     Note over Browser: Stores cookie securely in cookie jar
 
     Note over Browser,Server: 2. Subsequent Authenticated Request
-    Browser->>Server: GET /account/balance<br/>Cookie: sid=SESS_9876543210
+    Browser->>Server: GET /account/balance\nCookie: sid=SESS_9876543210
     Server->>DB: Lookup "SESS_9876543210" -> Returns User Profile
     DB-->>Server: Authorized (User Alice)
     Server-->>Browser: HTTP/1.1 200 OK (Account Details)
@@ -2447,10 +2447,10 @@ Set-Cookie: sid=a8f92b7c; Domain=example.com; Path=/app; Max-Age=3600; Secure; H
 | **`Expires` / `Max-Age`**| `Max-Age=3600` | Defines cookie lifetime. `Max-Age` specifies relative seconds until eviction; `Expires` specifies an absolute GMT timestamp. If absent, cookie is a **Session Cookie** evicted upon browser closure. |
 | **`Secure`** | Flag (no value) | Directs the browser to transmit the cookie exclusively over encrypted TLS connections (HTTPS). Prevents eavesdropping over plaintext channels. |
 | **`HttpOnly`** | Flag (no value) | Blocks client-side scripts from reading `document.cookie`. Crucial mitigation against **Cross-Site Scripting (XSS)** session hijacking attacks. |
-| **`SameSite`** | `Strict` \| `Lax` \| `None` | Controls cross-site request inclusion to defend against **Cross-Site Request Forgery (CSRF)**: |
-| | - `Strict` | Cookie is never attached in cross-site contexts (even when following inbound links). |
-| | - `Lax` | Default in modern browsers. Cookie withheld on cross-site sub-resource requests (`<img>`, `<iframe>`), but attached when navigating top-level GET links. |
-| | - `None` | Cookie sent across all third-party contexts. Requires the `Secure` flag. |
+| **`SameSite`** | Overview | Controls cross-site request inclusion to defend against **Cross-Site Request Forgery (CSRF)**. |
+| **`SameSite=Strict`** | `Strict` | Cookie is never attached in cross-site contexts (even when following inbound links). |
+| **`SameSite=Lax`** | `Lax` | Default in modern browsers. Cookie withheld on cross-site sub-resource requests (`<img>`, `<iframe>`), but attached when navigating top-level GET links. |
+| **`SameSite=None`** | `None` | Cookie sent across all third-party contexts. Requires the `Secure` flag. |
 
 ---
 
@@ -2623,19 +2623,19 @@ sequenceDiagram
     participant Origin as Origin Web Server
 
     Note over Client,Origin: Initial Cold Request
-    Client->>Origin: GET /logo.png HTTP/1.1<br/>Host: example.com
-    Origin-->>Client: HTTP/1.1 200 OK<br/>Cache-Control: max-age=86400, public<br/>ETag: "v104-a78b"<br/>Last-Modified: Sun, 01 Nov 2026 10:00:00 GMT<br/>Content-Length: 524288<br/><br/>[512 KB Image Data]
-    Note over Client: Saves 512 KB to disk cache.<br/>Freshness Lifetime = 86400s (24 hours).
+    Client->>Origin: GET /logo.png HTTP/1.1 (Host: example.com)
+    Origin-->>Client: HTTP/1.1 200 OK (Cache-Control: max-age=86400, public; ETag: "v104-a78b", 512 KB Data)
+    Note over Client: Saves 512 KB to disk cache (Freshness Lifetime = 86400s / 24 hours)
 
     Note over Client,Origin: Subsequent Request (After Max-Age Expires)
     Note over Client: Cache entry is Stale! Must revalidate.
-    Client->>Origin: GET /logo.png HTTP/1.1<br/>Host: example.com<br/>If-None-Match: "v104-a78b"<br/>If-Modified-Since: Sun, 01 Nov 2026 10:00:00 GMT
+    Client->>Origin: GET /logo.png HTTP/1.1 (If-None-Match: "v104-a78b")
 
     alt Content Unchanged at Server
-        Origin-->>Client: HTTP/1.1 304 Not Modified<br/>Cache-Control: max-age=86400<br/>ETag: "v104-a78b"<br/><br/>[NO BODY TRANSMITTED!]
-        Note over Client: Updates cache freshness for 24h.<br/>Saved 512 KB of bandwidth!
+        Origin-->>Client: HTTP/1.1 304 Not Modified (Cache-Control: max-age=86400, ETag: "v104-a78b", NO BODY)
+        Note over Client: Updates cache freshness for 24h: Saved 512 KB bandwidth!
     else Content Modified at Server
-        Origin-->>Client: HTTP/1.1 200 OK<br/>ETag: "v105-c99e"<br/>Content-Length: 530000<br/><br/>[Updated Image Data]
+        Origin-->>Client: HTTP/1.1 200 OK (ETag: "v105-c99e", Updated Image Data)
         Note over Client: Overwrites cache with new image.
     end
 ```
@@ -3041,8 +3041,8 @@ $$
 | $f_{t, d}$ | Raw count of occurrences of term $t$ inside document $d$ | Non-negative integer |
 | $\sum_{t' \in d} f_{t', d}$ | Total word count of document $d$ | Positive integer |
 | $\text{IDF}(t, D)$ | Inverse Document Frequency of term $t$ across corpus $D$ | Non-negative real scalar |
-| $|D|$ | Total number of documents indexed across the corpus | Positive integer |
-| $|\{d \in D : t \in d\}|$ | Count of documents that contain at least one occurrence of $t$ | Non-negative integer $\le |D|$ |
+| $\|D\|$ | Total number of documents indexed across the corpus | Positive integer |
+| $\|\{d \in D : t \in d\}\|$ | Count of documents that contain at least one occurrence of $t$ | Non-negative integer $\le \|D\|$ |
 
 ##### What It Represents
 Measures the relevance of a term to a document: a term that appears frequently within a document is likely relevant to it (high TF), but terms that appear in nearly all documents provide little distinguishing power (low IDF).
@@ -3085,7 +3085,7 @@ $$
 | :--- | :--- | :--- |
 | $p_i$ | Index $i \in \{1, 2, \dots, N\}$ | Target webpage whose PageRank score is being calculated. |
 | $PR(p_i)$ | Real scalar $\in (0, 1)$ | Computed prestige / PageRank score of page $p_i$. |
-| $N$ | Positive integer ($|V|$) | Total number of Web pages in the crawl graph. |
+| $N$ | Positive integer ($\|V\|$) | Total number of Web pages in the crawl graph. |
 | $d$ | Real constant ($0 < d < 1$) | Damping factor (standard baseline $d = 0.85$). |
 | $1 - d$ | Real constant | Teleportation probability (standard $1 - d = 0.15$). |
 | $M(p_i)$ | Subset of vertices $V$ | Set of all upstream pages with links pointing to $p_i$ (backlinks). |
@@ -3745,17 +3745,17 @@ The two most widely deployed perceptual audio standards are MP3 and AAC:
 - **MP3 (MPEG-1 Audio Layer III):** Introduced in 1993, MP3 employs a hybrid filterbank consisting of a 32-band polyphase quadrature filter (PQF) followed by an 18-point Modified Discrete Cosine Transform (MDCT). This hybrid architecture causes aliasing artifacts between subbands. MP3 operates with fixed 576-sample or 192-sample frames.
 - **AAC (Advanced Audio Coding - MPEG-4 Part 3):** Standardized in 1997 as the successor to MP3, AAC eliminates the hybrid filterbank in favor of a pure 1024-point MDCT (or 2048-point in MPEG-4 AAC), eliminating filterbank aliasing. AAC incorporates **Temporal Noise Shaping (TNS)** to control quantization noise in transient attacks, **Predictive Coding**, and **Variable Block Lengths** (switching dynamically from 1024-sample long windows down to 128-sample short windows to eliminate pre-echo artifacts on sharp percussive transients).
 
-| Architectural Feature | MPEG-1 Layer III (MP3) | Advanced Audio Coding (AAC) |
-| :--- | :--- | :--- |
-| **Standardization** | ISO/IEC 11172-3 (1993) | ISO/IEC 13818-7 / ISO/IEC 14496-3 (1997/1999) |
-| **Filterbank Structure** | Hybrid: 32-band polyphase filterbank + 18-point MDCT | Pure MDCT (no hybrid polyphase filter) |
-| **Transform Window Sizes** | Long: 576 samples; Short: 192 samples | Long: 1024 / 2048 samples; Short: 128 / 256 samples |
-| **Transient Pre-Echo Control** | Subband window switching (limited time resolution) | Pure window switching + Temporal Noise Shaping (TNS) |
-| **Stereo Coding Modes** | Intensity Stereo, Mid/Side (M/S) Stereo | Intensity Stereo, M/S Stereo, Parametric Stereo |
-| **Bitrate Efficiency** | $128\text{--}192\text{ kbps}$ for near-CD quality | $96\text{--}128\text{ kbps}$ matches/exceeds $192\text{ kbps}$ MP3 |
-| **Maximum Audio Channels** | 2 channels (MPEG-1) or 5.1 (MPEG-2 multi-channel) | Up to 48 full-bandwidth audio channels |
-| **Sampling Frequency Range**| $16\text{ kHz}$ to $48\text{ kHz}$ | $8\text{ kHz}$ to $96\text{ kHz}$ |
-| **Algorithmic Latency** | High (~$100\text{--}150\text{ ms}$) | Configurable ($100\text{ ms}$ down to $20\text{ ms}$ in AAC-LD) |
+  | Architectural Feature | MPEG-1 Layer III (MP3) | Advanced Audio Coding (AAC) |
+  | :--- | :--- | :--- |
+  | **Standardization** | ISO/IEC 11172-3 (1993) | ISO/IEC 13818-7 / ISO/IEC 14496-3 (1997/1999) |
+  | **Filterbank Structure** | Hybrid: 32-band polyphase filterbank + 18-point MDCT | Pure MDCT (no hybrid polyphase filter) |
+  | **Transform Window Sizes** | Long: 576 samples; Short: 192 samples | Long: 1024 / 2048 samples; Short: 128 / 256 samples |
+  | **Transient Pre-Echo Control** | Subband window switching (limited time resolution) | Pure window switching + Temporal Noise Shaping (TNS) |
+  | **Stereo Coding Modes** | Intensity Stereo, Mid/Side (M/S) Stereo | Intensity Stereo, M/S Stereo, Parametric Stereo |
+  | **Bitrate Efficiency** | $128\text{--}192\text{ kbps}$ for near-CD quality | $96\text{--}128\text{ kbps}$ matches/exceeds $192\text{ kbps}$ MP3 |
+  | **Maximum Audio Channels** | 2 channels (MPEG-1) or 5.1 (MPEG-2 multi-channel) | Up to 48 full-bandwidth audio channels |
+  | **Sampling Frequency Range**| $16\text{ kHz}$ to $48\text{ kHz}$ | $8\text{ kHz}$ to $96\text{ kHz}$ |
+  | **Algorithmic Latency** | High (~$100\text{--}150\text{ ms}$) | Configurable ($100\text{ ms}$ down to $20\text{ ms}$ in AAC-LD) |
 
 ---
 
@@ -3804,14 +3804,14 @@ The odd field is scanned and transmitted first, followed $1/50\text{ s}$ or $1/6
 - **Advantage:** Doubles the apparent temporal refresh rate (e.g., $60\text{ fields/sec}$ instead of $30\text{ frames/sec}$), raising the display above the Flicker Fusion Frequency while halving the transmission bandwidth.
 - **Disadvantage:** Produces **interlacing artifacts** (combing or "feathering") when capturing fast-moving horizontal objects, because the object moves during the $1/60\text{ s}$ time gap between the capture of the odd field and the even field. Displaying interlaced content on progressive screens requires computational de-interlacing filters.
 
-| Parameter | Interlaced Scanning ($i$) | Progressive Scanning ($p$) |
-| :--- | :--- | :--- |
-| **Transmission Unit** | Two half-resolution fields (odd/even) per frame | One full-resolution frame per cycle |
-| **Field / Frame Capture Time**| Odd and even fields captured at different time instants | All scan lines captured simultaneously |
-| **Bandwidth Consumption** | $50\%$ of progressive at equivalent refresh rate | Full $100\%$ baseline bandwidth |
-| **Motion Artifacts** | Subject to interlace combing / jagged shearing edges | Smooth, sharp moving edges; no combing |
-| **Display Compatibility** | Native to legacy CRT televisions; requires de-interlacing | Native to modern digital flat panels (LCD/OLED) |
-| **Vertical Jitter** | Susceptible to line-crawl and inter-line flicker | Perfectly stable line geometry |
+  | Parameter | Interlaced Scanning ($i$) | Progressive Scanning ($p$) |
+  | :--- | :--- | :--- |
+  | **Transmission Unit** | Two half-resolution fields (odd/even) per frame | One full-resolution frame per cycle |
+  | **Field / Frame Capture Time**| Odd and even fields captured at different time instants | All scan lines captured simultaneously |
+  | **Bandwidth Consumption** | $50\%$ of progressive at equivalent refresh rate | Full $100\%$ baseline bandwidth |
+  | **Motion Artifacts** | Subject to interlace combing / jagged shearing edges | Smooth, sharp moving edges; no combing |
+  | **Display Compatibility** | Native to legacy CRT televisions; requires de-interlacing | Native to modern digital flat panels (LCD/OLED) |
+  | **Vertical Jitter** | Susceptible to line-crawl and inter-line flicker | Perfectly stable line geometry |
 
 ---
 
@@ -4176,17 +4176,17 @@ sequenceDiagram
     C->>S: 1. DESCRIBE rtsp://media.example.com/movie.mp4 RTSP/1.0 (CSeq: 1)
     S-->>C: 2. RTSP/1.0 200 OK (Content-Type: application/sdp, CSeq: 1)
 
-    C->>S: 3. SETUP rtsp://media.example.com/movie.mp4/trackID=1 RTSP/1.0<br/>Transport: RTP/AVP,unicast,client_port=5004-5005 (CSeq: 2)
+    C->>S: 3. SETUP rtsp://media.example.com/movie.mp4/trackID=1 RTSP/1.0\nTransport: RTP/AVP,unicast,client_port=5004-5005 (CSeq: 2)
     S-->>C: 4. RTSP/1.0 200 OK (Session: 12345678, Transport: server_port=6000-6001, CSeq: 2)
 
-    C->>S: 5. PLAY rtsp://media.example.com/movie.mp4 RTSP/1.0<br/>Session: 12345678, Range: npt=0- (CSeq: 3)
+    C->>S: 5. PLAY rtsp://media.example.com/movie.mp4 RTSP/1.0\nSession: 12345678, Range: npt=0- (CSeq: 3)
     S-->>C: 6. RTSP/1.0 200 OK (CSeq: 3)
 
     Note over C,S: Media Data Flows Out-of-Band via UDP (RTP Port 5004 / RTCP Port 5005)
     S-->>C: RTP Data Packets (Video/Audio)
     C-->>S: RTCP Quality Feedback Packets
 
-    C->>S: 7. TEARDOWN rtsp://media.example.com/movie.mp4 RTSP/1.0<br/>Session: 12345678 (CSeq: 4)
+    C->>S: 7. TEARDOWN rtsp://media.example.com/movie.mp4 RTSP/1.0\nSession: 12345678 (CSeq: 4)
     S-->>C: 8. RTSP/1.0 200 OK (CSeq: 4)
 ```
 
@@ -4273,15 +4273,15 @@ $$
      - If $B(t) \ge B_{\max}$ (upper reservoir, e.g., $>25\text{ s}$): Select the highest available bitrate representation.
 3. **Hybrid Model-Predictive Control (MPC):** Modern streaming clients combine throughput forecasts with buffer occupancy optimization to maximize user Quality of Experience (QoE)—trading off average video quality, quality switching frequency, and rebuffering stall penalties.
 
-| Architectural Dimension | RTSP (RFC 2326 / 7826) | DASH (ISO/IEC 23009-1) / HLS (RFC 8216) |
-| :--- | :--- | :--- |
-| **Transport Layer** | Out-of-band: TCP 554 (Control) + UDP (RTP Media) | In-band: HTTP / HTTPS over standard TCP 80/443 |
-| **Control Paradigm** | Server-driven push; server streams packets continuously | Client-driven pull; client requests discrete chunks |
-| **Server State** | Stateful; server tracks session state per viewer | Completely stateless; commodity web server / CDN |
-| **Firewall / NAT Traversal** | Poor; dynamic UDP ports blocked by default | Native; standard web ports traverse firewalls cleanly |
-| **CDN Caching** | Unsupported by standard web caching proxies | Fully cacheable by all commercial CDNs |
-| **Adaptivity** | Coarse; requires complex server-side transcoding | Fine-grained; client switches representations per chunk |
-| **Chunking Overhead** | Zero chunking overhead; continuous packet stream | Small HTTP header overhead per chunk ($2\text{--}10\text{ s}$) |
+  | Architectural Dimension | RTSP (RFC 2326 / 7826) | DASH (ISO/IEC 23009-1) / HLS (RFC 8216) |
+  | :--- | :--- | :--- |
+  | **Transport Layer** | Out-of-band: TCP 554 (Control) + UDP (RTP Media) | In-band: HTTP / HTTPS over standard TCP 80/443 |
+  | **Control Paradigm** | Server-driven push; server streams packets continuously | Client-driven pull; client requests discrete chunks |
+  | **Server State** | Stateful; server tracks session state per viewer | Completely stateless; commodity web server / CDN |
+  | **Firewall / NAT Traversal** | Poor; dynamic UDP ports blocked by default | Native; standard web ports traverse firewalls cleanly |
+  | **CDN Caching** | Unsupported by standard web caching proxies | Fully cacheable by all commercial CDNs |
+  | **Adaptivity** | Coarse; requires complex server-side transcoding | Fine-grained; client switches representations per chunk |
+  | **Chunking Overhead** | Zero chunking overhead; continuous packet stream | Small HTTP header overhead per chunk ($2\text{--}10\text{ s}$) |
 
 ---
 
@@ -4361,14 +4361,14 @@ Despite its theoretical efficiency, IP multicast was never successfully deployed
 - **Mechanism:** The live encoder pushes small media chunks (HLS/DASH/CMAF) to a central CDN ingest point. The CDN replicates chunks across a global hierarchy of caching tiers out to thousands of **Points of Presence (PoPs)** situated at the edge of ISP networks. Viewers pull chunks over standard unicast HTTP/HTTPS from edge caches located within a few milliseconds of their premises.
 - **Why It Dominates:** CDN edge caching collapses millions of viewer requests into single edge fetches, scales horizontally via cloud provisioning, traverses all middleboxes cleanly, and leverages existing HTTP infrastructure.
 
-| Dimension | IP Multicast | Application-Layer Multicast (ALM) | CDN Edge Distribution |
-| :--- | :--- | :--- | :--- |
-| **Implementation Layer** | Network Layer (Layer 3 - Routers) | Application Layer (Layer 7 - P2P End Hosts) | Application / Web Caching Layer |
-| **Router Infrastructure** | Requires multicast-capable routers (PIM/IGMP) | Standard commodity IP routers | Standard commodity IP routers |
-| **Source Bandwidth** | $O(1)$ constant load | $O(1)$ constant load | $O(1)$ to $O(K)$ across edge shields |
-| **Inter-Domain Viability** | Failed across the public Internet | Functionally viable, but high churn | Universally deployed worldwide |
-| **End-to-End Latency** | Low ($<1\text{ s}$) | High and variable across peer hops | Low ($1\text{--}3\text{ s}$ via CMAF) |
-| **Access Control / DRM** | Complex; requires application encryption | Difficult; untrusted peer relay | Native HTTP token authentication & DRM |
+  | Dimension | IP Multicast | Application-Layer Multicast (ALM) | CDN Edge Distribution |
+  | :--- | :--- | :--- | :--- |
+  | **Implementation Layer** | Network Layer (Layer 3 - Routers) | Application Layer (Layer 7 - P2P End Hosts) | Application / Web Caching Layer |
+  | **Router Infrastructure** | Requires multicast-capable routers (PIM/IGMP) | Standard commodity IP routers | Standard commodity IP routers |
+  | **Source Bandwidth** | $O(1)$ constant load | $O(1)$ constant load | $O(1)$ to $O(K)$ across edge shields |
+  | **Inter-Domain Viability** | Failed across the public Internet | Functionally viable, but high churn | Universally deployed worldwide |
+  | **End-to-End Latency** | Low ($<1\text{ s}$) | High and variable across peer hops | Low ($1\text{--}3\text{ s}$ via CMAF) |
+  | **Access Control / DRM** | Complex; requires application encryption | Difficult; untrusted peer relay | Native HTTP token authentication & DRM |
 
 ---
 
@@ -5049,7 +5049,7 @@ flowchart TD
         CServer["Central Directory Server\n(File Index + Peer IPs)"]
         P1["Peer A"] <-->|Search Query / Result| CServer
         P2["Peer B"] <-->|File List Registration| CServer
-        P1 <==>|Direct P2P File Transfer| P2
+        P1 <-->|Direct P2P File Transfer| P2
     end
 
     subgraph Gen2 ["2. Query Flooding (Gnutella v0.4, 2000)"]
@@ -5066,7 +5066,7 @@ flowchart TD
         LP1["Leaf Peer"] --> SP1
         LP2["Leaf Peer"] --> SP1
         LP3["Leaf Peer"] --> SP2
-        SP1 <==>|Superpeer Backbone| SP2
+        SP1 <-->|Superpeer Backbone| SP2
     end
 
     subgraph Gen4 ["4. Structured DHTs (Chord / Kademlia)"]
@@ -5116,9 +5116,9 @@ flowchart TD
 
         Tracker -.->|Returns Peer IP:Port List| LeecherA
         Seeder -->|Uploads Rarest Pieces| LeecherA
-        LeecherA <==>|Tit-for-Tat Piece Trading| LeecherB
-        LeecherB <==>|Tit-for-Tat Piece Trading| LeecherC
-        LeecherA <==>|Tit-for-Tat Piece Trading| LeecherC
+        LeecherA <-->|Tit-for-Tat Piece Trading| LeecherB
+        LeecherB <-->|Tit-for-Tat Piece Trading| LeecherC
+        LeecherA <-->|Tit-for-Tat Piece Trading| LeecherC
     end
 ```
 
@@ -6275,7 +6275,7 @@ $$
 3. Retrieval Latency:
    - Without Cache: $T_{\text{origin}} =$ **82.0 ms**
    - With CDN Cache: $T_{\text{eff}} =$ **31.60 ms** (**61.46% latency reduction**).
-4. Monthly Transit Cost Savings = **$4,478.98 per month** (223,948.8 GB offloaded).
+4. Monthly Transit Cost Savings = **\$4,478.98 per month** (223,948.8 GB offloaded).
 
 ---
 
@@ -6680,15 +6680,15 @@ This rapid review glossary provides dictionary-grade, precise definitions for 38
 #### Q98. Differentiate between FTP and TFTP.
 - **Model Examination Answer (7 Marks):**
 
-| Comparative Dimension | File Transfer Protocol (FTP - RFC 959) | Trivial File Transfer Protocol (TFTP - RFC 1350) |
-| :--- | :--- | :--- |
-| **Transport Layer Binding** | Uses **TCP** (Reliable, connection-oriented, byte-stream). | Uses **UDP** (Connectionless, best-effort datagrams). |
-| **Connection Architecture** | **Dual-Connection Architecture:** Separate Control Connection (Port 21) and Data Connection (Port 20). | **Single Connection:** Control and data share UDP port 69 (initial) and dynamically allocated transfer ports. |
-| **Flow & Error Control** | Handled natively by TCP sliding window and byte-sequence ACK mechanism. | Handled at application layer using a strict **Stop-and-Wait** lock-step acknowledgment of 512-byte blocks. |
-| **Authentication & Security** | Supports username/password authentication (`USER`, `PASS`), anonymous logins, and TLS encryption (FTPS). | **Zero authentication and zero encryption.** No password verification; anyone can read/write if path is known. |
-| **Directory Capabilities** | Rich interactive commands: directory listing (`LIST`), traversal (`CWD`), file deletion (`DELE`), renaming. | Minimal: supports only reading (`RRQ`) and writing (`WRQ`) raw files; no directory listing or navigation. |
-| **Complexity & Memory** | High protocol complexity; large memory and state footprint. | Extremely lightweight; designed to fit inside firmware ROM/BIOS. |
-| **Typical Use Cases** | General-purpose secure file sharing, web development publishing. | Diskless workstation network booting (PXE), router firmware/OS updates. |
+  | Comparative Dimension | File Transfer Protocol (FTP - RFC 959) | Trivial File Transfer Protocol (TFTP - RFC 1350) |
+  | :--- | :--- | :--- |
+  | **Transport Layer Binding** | Uses **TCP** (Reliable, connection-oriented, byte-stream). | Uses **UDP** (Connectionless, best-effort datagrams). |
+  | **Connection Architecture** | **Dual-Connection Architecture:** Separate Control Connection (Port 21) and Data Connection (Port 20). | **Single Connection:** Control and data share UDP port 69 (initial) and dynamically allocated transfer ports. |
+  | **Flow & Error Control** | Handled natively by TCP sliding window and byte-sequence ACK mechanism. | Handled at application layer using a strict **Stop-and-Wait** lock-step acknowledgment of 512-byte blocks. |
+  | **Authentication & Security** | Supports username/password authentication (`USER`, `PASS`), anonymous logins, and TLS encryption (FTPS). | **Zero authentication and zero encryption.** No password verification; anyone can read/write if path is known. |
+  | **Directory Capabilities** | Rich interactive commands: directory listing (`LIST`), traversal (`CWD`), file deletion (`DELE`), renaming. | Minimal: supports only reading (`RRQ`) and writing (`WRQ`) raw files; no directory listing or navigation. |
+  | **Complexity & Memory** | High protocol complexity; large memory and state footprint. | Extremely lightweight; designed to fit inside firmware ROM/BIOS. |
+  | **Typical Use Cases** | General-purpose secure file sharing, web development publishing. | Diskless workstation network booting (PXE), router firmware/OS updates. |
 
 ---
 
@@ -6743,14 +6743,14 @@ This rapid review glossary provides dictionary-grade, precise definitions for 38
      - **The Client:** Ephemeral end-user applications that initiate communication on demand. Clients have dynamic, temporary IP addresses assigned by local ISPs/DHCP and do not communicate directly with each other.
   3. **Comparison with Peer-to-Peer (P2P) Architecture:**
 
-| Architectural Feature | Client-Server Model | Peer-to-Peer (P2P) Model |
-| :--- | :--- | :--- |
-| **System Topology** | Centralized / Asymmetric | Fully decentralized / Symmetric |
-| **Host Role** | Distinct dedicated roles (Client requests, Server serves). | Nodes act simultaneously as client and server (**servents**). |
-| **Scalability Under Load** | Poor: Server becomes bandwidth and CPU bottleneck under flash crowds. | **Self-Scaling:** System aggregate upload capacity grows linearly with new peers. |
-| **Single Point of Failure (SPOF)**| Central server or datacenter failure takes down entire service. | Highly fault-tolerant; individual node departure does not disrupt system. |
-| **Implementation Complexity** | Simple, well-defined state machines and access control. | High complexity: dynamic routing, churn handling, and free-rider incentives. |
-| **Representative Applications** | Web (HTTP), Email (SMTP/IMAP), Traditional Databases. | BitTorrent, Ethereum/Bitcoin, Chord DHT. |
+      | Architectural Feature | Client-Server Model | Peer-to-Peer (P2P) Model |
+      | :--- | :--- | :--- |
+      | **System Topology** | Centralized / Asymmetric | Fully decentralized / Symmetric |
+      | **Host Role** | Distinct dedicated roles (Client requests, Server serves). | Nodes act simultaneously as client and server (**servents**). |
+      | **Scalability Under Load** | Poor: Server becomes bandwidth and CPU bottleneck under flash crowds. | **Self-Scaling:** System aggregate upload capacity grows linearly with new peers. |
+      | **Single Point of Failure (SPOF)**| Central server or datacenter failure takes down entire service. | Highly fault-tolerant; individual node departure does not disrupt system. |
+      | **Implementation Complexity** | Simple, well-defined state machines and access control. | High complexity: dynamic routing, churn handling, and free-rider incentives. |
+      | **Representative Applications** | Web (HTTP), Email (SMTP/IMAP), Traditional Databases. | BitTorrent, Ethereum/Bitcoin, Chord DHT. |
 
 ---
 

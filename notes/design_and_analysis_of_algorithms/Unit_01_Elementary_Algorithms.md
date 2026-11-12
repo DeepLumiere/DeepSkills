@@ -238,7 +238,7 @@ $$
 | Square Root | $\mathcal{O}(\sqrt{n})$ | Slow |
 | Linear | $\mathcal{O}(n)$ | Moderate |
 | Linearithmic | $\mathcal{O}(n \log n)$ | Moderate to Fast |
-| Quadratic | $\mathcal{O}(n^2)$| Fast (Poor for large$n$) |
+| Quadratic | $\mathcal{O}(n^2)$| Fast (Poor for large $n$) |
 | Cubic | $\mathcal{O}(n^3)$ | Very Fast |
 | Exponential | $\mathcal{O}(2^n)$ | Explosive |
 | Factorial | $\mathcal{O}(n!)$ | Most Explosive (Worst) |
@@ -277,7 +277,7 @@ Asymptotic notations are mathematical tools used to express the time and space c
 
 ### 6.1 Big-O Notation (Upper Bound)
 
-- **Formal Definition:** $f(n) = \mathcal{O}(g(n))$if there exist positive constants$c > 0$and$n_0 > 0$ such that:
+- **Formal Definition:** $f(n) = \mathcal{O}(g(n))$ if there exist positive constants $c > 0$ and $n_0 > 0$ such that:
 
 
 
@@ -288,7 +288,7 @@ $$
 
 
 
-- **Intuition:** $g(n)$provides an asymptotic upper bound on the growth rate of$f(n)$. The algorithm's running time will not cross the boundary of $c \cdot g(n)$ for large inputs. It defines the worst-case behavior.
+- **Intuition:** $g(n)$ provides an asymptotic upper bound on the growth rate of $f(n)$. The algorithm's running time will not cross the boundary of $c \cdot g(n)$ for large inputs. It defines the worst-case behavior.
 
 - **Simplification Rules:**
 
@@ -298,19 +298,19 @@ $$
 
 - **Worked Example (from slides):**
 
-  Prove that $f(n) = 6n + 3$is$\mathcal{O}(n)$.
+  Prove that $f(n) = 6n + 3$ is $\mathcal{O}(n)$.
 
-  *Proof:* We need to find $c$and$n_0$such that$6n + 3 \le c \cdot n$.
+  *Proof:* We need to find $c$ and $n_0$ such that $6n + 3 \le c \cdot n$.
 
   For $n \ge 1$: $6n + 3 \le 6n + 3n = 9n$.
 
-  Thus, taking $c = 9$and$n_0 = 1$, the condition holds. Therefore, $6n + 3 = \mathcal{O}(n)$.
+  Thus, taking $c = 9$ and $n_0 = 1$, the condition holds. Therefore, $6n + 3 = \mathcal{O}(n)$.
 
 - **Worked Example (Constant function):**
 
-  Prove that $f(n) = 6993$is$\mathcal{O}(1)$.
+  Prove that $f(n) = 6993$ is $\mathcal{O}(1)$.
 
-  *Proof:* We need $6993 \le c \cdot 1$. Choose $c = 6993$and$n_0 = 1$. The inequality holds. Thus, $f(n) = \mathcal{O}(1)$.
+  *Proof:* We need $6993 \le c \cdot 1$. Choose $c = 6993$ and $n_0 = 1$. The inequality holds. Thus, $f(n) = \mathcal{O}(1)$.
 
 
 
@@ -320,7 +320,7 @@ $$
 
 ### 6.2 Big-Omega Notation (Lower Bound)
 
-- **Formal Definition:** $f(n) = \Omega(g(n))$if there exist positive constants$c > 0$and$n_0 > 0$ such that:
+- **Formal Definition:** $f(n) = \Omega(g(n))$ if there exist positive constants $c > 0$ and $n_0 > 0$ such that:
 
 
 
@@ -335,19 +335,19 @@ $$
 
 - **Worked Example:**
 
-  Prove that $f(n) = 3n^2 + 2n + 4$is$\Omega(n^2)$.
+  Prove that $f(n) = 3n^2 + 2n + 4$ is $\Omega(n^2)$.
 
   *Proof:* We need $c \cdot n^2 \le 3n^2 + 2n + 4$.
 
   Since $n \ge 1$, we clearly know $1 \cdot n^2 \le 3n^2 \le 3n^2 + 2n + 4$.
 
-  Thus, by taking $c = 3$(or$c=1$) and $n_0 = 1$, the inequality is satisfied. Therefore, $f(n) = \Omega(n^2)$.
+  Thus, by taking $c = 3$(or $c=1$) and $n_0 = 1$, the inequality is satisfied. Therefore, $f(n) = \Omega(n^2)$.
 
 
 
 ### 6.3 Big-Theta Notation (Tight Bound)
 
-- **Formal Definition:** $f(n) = \Theta(g(n))$if there exist positive constants$c_1 > 0$, $c_2 > 0$, and $n_0 > 0$ such that:
+- **Formal Definition:** $f(n) = \Theta(g(n))$ if there exist positive constants $c_1 > 0$, $c_2 > 0$, and $n_0 > 0$ such that:
 
 
 
@@ -358,13 +358,13 @@ $$
 
 
 
-  Alternatively, $f(n) = \Theta(g(n))$iff$f(n) = \mathcal{O}(g(n))$AND$f(n) = \Omega(g(n))$.
+  Alternatively, $f(n) = \Theta(g(n))$ iff $f(n) = \mathcal{O}(g(n))$ AND $f(n) = \Omega(g(n))$.
 
-- **Intuition:** $f(n)$grows exactly at the same rate as$g(n)$ asymptotically. It defines the exact asymptotic behavior of an algorithm, bounding it from both above and below.
+- **Intuition:** $f(n)$ grows exactly at the same rate as $g(n)$ asymptotically. It defines the exact asymptotic behavior of an algorithm, bounding it from both above and below.
 
 - **Worked Example:**
 
-  Prove that $f(n) = 2n^3 + 4n + 5$is$\Theta(n^3)$.
+  Prove that $f(n) = 2n^3 + 4n + 5$ is $\Theta(n^3)$.
 
   *Proof:* We need $c_1 n^3 \le 2n^3 + 4n + 5 \le c_2 n^3$.
 
@@ -394,7 +394,7 @@ $$
 
 ### 6.4 Little-o Notation (Strict Upper Bound)
 
-- **Formal Definition:** $f(n) = o(g(n))$if for *every* constant$c > 0$, there exists a constant $n_0 > 0$such that$0 \le f(n) < c \cdot g(n)$for all$n \ge n_0$.
+- **Formal Definition:** $f(n) = o(g(n))$ if for *every* constant $c > 0$, there exists a constant $n_0 > 0$ such that $0 \le f(n) < c \cdot g(n)$ for all $n \ge n_0$.
 
   Alternatively, defined using limits:
 
@@ -407,7 +407,7 @@ $$
 
 
 
-- **Intuition:** $f(n)$grows strictly slower than$g(n)$. $g(n)$ is a loose upper bound.
+- **Intuition:** $f(n)$ grows strictly slower than $g(n)$. $g(n)$ is a loose upper bound.
 
 - **Example:** $2n = o(n^2)$, but $2n^2 \neq o(n^2)$.
 
@@ -415,7 +415,7 @@ $$
 
 ### 6.5 Little-omega Notation (Strict Lower Bound)
 
-- **Formal Definition:** $f(n) = \omega(g(n))$if for *every* constant$c > 0$, there exists a constant $n_0 > 0$such that$0 \le c \cdot g(n) < f(n)$for all$n \ge n_0$.
+- **Formal Definition:** $f(n) = \omega(g(n))$ if for *every* constant $c > 0$, there exists a constant $n_0 > 0$ such that $0 \le c \cdot g(n) < f(n)$ for all $n \ge n_0$.
 
   Alternatively, defined using limits:
 
@@ -428,7 +428,7 @@ $$
 
 
 
-- **Intuition:** $f(n)$grows strictly faster than$g(n)$. $g(n)$ is a loose lower bound.
+- **Intuition:** $f(n)$ grows strictly faster than $g(n)$. $g(n)$ is a loose lower bound.
 
 - **Example:** $n^2 = \omega(n)$, but $n^2 \neq \omega(n^2)$.
 
@@ -452,21 +452,21 @@ $$
 
 - **Transitivity:**
 
-  If $f(n) = \Theta(g(n))$and$g(n) = \Theta(h(n))$, then $f(n) = \Theta(h(n))$. (Holds true for $\mathcal{O}, \Omega, o, \omega$ as well).
+  If $f(n) = \Theta(g(n))$ and $g(n) = \Theta(h(n))$, then $f(n) = \Theta(h(n))$. (Holds true for $\mathcal{O}, \Omega, o, \omega$ as well).
 
 - **Reflexivity:**
 
-  $f(n) = \Theta(f(n))$, $f(n) = \mathcal{O}(f(n))$, $f(n) = \Omega(f(n))$. (Does NOT hold for $o$and$\omega$).
+  $f(n) = \Theta(f(n))$, $f(n) = \mathcal{O}(f(n))$, $f(n) = \Omega(f(n))$. (Does NOT hold for $o$ and $\omega$).
 
 - **Symmetry:**
 
-  $f(n) = \Theta(g(n))$if and only if$g(n) = \Theta(f(n))$. (Only true for $\Theta$).
+  $f(n) = \Theta(g(n))$ if and only if $g(n) = \Theta(f(n))$. (Only true for $\Theta$).
 
 - **Transpose Symmetry:**
 
-  $f(n) = \mathcal{O}(g(n))$if and only if$g(n) = \Omega(f(n))$.
+  $f(n) = \mathcal{O}(g(n))$ if and only if $g(n) = \Omega(f(n))$.
 
-  $f(n) = o(g(n))$if and only if$g(n) = \omega(f(n))$.
+  $f(n) = o(g(n))$ if and only if $g(n) = \omega(f(n))$.
 
 - **Maximum Rule:**
 
@@ -558,7 +558,7 @@ for(int i = 1; i <= n; i++) {
 
 ```
 
-*Analysis:* The loop iterates $n$times. Inside is an$\mathcal{O}(1)$ operation.
+*Analysis:* The loop iterates $n$ times. Inside is an $\mathcal{O}(1)$ operation.
 
 *Time Complexity:* $\mathcal{O}(n)$
 
@@ -580,7 +580,7 @@ for(int i = 1; i <= n; i++) {
 
 ```
 
-*Analysis:* Outer loop runs $n$times. For each iteration, inner loop runs$n$times. Total iterations =$n \times n = n^2$.
+*Analysis:* Outer loop runs $n$ times. For each iteration, inner loop runs $n$ times. Total iterations =$n \times n = n^2$.
 
 *Time Complexity:* $\mathcal{O}(n^2)$
 
@@ -602,7 +602,7 @@ for(int i = 1; i <= n; i++) {
 
 ```
 
-*Analysis:* The inner loop runs $1$time, then$2$times... up to$n$.
+*Analysis:* The inner loop runs $1$ time, then $2$ times... up to $n$.
 
 
 
@@ -651,7 +651,7 @@ for(int i = 1; i <= n; i++) {
 
 ```
 
-*Analysis:* Outer loop runs $n$times. Inner loop runs$\log_2 n$ times.
+*Analysis:* Outer loop runs $n$ times. Inner loop runs $\log_2 n$ times.
 
 *Time Complexity:* $\mathcal{O}(n \log n)$
 
@@ -876,7 +876,7 @@ $$
 
 - Recognizing the hierarchy of growth rates (e.g., $1 < \log n < n < n \log n < n^2$) to easily identify efficient algorithms.
 
-- Identifying code patterns directly to their time complexity (e.g., simple loop $\to$linear, nested loops$\to$quadratic, halving loops$\to$ logarithmic).
+- Identifying code patterns directly to their time complexity (e.g., simple loop $\to$ linear, nested loops $\to$ quadratic, halving loops $\to$ logarithmic).
 
 
 
@@ -892,7 +892,7 @@ $$
 
 - The definitions of asymptotic bounds (see Formula Sheet).
 
-- Limits for $o$and$\omega$.
+- Limits for $o$ and $\omega$.
 
 - Sum of series formulas used for nested dependent loops.
 

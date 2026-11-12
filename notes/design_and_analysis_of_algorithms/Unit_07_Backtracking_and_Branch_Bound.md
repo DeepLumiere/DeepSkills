@@ -24,9 +24,9 @@ flowchart TD
 
         direction LR
 
-        BT["Backtracking (DFS)<br>- Explores depth-first<br>- Bounding function prunes invalid branches"]
+        BT["Backtracking (DFS): Explores depth-first; Bounding function prunes invalid branches"]
 
-        BB["Branch & Bound (BFS / Best-First Search)<br>- Explores level-wise or via Priority Queue<br>- Lower Bound prunes sub-optimal branches"]
+        BB["Branch & Bound (BFS / Best-First Search): Explores level-wise or via Priority Queue; Lower Bound prunes sub-optimal branches"]
 
     end
 
@@ -76,13 +76,13 @@ How many ways can we arrange 2 boys and 1 girl in 3 chairs, such that the girl d
 
 flowchart TD
 
-    Start["Backtrack(k)"] --> Loop["Loop for each choice x[k] in Candidate Domain X[k]"]
+    Start["Backtrack(k)"] --> Loop["Loop for each choice x&#91;k&#93; in Candidate Domain X&#91;k&#93;"]
 
     Loop --> CheckValid{"Is Bounding Function B(x[1]...x[k]) Valid?"}
 
     CheckValid -- "Yes (Valid Branch)" --> CheckSol{"Is k == n (Complete Solution)?"}
 
-    CheckSol -- Yes --> Output["Output Solution Vector x[1..n]"] --> NextVal["Try Next Choice"] --> Loop
+    CheckSol -- Yes --> Output["Output Solution Vector x&#91;1..n&#93;"] --> NextVal["Try Next Choice"] --> Loop
 
     CheckSol -- No --> Recurse["Call Backtrack(k + 1) to explore deeper"] --> NextVal
 
@@ -104,7 +104,7 @@ flowchart TD
 
 ## 3. Problem: N-Queens ★★
 
-**Problem:** Place $N$chess queens on an$N \times N$ chessboard so that no two queens attack each other.
+**Problem:** Place $N$ chess queens on an $N \times N$ chessboard so that no two queens attack each other.
 
 - **Constraints:**
 
@@ -118,13 +118,13 @@ flowchart TD
 
 **K-Promising Solution:** A solution is called $k$-promising if it arranges the first $k$ queens such that they do not threaten each other.
 
-**State Representation:** We use an array $X[1..N]$where$X[i] = c$means a queen is placed in row$i$and column$c$.
+**State Representation:** We use an array $X[1..N]$ where $X[i] = c$ means a queen is placed in row $i$ and column $c$.
 
 
 
 ### Constraint Check Pseudocode
 
-Two queens at $(i, X[i])$and$(j, X[j])$are on the same diagonal if$|i - j| = |X[i] - X[j]|$.
+Two queens at $(i, X[i])$ and $(j, X[j])$ are on the same diagonal if $|i - j| = |X[i] - X[j]|$.
 
 ```text
 
@@ -150,13 +150,13 @@ flowchart TD
 
     Start["N-QUEENS(row, N)"] --> CheckRow{"Is row > N?"}
 
-    CheckRow -- Yes --> SolFound["Found Valid N-Queens Placement!<br>Print Solution Vector x[1..N]"]
+    CheckRow -- Yes --> SolFound["Found Valid N-Queens Placement! Print Solution Vector x&#91;1..N&#93;"]
 
     CheckRow -- No --> ColLoop["Loop col = 1 to N"]
 
     ColLoop --> CheckPlace{"Is PLACE(row, col) Safe?"}
 
-    CheckPlace -- "Yes (No Attack)" --> Place["Set x[row] = col"]
+    CheckPlace -- "Yes (No Attack)" --> Place["Set x&#91;row&#93; = col"]
 
     Place --> Recurse["Call N-QUEENS(row + 1, N)"] --> NextCol["col = col + 1"] --> ColLoop
 
@@ -214,11 +214,11 @@ There are exactly 2 solutions:
 
 ## 4. Problem: Graph Coloring
 
-**Problem:** Color the vertices of a graph $G$using at most$m$ colors such that no two adjacent vertices share the same color.
+**Problem:** Color the vertices of a graph $G$ using at most $m$ colors such that no two adjacent vertices share the same color.
 
 - **Chromatic Number:** The minimum number of colors needed to color a graph.
 
-- **Backtracking Approach:** Assign colors $1..m$to vertex$k$. If an adjacent vertex already has the same color, backtrack.
+- **Backtracking Approach:** Assign colors $1..m$ to vertex $k$. If an adjacent vertex already has the same color, backtrack.
 
 - **State Space Tree:** Each level corresponds to a vertex. Each branch corresponds to a color choice. Pruning occurs when an edge constraint is violated.
 
@@ -294,7 +294,7 @@ Algorithm HAMILTONIAN(k)
 
 ## 6. Problem: Subset Sum
 
-**Problem:** Given a set of positive integers $S = \{w_1, w_2, \dots, w_n\}$and a target sum$M$, find all subsets of $S$whose elements sum to exactly$M$.
+**Problem:** Given a set of positive integers $S = \{w_1, w_2, \dots, w_n\}$ and a target sum $M$, find all subsets of $S$ whose elements sum to exactly $M$.
 
 - **Backtracking with Pruning:**
 
@@ -302,7 +302,7 @@ Algorithm HAMILTONIAN(k)
 
   - Prune if the current sum plus the sum of all remaining elements is less than $M$.
 
-- **State Space Tree:** A binary tree where the left branch includes $w_k$and the right branch excludes$w_k$.
+- **State Space Tree:** A binary tree where the left branch includes $w_k$ and the right branch excludes $w_k$.
 
 
 
@@ -312,25 +312,25 @@ Algorithm HAMILTONIAN(k)
 
 flowchart TD
 
-    Start["SUBSET_SUM(s, k, r)"] --> Include["Generate Left Child: Include w[k]<br>Set x[k] = 1"]
+    Start["SUBSET_SUM(s, k, r)"] --> Include["Generate Left Child: Include w&#91;k&#93; - Set x&#91;k&#93; = 1"]
 
     Include --> CheckLeft{"Is s + w[k] == Target S?"}
 
-    CheckLeft -- Yes --> OutputL["Print Subset Solution x[1..k]"]
+    CheckLeft -- Yes --> OutputL["Print Subset Solution x&#91;1..k&#93;"]
 
     CheckLeft -- No --> CheckDeeper{"Is s + w[k] + w[k+1] <= Target S?"}
 
-    CheckDeeper -- Yes --> RecurseL["Call SUBSET_SUM(s + w[k], k + 1, r - w[k])"]
+    CheckDeeper -- Yes --> RecurseL["Call SUBSET_SUM(s + w&#91;k&#93;, k + 1, r - w&#91;k&#93;)"]
 
     CheckDeeper -- No --> PruneL["Prune Left Branch"]
 
 
 
-    RecurseL & PruneL & OutputL --> Exclude["Generate Right Child: Exclude w[k]<br>Set x[k] = 0"]
+    RecurseL & PruneL & OutputL --> Exclude["Generate Right Child: Exclude w&#91;k&#93; - Set x&#91;k&#93; = 0"]
 
     Exclude --> CheckRight{"Is s + r - w[k] >= Target S AND s + w[k+1] <= Target S?"}
 
-    CheckRight -- Yes --> RecurseR["Call SUBSET_SUM(s, k + 1, r - w[k])"]
+    CheckRight -- Yes --> RecurseR["Call SUBSET_SUM(s, k + 1, r - w&#91;k&#93;)"]
 
     CheckRight -- No --> PruneR["Prune Right Branch"]
 

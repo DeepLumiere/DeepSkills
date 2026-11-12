@@ -526,9 +526,9 @@ END START
 
 ```mermaid
 flowchart TD
-    A["Set up DS, ES, SI, DI, CX=5"] --> B["LODSB: AL = DS:[SI], SI++"]
+    A["Set up DS, ES, SI, DI, CX=5"] --> B["LODSB: AL = DS:&#91;SI&#93;, SI++"]
     B --> C["SUB AL, 32 (lowercase → uppercase)"]
-    C --> D["STOSB: ES:[DI] = AL, DI++"]
+    C --> D["STOSB: ES:&#91;DI&#93; = AL, DI++"]
     D --> E{"LOOP: CX-- ; CX=0?"}
     E -- No --> B
     E -- Yes --> F["Display STR2 via INT 21H"]
