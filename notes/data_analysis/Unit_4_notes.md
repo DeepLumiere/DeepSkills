@@ -186,12 +186,15 @@ flowchart TD
 #### Definition: Principal Component Analysis (PCA)
 - **Meaning**: An unsupervised linear transformation technique that identifies orthogonal directions (principal components) along which data variance is maximized.
 - **Formal Definition**: Given a centered data matrix $X_c \in \mathbb{R}^{n \times d}$ with sample covariance matrix $S = \frac{1}{n-1} X_c^T X_c \in \mathbb{R}^{d \times d}$, PCA solves the sequence of constrained optimization problems:
+
 $$
 w_1 = \arg\max_{\|w\|=1} w^T S w
 $$
+
 $$
 w_k = \arg\max_{\|w\|=1, w \perp w_1, \dots, w \perp w_{k-1}} w^T S w
 $$
+
   where each vector $w_k$ is the $k$-th orthonormal eigenvector of $S$ associated with the $k$-th largest eigenvalue $\lambda_k$.
 
 - **Intuition**: Imagine looking at an elongated, tilted football hovering in a 3D room. If you take a photo from the side showing its longest axis, you capture almost all of its shape in a flat 2D shadow. PCA finds the exact angle that captures the maximum spread of the data cloud.
@@ -517,6 +520,7 @@ flowchart TD
 3. **Step 3: Select Sampling Technique(s)**: Decide on the mathematical selection mechanism based on research goals, population homogeneity, and budget constraints.
    - *Example*: Choosing stratified random sampling based on academic department to ensure balanced representation across majors.
 4. **Step 4: Determine the Sample Size ($n$)**: Apply statistical sample size determination formulas balancing acceptable margin of error ($E$), confidence level ($Z_{\alpha/2}$), and estimated population variance ($\sigma^2$):
+
 $$
 n = \frac{Z^2 \cdot \sigma^2}{E^2}
 $$
@@ -566,6 +570,7 @@ Every individual element in the population has an identical probability of selec
 - **Simple Random Sampling Without Replacement (SRSWOR)**:
   - *Mechanism*: Once an element is selected, it is removed from the population pool and cannot be selected again.
   - *Properties*: Generates $n$ distinct observations. The total number of possible distinct samples is given by the combination formula:
+
 $$
 \binom{N}{n} = \frac{N!}{n!(N - n)!}
 $$
@@ -604,12 +609,14 @@ Elements are selected at fixed, regular intervals along an ordered sampling fram
 
 - **Mechanism**:
   1. Determine the sampling skip interval $k$:
+
 $$
 k = \left\lfloor \frac{N}{n} \right\rfloor
 $$
 
   2. Select a random starting integer $r$ uniformly distributed such that $1 \le r \le k$.
   3. Extract elements at positions:
+
 $$
 r, \; r + k, \; r + 2k, \; r + 3k, \; \dots, \; r + (n - 1)k
 $$
@@ -642,11 +649,13 @@ flowchart TD
 - **Stratum Principle**: **Homogeneity within strata, Heterogeneity between strata**.
 - **Allocation Strategies**:
   - *Proportional Stratified Sampling*: Sample size per stratum $n_h$ is directly proportional to its stratum size $N_h$:
+
 $$
 n_h = n \cdot \left(\frac{N_h}{N}\right)
 $$
 
   - *Disproportional (Optimal) Stratified Sampling (Neyman Allocation)*: Strata with higher variance $\sigma_h$ or lower collection cost $c_h$ are allocated larger sample shares:
+
 $$
 n_h \propto \frac{N_h \sigma_h}{\sqrt{c_h}}
 $$
@@ -814,10 +823,13 @@ Geometrically, consider a 2D scatter plot of data points forming an elongated el
 
 - **Orientation of $PC_1$**: The first principal component axis aligns precisely with the major axis of the ellipse—the spatial line along which the data points are most widely scattered. It captures the maximum possible variability present in the data cloud.
 - **Orientation of $PC_2$**: The second principal component axis aligns with the minor axis of the ellipse. It is constrained to be strictly perpendicular (orthogonal at $90^\circ$) to $PC_1$. Because the axes are orthogonal, the statistical correlation between $PC_1$ and $PC_2$ is mathematically zero:
+
 $$
 \text{Cov}(PC_1, PC_2) = 0
 $$
+
 - **Variance Ranking**: By definition, no other direction in the feature space can capture more variance than $PC_1$:
+
 $$
 \text{Var}(PC_1) > \text{Var}(PC_2) \ge \dots \ge \text{Var}(PC_d)
 $$
@@ -891,9 +903,11 @@ The mathematical engine driving PCA is the eigendecomposition of the real, symme
 
 ##### Formal Definitions of Eigenvalues and Eigenvectors:
 - **Eigenvector ($x$)**: A non-zero vector $x \in \mathbb{R}^d$ ($x \neq \mathbf{0}$) whose spatial orientation remains invariant under linear transformation by matrix $S$. Multiplying $S$ by $x$ merely scales the vector by a factor $\lambda$ without altering its line of direction:
+
 $$
 S x = \lambda x
 $$
+
 - **Eigenvalue ($\lambda$)**: The scalar factor that dictates how much the corresponding eigenvector $x$ is stretched, shrunk, or flipped during the transformation.
 
 ##### Derivation of the Characteristic Equation:
@@ -932,6 +946,7 @@ flowchart TD
 2. **Step 2: Calculate the Covariance Matrix**: Compute the $d \times d$ sample covariance matrix $S$ from the centered data.
 3. **Step 3: Compute Eigenvalues and Eigenvectors**: Solve the characteristic equation $\det(S - \lambda I) = 0$ for all roots $\lambda$, and solve the linear system $(S - \lambda_i I)v_i = \mathbf{0}$ to find the corresponding directional eigenvectors. Normalize each eigenvector to unit length ($\|v_i\| = 1$).
 4. **Step 4: Order Eigenvectors and Project the Data**: Sort the eigenvalues in descending numerical order: $\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_d$. Construct the projection matrix $V \in \mathbb{R}^{d \times k}$ containing the top $k$ normalized eigenvectors as its columns. Multiply the centered data matrix by $V$ to compute the transformed **Principal Component Scores**:
+
 $$
 D_{\text{transformed}} = D_{\text{centered}} \times V
 $$
@@ -975,6 +990,7 @@ In a clinical health assessment study, six patients ($n = 6$) had their Blood Pr
 Centering repositions the data cloud around the origin $(0, 0)$:
 
 #### Mean Calculations:
+
 $$
 \bar{X}_{BP} = \frac{126 + 128 + 128 + 130 + 130 + 132}{6} = \frac{774}{6} = 129
 $$
@@ -1003,6 +1019,7 @@ $$
 Using the sample size $n = 6$, degrees of freedom $n - 1 = 5$:
 
 #### 1. Variance of Blood Pressure ($S_{11} = \text{Var}(BP)$):
+
 $$
 \begin{aligned}
 S_{11} &= \frac{\sum_{i=1}^6 (X_i - \bar{X})^2}{n - 1} \\
@@ -1013,6 +1030,7 @@ S_{11} &= \frac{\sum_{i=1}^6 (X_i - \bar{X})^2}{n - 1} \\
 $$
 
 #### 2. Variance of Oxygen Saturation ($S_{22} = \text{Var}(Oxy)$):
+
 $$
 \begin{aligned}
 S_{22} &= \frac{\sum_{i=1}^6 (Y_i - \bar{Y})^2}{n - 1} \\
@@ -1023,6 +1041,7 @@ S_{22} &= \frac{\sum_{i=1}^6 (Y_i - \bar{Y})^2}{n - 1} \\
 $$
 
 #### 3. Covariance between $BP$ and $Oxy$ ($S_{12} = S_{21} = \text{Cov}(BP, Oxy)$):
+
 $$
 \begin{aligned}
 S_{12} = S_{21} &= \frac{\sum_{i=1}^6 (X_i - \bar{X})(Y_i - \bar{Y})}{n - 1} \\
@@ -1033,6 +1052,7 @@ S_{12} = S_{21} &= \frac{\sum_{i=1}^6 (X_i - \bar{X})(Y_i - \bar{Y})}{n - 1} \\
 $$
 
 #### Complete Sample Covariance Matrix:
+
 $$
 S = \begin{pmatrix}
 4.4 & 5.6 \\
@@ -1062,6 +1082,7 @@ S - \lambda I = \begin{pmatrix}
 $$
 
 #### Evaluating the Determinant:
+
 $$
 \begin{aligned}
 \det(S - \lambda I) &= (4.4 - \lambda)(8.0 - \lambda) - (5.6 \times 5.6) = 0 \\
@@ -1087,10 +1108,13 @@ $$
 $$
 
 - **First Eigenvalue ($\lambda_1$)**:
+
 $$
   \lambda_1 = \frac{12.4 + 11.76435}{2} = \frac{24.16435}{2} \approx \mathbf{12.082}
 $$
+
 - **Second Eigenvalue ($\lambda_2$)**:
+
 $$
   \lambda_2 = \frac{12.4 - 11.76435}{2} = \frac{0.63565}{2} \approx \mathbf{0.318}
 $$
@@ -1121,6 +1145,7 @@ $$
 $$
 
 From Row 1:
+
 $$
 \begin{aligned}
 -7.682a + 5.6b &= 0 \\
@@ -1130,11 +1155,13 @@ b &= \frac{7.682}{5.6}a \approx 1.371786a \approx 1.3725a
 $$
 
 Setting arbitrary scalar $a = 1$:
+
 $$
 b \approx 1.3725 \implies v_1^{\text{raw}} = \begin{pmatrix} 1 \\ 1.3725 \end{pmatrix}
 $$
 
 #### Unit Normalization of $v_1$:
+
 $$
 \|v_1^{\text{raw}}\| = \sqrt{1^2 + (1.3725)^2} = \sqrt{1 + 1.883756} = \sqrt{2.883756} \approx 1.6976
 $$
@@ -1165,6 +1192,7 @@ $$
 $$
 
 From Row 1:
+
 $$
 \begin{aligned}
 4.082a + 5.6b &= 0 \\
@@ -1174,11 +1202,13 @@ b &= -\frac{4.082}{5.6}a \approx -0.72893a \approx -0.7290a
 $$
 
 Setting arbitrary scalar $a = 1$:
+
 $$
 b \approx -0.7290 \implies v_2^{\text{raw}} = \begin{pmatrix} 1 \\ -0.7290 \end{pmatrix}
 $$
 
 #### Unit Normalization of $v_2$:
+
 $$
 \|v_2^{\text{raw}}\| = \sqrt{1^2 + (-0.7290)^2} = \sqrt{1 + 0.53144} = \sqrt{1.53144} \approx 1.2370
 $$
@@ -1217,12 +1247,15 @@ $$
 $$
 
 Notice that the sum of original diagonal variances is:
+
 $$
 S_{11} + S_{22} = 4.4 + 8.0 = \mathbf{12.400}
 $$
+
 Total system variance is conserved under the orthogonal transformation!
 
 #### Individual Component Proportions:
+
 $$
 \text{EVR}_1 = \frac{\lambda_1}{\text{Total Variance}} = \frac{12.082}{12.400} \approx 0.97435 \approx \mathbf{97.44\%}
 $$
@@ -1246,6 +1279,7 @@ $$
 $$
 
 Using the transformation formulas:
+
 $$
 PC_1 = 0.5891(BP - 129) + 0.8081(Oxy - 82)
 $$
@@ -1256,44 +1290,61 @@ $$
 
 #### Detailed Calculations for Each Patient:
 - **Patient P1**: Centered coordinates $(-3, -4)$:
+
 $$
 PC_1 = (-3)(0.5891) + (-4)(0.8081) = -1.7673 - 3.2324 = -4.9997 \approx \mathbf{-5.00}
 $$
+
 $$
 PC_2 = (-3)(0.8081) + (-4)(-0.5891) = -2.4243 + 2.3564 = -0.0679 \approx \mathbf{-0.068}
 $$
+
 - **Patient P2**: Centered coordinates $(-1, -2)$:
+
 $$
 PC_1 = (-1)(0.5891) + (-2)(0.8081) = -0.5891 - 1.6162 = -2.2053 \approx \mathbf{-2.21}
 $$
+
 $$
 PC_2 = (-1)(0.8081) + (-2)(-0.5891) = -0.8081 + 1.1782 = +0.3701 \approx \mathbf{+0.37}
 $$
+
 - **Patient P3**: Centered coordinates $(-1, 0)$:
+
 $$
 PC_1 = (-1)(0.5891) + (0)(0.8081) = -0.5891 + 0 = \mathbf{-0.59}
 $$
+
 $$
 PC_2 = (-1)(0.8081) + (0)(-0.5891) = -0.8081 + 0 = \mathbf{-0.81}
 $$
+
 - **Patient P4**: Centered coordinates $(+1, 0)$:
+
 $$
 PC_1 = (+1)(0.5891) + (0)(0.8081) = +0.5891 + 0 = \mathbf{+0.59}
 $$
+
 $$
 PC_2 = (+1)(0.8081) + (0)(-0.5891) = +0.8081 + 0 = \mathbf{+0.81}
 $$
+
 - **Patient P5**: Centered coordinates $(+1, +2)$:
+
 $$
 PC_1 = (+1)(0.5891) + (+2)(0.8081) = +0.5891 + 1.6162 = +2.2053 \approx \mathbf{+2.21}
 $$
+
 $$
 PC_2 = (+1)(0.8081) + (+2)(-0.5891) = +0.8081 - 1.1782 = -0.3701 \approx \mathbf{-0.37}
 $$
+
 - **Patient P6**: Centered coordinates $(+3, +4)$:
+
 $$
 PC_1 = (+3)(0.5891) + (+4)(0.8081) = +1.7673 + 3.2324 = +4.9997 \approx \mathbf{+5.00}
 $$
+
 $$
 PC_2 = (+3)(0.8081) + (+4)(-0.5891) = +2.4243 - 2.3564 = +0.0679 \approx \mathbf{+0.068}
 $$
@@ -1318,6 +1369,7 @@ $$
 To prove that PCA preserved and redistributed the variance correctly:
 
 #### 1. Sample Variance of $PC_1$:
+
 $$
 \begin{aligned}
 \text{Var}(PC_1) &= \frac{(-5.00)^2 + (-2.21)^2 + (-0.59)^2 + (0.59)^2 + (2.21)^2 + (5.00)^2}{5} \\
@@ -1327,6 +1379,7 @@ $$
 $$
 
 #### 2. Sample Variance of $PC_2$:
+
 $$
 \begin{aligned}
 \text{Var}(PC_2) &= \frac{(-0.068)^2 + (0.37)^2 + (-0.81)^2 + (0.81)^2 + (-0.37)^2 + (0.068)^2}{5} \\
@@ -1336,6 +1389,7 @@ $$
 $$
 
 #### 3. Sample Covariance of Transformed Scores:
+
 $$
 \begin{aligned}
 \text{Cov}(PC_1, PC_2) &= \frac{(-5.00)(-0.068) + (-2.21)(0.37) + (-0.59)(-0.81) + (0.59)(0.81) + (2.21)(-0.37) + (5.00)(0.068)}{5} \\
@@ -1719,6 +1773,7 @@ flowchart TD
 ### 10.2 Master Formula Sheet & Symbol Definitions
 
 #### 1. Univariate Sample Variance
+
 $$
 s^2 = \text{Var}(X) = \frac{1}{n - 1} \sum_{i=1}^n (X_i - \bar{X})^2
 $$
@@ -1734,6 +1789,7 @@ $$
 ---
 
 #### 2. Sample Covariance
+
 $$
 \text{Cov}(X, Y) = \frac{1}{n - 1} \sum_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})
 $$
@@ -1747,6 +1803,7 @@ $$
 ---
 
 #### 3. Eigendecomposition of Covariance Matrix
+
 $$
 S v = \lambda v \iff (S - \lambda I)v = \mathbf{0}
 $$
@@ -1761,11 +1818,13 @@ $$
 ---
 
 #### 4. Characteristic Equation for Eigenvalues
+
 $$
 \det(S - \lambda I) = 0
 $$
 
 For a $2 \times 2$ covariance matrix $S = \begin{pmatrix} S_{11} & S_{12} \\ S_{12} & S_{22} \end{pmatrix}$:
+
 $$
 \lambda^2 - (S_{11} + S_{22})\lambda + (S_{11}S_{22} - S_{12}^2) = 0
 $$
@@ -1773,6 +1832,7 @@ $$
 ---
 
 #### 5. Explained Variance Ratio (EVR)
+
 $$
 \text{EVR}_k = \frac{\lambda_k}{\sum_{j=1}^d \lambda_j} = \frac{\lambda_k}{\text{Tr}(S)}
 $$
@@ -1786,6 +1846,7 @@ $$
 ---
 
 #### 6. Principal Component Score Transformation
+
 $$
 D_{\text{transformed}} = D_{\text{centered}} \times V
 $$
@@ -1803,6 +1864,7 @@ $$
 ---
 
 #### 7. Systematic Sampling Step Size
+
 $$
 k = \left\lfloor \frac{N}{n} \right\rfloor
 $$
@@ -1854,9 +1916,11 @@ $$
 
 ##### Q4. Define the Explained Variance Ratio (EVR) in PCA.
 **Model Answer**: The Explained Variance Ratio is the fraction of total dataset variance captured by a given principal component $k$:
+
 $$
 \text{EVR}_k = \frac{\lambda_k}{\sum_{j=1}^d \lambda_j}
 $$
+
 It quantifies the information preserved by each component and serves as the criterion for component truncation.
 [Source: `Unit_4_PCA.pdf`, Slide 37]
 
@@ -1917,6 +1981,7 @@ S x = \lambda x
 $$
 
 Rearranging the linear system:
+
 $$
 \begin{aligned}
 S x - \lambda I x &= \mathbf{0} \\

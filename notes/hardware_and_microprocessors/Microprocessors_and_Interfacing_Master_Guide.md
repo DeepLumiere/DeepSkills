@@ -288,6 +288,7 @@ Inside the BIU, a dedicated hardware adder (the Address Summing Block) calculate
 $$
 \text{Physical Address} = (\text{Segment Register} \times 16_{10}) + \text{Offset Register}
 $$
+
 *(In Hexadecimal: Multiply the Segment by `10H` (shift left 1 hex digit), then add the Offset)*
 
 **Example Calculation:**

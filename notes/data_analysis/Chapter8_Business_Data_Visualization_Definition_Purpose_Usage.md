@@ -305,16 +305,19 @@ flowchart LR
 ## 9. Consolidated Formula Sheet
 
 1. **Tufte's Data-Ink Ratio:**
+
    $$
    \text{Data-Ink Ratio} = \frac{\text{Data-Ink}}{\text{Total Ink Used in Graphic}} = 1 - \text{Chartjunk Ratio}
    $$
 
 2. **Data Density Metric:**
+
    $$
    \text{Data Density} = \frac{\text{Number of Entries in Data Matrix}}{\text{Area of Visual Canvas (sq. inches or pixels)}}
    $$
 
 3. **Lie Factor (Tufte Visual Distortion Index):**
+
    $$
    \text{Lie Factor} = \frac{\text{Size of Effect Shown in Graphic}}{\text{Size of Effect in Underlying Data}}
    $$
@@ -366,6 +369,7 @@ flowchart LR
 
 ##### Part 1: Mathematical Definitions & Thresholds
 * **Data-Ink Ratio:**
+
   $$
   \text{Data-Ink Ratio} = \frac{\text{Data-Ink}}{\text{Total Ink Used in Graphic}} = 1 - \text{Chartjunk Ratio}
   $$
@@ -373,6 +377,7 @@ flowchart LR
   * *Target Benchmark:* Maximized close to $1.0$.
 
 * **Lie Factor:**
+
   $$
   \text{Lie Factor} = \frac{\text{Size of Effect Shown in Graphic}}{\text{Size of Effect in Underlying Data}}
   $$
@@ -383,16 +388,19 @@ flowchart LR
 ##### Part 2: Lie Factor Calculation & Evaluation
 
 1. **Calculate Real Data Effect Size:**
+
    $$
    \text{Effect}_{\text{Data}} = \frac{30 - 10}{10} = \frac{20}{10} = 2.00 \quad (200\%)
    $$
 
 2. **Calculate Graphical Visual Effect Size:**
+
    $$
    \text{Effect}_{\text{Graphic}} = \frac{27 - 1}{1} = \frac{26}{1} = 26.00 \quad (2600\%)
    $$
 
 3. **Compute Lie Factor:**
+
    $$
    \text{Lie Factor} = \frac{\text{Effect}_{\text{Graphic}}}{\text{Effect}_{\text{Data}}} = \frac{26.00}{2.00} = \mathbf{13.00}
    $$

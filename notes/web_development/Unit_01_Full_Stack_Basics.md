@@ -193,9 +193,11 @@ button.addEventListener("click", () => {
 ```
 
 Modern frontend engineering relies on **Declarative Programming**, where developers define the UI as a direct mathematical projection of state:
+
 $$
 \text{UI} = f(\text{State})
 $$
+
 When `State` changes, the underlying framework automatically updates the DOM.
 
 ```mermaid
@@ -1705,23 +1707,30 @@ $$
 
 - **REST Idempotency Mathematical Operator Rule:**
   An HTTP method $f$ is idempotent if and only if executing it multiple times yields the exact same side-effect on server state as executing it once:
+
   $$
   f(f(x)) = f(x)
   $$
+
   *(Holds for `GET`, `PUT`, `DELETE`, `HEAD`, `OPTIONS`; does NOT hold for `POST` or `PATCH`)*.
 
 - **React Virtual DOM Heuristic Diffing Complexity:**
   Traditional minimum tree edit distance algorithms (e.g., Levenshtein on trees) have cubic complexity:
+
   $$
   O(n^3)
   $$
+
   React's heuristic diffing algorithm reduces reconciliation complexity to linear time:
+
   $$
   O(n)
   $$
+
   by assuming two elements of different types produce different trees and elements across re-renders are identified by stable `key` attributes.
 
 - **JSON Serialization Memory Footprint Ratio:**
+
   $$
 \text{Memory Overhead} =
 \frac{\text{JSON String Size (Bytes)}}{\text{Raw Binary Data Size (Bytes)}} \times 100\%
@@ -1729,6 +1738,7 @@ $$
 
 - **Bootstrap 5 Responsive Grid Width Equation:**
   For an element spanning $C$ columns in a 12-column grid container with width $W_{\text{container}}$:
+
   $$
 \text{Width}_{\text{element}} = \left(
 \frac{C}{12}

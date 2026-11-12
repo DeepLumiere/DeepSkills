@@ -271,21 +271,25 @@ flowchart LR
 ## 7. Consolidated Formula Sheet
 
 1. **Seasonal Index (Multiplicative Model):**
+
    $$
    S_t = \frac{Y_t}{T_t}
    $$
 
 2. **Deseasonalized Time-Series:**
+
    $$
    d_t = \frac{Y_t}{S_t} = T_t \times A_t
    $$
 
 3. **Data Completeness Ratio:**
+
    $$
    \text{Completeness \%} = \left( \frac{\text{Number of Non-Null Records}}{\text{Total Expected Records}} \right) \times 100
    $$
 
 4. **Weighted Average Formula (Avoiding Averaging Averages):**
+
    $$
    \bar{X}_{\text{Weighted}} = \frac{\sum_{i=1}^k w_i \cdot \bar{x}_i}{\sum_{i=1}^k w_i}
    $$
@@ -349,6 +353,7 @@ An enterprise e-commerce platform records 8 quarters of quarterly sales revenue 
 #### Full Step-by-Step Solution:
 
 ##### Part 1: Multiplicative Model Overview
+
 $$
 Y_t = T_t \times S_t \times A_t
 $$
@@ -399,6 +404,7 @@ Since the sum is virtually $4.00$, the normalized Seasonal Indices are:
 
 ##### Part 4: Deseasonalization & Inventory Takeaway
 * **Deseasonalize 2026 Q4 Sales ($\$240$):**
+
   $$
   d_t = \frac{Y_{\text{Q4}}}{S_{\text{Q4}}} = \frac{\$240}{1.345} = \mathbf{\$178.44}
   $$
@@ -501,6 +507,7 @@ $$
 $$
 
 4. **Compute True Weighted Average ($\bar{X}_{\text{Weighted}}$):**
+
    $$
    \bar{X}_{\text{Weighted}} = \frac{\sum N_i \cdot \bar{x}_i}{\sum N_i} = \frac{\$46,000}{1,000} = \mathbf{\$46.00}
    $$

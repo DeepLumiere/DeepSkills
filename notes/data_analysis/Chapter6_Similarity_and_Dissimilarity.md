@@ -107,21 +107,25 @@ $$
 When algorithms require a distance metric but only similarity values are available (or vice versa), monotonic transformation functions are applied:
 
 1. **Linear Transformation (for $s \in [0, 1]$):**
+
    $$
    d(i,j) = 1 - s(i,j)
    $$
 
 2. **Negative Exponential Transformation (for unbounded dissimilarity $d \in [0, \infty)$):**
+
    $$
    s(i,j) = e^{-\gamma d(i,j)} \quad (\text{where } \gamma > 0)
    $$
 
 3. **Inverse Transformation:**
+
    $$
    d(i,j) = \frac{1 - s(i,j)}{s(i,j)} \quad \text{or} \quad s(i,j) = \frac{1}{1 + d(i,j)}
    $$
 
 4. **Angular / Euclidean Normalized Transformation:**
+
    $$
    d(i,j) = \sqrt{2(1 - s(i,j))}
    $$
@@ -435,16 +439,19 @@ Standard deviation $\sigma_f$ squares deviations $(x_{if} - \mu_f)^2$, making it
 The **Mean Absolute Deviation ($s_f$)** provides a robust measure of dispersion:
 
 #### Step 1: Compute Feature Mean
+
 $$
 m_f = \frac{1}{n} \sum_{i=1}^n x_{if}
 $$
 
 #### Step 2: Compute Mean Absolute Deviation ($s_f$)
+
 $$
 s_f = \frac{1}{n} \sum_{i=1}^n |x_{if} - m_f|
 $$
 
 #### Step 3: Compute Robust Standardized Z-Score
+
 $$
 z_{if} = \frac{x_{if} - m_f}{s_f}
 $$
@@ -476,6 +483,7 @@ Raw Data Points:
 $$
 z_1 = \frac{10 - 30.2}{34.94} = -0.578, \quad z_2 = \frac{12 - 30.2}{34.94} = -0.521 \implies |z_1 - z_2| = \mathbf{0.057}
 $$
+
   *(The distance between 10 and 12 is crushed to near zero because $\sigma=34.94$ was inflated by the outlier 100!)*
 
 ##### 2. Mean Absolute Deviation Approach (MAD $s_f$):
@@ -600,6 +608,7 @@ The choice of parameter $h$ dramatically changes the shape of equal-distance con
 $$
 \|\mathbf{a} + \mathbf{b}\|_h \le \|\mathbf{a}\|_h + \|\mathbf{b}\|_h \quad \text{for } h \ge 1
 $$
+
    Setting $\mathbf{a} = i - k$ and $\mathbf{b} = k - j$ yields $(i - j) = (i - k) + (k - j)$, proving $d(i,j) \le d(i,k) + d(k,j)$. $\blacksquare$
 
 [Source: 5.1_Similarity and Dissimilarity.pdf, Slide 11, 12]
@@ -1013,6 +1022,7 @@ Where $\Sigma$ is the $p \times p$ sample covariance matrix. If features are unc
 Measures dissimilarity between two text strings $S_1$ and $S_2$ as the minimum number of single-character operations (**Insertion, Deletion, Substitution**) required to transform $S_1$ into $S_2$.
 
 #### Recurrence Relation
+
 $$
 D(i,j) = \begin{cases}
 i & \text{if } j = 0 \\
@@ -1130,6 +1140,7 @@ Consider an enterprise customer dataset containing 4 records ($C_1, C_2, C_3, C_
 #### Full Step-by-Step Solution:
 
 ##### Part 1: Gower's General Formula & Rules
+
 $$
 d(i,j) = \frac{\sum_{f=1}^p \delta_{ij}^{(f)} d_{ij}^{(f)}}{\sum_{f=1}^p \delta_{ij}^{(f)}}
 $$
@@ -1245,6 +1256,7 @@ $$
 Let $\mathbf{u}$ and $\mathbf{v}$ be unit vectors such that $\|\mathbf{u}\| = \sqrt{\mathbf{u} \cdot \mathbf{u}} = 1$ and $\|\mathbf{v}\| = \sqrt{\mathbf{v} \cdot \mathbf{v}} = 1$.
 
 Expand squared Euclidean distance using vector dot products:
+
 $$
 \begin{aligned}
 d_{L_2}^2(\mathbf{u}, \mathbf{v}) &= \|\mathbf{u} - \mathbf{v}\|^2 = (\mathbf{u} - \mathbf{v}) \cdot (\mathbf{u} - \mathbf{v}) \\
@@ -1254,12 +1266,14 @@ d_{L_2}^2(\mathbf{u}, \mathbf{v}) &= \|\mathbf{u} - \mathbf{v}\|^2 = (\mathbf{u}
 $$
 
 Since $\|\mathbf{u}\| = 1$ and $\|\mathbf{v}\| = 1$, and by definition $\mathbf{u} \cdot \mathbf{v} = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \|\mathbf{y}\|} = \cos(\mathbf{x}, \mathbf{y})$:
+
 $$
 \begin{aligned}
 d_{L_2}^2(\mathbf{u}, \mathbf{v}) &= 1 + 1 - 2\cos(\mathbf{x}, \mathbf{y}) \\
 &= 2(1 - \cos(\mathbf{x}, \mathbf{y}))
 \end{aligned}
 $$
+
 Taking square roots yields $d_{L_2}(\mathbf{u}, \mathbf{v}) = \sqrt{2(1 - \cos(\mathbf{x}, \mathbf{y}))}$. $\blacksquare$
 
 ##### Part 2: Vector Magnitudes & Calculations

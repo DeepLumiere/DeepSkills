@@ -1100,6 +1100,7 @@ $$
 
 #### Problem Statement
 A quality audit measured the operational temperature ($^\circ\text{C}$) of $n = 11$ server chassis:
+
 $$
 \{34, 28, 50, 29, 35, 25, 30, 37, 29, 38, 35\}
 $$
@@ -1183,6 +1184,7 @@ $$
 
 #### Problem Statement
 A laboratory recorded the following $n = 9$ environmental sensor measurements:
+
 $$
 \{7.19, 6.31, 5.89, 4.50, 3.77, 4.25, 5.19, 5.79, 6.79\}
 $$
@@ -1255,6 +1257,7 @@ $$
 
 #### Problem Statement
 An e-commerce dataset contains sorted customer transaction unit prices (in USD):
+
 $$
 \{4, 8, 9, 15, 21, 21, 24, 25, 26, 28, 29, 34\}
 $$
@@ -1400,6 +1403,7 @@ $$
 
 #### Problem Statement
 A clinical study tracked patient age ($X$, in years) and fasting blood glucose level ($Y$, in mg/dL) across $n = 6$ patients:
+
 $$
 \{(43, 99), (21, 65), (25, 79), (42, 75), (57, 87), (59, 81)\}
 $$
@@ -1551,9 +1555,11 @@ $$
 
 #### Problem Statement
 Given four spatial data objects in $\mathbb{R}^2$:
+
 $$
 x_1 = (1, 2),\quad x_2 = (3, 5),\quad x_3 = (2, 0),\quad x_4 = (4, 5)
 $$
+
 Construct the complete, lower-triangular dissimilarity matrices using:
 
 1. Manhattan Distance ($L_1$ norm, $h = 1$)
@@ -1744,9 +1750,11 @@ $$
 
 #### Problem Statement
 In an automated topic indexing system, two text documents $d_1$ and $d_2$ are represented as term-frequency vectors over a 10-word dictionary:
+
 $$
 d_1 = (5, 0, 3, 0, 2, 0, 0, 2, 0, 0)
 $$
+
 $$
 d_2 = (3, 0, 2, 0, 1, 1, 0, 1, 0, 1)
 $$

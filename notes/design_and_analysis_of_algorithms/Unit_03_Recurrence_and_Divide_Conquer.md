@@ -59,6 +59,7 @@ $$
 $$
 T(n) \le 2\!\left(c\frac{n}{2}\log_2\!\frac{n}{2}\right) + n = cn(\log_2 n - 1) + n = cn\log_2 n - cn + n
 $$
+
 For $T(n) \le cn\log_2 n$: need $-cn + n \le 0 \implies c \ge 1$. ✅ Holds for $c \ge 1, n \ge 2$.
 
 ---

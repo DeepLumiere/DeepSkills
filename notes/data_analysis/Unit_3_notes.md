@@ -118,9 +118,11 @@ A dense information visualization method that maps each individual data value in
 
 **Formal definition:**
 Let a dataset $\mathcal{D}$ consist of $N$ data records, where each record $\mathbf{x}_i \in \mathbb{R}^m$ is an $m$-dimensional vector $\mathbf{x}_i = (x_{i, 1}, x_{i, 2}, \dots, x_{i, m})$. A pixel-oriented visualization maps each attribute $j \in \{1, \dots, m\}$ to a distinct 2D display window $W_j \subset \mathbb{Z}^2$. For each record $i \in \{1, \dots, N\}$, a bijective spatial placement function $\pi: \{1, \dots, N\} \to W_j$ assigns a discrete screen coordinate $(u_i, v_i) = \pi(i)$, while a continuous color-mapping transfer function $C: \mathbb{R} \to \text{RGB}$ assigns the pixel color:
+
 $$
 \text{PixelColor}(u_i, v_i, W_j) = C(x_{i, j})
 $$
+
 The spatial mapping $\pi$ is identical across all $m$ windows, ensuring that record $i$ occupies the exact same relative pixel location in every window.
 
 **Intuition:**
@@ -140,6 +142,7 @@ A multidimensional geometric visualization method that dispenses with orthogonal
 
 **Formal definition:**
 Let an $m$-dimensional Euclidean space $\mathbb{R}^m$ have coordinates $(x_1, x_2, \dots, x_m)$. Parallel coordinates construct $m$ equidistant parallel vertical axes $\{A_1, A_2, \dots, A_m\}$ on a 2D Cartesian display plane, placed at horizontal coordinates $u_1, u_2, \dots, u_m$ where $u_{j+1} - u_j = d$ (constant axis spacing). Each axis $A_j$ is linearly scaled to the domain $[\min(x_j), \max(x_j)]$. An $m$-dimensional point $\mathbf{p} = (c_1, c_2, \dots, c_m)$ is mapped to an unbroken polygonal line consisting of $m-1$ straight line segments connecting the planar points:
+
 $$
 \mathbf{v}_j = (u_j, c_j) \quad \text{to} \quad \mathbf{v}_{j+1} = (u_{j+1}, c_{j+1}) \quad \forall j \in \{1, \dots, m-1\}
 $$
@@ -192,9 +195,11 @@ A space-filling hierarchical data visualization technique that displays nested h
 
 **Formal definition:**
 Given a hierarchical tree $\mathcal{T} = (\mathcal{V}, \mathcal{E})$ where each leaf node $v \in \mathcal{V}_{\text{leaf}}$ has an assigned positive quantitative weight $w(v) > 0$ and an optional categorical/metric attribute $c(v)$. A tree-map partitions a bounding display rectangle $R = [0, W] \times [0, H]$ of area $\text{Area}(R) = W \cdot H$ such that each leaf node $v$ is allocated a sub-rectangle $r_v \subset R$ satisfying:
+
 $$
 \frac{\text{Area}(r_v)}{\text{Area}(R)} = \frac{w(v)}{\sum_{u \in \mathcal{V}_{\text{leaf}}} w(u)} \quad \text{and} \quad r_i \cap r_j = \emptyset \quad \forall i \neq j
 $$
+
 The bounding rectangle is partitioned recursively by alternating horizontal and vertical slicing planes across hierarchical depth levels.
 
 **Intuition:**
@@ -368,9 +373,11 @@ flowchart TD
 - **Line-by-Line (Raster Scanning):** Sweeps horizontally across row 1, then abruptly jumps back to the far left of row 2. While points adjacent along the horizontal scanline maintain spatial proximity, points that are adjacent in 1D record order across row boundaries are separated by the full width of the window, creating severe artificial visual discontinuities.
 - **Column-by-Column Scanning:** Similar to raster scanning, but oriented vertically. Exhibits the same boundary discontinuity flaw.
 - **Peano-Hilbert Curve:** A continuous fractal space-filling curve discovered by Giuseppe Peano and David Hilbert. It recursively subdivides a square into $2^k \times 2^k$ quadrants and threads them with orthogonal U-shaped turns such that:
+
 $$
   d_{\text{1D}}(i, j) \le \delta \implies \|\pi_{\text{Hilbert}}(i) - \pi_{\text{Hilbert}}(j)\|_2 \le C \sqrt{\delta}
 $$
+
   The Peano-Hilbert curve guarantees that items adjacent in the 1D sorted data sequence remain physically adjacent in 2D Euclidean display space. This produces coherent, smooth spatial color patches that immediately expose multidimensional clusters and anomalies.
 
 - **Morton / Z-Order Curve:** Constructed by interleaving the binary digits of coordinate indices. For an index whose binary representation is $b_5 b_4 b_3 b_2 b_1 b_0$, even bits $b_4 b_2 b_0$ determine the $X$ coordinate while odd bits $b_5 b_3 b_1$ determine $Y$. It generates self-similar 'Z' patterns across spatial scales. While computationally faster than Hilbert curves, it suffers from periodic diagonal jumps that slightly degrade locality preservation.
@@ -459,9 +466,11 @@ The diagonal subplots where row index equals column index ($i = j$) represent se
 **Given:** An oceanographic geological dataset containing $k = 4$ attributes: `Longitude`, `Latitude`, `Depth`, and `Ore Grade Value`.
 **Find:** Total number of unique bivariate scatter plots to inspect.
 **Solution:**
+
 $$
 N_{\text{unique}} = \frac{4 \times (4 - 1)}{2} = \frac{12}{2} = 6 \text{ unique scatter plots}
 $$
+
 The full grid contains $4^2 = 16$ panels, comprising 4 diagonal distribution plots, 6 lower-triangular plots, and 6 redundant upper-triangular plots.
 
 [Source: Unit3_Data Visualization.pdf, Slide 16]
@@ -488,6 +497,7 @@ The mathematical elegance of parallel coordinates resides in projective duality:
 
 - A point $P = (d_1, d_2)$ in 2D Cartesian space maps to a straight line segment connecting $d_1$ on vertical axis 1 to $d_2$ on vertical axis 2.
 - A straight line $y = mx + c$ in Cartesian space maps to a single pencil point of intersection between the two parallel axes:
+
 $$
   u_{\text{intersect}} = \frac{d}{1 - m}, \quad v_{\text{intersect}} = \frac{c}{1 - m}
 $$
@@ -897,6 +907,7 @@ flowchart LR
 ### 7.2.1 Workforce Management KPIs (13 Metrics)
 
 #### 1. Absenteeism Rate
+
 $$
 \text{Absenteeism Rate} = \left( \frac{\text{Total Unplanned Absence Days in Period}}{\text{Total Available Work Days in Period} \times \text{Average Headcount}} \right) \times 100\%
 $$
@@ -904,6 +915,7 @@ $$
 - *Meaning:* Measures the percentage of scheduled work time lost due to unplanned illness, unauthorized absence, or emergency leave. Benchmark: $< 3\%$.
 
 #### 2. ROI of Outsourcing
+
 $$
 \text{ROI}_{\text{Outsourcing}} = \left( \frac{\text{Cost of Internal Service Delivery} - \text{Total Vendor Outsourcing Cost}}{\text{Total Vendor Outsourcing Cost}} \right) \times 100\%
 $$
@@ -911,6 +923,7 @@ $$
 - *Meaning:* Evaluates the net financial savings achieved by contracting HR or operational functions to third-party providers relative to in-house execution costs.
 
 #### 3. Succession Planning Rate
+
 $$
 \text{Succession Planning Rate} = \left( \frac{\text{Number of Critical Leadership Roles with at Least One Identified Successor}}{\text{Total Number of Defined Critical Leadership Roles}} \right) \times 100\%
 $$
@@ -918,6 +931,7 @@ $$
 - *Meaning:* Assesses organizational business continuity risk by quantifying leadership bench strength. Target: $\ge 85\%$.
 
 #### 4. Open vs. Closed Grievances Ratio
+
 $$
 \text{Grievance Resolution Ratio} = \frac{\text{Number of Formal Grievances Successfully Closed in Period}}{\text{Number of Formal Grievances Filed in Period}}
 $$
@@ -925,6 +939,7 @@ $$
 - *Meaning:* Evaluates organizational workplace harmony, employee relations responsiveness, and HR conflict resolution operational efficiency.
 
 #### 5. Internal Promotion Rate
+
 $$
 \text{Promotion Rate} = \left( \frac{\text{Total Number of Internal Employee Promotions in Period}}{\text{Average Total Workforce Headcount in Period}} \right) \times 100\%
 $$
@@ -932,6 +947,7 @@ $$
 - *Meaning:* Measures internal career path mobility, talent development effectiveness, and upward mobility opportunities.
 
 #### 6. Time to Productivity
+
 $$
 \text{Time to Productivity} = \frac{\sum_{i=1}^{P} (\text{Date Full Autonomy Reached}_i - \text{Hire Date}_i)}{P}
 $$
@@ -939,6 +955,7 @@ $$
 - *Meaning:* The average number of calendar days required for a new employee to complete onboarding and achieve standard operational output/quota.
 
 #### 7. Successor Gap Rate
+
 $$
 \text{Successor Gap Rate} = 100\% - \text{Succession Planning Rate} = \left( \frac{\text{Critical Roles Lacking a 'Ready Now' Successor}}{\text{Total Critical Roles}} \right) \times 100\%
 $$
@@ -946,6 +963,7 @@ $$
 - *Meaning:* Measures immediate vulnerability in executive and critical specialized positions.
 
 #### 8. Worker Composition (Diversity Ratios)
+
 $$
 \text{Worker Composition}_G = \left( \frac{\text{Headcount within Demographic Group } G}{\text{Total Workforce Headcount}} \right) \times 100\%
 $$
@@ -953,6 +971,7 @@ $$
 - *Meaning:* Proportional distribution of workforce stratified across gender, age cohorts, ethnic backgrounds, and experience tiers.
 
 #### 9. Internal Mobility Rate
+
 $$
 \text{Internal Mobility Rate} = \left( \frac{\text{Internal Transfers} + \text{Promotions} + \text{Secondments}}{\text{Average Headcount}} \right) \times 100\%
 $$
@@ -960,6 +979,7 @@ $$
 - *Meaning:* The proportion of workforce movement occurring internally across lateral and vertical boundaries.
 
 #### 10. Manager Quality Index (MQI)
+
 $$
 \text{MQI} = \frac{1}{M} \sum_{j=1}^{M} \left( w_1 \cdot \text{TeamSat}_j + w_2 \cdot \text{TeamRetention}_j + w_3 \cdot \text{GoalAchievement}_j \right)
 $$
@@ -967,6 +987,7 @@ $$
 - *Meaning:* Composite statistical index (0–100) assessing supervisory leadership effectiveness based on 360-degree feedback, team attrition, and project delivery.
 
 #### 11. HR Effectiveness Index
+
 $$
 \text{HR Effectiveness} = \frac{\text{Successful Strategic HR Initiatives Delivered On-Time \& On-Budget}}{\text{Total Planned HR Strategic Objectives}} \times 100\%
 $$
@@ -974,6 +995,7 @@ $$
 - *Meaning:* Macro-level programmatic evaluation of HR's delivery against broader corporate milestones.
 
 #### 12. Employee Satisfaction Rate (eNPS)
+
 $$
 \text{eNPS} = \% \text{ Promoters (Score 9–10)} - \% \text{ Detractors (Score 0–6)}
 $$
@@ -981,6 +1003,7 @@ $$
 - *Meaning:* Standard metric evaluated via periodic pulse surveys measuring organizational morale and brand advocacy.
 
 #### 13. Training ROI (Phillips ROI Methodology)
+
 $$
 \text{Training ROI} = \left( \frac{\text{Net Monetary Benefits Resulting from Training} - \text{Total Training Costs}}{\text{Total Training Costs}} \right) \times 100\%
 $$
@@ -992,6 +1015,7 @@ $$
 ### 7.2.2 Compensation & Financial KPIs (9 Metrics)
 
 #### 14. HR Functional Operating Expense Rate
+
 $$
 \text{HR Expense Rate} = \left( \frac{\text{Total Operating Expenses of the HR Department}}{\text{Total Enterprise Operating Expenses (OPEX)}} \right) \times 100\%
 $$
@@ -999,6 +1023,7 @@ $$
 - *Meaning:* Measures the overhead operational cost footprint of the HR function relative to total corporate operational spending.
 
 #### 15. Labor Cost Per FTE
+
 $$
 \text{Labor Cost per FTE} = \frac{\text{Total Direct Compensation} + \text{Total Benefits} + \text{Payroll Taxes}}{\text{Total Number of Active FTEs}}
 $$
@@ -1006,6 +1031,7 @@ $$
 - *Meaning:* The fully-burdened average labor expenditure required to fund one full-time equivalent employee.
 
 #### 16. Labor Cost Revenue Percentage
+
 $$
 \text{Labor Cost Revenue \%} = \left( \frac{\text{Total Fully-Burdened Labor Costs}}{\text{Total Gross Corporate Revenue}} \right) \times 100\%
 $$
@@ -1013,6 +1039,7 @@ $$
 - *Meaning:* The proportion of gross top-line corporate revenue consumed by personnel costs.
 
 #### 17. Labor Cost Expense Percentage
+
 $$
 \text{Labor Cost Expense \%} = \left( \frac{\text{Total Fully-Burdened Labor Costs}}{\text{Total Corporate Operating Expenses (OPEX)}} \right) \times 100\%
 $$
@@ -1020,6 +1047,7 @@ $$
 - *Meaning:* Evaluates what percentage of company operational expenditure is composed of human capital costs.
 
 #### 18. Benefits as a Percentage of Labor Costs
+
 $$
 \text{Benefits Ratio} = \left( \frac{\text{Total Expenditure on Health, Retirement, Perks \& Insurance}}{\text{Total Fully-Burdened Labor Costs}} \right) \times 100\%
 $$
@@ -1027,6 +1055,7 @@ $$
 - *Meaning:* Measures the non-wage fringe benefit component of total employee compensation packages.
 
 #### 19. Revenue Per FTE
+
 $$
 \text{Revenue per FTE} = \frac{\text{Total Gross Enterprise Revenue}}{\text{Total Number of Active FTEs}}
 $$
@@ -1034,6 +1063,7 @@ $$
 - *Meaning:* Foundational productivity metric measuring average revenue generated per unit of full-time human labor.
 
 #### 20. Profit vs. Compensation Ratio Per FTE
+
 $$
 \text{Profit-to-Compensation Ratio} = \frac{\text{Operating Profit (EBIT) per FTE}}{\text{Average Labor Cost per FTE}}
 $$
@@ -1041,6 +1071,7 @@ $$
 - *Meaning:* Determines economic surplus generated by employees relative to their total compensation cost.
 
 #### 21. Human Capital ROI (HCROI)
+
 $$
 \text{HCROI} = \frac{\text{Revenue} - (\text{Total Operating Expenses} - \text{Total Labor Costs})}{\text{Total Labor Costs}}
 $$
@@ -1048,6 +1079,7 @@ $$
 - *Meaning:* A standard financial metric evaluating operating profitability generated per dollar invested in employee compensation.
 
 #### 22. HR Functional Cost Per Employee
+
 $$
 \text{HR Cost per Employee} = \frac{\text{Total HR Department Operating Budget}}{\text{Total Corporate Employee Headcount}}
 $$
@@ -1059,6 +1091,7 @@ $$
 ### 7.2.3 Recruitment & Talent Acquisition KPIs (13 Metrics)
 
 #### 23. Quality of Hire
+
 $$
 \text{Quality of Hire (QoH)} = \frac{\text{Job Performance Score} (P) + \text{Ramp-Up Speed} (R) + \text{Retention Score} (S)}{3}
 $$
@@ -1066,6 +1099,7 @@ $$
 - *Meaning:* Multidimensional index measuring the first-year productivity, managerial satisfaction, and cultural alignment of new hires.
 
 #### 24. Vacancy Rate
+
 $$
 \text{Vacancy Rate} = \left( \frac{\text{Total Number of Open Unfilled Positions}}{\text{Total Authorized Corporate Headcount (Positions)}} \right) \times 100\%
 $$
@@ -1073,6 +1107,7 @@ $$
 - *Meaning:* Measures talent shortage pressure and capacity bottlenecks across operational departments.
 
 #### 25. Turnover Rate (Overall Attrition)
+
 $$
 \text{Turnover Rate} = \left( \frac{\text{Number of Employee Separations (Voluntary + Involuntary)}}{\text{Average Active Headcount in Period}} \right) \times 100\%
 $$
@@ -1080,6 +1115,7 @@ $$
 - *Meaning:* The annualized rate at which employees depart the organization.
 
 #### 26. Resignation / Retirement Rate
+
 $$
 \text{Resignation Rate} = \left( \frac{\text{Total Voluntary Resignations}}{\text{Average Active Headcount in Period}} \right) \times 100\%
 $$
@@ -1087,6 +1123,7 @@ $$
 - *Meaning:* Isolates voluntary employee departures from forced terminations, indicating workforce dissatisfaction or competitive headhunting.
 
 #### 27. External Hire Rate
+
 $$
 \text{External Hire Rate} = \left( \frac{\text{Positions Filled via External Recruitment Channels}}{\text{Total Open Positions Filled}} \right) \times 100\%
 $$
@@ -1094,6 +1131,7 @@ $$
 - *Meaning:* Assesses reliance on outside labor markets vs. internal promotion pipelines.
 
 #### 28. Time-to-Fill
+
 $$
 \text{Time-to-Fill} = \frac{\sum_{i=1}^{H} (\text{Offer Acceptance Date}_i - \text{Job Requisition Approval Date}_i)}{H}
 $$
@@ -1101,6 +1139,7 @@ $$
 - *Meaning:* The average number of calendar days elapsed between requisition opening and candidate job offer acceptance. Benchmark: 35–45 days.
 
 #### 29. Diversity Hire Ratio
+
 $$
 \text{Diversity Hire Ratio} = \left( \frac{\text{New Hires from Underrepresented Demographics}}{\text{Total New Hires in Period}} \right) \times 100\%
 $$
@@ -1108,6 +1147,7 @@ $$
 - *Meaning:* Monitors the success of corporate DEI initiatives in attracting diverse candidate pipelines.
 
 #### 30. Recruitment Funnel Conversion Ratios
+
 $$
 \text{Funnel Yield Ratio} = \left( \frac{\text{Applicants Advanced to Stage } k+1}{\text{Applicants Present at Stage } k} \right) \times 100\%
 $$
@@ -1115,6 +1155,7 @@ $$
 - *Meaning:* Tracks candidate progression across funnel stages: Application $\to$ Screening $\to$ Technical Interview $\to$ Formal Offer $\to$ Acceptance.
 
 #### 31. Talent Import / Export Ratio
+
 $$
 \text{Talent Import/Export Ratio} = \frac{\text{Employees Transferred into Department from Other Units}}{\text{Employees Transferred Out of Department to Other Units}}
 $$
@@ -1122,6 +1163,7 @@ $$
 - *Meaning:* Departmental health metric; a ratio $\ll 1.0$ indicates a toxic departmental management environment shedding talent to other units.
 
 #### 32. Voluntary Turnover Rate
+
 $$
 \text{Voluntary Turnover Rate} = \left( \frac{\text{Employee-Initiated Separations}}{\text{Average Headcount}} \right) \times 100\%
 $$
@@ -1129,6 +1171,7 @@ $$
 - *Meaning:* Attrition initiated voluntarily by the employee, excluding layoffs, retirements, and disciplinary terminations.
 
 #### 33. Retention Rate
+
 $$
 \text{Retention Rate} = \left( \frac{\text{Employees Remaining at End of Period with Hire Date Prior to Period Start}}{\text{Headcount at Start of Period}} \right) \times 100\%
 $$
@@ -1136,6 +1179,7 @@ $$
 - *Meaning:* Measures the organization's ability to retain existing institutional knowledge and core personnel.
 
 #### 34. Recruitment Expense Per New Hire (Cost-Per-Hire)
+
 $$
 \text{Cost-Per-Hire (CPH)} = \frac{\sum \text{Internal Recruiting Costs} + \sum \text{External Recruiting Costs}}{\text{Total Number of New Hires in Period}}
 $$
@@ -1143,6 +1187,7 @@ $$
 - *Meaning:* The total economic cost (agency fees, advertising, recruiter salaries, background screening) required to onboard one new employee.
 
 #### 35. Retirement Rate Forecast
+
 $$
 \text{Retirement Forecast \%} = \left( \frac{\text{Employees Eligible for Statutory Retirement within Next 12–36 Months}}{\text{Total Active Workforce Headcount}} \right) \times 100\%
 $$
@@ -2016,17 +2061,21 @@ Your design must provide:
 
 #### 3. Mathematical Formulas Used in Design
 1. **Gender Pay Gap Percentage:**
+
 $$
    \text{Pay Gap} = \frac{\bar{W}_{\text{female}} - \bar{W}_{\text{male}}}{\bar{W}_{\text{male}}} \times 100\%
 $$
+
    Where $\bar{W}$ is average base compensation.
 
 2. **Voluntary Attrition Rate:**
+
 $$
    \text{Attrition Rate} = \frac{\sum \text{Voluntary Separations}}{\frac{1}{2}(\text{Headcount}_{\text{start}} + \text{Headcount}_{\text{end}})} \times 100\%
 $$
 
 3. **Human Capital ROI (HCROI):**
+
 $$
    \text{HCROI} = \frac{\text{Revenue} - (\text{Operating Expenses} - \text{Total Labor Costs})}{\text{Total Labor Costs}}
 $$
@@ -2047,9 +2096,11 @@ $$
 
 - **Syllabus & Slide Coverage:** Every concept from `Unit3_Data Visualization.pdf` (Slides 1–46) and `Unit3_Python-Data-Visualisation.pdf` (Slides 1–51) has been extracted, formally defined, and contextualized without summarization.
 - **LaTeX Math Compliance:** All display equations are rendered with `
+
 $$
 ...
 $$
+
 ` delimiters surrounded by blank lines. All comparison operators are enclosed in math mode (`$<$`, `$>$`). All formulas include Symbol Definition tables.
 
 - **Mermaid Syntax:** All Mermaid diagrams utilize quoted node strings and valid directional flow syntax.

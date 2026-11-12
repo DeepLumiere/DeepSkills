@@ -280,6 +280,7 @@ Will their prices rise or fall together?
 1.  Find $E(A)$: $(2+3+5+4+6)/5 = 20/5 = 4$
 2.  Find $E(B)$: $(5+8+10+11+14)/5 = 48/5 = 9.6$
 3.  Find $\text{Cov}(A,B)$:
+
     $$
     \begin{aligned}
     \text{Cov}(A,B) &= \frac{(2\times5) + (3\times8) + (5\times10) + (4\times11) + (6\times14)}{5} - (4 \times 9.6) \\
@@ -339,6 +340,7 @@ Where $j$ is the smallest integer such that $\max(|v'|) < 1$.
 *   **Given:** Feature `income` ranges from $\$12,000$ to $\$98,000$. Target range is $[0.0, 1.0]$.
 *   **Transform:** $v = \$73,600$.
 *   **Solution:**
+
     $$
     v' = \frac{73600 - 12000}{98000 - 12000}(1.0 - 0.0) + 0.0 = \frac{61600}{86000} \approx 0.7163
 $$
@@ -348,6 +350,7 @@ $$
 *   **Given:** Mean $\mu = \$54,000$, Std Dev $\sigma = \$16,000$.
 *   **Transform:** $v = \$73,600$.
 *   **Solution:**
+
     $$
     v' = \frac{73600 - 54000}{16000} = \frac{19600}{16000} = 1.225
 $$
@@ -378,6 +381,7 @@ PCA is a rigorous mathematical procedure that uses an orthogonal transformation 
 
 1.  **Standardization:** Normalize the range of continuous initial variables (typically using Z-score normalization) so that each feature contributes equally to the analysis.
 2.  **Covariance Matrix Computation:** Compute the covariance matrix to identify correlations.
+
     $$
     Cov(X, Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})
     $$
@@ -387,6 +391,7 @@ PCA is a rigorous mathematical procedure that uses an orthogonal transformation 
     *   **Eigenvalues** determine the *magnitude* (variance explained) by each eigenvector.
 4.  **Feature Vector Construction:** Sort eigenvectors by descending eigenvalues and choose the top $k$ eigenvectors to form a matrix $W$. This reduces the dimensionality from $p$ dimensions to $k$ dimensions.
 5.  **Recast Data:** Reorient the original data to the new principal component axes.
+
     $$
     \text{Final Data} = \text{Standardized Original Data} \times W
     $$
@@ -396,6 +401,7 @@ PCA is a rigorous mathematical procedure that uses an orthogonal transformation 
 *   Part of data reduction but highly important for continuous numeric data.
 *   Methods include binning (discussed earlier).
 *   **Sturges' Rule** for determining the number of bins $k$ for ungrouped continuous data:
+
     $$
     k = \lceil 1 + \log_2(n) \rceil
 $$

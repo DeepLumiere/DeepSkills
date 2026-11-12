@@ -98,9 +98,11 @@ A visual design technique that takes a single chart template and replicates it a
 
 **Formal Definition:**
 A Trellis or Small Multiple display is a parameterized mapping:
+
 $$
 f: C_k \to \mathcal{G}(X, Y \mid \theta_0)
 $$
+
 where $C = \{c_1, c_2, \dots, c_K\}$ represents a discrete categorical conditioning dimension, and each sub-graph $\mathcal{G}_k$ renders the quantitative relationship between variables $X$ and $Y$ using a strictly invariant coordinate transformation $\theta_0$ (identical physical width, height, axis limits, and aspect ratio).
 
 **Intuition:**
@@ -397,6 +399,7 @@ Standard Red-Green palettes fail for the 8% of male users with congenital color 
 ### Edward Tufte's Data-Ink Maximization
 
 Edward R. Tufte formulated the foundational rule of visual graphics:
+
 $$
 \text{Data-Ink Ratio} = \frac{\text{Data-Ink}}{\text{Total Ink Used to Print the Graphic}} = 1.0 - \text{Chartjunk Ratio}
 $$
@@ -542,13 +545,17 @@ flowchart LR
 
 #### Mathematical Transformation:
 A Radial Table translates standard rectilinear Cartesian coordinates $(x, y)$ into Polar coordinates $(r, \theta)$:
+
 $$
 x_i = r_i \cdot \cos(\theta_i), \quad y_i = r_i \cdot \sin(\theta_i)
 $$
+
 where the angular displacement $\theta_i$ encodes periodic cyclical time, and the radial vector distance $r_i$ encodes quantitative magnitude:
+
 $$
 \theta_i = \theta_0 + 2\pi \left(\frac{t_i - t_0}{T}\right)
 $$
+
 Here, $T$ denotes the complete natural periodicity (e.g., $T = 24\text{ hours}$ for diurnal cycles, $T = 12\text{ months}$ for annual seasonality), and $\theta_0$ represents the origin angle (standardized at 12 o'clock, $\theta_0 = \frac{\pi}{2}$).
 
 #### Optimal Domain & Real-World Use Cases:
@@ -633,6 +640,7 @@ flowchart LR
 A Treemap displays hierarchical, part-to-whole categorical data through recursive space-filling planar partitioning. The total canvas area represents 100% of the aggregated measure.
 
 Let a category set have positive quantitative weights $W = \{w_1, w_2, \dots, w_n\}$ within a bounding canvas of total area $A_{\text{total}} = \text{Width} \times \text{Height}$. The area $a_i$ allocated to rectangle $R_i$ is strictly proportional to its relative weight:
+
 $$
 a_i = A_{\text{total}} \cdot \frac{w_i}{\sum_{j=1}^n w_j}
 $$
@@ -643,9 +651,11 @@ $$
 
 #### The Aspect Ratio Optimization ($\rho \approx 1$):
 Basic "slice-and-dice" treemaps produce long, thin, ribbon-like slivers that prevent human viewers from comparing areas and make text labeling impossible. Modern treemaps employ the **Squarified Treemap Algorithm** (Bruls, Huizing, van Wijk), which optimizes the rectangle aspect ratio $\rho(R)$:
+
 $$
 \rho(R) = \max\left(\frac{w}{h}, \frac{h}{w}\right) \ge 1.0
 $$
+
 The algorithm recursively partitions space to drive $\rho(R)$ as close to $1.0$ (a perfect square) as possible.
 
 ```mermaid
@@ -940,6 +950,7 @@ $$
 
 **Starting Point:**
 Stevens' Psychophysical Power Law relates perceived sensation $\psi$ to physical stimulus intensity $I$:
+
 $$
 \psi(I) = k \cdot I^\beta
 $$
@@ -955,6 +966,7 @@ $$
 $$
 
 Now, consider a 2D Area mark (circle or square) where physical area $A$ encodes the quantitative value:
+
 $$
 \begin{aligned}
 \text{For 2D Area: } \beta_{\text{area}} &\approx 0.75 \\
@@ -964,6 +976,7 @@ $$
 $$
 
 Consider two data values: $V_1 = 10$ units and $V_2 = 100$ units (True ratio $R_{\text{true}} = \frac{V_2}{V_1} = 10.0$):
+
 $$
 \begin{aligned}
 \text{Perceived Ratio for Length: } R_{\text{perceived, length}} &= \frac{\psi(100)}{\psi(10)} = \frac{k_1 \cdot 100}{k_1 \cdot 10} = 10.0 && \text{(Accurate decoding)} \\
@@ -972,6 +985,7 @@ $$
 $$
 
 **Result:**
+
 $$
 R_{\text{perceived, area}} \approx 5.62 \ll 10.0 = R_{\text{true}}
 $$
@@ -1007,18 +1021,23 @@ An analytics team deployed an operational dashboard displaying monthly departmen
 **Step-by-Step Solution:**
 
 **Step 1: Baseline Metrics Calculation**
+
 $$
 \text{Data-Ink} = 54,000\text{ pixels}
 $$
+
 $$
 \text{Total Printed Ink} = 180,000\text{ pixels}
 $$
+
 $$
 \text{DIR}_{\text{initial}} = \frac{\text{Data-Ink}}{\text{Total Ink}} = \frac{54,000}{180,000} = 0.300 \quad (30.0\%)
 $$
+
 $$
 \text{Non-Data Ink} = 45,000 + 51,000 + 30,000 = 126,000\text{ pixels}
 $$
+
 $$
 \text{Chartjunk Ratio} = \frac{\text{Non-Data Ink}}{\text{Total Ink}} = \frac{126,000}{180,000} = 0.700 \quad (70.0\%)
 $$
@@ -1030,9 +1049,11 @@ $$
 - Replace heavy black gridlines ($30,000\text{ pixels}$) with minimal dashed rules ($4,500\text{ pixels}$) $\to$ Net non-data ink becomes $4,500\text{ pixels}$.
 
 **Step 3: Post-Remediation Data-Ink Ratio**
+
 $$
 \text{New Total Ink} = \text{Data-Ink} + \text{Remaining Non-Data Ink} = 54,000 + 4,500 = 58,500\text{ pixels}
 $$
+
 $$
 \text{DIR}_{\text{final}} = \frac{54,000}{58,500} \approx 0.9231 \quad (92.31\%)
 $$
@@ -1096,9 +1117,11 @@ Formula: $I_t = \left(\frac{X_t}{X_{2020}}\right) \times 100$
 | **2024** | 2,600 | \$1,560 | **130.0** | **130.0** | 0.0 pts (Convergence) |
 
 **Step 3: Year-over-Year (YoY) Percentage Growth Calculation for 2021**
+
 $$
 \text{YoY}_{\text{Steel}, 2021} = \left(\frac{3,600 - 2,000}{2,000}\right) \times 100\% = \frac{1,600}{2,000} \times 100\% = \mathbf{+80.0\%}
 $$
+
 $$
 \text{YoY}_{\text{Construct}, 2021} = \left(\frac{1,260 - 1,200}{1,200}\right) \times 100\% = \frac{60}{1,200} \times 100\% = \mathbf{+5.0\%}
 $$
@@ -1131,6 +1154,7 @@ Total Revenue $= \$1,000,000$.
 
 **Step 1: Compute Target Pixel Areas**
 Total Canvas Area $A = 1000 \times 600 = 600,000\text{ px}^2$.
+
 $$
 a_i = A \times \left(\frac{\text{Revenue}_i}{\text{Total Revenue}}\right)
 $$
@@ -1143,54 +1167,72 @@ Check sum: $270,000 + 162,000 + 108,000 + 60,000 = 600,000\text{ px}^2$.
 
 **Step 2: Partitioning Category A (Left Vertical Slice)**
 Because the canvas is wider than it is tall ($W = 1000 > H = 600$), the algorithm places the initial cut along the shorter dimension ($H = 600$). Category A spans the full height:
+
 $$
 h_A = 600\text{ pixels}
 $$
+
 $$
 w_A = \frac{a_A}{h_A} = \frac{270,000}{600} = \mathbf{450\text{ pixels}}
 $$
+
 Aspect ratio:
+
 $$
 \rho(A) = \max\left(\frac{w_A}{h_A}, \frac{h_A}{w_A}\right) = \max\left(\frac{450}{600}, \frac{600}{450}\right) = \frac{600}{450} \approx \mathbf{1.333}
 $$
 
 **Step 3: Partitioning Remaining Canvas (Categories B, C, D)**
 The remaining bounding box has:
+
 $$
 w_{\text{rem}} = 1000 - 450 = 550\text{ pixels}, \quad h_{\text{rem}} = 600\text{ pixels}
 $$
+
 $$
 a_{\text{rem}} = 550 \times 600 = 330,000\text{ px}^2
 $$
+
 Here, $h_{\text{rem}} = 600 > w_{\text{rem}} = 550$. The algorithm splits horizontally across the width $w_{\text{rem}} = 550$.
 Let Category B occupy a horizontal strip spanning full remaining width $w_B = 550\text{ pixels}$:
+
 $$
 w_B = 550\text{ pixels}
 $$
+
 $$
 h_B = \frac{a_B}{w_B} = \frac{162,000}{550} \approx \mathbf{294.55\text{ pixels}}
 $$
+
 Aspect ratio of B:
+
 $$
 \rho(B) = \max\left(\frac{550}{294.55}, \frac{294.55}{550}\right) \approx \frac{550}{294.55} \approx \mathbf{1.867}
 $$
 
 Sub-box remaining for Categories C and D:
+
 $$
 w_{\text{sub}} = 550\text{ pixels}, \quad h_{\text{sub}} = 600 - 294.55 = 305.45\text{ pixels}
 $$
+
 Dividing vertically between C and D along $h_{\text{sub}} = 305.45$:
+
 $$
 w_C = \frac{a_C}{h_{\text{sub}}} = \frac{108,000}{305.45} \approx \mathbf{353.58\text{ pixels}}
 $$
+
 $$
 w_D = \frac{a_D}{h_{\text{sub}}} = \frac{60,000}{305.45} \approx \mathbf{196.42\text{ pixels}}
 $$
+
 Check width: $353.58 + 196.42 = 550.0\text{ pixels}$.
 Aspect ratios:
+
 $$
 \rho(C) = \max\left(\frac{353.58}{305.45}, \frac{305.45}{353.58}\right) \approx \mathbf{1.158}
 $$
+
 $$
 \rho(D) = \max\left(\frac{196.42}{305.45}, \frac{305.45}{196.42}\right) \approx \mathbf{1.555}
 $$
@@ -1469,6 +1511,7 @@ The visual danger of independent dual-axis scaling (creating false line intersec
 ### Formula Sheet
 
 #### 1. Edward Tufte's Data-Ink Ratio
+
 $$
 \text{DIR} = \frac{\text{Data-Ink}}{\text{Total Ink Used to Print the Graphic}} = 1.0 - \text{Chartjunk Ratio}
 $$
@@ -1478,9 +1521,11 @@ $$
 - Range: $[0.0, 1.0]$ (Target: $> 0.85$).
 
 #### 2. Polar Coordinate Radial Table Mapping
+
 $$
 \theta_i = \theta_0 + 2\pi \left(\frac{t_i - t_0}{T}\right)
 $$
+
 $$
 r_i = r_{\text{inner}} + \left(\frac{v_i - V_{\min}}{V_{\max} - V_{\min}}\right) \cdot (r_{\text{outer}} - r_{\text{inner}})
 $$
@@ -1490,6 +1535,7 @@ $$
 - $\theta_0$: Angular offset ($90^\circ$ for 12 o'clock).
 
 #### 3. Squarified Treemap Aspect Ratio Penalty
+
 $$
 \rho(R) = \max\left(\frac{w}{h}, \frac{h}{w}\right) \ge 1.0
 $$
@@ -1498,6 +1544,7 @@ $$
 - Optimal square: $\rho = 1.0$; Acceptable threshold: $\rho \le 2.0$.
 
 #### 4. Normalized Relative Growth Index (Base-100)
+
 $$
 I_t = \left(\frac{X_t}{X_{\text{base}}}\right) \times 100
 $$
@@ -1506,6 +1553,7 @@ $$
 - $X_t, X_{\text{base}}$: Observed metric value and base period value.
 
 #### 5. Year-over-Year (YoY) and Month-over-Month (MoM) Growth Rates
+
 $$
 \text{YoY}_t = \left(\frac{V_t - V_{t-12}}{V_{t-12}}\right) \times 100\%, \quad \text{MoM}_t = \left(\frac{V_t - V_{t-1}}{V_{t-1}}\right) \times 100\%
 $$
@@ -1513,6 +1561,7 @@ $$
 - $V_t$: Quantitative metric value at observation period $t$.
 
 #### 6. Stevens' Psychophysical Power Law (Perceived Magnitude)
+
 $$
 \psi(I) = k \cdot I^\beta
 $$
@@ -1641,15 +1690,19 @@ You are appointed Lead Visual Analytics Architect for the Concrete Reinforcing S
     - Full Height ($690\text{ px}$): `State Construction Employment Map` $\to$ US Choropleth map with diverging fill.
 
 **2. KPI Mathematical Engineering**
+
 $$
 \text{Steel YoY}_t = \left(\frac{\text{Steel PPI}_t - \text{Steel PPI}_{t-12}}{\text{Steel PPI}_{t-12}}\right) \times 100\% = \mathbf{+9.87\%}
 $$
+
 $$
 \text{Construct YoY}_t = \left(\frac{\text{Spending}_t - \text{Spending}_{t-12}}{\text{Spending}_{t-12}}\right) \times 100\% = \mathbf{+0.88\%}
 $$
+
 $$
 \text{Steel MoM}_t = \left(\frac{\text{Steel PPI}_t - \text{Steel PPI}_{t-1}}{\text{Steel PPI}_{t-1}}\right) \times 100\% = \mathbf{+1.63\%}
 $$
+
 $$
 \text{Construct MoM}_t = \left(\frac{\text{Spending}_t - \text{Spending}_{t-1}}{\text{Spending}_{t-1}}\right) \times 100\% = \mathbf{+0.37\%}
 $$

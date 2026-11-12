@@ -507,6 +507,7 @@ Suppose a DNS response message contains the following Question and Answer sectio
 $$
 \texttt{03} \, \texttt{'w'} \, \texttt{'w'} \, \texttt{'w'} \, \texttt{07} \, \texttt{'e'} \, \texttt{'x'} \, \texttt{'a'} \, \texttt{'m'} \, \texttt{'p'} \, \texttt{'l'} \, \texttt{'e'} \, \texttt{03} \, \texttt{'c'} \, \texttt{'o'} \, \texttt{'m'} \, \texttt{00}
 $$
+
   Notice that the sub-string `example.com` begins at **Offset 16** (12 header bytes + 1 length byte + 3 bytes for `www` = Byte 16).
 
 - **Answer Section Encoding:** The answering resource record must specify the owner name `www.example.com`. Instead of transmitting all 17 bytes again, the encoder emits a 2-byte pointer:
@@ -520,6 +521,7 @@ $$
 $$
 \texttt{03} \, \texttt{'n'} \, \texttt{'s'} \, \texttt{'1'} \, \texttt{0xC010}
 $$
+
   Here, `0xC010` is a 2-byte pointer referencing Byte Offset 16 (`example.com`), saving 12 bytes of payload.
 
 ---
@@ -889,6 +891,7 @@ T_{\text{recursive}} = RTT_0 + \sum_{i=1}^{k} RTT_{i-1, i} + \sum_{i=1}^{k} T_{\
 $$
 
 ##### 3. Expected Resolution Latency with Caching
+
 $$
 E[T] = P_{\text{cache}} \times \left( RTT_0 + T_{\text{proc, local}} \right) + (1 - P_{\text{cache}}) \times T_{\text{iterative}}
 $$
@@ -906,35 +909,43 @@ The resolution requires four sequential iterative queries by the Local Resolver:
 4. Local Resolver $\to$ `oxford.ac.uk` Authoritative Server: $26 \text{ ms} + 1.5 \text{ ms} = 27.5 \text{ ms}$
 
 Total iterative traversal time across the Internet hierarchy:
+
 $$
 T_{\text{traversal}} = 29.5 + 33.5 + 31.5 + 27.5 = 122.0 \text{ ms}
 $$
 
 Adding client-to-resolver communication delay ($RTT_0 = 4 \text{ ms}$) and local processing ($1.5 \text{ ms}$):
+
 $$
 T_{\text{iterative}} = 4 \text{ ms} + 122.0 \text{ ms} + 1.5 \text{ ms} = \mathbf{127.5 \text{ ms}}
 $$
 
 ##### Step 2: Calculate Recursive Chained Resolution Latency ($T_{\text{recursive}}$)
 Assuming intermediate server-to-server RTTs equal the average wide-area Internet transit latency ($\approx 30 \text{ ms}$ per leg):
+
 $$
 T_{\text{chain}} = RTT_0 + \left( RTT_{\text{root}} + RTT_{\text{root}\to\text{TLD}} + RTT_{\text{TLD}\to\text{sub}} + RTT_{\text{sub}\to\text{auth}} \right) + 5 \times T_{\text{proc}}
 $$
+
 $$
 T_{\text{recursive}} \approx 4 + (28 + 30 + 30 + 26) + (5 \times 1.5) = 118 + 7.5 = \mathbf{125.5 \text{ ms}}
 $$
 
 ##### Step 3: Calculate Expected Latency under 80% Cache Hit Ratio
 When a cache hit occurs at the Local Resolver:
+
 $$
 T_{\text{hit}} = RTT_0 + T_{\text{proc, local}} = 4 \text{ ms} + 1.5 \text{ ms} = 5.5 \text{ ms}
 $$
+
 When a cache miss occurs (cold lookup):
+
 $$
 T_{\text{miss}} = T_{\text{iterative}} = 127.5 \text{ ms}
 $$
 
 Substitute into the expected value formulation:
+
 $$
 \begin{aligned}
 E[T] &= (0.80 \times 5.5 \text{ ms}) + (0.20 \times 127.5 \text{ ms}) \\
@@ -1444,40 +1455,50 @@ A binary file is 4,560 bytes long. How long will it be if encoded using Base64 e
 
 * **Step 1: Calculate raw Base64 character count prior to line formatting.**
   Check divisibility of $N$ by 3:
+
   $$
   4560 \pmod 3 = 0 \quad (4560 = 3 \times 1520)
   $$
+
   Since $N$ is cleanly divisible by 3, no padding is required. Each 3-byte tuple generates 4 Base64 characters:
+
   $$
   C_{\text{base}} = 4 \times \left(\frac{4560}{3}\right) = 4 \times 1520 = 6,080 \text{ Base64 characters}
   $$
 
 * **Step 2: Compute full-length lines and line breaks.**
   With line length $L = 110$ characters:
+
   $$
   \text{Number of full 110-character lines} = \left\lfloor \frac{6080}{110} \right\rfloor = \left\lfloor 55.2727 \right\rfloor = 55 \text{ full lines}
   $$
+
   Characters consumed by 55 full lines:
+
   $$
   55 \times 110 = 6,050 \text{ characters}
   $$
 
 * **Step 3: Compute remaining characters in the final line.**
+
   $$
   \text{Remainder characters} = 6,080 - 6,050 = 30 \text{ characters}
   $$
+
   Thus, there are 55 full lines of 110 characters, followed by a 56th partial line of 30 characters.
 
 * **Step 4: Determine the total number of `<CRLF>` insertions.**
   * Each of the 55 full lines is terminated by a `<CRLF>` pair $\implies 55$ line breaks.
   * The problem statement explicitly requires a `<CRLF>` pair "at the end" (terminating the final 30-character line) $\implies 1$ additional line break.
   * Total `<CRLF>` pairs inserted:
+
     $$
     N_{\text{CRLF}} = 55 + 1 = 56 \text{ pairs}
     $$
 
 * **Step 5: Calculate total wire byte size.**
   Each `<CRLF>` pair comprises 2 bytes:
+
   $$
   \text{Total Size} = C_{\text{base}} + (N_{\text{CRLF}} \times 2) = 6,080 + (56 \times 2) = 6,080 + 112 = 6,192 \text{ bytes}
   $$
@@ -1495,6 +1516,7 @@ While Base64 is optimal for dense binary streams, it introduces an unnecessary 3
 1. Any ASCII octet in the range decimal 33 (`!`) through 60 (`<`) and decimal 62 (`>`) through 126 (`~`) is transmitted unmodified as its literal ASCII character.
 2. Space (decimal 32) and horizontal tab (decimal 9) may be transmitted literally, provided they do not appear at the end of a line.
 3. The equals character (`=`, decimal 61), control characters (decimals 0–31 and 127), and high-order bytes (decimals 128–255) must be encoded as an equals sign followed by two uppercase hexadecimal digits representing the byte value:
+
    $$
    \text{Encoded Byte} = \texttt{"="} + \text{Hex}_{16}(\text{Octet})
    $$
@@ -3128,6 +3150,7 @@ Because $0 < d < 1$ and every entry of $\mathbf{E}$ is $1$, every element of the
 $$
 G_{ij} > 0 \quad \forall i, j
 $$
+
 Consequently, $\mathbf{G}$ is a **stochastic, irreducible, and aperiodic** Markov transition matrix. By the **Perron-Frobenius Theorem**:
 
 1. The dominant eigenvalue of $\mathbf{G}$ is strictly equal to $\lambda_1 = 1$.
@@ -3218,6 +3241,7 @@ The teleportation component with $N = 3$ and $d = 0.85$ is:
 $$
 \frac{1 - d}{N} = \frac{1 - 0.85}{3} = \frac{0.15}{3} = 0.05
 $$
+
 Applying $\mathbf{G} = d \mathbf{H} + \frac{1 - d}{N} \mathbf{E}$:
 
 $$
@@ -3252,11 +3276,13 @@ Using $PR(p_i) = \frac{1 - d}{N} + d \sum_{p_j \in M(p_i)} \frac{PR(p_j)}{L(p_j)
 ##### Step 4: Power Iteration Execution
 
 ###### Initial Vector $\mathbf{r}^{(0)}$:
+
 $$
 \mathbf{r}^{(0)} = \begin{bmatrix} PR^{(0)}(A) \\ PR^{(0)}(B) \\ PR^{(0)}(C) \end{bmatrix} = \begin{bmatrix} 1/3 \\ 1/3 \\ 1/3 \end{bmatrix} \approx \begin{bmatrix} 0.333333 \\ 0.333333 \\ 0.333333 \end{bmatrix}
 $$
 
 ###### Iteration 1 ($k = 1$):
+
 $$
 \begin{aligned}
 PR^{(1)}(A) &= 0.05 + 0.85(0.333333) = 0.05 + 0.283333 = \mathbf{0.333333} \\
@@ -3272,6 +3298,7 @@ $$
 $$
 
 ###### Iteration 2 ($k = 2$):
+
 $$
 \begin{aligned}
 PR^{(2)}(A) &= 0.05 + 0.85(0.475000) = 0.05 + 0.403750 = \mathbf{0.453750} \\
@@ -3304,6 +3331,7 @@ PR(B) = 0.05 + 0.425 \cdot PR(A)
 $$
 
 Substitute $PR(B)$ and $PR(C)$ into the normalization equation:
+
 $$
 \begin{aligned}
 PR(A) + PR(B) + PR(C) &= 1 \\
@@ -3312,6 +3340,7 @@ PR(A) + [0.05 + 0.425 \cdot PR(A)] + \left[ \frac{PR(A) - 0.05}{0.85} \right] &=
 $$
 
 Multiply the entire equation by $0.85$ to eliminate the denominator:
+
 $$
 \begin{aligned}
 0.85 \cdot PR(A) + 0.85(0.05 + 0.425 \cdot PR(A)) + PR(A) - 0.05 &= 0.85 \\
@@ -3339,6 +3368,7 @@ $$
 $$
 
 ##### Final Answer:
+
 $$
 \mathbf{r}^* = \begin{bmatrix} PR(A) \\ PR(B) \\ PR(C) \end{bmatrix} = \begin{bmatrix} \mathbf{0.3878} \\ \mathbf{0.2148} \\ \mathbf{0.3974} \end{bmatrix}
 $$
@@ -4899,6 +4929,7 @@ When cache storage reaches physical capacity, an eviction policy decides which o
 $$
 H_i = L + \frac{c_i}{s_i}
 $$
+
     where $L$ is a global aging clock set to the $H$-value of the most recently evicted object, $c_i$ is the cost to fetch object $i$ (e.g., latency or transfer cost), and $s_i$ is the size in bytes.
 
   - Evicts the object with minimum $H_i$. When an object is re-accessed, its $H_i$ is updated using the current $L$.
@@ -5033,6 +5064,7 @@ If a site generates $B_{\text{total}} = 100\text{ Gbps}$ of user demand and achi
 $$
 B_{\text{origin}} = (1 - 0.95) \cdot 100\text{ Gbps} = 5\text{ Gbps}
 $$
+
 representing a massive $95\%$ reduction in origin compute, storage I/O, and transit costs.
 
 ---
@@ -5697,6 +5729,7 @@ A high-definition video camera captures Full HD video at a spatial resolution of
 $$
 \text{GOP} = [I, B_1, B_2, P_1, B_3, B_4, P_2, B_5, B_6, P_3, B_7, B_8]
 $$
+
    Empirical spatial and temporal compression achieves the following average compression ratios for each frame type:
 
    - $I$-Frames (Intra-coded): $C_I = 15 : 1$
@@ -5897,6 +5930,7 @@ At $t = 0$, the client starts with an empty buffer ($B(0) = 0$). To play conserv
 $$
 T_{\text{dl}, 1} = \frac{S_1}{C_1} = \frac{4.0\text{ Mb}}{6.0\text{ Mbps}} = \frac{2}{3}\text{ s} \approx 0.667\text{ seconds}
 $$
+
   At $t = 0.667\text{ s}$, Segment 1 is stored. Buffer $B = 4\text{ s}$.
 
 - Download time for Segment 2:
@@ -5904,6 +5938,7 @@ $$
 $$
 T_{\text{dl}, 2} = \frac{S_1}{C_1} = 0.667\text{ seconds}
 $$
+
   At $t = 0.667 + 0.667 = 1.333\text{ seconds}$, Segment 2 is stored.
 
 - Playout Startup Condition Met:
@@ -5911,6 +5946,7 @@ $$
 $$
 B(1.333) = 4 + 4 = \mathbf{8.0\text{ seconds}} = B_{\text{start}}
 $$
+
   Playout initiates at **$t_{\text{start}} = 1.333\text{ seconds}$**.
 
 #### Step 2: Active Playout during Phase 1 ($1.333\text{ s} \le t \le 20\text{ s}$)
@@ -5940,11 +5976,13 @@ $$
 $$
 B(20.0) = 11.333 - 2.0 = \mathbf{9.333\text{ seconds}}
 $$
+
     Data transferred of Segment 8 during these 2 seconds:
 
 $$
 \text{Data} = 2.0\text{ s} \times 6.0\text{ Mbps} = 12.0\text{ Mbits}
 $$
+
     Remaining data for Segment 8: $20.0 - 12.0 = 8.0\text{ Mbits}$.
 
 #### Step 3: Network Drop at $t = 20\text{ s}$ Without Immediate Adaptation
@@ -5955,6 +5993,7 @@ At $t = 20.0\text{ s}$, bandwidth drops to $C_2 = 1.5\text{ Mbps}$.
 $$
 \Delta t_{\text{finish}} = \frac{8.0\text{ Mb}}{1.5\text{ Mbps}} = 5.333\text{ seconds}
 $$
+
   Segment 8 completes at $t = 20.0 + 5.333 = 25.333\text{ seconds}$.
 
 - Buffer level at completion of Segment 8:
@@ -6131,6 +6170,7 @@ Target key: $k = 58$.
 $$
 \mathbf{N10 \longrightarrow N42 \longrightarrow N53 \longrightarrow N60}
 $$
+
    Lookup successfully resolved in **3 network hops** (within $O(\log_2 8) = 3$ hops).
 
 ---
@@ -6184,6 +6224,7 @@ $$
 $$
 B_{\text{demand}} = 960\text{ Mbps} \gg C_{\text{access}} = 100\text{ Mbps}
 $$
+
 Link utilization would be $\rho = \frac{960}{100} = 9.6$ ($960\%$). By the $M/M/1$ queueing model, because arrival rate vastly exceeds service rate ($\rho > 1$), queue lengths grow toward infinity, packet loss reaches nearly $90\%$, and the access link suffers **catastrophic congestive collapse**. Without caching, servicing this user community over a $100\text{ Mbps}$ link is completely impossible.
 
 #### Step 2: Access Link Traffic with CDN Caching
@@ -6236,6 +6277,7 @@ $$
 $$
 \text{Latency Reduction} = \frac{82.0 - 31.6}{82.0} \times 100\% = \mathbf{61.46\%}
 $$
+
 Average response latency drops from $82.0\text{ ms}$ down to $31.6\text{ ms}$.
 
 #### Step 4: Monthly Financial Transit Cost Savings

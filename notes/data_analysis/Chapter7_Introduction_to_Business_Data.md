@@ -101,21 +101,25 @@ Organizations that measure unit economics (such as Customer Acquisition Cost $\t
 ### Core Business Unit Economics Formulas
 
 #### 1. Return on Ad Spend (ROAS)
+
 $$
 \text{ROAS} = \frac{\text{Revenue Generated from Campaign}}{\text{Ad Spend Cost}}
 $$
 
 #### 2. Customer Acquisition Cost (CAC)
+
 $$
 \text{CAC} = \frac{\text{Total Sales \& Marketing Expenses}}{\text{Number of New Customers Acquired}}
 $$
 
 #### 3. Customer Lifetime Value (LTV)
+
 $$
 \text{LTV} = \text{Average Revenue Per User (ARPU)} \times \text{Average Customer Lifespan} \times \text{Gross Margin \%}
 $$
 
 #### 4. LTV to CAC Ratio
+
 $$
 \text{LTV : CAC Ratio} = \frac{\text{LTV}}{\text{CAC}} \quad (\text{Target Enterprise Benchmark: } \ge 3.0)
 $$
@@ -276,21 +280,25 @@ flowchart TD
 ## 9. Consolidated Formula Sheet
 
 1. **Return on Ad Spend (ROAS):**
+
    $$
    \text{ROAS} = \frac{\text{Revenue Generated}}{\text{Ad Spend}}
    $$
 
 2. **Customer Acquisition Cost (CAC):**
+
    $$
    \text{CAC} = \frac{\text{Total Marketing \& Sales Expense}}{\text{New Customers Acquired}}
    $$
 
 3. **Customer Lifetime Value (LTV):**
+
    $$
    \text{LTV} = \text{ARPU} \times \text{Average Customer Lifespan} \times \text{Gross Margin \%}
    $$
 
 4. **LTV to CAC Ratio:**
+
    $$
    \text{LTV : CAC} = \frac{\text{LTV}}{\text{CAC}}
    $$

@@ -100,9 +100,11 @@ The end-to-end procedural workflow through which raw organizational data is tran
 
 **Formal definition:**
 A directed sequential processing framework consisting of five interdependent stages:
+
 $$
 \text{Collect} \longrightarrow \text{Clean} \longrightarrow \text{Analyse} \longrightarrow \text{Visualise} \longrightarrow \text{Decide}
 $$
+
 wherein raw multi-source ingestion undergoes validation and normalization, statistical or algorithmic modeling, cognitive graphical encoding, and stakeholder intervention.
 
 **Intuition:**
@@ -711,6 +713,7 @@ flowchart TD
 
 #### The Analyst's Diagnostic Test:
 To construct an accurate predictive forecast, an analyst must evaluate observed historical fluctuations against the diagnostic question:
+
 $$
 \text{"Will this observed pattern repeat on a cycle, continue indefinitely, or never happen again?"}
 $$
@@ -1166,6 +1169,7 @@ flowchart TD
 
 #### Unit Economics: The Golden Ratio ($LTV / CAC$)
 The most critical defense against vanity metrics in subscription and e-commerce models is monitoring the ratio between **Customer Lifetime Value (LTV)** and **Customer Acquisition Cost (CAC)**:
+
 $$
 \text{LTV : CAC Ratio} = \frac{\text{LTV}}{\text{CAC}}
 $$
