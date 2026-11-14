@@ -138,6 +138,8 @@ nav:
       - "07 8086 Machine Encoding": hardware_and_microprocessors/07_8086_Machine_Encoding_Deep_Dive.md
       - "08 C++ with DOS Assembly": hardware_and_microprocessors/08_C_Plus_Plus_With_DOS_Assembly.md
       - "Macros and Interrupts": hardware_and_microprocessors/macros-and-interrupts.md
+      - "Microprocessors Class Test": hardware_and_microprocessors/Microprocessors_and_Interfacing_ClassTest.md
+      - "Microprocessors Master Guide": hardware_and_microprocessors/Microprocessors_and_Interfacing_Master_Guide.md
       - "Modular Programming": hardware_and_microprocessors/modular-programming.md
       - "Procedures": hardware_and_microprocessors/procedures.md
       - "String Instructions": hardware_and_microprocessors/string-instructions.md

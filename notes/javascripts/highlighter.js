@@ -372,11 +372,57 @@
       .replace(/'/g, "&#039;");
   }
 
+  function healMangledMath(tex) {
+    if (!tex) return "";
+    let s = tex.replace(/^\\\(|^\\\[|\s*\\\)\s*$|\s*\\\]\s*$/g, "").trim();
+
+    s = s.replace(/11\s*\+\s*e\s*[-–]\s*net/gi, "\\frac{1}{1 + e^{-net}}");
+    s = s.replace(/11\s*\+\s*e\^?\{?-?([a-zA-Z0-9]+)\}?/gi, "\\frac{1}{1 + e^{-$1}}");
+
+    s = s.replace(/y\^?[-–]\s*argmaxk?\s*\\in\s*1,\s*\.\.\.,\s*K/gi, "\\hat{y} = \\arg\\max_{k \\in \\{1, \\dots, K\\}}");
+    s = s.replace(/y\^?[-–]\s*argmaxk?/gi, "\\hat{y} = \\arg\\max_k");
+    s = s.replace(/argmaxk/gi, "\\arg\\max_k");
+
+    s = s.replace(/\\?sum\s*([a-zA-Z])\s*=\s*1\s*([a-zA-Z0-9])/gi, "\\sum_{$1=1}^{$2} ");
+    s = s.replace(/\\?prod\s*([a-zA-Z])\s*=\s*1\s*([a-zA-Z0-9])/gi, "\\prod_{$1=1}^{$2} ");
+
+    s = s.replace(/Count\((.*?)\)\s*\+\s*1\s*N_?k?\s*\+\s*2/gi, "\\frac{\\text{Count}($1) + 1}{N_k + 2}");
+
+    s = s.replace(/\blnP\b/g, "\\ln P");
+    s = s.replace(/\b([CPNp])([kj])\b/g, "$1_{$2}");
+    s = s.replace(/\b(x)([jki])\b/g, "$1_{$2}");
+    s = s.replace(/pkjxj/g, "p_{kj}^{x_j}");
+
+    return s;
+  }
+
   function getMathSource(el) {
-    const target = el.closest(".arithmatex") || el;
-    const tex = target.getAttribute("data-tex");
-    if (tex) return tex;
-    return target.textContent.trim();
+    if (!el) return "";
+    const target = el.closest(".arithmatex") || el.closest("mjx-container") || el;
+
+    // 1. Check data-tex attribute
+    let tex = target.getAttribute("data-tex");
+    if (!tex) {
+      const childWithTex = target.querySelector("[data-tex]");
+      if (childWithTex) tex = childWithTex.getAttribute("data-tex");
+    }
+    if (!tex && target.parentElement) {
+      tex = target.parentElement.getAttribute("data-tex");
+    }
+    if (tex) return tex.trim();
+
+    // 2. Query MathJax startup document math items
+    if (window.MathJax && MathJax.startup && MathJax.startup.document) {
+      try {
+        const items = MathJax.startup.document.getMathItemsWithin(target);
+        if (items && items.length > 0 && items[0].math) {
+          return items[0].math.trim();
+        }
+      } catch (e) {}
+    }
+
+    // 3. Fallback: textContent healed through regex healer
+    return healMangledMath(target.textContent.trim());
   }
 
   function addMathHighlight(mathEl, color) {

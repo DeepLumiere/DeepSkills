@@ -58,9 +58,38 @@
     return document.title.replace(/\s*-\s*DeepSkills.*$/, "").trim() || "Notes";
   }
 
+  function healMangledMath(tex) {
+    if (!tex) return "";
+    let s = tex.replace(/^\\\(|^\\\[|\s*\\\)\s*$|\s*\\\]\s*$/g, "").trim();
+
+    // Repair fractions where numerator 1 got squashed with 1+e^-net
+    s = s.replace(/11\s*\+\s*e\s*[-–]\s*net/gi, "\\frac{1}{1 + e^{-net}}");
+    s = s.replace(/11\s*\+\s*e\^?\{?-?([a-zA-Z0-9]+)\}?/gi, "\\frac{1}{1 + e^{-$1}}");
+
+    // Repair y^- argmaxk
+    s = s.replace(/y\^?[-–]\s*argmaxk?\s*\\in\s*1,\s*\.\.\.,\s*K/gi, "\\hat{y} = \\arg\\max_{k \\in \\{1, \\dots, K\\}}");
+    s = s.replace(/y\^?[-–]\s*argmaxk?/gi, "\\hat{y} = \\arg\\max_k");
+    s = s.replace(/argmaxk/gi, "\\arg\\max_k");
+
+    // Repair \sum and \prod indices
+    s = s.replace(/\\?sum\s*([a-zA-Z])\s*=\s*1\s*([a-zA-Z0-9])/gi, "\\sum_{$1=1}^{$2} ");
+    s = s.replace(/\\?prod\s*([a-zA-Z])\s*=\s*1\s*([a-zA-Z0-9])/gi, "\\prod_{$1=1}^{$2} ");
+
+    // Repair Laplace smoothing fraction
+    s = s.replace(/Count\((.*?)\)\s*\+\s*1\s*N_?k?\s*\+\s*2/gi, "\\frac{\\text{Count}($1) + 1}{N_k + 2}");
+
+    // Repair subscripts and common terms
+    s = s.replace(/\blnP\b/g, "\\ln P");
+    s = s.replace(/\b([CPNp])([kj])\b/g, "$1_{$2}");
+    s = s.replace(/\b(x)([jki])\b/g, "$1_{$2}");
+    s = s.replace(/pkjxj/g, "p_{kj}^{x_j}");
+
+    return s;
+  }
+
   function formatMathFormula(tex) {
     if (!tex) return "";
-    let clean = tex.replace(/^\\\(|^\\\[|\s*\\\)\s*$|\s*\\\]\s*$/g, "").trim();
+    const clean = healMangledMath(tex);
     return `<span class="arithmatex">\\(${clean}\\)</span>`;
   }
 
@@ -496,6 +525,22 @@
         try {
           const highlights = JSON.parse(localStorage.getItem(key)) || [];
           if (highlights.length > 0) {
+            let changed = false;
+            highlights.forEach((hl) => {
+              if (hl.isMath && hl.text) {
+                const healed = healMangledMath(hl.text);
+                if (healed !== hl.text) {
+                  hl.text = healed;
+                  changed = true;
+                }
+              }
+            });
+            if (changed) {
+              try {
+                localStorage.setItem(key, JSON.stringify(highlights));
+              } catch (e) {}
+            }
+
             let title = historyMap[path];
             if (!title) {
               const parts = path.split("/").filter(Boolean);
