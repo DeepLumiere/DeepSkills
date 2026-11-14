@@ -1941,7 +1941,7 @@ Clustering DNA sequences or graph structures where arithmetic means cannot be co
 
 | Dimension / Property | K-Means Algorithm | K-Medoids (PAM) Algorithm |
 | :--- | :--- | :--- |
-| **Cluster Representative** | Fictitious arithmetic mean ($\boldsymbol{\mu}_k = \frac{1}{\|C_k\|}\sum \mathbf{x}$) | Actual observed data point (Medoid $m_k \in D$) |
+| **Cluster Representative** | Fictitious arithmetic mean ($\boldsymbol{\mu}_k = \frac{1}{\vert C_k \vert}\sum \mathbf{x}$) | Actual observed data point (Medoid $m_k \in D$) |
 | **Objective Function** | Within-Cluster Sum of Squared Errors (WCSS): $\sum \|\mathbf{x} - \boldsymbol{\mu}\|^2$ | Absolute Dissimilarity Error: $\sum d(\mathbf{x}, m)$ |
 | **Sensitivity to Outliers** | **High** (Squaring distances amplifies outlier leverage) | **Low** (Medoid resists distortion from distant points) |
 | **Computational Complexity** | $\mathcal{O}(t \cdot K \cdot n \cdot d)$ — highly scalable to large $n$ | $\mathcal{O}(t \cdot K \cdot (n - K)^2)$ for PAM — computationally heavy |
@@ -2144,8 +2144,8 @@ $$
 | :--- | :--- | :--- | :--- | :--- |
 | **Single Linkage** | $\min_{\mathbf{x} \in A, \mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})$ | Arbitrary, non-elliptical, elongated chains | **High** (Sensitive to noise bridges) | **High** (Dominant failure mode) |
 | **Complete Linkage** | $\max_{\mathbf{x} \in A, \mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})$ | Compact, spherical, uniform diameter | **High** (Outliers dominate maximums) | **None** |
-| **Average Linkage** | $\frac{1}{\|A\|\|B\|}\sum \sum d(\mathbf{x}, \mathbf{y})$ | Moderately spherical, balanced clusters | **Low** (Averaging dampens outliers) | **Low** |
-| **Centroid Linkage** | $\|\boldsymbol{\mu}_A - \boldsymbol{\mu}_B\|$ | Spherical clusters | **Moderate** | **Low** (Can invert non-monotonically) |
+| **Average Linkage** | $\frac{1}{\vert A \vert \vert B \vert}\sum \sum d(\mathbf{x}, \mathbf{y})$ | Moderately spherical, balanced clusters | **Low** (Averaging dampens outliers) | **Low** |
+| **Centroid Linkage** | $\Vert \boldsymbol{\mu}_A - \boldsymbol{\mu}_B \Vert$ | Spherical clusters | **Moderate** | **Low** (Can invert non-monotonically) |
 
 ---
 
