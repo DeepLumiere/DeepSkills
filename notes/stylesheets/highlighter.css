@@ -1,0 +1,455 @@
+/* ==========================================================================
+   DeepSkills Highlight Facility - Stylesheet
+   Supports Light & Dark Modes, Floating Toolbars, and Highlights Drawer
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Color Definitions & Theming
+   -------------------------------------------------------------------------- */
+:root,
+[data-md-color-scheme="default"] {
+  --hl-yellow: #fef08a;
+  --hl-yellow-border: #eab308;
+  --hl-green: #bbf7d0;
+  --hl-green-border: #22c55e;
+  --hl-blue: #bae6fd;
+  --hl-blue-border: #0ea5e9;
+  --hl-purple: #f3e8ff;
+  --hl-purple-border: #a855f7;
+  --hl-pink: #fce7f3;
+  --hl-pink-border: #ec4899;
+
+  --hl-ui-bg: #ffffff;
+  --hl-ui-fg: #0f172a;
+  --hl-ui-border: rgba(15, 23, 42, 0.12);
+  --hl-ui-shadow: 0 12px 30px -4px rgba(15, 23, 42, 0.15), 0 4px 10px -2px rgba(15, 23, 42, 0.08);
+  --hl-ui-hover: #f1f5f9;
+}
+
+[data-md-color-scheme="slate"] {
+  --hl-yellow: rgba(234, 179, 8, 0.35);
+  --hl-yellow-border: #facc15;
+  --hl-green: rgba(34, 197, 94, 0.35);
+  --hl-green-border: #4ade80;
+  --hl-blue: rgba(14, 165, 233, 0.35);
+  --hl-blue-border: #38bdf8;
+  --hl-purple: rgba(168, 85, 247, 0.35);
+  --hl-purple-border: #c084fc;
+  --hl-pink: rgba(236, 72, 153, 0.35);
+  --hl-pink-border: #f472b6;
+
+  --hl-ui-bg: #1e293b;
+  --hl-ui-fg: #f8fafc;
+  --hl-ui-border: rgba(255, 255, 255, 0.12);
+  --hl-ui-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.5), 0 4px 12px -2px rgba(0, 0, 0, 0.3);
+  --hl-ui-hover: #334155;
+}
+
+/* --------------------------------------------------------------------------
+   Highlighted Text in Document
+   -------------------------------------------------------------------------- */
+mark.user-highlight {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0.12em 0.25em;
+  margin: 0 -0.05em;
+  color: inherit;
+  font-weight: inherit;
+  transition: filter 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  text-decoration: none;
+}
+
+mark.user-highlight:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.4);
+}
+
+mark.user-highlight.hl-yellow {
+  background-color: var(--hl-yellow);
+  border-bottom: 2px solid var(--hl-yellow-border);
+}
+
+mark.user-highlight.hl-green {
+  background-color: var(--hl-green);
+  border-bottom: 2px solid var(--hl-green-border);
+}
+
+mark.user-highlight.hl-blue {
+  background-color: var(--hl-blue);
+  border-bottom: 2px solid var(--hl-blue-border);
+}
+
+mark.user-highlight.hl-purple {
+  background-color: var(--hl-purple);
+  border-bottom: 2px solid var(--hl-purple-border);
+}
+
+mark.user-highlight.hl-pink {
+  background-color: var(--hl-pink);
+  border-bottom: 2px solid var(--hl-pink-border);
+}
+
+/* Pulse animation when jumped to from Drawer */
+@keyframes highlight-pulse-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.8);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(6, 182, 212, 0);
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(6, 182, 212, 0);
+    transform: scale(1);
+  }
+}
+
+mark.user-highlight.pulse-jump {
+  animation: highlight-pulse-glow 1s ease-out 2;
+}
+
+/* --------------------------------------------------------------------------
+   Floating Selection Toolbar & Click Popover (Shared UI Base)
+   -------------------------------------------------------------------------- */
+.hl-floating-ui {
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--hl-ui-bg);
+  color: var(--hl-ui-fg);
+  border: 1px solid var(--hl-ui-border);
+  box-shadow: var(--hl-ui-shadow);
+  border-radius: 9999px;
+  padding: 6px 10px;
+  user-select: none;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px) scale(0.96);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hl-floating-ui.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+/* Color Circles */
+.hl-color-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hl-color-btn:hover {
+  transform: scale(1.22);
+}
+
+.hl-color-btn.active {
+  border-color: var(--hl-ui-fg);
+  box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.4);
+}
+
+.hl-color-btn.btn-yellow { background-color: #facc15; }
+.hl-color-btn.btn-green  { background-color: #4ade80; }
+.hl-color-btn.btn-blue   { background-color: #38bdf8; }
+.hl-color-btn.btn-purple { background-color: #c084fc; }
+.hl-color-btn.btn-pink   { background-color: #fb7185; }
+
+/* Divider */
+.hl-divider {
+  width: 1px;
+  height: 16px;
+  background-color: var(--hl-ui-border);
+  margin: 0 2px;
+}
+
+/* Action Buttons inside floating UI */
+.hl-action-btn {
+  background: transparent;
+  color: var(--hl-ui-fg);
+  border: none;
+  padding: 4px 7px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.hl-action-btn:hover {
+  background: var(--hl-ui-hover);
+}
+
+.hl-btn-remove {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 4px 8px;
+  border-radius: 9999px;
+}
+
+.hl-btn-remove:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   Floating Action Button (Bottom-Right Counter)
+   -------------------------------------------------------------------------- */
+.hl-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--hl-ui-bg);
+  color: var(--hl-ui-fg);
+  border: 1px solid var(--hl-ui-border);
+  box-shadow: var(--hl-ui-shadow);
+  padding: 8px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hl-fab:hover {
+  transform: translateY(-2px);
+  border-color: #06b6d4;
+  box-shadow: 0 16px 36px -4px rgba(6, 182, 212, 0.25);
+}
+
+.hl-fab-badge {
+  background: #0d9488;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  line-height: 1.2;
+}
+
+/* --------------------------------------------------------------------------
+   Highlights Drawer / Panel
+   -------------------------------------------------------------------------- */
+.hl-drawer {
+  position: fixed;
+  bottom: 74px;
+  right: 24px;
+  width: 340px;
+  max-width: calc(100vw - 48px);
+  max-height: 460px;
+  background: var(--hl-ui-bg);
+  color: var(--hl-ui-fg);
+  border: 1px solid var(--hl-ui-border);
+  border-radius: 16px;
+  box-shadow: var(--hl-ui-shadow);
+  display: flex;
+  flex-direction: column;
+  z-index: 901;
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px) scale(0.96);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.hl-drawer.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.hl-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--hl-ui-border);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.hl-drawer-header span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hl-drawer-close {
+  background: transparent;
+  border: none;
+  color: var(--hl-ui-fg);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.hl-drawer-close:hover {
+  background: var(--hl-ui-hover);
+}
+
+.hl-drawer-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hl-drawer-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.15s ease;
+  border: 1px solid transparent;
+}
+
+.hl-drawer-item:hover {
+  background: var(--hl-ui-hover);
+  border-color: var(--hl-ui-border);
+}
+
+.hl-item-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.hl-item-dot.dot-yellow { background-color: #facc15; }
+.hl-item-dot.dot-green  { background-color: #4ade80; }
+.hl-item-dot.dot-blue   { background-color: #38bdf8; }
+.hl-item-dot.dot-purple { background-color: #c084fc; }
+.hl-item-dot.dot-pink   { background-color: #fb7185; }
+
+.hl-item-text {
+  flex: 1;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--hl-ui-fg);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.hl-item-remove {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  opacity: 0.6;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.hl-item-remove:hover {
+  opacity: 1;
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.hl-drawer-empty {
+  padding: 24px 16px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.hl-drawer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-top: 1px solid var(--hl-ui-border);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.hl-footer-btn {
+  background: var(--hl-ui-hover);
+  color: var(--hl-ui-fg);
+  border: 1px solid var(--hl-ui-border);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.hl-footer-btn:hover {
+  border-color: #06b6d4;
+}
+
+.hl-footer-btn.btn-clear:hover {
+  color: #ef4444;
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   Toast Notification
+   -------------------------------------------------------------------------- */
+.hl-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--hl-ui-bg);
+  color: var(--hl-ui-fg);
+  border: 1px solid var(--hl-ui-border);
+  box-shadow: var(--hl-ui-shadow);
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 1100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hl-toast.is-show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}

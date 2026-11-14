@@ -51,6 +51,7 @@ theme:
 
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/highlighter.css
 
 # MathJax & LaTeX & Mermaid Support Scripts
 extra_javascript:
@@ -60,6 +61,7 @@ extra_javascript:
   - javascripts/mermaid-init.js
   - javascripts/iframe-resize.js
   - javascripts/sidebar-toggle.js
+  - javascripts/highlighter.js
 
 markdown_extensions:
   # LaTeX Math Support ($...$ and $$...$$)
@@ -129,6 +131,9 @@ nav:
       - "03 8086 Instruction Set": hardware_and_microprocessors/03_8086_Instruction_Set_Comprehensive.md
       - "04 8086 Strings & Loops": hardware_and_microprocessors/04_8086_String_Operations_and_Looping.md
       - "05 8086 Stack & Modular": hardware_and_microprocessors/05_8086_Stack_Operations_and_Modular_Programming.md
+      - "06 8086 Addressing Modes": hardware_and_microprocessors/06_8086_Addressing_Modes_With_Diagrams.md
+      - "07 8086 Machine Encoding": hardware_and_microprocessors/07_8086_Machine_Encoding_Deep_Dive.md
+      - "08 C++ with DOS Assembly": hardware_and_microprocessors/08_C_Plus_Plus_With_DOS_Assembly.md
       - "Macros and Interrupts": hardware_and_microprocessors/macros-and-interrupts.md
       - "Modular Programming": hardware_and_microprocessors/modular-programming.md
       - "Procedures": hardware_and_microprocessors/procedures.md
