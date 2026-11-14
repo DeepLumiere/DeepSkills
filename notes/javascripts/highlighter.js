@@ -50,6 +50,7 @@
   function saveStoredHighlights(list) {
     try {
       localStorage.setItem(getStorageKey(), JSON.stringify(list));
+      window.dispatchEvent(new CustomEvent("deepskills:highlights-updated"));
     } catch (e) {
       console.warn("Highlighter storage error:", e);
     }
