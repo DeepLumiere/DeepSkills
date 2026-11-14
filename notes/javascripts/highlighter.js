@@ -1,7 +1,7 @@
 /**
  * DeepSkills Note Highlighter
- * Enables text highlighting, recoloring, persistence via localStorage,
- * contextual click-to-remove, and a floating highlights manager.
+ * Enables text & MathJax formula highlighting, recoloring, persistence via localStorage,
+ * 1-second auto-trigger on selection, right-click context menu access, and highlights drawer.
  */
 
 (function () {
@@ -16,7 +16,9 @@
   ];
 
   let activeRange = null;
+  let activeTargetMath = null;
   let activeHighlightId = null;
+  let selectionTimer = null;
   let uiInitialized = false;
 
   // DOM Elements for UI
@@ -77,7 +79,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     DOM Text Wrapping & Range Helpers
+     DOM Text Wrapping & Range Helpers (Handles Normal Text & MathJax Spans)
      -------------------------------------------------------------------------- */
   function createMarkElement(id, color, text) {
     const mark = document.createElement("mark");
@@ -117,7 +119,20 @@
       return [mark];
     }
 
-    // Multi-node selection: collect intersecting text nodes
+    // Check if range intersects any .arithmatex math elements
+    const container = getContentContainer();
+    const mathInContainer = container.querySelectorAll(".arithmatex, mjx-container");
+    mathInContainer.forEach((mEl) => {
+      try {
+        if (range.intersectsNode(mEl)) {
+          const target = mEl.closest(".arithmatex") || mEl;
+          target.classList.add("user-highlight", `hl-${color}`);
+          target.setAttribute("data-highlight-id", id);
+        }
+      } catch (e) {}
+    });
+
+    // Multi-node selection: collect intersecting text nodes outside MathJax internals
     const walker = document.createTreeWalker(
       root.nodeType === Node.TEXT_NODE ? root.parentNode : root,
       NodeFilter.SHOW_TEXT,
@@ -128,7 +143,9 @@
             node.parentElement &&
             (node.parentElement.closest(".hl-floating-ui") ||
               node.parentElement.closest(".hl-fab") ||
-              node.parentElement.closest(".hl-drawer"))
+              node.parentElement.closest(".hl-drawer") ||
+              node.parentElement.closest(".arithmatex") ||
+              node.parentElement.closest("mjx-container"))
           ) {
             return NodeFilter.FILTER_REJECT;
           }
@@ -191,9 +208,28 @@
       postRange.collapse(false);
       postRange.setEnd(container, container.childNodes.length);
       suffix = postRange.toString().slice(0, 35);
-    } catch (e) {
-      // Ignore offset errors
-    }
+    } catch (e) {}
+    return { prefix, suffix };
+  }
+
+  function getContextForElement(el) {
+    let prefix = "";
+    let suffix = "";
+    try {
+      const container = getContentContainer();
+      const range = document.createRange();
+      range.selectNode(el);
+
+      const preRange = range.cloneRange();
+      preRange.collapse(true);
+      preRange.setStart(container, 0);
+      prefix = preRange.toString().slice(-35);
+
+      const postRange = range.cloneRange();
+      postRange.collapse(false);
+      postRange.setEnd(container, container.childNodes.length);
+      suffix = postRange.toString().slice(0, 35);
+    } catch (e) {}
     return { prefix, suffix };
   }
 
@@ -309,13 +345,13 @@
       id: id,
       color: color,
       text: text,
+      isMath: false,
       prefix: prefix,
       suffix: suffix,
       createdAt: Date.now()
     });
     saveStoredHighlights(list);
 
-    // Clear window selection
     if (window.getSelection) {
       window.getSelection().removeAllRanges();
     }
@@ -325,10 +361,40 @@
     showToast("Highlighted!");
   }
 
+  function addMathHighlight(mathEl, color) {
+    if (!mathEl) return;
+    const target = mathEl.closest(".arithmatex") || mathEl;
+    const id = "hl_math_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7);
+
+    target.classList.add("user-highlight", `hl-${color}`);
+    target.setAttribute("data-highlight-id", id);
+    target.setAttribute("data-is-math", "true");
+
+    const text = target.textContent.trim();
+    const { prefix, suffix } = getContextForElement(target);
+
+    const list = getStoredHighlights();
+    list.push({
+      id: id,
+      color: color,
+      text: text,
+      isMath: true,
+      prefix: prefix,
+      suffix: suffix,
+      createdAt: Date.now()
+    });
+    saveStoredHighlights(list);
+
+    hideSelectionToolbar();
+    updateUIState();
+    showToast("Formula highlighted!");
+  }
+
   function removeHighlight(id) {
     const container = getContentContainer();
     if (!container) return;
 
+    // 1. Unwrap regular mark elements
     const marks = container.querySelectorAll(
       `mark.user-highlight[data-highlight-id="${id}"]`
     );
@@ -339,6 +405,23 @@
       }
       parent.removeChild(mark);
       if (parent) parent.normalize();
+    });
+
+    // 2. Clear classes from MathJax formula elements
+    const mathEls = container.querySelectorAll(
+      `[data-highlight-id="${id}"]`
+    );
+    mathEls.forEach((el) => {
+      el.classList.remove(
+        "user-highlight",
+        "hl-yellow",
+        "hl-green",
+        "hl-blue",
+        "hl-purple",
+        "hl-pink"
+      );
+      el.removeAttribute("data-highlight-id");
+      el.removeAttribute("data-is-math");
     });
 
     let list = getStoredHighlights();
@@ -354,11 +437,19 @@
     const container = getContentContainer();
     if (!container) return;
 
+    // 1. Mark elements
     const marks = container.querySelectorAll(
       `mark.user-highlight[data-highlight-id="${id}"]`
     );
     marks.forEach((mark) => {
       mark.className = `user-highlight hl-${newColor}`;
+    });
+
+    // 2. Math elements
+    const mathEls = container.querySelectorAll(`[data-highlight-id="${id}"]`);
+    mathEls.forEach((el) => {
+      COLORS.forEach((c) => el.classList.remove(`hl-${c.name}`));
+      el.classList.add(`hl-${newColor}`);
     });
 
     const list = getStoredHighlights();
@@ -378,6 +469,7 @@
     const container = getContentContainer();
     if (!container) return;
 
+    // Remove text marks
     const marks = container.querySelectorAll("mark.user-highlight");
     marks.forEach((mark) => {
       const parent = mark.parentNode;
@@ -386,6 +478,21 @@
       }
       parent.removeChild(mark);
       if (parent) parent.normalize();
+    });
+
+    // Remove math element highlights
+    const mathEls = container.querySelectorAll(".user-highlight[data-is-math]");
+    mathEls.forEach((el) => {
+      el.classList.remove(
+        "user-highlight",
+        "hl-yellow",
+        "hl-green",
+        "hl-blue",
+        "hl-purple",
+        "hl-pink"
+      );
+      el.removeAttribute("data-highlight-id");
+      el.removeAttribute("data-is-math");
     });
 
     saveStoredHighlights([]);
@@ -405,7 +512,8 @@
     const markdown = [
       `### Highlights from ${pageTitle}\n`,
       ...list.map(
-        (hl, i) => `${i + 1}. *(${hl.color.toUpperCase()})* "${hl.text}"`
+        (hl, i) =>
+          `${i + 1}. *(${hl.color.toUpperCase()}${hl.isMath ? " - Math" : ""})* "${hl.text}"`
       )
     ].join("\n");
 
@@ -419,6 +527,9 @@
       });
   }
 
+  /* --------------------------------------------------------------------------
+     Restoration Engine (Text + MathJax)
+     -------------------------------------------------------------------------- */
   function restoreHighlights() {
     const container = getContentContainer();
     if (!container) return;
@@ -429,7 +540,9 @@
       return;
     }
 
+    // 1. Restore standard text highlights
     list.forEach((hl) => {
+      if (hl.isMath) return;
       if (container.querySelector(`mark[data-highlight-id="${hl.id}"]`)) return;
       const range = findRangeByQuote(container, hl.text, hl.prefix, hl.suffix);
       if (range) {
@@ -437,8 +550,39 @@
       }
     });
 
+    // 2. Restore MathJax formula highlights
+    const mathHighlights = list.filter((hl) => hl.isMath);
+    if (mathHighlights.length > 0) {
+      const mathElements = container.querySelectorAll(".arithmatex, mjx-container");
+      mathElements.forEach((mEl) => {
+        const target = mEl.closest(".arithmatex") || mEl;
+        if (target.hasAttribute("data-highlight-id")) return;
+
+        const mathText = target.textContent.trim();
+        const { prefix } = getContextForElement(target);
+
+        const match = mathHighlights.find((hl) => {
+          if (hl.text === mathText) {
+            if (!hl.prefix || !prefix || prefix.slice(-15) === hl.prefix.slice(-15)) {
+              return true;
+            }
+          }
+          return false;
+        });
+
+        if (match) {
+          target.classList.add("user-highlight", `hl-${match.color}`);
+          target.setAttribute("data-highlight-id", match.id);
+          target.setAttribute("data-is-math", "true");
+        }
+      });
+    }
+
     updateUIState();
   }
+
+  // Expose global hook for MathJax.typesetPromise() completion
+  window.__deepskills_restore_highlights = restoreHighlights;
 
   /* --------------------------------------------------------------------------
      Floating Selection Toolbar Management
@@ -448,15 +592,27 @@
     const scrollX = window.scrollX || window.pageXOffset;
     const scrollY = window.scrollY || window.pageYOffset;
 
-    // Centered above the selection, or below if near top
     let top = rect.top + scrollY - 48;
     if (rect.top < 60) {
       top = rect.bottom + scrollY + 8;
     }
-    const left = Math.max(
-      12,
-      rect.left + scrollX + rect.width / 2 - 95
-    );
+    const left = Math.max(12, rect.left + scrollX + rect.width / 2 - 95);
+
+    selectionToolbar.style.top = `${top}px`;
+    selectionToolbar.style.left = `${left}px`;
+    selectionToolbar.classList.add("is-active");
+  }
+
+  function showSelectionToolbarAt(clientX, clientY) {
+    if (!selectionToolbar) return;
+    const scrollX = window.scrollX || window.pageXOffset;
+    const scrollY = window.scrollY || window.pageYOffset;
+
+    let top = clientY + scrollY - 48;
+    if (clientY < 60) {
+      top = clientY + scrollY + 12;
+    }
+    const left = Math.max(12, clientX + scrollX - 95);
 
     selectionToolbar.style.top = `${top}px`;
     selectionToolbar.style.left = `${left}px`;
@@ -468,21 +624,22 @@
       selectionToolbar.classList.remove("is-active");
     }
     activeRange = null;
+    activeTargetMath = null;
+    clearTimeout(selectionTimer);
   }
 
   /* --------------------------------------------------------------------------
      Highlight Click Popover Management
      -------------------------------------------------------------------------- */
-  function showClickPopover(markEl) {
+  function showClickPopover(targetEl) {
     if (!clickPopover) return;
-    const id = markEl.getAttribute("data-highlight-id");
+    const id = targetEl.getAttribute("data-highlight-id");
     activeHighlightId = id;
 
     const list = getStoredHighlights();
     const currentHl = list.find((item) => item.id === id);
     const activeColor = currentHl ? currentHl.color : "yellow";
 
-    // Set active color dot in popover
     clickPopover.querySelectorAll(".hl-color-btn").forEach((btn) => {
       if (btn.getAttribute("data-color") === activeColor) {
         btn.classList.add("active");
@@ -491,7 +648,7 @@
       }
     });
 
-    const rect = markEl.getBoundingClientRect();
+    const rect = targetEl.getBoundingClientRect();
     const scrollX = window.scrollX || window.pageXOffset;
     const scrollY = window.scrollY || window.pageYOffset;
 
@@ -500,6 +657,37 @@
       top = rect.bottom + scrollY + 8;
     }
     const left = Math.max(12, rect.left + scrollX + rect.width / 2 - 110);
+
+    clickPopover.style.top = `${top}px`;
+    clickPopover.style.left = `${left}px`;
+    clickPopover.classList.add("is-active");
+  }
+
+  function showClickPopoverAt(targetEl, clientX, clientY) {
+    if (!clickPopover) return;
+    const id = targetEl.getAttribute("data-highlight-id");
+    activeHighlightId = id;
+
+    const list = getStoredHighlights();
+    const currentHl = list.find((item) => item.id === id);
+    const activeColor = currentHl ? currentHl.color : "yellow";
+
+    clickPopover.querySelectorAll(".hl-color-btn").forEach((btn) => {
+      if (btn.getAttribute("data-color") === activeColor) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+
+    const scrollX = window.scrollX || window.pageXOffset;
+    const scrollY = window.scrollY || window.pageYOffset;
+
+    let top = clientY + scrollY - 44;
+    if (clientY < 50) {
+      top = clientY + scrollY + 12;
+    }
+    const left = Math.max(12, clientX + scrollX - 110);
 
     clickPopover.style.top = `${top}px`;
     clickPopover.style.left = `${left}px`;
@@ -550,7 +738,7 @@
 
     if (list.length === 0) {
       listContainer.innerHTML =
-        '<div class="hl-drawer-empty">No highlights on this page yet.<br>Select any text to highlight it!</div>';
+        '<div class="hl-drawer-empty">No highlights on this page yet.<br>Select text or right-click equations to highlight!</div>';
       return;
     }
 
@@ -560,17 +748,15 @@
       item.className = "hl-drawer-item";
       item.innerHTML = `
         <span class="hl-item-dot dot-${hl.color}"></span>
-        <span class="hl-item-text">"${hl.text}"</span>
+        <span class="hl-item-text">${hl.isMath ? "📐 " : ""} "${hl.text}"</span>
         <button class="hl-item-remove" title="Remove highlight">✕</button>
       `;
 
-      // Jump to highlight on click
       item.addEventListener("click", (e) => {
         if (e.target.closest(".hl-item-remove")) return;
         jumpToHighlight(hl.id);
       });
 
-      // Remove from list
       const removeBtn = item.querySelector(".hl-item-remove");
       removeBtn.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -582,15 +768,15 @@
   }
 
   function jumpToHighlight(id) {
-    const mark = document.querySelector(
-      `mark.user-highlight[data-highlight-id="${id}"]`
+    const el = document.querySelector(
+      `[data-highlight-id="${id}"]`
     );
-    if (!mark) return;
+    if (!el) return;
 
-    mark.scrollIntoView({ behavior: "smooth", block: "center" });
-    mark.classList.remove("pulse-jump");
-    void mark.offsetWidth; // Trigger reflow
-    mark.classList.add("pulse-jump");
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.classList.remove("pulse-jump");
+    void el.offsetWidth;
+    el.classList.add("pulse-jump");
 
     closeDrawer();
   }
@@ -623,7 +809,7 @@
   function buildUI() {
     if (uiInitialized && document.getElementById("hl-selection-toolbar")) return;
 
-    // 1. Selection Toolbar
+    // 1. Selection & Formula Toolbar
     selectionToolbar = document.createElement("div");
     selectionToolbar.id = "hl-selection-toolbar";
     selectionToolbar.className = "hl-floating-ui";
@@ -641,7 +827,9 @@
       btn.addEventListener("click", (e) => {
         e.stopPropagation();
         const color = btn.getAttribute("data-color");
-        if (activeRange) {
+        if (activeTargetMath) {
+          addMathHighlight(activeTargetMath, color);
+        } else if (activeRange) {
           addHighlight(activeRange, color);
         }
       });
@@ -654,7 +842,7 @@
         hideSelectionToolbar();
       });
 
-    // 2. Click Popover (Existing Highlight)
+    // 2. Click / Right-Click Popover (Existing Highlight)
     clickPopover = document.createElement("div");
     clickPopover.id = "hl-click-popover";
     clickPopover.className = "hl-floating-ui";
@@ -742,12 +930,38 @@
   }
 
   /* --------------------------------------------------------------------------
-     Global Event Listeners
+     Event Listeners: 1-Second Timer, MouseUp, and Right-Click Context Menu
      -------------------------------------------------------------------------- */
   function attachEventListeners() {
-    // Detect text selection on mouseup / keyup
-    function handleSelectionCheck(e) {
-      // Don't trigger if clicked inside our own floating UI or drawer
+    // 1. Selection Timer (Fires automatically in 1s upon text selection)
+    document.addEventListener("selectionchange", () => {
+      clearTimeout(selectionTimer);
+
+      const selection = window.getSelection();
+      if (!selection || selection.isCollapsed || !selection.toString().trim()) {
+        if (!activeTargetMath && !activeHighlightId) {
+          hideSelectionToolbar();
+        }
+        return;
+      }
+
+      // Schedule auto-popup in 1s as requested
+      selectionTimer = setTimeout(() => {
+        const sel = window.getSelection();
+        if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) {
+          const range = sel.getRangeAt(0);
+          const container = getContentContainer();
+          if (container && container.contains(range.commonAncestorContainer)) {
+            activeRange = range.cloneRange();
+            activeTargetMath = null;
+            showSelectionToolbar(range.getBoundingClientRect());
+          }
+        }
+      }, 1000);
+    });
+
+    // 2. MouseUp (Ensures selection settles & allows instant trigger if desired)
+    document.addEventListener("mouseup", (e) => {
       if (
         e.target.closest("#hl-selection-toolbar") ||
         e.target.closest("#hl-click-popover") ||
@@ -757,48 +971,64 @@
         return;
       }
 
-      // If user clicked directly on an existing mark, handle in mark click listener
-      if (e.target.closest("mark.user-highlight")) {
-        hideSelectionToolbar();
-        return;
-      }
-
       const selection = window.getSelection();
-      if (!selection || selection.isCollapsed) {
-        hideSelectionToolbar();
-        return;
-      }
-
-      const text = selection.toString().trim();
-      if (text.length === 0) {
-        hideSelectionToolbar();
+      if (!selection || selection.isCollapsed || !selection.toString().trim()) {
         return;
       }
 
       const range = selection.getRangeAt(0);
       const container = getContentContainer();
-
-      // Ensure selection is inside content container
-      if (!container.contains(range.commonAncestorContainer)) {
-        hideSelectionToolbar();
-        return;
-      }
-
-      activeRange = range.cloneRange();
-      const rect = range.getBoundingClientRect();
-      showSelectionToolbar(rect);
-    }
-
-    document.addEventListener("mouseup", handleSelectionCheck);
-    document.addEventListener("keyup", (e) => {
-      if (e.key === "Shift" || e.key.startsWith("Arrow")) {
-        handleSelectionCheck(e);
+      if (container && container.contains(range.commonAncestorContainer)) {
+        activeRange = range.cloneRange();
+        activeTargetMath = null;
+        // Also show toolbar on mouseup immediately if user has completed drag
+        showSelectionToolbar(range.getBoundingClientRect());
       }
     });
 
-    // Detect click on existing highlights
+    // 3. Right-Click Context Menu Handler
+    document.addEventListener("contextmenu", (e) => {
+      // A. Right-click on existing highlight (text or MathJax)
+      const existing = e.target.closest("[data-highlight-id]");
+      if (existing) {
+        e.preventDefault();
+        e.stopPropagation();
+        hideSelectionToolbar();
+        showClickPopoverAt(existing, e.clientX, e.clientY);
+        return;
+      }
+
+      // B. Right-click on MathJax formula (.arithmatex or mjx-container)
+      const mathEl = e.target.closest(".arithmatex, mjx-container");
+      if (mathEl) {
+        e.preventDefault();
+        e.stopPropagation();
+        const target = mathEl.closest(".arithmatex") || mathEl;
+        activeTargetMath = target;
+        activeRange = null;
+        showSelectionToolbarAt(e.clientX, e.clientY);
+        return;
+      }
+
+      // C. Right-click on selected text
+      const selection = window.getSelection();
+      if (selection && !selection.isCollapsed && selection.toString().trim().length > 0) {
+        const range = selection.getRangeAt(0);
+        const container = getContentContainer();
+        if (container && container.contains(range.commonAncestorContainer)) {
+          e.preventDefault();
+          e.stopPropagation();
+          activeRange = range.cloneRange();
+          activeTargetMath = null;
+          showSelectionToolbarAt(e.clientX, e.clientY);
+          return;
+        }
+      }
+    });
+
+    // 4. Left-Click Handler for existing highlights & outside dismissal
     document.addEventListener("click", (e) => {
-      const mark = e.target.closest("mark.user-highlight");
+      const mark = e.target.closest("[data-highlight-id]");
       if (mark) {
         e.preventDefault();
         e.stopPropagation();
@@ -807,7 +1037,6 @@
         return;
       }
 
-      // If clicked outside, close popups
       if (
         !e.target.closest("#hl-selection-toolbar") &&
         !e.target.closest("#hl-click-popover")
@@ -823,7 +1052,7 @@
       }
     });
 
-    // Dismiss on scroll or window resize
+    // Dismiss on window resize
     window.addEventListener("resize", hideAllPopups);
   }
 
@@ -843,7 +1072,6 @@
     init();
   }
 
-  // Support for MkDocs Material instant navigation (location$ and document$)
   if (typeof document$ !== "undefined") {
     document$.subscribe(function () {
       init();

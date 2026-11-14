@@ -46,12 +46,14 @@
 }
 
 /* --------------------------------------------------------------------------
-   Highlighted Text in Document
+   Highlighted Text & MathJax Formulas in Document
    -------------------------------------------------------------------------- */
-mark.user-highlight {
+mark.user-highlight,
+.arithmatex.user-highlight,
+mjx-container.user-highlight {
   cursor: pointer;
   border-radius: 4px;
-  padding: 0.12em 0.25em;
+  padding: 0.12em 0.28em;
   margin: 0 -0.05em;
   color: inherit;
   font-weight: inherit;
@@ -59,34 +61,45 @@ mark.user-highlight {
   text-decoration: none;
 }
 
-mark.user-highlight:hover {
+/* Block MathJax Display Equations */
+div.arithmatex.user-highlight,
+mjx-container[display="true"].user-highlight {
+  display: block;
+  padding: 0.6em 1em;
+  margin: 1em 0;
+  border-radius: 8px;
+}
+
+mark.user-highlight:hover,
+.arithmatex.user-highlight:hover,
+mjx-container.user-highlight:hover {
   filter: brightness(1.12);
   box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.4);
 }
 
-mark.user-highlight.hl-yellow {
-  background-color: var(--hl-yellow);
-  border-bottom: 2px solid var(--hl-yellow-border);
+.user-highlight.hl-yellow {
+  background-color: var(--hl-yellow) !important;
+  border-bottom: 2px solid var(--hl-yellow-border) !important;
 }
 
-mark.user-highlight.hl-green {
-  background-color: var(--hl-green);
-  border-bottom: 2px solid var(--hl-green-border);
+.user-highlight.hl-green {
+  background-color: var(--hl-green) !important;
+  border-bottom: 2px solid var(--hl-green-border) !important;
 }
 
-mark.user-highlight.hl-blue {
-  background-color: var(--hl-blue);
-  border-bottom: 2px solid var(--hl-blue-border);
+.user-highlight.hl-blue {
+  background-color: var(--hl-blue) !important;
+  border-bottom: 2px solid var(--hl-blue-border) !important;
 }
 
-mark.user-highlight.hl-purple {
-  background-color: var(--hl-purple);
-  border-bottom: 2px solid var(--hl-purple-border);
+.user-highlight.hl-purple {
+  background-color: var(--hl-purple) !important;
+  border-bottom: 2px solid var(--hl-purple-border) !important;
 }
 
-mark.user-highlight.hl-pink {
-  background-color: var(--hl-pink);
-  border-bottom: 2px solid var(--hl-pink-border);
+.user-highlight.hl-pink {
+  background-color: var(--hl-pink) !important;
+  border-bottom: 2px solid var(--hl-pink-border) !important;
 }
 
 /* Pulse animation when jumped to from Drawer */

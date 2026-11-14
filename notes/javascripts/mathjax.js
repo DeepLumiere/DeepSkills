@@ -7,7 +7,8 @@ window.MathJax = {
   },
   options: {
     ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
+    processHtmlClass: "arithmatex",
+    enableMenu: false // Allow right-click for deepskills highlight menu
   }
 };
 
@@ -16,6 +17,11 @@ document$.subscribe(() => {
     MathJax.startup.output.clearCache();
     MathJax.typesetClear();
     MathJax.texReset();
-    MathJax.typesetPromise();
+    MathJax.typesetPromise().then(() => {
+      // Re-apply MathJax formula highlights after typesetting completes
+      if (typeof window.__deepskills_restore_highlights === "function") {
+        window.__deepskills_restore_highlights();
+      }
+    });
   }
 });
