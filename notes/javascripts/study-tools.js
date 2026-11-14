@@ -1,9 +1,10 @@
 /**
  * DeepSkills Study Tools Suite
  * Features:
- * 3. Global Study Hub (Cross-Chapter Highlights Aggregator & Exporter)
+ * 3. Global Study Hub (Cross-Chapter Highlights Aggregator & MathJax Exporter)
  * 5. Reading Experience (Progress Bar, Reading Time Badge, Zen/Focus Mode)
  * 6. Bookmarks & Recently Viewed History
+ * All UI icons rendered using Google Fonts Material Symbols
  */
 
 (function () {
@@ -13,12 +14,12 @@
      State & Constants
      -------------------------------------------------------------------------- */
   const COLORS = [
-    { name: "all",    label: "All",    hex: "var(--hl-ui-fg)" },
-    { name: "yellow", label: "Yellow", hex: "#facc15" },
-    { name: "green",  label: "Green",  hex: "#4ade80" },
-    { name: "blue",   label: "Blue",   hex: "#38bdf8" },
-    { name: "purple", label: "Purple", hex: "#c084fc" },
-    { name: "pink",   label: "Pink",   hex: "#fb7185" }
+    { name: "all",    label: "All",    colorHex: "transparent" },
+    { name: "yellow", label: "Yellow", colorHex: "#facc15" },
+    { name: "green",  label: "Green",  colorHex: "#4ade80" },
+    { name: "blue",   label: "Blue",   colorHex: "#38bdf8" },
+    { name: "purple", label: "Purple", colorHex: "#c084fc" },
+    { name: "pink",   label: "Pink",   colorHex: "#fb7185" }
   ];
 
   let activeColorFilter = "all";
@@ -32,8 +33,18 @@
   let zenExitBtn = null;
 
   /* --------------------------------------------------------------------------
-     Storage Helpers: Normalization, Bookmarks, and History
+     Helper Functions
      -------------------------------------------------------------------------- */
+  function escapeHtml(str) {
+    if (!str) return "";
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
   function getCleanPath(path) {
     path = path || window.location.pathname || "/";
     return path.replace(/index\.html$/, "").replace(/\/+$/, "") || "/";
@@ -45,6 +56,24 @@
       return h1.textContent.trim().replace(/^#+\s*/, "");
     }
     return document.title.replace(/\s*-\s*DeepSkills.*$/, "").trim() || "Notes";
+  }
+
+  function formatMathFormula(tex) {
+    if (!tex) return "";
+    let clean = tex.replace(/^\\\(|^\\\[|\s*\\\)\s*$|\s*\\\]\s*$/g, "").trim();
+    return `<span class="arithmatex">\\(${clean}\\)</span>`;
+  }
+
+  function formatRelativeTime(timestamp) {
+    if (!timestamp) return "";
+    const diff = Date.now() - timestamp;
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return "Just now";
+    if (mins < 60) return `${mins}m ago`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
   }
 
   // --- Bookmarks Storage ---
@@ -105,7 +134,6 @@
     if (!title || title === "Overview") return;
 
     let history = getHistory();
-    // Remove if previously recorded so it moves to front
     history = history.filter((h) => h.path !== current);
     history.unshift({
       path: current,
@@ -113,7 +141,6 @@
       visitedAt: Date.now()
     });
 
-    // Keep top 12 recent pages
     if (history.length > 12) history = history.slice(0, 12);
     try {
       localStorage.setItem("deepskills_history", JSON.stringify(history));
@@ -170,7 +197,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     5.2 Reading Time & Word Count Meta Badge
+     5.2 Reading Time & Word Count Meta Badge (Google Fonts Icons)
      -------------------------------------------------------------------------- */
   function injectReadingMeta() {
     const content = document.querySelector(".md-content .md-typeset");
@@ -179,11 +206,9 @@
     const h1 = content.querySelector("h1");
     if (!h1) return;
 
-    // Remove existing badge if present (on re-render)
     const existing = content.querySelector(".st-reading-meta");
     if (existing) existing.remove();
 
-    // Extract text excluding code blocks & pre tags for accurate prose estimate
     const clone = content.cloneNode(true);
     clone.querySelectorAll("pre, code, .highlight, script, style, .arithmatex").forEach((el) => el.remove());
     const words = (clone.textContent || "")
@@ -192,17 +217,24 @@
       .filter((w) => w.length > 0).length;
 
     const readTimeMinutes = Math.max(1, Math.round(words / 200));
+    const isBookmarked = isCurrentPageBookmarked();
 
     const meta = document.createElement("div");
     meta.className = "st-reading-meta";
     meta.innerHTML = `
-      <span class="st-meta-item">⏱️ ${readTimeMinutes} min read</span>
+      <span class="st-meta-item">
+        <span class="material-symbols-outlined">schedule</span>
+        ${readTimeMinutes} min read
+      </span>
       <span class="st-meta-divider"></span>
-      <span class="st-meta-item">📝 ${words.toLocaleString()} words</span>
+      <span class="st-meta-item">
+        <span class="material-symbols-outlined">article</span>
+        ${words.toLocaleString()} words
+      </span>
       <span class="st-meta-divider"></span>
-      <button class="st-bookmark-toggle ${isCurrentPageBookmarked() ? "is-bookmarked" : ""}" title="Bookmark this page">
-        <span>${isCurrentPageBookmarked() ? "★" : "☆"}</span>
-        <span class="st-bm-label">${isCurrentPageBookmarked() ? "Bookmarked" : "Bookmark"}</span>
+      <button class="st-bookmark-toggle ${isBookmarked ? "is-bookmarked" : ""}" title="Bookmark this chapter">
+        <span class="material-symbols-outlined">${isBookmarked ? "bookmark" : "bookmark_border"}</span>
+        <span class="st-bm-label">${isBookmarked ? "Bookmarked" : "Bookmark"}</span>
       </button>
     `;
 
@@ -214,14 +246,16 @@
   }
 
   /* --------------------------------------------------------------------------
-     5.3 Focus / Zen Mode
+     5.3 Focus / Zen Mode (Google Fonts Icons)
      -------------------------------------------------------------------------- */
   function initZenMode() {
     if (!zenExitBtn) {
       zenExitBtn = document.createElement("button");
-      zenExitBtn = document.createElement("button");
       zenExitBtn.id = "st-zen-exit";
-      zenExitBtn.innerHTML = `<span>✕</span> Exit Zen Mode (Esc)`;
+      zenExitBtn.innerHTML = `
+        <span class="material-symbols-outlined">close</span>
+        Exit Zen Mode (Esc)
+      `;
       document.body.appendChild(zenExitBtn);
 
       zenExitBtn.addEventListener("click", () => {
@@ -269,7 +303,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     6. Bookmarks & History Modal Management
+     6. Bookmarks & History Modal (Google Fonts Icons)
      -------------------------------------------------------------------------- */
   function buildBookmarksModal() {
     if (document.getElementById("st-bookmarks-modal")) return;
@@ -281,22 +315,26 @@
       <div class="st-modal">
         <div class="st-modal-header">
           <div class="st-modal-title">
-            <span>🔖</span> Bookmarks & Recent History
+            <span class="material-symbols-outlined st-title-icon">bookmarks</span>
+            <div class="st-title-col">
+              <span class="st-title-text">Bookmarks & History</span>
+              <span class="st-title-sub">Quick chapter navigation</span>
+            </div>
           </div>
-          <button class="st-modal-close" title="Close">✕</button>
+          <button class="st-modal-close" title="Close"><span class="material-symbols-outlined">close</span></button>
         </div>
         <div class="st-tabs">
           <button class="st-tab-btn is-active" data-tab="bookmarks">
-            ★ Bookmarks (<span class="st-bm-count">0</span>)
+            <span class="material-symbols-outlined">bookmark</span> Bookmarks (<span class="st-bm-count">0</span>)
           </button>
           <button class="st-tab-btn" data-tab="history">
-            🕒 Recently Viewed
+            <span class="material-symbols-outlined">history</span> Recently Viewed
           </button>
         </div>
         <div class="st-modal-body st-bookmarks-list"></div>
         <div class="st-modal-footer">
           <button class="st-btn st-btn-clear-tab st-btn-danger">
-            <span>🗑️</span> Clear
+            <span class="material-symbols-outlined">delete</span> Clear
           </button>
           <button class="st-btn st-btn-close-modal">Done</button>
         </div>
@@ -339,18 +377,6 @@
     });
   }
 
-  function formatRelativeTime(timestamp) {
-    if (!timestamp) return "";
-    const diff = Date.now() - timestamp;
-    const mins = Math.floor(diff / 60000);
-    if (mins < 1) return "Just now";
-    if (mins < 60) return `${mins}m ago`;
-    const hours = Math.floor(mins / 60);
-    if (hours < 24) return `${hours}h ago`;
-    const days = Math.floor(hours / 24);
-    return `${days}d ago`;
-  }
-
   function renderBookmarksModalContent() {
     if (!bookmarksModal) return;
     const container = bookmarksModal.querySelector(".st-bookmarks-list");
@@ -362,7 +388,7 @@
       if (bookmarks.length === 0) {
         container.innerHTML = `
           <div class="st-empty-state">
-            <span>☆</span>
+            <span class="material-symbols-outlined">bookmark_border</span>
             No bookmarked pages yet.<br>Click "Bookmark" on any chapter to pin it here!
           </div>
         `;
@@ -371,13 +397,15 @@
 
       container.innerHTML = bookmarks
         .map(
-          (b, i) => `
+          (b) => `
           <div class="st-list-item">
             <div class="st-item-info">
-              <a href="${b.path}" class="st-item-title">${b.title}</a>
+              <a href="${b.path}" class="st-item-title">${escapeHtml(b.title)}</a>
               <span class="st-item-sub">Saved ${formatRelativeTime(b.bookmarkedAt)} • ${b.path}</span>
             </div>
-            <button class="st-row-del" data-del-bm="${b.path}" title="Remove bookmark">✕</button>
+            <button class="st-row-del" data-del-bm="${b.path}" title="Remove bookmark">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
           </div>
         `
         )
@@ -398,7 +426,7 @@
       if (history.length === 0) {
         container.innerHTML = `
           <div class="st-empty-state">
-            <span>🕒</span>
+            <span class="material-symbols-outlined">history</span>
             No recent history recorded yet.
           </div>
         `;
@@ -410,7 +438,7 @@
           (h) => `
           <div class="st-list-item">
             <div class="st-item-info">
-              <a href="${h.path}" class="st-item-title">${h.title}</a>
+              <a href="${h.path}" class="st-item-title">${escapeHtml(h.title)}</a>
               <span class="st-item-sub">Visited ${formatRelativeTime(h.visitedAt)} • ${h.path}</span>
             </div>
           </div>
@@ -431,7 +459,7 @@
     const btnMeta = document.querySelector(".st-bookmark-toggle");
     if (btnMeta) {
       btnMeta.classList.toggle("is-bookmarked", isBm);
-      btnMeta.querySelector("span").textContent = isBm ? "★" : "☆";
+      btnMeta.querySelector(".material-symbols-outlined").textContent = isBm ? "bookmark" : "bookmark_border";
       btnMeta.querySelector(".st-bm-label").textContent = isBm ? "Bookmarked" : "Bookmark";
     }
 
@@ -453,7 +481,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     3. Global Study Hub (All Highlights Across All Chapters)
+     3. Global Study Hub (With Full MathJax Rendering & Google Fonts)
      -------------------------------------------------------------------------- */
   function getAllSiteHighlights() {
     const chapters = [];
@@ -468,7 +496,6 @@
         try {
           const highlights = JSON.parse(localStorage.getItem(key)) || [];
           if (highlights.length > 0) {
-            // Derive clean chapter title from history or path slug
             let title = historyMap[path];
             if (!title) {
               const parts = path.split("/").filter(Boolean);
@@ -502,21 +529,29 @@
       <div class="st-modal">
         <div class="st-modal-header">
           <div class="st-modal-title">
-            <span>🌐</span> Global Study Hub
+            <span class="material-symbols-outlined st-title-icon">public</span>
+            <div class="st-title-col">
+              <span class="st-title-text">Global Study Hub</span>
+              <span class="st-title-sub">Cross-chapter revision & annotations</span>
+            </div>
             <span class="st-modal-badge st-hub-total">0 Highlights</span>
           </div>
-          <button class="st-modal-close" title="Close">✕</button>
+          <button class="st-modal-close" title="Close"><span class="material-symbols-outlined">close</span></button>
         </div>
 
         <div class="st-modal-controls">
-          <input type="text" class="st-search-input st-hub-search" placeholder="Search highlights across all chapters..." />
+          <div class="st-search-wrapper">
+            <span class="material-symbols-outlined st-search-icon">search</span>
+            <input type="text" class="st-search-input st-hub-search" placeholder="Search highlights, formulas, terms across all chapters..." />
+          </div>
           <div class="st-filter-chips">
             ${COLORS.map(
               (c) => `
               <button class="st-filter-chip ${c.name === "all" ? "is-active" : ""}" 
                       data-color="${c.name}" 
-                      style="background-color: ${c.hex};" 
                       title="Filter by ${c.label}">
+                ${c.colorHex !== "transparent" ? `<span class="hl-item-dot dot-${c.name}"></span>` : ""}
+                ${c.label}
               </button>
             `
             ).join("")}
@@ -528,14 +563,14 @@
         <div class="st-modal-footer">
           <div class="st-footer-actions">
             <button class="st-btn st-btn-copy-all" title="Copy all highlights as a Markdown cheat sheet">
-              <span>📋</span> Copy All (.md)
+              <span class="material-symbols-outlined">content_copy</span> Copy All (.md)
             </button>
             <button class="st-btn st-btn-dl-md" title="Download Markdown file">
-              <span>💾</span> Download Notes
+              <span class="material-symbols-outlined">download</span> Download Notes
             </button>
           </div>
           <button class="st-btn st-btn-danger st-btn-clear-all-hl" title="Clear all site highlights">
-            <span>🗑️</span> Clear All
+            <span class="material-symbols-outlined">delete_sweep</span> Clear All
           </button>
         </div>
       </div>
@@ -548,13 +583,11 @@
       if (e.target === hubModal) closeAllModals();
     });
 
-    // Search input
     hubModal.querySelector(".st-hub-search").addEventListener("input", (e) => {
       activeSearchQuery = e.target.value.toLowerCase().trim();
       renderStudyHubContent();
     });
 
-    // Color filter chips
     hubModal.querySelectorAll(".st-filter-chip").forEach((chip) => {
       chip.addEventListener("click", () => {
         hubModal.querySelectorAll(".st-filter-chip").forEach((c) => c.classList.remove("is-active"));
@@ -564,7 +597,6 @@
       });
     });
 
-    // Actions
     hubModal.querySelector(".st-btn-copy-all").addEventListener("click", exportAllHighlightsToClipboard);
     hubModal.querySelector(".st-btn-dl-md").addEventListener("click", downloadHighlightsMarkdownFile);
     hubModal.querySelector(".st-btn-clear-all-hl").addEventListener("click", clearAllSiteHighlights);
@@ -582,10 +614,9 @@
     chapters.forEach((ch) => {
       totalCount += ch.highlights.length;
 
-      // Filter by color and search query
       const matching = ch.highlights.filter((hl) => {
         const matchesColor = activeColorFilter === "all" || hl.color === activeColorFilter;
-        const matchesSearch = !activeSearchQuery || hl.text.toLowerCase().includes(activeSearchQuery);
+        const matchesSearch = !activeSearchQuery || (hl.text && hl.text.toLowerCase().includes(activeSearchQuery));
         return matchesColor && matchesSearch;
       });
 
@@ -603,7 +634,7 @@
     if (filteredChapters.length === 0) {
       container.innerHTML = `
         <div class="st-empty-state">
-          <span>🔍</span>
+          <span class="material-symbols-outlined">search_off</span>
           ${
             chapters.length === 0
               ? "No highlights recorded yet across the site.<br>Select any text or right-click formulas to start highlighting!"
@@ -619,24 +650,33 @@
         (ch) => `
         <div class="st-chapter-card">
           <div class="st-chapter-header">
-            <a href="${ch.path}" class="st-chapter-link">
-              <span>📖</span> ${ch.title}
-            </a>
+            <div class="st-chapter-title-group">
+              <span class="material-symbols-outlined">menu_book</span>
+              <a href="${ch.path}" class="st-chapter-link">${escapeHtml(ch.title)}</a>
+            </div>
             <span class="st-chapter-count">${ch.highlights.length} highlight${ch.highlights.length === 1 ? "" : "s"}</span>
           </div>
           <div class="st-highlights-list">
             ${ch.highlights
-              .map(
-                (hl) => `
-              <div class="st-highlight-row">
-                <span class="hl-item-dot dot-${hl.color}"></span>
-                <div class="st-row-quote">
-                  <a href="${ch.path}" class="st-row-link">${hl.isMath ? "📐 " : ""} "${hl.text}"</a>
-                </div>
-                <button class="st-row-del" data-del-hl-id="${hl.id}" data-del-path="${ch.path}" title="Delete highlight">✕</button>
-              </div>
-            `
-              )
+              .map((hl) => {
+                const quoteContent = hl.isMath
+                  ? `<span class="st-math-tag"><span class="material-symbols-outlined st-math-icon">functions</span> Formula</span><span class="st-math-display">${formatMathFormula(hl.text)}</span>`
+                  : `<span class="st-quote-text">"${escapeHtml(hl.text)}"</span>`;
+
+                return `
+                  <div class="st-highlight-row">
+                    <span class="hl-item-dot dot-${hl.color}" title="${hl.color}"></span>
+                    <div class="st-row-quote">
+                      <a href="${ch.path}" class="st-row-link">${quoteContent}</a>
+                    </div>
+                    <div class="st-row-actions">
+                      <button class="st-row-del" data-del-hl-id="${hl.id}" data-del-path="${ch.path}" title="Delete highlight">
+                        <span class="material-symbols-outlined">delete</span>
+                      </button>
+                    </div>
+                  </div>
+                `;
+              })
               .join("")}
           </div>
         </div>
@@ -655,6 +695,11 @@
         showStudyToast("Highlight removed");
       });
     });
+
+    // Typeset MathJax formulas inside the Study Hub modal
+    if (typeof MathJax !== "undefined" && MathJax.typesetPromise) {
+      MathJax.typesetPromise([container]).catch(() => {});
+    }
   }
 
   function deleteHighlightFromPath(path, id) {
@@ -693,7 +738,7 @@
     ];
 
     chapters.forEach((ch) => {
-      lines.push(`\n## 📖 ${ch.title}`);
+      lines.push(`\n## ${ch.title}`);
       lines.push(`*Source: ${ch.path}*\n`);
       ch.highlights.forEach((hl, i) => {
         lines.push(`${i + 1}. **[${hl.color.toUpperCase()}${hl.isMath ? " - Math" : ""}]** "${hl.text}"`);
@@ -737,7 +782,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     Inject Header Buttons
+     Inject Header Buttons (Google Fonts Icons)
      -------------------------------------------------------------------------- */
   function injectHeaderButtons() {
     const headerInner = document.querySelector(".md-header__inner");
@@ -748,17 +793,16 @@
     actions.className = "st-header-actions";
     actions.innerHTML = `
       <button class="st-header-btn" id="st-btn-hub" title="Global Study Hub (Alt+H)">
-        <span>🌐</span>
+        <span class="material-symbols-outlined">public</span>
       </button>
       <button class="st-header-btn" id="st-btn-bookmarks" title="Bookmarks & History (Alt+B)">
-        <span>🔖</span>
+        <span class="material-symbols-outlined">bookmarks</span>
       </button>
       <button class="st-header-btn" id="st-btn-zen" title="Zen Focus Mode (Alt+Z)">
-        <span>🧘</span>
+        <span class="material-symbols-outlined">self_improvement</span>
       </button>
     `;
 
-    // Insert right before repo source link or search
     const sourceEl = headerInner.querySelector(".md-header__source");
     if (sourceEl) {
       headerInner.insertBefore(actions, sourceEl);
@@ -785,7 +829,7 @@
       const hubBtn = document.createElement("button");
       hubBtn.className = "hl-footer-btn btn-hub-link";
       hubBtn.title = "View all highlights across all chapters";
-      hubBtn.innerHTML = `<span>🌐</span> Study Hub`;
+      hubBtn.innerHTML = `<span class="material-symbols-outlined">public</span> Study Hub`;
       hubBtn.addEventListener("click", () => {
         openStudyHubModal();
       });
@@ -806,7 +850,6 @@
     updateBookmarkIndicators();
   }
 
-  // React to highlights updates
   window.addEventListener("deepskills:highlights-updated", () => {
     if (hubModal && hubModal.classList.contains("is-open")) {
       renderStudyHubContent();

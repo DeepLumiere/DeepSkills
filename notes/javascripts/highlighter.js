@@ -362,6 +362,23 @@
     showToast("Highlighted!");
   }
 
+  function escapeHtml(str) {
+    if (!str) return "";
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function getMathSource(el) {
+    const target = el.closest(".arithmatex") || el;
+    const tex = target.getAttribute("data-tex");
+    if (tex) return tex;
+    return target.textContent.trim();
+  }
+
   function addMathHighlight(mathEl, color) {
     if (!mathEl) return;
     const target = mathEl.closest(".arithmatex") || mathEl;
@@ -371,7 +388,8 @@
     target.setAttribute("data-highlight-id", id);
     target.setAttribute("data-is-math", "true");
 
-    const text = target.textContent.trim();
+    const text = getMathSource(target);
+    const mathIndex = target.getAttribute("data-math-index") || "";
     const { prefix, suffix } = getContextForElement(target);
 
     const list = getStoredHighlights();
@@ -379,6 +397,7 @@
       id: id,
       color: color,
       text: text,
+      mathIndex: mathIndex,
       isMath: true,
       prefix: prefix,
       suffix: suffix,
@@ -559,14 +578,19 @@
         const target = mEl.closest(".arithmatex") || mEl;
         if (target.hasAttribute("data-highlight-id")) return;
 
-        const mathText = target.textContent.trim();
+        const currentTex = getMathSource(target);
+        const currentIndex = target.getAttribute("data-math-index") || "";
         const { prefix } = getContextForElement(target);
 
         const match = mathHighlights.find((hl) => {
-          if (hl.text === mathText) {
-            if (!hl.prefix || !prefix || prefix.slice(-15) === hl.prefix.slice(-15)) {
-              return true;
-            }
+          if (hl.mathIndex && currentIndex && hl.mathIndex === currentIndex) {
+            return true;
+          }
+          if (hl.text && currentTex && (hl.text === currentTex || currentTex.includes(hl.text) || hl.text.includes(currentTex))) {
+            return true;
+          }
+          if (hl.prefix && prefix && prefix.slice(-15) === hl.prefix.slice(-15)) {
+            return true;
           }
           return false;
         });
@@ -747,10 +771,19 @@
     list.forEach((hl) => {
       const item = document.createElement("div");
       item.className = "hl-drawer-item";
+
+      let contentHtml = "";
+      if (hl.isMath) {
+        let clean = (hl.text || "").replace(/^\\\(|^\\\[|\s*\\\)\s*$|\s*\\\]\s*$/g, "").trim();
+        contentHtml = `<span class="material-symbols-outlined st-math-icon">functions</span> <span class="arithmatex">\\(${clean}\\)</span>`;
+      } else {
+        contentHtml = `"${escapeHtml(hl.text)}"`;
+      }
+
       item.innerHTML = `
         <span class="hl-item-dot dot-${hl.color}"></span>
-        <span class="hl-item-text">${hl.isMath ? "📐 " : ""} "${hl.text}"</span>
-        <button class="hl-item-remove" title="Remove highlight">✕</button>
+        <span class="hl-item-text">${contentHtml}</span>
+        <button class="hl-item-remove" title="Remove highlight"><span class="material-symbols-outlined">close</span></button>
       `;
 
       item.addEventListener("click", (e) => {
@@ -766,6 +799,10 @@
 
       listContainer.appendChild(item);
     });
+
+    if (typeof MathJax !== "undefined" && MathJax.typesetPromise) {
+      MathJax.typesetPromise([listContainer]).catch(() => {});
+    }
   }
 
   function jumpToHighlight(id) {
@@ -820,7 +857,7 @@
           `<button class="hl-color-btn btn-${c.name}" data-color="${c.name}" title="Highlight ${c.label}"></button>`
       ).join("")}
       <div class="hl-divider"></div>
-      <button class="hl-action-btn hl-btn-close" title="Cancel">✕</button>
+      <button class="hl-action-btn hl-btn-close" title="Cancel"><span class="material-symbols-outlined">close</span></button>
     `;
     document.body.appendChild(selectionToolbar);
 
@@ -854,7 +891,7 @@
       ).join("")}
       <div class="hl-divider"></div>
       <button class="hl-action-btn hl-btn-remove" title="Remove Highlight">
-        <span>🗑️</span> Remove
+        <span class="material-symbols-outlined">delete</span> Remove
       </button>
     `;
     document.body.appendChild(clickPopover);
@@ -885,7 +922,7 @@
     fabButton.className = "hl-fab";
     fabButton.style.display = "none";
     fabButton.innerHTML = `
-      <span>🖊️</span>
+      <span class="material-symbols-outlined">ink_highlighter</span>
       <span class="hl-fab-text">Highlights</span>
       <span class="hl-fab-badge">0</span>
     `;
@@ -902,16 +939,16 @@
     drawer.className = "hl-drawer";
     drawer.innerHTML = `
       <div class="hl-drawer-header">
-        <span>🖊️ Highlights (<span class="hl-drawer-count">0</span>)</span>
-        <button class="hl-drawer-close" title="Close">✕</button>
+        <span><span class="material-symbols-outlined">ink_highlighter</span> Highlights (<span class="hl-drawer-count">0</span>)</span>
+        <button class="hl-drawer-close" title="Close"><span class="material-symbols-outlined">close</span></button>
       </div>
       <div class="hl-drawer-list"></div>
       <div class="hl-drawer-footer">
         <button class="hl-footer-btn btn-copy" title="Copy notes to clipboard">
-          <span>📋</span> Copy Notes
+          <span class="material-symbols-outlined">content_copy</span> Copy Notes
         </button>
         <button class="hl-footer-btn btn-clear" title="Clear all highlights">
-          <span>🗑️</span> Clear All
+          <span class="material-symbols-outlined">delete_sweep</span> Clear All
         </button>
       </div>
     `;

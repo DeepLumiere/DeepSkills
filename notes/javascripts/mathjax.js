@@ -17,6 +17,16 @@ window.MathJax = {
 };
 
 document$.subscribe(() => {
+  // Preserve original LaTeX source on each math element before typesetting
+  document.querySelectorAll(".arithmatex").forEach((el, idx) => {
+    if (!el.getAttribute("data-tex")) {
+      el.setAttribute("data-tex", el.textContent.trim());
+    }
+    if (!el.getAttribute("data-math-index")) {
+      el.setAttribute("data-math-index", String(idx));
+    }
+  });
+
   if (typeof MathJax !== "undefined" && MathJax.startup) {
     MathJax.startup.output.clearCache();
     MathJax.typesetClear();
