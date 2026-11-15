@@ -29,6 +29,82 @@
 }
 
 /* --------------------------------------------------------------------------
+   Color Definitions & Theming for Study Tools Modals & Widgets
+   -------------------------------------------------------------------------- */
+:root,
+[data-md-color-scheme="default"] {
+  --st-modal-bg: #ffffff;
+  --st-modal-fg: #0f172a;
+  --st-modal-fg-muted: #64748b;
+  --st-modal-border: rgba(15, 23, 42, 0.12);
+  --st-modal-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.22);
+  --st-modal-controls-bg: #f8fafc;
+  --st-modal-footer-bg: #f8fafc;
+  --st-search-bg: #ffffff;
+  --st-search-fg: #0f172a;
+  --st-search-border: rgba(15, 23, 42, 0.18);
+  --st-chip-bg: #f1f5f9;
+  --st-chip-fg: #334155;
+  --st-chip-border: rgba(15, 23, 42, 0.12);
+  --st-chip-hover: #e2e8f0;
+  --st-card-bg: #ffffff;
+  --st-card-border: rgba(15, 23, 42, 0.1);
+  --st-card-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  --st-card-header-bg: rgba(13, 148, 136, 0.08);
+  --st-card-header-border: rgba(13, 148, 136, 0.15);
+  --st-chapter-link: #0f766e;
+  --st-chapter-count-bg: rgba(15, 23, 42, 0.06);
+  --st-chapter-count-fg: #475569;
+  --st-row-bg: #ffffff;
+  --st-row-border: rgba(15, 23, 42, 0.07);
+  --st-row-hover: #f1f5f9;
+  --st-quote-fg: #0f172a;
+  --st-btn-bg: #f1f5f9;
+  --st-btn-fg: #1e293b;
+  --st-btn-border: rgba(15, 23, 42, 0.15);
+  --st-btn-hover: #e2e8f0;
+  --st-btn-danger-hover-bg: rgba(239, 68, 68, 0.1);
+  --st-math-tag-bg: rgba(13, 148, 136, 0.12);
+  --st-math-tag-fg: #0f766e;
+}
+
+[data-md-color-scheme="slate"] {
+  --st-modal-bg: #1e293b;
+  --st-modal-fg: #f8fafc;
+  --st-modal-fg-muted: #94a3b8;
+  --st-modal-border: rgba(255, 255, 255, 0.12);
+  --st-modal-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6);
+  --st-modal-controls-bg: rgba(15, 23, 42, 0.45);
+  --st-modal-footer-bg: rgba(15, 23, 42, 0.45);
+  --st-search-bg: #0f172a;
+  --st-search-fg: #f8fafc;
+  --st-search-border: rgba(255, 255, 255, 0.15);
+  --st-chip-bg: rgba(255, 255, 255, 0.05);
+  --st-chip-fg: #f8fafc;
+  --st-chip-border: rgba(255, 255, 255, 0.12);
+  --st-chip-hover: rgba(255, 255, 255, 0.1);
+  --st-card-bg: rgba(255, 255, 255, 0.02);
+  --st-card-border: rgba(255, 255, 255, 0.1);
+  --st-card-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  --st-card-header-bg: rgba(13, 148, 136, 0.12);
+  --st-card-header-border: rgba(255, 255, 255, 0.08);
+  --st-chapter-link: #38bdf8;
+  --st-chapter-count-bg: rgba(255, 255, 255, 0.08);
+  --st-chapter-count-fg: #94a3b8;
+  --st-row-bg: rgba(255, 255, 255, 0.02);
+  --st-row-border: rgba(255, 255, 255, 0.05);
+  --st-row-hover: rgba(255, 255, 255, 0.06);
+  --st-quote-fg: #f8fafc;
+  --st-btn-bg: #334155;
+  --st-btn-fg: #f8fafc;
+  --st-btn-border: rgba(255, 255, 255, 0.15);
+  --st-btn-hover: #475569;
+  --st-btn-danger-hover-bg: rgba(239, 68, 68, 0.15);
+  --st-math-tag-bg: rgba(6, 182, 212, 0.15);
+  --st-math-tag-fg: #38bdf8;
+}
+
+/* --------------------------------------------------------------------------
    5.1 Reading Progress Bar
    -------------------------------------------------------------------------- */
 #st-reading-progress {
@@ -135,10 +211,10 @@ body.zen-mode .md-typeset {
   top: 20px;
   right: 20px;
   z-index: 10001;
-  background: var(--hl-ui-bg, #1e293b);
-  color: var(--hl-ui-fg, #f8fafc);
-  border: 1px solid var(--hl-ui-border, rgba(255, 255, 255, 0.15));
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  background: var(--st-modal-bg);
+  color: var(--st-modal-fg);
+  border: 1px solid var(--st-modal-border);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
   padding: 8px 16px;
   border-radius: 9999px;
   font-size: 12.5px;
@@ -148,12 +224,12 @@ body.zen-mode .md-typeset {
   gap: 6px;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  transition: transform 0.15s ease, background 0.15s ease;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
 }
 
 #st-zen-exit:hover {
   transform: translateY(-2px);
-  border-color: #06b6d4;
+  border-color: #0d9488;
 }
 
 body.zen-mode #st-zen-exit {
@@ -234,11 +310,11 @@ body.zen-mode #st-zen-exit {
   max-width: calc(100vw - 32px);
   height: 85vh;
   max-height: 85vh;
-  background: var(--md-default-bg-color--card, #1e293b);
-  color: var(--md-default-fg-color, #f8fafc);
-  border: 1px solid var(--hl-ui-border, rgba(255, 255, 255, 0.15));
+  background: var(--st-modal-bg);
+  color: var(--st-modal-fg);
+  border: 1px solid var(--st-modal-border);
   border-radius: 20px;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--st-modal-shadow);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -256,7 +332,8 @@ body.zen-mode #st-zen-exit {
   align-items: center;
   justify-content: space-between;
   padding: 16px 22px;
-  border-bottom: 1px solid var(--hl-ui-border, rgba(255, 255, 255, 0.1));
+  background: var(--st-modal-bg);
+  border-bottom: 1px solid var(--st-modal-border);
   flex-shrink: 0;
 }
 
@@ -279,7 +356,7 @@ body.zen-mode #st-zen-exit {
 .st-modal-close {
   background: transparent;
   border: none;
-  color: var(--hl-ui-fg, #f8fafc);
+  color: var(--st-modal-fg);
   font-size: 20px;
   cursor: pointer;
   padding: 6px;
@@ -294,7 +371,7 @@ body.zen-mode #st-zen-exit {
 
 .st-modal-close:hover {
   opacity: 1;
-  background: var(--hl-ui-hover, rgba(255, 255, 255, 0.1));
+  background: var(--st-chip-hover);
 }
 
 /* Search & Filter Bar inside Hub */
@@ -303,8 +380,8 @@ body.zen-mode #st-zen-exit {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background: rgba(0, 0, 0, 0.04);
-  border-bottom: 1px solid var(--hl-ui-border, rgba(255, 255, 255, 0.08));
+  background: var(--st-modal-controls-bg);
+  border-bottom: 1px solid var(--st-modal-border);
   flex-shrink: 0;
 }
 
@@ -319,25 +396,30 @@ body.zen-mode #st-zen-exit {
   position: absolute;
   left: 12px;
   font-size: 20px;
-  color: var(--md-default-fg-color--muted, #94a3b8);
+  color: var(--st-modal-fg-muted);
   pointer-events: none;
 }
 
 .st-search-input {
   width: 100%;
-  background: var(--hl-ui-bg, #1e293b);
-  border: 1px solid var(--hl-ui-border, rgba(255, 255, 255, 0.15));
+  background: var(--st-search-bg);
+  border: 1px solid var(--st-search-border);
   border-radius: 10px;
   padding: 10px 14px 10px 40px;
-  color: var(--hl-ui-fg, #f8fafc);
+  color: var(--st-search-fg);
   font-size: 13.5px;
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
+.st-search-input::placeholder {
+  color: var(--st-modal-fg-muted);
+  opacity: 0.8;
+}
+
 .st-search-input:focus {
-  border-color: #06b6d4;
-  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
 }
 
 .st-filter-chips {
@@ -350,9 +432,9 @@ body.zen-mode #st-zen-exit {
 .st-filter-chip {
   padding: 5px 12px;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--hl-ui-border, rgba(255, 255, 255, 0.15));
-  color: var(--hl-ui-fg, #f8fafc);
+  background: var(--st-chip-bg);
+  border: 1px solid var(--st-chip-border);
+  color: var(--st-chip-fg);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -363,7 +445,8 @@ body.zen-mode #st-zen-exit {
 }
 
 .st-filter-chip:hover {
-  border-color: #06b6d4;
+  background: var(--st-chip-hover);
+  border-color: #0d9488;
   transform: translateY(-1px);
 }
 
@@ -385,12 +468,13 @@ body.zen-mode #st-zen-exit {
   font-size: 16px;
   font-weight: 700;
   line-height: 1.2;
+  color: var(--st-modal-fg);
 }
 
 .st-title-sub {
   font-size: 11px;
   font-weight: 400;
-  color: var(--md-default-fg-color--muted, #94a3b8);
+  color: var(--st-modal-fg-muted);
 }
 
 /* Modal Body */
@@ -409,7 +493,7 @@ body.zen-mode #st-zen-exit {
 .st-empty-state {
   text-align: center;
   padding: 40px 20px;
-  color: var(--md-default-fg-color--muted, #94a3b8);
+  color: var(--st-modal-fg-muted);
   font-size: 14px;
 }
 
@@ -422,10 +506,10 @@ body.zen-mode #st-zen-exit {
 /* Chapter Card in Study Hub */
 .st-chapter-card {
   flex-shrink: 0;
-  border: 1px solid var(--hl-ui-border, rgba(255, 255, 255, 0.12));
+  border: 1px solid var(--st-card-border);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.02);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background: var(--st-card-bg);
+  box-shadow: var(--st-card-shadow);
   overflow: visible;
 }
 
@@ -434,8 +518,8 @@ body.zen-mode #st-zen-exit {
   align-items: center;
   justify-content: space-between;
   padding: 12px 18px;
-  background: rgba(13, 148, 136, 0.08);
-  border-bottom: 1px solid var(--hl-ui-border, rgba(255, 255, 255, 0.08));
+  background: var(--st-card-header-bg);
+  border-bottom: 1px solid var(--st-card-header-border);
   border-radius: 14px 14px 0 0;
 }
 
@@ -446,14 +530,14 @@ body.zen-mode #st-zen-exit {
 }
 
 .st-chapter-title-group .material-symbols-outlined {
-  color: var(--md-accent-fg-color, #06b6d4);
+  color: var(--st-chapter-link);
   font-size: 20px;
 }
 
 .st-chapter-link {
   font-weight: 700;
   font-size: 14.5px;
-  color: var(--md-accent-fg-color, #06b6d4) !important;
+  color: var(--st-chapter-link) !important;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -466,8 +550,8 @@ body.zen-mode #st-zen-exit {
 
 .st-chapter-count {
   font-size: 11.5px;
-  color: var(--md-default-fg-color--muted, #94a3b8);
-  background: rgba(255, 255, 255, 0.06);
+  color: var(--st-chapter-count-fg);
+  background: var(--st-chapter-count-bg);
   padding: 2px 8px;
   border-radius: 9999px;
   font-weight: 600;
@@ -487,8 +571,8 @@ body.zen-mode #st-zen-exit {
   gap: 14px;
   padding: 10px 14px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid transparent;
+  background: var(--st-row-bg);
+  border: 1px solid var(--st-row-border);
   transition: background 0.15s ease, border-color 0.15s ease;
   font-size: 13px;
   line-height: 1.5;
@@ -496,8 +580,8 @@ body.zen-mode #st-zen-exit {
 }
 
 .st-highlight-row:hover {
-  background: var(--hl-ui-hover, rgba(255, 255, 255, 0.06));
-  border-color: var(--hl-ui-border, rgba(255, 255, 255, 0.1));
+  background: var(--st-row-hover);
+  border-color: var(--st-card-border);
 }
 
 .st-row-quote {
@@ -515,7 +599,7 @@ body.zen-mode #st-zen-exit {
 .st-quote-text {
   font-size: 13px;
   line-height: 1.5;
-  color: var(--hl-ui-fg, #f8fafc);
+  color: var(--st-quote-fg);
 }
 
 .st-math-tag {
@@ -525,8 +609,8 @@ body.zen-mode #st-zen-exit {
   gap: 4px;
   font-size: 11px;
   font-weight: 700;
-  color: #06b6d4;
-  background: rgba(6, 182, 212, 0.12);
+  color: var(--st-math-tag-fg);
+  background: var(--st-math-tag-bg);
   padding: 3px 8px;
   border-radius: 6px;
   margin-right: 10px;
@@ -536,7 +620,7 @@ body.zen-mode #st-zen-exit {
 .st-math-display {
   display: inline-block;
   vertical-align: middle;
-  color: var(--hl-ui-fg, #f8fafc);
+  color: var(--st-quote-fg);
 }
 
 .st-math-display mjx-container {
@@ -546,14 +630,14 @@ body.zen-mode #st-zen-exit {
 }
 
 .st-row-link {
-  color: inherit !important;
+  color: var(--st-quote-fg) !important;
   text-decoration: none;
   display: flex;
   align-items: center;
 }
 
 .st-row-link:hover {
-  color: var(--md-accent-fg-color, #06b6d4) !important;
+  color: var(--st-chapter-link) !important;
 }
 
 .st-row-actions {
@@ -588,8 +672,8 @@ body.zen-mode #st-zen-exit {
   align-items: center;
   justify-content: space-between;
   padding: 12px 20px;
-  border-top: 1px solid var(--hl-ui-border, rgba(255, 255, 255, 0.1));
-  background: rgba(0, 0, 0, 0.02);
+  border-top: 1px solid var(--st-modal-border);
+  background: var(--st-modal-footer-bg);
 }
 
 .st-footer-actions {
@@ -599,9 +683,9 @@ body.zen-mode #st-zen-exit {
 }
 
 .st-btn {
-  background: var(--hl-ui-hover, #334155);
-  color: var(--hl-ui-fg, #f8fafc);
-  border: 1px solid var(--hl-ui-border, rgba(255, 255, 255, 0.15));
+  background: var(--st-btn-bg);
+  color: var(--st-btn-fg);
+  border: 1px solid var(--st-btn-border);
   border-radius: 8px;
   padding: 6px 12px;
   font-size: 12.5px;
@@ -614,14 +698,15 @@ body.zen-mode #st-zen-exit {
 }
 
 .st-btn:hover {
-  border-color: #06b6d4;
+  background: var(--st-btn-hover);
+  border-color: #0d9488;
   transform: translateY(-1px);
 }
 
 .st-btn-danger:hover {
   border-color: #ef4444;
   color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
+  background: var(--st-btn-danger-hover-bg);
 }
 
 /* --------------------------------------------------------------------------
@@ -629,7 +714,7 @@ body.zen-mode #st-zen-exit {
    -------------------------------------------------------------------------- */
 .st-tabs {
   display: flex;
-  border-bottom: 1px solid var(--hl-ui-border, rgba(255, 255, 255, 0.1));
+  border-bottom: 1px solid var(--st-modal-border);
   padding: 0 20px;
   gap: 16px;
 }
@@ -638,7 +723,7 @@ body.zen-mode #st-zen-exit {
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
-  color: var(--md-default-fg-color--muted, #94a3b8);
+  color: var(--st-modal-fg-muted);
   font-size: 13.5px;
   font-weight: 600;
   padding: 10px 4px;
@@ -650,12 +735,12 @@ body.zen-mode #st-zen-exit {
 }
 
 .st-tab-btn:hover {
-  color: var(--hl-ui-fg, #f8fafc);
+  color: var(--st-modal-fg);
 }
 
 .st-tab-btn.is-active {
-  color: #06b6d4;
-  border-bottom-color: #06b6d4;
+  color: var(--st-chapter-link);
+  border-bottom-color: var(--st-chapter-link);
 }
 
 .st-list-item {
@@ -664,14 +749,14 @@ body.zen-mode #st-zen-exit {
   justify-content: space-between;
   padding: 10px 14px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--hl-ui-border, rgba(255, 255, 255, 0.08));
+  background: var(--st-row-bg);
+  border: 1px solid var(--st-row-border);
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .st-list-item:hover {
-  background: var(--hl-ui-hover, rgba(255, 255, 255, 0.06));
-  border-color: rgba(6, 182, 212, 0.3);
+  background: var(--st-row-hover);
+  border-color: var(--st-card-border);
 }
 
 .st-item-info {
@@ -683,18 +768,18 @@ body.zen-mode #st-zen-exit {
 .st-item-title {
   font-weight: 600;
   font-size: 13.5px;
-  color: var(--hl-ui-fg, #f8fafc);
+  color: var(--st-modal-fg);
   text-decoration: none;
 }
 
 .st-item-title:hover {
-  color: #06b6d4;
+  color: var(--st-chapter-link);
   text-decoration: underline;
 }
 
 .st-item-sub {
   font-size: 11px;
-  color: var(--md-default-fg-color--muted, #94a3b8);
+  color: var(--st-modal-fg-muted);
 }
 
 /* Material Symbols Adjustments for Buttons and Badges */
@@ -709,7 +794,7 @@ body.zen-mode #st-zen-exit {
 
 .st-modal-title .material-symbols-outlined {
   font-size: 22px;
-  color: var(--md-accent-fg-color, #06b6d4);
+  color: var(--st-chapter-link);
 }
 
 .st-btn .material-symbols-outlined,
@@ -734,7 +819,7 @@ body.zen-mode #st-zen-exit {
 
 .st-math-icon {
   font-size: 14px;
-  color: #06b6d4;
+  color: inherit;
   vertical-align: -1px;
   margin-right: 2px;
 }
