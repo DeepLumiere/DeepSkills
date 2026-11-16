@@ -1456,34 +1456,34 @@ A binary file is 4,560 bytes long. How long will it be if encoded using Base64 e
 * **Step 1: Calculate raw Base64 character count prior to line formatting.**
   Check divisibility of $N$ by 3:
 
-  $$
-  4560 \pmod 3 = 0 \quad (4560 = 3 \times 1520)
-  $$
+$$
+4560 \pmod 3 = 0 \quad (4560 = 3 \times 1520)
+$$
 
   Since $N$ is cleanly divisible by 3, no padding is required. Each 3-byte tuple generates 4 Base64 characters:
 
-  $$
-  C_{\text{base}} = 4 \times \left(\frac{4560}{3}\right) = 4 \times 1520 = 6,080 \text{ Base64 characters}
-  $$
+$$
+C_{\text{base}} = 4 \times \left(\frac{4560}{3}\right) = 4 \times 1520 = 6,080 \text{ Base64 characters}
+$$
 
 * **Step 2: Compute full-length lines and line breaks.**
   With line length $L = 110$ characters:
 
-  $$
-  \text{Number of full 110-character lines} = \left\lfloor \frac{6080}{110} \right\rfloor = \left\lfloor 55.2727 \right\rfloor = 55 \text{ full lines}
-  $$
+$$
+\text{Number of full 110-character lines} = \left\lfloor \frac{6080}{110} \right\rfloor = \left\lfloor 55.2727 \right\rfloor = 55 \text{ full lines}
+$$
 
   Characters consumed by 55 full lines:
 
-  $$
-  55 \times 110 = 6,050 \text{ characters}
-  $$
+$$
+55 \times 110 = 6,050 \text{ characters}
+$$
 
 * **Step 3: Compute remaining characters in the final line.**
 
-  $$
-  \text{Remainder characters} = 6,080 - 6,050 = 30 \text{ characters}
-  $$
+$$
+\text{Remainder characters} = 6,080 - 6,050 = 30 \text{ characters}
+$$
 
   Thus, there are 55 full lines of 110 characters, followed by a 56th partial line of 30 characters.
 
@@ -1492,16 +1492,16 @@ A binary file is 4,560 bytes long. How long will it be if encoded using Base64 e
   * The problem statement explicitly requires a `<CRLF>` pair "at the end" (terminating the final 30-character line) $\implies 1$ additional line break.
   * Total `<CRLF>` pairs inserted:
 
-    $$
-    N_{\text{CRLF}} = 55 + 1 = 56 \text{ pairs}
-    $$
+$$
+N_{\text{CRLF}} = 55 + 1 = 56 \text{ pairs}
+$$
 
 * **Step 5: Calculate total wire byte size.**
   Each `<CRLF>` pair comprises 2 bytes:
 
-  $$
-  \text{Total Size} = C_{\text{base}} + (N_{\text{CRLF}} \times 2) = 6,080 + (56 \times 2) = 6,080 + 112 = 6,192 \text{ bytes}
-  $$
+$$
+\text{Total Size} = C_{\text{base}} + (N_{\text{CRLF}} \times 2) = 6,080 + (56 \times 2) = 6,080 + 112 = 6,192 \text{ bytes}
+$$
 
 **Final Answer:**
 The encoded file will be exactly **6,192 bytes** long.
@@ -1517,9 +1517,9 @@ While Base64 is optimal for dense binary streams, it introduces an unnecessary 3
 2. Space (decimal 32) and horizontal tab (decimal 9) may be transmitted literally, provided they do not appear at the end of a line.
 3. The equals character (`=`, decimal 61), control characters (decimals 0–31 and 127), and high-order bytes (decimals 128–255) must be encoded as an equals sign followed by two uppercase hexadecimal digits representing the byte value:
 
-   $$
-   \text{Encoded Byte} = \texttt{"="} + \text{Hex}_{16}(\text{Octet})
-   $$
+$$
+\text{Encoded Byte} = \texttt{"="} + \text{Hex}_{16}(\text{Octet})
+$$
 
    * Example: The character `é` (Latin-1 decimal 233, hexadecimal `E9`) is encoded as `=E9`.
    * Example: The literal equals symbol `=` (decimal 61, hexadecimal `3D`) is encoded as `=3D`.
@@ -1544,20 +1544,20 @@ sequenceDiagram
 
     Note over C,S: 2. Capability Negotiation
     C->>S: EHLO client.network.org
-    S-->>C: 250-mail.example.com greets client.network.org\n250-SIZE 52428800\n250-8BITMIME\n250-STARTTLS\n250-PIPELINING\n250 OK
+    S-->>C: 250-mail.example.com greets client.network.org<br/>250-SIZE 52428800<br/>250-8BITMIME<br/>250-STARTTLS<br/>250-PIPELINING<br/>250 OK
 
     Note over C,S: 3. Mail Transaction Envelope
-    C->>S: MAIL FROM:&lt;alice@network.org&gt;
+    C->>S: MAIL FROM:<alice@network.org>
     S-->>C: 250 2.1.0 Sender ok
 
-    C->>S: RCPT TO:&lt;bob@example.com&gt;
+    C->>S: RCPT TO:<bob@example.com>
     S-->>C: 250 2.1.5 Recipient ok
 
     Note over C,S: 4. Message Ingestion
     C->>S: DATA
-    S-->>C: 354 End data with &lt;CRLF&gt;.&lt;CRLF&gt;
+    S-->>C: 354 End data with <CRLF>.<CRLF>
 
-    C->>S: From: alice@network.org\nTo: bob@example.com\nSubject: System Status\n\nServer migration complete.\n.
+    C->>S: From: alice@network.org<br/>To: bob@example.com<br/>Subject: System Status<br/><br/>Server migration complete.<br/>.
     S-->>C: 250 2.0.0 Ok: queued as 4Y8Z2A11
 
     Note over C,S: 5. Connection Termination

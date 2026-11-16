@@ -137,6 +137,7 @@ nav:
       - "06 8086 Addressing Modes": hardware_and_microprocessors/06_8086_Addressing_Modes_With_Diagrams.md
       - "07 8086 Machine Encoding": hardware_and_microprocessors/07_8086_Machine_Encoding_Deep_Dive.md
       - "08 C++ with DOS Assembly": hardware_and_microprocessors/08_C_Plus_Plus_With_DOS_Assembly.md
+      - "09 Solved Lab Questions": hardware_and_microprocessors/09_8086_Solved_Questions.md
       - "Macros and Interrupts": hardware_and_microprocessors/macros-and-interrupts.md
       - "Microprocessors Class Test": hardware_and_microprocessors/Microprocessors_and_Interfacing_ClassTest.md
       - "Microprocessors Master Guide": hardware_and_microprocessors/Microprocessors_and_Interfacing_Master_Guide.md
