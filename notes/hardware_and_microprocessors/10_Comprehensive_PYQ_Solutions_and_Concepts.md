@@ -18,6 +18,15 @@ This guide delivers complete, production-grade solutions for all questions appea
 4. **Tested Assembly Programs:** Standard MASM/TASM 8086 source programs adhering to strict memory models and calling conventions.
 5. **High-Yield Marked Problem Highlights:** Specific notes on recurring examination favorites marked across the question papers.
 
+### Direct Links to Individual Verbatim Solved Exam Papers:
+- [CE701 Exam Paper Solutions — December 2016 (100 Marks)](file:///R:/DeepWorks/DeepCollege/DeepSkills/notes/hardware_and_microprocessors/09_PYQ_CE701_December_2016.md)
+- [CE701 Exam Paper Solutions — May 2017 RPR (100 Marks)](file:///R:/DeepWorks/DeepCollege/DeepSkills/notes/hardware_and_microprocessors/09_PYQ_CE701_May_2017.md)
+- [CE701 Exam Paper Solutions — December 2017 (100 Marks)](file:///R:/DeepWorks/DeepCollege/DeepSkills/notes/hardware_and_microprocessors/09_PYQ_CE701_December_2017.md)
+- [CE701 Exam Paper Solutions — December 2018 (100 Marks)](file:///R:/DeepWorks/DeepCollege/DeepSkills/notes/hardware_and_microprocessors/09_PYQ_CE701_December_2018.md)
+- [CE701 Exam Paper Solutions — December 2019 (100 Marks)](file:///R:/DeepWorks/DeepCollege/DeepSkills/notes/hardware_and_microprocessors/09_PYQ_CE701_December_2019.md)
+- [CE701 Exam Paper Solutions — December 2021 (50 Marks)](file:///R:/DeepWorks/DeepCollege/DeepSkills/notes/hardware_and_microprocessors/09_PYQ_CE701_December_2021.md)
+- [CE701 Exam Paper Solutions — February 2022 (50 Marks)](file:///R:/DeepWorks/DeepCollege/DeepSkills/notes/hardware_and_microprocessors/09_PYQ_CE701_February_2022.md)
+
 ---
 
 ## PART I: Master Reference Tables Catalog

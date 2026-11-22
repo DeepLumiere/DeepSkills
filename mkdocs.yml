@@ -138,7 +138,15 @@ nav:
       - "07 8086 Machine Encoding": hardware_and_microprocessors/07_8086_Machine_Encoding_Deep_Dive.md
       - "08 C++ with DOS Assembly": hardware_and_microprocessors/08_C_Plus_Plus_With_DOS_Assembly.md
       - "09 Solved Lab Questions": hardware_and_microprocessors/09_8086_Solved_Questions.md
-      - "10 Comprehensive PYQ Solutions": hardware_and_microprocessors/10_Comprehensive_PYQ_Solutions_and_Concepts.md
+      - "Solved University Exam Papers (CE701)":
+          - "PYQ Master Concept Reference & Catalog": hardware_and_microprocessors/10_Comprehensive_PYQ_Solutions_and_Concepts.md
+          - "December 2016 Solutions (100M)": hardware_and_microprocessors/09_PYQ_CE701_December_2016.md
+          - "May 2017 RPR Solutions (100M)": hardware_and_microprocessors/09_PYQ_CE701_May_2017.md
+          - "December 2017 Solutions (100M)": hardware_and_microprocessors/09_PYQ_CE701_December_2017.md
+          - "December 2018 Solutions (100M)": hardware_and_microprocessors/09_PYQ_CE701_December_2018.md
+          - "December 2019 Solutions (100M)": hardware_and_microprocessors/09_PYQ_CE701_December_2019.md
+          - "December 2021 Solutions (50M)": hardware_and_microprocessors/09_PYQ_CE701_December_2021.md
+          - "February 2022 Solutions (50M)": hardware_and_microprocessors/09_PYQ_CE701_February_2022.md
       - "Macros and Interrupts": hardware_and_microprocessors/macros-and-interrupts.md
       - "Microprocessors Class Test": hardware_and_microprocessors/Microprocessors_and_Interfacing_ClassTest.md
       - "Microprocessors Master Guide": hardware_and_microprocessors/Microprocessors_and_Interfacing_Master_Guide.md
@@ -179,6 +187,7 @@ nav:
       - "UNIT 3: Backend Frameworks": web_development/UNIT-3_notes.md
       - "UNIT 4: Database Integrations": web_development/UNIT-4_notes.md
       - "UNIT 5: Manage and Deploy Applications": web_development/UNIT-5_notes.md
+      - "Unit 1: Practice Questions": web_development/unit_1_questions.md
       - "JSON — Data Interchange Format": web_development/json.md
       - "Bootstrap 5 — Component Framework": web_development/bootstrap.md
       - "Tailwind CSS — Utility-First Framework": web_development/tailwind.md
