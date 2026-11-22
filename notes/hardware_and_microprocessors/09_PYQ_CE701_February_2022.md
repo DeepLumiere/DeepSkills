@@ -10,19 +10,20 @@
 ---
 
 ## Table of Contents
+
 - [Question 1 (18 Marks)](#question-1-18-marks)
-  - [Q-1(a) [6 Marks] — 8086 Processor Architecture Block Diagram & Explanation](#q-1a-6-marks--8086-processor-architecture-block-diagram--explanation)
-  - [Q-1(b) [6 Marks] — Stack Operations in 8086 Assembly Language](#q-1b-6-marks--stack-operations-in-8086-assembly-language)
-  - [Q-1(c) [6 Marks] — Physical Address Calculations & Addressing Modes](#q-1c-6-marks--physical-address-calculations--addressing-modes)
+    - [Q-1(a) [6 Marks] — 8086 Processor Architecture Block Diagram & Explanation](#q-1a-6-marks--8086-processor-architecture-block-diagram--explanation)
+    - [Q-1(b) [6 Marks] — Stack Operations in 8086 Assembly Language](#q-1b-6-marks--stack-operations-in-8086-assembly-language)
+    - [Q-1(c) [6 Marks] — Physical Address Calculations & Addressing Modes](#q-1c-6-marks--physical-address-calculations--addressing-modes)
 - [Question 2 (18 Marks)](#question-2-18-marks)
-  - [Q-2(a) [6 Marks] — Syntax & Architectural Error Analysis in 6 Assembly Instructions](#q-2a-6-marks--syntax--architectural-error-analysis-in-6-assembly-instructions)
-  - [Q-2(b) [6 Marks] — Assembler Directives: EQU, LABEL, ORG, EVEN](#q-2b-6-marks--assembler-directives-equ-label-org-even)
-  - [Q-2(c) [6 Marks] — 8086 Assembly Program: Count Blank Spaces in String](#q-2c-6-marks--8086-assembly-program-count-blank-spaces-in-string)
+    - [Q-2(a) [6 Marks] — Syntax & Architectural Error Analysis in 6 Assembly Instructions](#q-2a-6-marks--syntax--architectural-error-analysis-in-6-assembly-instructions)
+    - [Q-2(b) [6 Marks] — Assembler Directives: EQU, LABEL, ORG, EVEN](#q-2b-6-marks--assembler-directives-equ-label-org-even)
+    - [Q-2(c) [6 Marks] — 8086 Assembly Program: Count Blank Spaces in String](#q-2c-6-marks--8086-assembly-program-count-blank-spaces-in-string)
 - [Question 3 (14 Marks)](#question-3-14-marks)
-  - [Q-3(a) [7 Marks] — Interrupt Vector Table (IVT) Architecture & Layout](#q-3a-7-marks--interrupt-vector-table-ivt-architecture--layout)
-  - [Q-3(a) OR [7 Marks] — 8086 Assembly Program: Multi-Precision Addition of 10 Packed BCD Numbers](#q-3a-or-7-marks--8086-assembly-program-multi-precision-addition-of-10-packed-bcd-numbers)
-  - [Q-3(b) [7 Marks] — 8254 PIT Operating Modes (0 to 5) with Practical Applications](#q-3b-7-marks--8254-pit-operating-modes-0-to-5-with-practical-applications)
-  - [Q-3(b) OR [7 Marks] — Step-by-Step Stack & Register Trace for INT 8 Instruction](#q-3b-or-7-marks--step-by-step-stack--register-trace-for-int-8-instruction)
+    - [Q-3(a) [7 Marks] — Interrupt Vector Table (IVT) Architecture & Layout](#q-3a-7-marks--interrupt-vector-table-ivt-architecture--layout)
+    - [Q-3(a) OR [7 Marks] — 8086 Assembly Program: Multi-Precision Addition of 10 Packed BCD Numbers](#q-3a-or-7-marks--8086-assembly-program-multi-precision-addition-of-10-packed-bcd-numbers)
+    - [Q-3(b) [7 Marks] — 8254 PIT Operating Modes (0 to 5) with Practical Applications](#q-3b-7-marks--8254-pit-operating-modes-0-to-5-with-practical-applications)
+    - [Q-3(b) OR [7 Marks] — Step-by-Step Stack & Register Trace for INT 8 Instruction](#q-3b-or-7-marks--step-by-step-stack--register-trace-for-int-8-instruction)
 
 ---
 
@@ -102,6 +103,7 @@ The 8086 architecture is divided into two independent, asynchronously operating 
 
 #### 1. Architectural Concept: Downward-Growing Stack
 In 8086 architecture, the stack is a Last-In, First-Out (LIFO) data structure located within the **Stack Segment (`SS`)**.  
+
 - The **Stack Pointer (`SP`)** points to the physical byte at the current top-of-stack.
 - The 8086 stack **grows downward** (toward lower memory addresses). Pushing decrements `SP`, and popping increments `SP`.
 - Stack operations **always operate on 16-bit words** (never single bytes).
@@ -131,6 +133,7 @@ Memory Address
      $SP \leftarrow SP - 1$
 
      $[SS:SP] \leftarrow \text{Low Byte of Operand}$
+
    - Effectively: $SP \leftarrow SP - 2$, then writes 16-bit word at `SS:SP`.
    - *Example:* `PUSH AX`, `PUSH [BX]`
 
@@ -144,6 +147,7 @@ Memory Address
      $\text{High Byte of Operand} \leftarrow [SS:SP]$
 
      $SP \leftarrow SP + 1$
+
    - Effectively: reads 16-bit word from `SS:SP`, then $SP \leftarrow SP + 2$.
    - *Example:* `POP DX`, `POP [DI]`
 
@@ -175,6 +179,7 @@ Memory Address
 > **Question:**  
 > Compute physical address using given register values and also specify the addressing modes for the following instructions:  
 > $BX=0222H, DS=1000H, SS=2000H, BP=0111H, DI=0111H$.  
+>
 > 1. `MOV CX, [BP]`  
 > 2. `MOV [DI + 3111h], AX`  
 > 3. `MOV [BX - 5], BL`
@@ -186,41 +191,49 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 ---
 
 #### 1. `MOV CX, [BP]`
+
 - **Addressing Mode:** **Based Indirect Addressing Mode**.
 - **Default Segment:** Base Pointer `BP` defaults to **Stack Segment (`SS`)**.
-  - $\text{Segment Base} = SS = 2000\text{H}$
+    - $\text{Segment Base} = SS = 2000\text{H}$
 - **Effective Address:** $\text{EA} = [BP] = 0111\text{H}$
 - **Physical Address:**
 
   $\text{PA} = (2000\text{H} \times 10\text{H}) + 0111\text{H} = 20000\text{H} + 0111\text{H} = \mathbf{20111}\text{H}$
+
 - Accesses 16-bit word: Low byte (`CL`) from $\mathbf{20111}\text{H}$, High byte (`CH`) from $\mathbf{20112}\text{H}$.
 
 ---
 
 #### 2. `MOV [DI + 3111h], AX`
+
 - **Addressing Mode:** **Indexed Relative Addressing Mode** (Indexed with 16-bit Displacement).
 - **Default Segment:** Destination Index `DI` defaults to **Data Segment (`DS`)**.
-  - $\text{Segment Base} = DS = 1000\text{H}$
+    - $\text{Segment Base} = DS = 1000\text{H}$
 - **Effective Address:**
 
   $\text{EA} = [DI] + 3111\text{H} = 0111\text{H} + 3111\text{H} = 3222\text{H}$
+
 - **Physical Address:**
 
   $\text{PA} = (1000\text{H} \times 10\text{H}) + 3222\text{H} = 10000\text{H} + 3222\text{H} = \mathbf{13222}\text{H}$
+
 - Writes 16-bit word: Low byte (`AL`) to $\mathbf{13222}\text{H}$, High byte (`AH`) to $\mathbf{13223}\text{H}$.
 
 ---
 
 #### 3. `MOV [BX - 5], BL`
+
 - **Addressing Mode:** **Based Relative Addressing Mode** (Based with Negative Displacement).
 - **Default Segment:** Base register `BX` defaults to **Data Segment (`DS`)**.
-  - $\text{Segment Base} = DS = 1000\text{H}$
+    - $\text{Segment Base} = DS = 1000\text{H}$
 - **Effective Address:**
 
   $\text{EA} = [BX] - 5 = 0222\text{H} - 0005\text{H} = 021\text{DH}$
+
 - **Physical Address:**
 
   $\text{PA} = (1000\text{H} \times 10\text{H}) + 021\text{DH} = 10000\text{H} + 021\text{DH} = \mathbf{1021D}\text{H}$
+
 - Writes 8-bit byte from `BL` into physical memory address $\mathbf{1021D}\text{H}$.
 
 ---
@@ -231,6 +244,7 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 
 > **Question:**  
 > Find the error in the following instructions: (`VAR1` and `VAR2` are word variables.)  
+>
 > 1. `AAA DX`  
 > 2. `XOR AL, VAR1`  
 > 3. `ADD VAR1, VAR2`  
@@ -291,6 +305,7 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 > `EQU`, `LABEL`, `ORG`, `EVEN`.
 
 #### 1. `EQU` (Equate Directive):
+
 - **Function:** Assigns a symbolic name to a numerical constant, register, or string expression. The assembler replaces every occurrence of the symbol with the assigned value at assembly time without allocating physical memory.
 - **Example:**
   ```assembly
@@ -300,6 +315,7 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
   ```
 
 #### 2. `LABEL` Directive:
+
 - **Function:** Defines an alternate name and type attribute (`BYTE`, `WORD`, `DWORD`, `FAR`, `NEAR`) for the current location counter (`$`) without reserving new memory storage.
 - **Example:**
   ```assembly
@@ -309,6 +325,7 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
   ```
 
 #### 3. `ORG` (Origin Directive):
+
 - **Function:** Sets the assembler's Location Counter (`$`) to a specified numerical offset value within the current segment.
 - **Significance:** Standard for MS-DOS `.COM` executable files, which require the code segment origin set to offset `100H` (to leave room for the 256-byte Program Segment Prefix - PSP).
 - **Example:**
@@ -321,6 +338,7 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
   ```
 
 #### 4. `EVEN` Directive:
+
 - **Function:** Forces the subsequent instruction or data definition to align on an **even memory address boundary** (address divisible by 2). If the current location counter is odd, the assembler advances it by 1 by inserting a dummy `NOP` byte or zero pad byte.
 - **Significance:** Enables 16-bit words to be fetched in **one single bus cycle** (4 clocks) rather than two bus cycles (8 clocks).
 - **Example:**
@@ -340,6 +358,7 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 > Write an assembly language program to count the blank spaces in given string.
 
 #### 1. Concept: Character Scanning & Space Comparison
+
 - String is traversed character by character until the terminating null character (`00H`) or `'$'` symbol is reached.
 - Each character is compared against ASCII space `' '` ($20\text{H}$).
 - If a match is found, counter `SPACE_COUNT` is incremented.
@@ -413,12 +432,13 @@ END MAIN
 
 #### 1. Interrupt Vector Table (IVT) Architecture
 The IVT occupies the lowest 1024 bytes of physical memory ($00000\text{H}$ to $003\text{FFH}$) in the 8086 address space:
+
 - Supports **256 distinct interrupt types** (Type 0 to Type 255).
 - Each vector requires **4 bytes** (32 bits) storing the Interrupt Service Routine (ISR) entry pointer:
-  - Byte 0: `IP` Low Byte
-  - Byte 1: `IP` High Byte
-  - Byte 2: `CS` Low Byte
-  - Byte 3: `CS` High Byte
+    - Byte 0: `IP` Low Byte
+    - Byte 1: `IP` High Byte
+    - Byte 2: `CS` Low Byte
+    - Byte 3: `CS` High Byte
 - Formula:
 
   $\text{Vector Physical Address} = \text{Type Number } (N) \times 4$
@@ -447,6 +467,7 @@ Physical Address Range:                 Interrupt Vector Assignment:
 ```
 
 #### 2. Detailed Explanation of Dedicated Vectors (Types 0 to 4):
+
 1. **Type 0 (Divide Error):** Generated automatically by the CPU whenever a `DIV` or `IDIV` instruction produces a quotient that overflows the destination register, or when division by zero is attempted.
 2. **Type 1 (Single Step Trap):** Generated automatically after every instruction if the Trap Flag ($TF$) is set to 1. Used by interactive debuggers to pause execution after each step.
 3. **Type 2 (NMI — Non-Maskable Interrupt):** Triggered by an external positive edge on the dedicated `NMI` input pin. Cannot be disabled by `CLI`. Used for catastrophic system events (power failure, RAM parity error).
@@ -461,6 +482,7 @@ Physical Address Range:                 Interrupt Vector Assignment:
 > Write an assembly language program to add 10 packed BCD numbers.
 
 #### 1. Concept: Packed BCD Addition with `DAA`
+
 - Packed BCD bytes store two decimal digits ($00$–$99$) per byte.
 - When two packed BCD numbers are added using binary addition (`ADD` or `ADC`), the result may produce non-BCD values (digits $> 9$ or carries between nybbles).
 - The **`DAA` (Decimal Adjust After Addition)** instruction checks `AF` and `CF` and automatically adjusts `AL` to valid packed BCD by adding $06\text{H}$ or $60\text{H}$.
@@ -574,26 +596,30 @@ Mode 4: Software Strobe       Mode 5: Hardware Strobe
 > Given that $SP=0100H, SS=0300H, PSW=0240H$ and the content of following location $00020H=0040H$ and $00022H=0100H$ and instruction `INT 8` has an offset of $00A0H$ and segment address is $0900H$, determine the contents of $SP, SS, IP, CS, PSW$ and the top three words on the stack after the interrupt sequence caused by the `INT 8` instruction is executed.
 
 #### 1. Initial State & IVT Resolution:
+
 - Current Registers:
-  - Stack Pointer: $SP = 0100\text{H}$
-  - Stack Segment: $SS = 0300\text{H}$
-  - Processor Status Word: $PSW = 0240\text{H}$
-  - Code Segment: $CS = 0900\text{H}$
-  - Offset of `INT 8`: $00\text{A0H}$
+    - Stack Pointer: $SP = 0100\text{H}$
+    - Stack Segment: $SS = 0300\text{H}$
+    - Processor Status Word: $PSW = 0240\text{H}$
+    - Code Segment: $CS = 0900\text{H}$
+    - Offset of `INT 8`: $00\text{A0H}$
 - `INT 8` is a 2-byte instruction (`CD 08H`).
-  - Next sequential instruction address (Return Address):
+    - Next sequential instruction address (Return Address):
 
     $\text{Return } IP = 00\text{A0H} + 2 = \mathbf{00A2}\text{H}$
 
     $\text{Return } CS = \mathbf{0900}\text{H}$
+
 - **Vector Base Address in IVT:**
 
   $\text{Vector Address} = 8 \times 4 = 32_{10} = \mathbf{00020}\text{H}$
-  - Given IVT Contents:
+
+    - Given IVT Contents:
     - $[00020\text{H}] = \mathbf{0040}\text{H} \implies \text{New } IP$
     - $[00022\text{H}] = \mathbf{0100}\text{H} \implies \text{New } CS$
 
 #### 2. Detailed Interrupt Push Sequence onto Stack:
+
 1. **Push PSW ($0240\text{H}$):**
    - $SP \leftarrow SP - 2 = 0100\text{H} - 2 = \mathbf{00FE}\text{H}$
    - Memory at $[SS:00FE\text{H}] \leftarrow \mathbf{0240}\text{H}$
@@ -602,6 +628,7 @@ Mode 4: Software Strobe       Mode 5: Hardware Strobe
    - Clearing $IF$ and $TF$ yields:
 
      $\text{New } PSW = 0240\text{H} \text{ with } IF=0 \implies \mathbf{0040}\text{H}$
+
 3. **Push Return CS ($0900\text{H}$):**
    - $SP \leftarrow SP - 2 = 00FE\text{H} - 2 = \mathbf{00FC}\text{H}$
    - Memory at $[SS:00FC\text{H}] \leftarrow \mathbf{0900}\text{H}$

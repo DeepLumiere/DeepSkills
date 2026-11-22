@@ -20,18 +20,20 @@
 *What is the purpose of segment register? If the content of DS and BX registers are 2500H and 1000H, respectively, from which memory location will the 8086 fetch the data, while executing instruction `MOV CX, [BX]`?*
 
 #### 1. Concept & Architectural Foundation
+
 - **Purpose of Segment Registers:** The 8086 possesses a 20-bit physical address bus ($2^{20} = 1,048,576\text{ bytes} = 1\text{ MB}$ space), but all internal registers (`AX, BX, CX, DX, SI, DI, BP, SP, IP`) are 16 bits wide. To bridge this gap, memory is organized into **logical segments** of up to 64 KB each. Segment registers (`CS, DS, SS, ES`) store the upper 16 bits of the 20-bit segment base address.
-  - **Dynamic Relocation:** Programs can be loaded anywhere in physical memory simply by updating the segment registers without modifying operand offsets.
-  - **Logical Separation:** Code (`CS`), Data (`DS`), Stack (`SS`), and Extra/Destination string space (`ES`) remain protected in disjoint memory areas.
+    - **Dynamic Relocation:** Programs can be loaded anywhere in physical memory simply by updating the segment registers without modifying operand offsets.
+    - **Logical Separation:** Code (`CS`), Data (`DS`), Stack (`SS`), and Extra/Destination string space (`ES`) remain protected in disjoint memory areas.
 - **Physical Address Formula:**
 
   $\text{Physical Address (PA)} = (\text{Segment Base Register} \times 10\text{H}) + \text{Effective Address (EA)}$
 
 #### 2. Step-by-Step Numerical Calculation
+
 - **Given:**
-  - $\text{DS} = 2500\text{H}$
-  - $\text{BX} = 1000\text{H}$
-  - Instruction: `MOV CX, [BX]` (Destination is a 16-bit word register `CX`).
+    - $\text{DS} = 2500\text{H}$
+    - $\text{BX} = 1000\text{H}$
+    - Instruction: `MOV CX, [BX]` (Destination is a 16-bit word register `CX`).
 - **Calculation:**
 
   $\text{Segment Base Physical Address} = 2500\text{H} \times 10\text{H} = 25000\text{H}$
@@ -41,6 +43,7 @@
   $\text{Physical Address for Lower Byte (CL)} = 25000\text{H} + 1000\text{H} = \mathbf{26000\text{H}}$
 
   $\text{Physical Address for Higher Byte (CH)} = 26000\text{H} + 1 = \mathbf{26001\text{H}}$
+
 - **Final Answer:** The 8086 fetches the low byte (`CL`) from physical memory location **`26000H`** and the high byte (`CH`) from **`26001H`**.
 
 ---
@@ -66,6 +69,7 @@ The 8086 Flag register is 16 bits wide. Bits 8, 9, 10, and 11 represent control 
 *Whether 8086 architecture is a fixed length instruction or variable length instruction architecture? Justify your answer using MOV instruction template.*
 
 #### 1. Concept & Architecture Verdict
+
 - **Verdict:** The Intel 8086 microprocessor is strictly a **Variable Length Instruction Architecture**.
 - **Justification using General MOV Instruction Template:**
   The standard 8086 `MOV` template varies between 2 bytes and 6 bytes depending on the addressing mode, displacement, and immediate data:
@@ -80,11 +84,11 @@ Byte 6: [High-order immediate data] (Optional)
 ```
 
 - **Concrete Examples:**
-  1. `MOV AL, BL` $\to$ **2 Bytes** (`88 D8H`): $\text{MOD}=11\text{b}$, no displacement.
-  2. `MOV AX, [BX]` $\to$ **2 Bytes** (`8B 07H`): $\text{MOD}=00\text{b}$, no displacement.
-  3. `MOV AL, [BX + 12H]` $\to$ **3 Bytes** (`8A 47 12H`): $\text{MOD}=01\text{b}$, 8-bit displacement.
-  4. `MOV AX, [BX + SI + 1234H]` $\to$ **4 Bytes** (`8B 80 34 12H`): $\text{MOD}=10\text{b}$, 16-bit displacement.
-  5. `MOV WORD PTR [BX + 1234H], 5678H` $\to$ **6 Bytes** (`C7 87 34 12 78 56H`): $\text{MOD}=10\text{b}$, 16-bit displacement + 16-bit immediate data.
+    1. `MOV AL, BL` $\to$ **2 Bytes** (`88 D8H`): $\text{MOD}=11\text{b}$, no displacement.
+    2. `MOV AX, [BX]` $\to$ **2 Bytes** (`8B 07H`): $\text{MOD}=00\text{b}$, no displacement.
+    3. `MOV AL, [BX + 12H]` $\to$ **3 Bytes** (`8A 47 12H`): $\text{MOD}=01\text{b}$, 8-bit displacement.
+    4. `MOV AX, [BX + SI + 1234H]` $\to$ **4 Bytes** (`8B 80 34 12H`): $\text{MOD}=10\text{b}$, 16-bit displacement.
+    5. `MOV WORD PTR [BX + 1234H], 5678H` $\to$ **6 Bytes** (`C7 87 34 12 78 56H`): $\text{MOD}=10\text{b}$, 16-bit displacement + 16-bit immediate data.
 - Since instructions vary dynamically from 1 byte (e.g. `NOP`, `STC`) up to 6 bytes, the instruction length is variable.
 
 ---
@@ -118,18 +122,21 @@ MOV SP, 0200H        ; Set Stack Pointer to top of stack (512 bytes capacity)
 ```
 
 #### 2. Significance in CALL and RET
+
 - **Subroutine Call (`CALL`):**
-  - **Near CALL:** Decrements `SP` by 2 and pushes the 16-bit return address (`IP` of next instruction) onto the stack:
+    - **Near CALL:** Decrements `SP` by 2 and pushes the 16-bit return address (`IP` of next instruction) onto the stack:
 
     $\text{SP} \leftarrow \text{SP} - 2;\quad [\text{SS}:\text{SP}] \leftarrow \text{IP}$
-  - **Far CALL:** Decrements `SP` by 4; pushes `CS` first, then pushes `IP`:
+
+    - **Far CALL:** Decrements `SP` by 4; pushes `CS` first, then pushes `IP`:
 
     $\text{SP} \leftarrow \text{SP} - 2;\quad [\text{SS}:\text{SP}] \leftarrow \text{CS}$
 
     $\text{SP} \leftarrow \text{SP} - 2;\quad [\text{SS}:\text{SP}] \leftarrow \text{IP}$
+
 - **Return from Subroutine (`RET` / `RETF`):**
-  - Restores the saved execution context from stack back into `IP` (and `CS` for far returns), seamlessly transferring control back to the caller instruction.
-  - Allows nested subroutine calls and recursive algorithms without overwriting return vectors.
+    - Restores the saved execution context from stack back into `IP` (and `CS` for far returns), seamlessly transferring control back to the caller instruction.
+    - Allows nested subroutine calls and recursive algorithms without overwriting return vectors.
 
 ---
 
@@ -186,6 +193,7 @@ ENDM
 *Is it possible for a segment in the 8086 microprocessor to begin at memory address that is not divisible by 16? Why?*
 
 #### 1. Solution
+
 - **Answer:** **No, it is strictly impossible.**
 - **Architectural Reason:** The 8086 Bus Interface Unit (BIU) computes physical addresses by shifting the 16-bit segment register 4 bits to the left (multiplying by $10\text{H} = 16_{10}$):
 
@@ -199,6 +207,7 @@ ENDM
 *Is it possible for two segments to overlap in the 8086? Why?*
 
 #### 1. Solution
+
 - **Answer:** **Yes, segments can fully or partially overlap.**
 - **Reason:** Paragraph boundaries occur every 16 bytes, but each segment spans up to 64 KB ($65,536\text{ bytes}$). If two segment registers are loaded with base values differing by less than $1000\text{H}$ ($4096\text{ paragraphs} = 64\text{ KB}$), their memory ranges overlap. For instance, if $\text{DS} = 1000\text{H}$ and $\text{ES} = 1050\text{H}$, their physical regions overlap substantially.
 
@@ -209,12 +218,13 @@ ENDM
 *Explain Length, Offset and Even assembler directives.*
 
 #### 1. Solution & Examples
+
 - **`OFFSET`:** Returns the distance in bytes of a variable or label from the beginning of the segment in which it is defined.
-  - *Example:* `MOV SI, OFFSET ARRAY` loads the 16-bit effective address of `ARRAY` into `SI`.
+    - *Example:* `MOV SI, OFFSET ARRAY` loads the 16-bit effective address of `ARRAY` into `SI`.
 - **`LENGTH`:** Returns the number of data items allocated in a single variable statement using the `DUP` operator. If `DUP` is not present, it returns 1.
-  - *Example:* `BUFFER DW 50 DUP(0)` $\to$ `MOV CX, LENGTH BUFFER` loads $50$ into `CX`.
+    - *Example:* `BUFFER DW 50 DUP(0)` $\to$ `MOV CX, LENGTH BUFFER` loads $50$ into `CX`.
 - **`EVEN`:** Instructs the assembler to advance the location counter to the next even memory address by inserting a padding byte (`NOP` or null) if the current address is odd.
-  - *Significance:* Aligns 16-bit word variables with the 8086 Even Memory Bank ($A_0 = 0$), allowing 16-bit words to be fetched in **one bus cycle** instead of two.
+    - *Significance:* Aligns 16-bit word variables with the 8086 Even Memory Bank ($A_0 = 0$), allowing 16-bit words to be fetched in **one bus cycle** instead of two.
 
 ---
 
@@ -333,6 +343,7 @@ Lower Memory
 ### Q3(b) [6 Marks]
 **Question:**  
 *Which of the following are invalid instructions? State the error for each invalid instruction. Assume that all the variables are of word size (16 bits).*
+
 1. `LEA BX, AX`
 2. `MOV BX, SUM`
 3. `CBW AL, BL`
@@ -341,6 +352,7 @@ Lower Memory
 6. `ROL [BP], 3`
 
 #### 1. Instruction-by-Instruction Error Analysis
+
 1. `LEA BX, AX`: **Invalid.** The source operand of `LEA` (Load Effective Address) must be a **memory location**, not a register.
 2. `MOV BX, SUM`: **Valid.** Transfers the 16-bit word stored in variable `SUM` into register `BX`.
 3. `CBW AL, BL`: **Invalid.** `CBW` (Convert Byte to Word) takes **no operands**. It implicitly sign-extends register `AL` into `AX`.
@@ -361,15 +373,17 @@ Lower Memory
 *Draw timing diagram of the memory read/write machine cycle(s) of the following instruction: `AND [BX], AL`. Assume DS=D000H and BX=AAAAH.*
 
 #### 1. Architectural Analysis
+
 - **Address Computation:**
 
   $\text{Physical Address} = \text{D000H} \times 10\text{H} + \text{AAAAH} = \mathbf{\text{DAAAAH}}$
-  - Address $\text{DAAAAH}$ is **Even** ($A_0 = 0$).
-  - Bank selection: Lower Even Bank ($D_0 - D_7$) active $\implies \overline{\text{BHE}} = 1, A_0 = 0$.
+
+    - Address $\text{DAAAAH}$ is **Even** ($A_0 = 0$).
+    - Bank selection: Lower Even Bank ($D_0 - D_7$) active $\implies \overline{\text{BHE}} = 1, A_0 = 0$.
 - **Operation Nature:** Read-Modify-Write:
-  1. **Cycle 1 (Memory Read):** Fetch byte from $\text{DAAAAH}$ (4 T-states).
-  2. **Internal ALU Execution:** Perform bitwise AND with `AL`.
-  3. **Cycle 2 (Memory Write):** Write modified byte back to $\text{DAAAAH}$ (4 T-states).
+    1. **Cycle 1 (Memory Read):** Fetch byte from $\text{DAAAAH}$ (4 T-states).
+    2. **Internal ALU Execution:** Perform bitwise AND with `AL`.
+    3. **Cycle 2 (Memory Write):** Write modified byte back to $\text{DAAAAH}$ (4 T-states).
 
 #### 2. Timing Diagram
 ```
@@ -399,6 +413,7 @@ DEN#                 |~~~~~~~ |________|________|~~~~~~~~|~~~~~~~ |________|____
 
 #### 1. Concept & Data Structures
 In 80286 Protected Mode, memory segmentation transitions from physical base calculations to descriptor-based protection:
+
 1. **Segment Selector (16 bits):** Stored in segment registers (`CS, DS, SS, ES`).
    - Bits 3–15: **Index (13 bits)** $\implies$ Selects 1 of 8,192 descriptors.
    - Bit 2: **Table Indicator (TI)** $\implies$ $0 = \text{GDT}$, $1 = \text{LDT}$.
@@ -427,6 +442,7 @@ In 80286 Protected Mode, memory segmentation transitions from physical base calc
 *Design an interrupt service routine (ISR) that executes in response to the divide overflow. The routine should set the carry flag. Write a main line program that carries out division of two vectors (each having n elements). The dividend vector contains n elements of 16-bit size whereas the divisor vector contains n elements of 8-bit size. If overflow is generated in any division, the result vector should have all the elements FFH; else, the result vector should contain the quotient of the division. Hint: divide overflow corresponds to type-0 interrupt.*
 
 #### 1. Concept & Table Referred
+
 - **Interrupt Type 0 (Divide Overflow):** Triggered automatically by 8086 hardware when a `DIV` instruction produces a quotient exceeding destination capacity (e.g., dividing by zero or quotient $> 255$ for 8-bit divisor).
 - **IVT Location:** Bytes $00000\text{H} - 00003\text{H}$ ($\text{Base} = 0 \times 4 = 00000\text{H}$).
 
@@ -534,12 +550,13 @@ END MAIN
 *Discuss the generic memory bank mechanism used in 80x86 microprocessor family. How it improves memory access time? Explain using the example of 8086 microprocessor.*
 
 #### 1. Concept & Architectural Explanation
+
 - **Bank Organization:** The 8086 possesses a 16-bit external data bus ($D_0 - D_{15}$) connected to two physical 512 KB memory banks:
-  1. **Even Bank (Lower Bank):** Connected to $D_0 - D_7$, activated when address line $A_0 = 0$.
-  2. **Odd Bank (Upper Bank):** Connected to $D_8 - D_{15}$, activated when $\overline{\text{BHE}} = 0$.
+    1. **Even Bank (Lower Bank):** Connected to $D_0 - D_7$, activated when address line $A_0 = 0$.
+    2. **Odd Bank (Upper Bank):** Connected to $D_8 - D_{15}$, activated when $\overline{\text{BHE}} = 0$.
 - **Performance Improvement (Memory Access Time):**
-  - **Aligned Word Transfer:** When a 16-bit word is stored at an **even physical address**, $A_0 = 0$ and $\overline{\text{BHE}} = 0$ simultaneously activate both banks. The CPU transfers all 16 bits in a **single bus cycle (4 T-states)**.
-  - In an 8-bit non-banked processor (like 8088/8085), reading a 16-bit word always requires two bus cycles. The 8086 memory banking effectively **doubles memory bandwidth** for aligned data.
+    - **Aligned Word Transfer:** When a 16-bit word is stored at an **even physical address**, $A_0 = 0$ and $\overline{\text{BHE}} = 0$ simultaneously activate both banks. The CPU transfers all 16 bits in a **single bus cycle (4 T-states)**.
+    - In an 8-bit non-banked processor (like 8088/8085), reading a 16-bit word always requires two bus cycles. The 8086 memory banking effectively **doubles memory bandwidth** for aligned data.
 
 ---
 
@@ -563,6 +580,7 @@ CS#   ------>|                                                       |
 RESET ------>|                              Group B Control =======>| Port B (PB0-PB7)
              +-------------------------------------------------------+
 ```
+
 1. **Data Bus Buffer (8-bit bidirectional):** Interfaces internal 8255 circuitry to CPU system data bus ($D_0 - D_7$).
 2. **Read/Write Control Logic:** Accepts system inputs ($\overline{\text{CS}}, \overline{\text{RD}}, \overline{\text{WR}}, A_1, A_0, \text{RESET}$) and decodes them to direct internal data flows.
 3. **Group A Control:** Configures Port A (8 bits) and Port C Upper ($PC_4 - PC_7$, 4 bits) in Mode 0, 1, or 2.
@@ -575,15 +593,17 @@ RESET ------>|                              Group B Control =======>| Port B (PB
 *Write a program with appropriate comments to generate 1KHz square wave using Counter 1 of 8254 timer. The clock frequency of 8254 is 2MHz. Assume that the address of counter 1 is C000, and that of control register is C003. Hint: mode 3 of 8254 permits square wave generation and the 8-bit control word format is: select counter(2), read/write(2), mode (3), BCD(1).*
 
 #### 1. Calculation & Control Word
+
 - **Count Calculation:**
 
   $\text{Count } N = \frac{F_{\text{clk}}}{F_{\text{out}}} = \frac{2,000,000\text{ Hz}}{1,000\text{ Hz}} = \mathbf{2000_{10}} = \mathbf{07\text{D}0\text{H}}$
+
 - **Control Word Formulation:**
-  - Counter 1 $\to SC_1 SC_0 = \mathbf{01b}$
-  - Read/Write LSB then MSB $\to RW_1 RW_0 = \mathbf{11b}$
-  - Mode 3 (Square Wave) $\to M_2 M_1 M_0 = \mathbf{011b}$
-  - Binary count $\to \text{BCD} = \mathbf{0b}$
-  - **Control Word:** `01110110b` = **`76H`**
+    - Counter 1 $\to SC_1 SC_0 = \mathbf{01b}$
+    - Read/Write LSB then MSB $\to RW_1 RW_0 = \mathbf{11b}$
+    - Mode 3 (Square Wave) $\to M_2 M_1 M_0 = \mathbf{011b}$
+    - Binary count $\to \text{BCD} = \mathbf{0b}$
+    - **Control Word:** `01110110b` = **`76H`**
 
 #### 2. Assembly Program
 ```assembly
@@ -613,9 +633,11 @@ END
 *How the 8259 Programmable Interrupt Controller enables communication with multiple IO devices through INTR line of the microprocessor. Also explain significance of Interrupt Acknowledgement machine cycle for generating customized response to interrupt from every device.*
 
 #### 1. Interfacing Multiple I/O Devices
+
 - The 8259A PIC accepts up to 8 prioritized interrupt requests ($IR_0 - IR_7$). By cascading up to 8 slave 8259s to a master 8259 using lines $CAS_0 - CAS_2$, up to **64 vectored devices** can share the single CPU `INTR` line.
 
 #### 2. Significance of Dual $\overline{\text{INTA}}$ Machine Cycles
+
 - **Cycle 1:** The CPU asserts the first $\overline{\text{INTA}}$ low pulse. The 8259 resolves priorities among pending requests in its Interrupt Request Register (`IRR`), sets the corresponding bit in the In-Service Register (`ISR`), and locks out lower-priority interrupts. In cascaded setups, the master places the 3-bit cascade ID on lines $CAS_0 - CAS_2$.
 - **Cycle 2:** The CPU asserts the second $\overline{\text{INTA}}$ pulse. The active 8259 places its pre-programmed 8-bit Interrupt Vector Type byte onto the data bus ($D_0 - D_7$). The CPU reads this byte, multiplies by 4, and branches to the device's unique ISR.
 
@@ -627,6 +649,7 @@ END
 (ii) What is difference between Local Descriptor Table Register (LDTR) and Global Descriptor Table Register (GDTR) in terms of interpretation of their contents?*
 
 #### 1. 8237 DMA Controller Architecture
+
 - **Channels:** 4 independent DMA channels (Channels 0–3).
 - **Internal Registers:** Current Address Register, Current Word Count Register, Base Address & Count Registers, Command Register, Mode Register, and Mask Register.
 - **Timing & Control:** Drives bus lines ($\text{MEMR}\#$, $\text{MEMW}\#$, $\text{IOR}\#$, $\text{IOW}\#$, $\text{HRQ}$, $\text{HLDA}$). Transfers data directly between I/O peripherals and memory at maximum bus speed without CPU intervention.

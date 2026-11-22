@@ -83,6 +83,7 @@ INT 21H                     ; Call DOS
 
 > [!IMPORTANT]
 > When `INT 21H` returns, always check the **Carry Flag (CF)**:
+>
 > - `CF = 0` → Success
 > - `CF = 1` → Error, error code in `AX`
 
@@ -155,6 +156,7 @@ asm {
 ```
 
 > [!WARNING]
+>
 > - Do NOT use segment registers (`DS`, `ES`) in Turbo C++ inline assembly carelessly — Turbo C++ manages them. Modifying `CS`, `DS`, `SS` can crash the program.
 > - The `BP` register is the **frame pointer** for C++ functions — NEVER modify BP in inline assembly inside a function.
 

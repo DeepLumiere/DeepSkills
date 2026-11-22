@@ -10,31 +10,32 @@
 ---
 
 ## Table of Contents
+
 - [Section I](#section-i)
-  - [Question 1](#question-1)
+    - [Question 1](#question-1)
     - [Q-1(a) [5 Marks] — 16-bit Processor Status Word (PSW) Bits & Significance](#q-1a-5-marks--16-bit-processor-status-word-psw-bits--significance)
     - [Q-1(b) [5 Marks] — 8086 Architecture: BIU vs EU & Functional Units](#q-1b-5-marks--8086-architecture-biu-vs-eu--functional-units)
     - [Q-1(c) [5 Marks] — Assembler Directives: EVEN, LABEL, PTR, OFFSET, EQU](#q-1c-5-marks--assembler-directives-even-label-ptr-offset-equ)
-  - [Question 2](#question-2)
+    - [Question 2](#question-2)
     - [Q-2(a) [5 Marks] — Pin Functions: BHE#, MN/MX#, TEST#, ALE, RD#](#q-2a-5-marks--pin-functions-bhe-mnmx-test-ale-rd)
     - [Q-2(b) [5 Marks] — T-State, Machine Cycle, Instruction Cycle & Read Timing Diagram](#q-2b-5-marks--t-state-machine-cycle-instruction-cycle--read-timing-diagram)
     - [Q-2(c) [5 Marks] — Addressing Mode Identification](#q-2c-5-marks--addressing-mode-identification)
     - [Q-2(c) OR [5 Marks] — Physical Address Calculations](#q-2c-or-5-marks--physical-address-calculations)
-  - [Question 3](#question-3)
+    - [Question 3](#question-3)
     - [Q-3(a) [10 Marks] — Word Fetch at Odd Address: Two Machine Cycles & Memory Banks](#q-3a-10-marks--word-fetch-at-odd-address-two-machine-cycles--memory-banks)
     - [Q-3(b) [10 Marks] — Machine Instruction Template & Hex Code Generation](#q-3b-10-marks--machine-instruction-template--hex-code-generation)
 - [Section II](#section-ii)
-  - [Question 4](#question-4)
+    - [Question 4](#question-4)
     - [Q-4(a) [5 Marks] — Read 2-Digit Number via Keyboard & Pack to BCD in CL](#q-4a-5-marks--read-2-digit-number-via-keyboard--pack-to-bcd-in-cl)
     - [Q-4(b) [5 Marks] — Assembly Program to Reset Entire Flag Register to 0000H](#q-4b-5-marks--assembly-program-to-reset-entire-flag-register-to-0000h)
     - [Q-4(c) [5 Marks] — Count Words in an Input String](#q-4c-5-marks--count-words-in-an-input-string)
     - [Q-4(c) OR [5 Marks] — Block Move of 50 Characters without String Instructions](#q-4c-or-5-marks--block-move-of-50-characters-without-string-instructions)
-  - [Question 5](#question-5)
+    - [Question 5](#question-5)
     - [Q-5(a) [5 Marks] — Macro to Clear Segment, Index, Pointer, and GPRs](#q-5a-5-marks--macro-to-clear-segment-index-pointer-and-gprs)
     - [Q-5(a) OR [5 Marks] — Linear Search Near Procedure with Count and Index Array](#q-5a-or-5-marks--linear-search-near-procedure-with-count-and-index-array)
     - [Q-5(b) [5 Marks] — Arithmetic Expression Evaluation: D = 6 * (A + B) / (B + C)](#q-5b-5-marks--arithmetic-expression-evaluation-d--6--a--b--b--c)
     - [Q-5(c) [5 Marks] — Memory Allocation & Physical Address Map](#q-5c-5-marks--memory-allocation--physical-address-map)
-  - [Question 6](#question-6)
+    - [Question 6](#question-6)
     - [Q-6(a) [5 Marks] — 8259 PIC Block Diagram & Functional Units](#q-6a-5-marks--8259-pic-block-diagram--functional-units)
     - [Q-6(b) [5 Marks] — 8253/8254 PIT Block Diagram & Control Logic](#q-6b-5-marks--82538254-pit-block-diagram--control-logic)
     - [Q-6(b) OR [5 Marks] — Flat Mode Memory System](#q-6b-or-5-marks--flat-mode-memory-system)
@@ -72,6 +73,7 @@ X / U = Undefined (always read as indeterminate / logic 1 on initial power-up)
 #### 2. Detailed Breakdown of All 9 Active Flags
 
 ##### A. Conditional (Status) Flags (Updated by ALU operations):
+
 1. **CF (Carry Flag — Bit 0):** Set to 1 if there is a carry out of the MSB ($D_7$ for byte, $D_{15}$ for word) during addition, or a borrow into the MSB during subtraction. Otherwise 0. Also used by shift/rotate instructions.
 2. **PF (Parity Flag — Bit 2):** Set to 1 if the lower 8 bits (byte result) contains an **even number of logic 1s** (even parity); 0 for odd parity.
 3. **AF (Auxiliary Carry Flag — Bit 4):** Set to 1 if there is a carry out of bit $D_3$ into $D_4$ or a borrow from $D_4$ into $D_3$. Essential for BCD arithmetic (`DAA`, `DAS`).
@@ -80,6 +82,7 @@ X / U = Undefined (always read as indeterminate / logic 1 on initial power-up)
 6. **OF (Overflow Flag — Bit 11):** Set to 1 if a signed arithmetic operation yields a result that exceeds the capacity of the destination register (signed magnitude overflow: $+127$ to $-128$ for byte; $+32767$ to $-32768$ for word). Formally: $OF = C_{in\_msb} \oplus C_{out\_msb}$.
 
 ##### B. Control Flags (Programmer-controlled execution behavior):
+
 1. **TF (Trap Flag — Bit 8):** When set to 1, puts the processor into single-step execution mode. An internal Type-1 interrupt is generated automatically after each instruction executes, enabling debugging.
 2. **IF (Interrupt Enable Flag — Bit 9):** When set to 1 (`STI`), the 8086 recognizes maskable hardware interrupt requests on the `INTR` pin. When cleared to 0 (`CLI`), `INTR` is ignored. Does not affect `NMI` or software interrupts.
 3. **DF (Direction Flag — Bit 10):** Controls the direction of pointer movement in string operations (`MOVS`, `CMPS`, `SCAS`, `LODS`, `STOS`). If $DF=0$ (`CLD`), index registers (`SI`, `DI`) auto-increment. If $DF=1$ (`STD`), they auto-decrement.
@@ -142,6 +145,7 @@ The 8086 internal architecture is decoupled into two independent asynchronous pr
    - *Significance:* Enables 1 MB physical address reach from 16-bit internal registers using the formula:
 
      $\text{Physical Address} = (\text{Segment Base} \times 16_{10}) + \text{Effective Address Offset}$
+
    - Performs this hardware shift-add in a single cycle without consuming ALU processing time.
 
 ---
@@ -254,9 +258,11 @@ The 8086 internal architecture is decoupled into two independent asynchronous pr
 > Draw the timing diagram with necessary control signals to read byte data from a memory location with physical address as $\text{FFFF0H}$.
 
 #### 1. Fundamental Timing Concepts & Mathematical Relationship
+
 - **T-State (Clock State):** The smallest basic unit of processor timing, corresponding to one complete period of the master system clock frequency:
 
   $T = \frac{1}{f_{CLK}} \quad (\text{e.g., } 200\text{ ns at } 5\text{ MHz})$
+
 - **Machine Cycle (Bus Cycle):** The sequence of clock states required to perform a single basic external bus operation (Memory Read, Memory Write, I/O Read, I/O Write, or Interrupt Acknowledge). A standard 8086 bus cycle consists of **4 active clock states** ($T_1, T_2, T_3, T_4$) plus optional wait states ($T_w$).
 - **Instruction Cycle:** The total time and sequence of machine cycles required to fetch, decode, and fully execute a complete machine instruction.
 - **Hierarchical Relationship:**
@@ -266,6 +272,7 @@ The 8086 internal architecture is decoupled into two independent asynchronous pr
 #### 2. Read Timing Diagram for Byte at Physical Address $\text{FFFF0H}$
 $\text{FFFF0H}$ is an **Even Address** ($A_0 = 0$).  
 To read an 8-bit byte from an even address:
+
 - $A_0 = 0$ (Even bank enabled)
 - $\overline{\text{BHE}} = 1$ (Odd bank disabled)
 - Lines utilized: Lower byte lines $D_7$–$D_0$ ($AD_7$–$AD_0$)
@@ -302,6 +309,7 @@ DEN#           -------------/________\_________  (Active-Low data transceiver en
 
 > **Question:**  
 > Identify the addressing modes for the following instructions:  
+>
 > 1. `MOV DX, [BP]`  
 > 2. `MOV CL, 1024h[BX][SI]`  
 > 3. `MOV 124h[BX], CL`  
@@ -309,6 +317,7 @@ DEN#           -------------/________\_________  (Active-Low data transceiver en
 > 5. `MOV SS:[1234h], DX`
 
 #### Solution:
+
 1. **`MOV DX, [BP]`**
    - **Addressing Mode:** **Based Indirect Addressing Mode** (or Register Indirect using Base Pointer `BP`).
    - *Segment Used:* Stack Segment (`SS`).
@@ -331,6 +340,7 @@ DEN#           -------------/________\_________  (Active-Low data transceiver en
 > Compute physical address of the memory to fetch data through the following instructions with given register values:  
 > $DS=1126H, SS=4434H, ES=8124H, CS=6124H, SP=1010H, BP=0BCDH,$  
 > $SI=0A91H, DI=0164H, AX=0712H, BX=1230H, CX=0012H, DX=004BH$.  
+>
 > 1. `MOV 1234h[BP], AX`  
 > 2. `MOV DX, ES:[BX][SI+4ACh]`
 
@@ -339,33 +349,39 @@ DEN#           -------------/________\_________  (Active-Low data transceiver en
 $$\text{Physical Address (PA)} = (\text{Segment Register} \times 10\text{H}) + \text{Effective Address (EA)}$$
 
 #### 1. Instruction 1: `MOV 1234h[BP], AX`
+
 - **Default Segment:** Register `BP` uses **Stack Segment (`SS`)** by default.
-  - $\text{Segment Base} = SS = 4434\text{H}$
+    - $\text{Segment Base} = SS = 4434\text{H}$
 - **Effective Address (EA):**
 
   $\text{EA} = [BP] + \text{Disp} = 0\text{BCDH} + 1234\text{H}$
 
   $\text{EA} = 0\text{BCDH} + 1234\text{H} = 1\text{E01H}$
+
 - **Physical Address Calculation:**
 
   $\text{Segment Base Address} = 4434\text{H} \times 10\text{H} = 44340\text{H}$
 
   $\text{PA} = 44340\text{H} + 1\text{E01H} = 46141\text{H}$
+
 - Since `AX` is a 16-bit word, bytes are written to **$46141\text{H}$** (holding `AL = 12H`) and **$46142\text{H}$** (holding `AH = 07H`).
 
 #### 2. Instruction 2: `MOV DX, ES:[BX][SI+4ACh]`
+
 - **Segment:** Segment Override Prefix specifies **Extra Segment (`ES`)**.
-  - $\text{Segment Base} = ES = 8124\text{H}$
+    - $\text{Segment Base} = ES = 8124\text{H}$
 - **Effective Address (EA):**
 
   $\text{EA} = [BX] + [SI] + \text{Disp} = 1230\text{H} + 0\text{A91H} + 04\text{ACH}$
 
   $\text{EA} = 1\text{CC1H} + 04\text{ACH} = 216\text{DH}$
+
 - **Physical Address Calculation:**
 
   $\text{Segment Base Address} = 8124\text{H} \times 10\text{H} = 81240\text{H}$
 
   $\text{PA} = 81240\text{H} + 216\text{DH} = 833\text{ADH}$
+
 - Since `DX` is a 16-bit word, bytes are fetched from **$833\text{ADH}$** (into `DL`) and **$833\text{AEH}$** (into `DH`).
 
 ---
@@ -379,6 +395,7 @@ $$\text{Physical Address (PA)} = (\text{Segment Register} \times 10\text{H}) + \
 
 #### 1. Architectural Justification & Memory Banking
 The 8086 has a 16-bit physical data bus ($D_{15}$–$D_0$), but memory is organized in **bytes**. To support byte and word access while maintaining high performance, the 1 MB memory address space is physically partitioned into two parallel 512 KB memory banks:
+
 1. **Even Bank (Lower Bank):** Contains all bytes with even addresses ($00000\text{H}, 00002\text{H}, \dots$). Connected to data bus lines $D_7$–$D_0$. Selected by active-low address line $A_0 = 0$.
 2. **Odd Bank (Higher Bank):** Contains all bytes with odd addresses ($00001\text{H}, 00003\text{H}, \dots$). Connected to data bus lines $D_{15}$–$D_8$. Selected by active-low bus high enable $\overline{\text{BHE}} = 0$.
 
@@ -414,18 +431,21 @@ The 8086 has a 16-bit physical data bus ($D_{15}$–$D_0$), but memory is organi
 
 #### 3. Step-by-Step Breakdown: Word Fetch at an Odd Address (e.g., Address $00005\text{H}$)
 A 16-bit word at odd address $00005\text{H}$ consists of:
+
 - Byte 1 (Low byte of word) at address $00005\text{H}$ (in Odd Bank).
 - Byte 2 (High byte of word) at address $00006\text{H}$ (in Even Bank).
 
 Because the external bus cannot route the Odd Bank ($D_{15}$–$D_8$) to the lower half of internal register (`AL`), and cannot activate bank address lines $00005\text{H}$ and $00006\text{H}$ simultaneously, the BIU must automatically execute **two sequential machine cycles**:
 
 ##### Cycle 1 (Fetch Low Byte from Odd Address $00005\text{H}$):
+
 - Address emitted: $00005\text{H}$ ($A_0 = 1$).
 - Bank control: $\overline{\text{BHE}} = 0$ (Odd bank enabled), $A_0 = 1$ (Even bank disabled).
 - Data byte transferred: Placed on upper data bus $D_{15}$–$D_8$.
 - Internal BIU routing: Latched into an internal holding register and shifted to the lower byte of the destination register (`AL`).
 
 ##### Cycle 2 (Fetch High Byte from Even Address $00006\text{H}$):
+
 - Address emitted: $00006\text{H}$ ($A_0 = 0$).
 - Bank control: $\overline{\text{BHE}} = 1$ (Odd bank disabled), $A_0 = 0$ (Even bank enabled).
 - Data byte transferred: Placed on lower data bus $D_7$–$D_0$.
@@ -440,6 +460,7 @@ Because the external bus cannot route the Odd Bank ($D_{15}$–$D_8$) to the low
 > **Question:**  
 > Write the instruction coding template for Intel 8086 microprocessor and specify the significance of each field in the template.  
 > Assume opcode for `MOV` instruction as `100010` and write the machine instruction code for the following instructions:  
+>
 > 1. `MOV AX, [BX][SI][1234h]`  
 > 2. `MOV CX, [SI][0ACDh]`
 
@@ -455,6 +476,7 @@ Because the external bus cannot route the Odd Bank ($D_{15}$–$D_8$) to the low
 ```
 
 #### 2. Significance of Each Field:
+
 1. **Opcode (6 bits):** Specifies the basic machine operation to perform (for `MOV`, Opcode = `100010`).
 2. **D (Direction Bit, 1 bit):**
    - $D = 1$: Destination operand is specified by the `REG` field; Source is specified by `MOD R/M`. (Register $\leftarrow$ Memory/Register)
@@ -482,22 +504,25 @@ Because the external bus cannot route the Odd Bank ($D_{15}$–$D_8$) to the low
 ---
 
 #### 3. Encoding Instruction 1: `MOV AX, [BX][SI][1234h]`
+
 - **Opcode:** `100010`
 - **Direction (D):** Destination is register `AX` $\implies D = 1$.
 - **Word/Byte (W):** `AX` is a 16-bit register $\implies W = 1$.
 - **Byte 1:**
 
   $\text{Binary: } 10001011_2 \implies \mathbf{8B}\text{H}$
+
 - **Addressing Mode Fields:**
-  - Displacement is $1234\text{H}$ (16-bit non-zero value) $\implies MOD = 10_2$.
-  - Destination register is `AX` $\implies REG = 000_2$.
-  - Memory base/index is `[BX + SI]` $\implies R/M = 000_2$.
+    - Displacement is $1234\text{H}$ (16-bit non-zero value) $\implies MOD = 10_2$.
+    - Destination register is `AX` $\implies REG = 000_2$.
+    - Memory base/index is `[BX + SI]` $\implies R/M = 000_2$.
 - **Byte 2 (MOD-REG-R/M):**
 
   $\text{Binary: } 10\ 000\ 000_2 \implies \mathbf{80}\text{H}$
+
 - **Displacement Bytes (16-bit Little-Endian):**
-  - Disp-Low: $34\text{H}$
-  - Disp-High: $12\text{H}$
+    - Disp-Low: $34\text{H}$
+    - Disp-High: $12\text{H}$
 - **Complete Hex Encoding:**
 
   $\mathbf{8B\ 80\ 34\ 12}\text{ H}$
@@ -505,22 +530,25 @@ Because the external bus cannot route the Odd Bank ($D_{15}$–$D_8$) to the low
 ---
 
 #### 4. Encoding Instruction 2: `MOV CX, [SI][0ACDh]`
+
 - **Opcode:** `100010`
 - **Direction (D):** Destination is register `CX` $\implies D = 1$.
 - **Word/Byte (W):** `CX` is a 16-bit register $\implies W = 1$.
 - **Byte 1:**
 
   $\text{Binary: } 10001011_2 \implies \mathbf{8B}\text{H}$
+
 - **Addressing Mode Fields:**
-  - Displacement is $0\text{ACDH}$ (16-bit non-zero value) $\implies MOD = 10_2$.
-  - Destination register is `CX` $\implies REG = 001_2$.
-  - Memory base/index is `[SI]` $\implies R/M = 100_2$.
+    - Displacement is $0\text{ACDH}$ (16-bit non-zero value) $\implies MOD = 10_2$.
+    - Destination register is `CX` $\implies REG = 001_2$.
+    - Memory base/index is `[SI]` $\implies R/M = 100_2$.
 - **Byte 2 (MOD-REG-R/M):**
 
   $\text{Binary: } 10\ 001\ 100_2 \implies \mathbf{8C}\text{H}$
+
 - **Displacement Bytes (16-bit Little-Endian):**
-  - Disp-Low: $\text{CDH}$
-  - Disp-High: $0\text{AH}$
+    - Disp-Low: $\text{CDH}$
+    - Disp-High: $0\text{AH}$
 - **Complete Hex Encoding:**
 
   $\mathbf{8B\ 8C\ CD\ 0A}\text{ H}$
@@ -538,12 +566,13 @@ Because the external bus cannot route the Odd Bank ($D_{15}$–$D_8$) to the low
 
 #### 1. Concept & BCD Packing
 When keyboard digits are read using DOS `INT 21H, AH = 01H`, characters arrive as ASCII codes:
+
 - Digits `'0'` to `'9'` have ASCII values $30\text{H}$ to $39\text{H}$.
 - Masking off the upper nybble (`SUB AL, 30H` or `AND AL, 0FH`) extracts the raw BCD digit ($0\text{H}$ to $9\text{H}$).
 - For a two-digit number $D_1 D_0$:
-  - First read $D_1$: multiply or shift left by 4 bit positions: $D_1 \ll 4$.
-  - Second read $D_0$: unmask to lower nybble.
-  - Combine via bitwise OR: $\text{Packed BCD} = (D_1 \ll 4) \mid D_0$.
+    - First read $D_1$: multiply or shift left by 4 bit positions: $D_1 \ll 4$.
+    - Second read $D_0$: unmask to lower nybble.
+    - Combine via bitwise OR: $\text{Packed BCD} = (D_1 \ll 4) \mid D_0$.
 
 #### 2. Assembly Program Implementation
 
@@ -603,6 +632,7 @@ END MAIN
 #### 1. Concept: Stack Manipulation of Flag Register
 The 8086 processor does not have a direct instruction like `MOV FLAGS, 0000H`.  
 However, the processor provides:
+
 - `PUSHF`: Pushes the 16-bit Processor Status Word (PSW) onto the stack.
 - `POPF`: Pops the 16-bit word at the top of the stack directly into the PSW register.
 
@@ -734,6 +764,7 @@ END MAIN
 
 #### 1. Concept: Memory-to-Memory Transfer via Register
 Since 8086 instructions cannot move data directly from memory to memory (`MOV [DI], [SI]` is illegal), data bytes must be moved through a general-purpose processor register (e.g., `AL`):
+
 1. Load byte from `DS:[SI]` into `AL`.
 2. Store byte from `AL` into `ES:[DI]`.
 3. Increment pointers `SI` and `DI`.
@@ -796,6 +827,7 @@ END START
 > Write an 8086 assembly program with a macro definition to clear the content of all possible segment, index, pointer and other general purpose registers.
 
 #### 1. Concept & Architectural Constraints
+
 - **General Purpose Registers (GPRs):** `AX`, `BX`, `CX`, `DX` (can be cleared via `XOR reg, reg` or `MOV reg, 0`).
 - **Pointer and Index Registers:** `SP`, `BP`, `SI`, `DI`.
 - **Segment Registers:** `DS`, `ES`, `SS`.
@@ -848,12 +880,13 @@ END START
 > Implement linear search algorithm in 8086 assembly language. The program should contain a near procedure SEARCH that searches an array of word data for a given key. The number of occurrences of the key stores in a variable named COUNT. Further the index of each occurrence is stored in an INDEX array.
 
 #### 1. Concept: Multi-Match Linear Search
+
 - Array elements are 16-bit words (indexed $0, 1, 2, \dots, N-1$).
 - Procedure compares each element against `KEY`.
 - If match occurs:
-  - Increment `COUNT`.
-  - Store the current logical loop index into `INDEX` array.
-  - Advance `INDEX` array pointer.
+    - Increment `COUNT`.
+    - Store the current logical loop index into `INDEX` array.
+    - Advance `INDEX` array pointer.
 
 #### 2. Assembly Program Implementation
 
@@ -938,6 +971,7 @@ END MAIN
 > $A, B, C$ and $D$ are memory variables of type word declared in main module.
 
 #### 1. Concept: Multi-Precision Word Arithmetic & Division
+
 - Operands $A, B, C, D$ are 16-bit unsigned/signed words.
 - Numerator: $6 \times (A + B)$. Since word multiplication yields a 32-bit product, `DX:AX` holds the numerator.
 - Denominator: $(B + C)$. Stored in a temporary register or memory variable (`BX`).
@@ -1004,6 +1038,7 @@ END MAIN
 > ```
 
 #### 1. Concept: Memory Layout & Little-Endian Storage
+
 - Segment Base Address $= DS \times 10\text{H} = 1234\text{H} \times 10\text{H} = \mathbf{12340}\text{H}$.
 - **Little-Endian Rule:** 16-bit words store the least significant byte at the lower memory address and the most significant byte at the higher memory address.
 - Character `'B'` $= 42\text{H}$ in ASCII.
@@ -1063,6 +1098,7 @@ END MAIN
 ```
 
 #### 2. Functional Significance of Each Internal Block:
+
 1. **Interrupt Request Register (IRR):**
    - 8-bit register that stores the asynchronous interrupt requests arriving on input pins `IR0` through `IR7`. A bit is set to 1 when a device asserts a request on that line.
 2. **In-Service Register (ISR):**
@@ -1117,6 +1153,7 @@ END MAIN
 
 #### 2. Details of the Control Logic
 The internal control logic orchestrates reading, writing, and decrementing the 3 identical, independent 16-bit down counters:
+
 1. **Port Selection via Address Pins $A_1, A_0$:**
    - $A_1 A_0 = 00_2 \implies$ Counter 0
    - $A_1 A_0 = 01_2 \implies$ Counter 1
@@ -1139,11 +1176,12 @@ The internal control logic orchestrates reading, writing, and decrementing the 3
 > Discuss in detail about flat mode memory system.
 
 #### 1. Concept: Flat vs Segmented Memory
+
 - In **Real Mode** or traditional **Segmented Protected Mode**, memory addresses are formed by adding an offset to a shifted segment base address.
 - In a **Flat Mode Memory System** (adopted by modern 32-bit and 64-bit operating systems like Linux and 32/64-bit Windows):
-  - Segmentation is effectively disabled or minimized.
-  - All segment descriptor registers (`CS`, `DS`, `ES`, `SS`) are loaded with segment base addresses initialized to **$\text{00000000H}$** and segment limits configured to the maximum possible address space (**$\text{FFFFFFFFH} = 4\text{ GB}$** in 32-bit mode).
-  - Consequently, **Effective Address (Offset) = Linear Address**.
+    - Segmentation is effectively disabled or minimized.
+    - All segment descriptor registers (`CS`, `DS`, `ES`, `SS`) are loaded with segment base addresses initialized to **$\text{00000000H}$** and segment limits configured to the maximum possible address space (**$\text{FFFFFFFFH} = 4\text{ GB}$** in 32-bit mode).
+    - Consequently, **Effective Address (Offset) = Linear Address**.
 
 ```text
 Segment Base = 00000000H ----------------------------------------------------->
@@ -1152,6 +1190,7 @@ Offset EIP/ESP/EAX   =========================================================>
 ```
 
 #### 2. Key Characteristics of Flat Mode:
+
 1. **Unrestricted Pointer Arithmetic:** A 32-bit pointer directly references any byte in the entire 4 GB address space without segment switching.
 2. **Compiler Simplicity:** High-level language compilers (C/C++) treat all memory as a contiguous linear array, simplifying register allocation and pointer operations.
 3. **Paging Integration:** Protection and virtual memory management are offloaded entirely to the hardware **Paging Unit**, which operates on uniform 4 KB pages.
@@ -1174,12 +1213,14 @@ In Protected Mode, segment registers no longer hold base addresses directly. Ins
 |               (13 bits)                  | 1 | 2 bits|
 +------------------------------------------+---+-------+
 ```
+
 - **Index (Bits 15–3):** Selects 1 of up to 8,192 descriptors in the table.
 - **TI (Table Indicator - Bit 2):** $0 = \text{GDT}$; $1 = \text{LDT}$.
 - **RPL (Requested Privilege Level - Bits 1–0):** Privilege level of selector (Ring 0 = Highest/Kernel, Ring 3 = Lowest/User).
 
 #### 2. Segment Descriptor Format (80286 8-byte format):
 Each descriptor contains:
+
 1. **Base Address (24 bits in 80286, 32 bits in 80386):** The starting physical address of the segment.
 2. **Segment Limit (16 bits in 80286, 20 bits in 80386):** The maximum allowable offset within the segment. Any access beyond this limit raises a General Protection Fault (#GP).
 3. **Access Rights Byte:** Contains:
@@ -1234,6 +1275,7 @@ CR3 Register (PDBR)
 ```
 
 #### 2. Translation Steps:
+
 1. **CR3 (Page Directory Base Register):** Holds the physical base address of the Page Directory (must be 4 KB page-aligned).
 2. **Page Directory Entry (PDE):** The upper 10 bits ($31$–$22$) index one of 1024 32-bit PDEs in the Page Directory. The PDE provides the physical base address of a Page Table.
 3. **Page Table Entry (PTE):** The middle 10 bits ($21$–$12$) index one of 1024 32-bit PTEs in the selected Page Table. The PTE provides the 20-bit physical base address of the target 4 KB page frame.
@@ -1252,6 +1294,7 @@ CR3 Register (PDBR)
 A **Type-1 Interrupt** is generated internally by the 8086 processor after executing any instruction if the **Trap Flag (TF, Bit 8 of PSW)** is set to logic 1. It is primarily used by debuggers to allow step-by-step examination of registers and memory.
 
 #### 2. Detailed Execution Sequence:
+
 1. **Instruction Execution:** The 8086 finishes executing the current machine instruction completely.
 2. **Trap Check:** At the end of the instruction, the internal control logic samples the Trap Flag. Since $TF = 1$, a Type-1 interrupt sequence begins.
 3. **Push PSW:** The processor decrements the Stack Pointer by 2 ($SP \leftarrow SP - 2$) and pushes the 16-bit **Processor Status Word (Flags)** onto the stack.
@@ -1265,6 +1308,7 @@ A **Type-1 Interrupt** is generated internally by the 8086 processor after execu
    - Vector type $N = 1$. The vector address in the Interrupt Vector Table is calculated as:
 
      $\text{IVT Address} = 1 \times 4 = 00004\text{H}$
+
    - Loads the 16-bit offset into `IP` from memory locations $00004\text{H}$ and $00005\text{H}$.
    - Loads the 16-bit segment into `CS` from memory locations $00006\text{H}$ and $00007\text{H}$.
 7. **Service Routine Execution:** Control transfers to the debugger's Type-1 ISR.

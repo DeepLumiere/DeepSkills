@@ -249,9 +249,9 @@ This chapter presents a comprehensive technical study of the Intel 8085 8-bit mi
 
 * **Address Bus:** 16-bit total address capacity yielding $2^{16} = 64\text{ KB}$ ($65,536\text{ bytes}$) direct addressable physical memory space.
 
-  - High-order address bus: $A_{15} - A_8$ (8-bit unidirectional).
+    - High-order address bus: $A_{15} - A_8$ (8-bit unidirectional).
 
-  - Low-order address/data bus: $AD_7 - AD_0$(8-bit bidirectional, time-multiplexed using $ALE$ signal).
+    - Low-order address/data bus: $AD_7 - AD_0$(8-bit bidirectional, time-multiplexed using $ALE$ signal).
 
 * **Register Architecture:** Contains 12 addressable 8-bit registers. Four registers can function as 16-bit register pairs (BC, DE, HL, WZ). Six general registers (B, C, D, E, H, L) can be used individually as 8-bit registers or combined as 16-bit pairs.
 
@@ -531,7 +531,9 @@ $$
 
 > Why is the **TRAP** interrupt designed to be **both Level and Edge sensitive**?
 
+
 > 1. **Edge Sensitivity:** A rising edge is required to trigger and set the internal TRAP latch. This prevents the interrupt from continuously re-triggering and looping indefinitely if the interrupt signal remains high for a long duration.
+
 
 > 2. **Level Sensitivity:** The signal must remain high (level sensitive) until the microprocessor completes the execution of the current instruction and samples the interrupt line. This ensures that a very short, spurious noise spike doesn't trigger a false TRAP service routine.
 
@@ -694,15 +696,15 @@ This chapter presents an exhaustive architectural analysis of the Intel 8086 16-
 
 * **Dual Operating Modes:** Hardware configurable via pin 33 ($\text{MN}/\overline{\text{MX}}$):
 
-  - **Minimum Mode:** Single-processor system where 8086 generates all bus control signals.
+    - **Minimum Mode:** Single-processor system where 8086 generates all bus control signals.
 
-  - **Maximum Mode:** Multiprocessor system utilizing 8288 Bus Controller to generate control signals.
+    - **Maximum Mode:** Multiprocessor system utilizing 8288 Bus Controller to generate control signals.
 
 * **Pipelined Dual-Unit Architecture:** Divided asynchronously into:
 
-  - **Bus Interface Unit (BIU):** Manages instruction prefetching, memory/IO bus access, and physical address calculation.
+    - **Bus Interface Unit (BIU):** Manages instruction prefetching, memory/IO bus access, and physical address calculation.
 
-  - **Execution Unit (EU):** Decodes opcodes and executes operations.
+    - **Execution Unit (EU):** Decodes opcodes and executes operations.
 
 * **Instruction Stream Queue:** 6-byte FIFO prefetch queue in BIU providing hardware pipelining.
 
@@ -1065,7 +1067,9 @@ The 8086 uses $A_0$ and $\overline{\text{BHE}}$ status signals to select the app
 
 > If the CPU attempts to read/write a 16-bit word starting at an **odd address** (e.g., `00001H`), it is called an **unaligned word access**. This requires **two consecutive bus cycles**:
 
+
 > 1. **First Bus Cycle:** CPU accesses the Odd Bank ($\overline{\text{BHE}}=0, A_0=1$) to read the low byte of the word from `00001H` using $D_{15}-D_8$.
+
 
 > 2. **Second Bus Cycle:** CPU accesses the Even Bank ($\overline{\text{BHE}}=1, A_0=0$) to read the high byte of the word from `00002H` using $D_7-D_0$.
 
@@ -1410,7 +1414,9 @@ Operand data is encoded directly as part of the machine instruction byte sequenc
 
 > Inside the 8086 Instruction Set Architecture, **immediate data cannot be loaded directly into any Segment Register** (`CS`, `DS`, `SS`, `ES`).
 
+
 > - *Invalid/Illegal:* `MOV DS, 1000H` (Will result in a compiler/assembler error).
+
 
 > - *Correct Workaround:* You must load the immediate value into a 16-bit general purpose register (like `AX`, `BX`, `CX`, `DX`) first, and then copy that register into the target Segment Register:
 
@@ -1488,9 +1494,9 @@ Effective address is computed by adding an 8-bit or 16-bit displacement to the c
 
 - **Formula:** $EA = [\text{Base Reg}] + \text{Displacement}$
 
-  - Default Segment for `BX` is **DS**.
+    - Default Segment for `BX` is **DS**.
 
-  - Default Segment for `BP` is **SS**.
+    - Default Segment for `BP` is **SS**.
 
 - **Displacement Limits:** 8-bit signed ($-128$ to $+127$) or 16-bit signed ($-32768$ to $+32767$).
 
@@ -1696,11 +1702,11 @@ Data transfer instructions move data between registers, memory locations, and I/
 
 * **Constraints:**
 
-  - Both operands cannot be memory locations simultaneously.
+    - Both operands cannot be memory locations simultaneously.
 
-  - Both operands cannot be segment registers simultaneously.
+    - Both operands cannot be segment registers simultaneously.
 
-  - Immediate data cannot be moved directly into segment registers.
+    - Immediate data cannot be moved directly into segment registers.
 
 * **Flags Affected:** None.
 
@@ -1790,9 +1796,9 @@ Data transfer instructions move data between registers, memory locations, and I/
 
 * **Operation:**
 
-  - $(\text{MEM32}) \rightarrow (\text{Reg16})$ (Offset loaded into destination register)
+    - $(\text{MEM32}) \rightarrow (\text{Reg16})$ (Offset loaded into destination register)
 
-  - $(\text{MEM32} + 2) \rightarrow (\text{DS})$ (Segment selector loaded into DS)
+    - $(\text{MEM32} + 2) \rightarrow (\text{DS})$ (Segment selector loaded into DS)
 
 * **Flags Affected:** None.
 
@@ -1818,9 +1824,9 @@ Data transfer instructions move data between registers, memory locations, and I/
 
 * **Operation:**
 
-  - $(\text{MEM32}) \rightarrow (\text{Reg16})$
+    - $(\text{MEM32}) \rightarrow (\text{Reg16})$
 
-  - $(\text{MEM32} + 2) \rightarrow (\text{ES})$
+    - $(\text{MEM32} + 2) \rightarrow (\text{ES})$
 
 * **Flags Affected:** None.
 
@@ -2046,9 +2052,9 @@ Arithmetic instructions perform binary addition, subtraction, multiplication, di
 
 * **Purpose:** Sign-extends signed operands for division/arithmetic.
 
-  - `CBW`: Extends sign bit of AL ($D_7$) across all bits of AH.
+    - `CBW`: Extends sign bit of AL ($D_7$) across all bits of AH.
 
-  - `CWD`: Extends sign bit of AX ($D_{15}$) across all bits of DX.
+    - `CWD`: Extends sign bit of AX ($D_{15}$) across all bits of DX.
 
 * **Syntax:** `CBW`, `CWD` (No explicit operands).
 
@@ -2078,9 +2084,9 @@ Arithmetic instructions perform binary addition, subtraction, multiplication, di
 
 * **Operational Mechanics:**
 
-  - **8-bit Multiplication:** $\text{AL} \times \text{Operand8} \rightarrow \text{AX}$ (16-bit product stored in AX).
+    - **8-bit Multiplication:** $\text{AL} \times \text{Operand8} \rightarrow \text{AX}$ (16-bit product stored in AX).
 
-  - **16-bit Multiplication:** $\text{AX} \times \text{Operand16} \rightarrow (\text{DX:AX})$ (32-bit product stored across DX:AX, where DX holds high word).
+    - **16-bit Multiplication:** $\text{AX} \times \text{Operand16} \rightarrow (\text{DX:AX})$ (32-bit product stored across DX:AX, where DX holds high word).
 
 * **Flags Affected:** OF and CF are set to `1` if upper half of product contains significant digits (non-zero for MUL, non-sign extension for IMUL); otherwise reset to `0`. Other flags are undefined.
 
@@ -2108,9 +2114,9 @@ Arithmetic instructions perform binary addition, subtraction, multiplication, di
 
 * **Operational Mechanics:**
 
-  - **8-bit Division:** Dividend in AX $\div$ Operand8 $\rightarrow \text{AL} = \text{Quotient}$, $\text{AH} = \text{Remainder}$.
+    - **8-bit Division:** Dividend in AX $\div$ Operand8 $\rightarrow \text{AL} = \text{Quotient}$, $\text{AH} = \text{Remainder}$.
 
-  - **16-bit Division:** Dividend in (DX:AX) $\div$ Operand16 $\rightarrow \text{AX} = \text{Quotient}$, $\text{DX} = \text{Remainder}$.
+    - **16-bit Division:** Dividend in (DX:AX) $\div$ Operand16 $\rightarrow \text{AX} = \text{Quotient}$, $\text{DX} = \text{Remainder}$.
 
 * **Flags Affected:** All status flags are undefined.
 

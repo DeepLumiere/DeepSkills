@@ -667,6 +667,7 @@ Example: `'a'` = 97 − 32 = 65 = `'A'`
 ## 9. Exam-Oriented Review
 
 ### Important Concepts
+
 - Role of `DS:SI`, `ES:DI`, `CX`, and `DF` in all string operations
 - Difference between `CMPSB` (two memory operands) and `SCASB` (register vs memory)
 - When to use `REP` vs `REPE` vs `REPNE` — which flag each checks
@@ -674,6 +675,7 @@ Example: `'a'` = 97 − 32 = 65 = `'A'`
 - SI and DI pointer adjustment amounts: ±1 for byte, ±2 for word
 
 ### Important Definitions
+
 - **MOVSB:** Copy one byte from `DS:[SI]` to `ES:[DI]`, auto-adjust SI and DI
 - **SCASB:** Compare `AL` with `ES:[DI]`, auto-adjust DI, update FLAGS
 - **REPE:** Repeat while CX ≠ 0 AND ZF = 1

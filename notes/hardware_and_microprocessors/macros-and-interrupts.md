@@ -785,6 +785,7 @@ $$
 ## 8. Exam-Oriented Review
 
 ### Important Concepts
+
 - Macro vs procedure: code expansion vs CALL/RET linkage
 - How dummy/actual parameter substitution works (first→first, second→second, textual)
 - Local labels in macros: why needed, how ASM-86 implements them (auto-suffix)
@@ -798,6 +799,7 @@ $$
 - XLAT operation: AL ← [BX + AL]
 
 ### Important Definitions
+
 - **Macro expansion:** inline substitution of prototype code with actual parameters for dummy parameters; no linkage overhead
 - **IVT:** 1 KB table at 00000H–003FFH; each entry is 4 bytes (IP, CS) for the ISR of one interrupt type
 - **IRET:** pops IP, CS, FLAGS — restoring full CPU state at the point of interruption

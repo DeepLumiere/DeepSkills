@@ -3545,12 +3545,14 @@
 </li>
 <li>
 <p><strong>Address Bus:</strong> 16-bit total address capacity yielding <span class="arithmatex">\(2^{16} = 64\text{ KB}\)</span> (<span class="arithmatex">\(65,536\text{ bytes}\)</span>) direct addressable physical memory space.</p>
-</li>
+<ul>
 <li>
 <p>High-order address bus: <span class="arithmatex">\(A_{15} - A_8\)</span> (8-bit unidirectional).</p>
 </li>
 <li>
 <p>Low-order address/data bus: <span class="arithmatex">\(AD_7 - AD_0\)</span>(8-bit bidirectional, time-multiplexed using <span class="arithmatex">\(ALE\)</span> signal).</p>
+</li>
+</ul>
 </li>
 <li>
 <p><strong>Register Architecture:</strong> Contains 12 addressable 8-bit registers. Four registers can function as 16-bit register pairs (BC, DE, HL, WZ). Six general registers (B, C, D, E, H, L) can be used individually as 8-bit registers or combined as 16-bit pairs.</p>
@@ -4200,21 +4202,25 @@ sequenceDiagram
 </li>
 <li>
 <p><strong>Dual Operating Modes:</strong> Hardware configurable via pin 33 (<span class="arithmatex">\(\text{MN}/\overline{\text{MX}}\)</span>):</p>
-</li>
+<ul>
 <li>
 <p><strong>Minimum Mode:</strong> Single-processor system where 8086 generates all bus control signals.</p>
 </li>
 <li>
 <p><strong>Maximum Mode:</strong> Multiprocessor system utilizing 8288 Bus Controller to generate control signals.</p>
 </li>
+</ul>
+</li>
 <li>
 <p><strong>Pipelined Dual-Unit Architecture:</strong> Divided asynchronously into:</p>
-</li>
+<ul>
 <li>
 <p><strong>Bus Interface Unit (BIU):</strong> Manages instruction prefetching, memory/IO bus access, and physical address calculation.</p>
 </li>
 <li>
 <p><strong>Execution Unit (EU):</strong> Decodes opcodes and executes operations.</p>
+</li>
+</ul>
 </li>
 <li>
 <p><strong>Instruction Stream Queue:</strong> 6-byte FIFO prefetch queue in BIU providing hardware pipelining.</p>
@@ -5013,12 +5019,14 @@ flowchart LR
 <ul>
 <li>
 <p><strong>Formula:</strong> <span class="arithmatex">\(EA = [\text{Base Reg}] + \text{Displacement}\)</span></p>
-</li>
+<ul>
 <li>
 <p>Default Segment for <code>BX</code> is <strong>DS</strong>.</p>
 </li>
 <li>
 <p>Default Segment for <code>BP</code> is <strong>SS</strong>.</p>
+</li>
+</ul>
 </li>
 <li>
 <p><strong>Displacement Limits:</strong> 8-bit signed (<span class="arithmatex">\(-128\)</span> to <span class="arithmatex">\(+127\)</span>) or 16-bit signed (<span class="arithmatex">\(-32768\)</span> to <span class="arithmatex">\(+32767\)</span>).</p>
@@ -5150,7 +5158,7 @@ flowchart LR
 </li>
 <li>
 <p><strong>Constraints:</strong></p>
-</li>
+<ul>
 <li>
 <p>Both operands cannot be memory locations simultaneously.</p>
 </li>
@@ -5159,6 +5167,8 @@ flowchart LR
 </li>
 <li>
 <p>Immediate data cannot be moved directly into segment registers.</p>
+</li>
+</ul>
 </li>
 <li>
 <p><strong>Flags Affected:</strong> None.</p>
@@ -5233,12 +5243,14 @@ flowchart LR
 </li>
 <li>
 <p><strong>Operation:</strong></p>
-</li>
+<ul>
 <li>
 <p><span class="arithmatex">\((\text{MEM32}) \rightarrow (\text{Reg16})\)</span> (Offset loaded into destination register)</p>
 </li>
 <li>
 <p><span class="arithmatex">\((\text{MEM32} + 2) \rightarrow (\text{DS})\)</span> (Segment selector loaded into DS)</p>
+</li>
+</ul>
 </li>
 <li>
 <p><strong>Flags Affected:</strong> None.</p>
@@ -5260,12 +5272,14 @@ flowchart LR
 </li>
 <li>
 <p><strong>Operation:</strong></p>
-</li>
+<ul>
 <li>
 <p><span class="arithmatex">\((\text{MEM32}) \rightarrow (\text{Reg16})\)</span></p>
 </li>
 <li>
 <p><span class="arithmatex">\((\text{MEM32} + 2) \rightarrow (\text{ES})\)</span></p>
+</li>
+</ul>
 </li>
 <li>
 <p><strong>Flags Affected:</strong> None.</p>
@@ -5447,12 +5461,14 @@ flowchart LR
 <ul>
 <li>
 <p><strong>Purpose:</strong> Sign-extends signed operands for division/arithmetic.</p>
-</li>
+<ul>
 <li>
 <p><code>CBW</code>: Extends sign bit of AL (<span class="arithmatex">\(D_7\)</span>) across all bits of AH.</p>
 </li>
 <li>
 <p><code>CWD</code>: Extends sign bit of AX (<span class="arithmatex">\(D_{15}\)</span>) across all bits of DX.</p>
+</li>
+</ul>
 </li>
 <li>
 <p><strong>Syntax:</strong> <code>CBW</code>, <code>CWD</code> (No explicit operands).</p>
@@ -5478,12 +5494,14 @@ flowchart LR
 </li>
 <li>
 <p><strong>Operational Mechanics:</strong></p>
-</li>
+<ul>
 <li>
 <p><strong>8-bit Multiplication:</strong> <span class="arithmatex">\(\text{AL} \times \text{Operand8} \rightarrow \text{AX}\)</span> (16-bit product stored in AX).</p>
 </li>
 <li>
 <p><strong>16-bit Multiplication:</strong> <span class="arithmatex">\(\text{AX} \times \text{Operand16} \rightarrow (\text{DX:AX})\)</span> (32-bit product stored across DX:AX, where DX holds high word).</p>
+</li>
+</ul>
 </li>
 <li>
 <p><strong>Flags Affected:</strong> OF and CF are set to <code>1</code> if upper half of product contains significant digits (non-zero for MUL, non-sign extension for IMUL); otherwise reset to <code>0</code>. Other flags are undefined.</p>
@@ -5507,12 +5525,14 @@ flowchart LR
 </li>
 <li>
 <p><strong>Operational Mechanics:</strong></p>
-</li>
+<ul>
 <li>
 <p><strong>8-bit Division:</strong> Dividend in AX <span class="arithmatex">\(\div\)</span> Operand8 <span class="arithmatex">\(\rightarrow \text{AL} = \text{Quotient}\)</span>, <span class="arithmatex">\(\text{AH} = \text{Remainder}\)</span>.</p>
 </li>
 <li>
 <p><strong>16-bit Division:</strong> Dividend in (DX:AX) <span class="arithmatex">\(\div\)</span> Operand16 <span class="arithmatex">\(\rightarrow \text{AX} = \text{Quotient}\)</span>, <span class="arithmatex">\(\text{DX} = \text{Remainder}\)</span>.</p>
+</li>
+</ul>
 </li>
 <li>
 <p><strong>Flags Affected:</strong> All status flags are undefined.</p>

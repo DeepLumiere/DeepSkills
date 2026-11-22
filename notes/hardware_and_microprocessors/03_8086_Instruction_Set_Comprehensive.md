@@ -45,9 +45,9 @@ The operand is stored entirely within one of the internal 8-bit or 16-bit CPU re
 - **Mathematical Formula:** $EA = R$ (No memory access required).
 - **Valid Registers:** 8-bit (`AL, AH, BL, BH, CL, CH, DL, DH`) or 16-bit (`AX, BX, CX, DX, SP, BP, SI, DI`).
 - **Forbidden Transfers:**
-  - `MOV BL, BX` → **ILLEGAL (Mixed operand widths).**
-  - `MOV CS, AX` → **ILLEGAL (Code Segment cannot be destination).**
-  - `MOV ES, DS` → **ILLEGAL (Segment-to-segment register transfer not permitted).**
+    - `MOV BL, BX` → **ILLEGAL (Mixed operand widths).**
+    - `MOV CS, AX` → **ILLEGAL (Code Segment cannot be destination).**
+    - `MOV ES, DS` → **ILLEGAL (Segment-to-segment register transfer not permitted).**
 
 ```assembly
 MOV BX, DX       ; Copy contents of DX into BX (register to register)
@@ -61,12 +61,13 @@ XCHG AX, CX      ; Swap AX and CX (exchange via register mode)
 The operand is constant numerical data encoded directly into the instruction byte sequence following the opcode.
 
 - **Constraints:**
-  - Cannot move immediate data directly into Segment Registers (`DS, ES, SS, CS`). Must route via general register:
+    - Cannot move immediate data directly into Segment Registers (`DS, ES, SS, CS`). Must route via general register:
     ```assembly
     MOV AX, 0123H    ; Load immediate into AX
     MOV DS, AX       ; Transfer from AX to DS
     ```
-  - Immediate operand width must match destination register width (`MOV AL, 2AAH` is illegal — value exceeds 8-bit range).
+
+    - Immediate operand width must match destination register width (`MOV AL, 2AAH` is illegal — value exceeds 8-bit range).
 
 ```assembly
 MOV AX, 2550H    ; Load immediate word 2550H into AX
@@ -100,8 +101,8 @@ ADD AX, COUNT         ; Add memory variable COUNT to AX
 The effective address of the operand in memory is held in a base register (`BX`, `BP`) or index register (`SI`, `DI`).
 
 - **Segment Association Rules:**
-  - `BX`, `SI`, `DI` default to **Data Segment (DS)**.
-  - `BP` defaults to **Stack Segment (SS)**.
+    - `BX`, `SI`, `DI` default to **Data Segment (DS)**.
+    - `BP` defaults to **Stack Segment (SS)**.
 - **Worked Example:** If $\text{SS} = 2000\text{H}$, $\text{BP} = 0111\text{H}$, instruction is `MOV [BP], DL`:
 
 $$
@@ -168,7 +169,7 @@ MOV TABLE[DI], BL     ; Store BL into lookup table at DI offset
 Combines one base register (`BX` or `BP`), one index register (`SI` or `DI`), and an optional displacement.
 
 - **Formula:** $EA = [\text{BX/BP}] + [\text{SI/DI}] + \text{Displacement}$
-  - Default Segment is **SS** if `BP` is used; otherwise defaults to **DS**.
+    - Default Segment is **SS** if `BP` is used; otherwise defaults to **DS**.
 - **Worked Example:** If $\text{DS} = 1200\text{H}$, $\text{BX} = 1000\text{H}$, $\text{SI} = 2000\text{H}$, $\text{BETA} = 1234\text{H}$:
 
 $$
@@ -240,6 +241,7 @@ Byte 6:  High-order Immediate Data (if present)
 ### Worked Machine Encoding Examples
 
 #### Example 3.1: Encode `MOV CL, [BX]`
+
 - Opcode for `MOV`: `100010`
 - Direction: Data moves into `CL` (Register) → $D = 1$
 - Width: `CL` is 8-bit byte → $W = 0$
@@ -279,6 +281,7 @@ When an operand accesses a segment other than its default, the assembler prepend
 | **Immediate to Memory** | $17 + EA$ | 2 | +4 |
 
 #### Effective Address ($EA$) Calculation Times
+
 - Direct: **6 cycles**
 - Register Indirect: **5 cycles**
 - Base or Indexed Relative: **9 cycles**
@@ -669,6 +672,7 @@ String operations automatically utilize source index `SI` (relative to `DS`) and
 | **Store String** | `STOSB` / `STOSW` | Byte / Word | `ES:[DI] ← AL` / `ES:[DI] ← AX`; update `DI`. |
 
 #### Repeat Prefixes (`REP`, `REPE`/`REPZ`, `REPNE`/`REPNZ`)
+
 - **`REP`:** Repeat while `CX ≠ 0`. (Used with `MOVS`, `STOS`).
 - **`REPE` / `REPZ`:** Repeat while `CX ≠ 0` AND `ZF = 1` (equal).
 - **`REPNE` / `REPNZ`:** Repeat while `CX ≠ 0` AND `ZF = 0` (not equal).

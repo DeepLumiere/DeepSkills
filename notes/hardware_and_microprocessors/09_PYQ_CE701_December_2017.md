@@ -10,31 +10,32 @@
 ---
 
 ## Table of Contents
+
 - [Section I](#section-i)
-  - [Question 1](#question-1)
+    - [Question 1](#question-1)
     - [Q-1(a) [5 Marks] — Physical Address Calculation Process for 8086 Segments](#q-1a-5-marks--physical-address-calculation-process-for-8086-segments)
     - [Q-1(b) [5 Marks] — Effective Address & MOV Instructions Across Addressing Modes](#q-1b-5-marks--effective-address--mov-instructions-across-addressing-modes)
     - [Q-1(c) [5 Marks] — Importance of Control Signals: DT/R#, ALE, DEN#, INTA#, NMI](#q-1c-5-marks--importance-of-control-signals-dtr-ale-den-inta-nmi)
-  - [Question 2](#question-2)
+    - [Question 2](#question-2)
     - [Q-2(a) [5 Marks] — Timing Diagrams with Wait States: Memory Read & I/O Write Cycles](#q-2a-5-marks--timing-diagrams-with-wait-states-memory-read--io-write-cycles)
     - [Q-2(b) [5 Marks] — Pros and Cons of 8086 Memory Segmentation](#q-2b-5-marks--pros-and-cons-of-8086-memory-segmentation)
     - [Q-2(b) OR [5 Marks] — Importance and Structure of 80286 Descriptors](#q-2b-or-5-marks--importance-and-structure-of-80286-descriptors)
     - [Q-2(c) [5 Marks] — Memory Banking: Two Bus Cycles for Odd-Addressed Words](#q-2c-5-marks--memory-banking-two-bus-cycles-for-odd-addressed-words)
-  - [Question 3](#question-3)
+    - [Question 3](#question-3)
     - [Q-3(a) [10 Marks] — Stack Initialization (120 Words) & Recursive Factorial with Stack Trace](#q-3a-10-marks--stack-initialization-120-words--recursive-factorial-with-stack-trace)
     - [Q-3(a) OR [10 Marks] — NMI ISR: Vector Addition of 100 Bytes Across Far Segments](#q-3a-or-10-marks--nmi-isr-vector-addition-of-100-bytes-across-far-segments)
     - [Q-3(b) [10 Marks] — Symbol Table Search (100 Entries, 80 Bytes Each)](#q-3b-10-marks--symbol-table-search-100-entries-80-bytes-each)
 - [Section II](#section-ii)
-  - [Question 4](#question-4)
+    - [Question 4](#question-4)
     - [Q-4(a) [5 Marks] — Interrupt Processing Steps & Role of IF/TF Flags](#q-4a-5-marks--interrupt-processing-steps--role-of-iftf-flags)
     - [Q-4(b) [5 Marks] — Stack Pointer & Memory Trace for Subroutine with RET 4](#q-4b-5-marks--stack-pointer--memory-trace-for-subroutine-with-ret-4)
     - [Q-4(c) [5 Marks] — Differentiations: RET vs IRET, ENDS vs ENDP, GLOBAL vs PUBLIC, DQ vs DT](#q-4c-5-marks--differentiations-ret-vs-iret-ends-vs-endp-global-vs-public-dq-vs-dt)
-  - [Question 5](#question-5)
+    - [Question 5](#question-5)
     - [Q-5(a) [5 Marks] — 32-bit x 32-bit Doubleword Unsigned Multiplication into ES](#q-5a-5-marks--32-bit-x-32-bit-doubleword-unsigned-multiplication-into-es)
     - [Q-5(a) OR [5 Marks] — String Concatenation Macro (STR1 + STR2 -> STR3)](#q-5a-or-5-marks--string-concatenation-macro-str1--str2---str3)
     - [Q-5(b) [5 Marks] — Error Identification in Given Assembly Instructions](#q-5b-5-marks--error-identification-in-given-assembly-instructions)
     - [Q-5(c) [5 Marks] — Convert 10 Packed BCD Numbers to Unpacked BCD](#q-5c-5-marks--convert-10-packed-bcd-numbers-to-unpacked-bcd)
-  - [Question 6](#question-6)
+    - [Question 6](#question-6)
     - [Q-6(a) [5 Marks] — Real Mode vs Protected Mode Memory Addressing](#q-6a-5-marks--real-mode-vs-protected-mode-memory-addressing)
     - [Q-6(b) [5 Marks] — 8259 PIC Block Diagram & Functional Components](#q-6b-5-marks--8259-pic-block-diagram--functional-components)
     - [Q-6(c) [5 Marks] — 8255A PPI Block Diagram & Operating Modes](#q-6c-5-marks--8255a-ppi-block-diagram--operating-modes)
@@ -83,6 +84,7 @@ $$\text{Physical Address (20 bits)} = (\text{Segment Register} \times 10\text{H}
 > **Question:**  
 > Given data: $BX = 0017H, DI = 10C5H, \text{Displacement} = 1C58H$ and $DS = 1000H$.  
 > Give example `MOV` instructions and determine the effective address for the following addressing modes:  
+>
 > 1. Direct addressing mode  
 > 2. Register indirect assuming `BX` register  
 > 3. Register relative assuming `BX` register  
@@ -96,6 +98,7 @@ $$DS = 1000\text{H}, \quad BX = 0017\text{H}, \quad DI = 10\text{C}5\text{H}, \q
 ---
 
 #### 1. Direct Addressing Mode
+
 - **Instruction Example:** `MOV AX, [1C58H]`
 - **Effective Address (EA):** $\text{EA} = \text{Disp} = \mathbf{1C58}\text{H}$
 - *Physical Address:* $(1000\text{H} \times 10\text{H}) + 1\text{C}58\text{H} = 10000\text{H} + 1\text{C}58\text{H} = \mathbf{11C58}\text{H}$
@@ -103,6 +106,7 @@ $$DS = 1000\text{H}, \quad BX = 0017\text{H}, \quad DI = 10\text{C}5\text{H}, \q
 ---
 
 #### 2. Register Indirect Mode (using BX)
+
 - **Instruction Example:** `MOV AX, [BX]`
 - **Effective Address (EA):** $\text{EA} = [BX] = \mathbf{0017}\text{H}$
 - *Physical Address:* $10000\text{H} + 0017\text{H} = \mathbf{10017}\text{H}$
@@ -110,30 +114,36 @@ $$DS = 1000\text{H}, \quad BX = 0017\text{H}, \quad DI = 10\text{C}5\text{H}, \q
 ---
 
 #### 3. Register Relative Mode (using BX)
+
 - **Instruction Example:** `MOV AX, [BX + 1C58H]`
 - **Effective Address (EA):**
 
   $\text{EA} = [BX] + \text{Disp} = 0017\text{H} + 1\text{C}58\text{H} = \mathbf{1C6F}\text{H}$
+
 - *Physical Address:* $10000\text{H} + 1\text{C}6\text{FH} = \mathbf{11C6F}\text{H}$
 
 ---
 
 #### 4. Base Indexed Mode
+
 - **Instruction Example:** `MOV AX, [BX + DI]`
 - **Effective Address (EA):**
 
   $\text{EA} = [BX] + [DI] = 0017\text{H} + 10\text{C}5\text{H} = \mathbf{10DC}\text{H}$
+
 - *Physical Address:* $10000\text{H} + 10\text{DCH} = \mathbf{110DC}\text{H}$
 
 ---
 
 #### 5. Register Relative Base Indexed Mode
+
 - **Instruction Example:** `MOV AX, [BX + DI + 1C58H]`
 - **Effective Address (EA):**
 
   $\text{EA} = [BX] + [DI] + \text{Disp} = 0017\text{H} + 10\text{C}5\text{H} + 1\text{C}58\text{H}$
 
   $\text{EA} = 10\text{DCH} + 1\text{C}58\text{H} = \mathbf{2D34}\text{H}$
+
 - *Physical Address:* $10000\text{H} + 2\text{D}34\text{H} = \mathbf{12D34}\text{H}$
 
 ---
@@ -144,22 +154,27 @@ $$DS = 1000\text{H}, \quad BX = 0017\text{H}, \quad DI = 10\text{C}5\text{H}, \q
 > Give the importance of $DT/\overline{R}$, $\text{ALE}$, $\overline{\text{DEN}}$, $\overline{\text{INTA}}$ and $\text{NMI}$ control signals of 8086 microprocessor.
 
 #### 1. $DT/\overline{R}$ (Data Transmit / Receive — Output, Pin 27 in Min Mode):
+
 - **Function:** Controls the direction of data flow through bidirectional external octal bus transceivers (e.g., 74LS245).
 - **Importance:** When HIGH ($1$), the 8086 is **transmitting** data (Memory/IO Write). When LOW ($0$), the 8086 is **receiving** data (Memory/IO Read). Prevents bus contention by orienting transceiver buffers prior to data strobe assertion.
 
 #### 2. $\text{ALE}$ (Address Latch Enable — Output, Pin 25 in Min Mode):
+
 - **Function:** Active-high pulse generated during state $T_1$ of every machine cycle.
 - **Importance:** Latches the multiplexed address lines ($AD_0$–$AD_{15}$ and $A_{16}/S_3$–$A_{19}/S_6$) into external transparent latches (74LS373), providing a stable, demultiplexed 20-bit address across states $T_2$–$T_4$.
 
 #### 3. $\overline{\text{DEN}}$ (Data Enable — Output, Pin 26 in Min Mode):
+
 - **Function:** Active-low signal asserted during states $T_2, T_3, T_w, T_4$ of read/write bus cycles.
 - **Importance:** Drives the Output Enable ($\overline{OE}$) of the 74LS245 data transceivers, isolating the CPU local data bus from the system data bus during $T_1$ while address lines are active.
 
 #### 4. $\overline{\text{INTA}}$ (Interrupt Acknowledge — Output, Pin 24 in Min Mode):
+
 - **Function:** Active-low handshake pulse generated in response to an interrupt request on `INTR`.
 - **Importance:** Emitted in pairs: the first pulse signals the interrupt controller (8259) to freeze priority and resolve the requesting device; the second pulse commands the 8259 to put the 8-bit vector type ($N$) onto data bus lines $D_7$–$D_0$.
 
 #### 5. $\text{NMI}$ (Non-Maskable Interrupt — Input, Pin 17):
+
 - **Function:** Edge-triggered, high-priority hardware interrupt input.
 - **Importance:** Cannot be masked by software (unaffected by $IF = 0$). Hardwired to Type-2 in the IVT ($00008\text{H}$). Dedicated to catastrophic hardware events like power failure detection, RAM parity errors, or watchdog timer expirations.
 
@@ -199,6 +214,7 @@ DEN#            -------------------\____________________________/------- (Buffer
 
 #### 2. I/O Write Machine Cycle with Wait State ($T_w$)
 During an I/O Write (`OUT` instruction):
+
 - $M/\overline{\text{IO}} = \text{LOW}$ (I/O operation).
 - $DT/\overline{R} = \text{HIGH}$ (Transmit mode).
 - $\overline{\text{WR}}$ is asserted LOW across $T_2, T_3, T_w$.
@@ -233,12 +249,14 @@ DEN#            -------------------\____________________________/------- (Buffer
 > Give pros and cons of 8086 microprocessor segmentation.
 
 #### 1. Pros of Memory Segmentation:
+
 1. **Physical Address Expansion:** Enables 16-bit internal registers to address 1 MB ($2^{20}$ bytes) of physical memory space without requiring 32-bit registers or ALU expansions.
 2. **Code & Data Relocatability:** Programs can be loaded and executed anywhere in memory simply by setting the segment registers (`CS`, `DS`, `SS`), without recompilation or address rebinding.
 3. **Logical Modularity:** Naturally divides programs into distinct code, data, and stack segments, preventing unintended cross-segment clobbering.
 4. **Compact Machine Code:** Displacements and pointer variables only need 16 bits rather than 20 or 32 bits, reducing instruction size and bus traffic.
 
 #### 2. Cons of Memory Segmentation:
+
 1. **64 KB Segment Barrier:** Single data structures (arrays, matrices, buffers) larger than 64 KB cannot be indexed with a standard 16-bit pointer and require clumsy multi-segment normalization.
 2. **Address Generation Overhead:** Computing $(\text{Segment} \times 16) + \text{Offset}$ introduces hardware addition latency on every memory access.
 3. **Complex Pointer Types:** Compilers must differentiate between *Near Pointers* (16-bit offset) and *Far Pointers* (32-bit segment:offset), adding software complexity and subtle bugs.
@@ -253,6 +271,7 @@ DEN#            -------------------\____________________________/------- (Buffer
 
 #### 1. Importance of Descriptors in 80286
 The 80286 introduced hardware-enforced **Protected Mode**. Segment registers no longer store physical addresses; instead, they hold 16-bit **Selectors** that index an entry in a **Descriptor Table** (GDT or LDT).  
+
 - Descriptors prevent application tasks from accessing kernel data or executing non-code segments.
 - They implement hardware bounds checking, catching memory violations instantly.
 
@@ -283,6 +302,7 @@ Byte 7    Byte 6    Byte 5       Byte 4    Byte 3    Byte 2    Byte 1    Byte 0
 
 #### 1. Memory Banking Organization
 The 8086 interfaces with 1 MB of memory divided into two 512 KB banks:
+
 - **Even Bank ($D_7$–$D_0$):** Selected by $A_0 = 0$.
 - **Odd Bank ($D_{15}$–$D_8$):** Selected by $\overline{\text{BHE}} = 0$.
 
@@ -313,6 +333,7 @@ BHE# ->|   ODD (UPPER) BANK |                |  EVEN (LOWER) BANK |<- A0
 
 #### 3. Why Misaligned Word Requires Two Cycles:
 Consider 16-bit word at odd address $00003\text{H}$:
+
 - Low byte of word is at $00003\text{H}$ (in Odd Bank).
 - High byte of word is at $00004\text{H}$ (in Even Bank).
 - The processor cannot drive address $00003\text{H}$ and $00004\text{H}$ at the same time.
@@ -450,6 +471,7 @@ Assume initial $SP = 00F0\text{H}$:
 > Write 8086 microprocessor interrupt service routine for a NMI interrupt to add byte type data stored in an array of size 100, starting at address 2000H:5000H in memory with the corresponding data in another array of size 100, stored in memory starting at the address 3000H:5000H. Store the result in another array of size 100 stored at address 4000H:5000H. Neglect the carry generated during addition.
 
 #### 1. Concept: Multi-Segment ISR
+
 - Source Array 1: Segment `2000H`, Offset `5000H`
 - Source Array 2: Segment `3000H`, Offset `5000H`
 - Destination Array: Segment `4000H`, Offset `5000H`
@@ -515,10 +537,11 @@ NMI_ISR ENDP
 > Assume a symbol table with name as TABLE consisting of 100 entries. Each entry has 80 bytes with the first 8 bytes representing the name field of an entity and the remaining 72 bytes represents information about the name entity. Write 8086 assembly program sequence to search this TABLE for a given name stored in a variable SEARCH_NAME and if SEARCH_NAME is found in TABLE then the program should copy 72 bytes of information in variable NAME_INFO. If SEARCH NAME is not found then NAME_INFO should contain `'$'` symbol.
 
 #### 1. Concept: Structured Table Search
+
 - Table structure: 100 records $\times$ 80 bytes $= 8000\text{ bytes}$.
 - Each record:
-  - Offset $+0$ to $+7$: 8-byte entity name (`CMPSB`).
-  - Offset $+8$ to $+79$: 72-byte entity information (`MOVSB`).
+    - Offset $+0$ to $+7$: 8-byte entity name (`CMPSB`).
+    - Offset $+8$ to $+79$: 72-byte entity information (`MOVSB`).
 - Search loop iterates at most 100 times, advancing table pointer by 80 bytes on mismatch.
 
 #### 2. Assembly Program Implementation
@@ -592,6 +615,7 @@ END MAIN
 > Explain the sequence of steps that are executed when 8086 responds to interrupts. Give the importance of IF and TF flag while handling interrupts from hardware and software sources.
 
 #### 1. Interrupt Response Sequence:
+
 1. **Fetch & Finish:** Completes the currently executing instruction.
 2. **Push PSW:** Decrements `SP` by 2 and pushes the 16-bit **Processor Status Word (FLAGS)** onto the stack.
 3. **Clear Control Flags:**
@@ -604,10 +628,11 @@ END MAIN
 6. **Execute ISR:** Jumps to the Interrupt Service Routine.
 
 #### 2. Importance of IF and TF Flags:
+
 - **IF (Interrupt Flag):**
-  - Crucial for protecting the ISR entry sequence. When an interrupt occurs, the hardware automatically clears $IF = 0$ so that an incoming lower or equal priority hardware interrupt cannot interrupt the critical vector setup. If an ISR is re-entrant or nestable, the programmer explicitly enables interrupts via `STI` inside the ISR.
+    - Crucial for protecting the ISR entry sequence. When an interrupt occurs, the hardware automatically clears $IF = 0$ so that an incoming lower or equal priority hardware interrupt cannot interrupt the critical vector setup. If an ISR is re-entrant or nestable, the programmer explicitly enables interrupts via `STI` inside the ISR.
 - **TF (Trap Flag):**
-  - When single-stepping with a debugger ($TF = 1$), an interrupt occurring naturally pushes $TF$ to the stack and then clears $TF = 0$. This ensures that the debugger's *own* service routine executes at full speed without trapping each of its internal instructions! Upon `IRET`, the stacked $TF = 1$ is restored, continuing user single-step execution.
+    - When single-stepping with a debugger ($TF = 1$), an interrupt occurring naturally pushes $TF$ to the stack and then clears $TF = 0$. This ensures that the debugger's *own* service routine executes at full speed without trapping each of its internal instructions! Upon `IRET`, the stacked $TF = 1$ is restored, continuing user single-step execution.
 
 ---
 
@@ -652,6 +677,7 @@ END MAIN
 | `POP SI` | Pops value into `SI` | **`6000H`** | Value popped is `[5FFEH]` $= 1111\text{H}$ | **$SI = 1111\text{H}$** |
 
 #### 2. Final Register State:
+
 - **`SP` = `6000H`** (Cleanly restored to initial position!)
 - **`AX` = `7777H`**
 - **`DX` = `3333H`**, **`CX` = `2222H`**, **`SI` = `1111H`**
@@ -662,24 +688,29 @@ END MAIN
 
 > **Question:**  
 > Identify the difference between the following:  
+>
 > 1. `RET` and `IRET`  
 > 2. `ENDS` and `ENDP`  
 > 3. `GLOBAL` and `PUBLIC`  
 > 4. `DQ` and `DT`
 
 #### 1. `RET` vs `IRET`:
+
 - **`RET` (Return from Procedure):** Used at the end of standard procedures (`CALL`). Pops only the return instruction pointer (`IP` for near, `IP` and `CS` for far) from the stack. Does not alter the flag register.
 - **`IRET` (Interrupt Return):** Used exclusively at the end of Interrupt Service Routines (ISRs). Pops 3 words: return `IP`, return `CS`, and the saved `FLAGS` (PSW) register, restoring processor status.
 
 #### 2. `ENDS` vs `ENDP`:
+
 - **`ENDS` (End Segment):** Closes a logical memory segment block (`SEGMENT ... ENDS`).
 - **`ENDP` (End Procedure):** Closes a callable subroutine or procedure definition (`PROC ... ENDP`).
 
 #### 3. `GLOBAL` vs `PUBLIC`:
+
 - **`PUBLIC`:** Directive used within a module to declare labels, variables, or procedures so that other external modules can link and reference them.
 - **`GLOBAL` / `EXTRN`:** Directive declaring that a symbol used in the current module is defined in an external module (`EXTRN`) or acts as both public and extern (`GLOBAL` in some assemblers).
 
 #### 4. `DQ` vs `DT`:
+
 - **`DQ` (Define Quadword):** Allocates **8 bytes (64 bits)** of memory storage for 64-bit integers or IEEE 754 double-precision floating-point values.
 - **`DT` (Define Tenbytes):** Allocates **10 bytes (80 bits)** of memory storage for 80-bit extended-precision floating-point numbers or 18-digit packed BCD numbers.
 
@@ -845,6 +876,7 @@ END MAIN
 > B DW 60H
 > DATA ENDS
 > ```  
+>
 > 1. `AAA DX`  
 > 2. `SUB AL, A`  
 > 3. `JNZ A`  
@@ -852,6 +884,7 @@ END MAIN
 > 5. `MOV [DX], AL`
 
 #### Solutions:
+
 1. **`AAA DX`:** **Invalid operand.** `AAA` takes no operands (implicitly acts on `AL`/`AH`).
 2. **`SUB AL, A`:** **Operand size mismatch.** `AL` is an 8-bit byte; `A` is a 16-bit `WORD`.
 3. **`JNZ A`:** **Invalid target operand for conditional branch.** `JNZ` requires a code label within relative range ($-128$ to $+127$ bytes); `A` is a data segment variable.
@@ -979,6 +1012,7 @@ END MAIN
 > Give the block diagram of 8255A programmable peripheral interface and different modes of operation.
 
 #### 1. 8255A Operating Modes:
+
 1. **Mode 0 (Basic I/O):** Unlatched input or latched output for Port A, Port B, and Port C (two 4-bit ports: $C_U, C_L$). No handshaking.
 2. **Mode 1 (Strobed I/O):** Handshaking I/O for Port A and/or Port B. Port C lines provide control/strobe signals (`STB#`, `IBF`, `INTR`, `ACK#`, `OBF#`).
 3. **Mode 2 (Strobed Bidirectional Bus I/O):** Port A acts as an 8-bit bidirectional bus using 5 lines of Port C for handshake controls.
@@ -992,6 +1026,7 @@ END MAIN
 > Explain control word format of 8253/8254 Programmable Interval Timer and write an assembly program module to generate a square wave.
 
 #### 1. Control Word Register (CWR) Format:
+
 - Bits 7–6: **SC1, SC0** (00 = Counter 0, 01 = Counter 1, 10 = Counter 2).
 - Bits 5–4: **RW1, RW0** (11 = Read/Write LSB first, then MSB).
 - Bits 3–1: **M2, M1, M0** (011 = **Mode 3: Square Wave Generator**).
@@ -999,6 +1034,7 @@ END MAIN
 
 #### 2. Assembly Program Module to Generate Square Wave on Counter 0:
 Let Counter 0 divide clock by $2000_{10} = 07\text{D}0\text{H}$:
+
 - CWR byte: `00 11 011 0` $= \mathbf{36}\text{H}$.
 - Counter 0 Port $= 40\text{H}$, CWR Port $= 43\text{H}$.
 
@@ -1021,11 +1057,13 @@ OUT 40H, AL           ; Send High byte (07H)
 > Discuss in detail different modes of operation of 8237 DMA controller and why read and write control signals are bidirectional.
 
 #### 1. Operating Modes of the 8237 DMA Controller:
+
 1. **Single Transfer Mode:** DMA transfers exactly one byte per request, then yields the bus back to the CPU.
 2. **Block Transfer Mode:** Activated by DREQ; transfers the entire continuous block of data until terminal count ($TC$) is reached before releasing the bus.
 3. **Demand Transfer Mode:** Continues transferring data bytes as long as the requesting I/O device keeps `DREQ` active; suspends transfer if DREQ drops inactive.
 4. **Cascade Mode:** Multiple 8237 chips are cascaded without CPU bus contention.
 
 #### 2. Why Control Signals ($\overline{\text{MEMR}}, \overline{\text{MEMW}}, \overline{\text{IOR}}, \overline{\text{IOW}}$) Are Bidirectional:
+
 - **Slave Mode (Idle / Programming State):** The CPU controls the bus. The 8237 acts as a peripheral slave. $\overline{\text{IOR}}$ and $\overline{\text{IOW}}$ are **inputs** so the CPU can read from and write to the internal 8237 registers.
 - **Master Mode (Active DMA Transfer State):** The 8237 takes complete control of the system bus via `HRQ`/`HLDA`. The 8237 drives $\overline{\text{MEMR}}$, $\overline{\text{MEMW}}$, $\overline{\text{IOR}}$, and $\overline{\text{IOW}}$ as **outputs** to directly strobe memory and peripheral devices simultaneously for single-cycle flyby data transfer!

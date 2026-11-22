@@ -834,6 +834,7 @@ $$
 ## 20. Exam-Oriented Review
 
 ### Important Concepts
+
 - LIFO nature of the stack and its role in CALL/RET
 - Exact sequence of events during NEAR CALL and RET
 - Stack frame layout with BP: which offset holds what
@@ -844,6 +845,7 @@ $$
 - NEAR vs FAR: what gets saved, which RET to use
 
 ### Important Definitions
+
 - **CALL:** saves return address on stack, jumps to procedure
 - **RET:** pops return address from stack, resumes caller
 - **BP:** stable base pointer for stack frame; access parameters as [BP+offset]

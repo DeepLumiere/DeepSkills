@@ -37,6 +37,7 @@ Write an 8086 assembly language program to initialize an array of 10 signed 16-b
 
 ### 2.2 Architectural & Algorithmic Principles
 In signed binary arithmetic (two's complement):
+
 - **Positive:** Value $> 0$ (Bit 15 is `0`, and result is non-zero).
 - **Negative:** Value $< 0$ (Bit 15 is `1`, meaning Sign Flag $\text{SF} \ne \text{OF}$).
 - **Zero:** Value $= 0$ (Zero Flag $\text{ZF} = 1$).
@@ -201,6 +202,7 @@ Write an 8086 assembly program to copy the contents of one string into another s
 
 ### 3.2 Architectural & Algorithmic Principles
 String instructions automatically handle segment overrides (`DS:SI` to `ES:DI`) and pointer stepping. When forbidden from using them:
+
 - Source pointer `SI` and destination pointer `DI` are maintained manually in software.
 - Register indirect addressing `MOV AL, [SI]` reads each byte, and `MOV [DI], AL` writes each byte.
 - Explicit pointer incrementation `INC SI` and `INC DI` simulates hardware auto-indexing.
@@ -291,6 +293,7 @@ Write an 8086 assembly program to evaluate three numbers and determine the maxim
 
 ### 4.2 Architectural & Algorithmic Principles
 Let the three numbers be $N_1, N_2, N_3$:
+
 1. Load $N_1$ into accumulator `AX`.
 2. Compare `AX` with $N_2$ via `CMP AX, N2`.
    - If $AX \ge N_2$ (`JAE` for unsigned, `JGE` for signed), retain `AX`.
@@ -404,13 +407,13 @@ The 8086 FLAGS register (16 bits) is arranged as follows:
 ```
 
 - **Target condition flags to clear (set to 0):**
-  - Bit 0: **CF** (Carry Flag)
-  - Bit 2: **PF** (Parity Flag)
-  - Bit 4: **AF** (Auxiliary Carry Flag)
-  - Bit 6: **ZF** (Zero Flag)
-  - Bit 7: **SF** (Sign Flag)
+    - Bit 0: **CF** (Carry Flag)
+    - Bit 2: **PF** (Parity Flag)
+    - Bit 4: **AF** (Auxiliary Carry Flag)
+    - Bit 6: **ZF** (Zero Flag)
+    - Bit 7: **SF** (Sign Flag)
 - **Flag to retain:**
-  - Bit 11: **OF** (Overflow Flag)
+    - Bit 11: **OF** (Overflow Flag)
 - **Control flags to retain:** TF (Bit 8), IF (Bit 9), DF (Bit 10).
 
 $$\text{Clear Bitmask} = \sim(0000\ 0000\ 1101\ 0101_2) = 1111\ 1111\ 0010\ 1010_2 = \mathbf{FF2A_{16}}$$
@@ -513,13 +516,14 @@ END MAIN
 Write an 8086 assembly language program to reverse a string **using string instructions** (`LODSB`, `STOSB`, `STD`, `CLD`).
 
 ### 6.2 Architectural & Algorithmic Principles
+
 - String instructions implicitly associate pointers:
-  - `LODSB`: reads byte from `DS:SI`, updates `SI` according to `DF`.
-  - `STOSB`: writes byte to `ES:DI`, updates `DI` according to `DF`.
+    - `LODSB`: reads byte from `DS:SI`, updates `SI` according to `DF`.
+    - `STOSB`: writes byte to `ES:DI`, updates `DI` according to `DF`.
 - **Direction Flag Switching Scheme:**
-  - `SI` is initialized to the **last byte** of the source string (`OFFSET STR + LEN - 1`).
-  - `DI` is initialized to the **first byte** of the destination string (`OFFSET REV_STR`).
-  - During each loop iteration:
+    - `SI` is initialized to the **last byte** of the source string (`OFFSET STR + LEN - 1`).
+    - `DI` is initialized to the **first byte** of the destination string (`OFFSET REV_STR`).
+    - During each loop iteration:
     - Execute `STD` ($\text{DF} = 1$): `LODSB` pulls a character and decrements `SI`.
     - Execute `CLD` ($\text{DF} = 0$): `STOSB` writes the character and increments `DI`.
     - Loop for `LEN` cycles.
@@ -609,12 +613,13 @@ Write an 8086 assembly language program to reverse a string **in-place** without
 
 ### 7.2 Architectural & Algorithmic Principles
 In-place reversal mirrors characters about the central median index:
+
 - **Pointers:** Left index `SI` points to the start (`STR[0]`), and right index `DI` points to the end (`STR[LEN - 1]`).
 - **Convergence Condition:** While $SI < DI$:
-  1. Read `AL = [SI]` and `AH = [DI]`.
-  2. Write `[SI] = AH` and `[DI] = AL`.
-  3. Increment $SI \leftarrow SI + 1$.
-  4. Decrement $DI \leftarrow DI - 1$.
+    1. Read `AL = [SI]` and `AH = [DI]`.
+    2. Write `[SI] = AH` and `[DI] = AL`.
+    3. Increment $SI \leftarrow SI + 1$.
+    4. Decrement $DI \leftarrow DI - 1$.
 - **Complexity:** Auxiliary space $\mathcal{O}(1)$, runtime $\mathcal{O}(N/2)$.
 
 ```mermaid
@@ -857,13 +862,14 @@ END MAIN
 Perform a linear search operation on an array of 16-bit elements in 8086 assembly language.
 
 ### 9.2 Architectural & Algorithmic Principles
+
 - Array initialized in `.DATA` as consecutive words.
 - Index register `SI` tracks physical memory byte offsets ($0, 2, 4, \dots$).
 - Register `BX` tracks logical zero-based indices ($0, 1, 2, \dots$).
 - Target key loaded into `AX`.
 - Sequential comparison `CMP [ARRAY + SI], AX`:
-  - If equal (`JE`), branch to match handler.
-  - If counter `CX` exhausts without branch, declare element absent.
+    - If equal (`JE`), branch to match handler.
+    - If counter `CX` exhausts without branch, declare element absent.
 
 ### 9.3 Complete Assembly Code
 
@@ -970,6 +976,7 @@ END MAIN
 Write an 8086 assembly language program to find the number of occurrences of a particular character in a given input string.
 
 ### 10.2 Architectural & Algorithmic Principles
+
 - String traversed byte-by-byte using source index pointer `SI`.
 - Register `AL` holds the comparison target character.
 - Counter accumulator `BL` initialized to `0`.
@@ -1071,6 +1078,7 @@ END MAIN
 Write an 8086 assembly program to display the multiplication table ($1 \times N$ to $10 \times N$) for a number specified by the user through the keyboard.
 
 ### 11.2 Architectural & Algorithmic Principles
+
 1. Read user input character using DOS service `INT 21H, AH = 01H`.
 2. Convert ASCII character to numeric value: $\text{NUM} = \text{AL} - 30\text{H}$.
 3. Loop variable $M = 1$ to $10$:
@@ -1208,13 +1216,14 @@ Write an 8086 assembly program to display the count of odd and even elements in 
 
 ### 12.2 Architectural & Algorithmic Principles
 In the binary representation of any integer:
+
 - **Bit 0 (LSB)** strictly determines parity:
-  - If $\text{Bit } 0 = 0 \implies \text{Even}$.
-  - If $\text{Bit } 0 = 1 \implies \text{Odd}$.
+    - If $\text{Bit } 0 = 0 \implies \text{Even}$.
+    - If $\text{Bit } 0 = 1 \implies \text{Odd}$.
 - The non-destructive `TEST` instruction performs bitwise logical `AND` without modifying the operand:
-  - `TEST AX, 0001H`
-  - If $\text{ZF} = 1$ (result is 0), the number is **Even**.
-  - If $\text{ZF} = 0$ (result is 1), the number is **Odd**.
+    - `TEST AX, 0001H`
+    - If $\text{ZF} = 1$ (result is 0), the number is **Even**.
+    - If $\text{ZF} = 0$ (result is 1), the number is **Odd**.
 
 ### 12.3 Complete Assembly Code
 

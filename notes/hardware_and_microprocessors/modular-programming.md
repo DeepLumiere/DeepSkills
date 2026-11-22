@@ -362,7 +362,7 @@ IOBUF ENDS
 **Alignment** controls the **boundary** at which a segment begins in memory.
 
 - The **default alignment** places a segment at an address **divisible by 16** (paragraph boundary).
-  - Example boundaries: `1000H`, `1010H`, `1020H`, `1030H`, …
+    - Example boundaries: `1000H`, `1010H`, `1020H`, `1030H`, …
 - The alignment is specified before the combine-type in the `SEGMENT` directive.
 
 > **Do not confuse** segment alignment with item alignment (`EVEN`/`ALIGN` — see next section). Segment alignment applies to where the whole segment starts; item alignment applies to where a variable within a segment starts.
@@ -651,6 +651,7 @@ ADD DX, ES:VAR        ; access VAR through ES
 ```
 
 > **Critical distinction:**
+>
 > - `ASSUME ES:EXTDATA` tells the **assembler** to associate ES with the EXTDATA segment — it is a **declaration**, not an instruction.
 > - `MOV AX, SEG VAR; MOV ES, AX` is the **runtime** code that actually loads ES.
 > - `EXTRN` does **not** automatically load any segment register.
@@ -820,6 +821,7 @@ $$
 ## 23. Exam-Oriented Review
 
 ### Important Concepts
+
 - The six-step program development process
 - Creation/execution pipeline: ASM → OBJ → LINKER → LOAD MODULE → LOADER → EXECUTION
 - What the linker/locator does and why it is needed

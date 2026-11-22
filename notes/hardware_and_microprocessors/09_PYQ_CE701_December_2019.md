@@ -10,31 +10,32 @@
 ---
 
 ## Table of Contents
+
 - [Section I (50 Marks)](#section-i-50-marks)
-  - [Question 1](#question-1)
+    - [Question 1](#question-1)
     - [Q-1(a) [5 Marks] — Significance of Each Flag Bit in 8086 PSW](#q-1a-5-marks--significance-of-each-flag-bit-in-8086-psw)
     - [Q-1(b) [5 Marks] — Logical Register Groups in 8086 Architecture](#q-1b-5-marks--logical-register-groups-in-8086-architecture)
     - [Q-1(c) [5 Marks] — Address/Data Lines, 1 MB Memory Calculation & Segmentation](#q-1c-5-marks--addressdata-lines-1-mb-memory-calculation--segmentation)
-  - [Question 2](#question-2)
+    - [Question 2](#question-2)
     - [Q-2(a) [5 Marks] — Identification of Data Movement Instructions & Addressing Modes](#q-2a-5-marks--identification-of-data-movement-instructions--addressing-modes)
     - [Q-2(b) [5 Marks] — Memory Bank Organization & Byte/Word Control Signals](#q-2b-5-marks--memory-bank-organization--byteword-control-signals)
     - [Q-2(b) OR [5 Marks] — Selectors and Descriptors in Protected Mode Addressing](#q-2b-or-5-marks--selectors-and-descriptors-in-protected-mode-addressing)
     - [Q-2(c) [5 Marks] — Minimum Mode 16-bit Word Read Timing Diagram](#q-2c-5-marks--minimum-mode-16-bit-word-read-timing-diagram)
-  - [Question 3](#question-3)
+    - [Question 3](#question-3)
     - [Q-3(a) [10 Marks] — Segment Override Prefix Encoding & Machine Code Generation](#q-3a-10-marks--segment-override-prefix-encoding--machine-code-generation)
     - [Q-3(a) OR [10 Marks] — Physical Address Calculations & Addressing Modes](#q-3a-or-10-marks--physical-address-calculations--addressing-modes)
     - [Q-3(b) [10 Marks] — Assembly Program: ASCII Decimal String to Binary via Near Procedure](#q-3b-10-marks--assembly-program-ascii-decimal-string-to-binary-via-near-procedure)
 - [Section II (50 Marks)](#section-ii-50-marks)
-  - [Question 4](#question-4)
+    - [Question 4](#question-4)
     - [Q-4(a) [5 Marks] — Macro for 16-bit Word Multiplication](#q-4a-5-marks--macro-for-16-bit-word-multiplication)
     - [Q-4(b) [5 Marks] — 100-Word Stack Configuration & Setting Carry Flag via Stack](#q-4b-5-marks--100-word-stack-configuration--setting-carry-flag-via-stack)
     - [Q-4(c) [5 Marks] — Error Detection and Syntax Analysis in Assembly Instructions](#q-4c-5-marks--error-detection-and-syntax-analysis-in-assembly-instructions)
-  - [Question 5](#question-5)
+    - [Question 5](#question-5)
     - [Q-5(a) [5 Marks] — Bit Manipulation on AX (Set, Clear, Invert Selected Bits)](#q-5a-5-marks--bit-manipulation-on-ax-set-clear-invert-selected-bits)
     - [Q-5(b) [5 Marks] — Trace of Shift and Rotate Instructions (SHL, SAL, ROL, RCL)](#q-5b-5-marks--trace-of-shift-and-rotate-instructions-shl-sal-rol-rcl)
     - [Q-5(b) OR [5 Marks] — String Transfer without MOV, MOVSB, MOVSW, or LOOP](#q-5b-or-5-marks--string-transfer-without-mov-movsb-movsw-or-loop)
     - [Q-5(c) [5 Marks] — Find Maximum of Array using a Near Procedure](#q-5c-5-marks--find-maximum-of-array-using-a-near-procedure)
-  - [Question 6](#question-6)
+    - [Question 6](#question-6)
     - [Q-6(a) [5 Marks] — Interrupt Vector Table (IVT) Architecture & Role](#q-6a-5-marks--interrupt-vector-table-ivt-architecture--role)
     - [Q-6(b) [5 Marks] — Exact Stack Trace & Register State for INT 8 Instruction](#q-6b-5-marks--exact-stack-trace--register-state-for-int-8-instruction)
     - [Q-6(b) OR [5 Marks] — Master-Slave Cascading of 8259 PIC (CAS0-CAS2, SP#/EN#)](#q-6b-or-5-marks--master-slave-cascading-of-8259-pic-cas0-cas2-spen)
@@ -65,6 +66,7 @@ PSW: | - | - | - | - | OF| DF| IF| TF| SF| ZF| - | AF| - | PF| - | CF|
 #### 2. Detailed Significance of All 9 Flags
 
 ##### A. Status / Conditional Flags (ALU Driven):
+
 1. **CF (Carry Flag, Bit 0):** Set to 1 if an unsigned arithmetic operation generates a carry out of the MSB (addition) or a borrow into the MSB (subtraction). Also receives shifted/rotated bits during bit manipulation.
 2. **PF (Parity Flag, Bit 2):** Set to 1 if the lower 8 bits of an ALU result contain an **even number of 1s** (even parity); cleared to 0 for odd parity. Used in communication error checking.
 3. **AF (Auxiliary Carry Flag, Bit 4):** Set to 1 if there is an arithmetic carry out of bit 3 into bit 4 or borrow from bit 4 into bit 3 (between lower and upper nybbles). Used by BCD instructions (`DAA`, `DAS`).
@@ -73,6 +75,7 @@ PSW: | - | - | - | - | OF| DF| IF| TF| SF| ZF| - | AF| - | PF| - | CF|
 6. **OF (Overflow Flag, Bit 11):** Set to 1 if the signed result exceeds the capacity of the destination register (signed overflow: $-128$ to $+127$ for byte, $-32768$ to $+32767$ for word). Formally: $OF = C_{in\_msb} \oplus C_{out\_msb}$.
 
 ##### B. Control Flags (Instruction Controlled):
+
 1. **TF (Trap Flag, Bit 8):** Puts the processor into single-step execution mode when set to 1. An internal Type-1 interrupt is generated automatically after each instruction, allowing interactive debugging.
 2. **IF (Interrupt Flag, Bit 9):** Enables external maskable hardware interrupts (`INTR`) when set to 1 (`STI`). Disables them when cleared to 0 (`CLI`).
 3. **DF (Direction Flag, Bit 10):** Governs string instruction autoincrement/autodecrement (`MOVS`, `LODS`, `STOS`, `CMPS`, `SCAS`). $DF = 0$ (`CLD`) autoincrements index registers (`SI`, `DI`); $DF = 1$ (`STD`) autodecrements them.
@@ -137,10 +140,11 @@ The 8086 internal registers (14 registers of 16 bits each) are grouped into four
 > Identify the address and data lines present in 8086 architecture and calculate the memory addressable using these address lines. Draw the logical segmentation of the memory and specify the size of each segment.
 
 #### 1. Address and Data Bus Specifications
+
 - **Address Bus:** The 8086 features **20 physical address lines** ($A_0$ to $A_{19}$).
-  - Multiplexed as $AD_0$–$AD_{15}$ (Address/Data) during $T_1$, and $A_{16}/S_3$–$A_{19}/S_6$ (Address/Status).
+    - Multiplexed as $AD_0$–$AD_{15}$ (Address/Data) during $T_1$, and $A_{16}/S_3$–$A_{19}/S_6$ (Address/Status).
 - **Data Bus:** The 8086 features **16 data lines** ($D_0$ to $D_{15}$).
-  - Multiplexed on $AD_0$–$AD_{15}$ during clock cycles $T_2, T_3, T_w, T_4$.
+    - Multiplexed on $AD_0$–$AD_{15}$ during clock cycles $T_2, T_3, T_w, T_4$.
 
 #### 2. Maximum Addressable Memory Space Calculation:
 
@@ -229,6 +233,7 @@ All 7 instructions are `MOV` instructions, belonging to the **Data Movement Inst
 
 #### 1. Hardware Architecture & Block Diagram
 The 1 MB physical memory is partitioned into two 512 KB interleaved memory banks:
+
 - **Even Bank (Bank 0):** Connected to lower data bus lines $D_7$–$D_0$. Activated by address line $A_0 = 0$.
 - **Odd Bank (Bank 1):** Connected to upper data bus lines $D_{15}$–$D_8$. Activated by Bus High Enable $\overline{\text{BHE}} = 0$.
 
@@ -282,10 +287,11 @@ Instead of containing a physical address, `CS`, `DS`, `SS`, `ES`, `FS`, `GS` sto
 |               (13 bits)                  | 1 | 2 bits|
 +------------------------------------------+---+-------+
 ```
+
 - **Index (Bits 15–3):** 13-bit index selecting 1 of $2^{13} = 8,192$ descriptors.
 - **TI (Table Indicator, Bit 2):**  
-  - $TI = 0 \implies$ Global Descriptor Table (GDT) shared by all tasks.
-  - $TI = 1 \implies$ Local Descriptor Table (LDT) private to the active task.
+    - $TI = 0 \implies$ Global Descriptor Table (GDT) shared by all tasks.
+    - $TI = 1 \implies$ Local Descriptor Table (LDT) private to the active task.
 - **RPL (Requested Privilege Level, Bits 1–0):** Rings 0 (OS Kernel) to 3 (User App).
 
 #### 3. Segment Descriptor Format (8 Bytes / 64 Bits in Memory)
@@ -297,6 +303,7 @@ Byte 7        Byte 6        Byte 5        Byte 4        Byte 3        Byte 2    
 | Base 31..24 | Gran/Limits | Access Byte | Base 23..16 |       Base 15..00         |       Limit 15..00          |
 +-------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
 ```
+
 1. **Base Address (32 bits):** Starting linear address of the segment anywhere in the 4 GB address space.
 2. **Segment Limit (20 bits):** Maximum allowable segment size (from 1 byte up to 4 GB with 4 KB granularity $G=1$). Any access exceeding the limit triggers an immediate **General Protection Fault (#GP)**.
 3. **Access Rights Byte:**
@@ -314,6 +321,7 @@ Byte 7        Byte 6        Byte 5        Byte 4        Byte 3        Byte 2    
 
 #### 1. Conditions for 16-bit Word Read (Aligned, Even Address)
 To read a 16-bit word in 1 bus cycle:
+
 - Address line $A_0 = 0$ (Even bank enabled).
 - Control pin $\overline{\text{BHE}} = 0$ (Odd bank enabled).
 - $M/\overline{\text{IO}} = 1$ (Memory operation).
@@ -353,6 +361,7 @@ DEN#            ------------------\____________/------------- (Active LOW enable
 
 > **Question:**  
 > Show how the segment override prefix is encoded in Intel 8086 instruction coding template. Write the coding template in hexadecimal format for the following instruction:  
+>
 > 1. `MOV ES:[BX], AX`  
 > 2. `MOV CX, [7534h][SI]`
 
@@ -377,20 +386,22 @@ Segment Override Prefix Byte Format:
 ---
 
 #### 2. Hex Encoding for Instruction 1: `MOV ES:[BX], AX`
+
 - **Default Segment for `[BX]`:** Data Segment (`DS`).
 - **Segment Override Prefix:** Instruction explicitly prefixes `ES:` $\implies$ **`26H`**.
 - **Instruction Template:**
 
   $\text{Byte 1: Opcode (6 bits) } + D (1) + W (1)$
-  - Opcode for `MOV` = `100010`
-  - Direction $D = 0$: Source is register `AX` (in `REG` field); Destination is memory `[BX]` (in `MOD R/M`).
-  - Word $W = 1$: 16-bit word transfer (`AX`).
-  - Byte 1 $= 10001001_2 = \mathbf{89}\text{H}$.
+
+    - Opcode for `MOV` = `100010`
+    - Direction $D = 0$: Source is register `AX` (in `REG` field); Destination is memory `[BX]` (in `MOD R/M`).
+    - Word $W = 1$: 16-bit word transfer (`AX`).
+    - Byte 1 $= 10001001_2 = \mathbf{89}\text{H}$.
 - **Byte 2 (MOD-REG-R/M):**
-  - $MOD = 00_2$ (Memory indirect without displacement).
-  - $REG = 000_2$ (Register `AX`).
-  - $R/M = 111_2$ (Addressing operand `[BX]`).
-  - Byte 2 $= 00\ 000\ 111_2 = \mathbf{07}\text{H}$.
+    - $MOD = 00_2$ (Memory indirect without displacement).
+    - $REG = 000_2$ (Register `AX`).
+    - $R/M = 111_2$ (Addressing operand `[BX]`).
+    - Byte 2 $= 00\ 000\ 111_2 = \mathbf{07}\text{H}$.
 - **Complete Hex Encoding:**
 
   $\mathbf{26\ 89\ 07}\text{ H}$
@@ -399,20 +410,21 @@ Segment Override Prefix Byte Format:
 ---
 
 #### 3. Hex Encoding for Instruction 2: `MOV CX, [7534h][SI]`
+
 - **Default Segment for `[SI]`:** Data Segment (`DS`). No override required.
 - **Instruction Template:**
-  - Opcode for `MOV` = `100010`
-  - Direction $D = 1$: Destination is register `CX` (in `REG` field); Source is memory (in `MOD R/M`).
-  - Word $W = 1$: 16-bit word register `CX`.
-  - Byte 1 $= 10001011_2 = \mathbf{8B}\text{H}$.
+    - Opcode for `MOV` = `100010`
+    - Direction $D = 1$: Destination is register `CX` (in `REG` field); Source is memory (in `MOD R/M`).
+    - Word $W = 1$: 16-bit word register `CX`.
+    - Byte 1 $= 10001011_2 = \mathbf{8B}\text{H}$.
 - **Byte 2 (MOD-REG-R/M):**
-  - Displacement is 16-bit ($7534\text{H}$) $\implies MOD = 10_2$.
-  - Register operand is `CX` $\implies REG = 001_2$.
-  - Memory base/index is `[SI]` $\implies R/M = 100_2$.
-  - Byte 2 $= 10\ 001\ 100_2 = \mathbf{8C}\text{H}$.
+    - Displacement is 16-bit ($7534\text{H}$) $\implies MOD = 10_2$.
+    - Register operand is `CX` $\implies REG = 001_2$.
+    - Memory base/index is `[SI]` $\implies R/M = 100_2$.
+    - Byte 2 $= 10\ 001\ 100_2 = \mathbf{8C}\text{H}$.
 - **Bytes 3 & 4 (16-bit Displacement in Little-Endian):**
-  - Disp-Low: $\mathbf{34}\text{H}$
-  - Disp-High: $\mathbf{75}\text{H}$
+    - Disp-Low: $\mathbf{34}\text{H}$
+    - Disp-High: $\mathbf{75}\text{H}$
 - **Complete Hex Encoding:**
 
   $\mathbf{8B\ 8C\ 34\ 75}\text{ H}$
@@ -424,6 +436,7 @@ Segment Override Prefix Byte Format:
 > **Question (OR):**  
 > Compute physical address using given register values and also specify the addressing modes for the following instructions:  
 > $BX=0222H, DS=1000H, SS=2000H, BP=0111H, SI=3333H, DI=0111H, \text{Data}=1234H$.  
+>
 > 1. `MOV CL, [BP]`  
 > 2. `MOV [DI + 1778h], AX`  
 > 3. `MOV [BX - 1], BL`  
@@ -437,9 +450,10 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 ---
 
 #### 1. `MOV CL, [BP]`
+
 - **Addressing Mode:** **Based Indirect Addressing Mode**.
 - **Default Segment:** Base Pointer `BP` defaults to **Stack Segment (`SS`)**.
-  - $\text{Segment Base} = SS = 2000\text{H}$
+    - $\text{Segment Base} = SS = 2000\text{H}$
 - **Effective Address:** $\text{EA} = [BP] = 0111\text{H}$
 - **Physical Address:**
 
@@ -448,26 +462,31 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 ---
 
 #### 2. `MOV [DI + 1778h], AX`
+
 - **Addressing Mode:** **Indexed Relative (Indexed with Displacement) Addressing Mode**.
 - **Default Segment:** Destination Index `DI` defaults to **Data Segment (`DS`)**.
-  - $\text{Segment Base} = DS = 1000\text{H}$
+    - $\text{Segment Base} = DS = 1000\text{H}$
 - **Effective Address:**
 
   $\text{EA} = [DI] + 1778\text{H} = 0111\text{H} + 1778\text{H} = 1889\text{H}$
+
 - **Physical Address:**
 
   $\text{PA} = (1000\text{H} \times 10\text{H}) + 1889\text{H} = 10000\text{H} + 1889\text{H} = \mathbf{11889}\text{H}$
+
 - Accesses two bytes: Low byte (`AL`) to $\mathbf{11889}\text{H}$, High byte (`AH`) to $\mathbf{1188A}\text{H}$.
 
 ---
 
 #### 3. `MOV [BX - 1], BL`
+
 - **Addressing Mode:** **Based Relative (Based with Displacement) Addressing Mode**.
 - **Default Segment:** Base register `BX` defaults to **Data Segment (`DS`)**.
-  - $\text{Segment Base} = DS = 1000\text{H}$
+    - $\text{Segment Base} = DS = 1000\text{H}$
 - **Effective Address:**
 
   $\text{EA} = [BX] - 1 = 0222\text{H} - 0001\text{H} = 0221\text{H}$
+
 - **Physical Address:**
 
   $\text{PA} = (1000\text{H} \times 10\text{H}) + 0221\text{H} = 10000\text{H} + 0221\text{H} = \mathbf{10221}\text{H}$
@@ -475,29 +494,35 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 ---
 
 #### 4. `MOV AX, [SI][BX]`
+
 - **Addressing Mode:** **Based Indexed Addressing Mode**.
 - **Default Segment:** Base register `BX` defaults to **Data Segment (`DS`)**.
-  - $\text{Segment Base} = DS = 1000\text{H}$
+    - $\text{Segment Base} = DS = 1000\text{H}$
 - **Effective Address:**
 
   $\text{EA} = [BX] + [SI] = 0222\text{H} + 3333\text{H} = 3555\text{H}$
+
 - **Physical Address:**
 
   $\text{PA} = (1000\text{H} \times 10\text{H}) + 3555\text{H} = 10000\text{H} + 3555\text{H} = \mathbf{13555}\text{H}$
+
 - Accesses two bytes: $\mathbf{13555}\text{H}$ into `AL`, $\mathbf{13556}\text{H}$ into `AH`.
 
 ---
 
 #### 5. `MOV [DI+BP+1111H], BX`
+
 - **Addressing Mode:** **Based Indexed Relative (with Displacement) Addressing Mode**.
 - **Default Segment:** Register `BP` defaults to **Stack Segment (`SS`)**.
-  - $\text{Segment Base} = SS = 2000\text{H}$
+    - $\text{Segment Base} = SS = 2000\text{H}$
 - **Effective Address:**
 
   $\text{EA} = [BP] + [DI] + 1111\text{H} = 0111\text{H} + 0111\text{H} + 1111\text{H} = 0222\text{H} + 1111\text{H} = 1333\text{H}$
+
 - **Physical Address:**
 
   $\text{PA} = (2000\text{H} \times 10\text{H}) + 1333\text{H} = 20000\text{H} + 1333\text{H} = \mathbf{21333}\text{H}$
+
 - Accesses two bytes: Low byte (`BL`) to $\mathbf{21333}\text{H}$, High byte (`BH`) to $\mathbf{21334}\text{H}$.
 
 ---
@@ -626,6 +651,7 @@ END MAIN
 
 #### 1. Concept: 16-bit Multiplication Constraints
 When two 16-bit word operands are multiplied via `MUL` (unsigned) or `IMUL` (signed):
+
 - Multiplicand is placed in register `AX`.
 - Multiplier is specified in a register or memory operand.
 - The product is **32 bits wide**, with the high word stored in `DX` and the low word stored in `AX` (`DX:AX`).
@@ -683,12 +709,14 @@ END START
 > Write the steps to configure the use of stack segment of 100 words in 8086 microprocessor. Write an assembly language program to set the carry flag using stack.
 
 #### 1. Steps to Configure a Stack Segment of 100 Words:
+
 1. **Define Stack Segment:** Use the `STACK` segment directive or `SEGMENT` definition specifying $100 \times 2 = 200\text{ bytes}$ of uninitialized space (`100 DUP(?)`).
 2. **Initialize Segment Register `SS`:** Load the segment base address of the stack segment into register `SS` via a temporary register:
    ```assembly
    MOV AX, STACK_SEG
    MOV SS, AX
    ```
+
 3. **Initialize Stack Pointer `SP`:** Since the 8086 stack grows **downward** (from high address to low address), initialize `SP` to point to the address **immediately past the top** of the allocated buffer (offset `200` or `100*2`):
    ```assembly
    MOV SP, 200
@@ -696,6 +724,7 @@ END START
 
 #### 2. Assembly Program to Set Carry Flag (CF) Exclusively via Stack:
 The carry flag corresponds to **Bit 0** of the Processor Status Word (PSW).
+
 - Step 1: Push current flags onto stack using `PUSHF`.
 - Step 2: Use Base Pointer (`BP`) to modify the stacked PSW in memory, setting Bit 0 to 1 (`OR WORD PTR [BP], 0001H`).
 - Step 3: Pop the modified value back into the Flag register using `POPF`.
@@ -735,6 +764,7 @@ END MAIN
 
 > **Question:**  
 > Given that V1 and V2 are word variables, find the errors if any in the following instructions:  
+>
 > 1. `ADD V1, V2`  
 > 2. `SUB AL, V1`  
 > 3. `MOV AX, [CX]`  
@@ -800,19 +830,20 @@ END MAIN
 > Write sequence of instructions that sets the rightmost four bits of AX register and clears the leftmost three bits of AX and inverts bits 7, 8 and 9 of AX irrespective of the contents of the AX register.
 
 #### 1. Bit Position Analysis for 16-bit Register `AX`:
+
 - Bits are numbered $15$ (MSB, leftmost) down to $0$ (LSB, rightmost).
 - **Operation 1: Set the rightmost four bits (Bits 3, 2, 1, 0):**
-  - Use bitwise `OR` with mask bit positions set to 1.
-  - Mask $= 0000\ 0000\ 0000\ 1111_2 = \mathbf{000F}\text{H}$.
+    - Use bitwise `OR` with mask bit positions set to 1.
+    - Mask $= 0000\ 0000\ 0000\ 1111_2 = \mathbf{000F}\text{H}$.
 - **Operation 2: Clear the leftmost three bits (Bits 15, 14, 13):**
-  - Use bitwise `AND` with mask bit positions set to 0 and all others 1.
-  - Mask $= 0001\ 1111\ 1111\ 1111_2 = \mathbf{1FFF}\text{H}$.
+    - Use bitwise `AND` with mask bit positions set to 0 and all others 1.
+    - Mask $= 0001\ 1111\ 1111\ 1111_2 = \mathbf{1FFF}\text{H}$.
 - **Operation 3: Invert bits 7, 8, and 9:**
-  - Use bitwise `XOR` with toggle bit positions set to 1.
-  - Bit 9 $= 2^9 = 512 = 0200\text{H}$
-  - Bit 8 $= 2^8 = 256 = 0100\text{H}$
-  - Bit 7 $= 2^7 = 128 = 0080\text{H}$
-  - Mask $= 0000\ 0011\ 1000\ 0000_2 = \mathbf{0380}\text{H}$.
+    - Use bitwise `XOR` with toggle bit positions set to 1.
+    - Bit 9 $= 2^9 = 512 = 0200\text{H}$
+    - Bit 8 $= 2^8 = 256 = 0100\text{H}$
+    - Bit 7 $= 2^7 = 128 = 0080\text{H}$
+    - Mask $= 0000\ 0011\ 1000\ 0000_2 = \mathbf{0380}\text{H}$.
 
 #### 2. Instruction Sequence:
 ```assembly
@@ -827,6 +858,7 @@ XOR AX, 0380H     ; Inverts bits 7, 8, 9
 
 > **Question:**  
 > If the content of $DL = 93H$, content of $CL = 4H$ and content of $CF = 1$ then what will be the content of $DL$ after executing following instruction separately with same $DL = 93H$ value. Assume that the following instructions are independent, not sequential:  
+>
 > 1. `SHL DL, CL`  
 > 2. `SAL DL, CL`  
 > 3. `ROL DL, CL`  
@@ -839,38 +871,43 @@ $$DL = 93\text{H} = 1001\ 0011_2, \quad CL = 4, \quad CF = 1$$
 ---
 
 #### 1. `SHL DL, CL` (Shift Logical Left by 4 bits)
+
 - Shifts bits left; zeroes enter LSB; bits exiting MSB pass through Carry Flag ($CF$).
 - Trace:
-  - Initial: $1001\ 0011_2, CF=1$
-  - Shift 1: $0010\ 0110_2, CF=1$
-  - Shift 2: $0100\ 1100_2, CF=0$
-  - Shift 3: $1001\ 1000_2, CF=0$
-  - Shift 4: $0011\ 0000_2, CF=1$
+    - Initial: $1001\ 0011_2, CF=1$
+    - Shift 1: $0010\ 0110_2, CF=1$
+    - Shift 2: $0100\ 1100_2, CF=0$
+    - Shift 3: $1001\ 1000_2, CF=0$
+    - Shift 4: $0011\ 0000_2, CF=1$
 - Result: **$DL = 30\text{H}$**, $CF = 1$
 
 ---
 
 #### 2. `SAL DL, CL` (Shift Arithmetic Left by 4 bits)
+
 - In the 8086 architecture, `SAL` and `SHL` have **identical machine encodings and bitwise operation**. Zeroes are shifted in from the right.
 - Result: **$DL = 30\text{H}$**, $CF = 1$
 
 ---
 
 #### 3. `ROL DL, CL` (Rotate Left by 4 bits)
+
 - Circular 8-bit rotation without incorporating $CF$ into the loop (though $CF$ is updated with each bit rotated out of MSB).
 - Rotating an 8-bit byte left by 4 positions simply swaps the upper and lower nybbles:
-  - Initial: $[9][3] = 1001\ 0011_2$
-  - After 4 rotates: $[3][9] = 0011\ 1001_2 = \mathbf{39}\text{H}$
-  - Last bit rotated out (Bit 4 of original) was $1 \implies CF = 1$.
+    - Initial: $[9][3] = 1001\ 0011_2$
+    - After 4 rotates: $[3][9] = 0011\ 1001_2 = \mathbf{39}\text{H}$
+    - Last bit rotated out (Bit 4 of original) was $1 \implies CF = 1$.
 - Result: **$DL = 39\text{H}$**, $CF = 1$
 
 ---
 
 #### 4. `RCL DL, CL` (Rotate Left through Carry by 4 bits)
+
 - 9-bit circular rotation including the Carry Flag: $\{CF, D_7, D_6, D_5, D_4, D_3, D_2, D_1, D_0\}$.
 - Initial 9-bit sequence:
 
   $\{CF, DL\} = \{1,\ 1001\ 0011_2\}$
+
 - Shift 1: $CF = 1, DL = 0010\ 0111_2$ (old CF=1 entered LSB)
 - Shift 2: $CF = 0, DL = 0100\ 1111_2$ (old CF=1 entered LSB)
 - Shift 3: $CF = 0, DL = 1001\ 1110_2$ (old CF=0 entered LSB)
@@ -886,12 +923,13 @@ $$DL = 93\text{H} = 1001\ 0011_2, \quad CL = 4, \quad CF = 1$$
 > Write an 8086 program to move a string from data segment to extra segment without using `MOV`, `MOVSB`, `MOVSW` or `LOOP` instruction.
 
 #### 1. Concept: Register-Free Memory Transfer via Stack
+
 - Forbidden instructions: `MOV`, `MOVSB`, `MOVSW`, `LOOP`.
 - **Solution Strategy:**
-  - Segment base setup: Can use `PUSH data_seg` followed by `POP DS` and `POP ES` to avoid `MOV` into segment registers!
-  - Data transfer: Use `PUSH WORD PTR [SI]` / `POP WORD PTR ES:[DI]` or use string store instruction `STOSB`/`STOSW` with `LODSB`/`LODSW` (only `MOVS` variants are prohibited!).
-  - Alternatively, stack `PUSH` from DS followed by `POP` to ES handles memory transfer without any `MOV` or `MOVS*` instructions.
-  - Branching: Use `DEC CX` followed by `JNZ` instead of `LOOP`.
+    - Segment base setup: Can use `PUSH data_seg` followed by `POP DS` and `POP ES` to avoid `MOV` into segment registers!
+    - Data transfer: Use `PUSH WORD PTR [SI]` / `POP WORD PTR ES:[DI]` or use string store instruction `STOSB`/`STOSW` with `LODSB`/`LODSW` (only `MOVS` variants are prohibited!).
+    - Alternatively, stack `PUSH` from DS followed by `POP` to ES handles memory transfer without any `MOV` or `MOVS*` instructions.
+    - Branching: Use `DEC CX` followed by `JNZ` instead of `LOOP`.
 
 #### 2. Assembly Program Implementation
 
@@ -954,10 +992,11 @@ END START
 > Write an 8086 program to find maximum of a list of numbers using near procedure.
 
 #### 1. Concept: Near Procedure Max-Scan
+
 - Array of unsigned or signed word values is traversed sequentially.
 - A register (`AX`) holds the candidate maximum value, initialized to the first array element.
 - The procedure loops through the remaining $N-1$ elements:
-  - If `[SI] > AX`, `AX` is updated with `[SI]`.
+    - If `[SI] > AX`, `AX` is updated with `[SI]`.
 - Upon return, `AX` contains the maximum number.
 
 #### 2. Assembly Program Implementation
@@ -1038,10 +1077,11 @@ END MAIN
 
 #### 1. Interrupt Vector Table (IVT) Architecture
 The IVT occupies the lowest 1024 bytes of physical memory ($00000\text{H}$ to $003\text{FFH}$):
+
 - Accommodates **256 distinct interrupt types** (Types 0 to 255).
 - Each vector entry requires **4 bytes** (32 bits) storing the starting address of the Interrupt Service Routine (ISR):
-  - Lower 2 bytes: Offset address (`IP`)
-  - Upper 2 bytes: Segment address (`CS`)
+    - Lower 2 bytes: Offset address (`IP`)
+    - Upper 2 bytes: Segment address (`CS`)
 - Formula for vector memory base:
 
   $\text{Vector Base Address} = \text{Type Number } (N) \times 4$
@@ -1069,6 +1109,7 @@ Physical Memory Address:                 IVT Entry Format:
 ```
 
 #### 2. Significance in Interrupt Handling:
+
 1. **Decoupled Hardware/Software Interface:** The processor hardware does not need hardwired ISR addresses. An interrupting peripheral simply places an 8-bit vector number ($N$) on the data bus, and the CPU looks up the vector table.
 2. **Dynamic Vector Relocation:** Operating systems and debuggers can easily hook or replace any ISR by updating the 4 bytes in the IVT at runtime.
 
@@ -1080,18 +1121,21 @@ Physical Memory Address:                 IVT Entry Format:
 > Given that $SP=0100H, SS=0300H, PSW=0240H$ and the content of following location $00020H=0040H$ and $00022H=0100H$ and instruction `INT 8` has an offset of $00A0H$ and segment address is $0900H$, determine the contents of $SP, SS, IP, CS, PSW$ and the top three words on the stack after the interrupt sequence caused by the `INT 8` instruction is executed.
 
 #### 1. Architectural Interrupt Execution Sequence for `INT 8`:
+
 - Vector Type $N = 8$.
 - IVT Address calculation:
 
   $\text{IVT Address} = 8 \times 4 = 32_{10} = \mathbf{00020}\text{H}$
-  - From given data: $[00020\text{H}] = 0040\text{H} \implies \text{New } IP = \mathbf{0040}\text{H}$
-  - From given data: $[00022\text{H}] = 0100\text{H} \implies \text{New } CS = \mathbf{0100}\text{H}$
+
+    - From given data: $[00020\text{H}] = 0040\text{H} \implies \text{New } IP = \mathbf{0040}\text{H}$
+    - From given data: $[00022\text{H}] = 0100\text{H} \implies \text{New } CS = \mathbf{0100}\text{H}$
 - Next sequential instruction pointer after `INT 8`:
-  - `INT 8` is a 2-byte instruction (`CD 08H`).
-  - Next sequential $IP = 00\text{A0H} + 2 = \mathbf{00A2}\text{H}$.
-  - Current $CS = \mathbf{0900}\text{H}$.
+    - `INT 8` is a 2-byte instruction (`CD 08H`).
+    - Next sequential $IP = 00\text{A0H} + 2 = \mathbf{00A2}\text{H}$.
+    - Current $CS = \mathbf{0900}\text{H}$.
 
 #### 2. Push Sequence onto Stack (Stack Segment $SS = 0300\text{H}$):
+
 1. **Push PSW ($0240\text{H}$):**
    - $SP \leftarrow 0100\text{H} - 2 = \mathbf{00FE}\text{H}$
    - Stack memory at $[00FE\text{H}] = \mathbf{0240}\text{H}$
@@ -1127,6 +1171,7 @@ Physical Memory Address:                 IVT Entry Format:
 
 #### 1. Concept: Cascaded 8259 Hierarchy
 A single 8259 provides 8 interrupt request inputs (`IR0`–`IR7`). To expand to up to **64 interrupt inputs**, multiple 8259 chips are cascaded in a Master-Slave arrangement:
+
 - Exactly **one Master 8259** connects its `INT` output directly to the 8086 `INTR` pin.
 - Up to **8 Slave 8259s** have their `INT` outputs connected to individual `IR` lines of the Master.
 - The 3 cascade lines **`CAS0`, `CAS1`, `CAS2`** form a dedicated 3-bit local bus connecting the Master to all Slaves.
@@ -1156,6 +1201,7 @@ A single 8259 provides 8 interrupt request inputs (`IR0`–`IR7`). To expand to 
 ```
 
 #### 2. Functional Role of Pins:
+
 1. **$\overline{\text{SP}}/\overline{\text{EN}}$ (Slave Program / Enable Buffer):**
    - On the **Master 8259**, this pin is tied to **$+5\text{V}$ (Logic 1)** to designate it as the master.
    - On **Slave 8259s**, this pin is tied to **$GND$ (Logic 0)** to designate them as slaves.
@@ -1173,6 +1219,7 @@ A single 8259 provides 8 interrupt request inputs (`IR0`–`IR7`). To expand to 
 > Write an interrupt based 8086 program that loads the key pressed into memory variable `KEY_PRESSED` and displays it to the user with appropriate message.
 
 #### 1. Concept: Keyboard Input via BIOS / DOS Interrupts
+
 - Reading keypress without waiting or polling can be implemented using BIOS keyboard interrupt `INT 16H` (Service `AH = 00H` or `01H`) or DOS character input interrupt `INT 21H, AH = 01H`.
 - Program reads key, saves it into memory variable `KEY_PRESSED`, and uses DOS string display `INT 21H, AH = 09H` to present the result.
 
@@ -1232,6 +1279,7 @@ END MAIN
 
 #### 1. Architectural Control Logic Function
 The control logic in the 8253/8254 Programmable Interval Timer interfaces the system bus with three independent 16-bit counters. It contains:
+
 1. **Bus Interface Decoders:** Decodes `CS#`, `RD#`, `WR#`, and address lines $A_1, A_0$.
 2. **Control Word Register (CWR):** Dedicated write-only register selected when $A_1 A_0 = 11_2$.
 
@@ -1266,4 +1314,5 @@ Bit:    7     6     5     4     3     2     1     0
    - `1`: 4-decade Binary Coded Decimal (BCD) Counter (Range: `0000`–`9999`).
 
 #### 3. Counter Latch and Read-Back Logic
+
 - When a processor writes `RW1 RW0 = 00` to the CWR, the control logic triggers the counter latch circuit for the specified counter. The current count is latched into an internal output latch register (OLR), allowing the CPU to read a stable 16-bit count while the counter continues running in real time.

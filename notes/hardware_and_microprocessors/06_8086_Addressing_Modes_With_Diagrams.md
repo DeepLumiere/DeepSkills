@@ -577,6 +577,7 @@ EA_time:
 ```
 
 ### Bus Alignment Rule (Critical!)
+
 - Word at **even address**: 1 bus cycle (4 T-states), `BHE=0`, `A0=0`
 - Word at **odd address**: 2 bus cycles (+4 clock penalty), `A0=1`
 

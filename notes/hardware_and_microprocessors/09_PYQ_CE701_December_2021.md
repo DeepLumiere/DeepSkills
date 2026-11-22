@@ -10,19 +10,20 @@
 ---
 
 ## Table of Contents
+
 - [Question 1 (18 Marks)](#question-1-18-marks)
-  - [Q-1(a) [6 Marks] — Register Organization of 8086 & Applications of Each Register](#q-1a-6-marks--register-organization-of-8086--applications-of-each-register)
-  - [Q-1(b) [6 Marks] — Purpose of Segment Registers & Physical Address for MOV CX, [BX]](#q-1b-6-marks--purpose-of-segment-registers--physical-address-for-mov-cx-bx)
-  - [Q-1(c) [6 Marks] — Addressing Modes & Memory Physical Address Calculations](#q-1c-6-marks--addressing-modes--memory-physical-address-calculations)
+    - [Q-1(a) [6 Marks] — Register Organization of 8086 & Applications of Each Register](#q-1a-6-marks--register-organization-of-8086--applications-of-each-register)
+    - [Q-1(b) [6 Marks] — Purpose of Segment Registers & Physical Address for MOV CX, [BX]](#q-1b-6-marks--purpose-of-segment-registers--physical-address-for-mov-cx-bx)
+    - [Q-1(c) [6 Marks] — Addressing Modes & Memory Physical Address Calculations](#q-1c-6-marks--addressing-modes--memory-physical-address-calculations)
 - [Question 2 (18 Marks)](#question-2-18-marks)
-  - [Q-2(a) [6 Marks] — Six Fundamental 8086 Assembly Statements](#q-2a-6-marks--six-fundamental-8086-assembly-statements)
-  - [Q-2(b) [6 Marks] — 8086 Assembly Program: Word Array Linear Search](#q-2b-6-marks--8086-assembly-program-word-array-linear-search)
-  - [Q-2(c) [6 Marks] — Comparison of Unconditional Jump Instructions in 8086](#q-2c-6-marks--comparison-of-unconditional-jump-instructions-in-8086)
+    - [Q-2(a) [6 Marks] — Six Fundamental 8086 Assembly Statements](#q-2a-6-marks--six-fundamental-8086-assembly-statements)
+    - [Q-2(b) [6 Marks] — 8086 Assembly Program: Word Array Linear Search](#q-2b-6-marks--8086-assembly-program-word-array-linear-search)
+    - [Q-2(c) [6 Marks] — Comparison of Unconditional Jump Instructions in 8086](#q-2c-6-marks--comparison-of-unconditional-jump-instructions-in-8086)
 - [Question 3 (14 Marks)](#question-3-14-marks)
-  - [Q-3(a) [7 Marks] — 8254 PIT Block Diagram & Functional Units](#q-3a-7-marks--8254-pit-block-diagram--functional-units)
-  - [Q-3(a) OR [7 Marks] — Assembly Program to Unpack 10 Packed BCD Numbers](#q-3a-or-7-marks--assembly-program-to-unpack-10-packed-bcd-numbers)
-  - [Q-3(b) [7 Marks] — 8086 Interrupt Handling Steps & Interrupt Vector Table (IVT)](#q-3b-7-marks--8086-interrupt-handling-steps--interrupt-vector-table-ivt)
-  - [Q-3(b) OR [7 Marks] — 8259 Programmable Interrupt Controller (PIC) Block Diagram](#q-3b-or-7-marks--8259-programmable-interrupt-controller-pic-block-diagram)
+    - [Q-3(a) [7 Marks] — 8254 PIT Block Diagram & Functional Units](#q-3a-7-marks--8254-pit-block-diagram--functional-units)
+    - [Q-3(a) OR [7 Marks] — Assembly Program to Unpack 10 Packed BCD Numbers](#q-3a-or-7-marks--assembly-program-to-unpack-10-packed-bcd-numbers)
+    - [Q-3(b) [7 Marks] — 8086 Interrupt Handling Steps & Interrupt Vector Table (IVT)](#q-3b-7-marks--8086-interrupt-handling-steps--interrupt-vector-table-ivt)
+    - [Q-3(b) OR [7 Marks] — 8259 Programmable Interrupt Controller (PIC) Block Diagram](#q-3b-or-7-marks--8259-programmable-interrupt-controller-pic-block-diagram)
 
 ---
 
@@ -123,17 +124,20 @@ PSW |      16-bit FLAGS Register        |  Status and Control Flags
 
 #### 1. Purpose of Segment Registers
 The 8086 utilizes a 20-bit physical address bus (accessing 1 MB of physical RAM), but its internal arithmetic unit and registers are strictly 16 bits wide. Segment registers solve this limitation by implementing **segmented memory architecture**:
+
 1. **Memory Reach:** A 16-bit register alone can address only $2^{16} = 64\text{ KB}$. Segment registers shift the base address left by 4 bits ($\times 16_{10}$), allowing four independent 64 KB segments to be located anywhere within the 1 MB address space.
 2. **Program Relocatability:** Programs can be dynamically relocated anywhere in RAM simply by updating the segment registers without modifying instruction offset addresses.
 3. **Modular Code Organization:** Hardware enforces natural modularity by separating program code (`CS`), global data (`DS`), runtime stack (`SS`), and extra strings/buffers (`ES`).
 
 #### 2. Physical Address Calculation for `MOV CX, [BX]`
+
 - **Given:**
-  - Data Segment Register: $DS = 2500\text{H}$
-  - Base Register (Offset): $BX = 1000\text{H}$
+    - Data Segment Register: $DS = 2500\text{H}$
+    - Base Register (Offset): $BX = 1000\text{H}$
 - **Formula:**
 
   $\text{Physical Address} = (\text{Segment Base} \times 10\text{H}) + \text{Effective Address Offset}$
+
 - **Calculation:**
 
   $\text{Segment Base Address} = 2500\text{H} \times 10\text{H} = 25000\text{H}$
@@ -142,6 +146,7 @@ The 8086 utilizes a 20-bit physical address bus (accessing 1 MB of physical RAM)
 
 #### 3. Bytes Fetched for 16-bit Word Register `CX`:
 Since `CX` is a 16-bit word register, the 8086 fetches **two contiguous bytes** from memory:
+
 1. **Lower Byte (`CL`):** Fetched from physical address **`26000H`**.
 2. **Higher Byte (`CH`):** Fetched from physical address **`26001H`**.
 - Because `26000H` is an **even address**, this 16-bit word fetch completes in a **single bus cycle** (both memory banks active simultaneously: $\overline{\text{BHE}}=0, A_0=0$).
@@ -153,6 +158,7 @@ Since `CX` is a 16-bit word register, the 8086 fetches **two contiguous bytes** 
 > **Question:**  
 > Write the addressing modes of each of the following instructions. Find the address of the data that will be transferred if the content of the registers are:  
 > $BX=1234H, DS=7000H, SS=2222H, BP=4321H, DI=1011H$.  
+>
 > 1. `MOV CX, [BP]`  
 > 2. `MOV [BX+111H], AH`  
 > 3. `MOV AL, [DI+BP]`
@@ -164,49 +170,57 @@ $$\text{Physical Address} = (\text{Segment Register} \times 10\text{H}) + \text{
 ---
 
 #### 1. `MOV CX, [BP]`
+
 - **Addressing Mode:** **Based Indirect Addressing Mode** (or Register Indirect using Base Pointer).
 - **Default Segment:** Base Pointer `BP` defaults to **Stack Segment (`SS`)**.
-  - $\text{Segment Base} = SS = 2222\text{H}$
+    - $\text{Segment Base} = SS = 2222\text{H}$
 - **Effective Address:** $\text{EA} = [BP] = 4321\text{H}$
 - **Physical Address Calculation:**
 
   $\text{Segment Base Address} = 2222\text{H} \times 10\text{H} = 22220\text{H}$
 
   $\text{PA} = 22220\text{H} + 4321\text{H} = \mathbf{26541}\text{H}$
+
 - **Data Transfer Details:** Fetches 16-bit word into `CX`:
-  - `CL` fetched from $\mathbf{26541}\text{H}$
-  - `CH` fetched from $\mathbf{26542}\text{H}$
+    - `CL` fetched from $\mathbf{26541}\text{H}$
+    - `CH` fetched from $\mathbf{26542}\text{H}$
 
 ---
 
 #### 2. `MOV [BX+111H], AH`
+
 - **Addressing Mode:** **Based Relative Addressing Mode** (Based with 16-bit Displacement).
 - **Default Segment:** Base register `BX` defaults to **Data Segment (`DS`)**.
-  - $\text{Segment Base} = DS = 7000\text{H}$
+    - $\text{Segment Base} = DS = 7000\text{H}$
 - **Effective Address:**
 
   $\text{EA} = [BX] + 0111\text{H} = 1234\text{H} + 0111\text{H} = 1345\text{H}$
+
 - **Physical Address Calculation:**
 
   $\text{Segment Base Address} = 7000\text{H} \times 10\text{H} = 70000\text{H}$
 
   $\text{PA} = 70000\text{H} + 1345\text{H} = \mathbf{71345}\text{H}$
+
 - **Data Transfer Details:** Writes 8-bit byte from `AH` into physical memory address $\mathbf{71345}\text{H}$.
 
 ---
 
 #### 3. `MOV AL, [DI+BP]`
+
 - **Addressing Mode:** **Based Indexed Addressing Mode**.
 - **Default Segment:** Whenever `BP` is part of the effective address calculation, the default segment is **Stack Segment (`SS`)**.
-  - $\text{Segment Base} = SS = 2222\text{H}$
+    - $\text{Segment Base} = SS = 2222\text{H}$
 - **Effective Address:**
 
   $\text{EA} = [BP] + [DI] = 4321\text{H} + 1011\text{H} = 5332\text{H}$
+
 - **Physical Address Calculation:**
 
   $\text{Segment Base Address} = 2222\text{H} \times 10\text{H} = 22220\text{H}$
 
   $\text{PA} = 22220\text{H} + 5332\text{H} = \mathbf{27552}\text{H}$
+
 - **Data Transfer Details:** Fetches 8-bit byte from physical memory address $\mathbf{27552}\text{H}$ into `AL`.
 
 ---
@@ -217,6 +231,7 @@ $$\text{Physical Address} = (\text{Segment Register} \times 10\text{H}) + \text{
 
 > **Question:**  
 > Write the 8086 assembly language statement which will perform the following operations:  
+>
 > 1. Load the number 10H at the address specified by BX register.  
 > 2. Increment the content of memory location specified by DI register.  
 > 3. Clear the LSB of AX register.  
@@ -230,6 +245,7 @@ $$\text{Physical Address} = (\text{Segment Register} \times 10\text{H}) + \text{
    ```assembly
    MOV BYTE PTR [BX], 10H
    ```
+
    *(Note: `BYTE PTR` is mandatory because immediate constant `10H` has ambiguous size).*
 
 2. **Increment the content of memory location specified by DI register:**
@@ -243,18 +259,21 @@ $$\text{Physical Address} = (\text{Segment Register} \times 10\text{H}) + \text{
    ```assembly
    AND AX, 0FFFEH
    ```
+
    *(Mask: $1111\ 1111\ 1111\ 1110_2 = \text{FFFEH}$; forces Bit 0 to 0 while leaving bits 15–1 unchanged).*
 
 4. **Add content of AX, BX and previous carry bit:**
    ```assembly
    ADC AX, BX
    ```
+
    *(Performs: $AX \leftarrow AX + BX + CF$).*
 
 5. **Clear the direction flag:**
    ```assembly
    CLD
    ```
+
    *(Clears $DF$ to 0, ensuring string operations autoincrement `SI` and `DI`).*
 
 6. **Logical shift right of AX register by count 3:**
@@ -262,6 +281,7 @@ $$\text{Physical Address} = (\text{Segment Register} \times 10\text{H}) + \text{
    MOV CL, 3
    SHR AX, CL
    ```
+
    *(Note: In 8086 architecture, multi-bit shifts require the shift count loaded into register `CL`).*
 
 ---
@@ -272,6 +292,7 @@ $$\text{Physical Address} = (\text{Segment Register} \times 10\text{H}) + \text{
 > Write an 8086 assembly language program to search a number in an array of word data.
 
 #### 1. Concept: Linear Search on 16-bit Words
+
 - Array elements are 16-bit words (increment pointer by 2).
 - Loop iterates through the array comparing each element against `KEY`.
 - If match is found: sets `FOUND = 1`, saves index in `MATCH_POS`, and exits.
@@ -383,6 +404,7 @@ END MAIN
 ```
 
 #### 2. Functional Details of Each Block:
+
 1. **Data Bus Buffer:**
    - 8-bit bidirectional, 3-state buffer connecting the 8254 to the system data bus ($D_7$–$D_0$). Transmits control words, status bytes, and counter values.
 2. **Read/Write Control Logic:**
@@ -405,10 +427,11 @@ END MAIN
 > Write an 8086 assembly language program to unpack 10 packed BCD numbers stored in memory.
 
 #### 1. Concept: Unpacking Packed BCD
+
 - Each byte of **Packed BCD** contains two decimal digits (e.g., $58\text{H}$ represents $5$ and $8$).
 - To unpack into two separate memory bytes:
-  - **Upper Digit:** Shift right by 4 bit positions (`SHR AL, 4` or `AND AL, 0F0H` + shift).
-  - **Lower Digit:** Mask off the upper nybble (`AND AL, 0FH`).
+    - **Upper Digit:** Shift right by 4 bit positions (`SHR AL, 4` or `AND AL, 0F0H` + shift).
+    - **Lower Digit:** Mask off the upper nybble (`AND AL, 0FH`).
 - 10 packed BCD bytes expand to **20 unpacked BCD bytes**.
 
 #### 2. Assembly Program Implementation
@@ -456,6 +479,7 @@ UNPACK_LOOP:
     ; Better register management:
 MAIN ENDP
 ```
+
 *(Refined loop with dedicated counter `DX` to avoid `CL` clobbering during shift):*
 
 ```assembly
@@ -497,6 +521,7 @@ UNPACK_LOOP:
 
 #### 1. Step-by-Step Interrupt Response Sequence in 8086:
 When an interrupt is recognized (hardware `INTR`, `NMI`, or software `INT n`):
+
 1. **Complete Current Instruction:** The processor completes execution of the currently executing instruction.
 2. **Acknowledge Interrupt (Hardware only):** For `INTR`, the BIU generates two negative pulses on $\overline{\text{INTA}}$. On the second pulse, the interrupting controller (8259) places the 8-bit vector type $N$ on data lines $D_7$–$D_0$.
 3. **Save Processor Flags:** Decrements `SP` by 2 and pushes the 16-bit **Processor Status Word (PSW/FLAGS)** onto the stack.
@@ -573,6 +598,7 @@ Memory Address:                       Vector Type:
 ```
 
 #### 2. Explanation of Each Block:
+
 1. **Interrupt Request Register (IRR):** Stores pending interrupt requests arriving on lines `IR0` through `IR7`.
 2. **Interrupt Mask Register (IMR):** Stores mask bits programmed via OCW1; disables individual interrupt lines.
 3. **In-Service Register (ISR):** Tracks which interrupt level is currently being serviced by the CPU.

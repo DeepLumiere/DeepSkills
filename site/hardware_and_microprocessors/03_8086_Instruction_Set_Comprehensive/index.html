@@ -4332,10 +4332,12 @@
 <ul>
 <li><strong>Mathematical Formula:</strong> <span class="arithmatex">\(EA = R\)</span> (No memory access required).</li>
 <li><strong>Valid Registers:</strong> 8-bit (<code>AL, AH, BL, BH, CL, CH, DL, DH</code>) or 16-bit (<code>AX, BX, CX, DX, SP, BP, SI, DI</code>).</li>
-<li><strong>Forbidden Transfers:</strong></li>
+<li><strong>Forbidden Transfers:</strong><ul>
 <li><code>MOV BL, BX</code> → <strong>ILLEGAL (Mixed operand widths).</strong></li>
 <li><code>MOV CS, AX</code> → <strong>ILLEGAL (Code Segment cannot be destination).</strong></li>
 <li><code>MOV ES, DS</code> → <strong>ILLEGAL (Segment-to-segment register transfer not permitted).</strong></li>
+</ul>
+</li>
 </ul>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>MOV BX, DX       ; Copy contents of DX into BX (register to register)
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>MOV AL, BH       ; Copy BH into AL (both 8-bit)
@@ -4345,12 +4347,20 @@
 <h4 id="2-immediate-addressing-mode">2. Immediate Addressing Mode<a class="headerlink" href="#2-immediate-addressing-mode" title="Permanent link">&para;</a></h4>
 <p>The operand is constant numerical data encoded directly into the instruction byte sequence following the opcode.</p>
 <ul>
-<li><strong>Constraints:</strong></li>
-<li>Cannot move immediate data directly into Segment Registers (<code>DS, ES, SS, CS</code>). Must route via general register:
-    <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>MOV AX, 0123H    ; Load immediate into AX
+<li>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>
+<p>Cannot move immediate data directly into Segment Registers (<code>DS, ES, SS, CS</code>). Must route via general register:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>MOV AX, 0123H    ; Load immediate into AX
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>MOV DS, AX       ; Transfer from AX to DS
-</span></code></pre></div></li>
-<li>Immediate operand width must match destination register width (<code>MOV AL, 2AAH</code> is illegal — value exceeds 8-bit range).</li>
+</span></code></pre></div></p>
+</li>
+<li>
+<p>Immediate operand width must match destination register width (<code>MOV AL, 2AAH</code> is illegal — value exceeds 8-bit range).</p>
+</li>
+</ul>
+</li>
 </ul>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>MOV AX, 2550H    ; Load immediate word 2550H into AX
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>MOV CL, 04H      ; Load immediate byte 04H into CL (shift count)
@@ -4376,9 +4386,11 @@
 <h4 id="4-register-indirect-addressing-mode">4. Register Indirect Addressing Mode<a class="headerlink" href="#4-register-indirect-addressing-mode" title="Permanent link">&para;</a></h4>
 <p>The effective address of the operand in memory is held in a base register (<code>BX</code>, <code>BP</code>) or index register (<code>SI</code>, <code>DI</code>).</p>
 <ul>
-<li><strong>Segment Association Rules:</strong></li>
+<li><strong>Segment Association Rules:</strong><ul>
 <li><code>BX</code>, <code>SI</code>, <code>DI</code> default to <strong>Data Segment (DS)</strong>.</li>
 <li><code>BP</code> defaults to <strong>Stack Segment (SS)</strong>.</li>
+</ul>
+</li>
 <li><strong>Worked Example:</strong> If <span class="arithmatex">\(\text{SS} = 2000\text{H}\)</span>, <span class="arithmatex">\(\text{BP} = 0111\text{H}\)</span>, instruction is <code>MOV [BP], DL</code>:</li>
 </ul>
 <div class="arithmatex">\[
@@ -4430,8 +4442,10 @@ EA = 5000\text{H} + 1234\text{H} = 6234\text{H}
 <h4 id="7-base-indexed-relative-addressing-mode">7. Base Indexed Relative Addressing Mode<a class="headerlink" href="#7-base-indexed-relative-addressing-mode" title="Permanent link">&para;</a></h4>
 <p>Combines one base register (<code>BX</code> or <code>BP</code>), one index register (<code>SI</code> or <code>DI</code>), and an optional displacement.</p>
 <ul>
-<li><strong>Formula:</strong> <span class="arithmatex">\(EA = [\text{BX/BP}] + [\text{SI/DI}] + \text{Displacement}\)</span></li>
+<li><strong>Formula:</strong> <span class="arithmatex">\(EA = [\text{BX/BP}] + [\text{SI/DI}] + \text{Displacement}\)</span><ul>
 <li>Default Segment is <strong>SS</strong> if <code>BP</code> is used; otherwise defaults to <strong>DS</strong>.</li>
+</ul>
+</li>
 <li><strong>Worked Example:</strong> If <span class="arithmatex">\(\text{DS} = 1200\text{H}\)</span>, <span class="arithmatex">\(\text{BX} = 1000\text{H}\)</span>, <span class="arithmatex">\(\text{SI} = 2000\text{H}\)</span>, <span class="arithmatex">\(\text{BETA} = 1234\text{H}\)</span>:</li>
 </ul>
 <div class="arithmatex">\[

@@ -4509,11 +4509,13 @@ sequenceDiagram
 <h2 id="11-additional-exam-questions">11. Additional Exam Questions<a class="headerlink" href="#11-additional-exam-questions" title="Permanent link">&para;</a></h2>
 <p><strong>Q4.</strong> Trace the SP value when <code>PUSH AX</code>, <code>PUSH BX</code>, <code>CALL PROC</code> executes (initial SP = <code>0200H</code>).</p>
 <blockquote>
-<p><strong>Answer:</strong>
-- After <code>PUSH AX</code>: SP = <code>0200H - 2 = 01FEH</code>
-- After <code>PUSH BX</code>: SP = <code>01FEH - 2 = 01FCH</code>
-- After <code>CALL PROC</code> (NEAR): SP = <code>01FCH - 2 = 01FAH</code> (IP = return address pushed)
-- Final SP = <code>01FAH</code>, with the stack holding [IP at 01FAH, BX at 01FCH, AX at 01FEH]</p>
+<p><strong>Answer:</strong></p>
+<ul>
+<li>After <code>PUSH AX</code>: SP = <code>0200H - 2 = 01FEH</code></li>
+<li>After <code>PUSH BX</code>: SP = <code>01FEH - 2 = 01FCH</code></li>
+<li>After <code>CALL PROC</code> (NEAR): SP = <code>01FCH - 2 = 01FAH</code> (IP = return address pushed)</li>
+<li>Final SP = <code>01FAH</code>, with the stack holding [IP at 01FAH, BX at 01FCH, AX at 01FEH]</li>
+</ul>
 </blockquote>
 <p><strong>Q5.</strong> Why is <code>POP CS</code> forbidden on the 8086?</p>
 <blockquote>
@@ -4537,9 +4539,11 @@ sequenceDiagram
 </blockquote>
 <p><strong>Q8.</strong> What is the difference between NEAR and FAR CALL in terms of stack behavior?</p>
 <blockquote>
-<p><strong>Answer:</strong>
-- <strong>NEAR CALL:</strong> Pushes only <code>IP</code> (2 bytes) onto the stack. <code>CS</code> is NOT pushed/changed. RET pops 2 bytes back into <code>IP</code>. Used for procedures within the same 64KB code segment.
-- <strong>FAR CALL:</strong> Pushes <code>CS</code> first (2 bytes), then <code>IP</code> (2 bytes) = <strong>4 bytes total</strong>. Both CS and IP are restored on <code>RETF</code>. Used to call procedures in different code segments (different CS values).</p>
+<p><strong>Answer:</strong></p>
+<ul>
+<li><strong>NEAR CALL:</strong> Pushes only <code>IP</code> (2 bytes) onto the stack. <code>CS</code> is NOT pushed/changed. RET pops 2 bytes back into <code>IP</code>. Used for procedures within the same 64KB code segment.</li>
+<li><strong>FAR CALL:</strong> Pushes <code>CS</code> first (2 bytes), then <code>IP</code> (2 bytes) = <strong>4 bytes total</strong>. Both CS and IP are restored on <code>RETF</code>. Used to call procedures in different code segments (different CS values).</li>
+</ul>
 </blockquote>
 
 

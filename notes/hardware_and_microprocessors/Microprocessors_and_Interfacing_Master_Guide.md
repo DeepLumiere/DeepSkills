@@ -22,6 +22,7 @@ To communicate with memory and input/output (I/O) peripherals, the microprocesso
 Microprocessors execute binary code, but humans write programs using text. Software acts as the bridge.
 
 ### Levels of Programming Languages
+
 1. **Machine Language:** The lowest level. Consists entirely of binary $0$ s and $1$ s. This is the only language the microprocessor actually understands.
 2. **Assembly Language:** A low-level programming language where machine instructions are represented by readable abbreviations called **Mnemonics** (e.g., `MOV`, `ADD`, `JMP`).
 3. **High-Level Language:** Human-readable code (like C, C++, Python) that abstracts away hardware details.
@@ -98,6 +99,7 @@ END START              ; End of file, specify the entry point 'START'
 The Intel 8085 is an 8-bit microprocessor introduced in the late 1970s. While modern computers use 64-bit processors, studying the 8085 is fundamental for understanding how the core principles of CPU architecture work.
 
 ### Main Technical Specifications
+
 * **Data Bus:** 8-bit. It can process 8 bits of data simultaneously.
 * **Address Bus:** 16-bit. It can address up to $2^{16} = 65,536\text{ bytes}$ ($64\text{ KB}$) of memory.
 * **Clock Speed:** Typically runs at $3\text{ MHz}$ (8085A) or $5\text{ MHz}$ (8085A-2).
@@ -130,6 +132,7 @@ Because a memory address is 16 bits long, these 8-bit registers can be paired up
 * **`HL` Pair:** This is the most important pair. The `HL` pair is primarily used as the default **Memory Pointer** (Data Pointer). When an instruction targets the abstract memory register `M`, the CPU looks at the 16-bit address held in the `HL` pair to know where in RAM to go.
 
 ### Special Purpose Registers
+
 1. **Accumulator (`A` Register, 8-bit):** The most important register. All math and logic operations (Addition, Subtraction, AND, OR) are performed here. The final result is also stored back in the Accumulator.
 2. **Flag Register (8-bit):** Holds 5 individual bits (Flags) that act as a dashboard warning light to report the status of the last arithmetic operation:
     * **`S` (Sign Flag):** Set to 1 if the result is negative (MSB is 1).
@@ -149,18 +152,22 @@ Because a memory address is 16 bits long, these 8-bit registers can be paired up
    ```assembly
    MVI A, 45H    ; Move Immediate: Load the hex value 45 directly into Accumulator A
    ```
+
 2. **Register Addressing:** The data is already in a CPU register.
    ```assembly
    MOV B, A      ; Copy the contents of Register A into Register B
    ```
+
 3. **Direct Addressing:** The 16-bit memory address of the data is explicitly stated in the instruction.
    ```assembly
    LDA 2050H     ; Load Accumulator directly from memory address 2050 Hex
    ```
+
 4. **Register Indirect Addressing:** The CPU looks inside a register pair (like `HL`) to find the memory address, then goes to that address to get the data.
    ```assembly
    MOV A, M      ; Move to A from Memory. (Memory address is defined by the HL pair)
    ```
+
 5. **Implied (Implicit) Addressing:** The instruction doesn't need an operand because the target is understood (usually the Accumulator).
    ```assembly
    CMA           ; Complement Accumulator: Invert all bits in Register A
@@ -182,6 +189,7 @@ The 8085 has 5 hardware interrupt pins, ranked by strict priority:
 | **`INTR`** | High Level | 5 (Lowest) | Provided by external IC | Maskable via `EI`/`DI` |
 
 ### How Hardware Interrupts Work
+
 1. **TRAP:** This is an absolute emergency (e.g., power failure). It is "Non-Maskable" meaning no software command can ignore it. It instantly forces the CPU to jump to memory address `0024H`.
 2. **RST (Restart) 7.5, 6.5, 5.5:** These are "Vectored" interrupts. When triggered, the CPU calculates a specific mathematical address (the Vector) and jumps there. You can disable (Mask) them using the `SIM` (Set Interrupt Mask) instruction.
    * *Formula to calculate Vector Address:* `Vector Address = N x 8`
@@ -206,6 +214,7 @@ Because the 8085 only has a few interrupt pins, computers use an external chip (
 The Intel 8086 is a monumental upgrade over the 8085. It is a true 16-bit microprocessor designed to handle significantly more data and larger programs.
 
 ### Key Technical Features
+
 * **Data Bus:** 16-bit. It can read or write a full 16-bit Word in a single operation.
 * **Address Bus:** 20-bit. It can address up to $2^{20} = 1,048,576\text{ bytes}$ ($1\text{ MB}$) of physical memory.
 * **I/O Ports:** Supports up to $64\text{K}$ ($65,536$) separate Input/Output ports.
@@ -277,6 +286,7 @@ The 8086 has 20 address pins, allowing $1\text{ MB}$ of memory. However, the int
 To solve this, memory is divided into $64\text{ KB}$ blocks called **Segments**. The CPU addresses memory by combining a **Segment Base Address** with a 16-bit **Offset**.
 
 ### The 4 Segment Registers
+
 1. **`CS` (Code Segment):** Holds the base address for the running program's instructions.
 2. **`DS` (Data Segment):** Holds the base address for the program's variables.
 3. **`SS` (Stack Segment):** Holds the base address for the stack.
@@ -306,28 +316,35 @@ How does the CPU know *where* an operand is? It relies on the Addressing Mode.
    ```assembly
    MOV AX, BX       ; Copy 16-bit contents of BX into AX
    ```
+
 2. **Immediate Addressing:** The actual data value is hardcoded into the instruction.
    ```assembly
    MOV CX, 2550H    ; Load the literal hex value 2550 into CX
    ```
+
    > [!WARNING] 
    > You **cannot** load immediate data directly into a Segment Register. `MOV DS, 1000H` is illegal. You must go through a general register: `MOV AX, 1000H` then `MOV DS, AX`.
+
 3. **Direct Addressing:** The 16-bit offset address is hardcoded in brackets.
    ```assembly
    MOV AL, [2400H]  ; Fetch the byte from offset 2400H in the Data Segment
    ```
+
 4. **Register Indirect Addressing:** The offset address is held inside `BX`, `BP`, `SI`, or `DI`.
    ```assembly
    MOV AX, [BX]     ; Fetch the word from memory at the offset stored in BX
    ```
+
 5. **Base Relative Addressing:** Offset = Base Register (`BX` or `BP`) + an 8/16-bit displacement.
    ```assembly
    MOV AL, [BX + 5] ; Fetch byte from memory at offset (BX + 5)
    ```
+
 6. **Indexed Relative Addressing:** Offset = Index Register (`SI` or `DI`) + an 8/16-bit displacement. Used heavily for array traversal.
    ```assembly
    MOV DX, ARRAY[SI]; Fetch data from offset (ARRAY_Base + SI)
    ```
+
 7. **Base Indexed Relative Addressing:** The ultimate flexible mode. Offset = Base + Index + Displacement. Excellent for 2D arrays.
    ```assembly
    MOV AX, [BX + SI + 10H] ; Fetch word from offset (BX + SI + 16 decimal)
@@ -340,11 +357,11 @@ When you write `MOV CX, BX`, the assembler translates it into binary machine cod
 
 * **Opcode (6 bits):** Identifies the operation (e.g., `100010` = `MOV`).
 * **`D` (Direction Bit, 1 bit):** 
-  * `0`: Data flows *from* the specified `REG` to the `R/M` location.
-  * `1`: Data flows *to* the specified `REG` from the `R/M` location.
+    * `0`: Data flows *from* the specified `REG` to the `R/M` location.
+    * `1`: Data flows *to* the specified `REG` from the `R/M` location.
 * **`W` (Word/Byte Bit, 1 bit):** 
-  * `0`: 8-bit Byte operation.
-  * `1`: 16-bit Word operation.
+    * `0`: 8-bit Byte operation.
+    * `1`: 16-bit Word operation.
 * **`MOD` (Mode Field, 2 bits) & `R/M` (Register/Memory, 3 bits):** Together these 5 bits dictate which of the 7 addressing modes is being used, and whether there is an 8-bit or 16-bit displacement attached.
 * **`REG` (Register Field, 3 bits):** Dictates exactly which register (`AX`, `BX`, etc.) is involved.
 
@@ -360,6 +377,7 @@ Every assembly instruction follows a strict format:
 ```assembly
 Label:   Mnemonic   Destination, Source   ; Comments
 ```
+
 If an instruction interacts with memory and the size (byte vs word) is ambiguous, the Assembler will throw an error. You must explicitly define the size using the `PTR` (Pointer) operator.
 ```assembly
 INC [BX]               ; ERROR: Ambiguous! Are we incrementing a byte or a 16-bit word?
@@ -379,6 +397,7 @@ MOV AX, 1234H          ; Load immediate word into AX
 MOV BX, AX             ; Copy AX into BX
 MOV CX, [5000H]        ; Load word from memory address 5000H into CX
 ```
+
 *Constraints:* You **cannot** move memory to memory directly (e.g., `MOV [1000H], [2000H]` is invalid). You **cannot** move immediate data directly into a Segment Register (e.g., `MOV DS, 1000H` is invalid).
 
 ### `XCHG` (Exchange)
@@ -395,6 +414,7 @@ These instructions deal with memory addresses (pointers) rather than raw numeric
   ```assembly
   LEA BX, ARRAY        ; BX now holds the 16-bit memory address of ARRAY
   ```
+
 * **`LDS` (Load Pointer to DS) & `LES` (Load Pointer to ES):** Loads a full 32-bit far pointer (Segment + Offset) from memory into a designated register AND a segment register.
   ```assembly
   LDS SI, [0301H]      ; Loads the 16-bit offset into SI, and the 16-bit Segment into DS
@@ -407,6 +427,7 @@ These instructions deal with memory addresses (pointers) rather than raw numeric
 Arithmetic operations **always affect the Status Flags** (CF, PF, AF, ZF, SF, OF) depending on the result, with a few notable exceptions.
 
 ### Addition and Subtraction
+
 * **`ADD` / `SUB`:** Standard addition and subtraction.
 * **`ADC` (Add with Carry) / `SBB` (Subtract with Borrow):** Includes the current state of the Carry Flag in the calculation. Vital for multi-word math (like adding two 32-bit numbers in a 16-bit system).
   ```assembly
@@ -417,6 +438,7 @@ Arithmetic operations **always affect the Status Flags** (CF, PF, AF, ZF, SF, OF
   ```
 
 ### Increment, Decrement, and Negation
+
 * **`INC` / `DEC`:** Adds or subtracts 1. 
   > [!IMPORTANT] 
   > **CRITICAL RULE:** `INC` and `DEC` affect all flags **EXCEPT** the Carry Flag (`CF`). This allows you to increment loop counters without destroying the carry state from a previous addition.
@@ -424,16 +446,19 @@ Arithmetic operations **always affect the Status Flags** (CF, PF, AF, ZF, SF, OF
   INC CX               ; CX = CX + 1
   DEC BYTE PTR [SI]    ; Decrement the memory byte pointed to by SI
   ```
+
 * **`NEG`:** Performs Two's Complement negation (multiplies by -1).
   ```assembly
   NEG AL               ; If AL was 5, it becomes -5 (Two's Complement binary)
   ```
 
 ### Compare and Sign Extension
+
 * **`CMP` (Compare):** Exactly the same as `SUB`, but it **throws away the result**. It is used purely to set the Status Flags so a conditional Jump can be performed immediately after.
   ```assembly
   CMP AX, BX           ; Internally calculates AX - BX and sets flags, but AX remains untouched.
   ```
+
 * **`CBW` (Convert Byte to Word) & `CWD` (Convert Word to Doubleword):** Extends the sign bit of a number so 8-bit math can be safely expanded into 16-bit math. **Affects NO flags.**
   ```assembly
   MOV AL, -5           ; AL holds 8-bit negative 5
@@ -444,15 +469,16 @@ Arithmetic operations **always affect the Status Flags** (CF, PF, AF, ZF, SF, OF
 Multiplication and Division have rigid register requirements. You cannot use immediate data (e.g., `MUL 5` is illegal).
 
 * **`MUL` (Unsigned) & `IMUL` (Signed Multiplication):** 
-  * *8-bit multiply:* `AL` is implicitly multiplied by the operand. Result goes to `AX`.
-  * *16-bit multiply:* `AX` is implicitly multiplied by the operand. Result goes to `DX:AX` (DX holds high 16 bits, AX holds low 16 bits).
+    * *8-bit multiply:* `AL` is implicitly multiplied by the operand. Result goes to `AX`.
+    * *16-bit multiply:* `AX` is implicitly multiplied by the operand. Result goes to `DX:AX` (DX holds high 16 bits, AX holds low 16 bits).
   ```assembly
   MUL BL               ; AX = AL * BL (Unsigned)
   IMUL CX              ; DX:AX = AX * CX (Signed)
   ```
+
 * **`DIV` (Unsigned) & `IDIV` (Signed Division):**
-  * *8-bit divide:* `AX` divided by operand. Quotient in `AL`, Remainder in `AH`.
-  * *16-bit divide:* `DX:AX` divided by operand. Quotient in `AX`, Remainder in `DX`.
+    * *8-bit divide:* `AX` divided by operand. Quotient in `AL`, Remainder in `AH`.
+    * *16-bit divide:* `DX:AX` divided by operand. Quotient in `AX`, Remainder in `DX`.
   ```assembly
   DIV BL               ; AX / BL -> Quotient in AL, Remainder in AH
   ```
@@ -468,6 +494,7 @@ Logical instructions perform bitwise Boolean algebra. **They always force CF=0 a
   OR  BL, 80H          ; Forces the MSB (bit 7) to 1
   XOR CX, CX           ; Fastest way to clear a register to 0 (CX = 0)
   ```
+
 * **`NOT`:** Inverts all bits (One's Complement). **Does NOT affect any flags.**
 * **`TEST`:** Exactly like `AND`, but throws away the result. Used purely to set flags to test if a specific bit is a 1 or 0.
 
@@ -494,6 +521,7 @@ Used to move bits left or right. The `CF` (Carry Flag) acts as an extra 17th bit
 Normally, the CPU executes instructions sequentially by automatically incrementing the Instruction Pointer (`IP`). Branching instructions force the `IP` to load a new address, jumping to a different part of the code.
 
 ### Unconditional Jumps
+
 * **`JMP Target_Label`:** Immediately jumps to the specified label. No flags are checked, and no flags are affected.
   ```assembly
   START: 
@@ -589,6 +617,7 @@ END START
 Moving large blocks of memory (arrays/strings) byte-by-byte using loops is slow. The 8086 has dedicated hardware "String Primitives" that act like conveyor belts.
 
 ### The Strict Rules of String Operations
+
 1. **Source:** MUST be pointed to by `DS:SI` (Data Segment : Source Index).
 2. **Destination:** MUST be pointed to by `ES:DI` (Extra Segment : Destination Index).
 3. **Direction:** Controlled by the Direction Flag (`DF`).
@@ -596,6 +625,7 @@ Moving large blocks of memory (arrays/strings) byte-by-byte using loops is slow.
    * `STD` (Set Direction): `DF = 1`. Pointers auto-decrement (move backward).
 
 ### The String Instructions
+
 * **`MOVSB` / `MOVSW` (Move String Byte/Word):** Copies a byte/word from `[DS:SI]` to `[ES:DI]`, then auto-updates `SI` and `DI`.
 * **`CMPSB` / `CMPSW` (Compare String):** Compares byte/word at `[DS:SI]` with `[ES:DI]` and updates flags.
 * **`SCASB` / `SCASW` (Scan String):** Searches for a specific character. Compares the Accumulator (`AL`/`AX`) with the memory at `[ES:DI]`.
@@ -649,11 +679,11 @@ The Stack is a Last-In, First-Out (LIFO) temporary memory structure. It grows "u
 Procedures (functions/subroutines) allow you to write reusable code blocks.
 
 * **`CALL Procedure_Name`:** 
-  1. The CPU takes the address of the *next* instruction (the return address) and `PUSH`es it onto the stack to save it.
-  2. The CPU jumps to the `Procedure_Name`.
+    1. The CPU takes the address of the *next* instruction (the return address) and `PUSH`es it onto the stack to save it.
+    2. The CPU jumps to the `Procedure_Name`.
 * **`RET` (Return):**
-  1. The CPU `POP`s the saved return address off the stack and loads it back into the Instruction Pointer (`IP`).
-  2. Execution resumes right after the original `CALL`.
+    1. The CPU `POP`s the saved return address off the stack and loads it back into the Instruction Pointer (`IP`).
+    2. Execution resumes right after the original `CALL`.
 
 **Complete Code Example: Reusable Procedure**
 ```assembly
@@ -798,6 +828,7 @@ CODE ENDS
 ---
 
 ## 6.3 Aliases and Macros (`EQU`)
+
 * **`EQU` (Equate):** Works like `#define` in C. It acts as a find-and-replace for the assembler. It does NOT allocate any memory.
 
 ```assembly
@@ -835,6 +866,7 @@ END START                        ; Denotes the end of the file and the entry lab
 ---
 
 ## 6.5 Alignment Directives
+
 * **`EVEN`:** Forces the next variable to be placed at an even memory address. Essential because 16-bit word fetches from even addresses take 1 bus cycle, while odd addresses take 2 bus cycles (Unaligned Memory Access).
 * **`ORG` (Origin):** Forces the assembler to set the internal location counter to a specific physical offset.
 

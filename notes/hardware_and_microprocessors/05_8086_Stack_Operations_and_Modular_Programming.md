@@ -625,6 +625,7 @@ POP AX       ; Restore in REVERSE order (LIFO!)
 **Q4.** Trace the SP value when `PUSH AX`, `PUSH BX`, `CALL PROC` executes (initial SP = `0200H`).
 
 > **Answer:**
+>
 > - After `PUSH AX`: SP = `0200H - 2 = 01FEH`
 > - After `PUSH BX`: SP = `01FEH - 2 = 01FCH`
 > - After `CALL PROC` (NEAR): SP = `01FCH - 2 = 01FAH` (IP = return address pushed)
@@ -654,6 +655,7 @@ POP AX       ; Restore in REVERSE order (LIFO!)
 **Q8.** What is the difference between NEAR and FAR CALL in terms of stack behavior?
 
 > **Answer:**
+>
 > - **NEAR CALL:** Pushes only `IP` (2 bytes) onto the stack. `CS` is NOT pushed/changed. RET pops 2 bytes back into `IP`. Used for procedures within the same 64KB code segment.
 > - **FAR CALL:** Pushes `CS` first (2 bytes), then `IP` (2 bytes) = **4 bytes total**. Both CS and IP are restored on `RETF`. Used to call procedures in different code segments (different CS values).
 

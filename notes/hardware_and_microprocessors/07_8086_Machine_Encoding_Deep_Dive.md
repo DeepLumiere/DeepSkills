@@ -53,6 +53,7 @@ An 8086 instruction ranges from **1 to 6 bytes**:
 
 > [!IMPORTANT]
 > **D bit rule:** Think "Who is the DESTINATION?"
+>
 > - `D=1` → REG field is the **destination** (data flows TO REG)
 > - `D=0` → REG field is the **source** (data flows FROM REG)
 
@@ -610,6 +611,7 @@ STEP 5: Segment override prefix (if non-default segment)
 **Q1.** Encode `MOV AH, BL`.
 
 > **Answer:** Both registers → MOD=11. Data from BL to AH → D=1 (AH in REG), W=0 (byte).
+>
 > - Byte 1: `1000 1010` = `8AH`
 > - Byte 2: `11 100 011` = MOD=11, REG=AH(100), R/M=BL(011) = `1110 0011` = `E3H`
 > - **Result: `8A E3`**
@@ -617,6 +619,7 @@ STEP 5: Segment override prefix (if non-default segment)
 **Q2.** Encode `MOV [SI], AX`.
 
 > **Answer:** AX → memory, D=0 (AX=REG=source), W=1 (word). No displacement → MOD=00, R/M=[SI]=100.
+>
 > - Byte 1: `1000 1001` = `89H`
 > - Byte 2: `00 000 100` = MOD=00, REG=AX(000), R/M=SI(100) = `0000 0100` = `04H`
 > - **Result: `89 04`**
