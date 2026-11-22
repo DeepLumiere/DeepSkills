@@ -268,7 +268,7 @@ Stack grows DOWNWARD (SP decrements on PUSH)
 | `01H` | Read char (echo) | — | AL = char |
 | `02H` | Display char | DL = char | — |
 | `07H` | Read char (no echo) | — | AL = char |
-| `09H` | Display string | DS:DX → '\$'-terminated | — |
+| `09H` | Display string | DS:DX → `'$'`-terminated | — |
 | `0AH` | Buffered input | DS:DX → buffer | Buffer filled |
 | `2AH` | Get date | — | CX=yr, DH=mon, DL=day |
 | `2CH` | Get time | — | CH=hr, CL=min, DH=sec |

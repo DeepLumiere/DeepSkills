@@ -24,7 +24,8 @@
   - **Dynamic Relocation:** Programs can be loaded anywhere in physical memory simply by updating the segment registers without modifying operand offsets.
   - **Logical Separation:** Code (`CS`), Data (`DS`), Stack (`SS`), and Extra/Destination string space (`ES`) remain protected in disjoint memory areas.
 - **Physical Address Formula:**
-  $$\text{Physical Address (PA)} = (\text{Segment Base Register} \times 10\text{H}) + \text{Effective Address (EA)}$$
+
+  $\text{Physical Address (PA)} = (\text{Segment Base Register} \times 10\text{H}) + \text{Effective Address (EA)}$
 
 #### 2. Step-by-Step Numerical Calculation
 - **Given:**
@@ -32,10 +33,14 @@
   - $\text{BX} = 1000\text{H}$
   - Instruction: `MOV CX, [BX]` (Destination is a 16-bit word register `CX`).
 - **Calculation:**
-  $$\text{Segment Base Physical Address} = 2500\text{H} \times 10\text{H} = 25000\text{H}$$
-  $$\text{Offset Address (EA)} = \text{BX} = 1000\text{H}$$
-  $$\text{Physical Address for Lower Byte (CL)} = 25000\text{H} + 1000\text{H} = \mathbf{26000\text{H}}$$
-  $$\text{Physical Address for Higher Byte (CH)} = 26000\text{H} + 1 = \mathbf{26001\text{H}}$$
+
+  $\text{Segment Base Physical Address} = 2500\text{H} \times 10\text{H} = 25000\text{H}$
+
+  $\text{Offset Address (EA)} = \text{BX} = 1000\text{H}$
+
+  $\text{Physical Address for Lower Byte (CL)} = 25000\text{H} + 1000\text{H} = \mathbf{26000\text{H}}$
+
+  $\text{Physical Address for Higher Byte (CH)} = 26000\text{H} + 1 = \mathbf{26001\text{H}}$
 - **Final Answer:** The 8086 fetches the low byte (`CL`) from physical memory location **`26000H`** and the high byte (`CH`) from **`26001H`**.
 
 ---
@@ -115,10 +120,13 @@ MOV SP, 0200H        ; Set Stack Pointer to top of stack (512 bytes capacity)
 #### 2. Significance in CALL and RET
 - **Subroutine Call (`CALL`):**
   - **Near CALL:** Decrements `SP` by 2 and pushes the 16-bit return address (`IP` of next instruction) onto the stack:
-    $$\text{SP} \leftarrow \text{SP} - 2;\quad [\text{SS}:\text{SP}] \leftarrow \text{IP}$$
+
+    $\text{SP} \leftarrow \text{SP} - 2;\quad [\text{SS}:\text{SP}] \leftarrow \text{IP}$
   - **Far CALL:** Decrements `SP` by 4; pushes `CS` first, then pushes `IP`:
-    $$\text{SP} \leftarrow \text{SP} - 2;\quad [\text{SS}:\text{SP}] \leftarrow \text{CS}$$
-    $$\text{SP} \leftarrow \text{SP} - 2;\quad [\text{SS}:\text{SP}] \leftarrow \text{IP}$$
+
+    $\text{SP} \leftarrow \text{SP} - 2;\quad [\text{SS}:\text{SP}] \leftarrow \text{CS}$
+
+    $\text{SP} \leftarrow \text{SP} - 2;\quad [\text{SS}:\text{SP}] \leftarrow \text{IP}$
 - **Return from Subroutine (`RET` / `RETF`):**
   - Restores the saved execution context from stack back into `IP` (and `CS` for far returns), seamlessly transferring control back to the caller instruction.
   - Allows nested subroutine calls and recursive algorithms without overwriting return vectors.
@@ -180,7 +188,8 @@ ENDM
 #### 1. Solution
 - **Answer:** **No, it is strictly impossible.**
 - **Architectural Reason:** The 8086 Bus Interface Unit (BIU) computes physical addresses by shifting the 16-bit segment register 4 bits to the left (multiplying by $10\text{H} = 16_{10}$):
-  $$\text{Base Physical Address} = \text{Segment Register} \times 16_{10}$$
+
+  $\text{Base Physical Address} = \text{Segment Register} \times 16_{10}$
   Every integer multiplied by 16 has its least significant hexadecimal digit equal to `0H`. Therefore, segments can only begin on 16-byte boundaries (known as **Paragraph Boundaries**).
 
 ---
@@ -288,7 +297,7 @@ PREP_STR2:
 COPY_2:
     LODSB
     STOSB
-    CMP AL, '$'
+    CMP AL, `'$'`
     JE CONCAT_DONE
     CMP AL, 0
     JE CONCAT_DONE
@@ -353,7 +362,8 @@ Lower Memory
 
 #### 1. Architectural Analysis
 - **Address Computation:**
-  $$\text{Physical Address} = \text{D000H} \times 10\text{H} + \text{AAAAH} = \mathbf{\text{DAAAAH}}$$
+
+  $\text{Physical Address} = \text{D000H} \times 10\text{H} + \text{AAAAH} = \mathbf{\text{DAAAAH}}$
   - Address $\text{DAAAAH}$ is **Even** ($A_0 = 0$).
   - Bank selection: Lower Even Bank ($D_0 - D_7$) active $\implies \overline{\text{BHE}} = 1, A_0 = 0$.
 - **Operation Nature:** Read-Modify-Write:
@@ -566,7 +576,8 @@ RESET ------>|                              Group B Control =======>| Port B (PB
 
 #### 1. Calculation & Control Word
 - **Count Calculation:**
-  $$\text{Count } N = \frac{F_{\text{clk}}}{F_{\text{out}}} = \frac{2,000,000\text{ Hz}}{1,000\text{ Hz}} = \mathbf{2000_{10}} = \mathbf{07\text{D}0\text{H}}$$
+
+  $\text{Count } N = \frac{F_{\text{clk}}}{F_{\text{out}}} = \frac{2,000,000\text{ Hz}}{1,000\text{ Hz}} = \mathbf{2000_{10}} = \mathbf{07\text{D}0\text{H}}$
 - **Control Word Formulation:**
   - Counter 1 $\to SC_1 SC_0 = \mathbf{01b}$
   - Read/Write LSB then MSB $\to RW_1 RW_0 = \mathbf{11b}$

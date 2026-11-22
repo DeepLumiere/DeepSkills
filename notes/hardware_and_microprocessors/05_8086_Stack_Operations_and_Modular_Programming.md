@@ -121,9 +121,7 @@ flowchart TD
 
 3. **Physical Address of Top of Stack (TOS):**
 
-   $$
-\text{Physical Address (TOS)} = (\text{SS} \times 10\text{H}) + \text{SP}
-$$
+   $\text{Physical Address (TOS)} = (\text{SS} \times 10\text{H}) + \text{SP}$
 
 
 
@@ -135,9 +133,7 @@ $$
 
 - **Solution:**
 
-  $$
-\text{TOS Physical Address} = (3000\text{H} \times 10\text{H}) + 8434\text{H} = 30000\text{H} + 8434\text{H} = \mathbf{38434\text{H}}
-$$
+  $\text{TOS Physical Address} = (3000\text{H} \times 10\text{H}) + 8434\text{H} = 30000\text{H} + 8434\text{H} = \mathbf{38434\text{H}}$
 
 
 

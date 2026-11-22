@@ -132,10 +132,13 @@ The 8086 utilizes a 20-bit physical address bus (accessing 1 MB of physical RAM)
   - Data Segment Register: $DS = 2500\text{H}$
   - Base Register (Offset): $BX = 1000\text{H}$
 - **Formula:**
-  $$\text{Physical Address} = (\text{Segment Base} \times 10\text{H}) + \text{Effective Address Offset}$$
+
+  $\text{Physical Address} = (\text{Segment Base} \times 10\text{H}) + \text{Effective Address Offset}$
 - **Calculation:**
-  $$\text{Segment Base Address} = 2500\text{H} \times 10\text{H} = 25000\text{H}$$
-  $$\text{Physical Address (PA)} = 25000\text{H} + 1000\text{H} = \mathbf{26000}\text{H}$$
+
+  $\text{Segment Base Address} = 2500\text{H} \times 10\text{H} = 25000\text{H}$
+
+  $\text{Physical Address (PA)} = 25000\text{H} + 1000\text{H} = \mathbf{26000}\text{H}$
 
 #### 3. Bytes Fetched for 16-bit Word Register `CX`:
 Since `CX` is a 16-bit word register, the 8086 fetches **two contiguous bytes** from memory:
@@ -155,6 +158,7 @@ Since `CX` is a 16-bit word register, the 8086 fetches **two contiguous bytes** 
 > 3. `MOV AL, [DI+BP]`
 
 #### Formula:
+
 $$\text{Physical Address} = (\text{Segment Register} \times 10\text{H}) + \text{Effective Address (EA)}$$
 
 ---
@@ -165,8 +169,10 @@ $$\text{Physical Address} = (\text{Segment Register} \times 10\text{H}) + \text{
   - $\text{Segment Base} = SS = 2222\text{H}$
 - **Effective Address:** $\text{EA} = [BP] = 4321\text{H}$
 - **Physical Address Calculation:**
-  $$\text{Segment Base Address} = 2222\text{H} \times 10\text{H} = 22220\text{H}$$
-  $$\text{PA} = 22220\text{H} + 4321\text{H} = \mathbf{26541}\text{H}$$
+
+  $\text{Segment Base Address} = 2222\text{H} \times 10\text{H} = 22220\text{H}$
+
+  $\text{PA} = 22220\text{H} + 4321\text{H} = \mathbf{26541}\text{H}$
 - **Data Transfer Details:** Fetches 16-bit word into `CX`:
   - `CL` fetched from $\mathbf{26541}\text{H}$
   - `CH` fetched from $\mathbf{26542}\text{H}$
@@ -178,10 +184,13 @@ $$\text{Physical Address} = (\text{Segment Register} \times 10\text{H}) + \text{
 - **Default Segment:** Base register `BX` defaults to **Data Segment (`DS`)**.
   - $\text{Segment Base} = DS = 7000\text{H}$
 - **Effective Address:**
-  $$\text{EA} = [BX] + 0111\text{H} = 1234\text{H} + 0111\text{H} = 1345\text{H}$$
+
+  $\text{EA} = [BX] + 0111\text{H} = 1234\text{H} + 0111\text{H} = 1345\text{H}$
 - **Physical Address Calculation:**
-  $$\text{Segment Base Address} = 7000\text{H} \times 10\text{H} = 70000\text{H}$$
-  $$\text{PA} = 70000\text{H} + 1345\text{H} = \mathbf{71345}\text{H}$$
+
+  $\text{Segment Base Address} = 7000\text{H} \times 10\text{H} = 70000\text{H}$
+
+  $\text{PA} = 70000\text{H} + 1345\text{H} = \mathbf{71345}\text{H}$
 - **Data Transfer Details:** Writes 8-bit byte from `AH` into physical memory address $\mathbf{71345}\text{H}$.
 
 ---
@@ -191,10 +200,13 @@ $$\text{Physical Address} = (\text{Segment Register} \times 10\text{H}) + \text{
 - **Default Segment:** Whenever `BP` is part of the effective address calculation, the default segment is **Stack Segment (`SS`)**.
   - $\text{Segment Base} = SS = 2222\text{H}$
 - **Effective Address:**
-  $$\text{EA} = [BP] + [DI] = 4321\text{H} + 1011\text{H} = 5332\text{H}$$
+
+  $\text{EA} = [BP] + [DI] = 4321\text{H} + 1011\text{H} = 5332\text{H}$
 - **Physical Address Calculation:**
-  $$\text{Segment Base Address} = 2222\text{H} \times 10\text{H} = 22220\text{H}$$
-  $$\text{PA} = 22220\text{H} + 5332\text{H} = \mathbf{27552}\text{H}$$
+
+  $\text{Segment Base Address} = 2222\text{H} \times 10\text{H} = 22220\text{H}$
+
+  $\text{PA} = 22220\text{H} + 5332\text{H} = \mathbf{27552}\text{H}$
 - **Data Transfer Details:** Fetches 8-bit byte from physical memory address $\mathbf{27552}\text{H}$ into `AL`.
 
 ---

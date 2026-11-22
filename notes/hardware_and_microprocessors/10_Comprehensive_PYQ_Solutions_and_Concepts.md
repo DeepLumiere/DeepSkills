@@ -73,6 +73,7 @@ The Intel 8086 instruction encoding template varies from 1 to 6 bytes:
 
 #### Segment Override Prefix (SOP) Table
 When an instruction accesses a memory segment other than its hardware default, a 1-byte prefix precedes Byte 1:
+
 $$\text{Prefix Byte} = \mathbf{001}\;[\text{REG}]\;\mathbf{110b}$$
 
 | Segment Register | `REG` Field | Binary Prefix | Hex Code | Default Segment Overridden |
@@ -259,12 +260,16 @@ Byte 0: Segment Limit 7..0
   2. **Modular Memory Segmentation:** Clear physical division between executable instructions (`CS`), variables (`DS`), temporary subroutine frames (`SS`), and string destinations (`ES`).
 - **Physical Address Calculation for `MOV CX, [BX]`:**
   - **Given:** $\text{DS} = 2500\text{H}$, $\text{BX} = 1000\text{H}$.
-  - **Formula:** 
-    $$\text{Physical Address} = (\text{Segment Register} \times 10\text{H}) + \text{Effective Address (Offset)}$$
+  - **Formula:**
+
+    $\text{Physical Address} = (\text{Segment Register} \times 10\text{H}) + \text{Effective Address (Offset)}$
   - **Calculation:**
-    $$\text{Base Address} = 2500\text{H} \times 10\text{H} = 25000\text{H}$$
-    $$\text{Offset} = \text{BX} = 1000\text{H}$$
-    $$\text{Physical Address} = 25000\text{H} + 1000\text{H} = \mathbf{26000\text{H}}$$
+
+    $\text{Base Address} = 2500\text{H} \times 10\text{H} = 25000\text{H}$
+
+    $\text{Offset} = \text{BX} = 1000\text{H}$
+
+    $\text{Physical Address} = 25000\text{H} + 1000\text{H} = \mathbf{26000\text{H}}$
   - **Byte Fetch:** Since `CX` is a 16-bit word register:
     - Low byte (`CL`) is fetched from physical address $\mathbf{26000\text{H}}$.
     - High byte (`CH`) is fetched from physical address $\mathbf{26001\text{H}}$.
@@ -357,7 +362,8 @@ END MAIN
 #### Q2(b)(1): Can an 8086 Segment Begin at an Address Not Divisible by 16?
 - **Answer:** **No, it is physically impossible in the 8086 architecture.**
 - **Architectural Reason:** The BIU constructs the 20-bit physical address by taking the 16-bit segment register and internally appending four zeros (`0000b`) to the right (equivalent to multiplying by $16_{10}$ or $10_{16}$):
-  $$\text{Physical Base} = \text{Segment Register} \times 16_{10}$$
+
+  $\text{Physical Base} = \text{Segment Register} \times 16_{10}$
   Every number multiplied by 16 ends in $0\text{H}$ in hexadecimal, which is always divisible by 16. These 16-byte boundaries are called **Paragraph Boundaries**.
 
 #### Q2(b)(2): Can Two Segments Overlap in 8086? Why?
@@ -460,7 +466,7 @@ COPY_S2_PREP:
 COPY_S2:
     LODSB
     STOSB
-    CMP AL, '$'
+    CMP AL, `'$'`
     JE CONCAT_DONE
     CMP AL, 0
     JE CONCAT_DONE
@@ -529,8 +535,10 @@ DEN#               | 1111 | 0000 | 0000 | 1111 | 1111 | 0000 | 0000 | 1111 | (Ac
   2. **Descriptor Tables (GDT / LDT):** Reside in physical memory. Base addresses stored in CPU registers `GDTR` and `LDTR`.
   3. **Segment Descriptor (8 Bytes):** Contains a 24-bit physical base address ($16\text{ MB}$ space), a 16-bit limit ($64\text{ KB}$ max), and an Access Rights Byte enforcing read/write/executable permissions and privilege rings (0 to 3).
 - **Physical Address Generation:**
-  $$\text{Descriptor Address} = \text{GDTR/LDTR Base} + (\text{Selector Index} \times 8)$$
-  $$\text{Physical Address} = \text{Descriptor Base Address} + \text{16-bit Offset}$$
+
+  $\text{Descriptor Address} = \text{GDTR/LDTR Base} + (\text{Selector Index} \times 8)$
+
+  $\text{Physical Address} = \text{Descriptor Base Address} + \text{16-bit Offset}$
 - **Key Differences from Real Mode:**
   - Real Mode shifts segment by 4 bits ($\text{Base} \times 16 + \text{Offset}$) with zero protection and $1\text{ MB}$ ceiling.
   - Protected mode translates through descriptor tables, verifying whether `Offset` $\le$ `Limit` and comparing caller `CPL` with descriptor `DPL`, throwing exceptions on unauthorized access.
@@ -651,9 +659,12 @@ The 8255A consists of five major structural functional blocks:
 
 #### Q6(a) OR: 8254 Timer Counter 1 Square Wave Generator (1 kHz from 2 MHz)
 - **Mathematical Count Calculation:**
-  $$\text{Input Clock Frequency } F_{\text{clk}} = 2\text{ MHz} = 2,000,000\text{ Hz}$$
-  $$\text{Desired Output Frequency } F_{\text{out}} = 1\text{ kHz} = 1,000\text{ Hz}$$
-  $$\text{Divisor Count } N = \frac{F_{\text{clk}}}{F_{\text{out}}} = \frac{2,000,000}{1,000} = \mathbf{2000_{10}} = \mathbf{07\text{D}0\text{H}}$$
+
+  $\text{Input Clock Frequency } F_{\text{clk}} = 2\text{ MHz} = 2,000,000\text{ Hz}$
+
+  $\text{Desired Output Frequency } F_{\text{out}} = 1\text{ kHz} = 1,000\text{ Hz}$
+
+  $\text{Divisor Count } N = \frac{F_{\text{clk}}}{F_{\text{out}}} = \frac{2,000,000}{1,000} = \mathbf{2000_{10}} = \mathbf{07\text{D}0\text{H}}$
 - **Control Word Formulation:**
   - Counter 1 $\to SC_1 SC_0 = \mathbf{01b}$
   - Read/Write LSB then MSB $\to RW_1 RW_0 = \mathbf{11b}$
@@ -870,7 +881,7 @@ STORE_CHAR:
     JMP ENCRYPT_LOOP
 
 ENCRYPT_END:
-    MOV AL, '$'
+    MOV AL, `'$'`
     STOSB
 
     ; Display Ciphertext
@@ -1069,8 +1080,8 @@ SEARCH_LOOP:
     ADD BX, ENTRY_SIZE  ; Advance to next 80-byte record
     LOOP SEARCH_LOOP
 
-    ; Not Found: Fill NAME_INFO with '$'
-    MOV BYTE PTR NAME_INFO, '$'
+    ; Not Found: Fill NAME_INFO with `'$'`
+    MOV BYTE PTR NAME_INFO, `'$'`
     JMP FINISH
 
 FOUND_ENTRY:
@@ -1351,17 +1362,23 @@ XOR AX, 0380H
 
 #### 2021 Q2(a): Single Assembly Instruction Formulations
 1. Load 10H at address specified by BX:
-   $$\mathbf{\text{MOV BYTE PTR [BX], 10H}}$$
+
+   $\mathbf{\text{MOV BYTE PTR [BX], 10H}}$
 2. Increment content of memory location specified by DI:
-   $$\mathbf{\text{INC BYTE PTR [DI]}}$$
+
+   $\mathbf{\text{INC BYTE PTR [DI]}}$
 3. Clear LSB of AX register:
-   $$\mathbf{\text{AND AX, 0FFFEH}}$$
+
+   $\mathbf{\text{AND AX, 0FFFEH}}$
 4. Add content of AX, BX, and previous carry:
-   $$\mathbf{\text{ADC AX, BX}}$$
+
+   $\mathbf{\text{ADC AX, BX}}$
 5. Clear the direction flag:
-   $$\mathbf{\text{CLD}}$$
+
+   $\mathbf{\text{CLD}}$
 6. Logical shift right of AX register by count 3:
-   $$\mathbf{\text{MOV CL, 3}}\quad\text{then}\quad\mathbf{\text{SHR AX, CL}}$$
+
+   $\mathbf{\text{MOV CL, 3}}\quad\text{then}\quad\mathbf{\text{SHR AX, CL}}$
 
 #### 2022 Q2(a): Find Errors in Instructions
 1. `AAA DX`: **Error.** `AAA` takes no operands.
@@ -1376,7 +1393,7 @@ XOR AX, 0380H
 .MODEL SMALL
 .STACK 100H
 .DATA
-    STRING      DB 'Computer Engineering Nirma University 2022', '$'
+    STRING      DB 'Computer Engineering Nirma University 2022', `'$'`
     SPACE_COUNT DW 0
 .CODE
 MAIN PROC
@@ -1388,7 +1405,7 @@ MAIN PROC
 
 COUNT_LOOP:
     MOV AL, [SI]
-    CMP AL, '$'         ; End of string marker
+    CMP AL, `'$'`         ; End of string marker
     JE DONE
     CMP AL, ' '         ; Check for blank space (20H)
     JNE SKIP

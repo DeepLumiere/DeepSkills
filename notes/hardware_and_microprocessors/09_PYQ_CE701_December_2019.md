@@ -143,13 +143,18 @@ The 8086 internal registers (14 registers of 16 bits each) are grouped into four
   - Multiplexed on $AD_0$–$AD_{15}$ during clock cycles $T_2, T_3, T_w, T_4$.
 
 #### 2. Maximum Addressable Memory Space Calculation:
+
 $$\text{Total Addressable Memory} = 2^{\text{Number of Address Lines}} = 2^{20} \text{ bytes}$$
+
 $$2^{20} = 1,048,576 \text{ bytes} = \mathbf{1\text{ MB}}$$
+
 The memory address range spans from physical address **`00000H`** to **`FFFFFH`**.
 
 #### 3. Logical Memory Segmentation Architecture
 Because internal registers are only 16 bits wide, a single register can directly offset up to:
+
 $$2^{16} \text{ bytes} = 65,536 \text{ bytes} = \mathbf{64\text{ KB}}$$
+
 The 1 MB physical address space is divided into logical segments of up to 64 KB each. Up to **four segments** can be actively referenced simultaneously:
 
 ```text
@@ -178,7 +183,8 @@ The 1 MB physical address space is divided into logical segments of up to 64 KB 
 ```
 
 - **Physical Address Formula:**
-  $$\text{Physical Address} = (\text{Segment Register} \times 16_{10}) + \text{16-bit Offset}$$
+
+  $\text{Physical Address} = (\text{Segment Register} \times 16_{10}) + \text{16-bit Offset}$
 
 ---
 
@@ -374,7 +380,8 @@ Segment Override Prefix Byte Format:
 - **Default Segment for `[BX]`:** Data Segment (`DS`).
 - **Segment Override Prefix:** Instruction explicitly prefixes `ES:` $\implies$ **`26H`**.
 - **Instruction Template:**
-  $$\text{Byte 1: Opcode (6 bits) } + D (1) + W (1)$$
+
+  $\text{Byte 1: Opcode (6 bits) } + D (1) + W (1)$
   - Opcode for `MOV` = `100010`
   - Direction $D = 0$: Source is register `AX` (in `REG` field); Destination is memory `[BX]` (in `MOD R/M`).
   - Word $W = 1$: 16-bit word transfer (`AX`).
@@ -385,7 +392,8 @@ Segment Override Prefix Byte Format:
   - $R/M = 111_2$ (Addressing operand `[BX]`).
   - Byte 2 $= 00\ 000\ 111_2 = \mathbf{07}\text{H}$.
 - **Complete Hex Encoding:**
-  $$\mathbf{26\ 89\ 07}\text{ H}$$
+
+  $\mathbf{26\ 89\ 07}\text{ H}$
   *(Note: Alternately, with $D=1, REG=AX, R/M=[BX]$, Byte 1 = 8BH and Byte 2 = 07H with reversed roles; 89 07H is standard MASM output).*
 
 ---
@@ -406,7 +414,8 @@ Segment Override Prefix Byte Format:
   - Disp-Low: $\mathbf{34}\text{H}$
   - Disp-High: $\mathbf{75}\text{H}$
 - **Complete Hex Encoding:**
-  $$\mathbf{8B\ 8C\ 34\ 75}\text{ H}$$
+
+  $\mathbf{8B\ 8C\ 34\ 75}\text{ H}$
 
 ---
 
@@ -422,6 +431,7 @@ Segment Override Prefix Byte Format:
 > 5. `MOV [DI+BP+1111H], BX`
 
 #### Formula:
+
 $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text{Effective Address (EA)}$$
 
 ---
@@ -432,7 +442,8 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
   - $\text{Segment Base} = SS = 2000\text{H}$
 - **Effective Address:** $\text{EA} = [BP] = 0111\text{H}$
 - **Physical Address:**
-  $$\text{PA} = (2000\text{H} \times 10\text{H}) + 0111\text{H} = 20000\text{H} + 0111\text{H} = \mathbf{20111}\text{H}$$
+
+  $\text{PA} = (2000\text{H} \times 10\text{H}) + 0111\text{H} = 20000\text{H} + 0111\text{H} = \mathbf{20111}\text{H}$
 
 ---
 
@@ -441,9 +452,11 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 - **Default Segment:** Destination Index `DI` defaults to **Data Segment (`DS`)**.
   - $\text{Segment Base} = DS = 1000\text{H}$
 - **Effective Address:**
-  $$\text{EA} = [DI] + 1778\text{H} = 0111\text{H} + 1778\text{H} = 1889\text{H}$$
+
+  $\text{EA} = [DI] + 1778\text{H} = 0111\text{H} + 1778\text{H} = 1889\text{H}$
 - **Physical Address:**
-  $$\text{PA} = (1000\text{H} \times 10\text{H}) + 1889\text{H} = 10000\text{H} + 1889\text{H} = \mathbf{11889}\text{H}$$
+
+  $\text{PA} = (1000\text{H} \times 10\text{H}) + 1889\text{H} = 10000\text{H} + 1889\text{H} = \mathbf{11889}\text{H}$
 - Accesses two bytes: Low byte (`AL`) to $\mathbf{11889}\text{H}$, High byte (`AH`) to $\mathbf{1188A}\text{H}$.
 
 ---
@@ -453,9 +466,11 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 - **Default Segment:** Base register `BX` defaults to **Data Segment (`DS`)**.
   - $\text{Segment Base} = DS = 1000\text{H}$
 - **Effective Address:**
-  $$\text{EA} = [BX] - 1 = 0222\text{H} - 0001\text{H} = 0221\text{H}$$
+
+  $\text{EA} = [BX] - 1 = 0222\text{H} - 0001\text{H} = 0221\text{H}$
 - **Physical Address:**
-  $$\text{PA} = (1000\text{H} \times 10\text{H}) + 0221\text{H} = 10000\text{H} + 0221\text{H} = \mathbf{10221}\text{H}$$
+
+  $\text{PA} = (1000\text{H} \times 10\text{H}) + 0221\text{H} = 10000\text{H} + 0221\text{H} = \mathbf{10221}\text{H}$
 
 ---
 
@@ -464,9 +479,11 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 - **Default Segment:** Base register `BX` defaults to **Data Segment (`DS`)**.
   - $\text{Segment Base} = DS = 1000\text{H}$
 - **Effective Address:**
-  $$\text{EA} = [BX] + [SI] = 0222\text{H} + 3333\text{H} = 3555\text{H}$$
+
+  $\text{EA} = [BX] + [SI] = 0222\text{H} + 3333\text{H} = 3555\text{H}$
 - **Physical Address:**
-  $$\text{PA} = (1000\text{H} \times 10\text{H}) + 3555\text{H} = 10000\text{H} + 3555\text{H} = \mathbf{13555}\text{H}$$
+
+  $\text{PA} = (1000\text{H} \times 10\text{H}) + 3555\text{H} = 10000\text{H} + 3555\text{H} = \mathbf{13555}\text{H}$
 - Accesses two bytes: $\mathbf{13555}\text{H}$ into `AL`, $\mathbf{13556}\text{H}$ into `AH`.
 
 ---
@@ -476,9 +493,11 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 - **Default Segment:** Register `BP` defaults to **Stack Segment (`SS`)**.
   - $\text{Segment Base} = SS = 2000\text{H}$
 - **Effective Address:**
-  $$\text{EA} = [BP] + [DI] + 1111\text{H} = 0111\text{H} + 0111\text{H} + 1111\text{H} = 0222\text{H} + 1111\text{H} = 1333\text{H}$$
+
+  $\text{EA} = [BP] + [DI] + 1111\text{H} = 0111\text{H} + 0111\text{H} + 1111\text{H} = 0222\text{H} + 1111\text{H} = 1333\text{H}$
 - **Physical Address:**
-  $$\text{PA} = (2000\text{H} \times 10\text{H}) + 1333\text{H} = 20000\text{H} + 1333\text{H} = \mathbf{21333}\text{H}$$
+
+  $\text{PA} = (2000\text{H} \times 10\text{H}) + 1333\text{H} = 20000\text{H} + 1333\text{H} = \mathbf{21333}\text{H}$
 - Accesses two bytes: Low byte (`BL`) to $\mathbf{21333}\text{H}$, High byte (`BH`) to $\mathbf{21334}\text{H}$.
 
 ---
@@ -490,7 +509,9 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 
 #### 1. Concept: Positional Base-10 to Binary Accumulation
 An ASCII decimal string (e.g., `'1'`, `'2'`, `'3'`, `'4'`) is converted to its 16-bit binary equivalent via Horner's multiplication method:
+
 $$\text{Binary Value} = (\dots((\text{Digit}_0 \times 10) + \text{Digit}_1) \times 10 \dots) + \text{Digit}_n$$
+
 1. Initialize accumulated 16-bit total $= 0$.
 2. For each ASCII character:
    - Subtract $30\text{H}$ to obtain numerical digit ($0$–$9$).
@@ -510,9 +531,9 @@ $$\text{Binary Value} = (\dots((\text{Digit}_0 \times 10) + \text{Digit}_1) \tim
 .STACK 100H
 
 .DATA
-    ASCII_STR DB '1234', '$'       ; ASCII input string terminated by '$'
+    ASCII_STR DB '1234', `'$'`       ; ASCII input string terminated by `'$'`
     BIN_RESULT DW ?                ; Holds converted 16-bit binary value
-    PROMPT    DB 'Original ASCII String: 1234', 0DH, 0AH, '$'
+    PROMPT    DB 'Original ASCII String: 1234', 0DH, 0AH, `'$'`
 
 .CODE
 MAIN PROC
@@ -539,7 +560,7 @@ MAIN ENDP
 
 ;--------------------------------------------------------------------
 ; Procedure: ASCII_TO_BIN (NEAR Procedure)
-; Inputs:    DS:SI = Pointer to '$'-terminated ASCII decimal string
+; Inputs:    DS:SI = Pointer to `'$'`-terminated ASCII decimal string
 ; Outputs:   AX = 16-bit unsigned binary equivalent value
 ; Destroys:  BX, CX, DX
 ;--------------------------------------------------------------------
@@ -554,7 +575,7 @@ ASCII_TO_BIN PROC NEAR
 
 CONVERT_LOOP:
     MOV AL, [SI]                  ; Fetch ASCII character
-    CMP AL, '$'                   ; Check for string terminator
+    CMP AL, `'$'`                   ; Check for string terminator
     JE DONE_CONVERT
     CMP AL, '0'                   ; Validate range '0' - '9'
     JB DONE_CONVERT
@@ -812,6 +833,7 @@ XOR AX, 0380H     ; Inverts bits 7, 8, 9
 > 4. `RCL DL, CL`
 
 #### Initial Conditions:
+
 $$DL = 93\text{H} = 1001\ 0011_2, \quad CL = 4, \quad CF = 1$$
 
 ---
@@ -847,7 +869,8 @@ $$DL = 93\text{H} = 1001\ 0011_2, \quad CL = 4, \quad CF = 1$$
 #### 4. `RCL DL, CL` (Rotate Left through Carry by 4 bits)
 - 9-bit circular rotation including the Carry Flag: $\{CF, D_7, D_6, D_5, D_4, D_3, D_2, D_1, D_0\}$.
 - Initial 9-bit sequence:
-  $$\{CF, DL\} = \{1,\ 1001\ 0011_2\}$$
+
+  $\{CF, DL\} = \{1,\ 1001\ 0011_2\}$
 - Shift 1: $CF = 1, DL = 0010\ 0111_2$ (old CF=1 entered LSB)
 - Shift 2: $CF = 0, DL = 0100\ 1111_2$ (old CF=1 entered LSB)
 - Shift 3: $CF = 0, DL = 1001\ 1110_2$ (old CF=0 entered LSB)
@@ -882,7 +905,7 @@ $$DL = 93\text{H} = 1001\ 0011_2, \quad CL = 4, \quad CF = 1$$
 
 .DATA
     SOURCE DB 'Transfer this string without prohibited opcodes!'
-    STR_LEN EQU $ - SOURCE
+    STR_LEN EQU `$ - SOURCE`
 
 .DATA?
     EXTRA_SEG SEGMENT
@@ -1020,7 +1043,8 @@ The IVT occupies the lowest 1024 bytes of physical memory ($00000\text{H}$ to $0
   - Lower 2 bytes: Offset address (`IP`)
   - Upper 2 bytes: Segment address (`CS`)
 - Formula for vector memory base:
-  $$\text{Vector Base Address} = \text{Type Number } (N) \times 4$$
+
+  $\text{Vector Base Address} = \text{Type Number } (N) \times 4$
 
 ```text
 Physical Memory Address:                 IVT Entry Format:
@@ -1058,7 +1082,8 @@ Physical Memory Address:                 IVT Entry Format:
 #### 1. Architectural Interrupt Execution Sequence for `INT 8`:
 - Vector Type $N = 8$.
 - IVT Address calculation:
-  $$\text{IVT Address} = 8 \times 4 = 32_{10} = \mathbf{00020}\text{H}$$
+
+  $\text{IVT Address} = 8 \times 4 = 32_{10} = \mathbf{00020}\text{H}$
   - From given data: $[00020\text{H}] = 0040\text{H} \implies \text{New } IP = \mathbf{0040}\text{H}$
   - From given data: $[00022\text{H}] = 0100\text{H} \implies \text{New } CS = \mathbf{0100}\text{H}$
 - Next sequential instruction pointer after `INT 8`:
@@ -1164,7 +1189,7 @@ A single 8259 provides 8 interrupt request inputs (`IR0`–`IR7`). To expand to 
     KEY_PRESSED DB ?
     PROMPT      DB 'Press any key on the keyboard: $'
     MSG_OUT     DB 0DH, 0AH, 'You pressed the key: ['
-    DISP_CHAR   DB ?, ']', 0DH, 0AH, '$'
+    DISP_CHAR   DB ?, ']', 0DH, 0AH, `'$'`
 
 .CODE
 MAIN PROC

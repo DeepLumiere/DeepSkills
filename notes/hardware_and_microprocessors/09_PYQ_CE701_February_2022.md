@@ -123,19 +123,27 @@ Memory Address
 
 1. **`PUSH Source` (Word Register or Memory):**
    - Micro-operations:
-     $$SP \leftarrow SP - 1$$
-     $$[SS:SP] \leftarrow \text{High Byte of Operand}$$
-     $$SP \leftarrow SP - 1$$
-     $$[SS:SP] \leftarrow \text{Low Byte of Operand}$$
+
+     $SP \leftarrow SP - 1$
+
+     $[SS:SP] \leftarrow \text{High Byte of Operand}$
+
+     $SP \leftarrow SP - 1$
+
+     $[SS:SP] \leftarrow \text{Low Byte of Operand}$
    - Effectively: $SP \leftarrow SP - 2$, then writes 16-bit word at `SS:SP`.
    - *Example:* `PUSH AX`, `PUSH [BX]`
 
 2. **`POP Destination` (Word Register or Memory):**
    - Micro-operations:
-     $$\text{Low Byte of Operand} \leftarrow [SS:SP]$$
-     $$SP \leftarrow SP + 1$$
-     $$\text{High Byte of Operand} \leftarrow [SS:SP]$$
-     $$SP \leftarrow SP + 1$$
+
+     $\text{Low Byte of Operand} \leftarrow [SS:SP]$
+
+     $SP \leftarrow SP + 1$
+
+     $\text{High Byte of Operand} \leftarrow [SS:SP]$
+
+     $SP \leftarrow SP + 1$
    - Effectively: reads 16-bit word from `SS:SP`, then $SP \leftarrow SP + 2$.
    - *Example:* `POP DX`, `POP [DI]`
 
@@ -172,6 +180,7 @@ Memory Address
 > 3. `MOV [BX - 5], BL`
 
 #### Formula:
+
 $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text{Effective Address (EA)}$$
 
 ---
@@ -182,7 +191,8 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
   - $\text{Segment Base} = SS = 2000\text{H}$
 - **Effective Address:** $\text{EA} = [BP] = 0111\text{H}$
 - **Physical Address:**
-  $$\text{PA} = (2000\text{H} \times 10\text{H}) + 0111\text{H} = 20000\text{H} + 0111\text{H} = \mathbf{20111}\text{H}$$
+
+  $\text{PA} = (2000\text{H} \times 10\text{H}) + 0111\text{H} = 20000\text{H} + 0111\text{H} = \mathbf{20111}\text{H}$
 - Accesses 16-bit word: Low byte (`CL`) from $\mathbf{20111}\text{H}$, High byte (`CH`) from $\mathbf{20112}\text{H}$.
 
 ---
@@ -192,9 +202,11 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 - **Default Segment:** Destination Index `DI` defaults to **Data Segment (`DS`)**.
   - $\text{Segment Base} = DS = 1000\text{H}$
 - **Effective Address:**
-  $$\text{EA} = [DI] + 3111\text{H} = 0111\text{H} + 3111\text{H} = 3222\text{H}$$
+
+  $\text{EA} = [DI] + 3111\text{H} = 0111\text{H} + 3111\text{H} = 3222\text{H}$
 - **Physical Address:**
-  $$\text{PA} = (1000\text{H} \times 10\text{H}) + 3222\text{H} = 10000\text{H} + 3222\text{H} = \mathbf{13222}\text{H}$$
+
+  $\text{PA} = (1000\text{H} \times 10\text{H}) + 3222\text{H} = 10000\text{H} + 3222\text{H} = \mathbf{13222}\text{H}$
 - Writes 16-bit word: Low byte (`AL`) to $\mathbf{13222}\text{H}$, High byte (`AH`) to $\mathbf{13223}\text{H}$.
 
 ---
@@ -204,9 +216,11 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 - **Default Segment:** Base register `BX` defaults to **Data Segment (`DS`)**.
   - $\text{Segment Base} = DS = 1000\text{H}$
 - **Effective Address:**
-  $$\text{EA} = [BX] - 5 = 0222\text{H} - 0005\text{H} = 021\text{DH}$$
+
+  $\text{EA} = [BX] - 5 = 0222\text{H} - 0005\text{H} = 021\text{DH}$
 - **Physical Address:**
-  $$\text{PA} = (1000\text{H} \times 10\text{H}) + 021\text{DH} = 10000\text{H} + 021\text{DH} = \mathbf{1021D}\text{H}$$
+
+  $\text{PA} = (1000\text{H} \times 10\text{H}) + 021\text{DH} = 10000\text{H} + 021\text{DH} = \mathbf{1021D}\text{H}$
 - Writes 8-bit byte from `BL` into physical memory address $\mathbf{1021D}\text{H}$.
 
 ---
@@ -286,7 +300,7 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
   ```
 
 #### 2. `LABEL` Directive:
-- **Function:** Defines an alternate name and type attribute (`BYTE`, `WORD`, `DWORD`, `FAR`, `NEAR`) for the current location counter ($) without reserving new memory storage.
+- **Function:** Defines an alternate name and type attribute (`BYTE`, `WORD`, `DWORD`, `FAR`, `NEAR`) for the current location counter (`$`) without reserving new memory storage.
 - **Example:**
   ```assembly
   ARRAY_WORDS LABEL WORD      ; Access 100 bytes as 50 words
@@ -295,7 +309,7 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
   ```
 
 #### 3. `ORG` (Origin Directive):
-- **Function:** Sets the assembler's Location Counter ($) to a specified numerical offset value within the current segment.
+- **Function:** Sets the assembler's Location Counter (`$`) to a specified numerical offset value within the current segment.
 - **Significance:** Standard for MS-DOS `.COM` executable files, which require the code segment origin set to offset `100H` (to leave room for the 256-byte Program Segment Prefix - PSP).
 - **Example:**
   ```assembly
@@ -326,7 +340,7 @@ $$\text{Physical Address (PA)} = (\text{Segment Base} \times 10\text{H}) + \text
 > Write an assembly language program to count the blank spaces in given string.
 
 #### 1. Concept: Character Scanning & Space Comparison
-- String is traversed character by character until the terminating null character (`00H`) or '$' symbol is reached.
+- String is traversed character by character until the terminating null character (`00H`) or `'$'` symbol is reached.
 - Each character is compared against ASCII space `' '` ($20\text{H}$).
 - If a match is found, counter `SPACE_COUNT` is incremented.
 
@@ -406,7 +420,8 @@ The IVT occupies the lowest 1024 bytes of physical memory ($00000\text{H}$ to $0
   - Byte 2: `CS` Low Byte
   - Byte 3: `CS` High Byte
 - Formula:
-  $$\text{Vector Physical Address} = \text{Type Number } (N) \times 4$$
+
+  $\text{Vector Physical Address} = \text{Type Number } (N) \times 4$
 
 ```text
 Physical Address Range:                 Interrupt Vector Assignment:
@@ -567,10 +582,13 @@ Mode 4: Software Strobe       Mode 5: Hardware Strobe
   - Offset of `INT 8`: $00\text{A0H}$
 - `INT 8` is a 2-byte instruction (`CD 08H`).
   - Next sequential instruction address (Return Address):
-    $$\text{Return } IP = 00\text{A0H} + 2 = \mathbf{00A2}\text{H}$$
-    $$\text{Return } CS = \mathbf{0900}\text{H}$$
+
+    $\text{Return } IP = 00\text{A0H} + 2 = \mathbf{00A2}\text{H}$
+
+    $\text{Return } CS = \mathbf{0900}\text{H}$
 - **Vector Base Address in IVT:**
-  $$\text{Vector Address} = 8 \times 4 = 32_{10} = \mathbf{00020}\text{H}$$
+
+  $\text{Vector Address} = 8 \times 4 = 32_{10} = \mathbf{00020}\text{H}$
   - Given IVT Contents:
     - $[00020\text{H}] = \mathbf{0040}\text{H} \implies \text{New } IP$
     - $[00022\text{H}] = \mathbf{0100}\text{H} \implies \text{New } CS$
@@ -582,7 +600,8 @@ Mode 4: Software Strobe       Mode 5: Hardware Strobe
 2. **Clear Control Flags ($IF = 0, TF = 0$):**
    - In initial $PSW = 0240\text{H}$, Bit 9 ($IF$) is 1.
    - Clearing $IF$ and $TF$ yields:
-     $$\text{New } PSW = 0240\text{H} \text{ with } IF=0 \implies \mathbf{0040}\text{H}$$
+
+     $\text{New } PSW = 0240\text{H} \text{ with } IF=0 \implies \mathbf{0040}\text{H}$
 3. **Push Return CS ($0900\text{H}$):**
    - $SP \leftarrow SP - 2 = 00FE\text{H} - 2 = \mathbf{00FC}\text{H}$
    - Memory at $[SS:00FC\text{H}] \leftarrow \mathbf{0900}\text{H}$

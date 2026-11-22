@@ -90,6 +90,7 @@ $$\text{Physical Address (20 bits)} = (\text{Segment Register} \times 10\text{H}
 > 5. Register relative base indexed
 
 #### Given Register Values:
+
 $$DS = 1000\text{H}, \quad BX = 0017\text{H}, \quad DI = 10\text{C}5\text{H}, \quad \text{Disp} = 1\text{C}58\text{H}$$
 
 ---
@@ -111,7 +112,8 @@ $$DS = 1000\text{H}, \quad BX = 0017\text{H}, \quad DI = 10\text{C}5\text{H}, \q
 #### 3. Register Relative Mode (using BX)
 - **Instruction Example:** `MOV AX, [BX + 1C58H]`
 - **Effective Address (EA):**
-  $$\text{EA} = [BX] + \text{Disp} = 0017\text{H} + 1\text{C}58\text{H} = \mathbf{1C6F}\text{H}$$
+
+  $\text{EA} = [BX] + \text{Disp} = 0017\text{H} + 1\text{C}58\text{H} = \mathbf{1C6F}\text{H}$
 - *Physical Address:* $10000\text{H} + 1\text{C}6\text{FH} = \mathbf{11C6F}\text{H}$
 
 ---
@@ -119,7 +121,8 @@ $$DS = 1000\text{H}, \quad BX = 0017\text{H}, \quad DI = 10\text{C}5\text{H}, \q
 #### 4. Base Indexed Mode
 - **Instruction Example:** `MOV AX, [BX + DI]`
 - **Effective Address (EA):**
-  $$\text{EA} = [BX] + [DI] = 0017\text{H} + 10\text{C}5\text{H} = \mathbf{10DC}\text{H}$$
+
+  $\text{EA} = [BX] + [DI] = 0017\text{H} + 10\text{C}5\text{H} = \mathbf{10DC}\text{H}$
 - *Physical Address:* $10000\text{H} + 10\text{DCH} = \mathbf{110DC}\text{H}$
 
 ---
@@ -127,8 +130,10 @@ $$DS = 1000\text{H}, \quad BX = 0017\text{H}, \quad DI = 10\text{C}5\text{H}, \q
 #### 5. Register Relative Base Indexed Mode
 - **Instruction Example:** `MOV AX, [BX + DI + 1C58H]`
 - **Effective Address (EA):**
-  $$\text{EA} = [BX] + [DI] + \text{Disp} = 0017\text{H} + 10\text{C}5\text{H} + 1\text{C}58\text{H}$$
-  $$\text{EA} = 10\text{DCH} + 1\text{C}58\text{H} = \mathbf{2D34}\text{H}$$
+
+  $\text{EA} = [BX] + [DI] + \text{Disp} = 0017\text{H} + 10\text{C}5\text{H} + 1\text{C}58\text{H}$
+
+  $\text{EA} = 10\text{DCH} + 1\text{C}58\text{H} = \mathbf{2D34}\text{H}$
 - *Physical Address:* $10000\text{H} + 2\text{D}34\text{H} = \mathbf{12D34}\text{H}$
 
 ---
@@ -507,7 +512,7 @@ NMI_ISR ENDP
 ### Q-3(b) [10 Marks] — Symbol Table Search (100 Entries, 80 Bytes Each)
 
 > **Question:**  
-> Assume a symbol table with name as TABLE consisting of 100 entries. Each entry has 80 bytes with the first 8 bytes representing the name field of an entity and the remaining 72 bytes represents information about the name entity. Write 8086 assembly program sequence to search this TABLE for a given name stored in a variable SEARCH_NAME and if SEARCH_NAME is found in TABLE then the program should copy 72 bytes of information in variable NAME_INFO. If SEARCH NAME is not found then NAME_INFO should contain '$' symbol.
+> Assume a symbol table with name as TABLE consisting of 100 entries. Each entry has 80 bytes with the first 8 bytes representing the name field of an entity and the remaining 72 bytes represents information about the name entity. Write 8086 assembly program sequence to search this TABLE for a given name stored in a variable SEARCH_NAME and if SEARCH_NAME is found in TABLE then the program should copy 72 bytes of information in variable NAME_INFO. If SEARCH NAME is not found then NAME_INFO should contain `'$'` symbol.
 
 #### 1. Concept: Structured Table Search
 - Table structure: 100 records $\times$ 80 bytes $= 8000\text{ bytes}$.
@@ -528,7 +533,7 @@ NMI_ISR ENDP
 .DATA
     SEARCH_NAME DB 'ALPHA001'      ; 8-byte name to find
     NAME_INFO   DB 72 DUP(?)      ; 72-byte buffer for retrieved info
-    NOT_FOUND_CHAR EQU '$'
+    NOT_FOUND_CHAR EQU `'$'`
 
     ; Assume TABLE is declared with 100 entries of 80 bytes
     TABLE       DB 100 DUP( 8 DUP('?'), 72 DUP(0) )
@@ -556,7 +561,7 @@ SEARCH_ENTRIES:
     DEC DX
     JNZ SEARCH_ENTRIES
 
-    ; NOT FOUND: Store '$' into NAME_INFO
+    ; NOT FOUND: Store `'$'` into NAME_INFO
     MOV NAME_INFO, NOT_FOUND_CHAR
     JMP DONE
 
@@ -690,7 +695,9 @@ END MAIN
 #### 1. Concept: Partial Products for 32-bit Multiplication
 Let $A = (A_H \times 2^{16} + A_L)$ and $B = (B_H \times 2^{16} + B_L)$.  
 The 64-bit product is:
+
 $$A \times B = (A_L \times B_L) + ((A_L \times B_H + A_H \times B_L) \times 2^{16}) + (A_H \times B_H \times 2^{32})$$
+
 Requires four 16-bit multiplications combined with carry accumulation across four 16-bit words ($W_0, W_1, W_2, W_3$).
 
 #### 2. Assembly Program Implementation
@@ -770,7 +777,7 @@ END START
 ```assembly
 ;====================================================================
 ; Macro: CONCAT_STRINGS STR1, STR2, STR3
-; Concatenates '$'-terminated strings STR1 and STR2 into STR3
+; Concatenates `'$'`-terminated strings STR1 and STR2 into STR3
 ;====================================================================
 CONCAT_STRINGS MACRO STR1, STR2, STR3
     LOCAL COPY1, COPY2, DONE_CONCAT
@@ -783,7 +790,7 @@ CONCAT_STRINGS MACRO STR1, STR2, STR3
 
 COPY1:
     MOV AL, [SI]
-    CMP AL, '$'
+    CMP AL, `'$'`
     JE START_STR2
     MOV [DI], AL
     INC SI
@@ -796,7 +803,7 @@ START_STR2:
 COPY2:
     MOV AL, [SI]
     MOV [DI], AL
-    CMP AL, '$'
+    CMP AL, `'$'`
     JE DONE_CONCAT
     INC SI
     INC DI

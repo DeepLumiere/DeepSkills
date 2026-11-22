@@ -140,7 +140,8 @@ The 8086 internal architecture is decoupled into two independent asynchronous pr
    - *Significance:* Eliminates memory fetch latency from the execution cycle. While the EU is busy executing arithmetic or multi-cycle instructions (e.g., `MUL`, `DIV`), the BIU keeps fetching instructions ahead of time over idle system buses. When the EU finishes, the next opcode is immediately available without bus wait states.
 2. **20-bit Dedicated Address Adder (in BIU):**
    - *Significance:* Enables 1 MB physical address reach from 16-bit internal registers using the formula:
-     $$\text{Physical Address} = (\text{Segment Base} \times 16_{10}) + \text{Effective Address Offset}$$
+
+     $\text{Physical Address} = (\text{Segment Base} \times 16_{10}) + \text{Effective Address Offset}$
    - Performs this hardware shift-add in a single cycle without consuming ALU processing time.
 
 ---
@@ -154,7 +155,7 @@ The 8086 internal architecture is decoupled into two independent asynchronous pr
 #### 1. Concept & Detailed Explanations
 
 1. **`EVEN` Directive:**
-   - *Function:* Forces the assembler to align the next instruction or data definition on an **even memory address boundary** (divisible by 2). If the current location counter ($) is odd, the assembler inserts a dummy `NOP` byte (for code) or zero byte (for data).
+   - *Function:* Forces the assembler to align the next instruction or data definition on an **even memory address boundary** (divisible by 2). If the current location counter (`$`) is odd, the assembler inserts a dummy `NOP` byte (for code) or zero byte (for data).
    - *Significance:* On 8086, word memory accesses at even addresses require **1 bus cycle** (2 clock states), whereas at odd addresses they require **2 bus cycles** (8 clock states).
    - *Example:*
      ```assembly
@@ -254,11 +255,13 @@ The 8086 internal architecture is decoupled into two independent asynchronous pr
 
 #### 1. Fundamental Timing Concepts & Mathematical Relationship
 - **T-State (Clock State):** The smallest basic unit of processor timing, corresponding to one complete period of the master system clock frequency:
-  $$T = \frac{1}{f_{CLK}} \quad (\text{e.g., } 200\text{ ns at } 5\text{ MHz})$$
+
+  $T = \frac{1}{f_{CLK}} \quad (\text{e.g., } 200\text{ ns at } 5\text{ MHz})$
 - **Machine Cycle (Bus Cycle):** The sequence of clock states required to perform a single basic external bus operation (Memory Read, Memory Write, I/O Read, I/O Write, or Interrupt Acknowledge). A standard 8086 bus cycle consists of **4 active clock states** ($T_1, T_2, T_3, T_4$) plus optional wait states ($T_w$).
 - **Instruction Cycle:** The total time and sequence of machine cycles required to fetch, decode, and fully execute a complete machine instruction.
 - **Hierarchical Relationship:**
-  $$\text{Instruction Cycle} = \sum_{i=1}^{k} \text{Machine Cycle}_i = \sum_{j=1}^{n} T\text{-State}_j \quad (n \ge 4)$$
+
+  $\text{Instruction Cycle} = \sum_{i=1}^{k} \text{Machine Cycle}_i = \sum_{j=1}^{n} T\text{-State}_j \quad (n \ge 4)$
 
 #### 2. Read Timing Diagram for Byte at Physical Address $\text{FFFF0H}$
 $\text{FFFF0H}$ is an **Even Address** ($A_0 = 0$).  
@@ -332,28 +335,37 @@ DEN#           -------------/________\_________  (Active-Low data transceiver en
 > 2. `MOV DX, ES:[BX][SI+4ACh]`
 
 #### Formula:
+
 $$\text{Physical Address (PA)} = (\text{Segment Register} \times 10\text{H}) + \text{Effective Address (EA)}$$
 
 #### 1. Instruction 1: `MOV 1234h[BP], AX`
 - **Default Segment:** Register `BP` uses **Stack Segment (`SS`)** by default.
   - $\text{Segment Base} = SS = 4434\text{H}$
 - **Effective Address (EA):**
-  $$\text{EA} = [BP] + \text{Disp} = 0\text{BCDH} + 1234\text{H}$$
-  $$\text{EA} = 0\text{BCDH} + 1234\text{H} = 1\text{E01H}$$
+
+  $\text{EA} = [BP] + \text{Disp} = 0\text{BCDH} + 1234\text{H}$
+
+  $\text{EA} = 0\text{BCDH} + 1234\text{H} = 1\text{E01H}$
 - **Physical Address Calculation:**
-  $$\text{Segment Base Address} = 4434\text{H} \times 10\text{H} = 44340\text{H}$$
-  $$\text{PA} = 44340\text{H} + 1\text{E01H} = 46141\text{H}$$
+
+  $\text{Segment Base Address} = 4434\text{H} \times 10\text{H} = 44340\text{H}$
+
+  $\text{PA} = 44340\text{H} + 1\text{E01H} = 46141\text{H}$
 - Since `AX` is a 16-bit word, bytes are written to **$46141\text{H}$** (holding `AL = 12H`) and **$46142\text{H}$** (holding `AH = 07H`).
 
 #### 2. Instruction 2: `MOV DX, ES:[BX][SI+4ACh]`
 - **Segment:** Segment Override Prefix specifies **Extra Segment (`ES`)**.
   - $\text{Segment Base} = ES = 8124\text{H}$
 - **Effective Address (EA):**
-  $$\text{EA} = [BX] + [SI] + \text{Disp} = 1230\text{H} + 0\text{A91H} + 04\text{ACH}$$
-  $$\text{EA} = 1\text{CC1H} + 04\text{ACH} = 216\text{DH}$$
+
+  $\text{EA} = [BX] + [SI] + \text{Disp} = 1230\text{H} + 0\text{A91H} + 04\text{ACH}$
+
+  $\text{EA} = 1\text{CC1H} + 04\text{ACH} = 216\text{DH}$
 - **Physical Address Calculation:**
-  $$\text{Segment Base Address} = 8124\text{H} \times 10\text{H} = 81240\text{H}$$
-  $$\text{PA} = 81240\text{H} + 216\text{DH} = 833\text{ADH}$$
+
+  $\text{Segment Base Address} = 8124\text{H} \times 10\text{H} = 81240\text{H}$
+
+  $\text{PA} = 81240\text{H} + 216\text{DH} = 833\text{ADH}$
 - Since `DX` is a 16-bit word, bytes are fetched from **$833\text{ADH}$** (into `DL`) and **$833\text{AEH}$** (into `DH`).
 
 ---
@@ -474,18 +486,21 @@ Because the external bus cannot route the Odd Bank ($D_{15}$–$D_8$) to the low
 - **Direction (D):** Destination is register `AX` $\implies D = 1$.
 - **Word/Byte (W):** `AX` is a 16-bit register $\implies W = 1$.
 - **Byte 1:**
-  $$\text{Binary: } 10001011_2 \implies \mathbf{8B}\text{H}$$
+
+  $\text{Binary: } 10001011_2 \implies \mathbf{8B}\text{H}$
 - **Addressing Mode Fields:**
   - Displacement is $1234\text{H}$ (16-bit non-zero value) $\implies MOD = 10_2$.
   - Destination register is `AX` $\implies REG = 000_2$.
   - Memory base/index is `[BX + SI]` $\implies R/M = 000_2$.
 - **Byte 2 (MOD-REG-R/M):**
-  $$\text{Binary: } 10\ 000\ 000_2 \implies \mathbf{80}\text{H}$$
+
+  $\text{Binary: } 10\ 000\ 000_2 \implies \mathbf{80}\text{H}$
 - **Displacement Bytes (16-bit Little-Endian):**
   - Disp-Low: $34\text{H}$
   - Disp-High: $12\text{H}$
 - **Complete Hex Encoding:**
-  $$\mathbf{8B\ 80\ 34\ 12}\text{ H}$$
+
+  $\mathbf{8B\ 80\ 34\ 12}\text{ H}$
 
 ---
 
@@ -494,18 +509,21 @@ Because the external bus cannot route the Odd Bank ($D_{15}$–$D_8$) to the low
 - **Direction (D):** Destination is register `CX` $\implies D = 1$.
 - **Word/Byte (W):** `CX` is a 16-bit register $\implies W = 1$.
 - **Byte 1:**
-  $$\text{Binary: } 10001011_2 \implies \mathbf{8B}\text{H}$$
+
+  $\text{Binary: } 10001011_2 \implies \mathbf{8B}\text{H}$
 - **Addressing Mode Fields:**
   - Displacement is $0\text{ACDH}$ (16-bit non-zero value) $\implies MOD = 10_2$.
   - Destination register is `CX` $\implies REG = 001_2$.
   - Memory base/index is `[SI]` $\implies R/M = 100_2$.
 - **Byte 2 (MOD-REG-R/M):**
-  $$\text{Binary: } 10\ 001\ 100_2 \implies \mathbf{8C}\text{H}$$
+
+  $\text{Binary: } 10\ 001\ 100_2 \implies \mathbf{8C}\text{H}$
 - **Displacement Bytes (16-bit Little-Endian):**
   - Disp-Low: $\text{CDH}$
   - Disp-High: $0\text{AH}$
 - **Complete Hex Encoding:**
-  $$\mathbf{8B\ 8C\ CD\ 0A}\text{ H}$$
+
+  $\mathbf{8B\ 8C\ CD\ 0A}\text{ H}$
 
 ---
 
@@ -916,7 +934,7 @@ END MAIN
 
 > **Question:**  
 > Write an 8086 assembly program that performs the following computation:  
-> $$D = 6 \times (A + B) / (B + C)$$  
+> $D = 6 \times (A + B) / (B + C)$
 > $A, B, C$ and $D$ are memory variables of type word declared in main module.
 
 #### 1. Concept: Multi-Precision Word Arithmetic & Division
@@ -981,7 +999,7 @@ END MAIN
 > Data Segment
 > WORD_VAR DW 0ABh, 2456h, 123h
 > BYTE_VAR DB 'B', 56
-> DWORD_VAR EQU $-BYTE_VAR
+> `DWORD_VAR EQU $ - BYTE_VAR`
 > Data Ends
 > ```
 
@@ -990,7 +1008,7 @@ END MAIN
 - **Little-Endian Rule:** 16-bit words store the least significant byte at the lower memory address and the most significant byte at the higher memory address.
 - Character `'B'` $= 42\text{H}$ in ASCII.
 - Number $56$ (decimal) $= 38\text{H}$ in hexadecimal.
-- `EQU` Directive: `$-BYTE_VAR` computes the difference between current location counter ($) and offset of `BYTE_VAR`. It is an assembler symbol, allocating **0 bytes of physical memory**.
+- `EQU` Directive: `$-BYTE_VAR` computes the difference between current location counter (`$`) and offset of `BYTE_VAR`. It is an assembler symbol, allocating **0 bytes of physical memory**.
 
 #### 2. Step-by-Step Memory Map
 
@@ -1109,7 +1127,7 @@ The internal control logic orchestrates reading, writing, and decrementing the 3
      - **SC1, SC0 (Bits 7-6):** Select Counter (00 = Counter 0, 01 = Counter 1, 10 = Counter 2, 11 = Read-Back command on 8254).
      - **RW1, RW0 (Bits 5-4):** Read/Write format (00 = Counter Latch, 01 = Read/Write LSB only, 10 = Read/Write MSB only, 11 = Read/Write LSB followed by MSB).
      - **M2, M1, M0 (Bits 3-1):** Mode select (000 = Mode 0 to 101 = Mode 5).
-     - **BCD (Bit 0):** $0 = 16$-bit Binary counter (0000H–FFFFH); $1 = 4$-decade BCD counter (0000–9999).
+     - **BCD (Bit 0):** `0` = 16-bit Binary counter (0000H–FFFFH); `1` = 4-decade BCD counter (0000–9999).
 3. **GATE Pin Control:**
    - Dynamically enables, disables, or restarts counting depending on the programmed mode (e.g., acts as level-sensitive gate in Mode 0/2/3, or positive edge-trigger in Mode 1/5).
 
@@ -1220,7 +1238,8 @@ CR3 Register (PDBR)
 2. **Page Directory Entry (PDE):** The upper 10 bits ($31$–$22$) index one of 1024 32-bit PDEs in the Page Directory. The PDE provides the physical base address of a Page Table.
 3. **Page Table Entry (PTE):** The middle 10 bits ($21$–$12$) index one of 1024 32-bit PTEs in the selected Page Table. The PTE provides the 20-bit physical base address of the target 4 KB page frame.
 4. **Physical Address:** The lower 12 bits ($11$–$0$) are concatenated directly with the 20-bit page frame base to address the exact byte:
-   $$\text{Physical Address} = (\text{PTE Base Address}) \mid \text{Offset}$$
+
+   $\text{Physical Address} = (\text{PTE Base Address}) \mid \text{Offset}$
 
 ---
 
@@ -1244,7 +1263,8 @@ A **Type-1 Interrupt** is generated internally by the 8086 processor after execu
    - $SP \leftarrow SP - 2$; Pushes the **Instruction Pointer (`IP`)** of the *next* instruction to be executed onto the stack.
 6. **Fetch ISR Vector from IVT:**
    - Vector type $N = 1$. The vector address in the Interrupt Vector Table is calculated as:
-     $$\text{IVT Address} = 1 \times 4 = 00004\text{H}$$
+
+     $\text{IVT Address} = 1 \times 4 = 00004\text{H}$
    - Loads the 16-bit offset into `IP` from memory locations $00004\text{H}$ and $00005\text{H}$.
    - Loads the 16-bit segment into `CS` from memory locations $00006\text{H}$ and $00007\text{H}$.
 7. **Service Routine Execution:** Control transfers to the debugger's Type-1 ISR.
